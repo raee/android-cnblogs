@@ -46,7 +46,19 @@ public class HttpRequest extends AsyncHttpResponseHandler
 	@Override
 	public void onFailure(int code, Header[] arg1, byte[] arg2, Throwable e)
 	{
-		if (mListener != null) mListener.onError(new BlogException(code, e));
+		if (mListener != null)
+		{
+			BlogException exception = null;
+			if (code == 0)
+			{
+				exception = new BlogException("网络没有连接！");
+			}
+			else
+			{
+				exception = new BlogException(code, e);
+			}
+			mListener.onError(exception);
+		}
 	}
 	
 	@Override
@@ -54,8 +66,17 @@ public class HttpRequest extends AsyncHttpResponseHandler
 	{
 		if (mListener != null && mParser != null)
 		{
-			List<Blog> result = mParser.onParse(new String(data));
-			mListener.onBlogSuccess(result);
+			List<Blog> result;
+			try
+			{
+				result = mParser.onParse(new String(data));
+				mListener.onBlogSuccess(result);
+			}
+			catch (BlogException e)
+			{
+				mListener.onError(e);
+			}
+			
 		}
 	}
 	

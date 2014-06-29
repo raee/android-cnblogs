@@ -2,6 +2,7 @@ package com.rae.cnblogs.parser;
 
 import java.util.List;
 
+import com.rae.cnblogs.BlogException;
 import com.rae.cnblogs.model.Blog;
 
 /**
@@ -12,5 +13,5 @@ import com.rae.cnblogs.model.Blog;
  */
 public interface IBlogParser
 {
-	List<Blog> onParse(String xml);
+	List<Blog> onParse(String xml) throws BlogException;
 }

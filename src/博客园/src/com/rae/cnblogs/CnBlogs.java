@@ -1,6 +1,9 @@
 package com.rae.cnblogs;
 
+import java.util.List;
+
 import com.rae.cnblogs.http.HttpRequest;
+import com.rae.cnblogs.model.Blog;
 import com.rae.cnblogs.parser.BlogParser;
 import com.rae.cnblogs.parser.IBlogParser;
 
@@ -31,6 +34,20 @@ class CnBlogs extends Blogs
 	public void setBlogListener(BlogListener l)
 	{
 		mRequest.setBlogListener(l);
+	}
+	
+	@Override
+	public List<Blog> getBlogsByCategroy(String categroyId, int index, int size)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Blog getBlogContent(String id)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
