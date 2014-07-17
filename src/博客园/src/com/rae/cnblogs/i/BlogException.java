@@ -1,6 +1,5 @@
 package com.rae.cnblogs.i;
 
-
 public class BlogException extends Exception
 {
 	
@@ -23,17 +22,20 @@ public class BlogException extends Exception
 	public BlogException(Throwable e)
 	{
 		super(e);
+		e.printStackTrace();
 	}
 	
 	public BlogException(int code, Throwable e)
 	{
 		super(e);
 		setCode(code);
+		e.printStackTrace();
 	}
 	
 	public BlogException(String msg, Throwable e)
 	{
 		super(msg, e);
+		e.printStackTrace();
 	}
 	
 	public void setCode(int code)

@@ -3,6 +3,7 @@ package com.rae.cnblogs.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.ViewBlogActivity;
 import com.rae.cnblogs.model.Blog;
 
 public class BlogAdapter extends BaseListViewAdapter<Blog> implements OnItemClickListener
@@ -69,5 +71,10 @@ public class BlogAdapter extends BaseListViewAdapter<Blog> implements OnItemClic
 	public void onItemClick(AdapterView<?> adapter, View view, int position, long arg3)
 	{
 		// 跳转到博客查看页面
+		Blog m = getDataItem(position);
+		String blogId = m.getId();
+		Intent intent = new Intent(mContext, ViewBlogActivity.class);
+		intent.putExtra("id", blogId);
+		mContext.startActivity(intent);
 	}
 }

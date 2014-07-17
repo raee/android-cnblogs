@@ -1,9 +1,12 @@
 package com.rae.cnblogs.http;
 
+import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.http.Header;
+
+import android.util.Log;
 
 import com.rae.cnblogs.i.BlogException;
 import com.rae.cnblogs.i.BlogListener;
@@ -56,6 +59,7 @@ public class HttpRequest<T> extends AsyncHttpResponseHandler
 		url = convertUrl(url, params); // 转换Url
 		this.mParser = parser;
 		this.mListener = listener;
+		Log.i("HTTP", url);
 		mClient.get(url, this);
 	}
 	
@@ -84,7 +88,7 @@ public class HttpRequest<T> extends AsyncHttpResponseHandler
 		{
 			try
 			{
-				String xml = new String(html);
+				String xml = new String(html, Charset.forName("utf-8"));
 				mListener.onBlogSuccess(mParser.onParse(xml)); // 开始解析数据
 			}
 			catch (BlogException e)

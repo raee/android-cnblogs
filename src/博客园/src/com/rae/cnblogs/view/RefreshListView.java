@@ -15,5 +15,6 @@ public class RefreshListView extends PullToRefreshListView
 	public RefreshListView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
+		setMode(Mode.BOTH); //两者
 	}
 }

@@ -13,7 +13,8 @@
         android:layout_marginBottom="10dp"
         android:text="一个关于自定义类型作为HashMap的key的问题"
         android:textColor="#3e79c2"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_blog_summary"

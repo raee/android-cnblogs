@@ -3,6 +3,7 @@ package com.rae.cnblogs;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.rae.cnblogs.data.DataFactory;
 import com.rae.cnblogs.listener.CnBlogsListener;
 import com.rae.cnblogs.view.RefreshListView;
 import com.rae.core.view.pulltorefresh.ILoadingLayout;
@@ -31,19 +32,7 @@ public class MainActivity extends BaseSlideActivity
 	{
 		// 下拉刷新
 		mListView = (RefreshListView) findViewById(android.R.id.list);
-		mListView.setMode(Mode.BOTH);
-		
-//		ILoadingLayout layout = mListView.getLoadingLayoutProxy(true, true);
-//		layout = new FlipLoadingLayout(this, Mode.BOTH, Orientation.HORIZONTAL, null);
-//		layout.setLastUpdatedLabel("");
-//		layout.setLoadingDrawable(getResources().getDrawable(R.drawable.ic_launcher));
-//		layout.setPullLabel("");
-//		layout.setRefreshingLabel("");
-//		layout.setReleaseLabel("");
-		
 		mListener = new CnBlogsListener(this, mListView); // 初始化回调接口
-		
-		
 		mListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>()
 		{
 			
@@ -59,6 +48,8 @@ public class MainActivity extends BaseSlideActivity
 				mListener.isAdded(true);
 				mCurrentIndex++;
 				getCnBlogsApi().getHomeBlogs(mListener, mCurrentIndex, 20);
+				
+				
 			}
 		});
 	}

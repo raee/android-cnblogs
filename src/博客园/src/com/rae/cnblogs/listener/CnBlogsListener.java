@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.widget.ListView;
+import android.widget.Toast;
 
 import com.rae.cnblogs.adapter.BlogAdapter;
+import com.rae.cnblogs.data.DataFactory;
 import com.rae.cnblogs.i.BlogException;
 import com.rae.cnblogs.i.BlogListener;
 import com.rae.cnblogs.model.Blog;
-import com.rae.core.view.pulltorefresh.PullToRefreshBase;
 import com.rae.core.view.pulltorefresh.PullToRefreshListView;
 
 public class CnBlogsListener implements BlogListener<Blog>
@@ -19,13 +19,16 @@ public class CnBlogsListener implements BlogListener<Blog>
 	private PullToRefreshListView	mListView;
 	private boolean					mIsAdded	= false;
 	private List<Blog>				mDataList;
+	private Context					mContext;
 	
 	public CnBlogsListener(Context context, PullToRefreshListView lv)
 	{
+		this.mContext = context;
 		mDataList = new ArrayList<Blog>();
 		mBlogAdapter = new BlogAdapter(context, mDataList);
 		mListView = lv;
 		lv.setAdapter(mBlogAdapter);
+		lv.setOnItemClickListener(mBlogAdapter);
 	}
 	
 	@Override
@@ -40,6 +43,7 @@ public class CnBlogsListener implements BlogListener<Blog>
 			mDataList = result;
 		}
 		mBlogAdapter.notifyChanged(mDataList);
+		DataFactory.getDataProvider(this.mContext).addBlogs(result);
 		// 完成
 		complete();
 	}
@@ -58,6 +62,6 @@ public class CnBlogsListener implements BlogListener<Blog>
 	private void complete()
 	{
 		mListView.onRefreshComplete();
+		Toast.makeText(this.mContext, "数据加载成功！", Toast.LENGTH_SHORT).show();
 	}
-	
 }

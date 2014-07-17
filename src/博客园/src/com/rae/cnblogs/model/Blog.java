@@ -14,9 +14,10 @@ public class Blog
 	private String	summary;
 	private int		commentCount;
 	private int		viewCount;
+	private String	cateId;
 	private String	autor;			//作者
 	private String	postDate;		//发布日期
-	
+									
 	public String getId()
 	{
 		return id;
@@ -95,5 +96,15 @@ public class Blog
 	public void setPostDate(String postDate)
 	{
 		this.postDate = postDate;
+	}
+	
+	public String getCateId()
+	{
+		return cateId;
+	}
+	
+	public void setCateId(String cateId)
+	{
+		this.cateId = cateId;
 	}
 }
