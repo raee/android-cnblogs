@@ -15,7 +15,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import android.content.Context;
 
 import com.rae.cnblogs.sdk.CnBlogsException;
-import com.rae.cnblogs.sdk.http.Downloader;
 import com.rae.cnblogs.sdk.model.Blog;
 
 public class BlogDownloader extends Downloader<Blog>

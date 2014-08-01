@@ -2,8 +2,6 @@ package com.rae.cnblogs.sdk;
 
 import java.util.List;
 
-import com.rae.cnblogs.sdk.model.Blog;
-
 /**
  * 博客回调
  * 

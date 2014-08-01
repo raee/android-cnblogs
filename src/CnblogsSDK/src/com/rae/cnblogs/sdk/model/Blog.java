@@ -16,7 +16,7 @@ public class Blog
 	private String	postDate;		//发布日期
 	private String	url;
 	private String	blogApp;
-	private boolean	isReader;
+	private boolean	isReaded;
 	
 	// 解析
 	public static Blog parse(String html)
@@ -148,7 +148,7 @@ public class Blog
 			this.viewCount = getString(cursor, "viewcout");
 			this.commentCount = getString(cursor, "commentcount");
 			this.postDate = getString(cursor, "postdate");
-			this.isReader = Integer.valueOf(getString(cursor, "isreaded")) == 1;
+			this.isReaded = Integer.valueOf(getString(cursor, "isreaded")) == 1;
 		}
 		catch (Exception e)
 		{
@@ -162,9 +162,9 @@ public class Blog
 		return cursor.getString(cursor.getColumnIndex(name));
 	}
 	
-	public boolean isReader()
+	public boolean isReaded()
 	{
-		return isReader;
+		return isReaded;
 	}
 	
 	public String isNullOrEmpty(String str)
@@ -172,8 +172,8 @@ public class Blog
 		return TextUtils.isEmpty(str) ? "" : str;
 	}
 	
-	public void setReader(boolean isReader)
+	public void setReaded(boolean isReader)
 	{
-		this.isReader = isReader;
+		this.isReaded = isReader;
 	}
 }

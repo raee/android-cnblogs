@@ -12,7 +12,6 @@ import android.content.Context;
 import com.rae.cnblogs.sdk.CnBlogsException;
 import com.rae.cnblogs.sdk.model.Blog;
 
-import com.rae.cnblogs.sdk.http.Downloader;
 
 public class JsonBlogDownloader extends Downloader<Blog>
 {
