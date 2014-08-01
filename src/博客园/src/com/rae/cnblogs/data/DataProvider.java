@@ -110,4 +110,19 @@ public class DataProvider implements IDataProvider
 		}
 	}
 	
+	@Override
+	public Blog getLastNewBlog()
+	{
+		SQLiteDatabase db = database.getReadableDatabase();
+		Cursor cursor = db.rawQuery("select * from blogs where  order by blogid desc, postdate desc", null);
+		if (cursor.moveToFirst())
+		{
+			return toBlog(cursor);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
 }

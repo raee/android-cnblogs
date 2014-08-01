@@ -9,8 +9,6 @@ import org.apache.http.Header;
 import android.util.Log;
 
 import com.rae.cnblogs.i.BlogException;
-import com.rae.cnblogs.i.BlogListener;
-import com.rae.cnblogs.parser.IBlogParser;
 import com.rae.core.http.async.AsyncHttpClient;
 import com.rae.core.http.async.AsyncHttpResponseHandler;
 
@@ -22,15 +20,24 @@ import com.rae.core.http.async.AsyncHttpResponseHandler;
  * @param <T>
  *            请求解析的数据类型
  */
-public class HttpRequest<T> extends AsyncHttpResponseHandler
+public class HttpRequest extends AsyncHttpResponseHandler
 {
-	private AsyncHttpClient		mClient;
-	private IBlogParser<T>		mParser;
-	protected BlogListener<T>	mListener;
+	private AsyncHttpClient	mClient;
+	private HttpCallback	mListener;
+	
+	//	private IBlogParser		mParser;
+	//	protected BlogListener	mListener;
 	
 	public HttpRequest()
 	{
 		mClient = new AsyncHttpClient();
+	}
+	
+	public interface HttpCallback
+	{
+		void onSuccess(String html);
+		
+		void onError(BlogException e);
 	}
 	
 	/**
@@ -45,73 +52,64 @@ public class HttpRequest<T> extends AsyncHttpResponseHandler
 	 * @param params
 	 *            Url参数
 	 */
-	public void get(String url, IBlogParser<T> parser, BlogListener<T> listener, Object... params)
+	public void get(HttpCallback listener, String url, Object... params)
 	{
-		if (listener == null)
-		{
-			throw new NullPointerException("必须设置BlogListener，用于数据回调。");
-		}
-		if (parser == null)
-		{
-			throw new NullPointerException("必须设置IBlogParser，用于数据解析");
-		}
-		
-		url = convertUrl(url, params); // 转换Url
-		this.mParser = parser;
 		this.mListener = listener;
+		url = convertUrl(url, params); // 转换Url
 		Log.i("HTTP", url);
 		mClient.get(url, this);
 	}
 	
-	@Override
-	public void onFailure(int code, Header[] header, byte[] html, Throwable e)
-	{
-		if (mListener != null)
-		{
-			BlogException exception = null;
-			if (code == 0)
-			{
-				exception = new BlogException("网络没有连接！");
-			}
-			else
-			{
-				exception = new BlogException(code, e);
-			}
-			mListener.onError(exception);
-		}
-	}
+	//	
+	//	@Override
+	//	public void onFailure(int code, Header[] header, byte[] html, Throwable e)
+	//	{
+	//		if (mListener != null)
+	//		{
+	//			BlogException exception = null;
+	//			if (code == 0)
+	//			{
+	//				exception = new BlogException("网络没有连接！");
+	//			}
+	//			else
+	//			{
+	//				exception = new BlogException(code, e);
+	//			}
+	//			mListener.onError(exception);
+	//		}
+	//	}
+	//	
+	//	@Override
+	//	public void onSuccess(int code, Header[] header, byte[] html)
+	//	{
+	//		if (mListener != null && mParser != null)
+	//		{
+	//			try
+	//			{
+	//				String xml = new String(html, Charset.forName("utf-8"));
+	//				mListener.onBlogSuccess(mParser.onParse(xml)); // 开始解析数据
+	//			}
+	//			catch (BlogException e)
+	//			{
+	//				mListener.onError(e);
+	//			}
+	//		}
+	//	}
 	
-	@Override
-	public void onSuccess(int code, Header[] header, byte[] html)
-	{
-		if (mListener != null && mParser != null)
-		{
-			try
-			{
-				String xml = new String(html, Charset.forName("utf-8"));
-				mListener.onBlogSuccess(mParser.onParse(xml)); // 开始解析数据
-			}
-			catch (BlogException e)
-			{
-				mListener.onError(e);
-			}
-		}
-	}
-	
-	public void gc()
-	{
-		this.mClient = null;
-		this.mListener = null;
-		this.mParser = null;
-		System.gc(); //通知系统回收资源
-	}
+	//	public void gc()
+	//	{
+	//		this.mClient = null;
+	//		this.mListener = null;
+	//		this.mParser = null;
+	//		System.gc(); //通知系统回收资源
+	//	}
 	
 	/**
 	 * 自动转化URl
 	 * 
 	 * @return
 	 */
-	public String convertUrl(String url, Object... params)
+	private String convertUrl(String url, Object... params)
 	{
 		// http://wcf.open.cnblogs.com/blog/post/body/@id
 		String result = url;
@@ -130,5 +128,18 @@ public class HttpRequest<T> extends AsyncHttpResponseHandler
 			i++;
 		}
 		return result;
+	}
+	
+	@Override
+	public void onFailure(int arg0, Header[] arg1, byte[] data, Throwable e)
+	{
+		mListener.onError(new BlogException(e));
+	}
+	
+	@Override
+	public void onSuccess(int arg0, Header[] arg1, byte[] data)
+	{
+		String html = new String(data, Charset.forName("UTF-8"));
+		mListener.onSuccess(html);
 	}
 }

@@ -17,6 +17,14 @@ public class Blog
 	private String	cateId;
 	private String	autor;			//作者
 	private String	postDate;		//发布日期
+	
+	// 解析
+	public static Blog parse(String html)
+	{
+		
+		return null;
+	}
+	
 									
 	public String getId()
 	{

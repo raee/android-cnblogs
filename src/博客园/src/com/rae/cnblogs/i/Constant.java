@@ -9,7 +9,7 @@ package com.rae.cnblogs.i;
  * @author admin
  * 
  */
-public final class ApiUrls
+public final class Constant
 {
 	/**
 	 * 分页的首页的博客列表

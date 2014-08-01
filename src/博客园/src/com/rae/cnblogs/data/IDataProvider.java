@@ -23,6 +23,12 @@ public interface IDataProvider
 	boolean exitsBlog(String blogId);
 	
 	/**
+	 * 获取数据库中，最新一条博客，没有最新博客返回null
+	 * @return
+	 */
+	Blog getLastNewBlog();
+	
+	/**
 	 * 添加一条博客
 	 * 
 	 * @param model

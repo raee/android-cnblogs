@@ -1,56 +1,80 @@
 package com.rae.cnblogs;
 
+import java.util.List;
+
+import com.rae.cnblogs.sdk.CnBlogsException;
+import com.rae.cnblogs.sdk.CnBlogsListener;
+import com.rae.cnblogs.sdk.CnBlogsOpenAPI;
+import com.rae.cnblogs.sdk.http.HttpCnBlogsOpenAPI;
+import com.rae.cnblogs.sdk.model.Blog;
+
+import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ListView;
+import android.util.Log;
+import android.widget.Toast;
 
-import com.rae.cnblogs.data.DataFactory;
-import com.rae.cnblogs.listener.CnBlogsListener;
-import com.rae.cnblogs.view.RefreshListView;
-import com.rae.core.view.pulltorefresh.ILoadingLayout;
-import com.rae.core.view.pulltorefresh.PullToRefreshBase;
-import com.rae.core.view.pulltorefresh.PullToRefreshBase.Mode;
-import com.rae.core.view.pulltorefresh.PullToRefreshBase.Orientation;
-import com.rae.core.view.pulltorefresh.internal.FlipLoadingLayout;
-
-public class MainActivity extends BaseSlideActivity
+public class MainActivity extends Activity
 {
-	private RefreshListView	mListView;
-	private CnBlogsListener	mListener;
-	private int				mCurrentIndex	= 1;	// 当前页
-													
+	//	private RefreshListView	mListView;
+	//	private CnBlogsListener	mListener;
+	//	private int				mCurrentIndex	= 1;	// 当前页
+	//													
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		initRefreshView();
-	}
-	
-	
-	// 初始化顶部下拉刷新View
-	private void initRefreshView()
-	{
-		// 下拉刷新
-		mListView = (RefreshListView) findViewById(android.R.id.list);
-		mListener = new CnBlogsListener(this, mListView); // 初始化回调接口
-		mListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>()
+		
+		CnBlogsOpenAPI api = new HttpCnBlogsOpenAPI(this);
+		api.setOnCnBlogsLoadListener(new CnBlogsListener()
 		{
 			
 			@Override
-			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView)
+			public void onLoadError(CnBlogsException e)
 			{
-				getCnBlogsApi().getHomeBlogs(mListener, 1, 20);
+				Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
 			}
 			
 			@Override
-			public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView)
+			public <T> void onLoadBlogs(List<T> data)
 			{
-				mListener.isAdded(true);
-				mCurrentIndex++;
-				getCnBlogsApi().getHomeBlogs(mListener, mCurrentIndex, 20);
-				
-				
+				List<Blog> result = (List<Blog>) data;
+				for (Blog blog : result)
+				{
+					Log.i("cnblogs", blog.getTitle());
+				}
 			}
 		});
+		api.getBlogs(1);
+		
+		//		initRefreshView();
 	}
+	//	
+	//	
+	//	// 初始化顶部下拉刷新View
+	//	private void initRefreshView()
+	//	{
+	//		// 下拉刷新
+	//		mListView = (RefreshListView) findViewById(android.R.id.list);
+	//		mListener = new CnBlogsListener(this, mListView); // 初始化回调接口
+	//		mListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>()
+	//		{
+	//			
+	//			@Override
+	//			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView)
+	//			{
+	//				getCnBlogsApi().getHomeBlogs(mListener, 1, 20);
+	//			}
+	//			
+	//			@Override
+	//			public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView)
+	//			{
+	//				mListener.isAdded(true);
+	//				mCurrentIndex++;
+	//				getCnBlogsApi().getHomeBlogs(mListener, mCurrentIndex, 20);
+	//				
+	//				
+	//			}
+	//		});
+	//	}
 }

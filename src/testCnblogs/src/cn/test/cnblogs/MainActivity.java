@@ -2,62 +2,73 @@ package cn.test.cnblogs;
 
 import java.util.List;
 
-import com.rae.cnblogs.BlogException;
-import com.rae.cnblogs.BlogFactory;
-import com.rae.cnblogs.BlogListener;
-import com.rae.cnblogs.BlogUrlApi;
-import com.rae.cnblogs.Blogs;
-import com.rae.cnblogs.http.HttpRequest;
-import com.rae.cnblogs.model.Blog;
-
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
 
-public class MainActivity extends Activity implements BlogListener
+import com.rae.cnblogs.sdk.CnBlogsCallbackListener;
+import com.rae.cnblogs.sdk.CnBlogsException;
+import com.rae.cnblogs.sdk.CnBlogsOpenAPI;
+import com.rae.cnblogs.sdk.data.DataProvider;
+import com.rae.cnblogs.sdk.http.HttpCnBlogsOpenAPI;
+import com.rae.cnblogs.sdk.model.Blog;
+
+public class MainActivity extends Activity
 {
+	DataProvider	db;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		testGetBlogs();
+		db = new DataProvider(MainActivity.this);
+		test();
 	}
 	
-	public void testConvertUrl()
+	private void test()
 	{
-		String resultString = new HttpRequest().convertUrl(
-				BlogUrlApi.BLOG_COMMENETS_PAGE, "abc123", 1, 2);
-		log(resultString);
-	}
-	
-	public void testGetBlogs()
-	{
-		Blogs blogs = BlogFactory.getFactory();
-		blogs.setBlogListener(this);
-		blogs.getHomeBlogs(1, 10);
-	}
-	
-	public void log(Object msg)
-	{
-		Log.i("cnblogs", (msg == null ? "日志空" : msg.toString()));
-	}
-	
-	@Override
-	public void onBlogSuccess(List<Blog> result)
-	{
-		for (Blog blog : result)
+		final CnBlogsOpenAPI sdk = new HttpCnBlogsOpenAPI(this);
+		sdk.setOnCnBlogsLoadListener(new CnBlogsCallbackListener<Blog>()
 		{
-			log("标题：" + blog.getTitle());
-		}
+			
+			@Override
+			public void onLoadError(CnBlogsException e)
+			{
+				error(e.getMessage());
+			}
+			
+			@Override
+			public void onLoadBlogs(List<Blog> result)
+			{
+				for (Blog blog : result)
+				{
+					if (TextUtils.isEmpty(blog.getContent()))
+					{
+						db.addBlog(blog);
+						sdk.getBlogContent(blog);
+					}
+					else
+					{
+						db.updateBlog(blog);
+					}
+				}
+			}
+		});
+		sdk.getBlogs("", 0);
 	}
 	
-	@Override
-	public void onError(BlogException e)
+	void log(Object obj)
 	{
-		e.printStackTrace();
+		obj = obj == null ? "" : obj;
+		Log.i("cnblogtest", obj.toString());
+	}
+	
+	void error(Object obj)
+	{
+		obj = obj == null ? "" : obj;
+		Log.e("cnblogtest", obj.toString());
 	}
 	
 }
