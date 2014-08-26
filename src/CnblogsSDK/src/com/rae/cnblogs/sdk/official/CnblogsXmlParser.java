@@ -6,7 +6,6 @@ import java.util.List;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import com.rae.cnblogs.sdk.CnBlogsCallbackListener;
 import com.rae.cnblogs.sdk.model.Blog;
 
 /**
@@ -17,10 +16,9 @@ import com.rae.cnblogs.sdk.model.Blog;
  */
 public class CnblogsXmlParser extends XmlParser<Blog>
 {
-	private List<Blog>						blogs;
-	private Blog							currentBlog;
-	private String							currentTagName;
-	private CnBlogsCallbackListener<Blog>	listener;
+	private List<Blog>	blogs;
+	private Blog		currentBlog;
+	private String		currentTagName;
 	
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException

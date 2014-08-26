@@ -16,22 +16,21 @@
 	<script src="js/bootstrap.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		var width = 0;
+		var blog = android.getBlog();
 
 		$(document).ready(function(){
+			load();
+			SyntaxHighlighter.all();	
 			width = $("body").width();
-			loadContent();
-			loadImage();
-			SyntaxHighlighter.all();
-
+			
 			$("table").each(function(key,val){
 				setTable(val);
 			});
-
-			setFontSize(14);
+			
 		});
 
-		function loadImage(){
-			
+		// 加载图片
+		function loadImage(){			
 			$("img").each(function(key,val){
 				$(val).load(function(){
 					$(this).addClass("img-thumbnail");
@@ -40,261 +39,54 @@
 			});
 		}
 
-		function setImageSize(val){
-			var imgWidth = $(val).width();		
+		// 设置图片大小，防止图像溢出
+		function setImageSize(obj){
+			var imgWidth = $(obj).width();		
 			if(imgWidth>=width)
 			{
-				$(val).css("width","100%");
+				$(obj).css("width","100%");
 			}
 		}
 
+		// 设置表格，防止表格超出
 		function setTable(val){
 			$(val).addClass("table table-striped");
 			$(val).width("100%");
 
 		}
 
-
-		// 加载内容
-		function loadContent(){
-			if(typeof(android) == "undefined"){
-				return;
-			}
-			$("#blogcontent").html("博客正在加载~~");
-			var content = android.getContent();
-			if(!content||content==""||content==null) content = "博客为空";
-			$("#blogcontent").html(content);
-		}
-
-		function setFontSize(size)
-		{
+		// 设置字体大小
+		function setFontSize(size){
 			$("#blogcontent").css("fontSize",size+"px");
 		}
+
+
+		function load(){
+
+			if(blog!=""){
+				blog = $.parseJSON(blog);
+				$("#header h1").text(blog.title);
+				$("#author").text("作者："+blog.author+" 时间："+blog.date);
+				$("#reader").text("阅读："+blog.view+" 评论："+blog.comment);
+				$("#blogcontent").append(blog.content);
+			}
+			loadImage();
+		}
+
+		function htmlDecode( html ) {
+			var a = document.createElement( 'a' ); a.innerHTML = html;
+			return a.textContent;
+		};
+
 	</script>
 </head>
 <body>
-	<div id="blogcontent" class="container">
-		<p>低功耗蓝牙技术现在几乎是只能手机的标配。随着这一技术的发展，苹果在2013年WWDC大会上，苹果推出iBeacon技术。该技术允许开发人员开发能够使用iBeacon硬件传感器的iOS应用程序，来为相应的应用程序提供更加精准的位置信息。2014年WWDC大会上，苹果表示，对iBeacon技术进行了改善，借助该技术，应用程序现在能够跟踪到用户所在的楼层的精确位置信息。</p>
- <p>iBeacon的工作方式是Transmitter-Receiver，即基站-接收机模式的。基站？这个时候不要想到移动、联通的那些大铁塔。这个基站可以是一个运行着Bluetooth 4.0 LE的设备，也可以是经过配置的iPhone、iPad。iPhone4S和之后的iPhone、iPad3或之后的iPad，包括iPad mini都可以配置成iBeacon基站。</p>
- <p>这里列举个iBeacon的使用场景：在房屋中介中使用。米国一家技术公司把 iBeacon 安装在要出售的房屋前，当用户开车至此，不用下车就可以用中介的 APP 获得此房屋所有相关信息和照片，不用打印及搜索。据说，效果还是很不错的，大约有一半左右的用户打开手机查看了相关信息。甚至于还有一个老外用iBeacon做了一个实景的经营游戏，点击<a href="http://v.youku.com/v_show/id_XNjYxMTgyMzk2.html?from=y1.7-1-105.4.5-1.8-1-2-4">这里</a>观看。</p>
- <p>一个基站主要有三部分标识：</p>
- <p>1. UUID，形如：206A2476-D4DB-42F0-BF73-030236F2C756。用来标识某一个公司。比如，某个房地产公司的的全部的基站都用同一个UUID。</p>
- <p>2. major，用来标识某一类的beacon。比如这个房地产公司的北京的房子都设定为1，上海的都设定为2。</p>
- <p>3. minor，用来标识某一个特定的beacon。比如某栋楼的某个基站。</p>
- <p>用这个房地产商开发的app就可以获取到UUID，和后面的major值和minor值。当app进入beacon的区域，探测到UUID：&rdquo;206A2476-D4DB-42F0-BF73-030236F2C756&ldquo;，major为1，minor为20。那么就表明这个用户在这个房地产商的北京楼盘的编号20的楼盘。这栋楼的说明文字、图片或者视频等就可以展现在用户面前。</p>
- <p>下面就进入我们的教程。不过前提是你要是苹果的开发者，因为这个app需要在真机运行。然后要有2台设备，一个当基站，一个当接收机。最后，还得有一台能运行Xcode的电脑。</p>
- <p>首先创建一个SingleView的项目，起个名字叫MyBeacon。然后把我们需要用到的Framework加进来，把CoreBluethooth.framework和CoreLocation.framework加到项目中。</p>
- <p>创建一个Storybard，并在视图中添加如下的UIController：</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/151558396627673.png" alt="" /></p>
- <p>&nbsp; &nbsp; &nbsp;(这是Xcode6创建的storyboard)</p>
- <p>关于storyboard的细节就不多说了。下面新建两个文件：TrackViewController和ConfigViewController。这时候会自动生成一个ViewControler类。分别把他们按照上图所示对应到stroyboard的几个ViewController中，并添加图中所示的UILabel。然后把需要现实APP运行结果的UILabel作为IBOutlet。</p>
- <p>TrackViewController的IBOutlet是这样的：（以下的两个文件都用的是Swift语言，如果你需要的话可以自行修改为OC语言）</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/151637493032410.png" alt="" /></p>
- <p>ConfigViewController的IBOutlet是这样的：</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/160952557405878.png" alt="" /></p>
- <p>&nbsp;</p>
- <p><strong><span style="color: #000000; font-size: 18px;">先搞定基站部分</span></strong></p>
- <p>在ConfigViewController中添加如下的属性：</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161009345997920.png" alt="" /></p>
- <p>第一个CLBeaconRegin属性，用来设置基站需要的proximityUUID，major和minor的给你信息。</p>
- <p>第二个NSDictionary的属性，用来获取外设的数据。</p>
- <p>第三个CBPeripheralManager的属性，用来开启基站的数据传输。</p>
- <p>这些属性后面的感叹号是Swift里的一种语法。变量或者属性的定义，在类型的后面可以是问号后者是感叹号。他们都表示这个变量或者属性可以是有值的也可以是空值nil（注意这里的nil和OC里的nil是两回事）。但是使用问号的变量或者属性需要在使用前判断是否有值，如果有的话通过感叹号取值。使用感叹号定义的变量或者属性则可以直接取值并使用。这里使用感叹号定义属性，这样在使用的时候可以直接取值。详细的使用会在代码中体现。</p>
- <p>要让iOS设备开始传输信号还需要做些其他的事情。在viewDidLoad中调用几个方法才能让基站工作起来。首先调用的是initBeacon方法，之后是要把数据现实出来的setLabels方法。</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161030373038023.png" alt="" /></p>
- <p>在这里通过uuid字符串设定NSUUID实例。uuid字符串可以通过uuidgen命令在终端里生成。也可以通过代码生成，但是这里没有这个必要。然后其他的值major和minor分别设定为1，identifier设定为我们示例的名字。</p>
- <p>下面我们就要考虑传输的问题了。在用户点击了传输按钮之后开始使用设备的蓝牙外设发出信号。方法如下：</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161111022873979.png" alt="" /></p>
- <p>在这个方法里，首先通过我们设定的beaconRegion属性获得相关的外设数据。这个数据是NSDictionary类型的。需要说明的是，这个类型可以在Swift中使用，但是和Swift本身的Dictionary是不兼容的。</p>
- <p>之后，初始化了CBPeripheralManager属性。这里简单处理，设定queue和options为nil。为了设定代理为self需要实现CBPeripheralManagerDelegate protocol。</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161210520068964.png" alt="" /></p>
- <p>实现了这个protocol之后，还需要实现这个protocol的一个方法。这个方法在OC里来讲是required的，所以必须实现。</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161214588341724.png" alt="" /></p>
- <p>外设的状态中有两个需要我们处理的。一个是PoweredOn一个PoweredOff。On了就让peripheralManager开始对外发出信号。Off了就停止发出信号。所以呢，如果直接在transmitAction中调用代码startAdvertising是设备对外发出信号的话，会报错。Console会打印出&rdquo;CBPeripheralManager is not Powered on&ldquo;。所以我们在以上的代码中在Pwoered On的时候再开始调用代码发出信号。发出信号的时候呢，我们给了advertising方法传入了从beaconRegion取出来的NSDictionary数据。这也是接收机辨识基站用到的数据。</p>
- <p>之后我们把数据显示在界面上。</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161237519435532.png" alt="" /></p>
- <p>这个方法很简单，只要在viewDidLoad里调用setLabels方法就可以。全部设定在基站里的数据都会显示在界面上了。其中包括uuid、major和minor，最后是我们设定的identifier。用Swift比用OC写代码是会少一些量，如果你对Swift足够熟的话。比如，取得一个值的字符窜值的时候就不用[NSString stringWithFormat:"..."]这么麻烦的写法了。</p>
- <p>我们的app已经可以作为基站使用了。但是没有接收机的话这个app可是一点都不好玩。在下面就开始处理接收机的部分。</p>
- <p><strong><span style="font-size: 18px; color: #000000;">接受iBeacon信息</span></strong></p>
- <p>接收iBeacon信号的底层功能已经在Core Location Framework里实现了。在iOS7里，可以自动识别你是否进入了一个区域以及其他的距离之类的信息。</p>
- <p>下面在TrackViewController中处理，首先把CoreLocation库的头文件加进来。然后增加下面的两个属性：</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161419093348953.png" alt="" /></p>
- <p>CLBeaconRegion属性是用来定义我们要寻找的beacon的。这个app只会接收到有同样的UUID的的发射机发射的信号。</p>
- <p>CLLocationManager属性是用来建立位置服务并搜索beacon的。</p>
- <p>在viewDidLoad方法中添加如下代码：</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161430561315757.png" alt="" /></p>
- <p>首先，要初始化CLLocationManager，然后把代理设置为self。当然设定代理之前我么需要实现CLLocationManagerDelegate protocol，具体的就不写出来了。然后调用initRegion方法，这个会在后面给出详情。</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161436513034350.png" alt="" /></p>
- <p>首先创建UUID实例。用来初始化这个实例的的uuid字符串必须和基站的uuid字符串是一样的，要不互相找不见。</p>
- <p>然后初始化beaconRegion，proximityUUID就是前面创建的UUID实例，identitifer就是在基站中用到的identifier字符串。然后开始监测前面初始化出来的beaconRegion。调用代码<span class="s1">self<span class="s2">.trackLocationManager<span class="s2">.<span class="s3">startMonitoringForRegion<span class="s2">(<span class="s1">self<span class="s2">.beaconRegion<span class="s2">)开始检测。</span></span></span></span></span></span></span></span></p>
- <p>接下来，我们需要监测这个app进入和离开区域的事件，代码如下：</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161507318497453.png" alt="" /></p>
- <p>第一个方法是进入的，当你接收到基站信号的时候这个方法就开始执行（当然你要离基站足够近）。然后调用locationManager的startRagingBeaconsInRegion方法，病传入我们之前定义好的beaconRegion属性。</p>
- <p>第二个方法很简单，就是在离开这个区域的时候就停止执行，调用locationManager的stopRagingBeaconsInRegion。</p>
- <p>下面是didRangeBeacons方法：</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161529258962205.png" alt="" /></p>
- <p>首先判断方法传入的beacons数组的元素有多少。如果有0个的时候什么都不做。如果有一个或以上的话，这里简单处理只取最后一个beacon来处理。</p>
- <p>之后的代码都只是从beacon中取出数据来现实在界面上，比如UUID，major，minor，accuracy和RSSI。这些值会随着接收机和基站的距离不同以及基站的设置不同而一直改变。尤其accuracy和RSSI都是beacon用来现实距离的。其中proximity会显示四个值：Unknown、Immediate、Near和Far。Immediate是半米以内，Near远一些，Far更远。RSSI是信号强度。</p>
- <p><strong><span style="font-size: 18px;">运行程序</span></strong></p>
- <p>现在这个app可以运行了。但是需要分别运行在两台可以兼容低功耗蓝牙的设备上。一台当基站一台当接收机。</p>
- <p>当你从足够远（10～20米）的地方想基站的方向走的时候，一个你&rdquo;didEnterRange&rdquo;那个didRangeBeacons方法就会被调用，这是就可以从方法中传入的beacon数组中取出值来现实在界面上。</p>
- <p>但是有一点需要注意的是，我们处理的基站只有一个，所以每次都取出beacon数组的最后一个。如果有多个beacon基站的话就需要循环beacon数组的每一个元素，判断这个元素的proximity是Immdiate还是Near还是Far等。</p>
- <p>每次测试的时候都进入或者离开一个区域太麻烦。可以在viewDidLoad方法中添加一行代码：</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161618435213733.png" alt="" /></p>
- <p>然后添加如下方法：</p>
- <p><img src="http://images.cnitblog.com/i/38290/201407/161620505688853.png" alt="" /></p>
- <p>手动调用了didStartMonitoringForRegion，在这个方法中调用了trackLocationManager的startRangingBeaconsInRegion方法。这样虽然不完美，但是足够测试了。</p>
- <p><strong><span style="font-size: 18px;">下面是代码列表：</span></strong></p>
- <p>ConfigViewController:</p>
- <div class="cnblogs_code">
- <pre><span style="color: #008080;"> 1</span> <span style="color: #000000;">import UIKit
- </span><span style="color: #008080;"> 2</span> <span style="color: #000000;">import CoreLocation
- </span><span style="color: #008080;"> 3</span> <span style="color: #000000;">import CoreBluetooth
- </span><span style="color: #008080;"> 4</span> 
- <span style="color: #008080;"> 5</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> ConfigViewController: UIViewController, CBPeripheralManagerDelegate {
- </span><span style="color: #008080;"> 6</span> 
- <span style="color: #008080;"> 7</span> <span style="color: #008000;">//</span><span style="color: #008000;"> properties</span>
- <span style="color: #008080;"> 8</span> @IBOutlet <span style="color: #0000ff;">var</span><span style="color: #000000;"> uuidLabel: UILabel
- </span><span style="color: #008080;"> 9</span> @IBOutlet <span style="color: #0000ff;">var</span><span style="color: #000000;"> majorLabel: UILabel
- </span><span style="color: #008080;">10</span> @IBOutlet <span style="color: #0000ff;">var</span><span style="color: #000000;"> minorLabel: UILabel
- </span><span style="color: #008080;">11</span> @IBOutlet <span style="color: #0000ff;">var</span><span style="color: #000000;"> identityLabel: UILabel
- </span><span style="color: #008080;">12</span> @IBOutlet <span style="color: #0000ff;">var</span><span style="color: #000000;"> transmitButton: UIButton
- </span><span style="color: #008080;">13</span> 
- <span style="color: #008080;">14</span> <span style="color: #0000ff;">var</span> beaconRegion : CLBeaconRegion!
- <span style="color: #008080;">15</span> <span style="color: #0000ff;">var</span> beaconPeripheralData : NSDictionary!
- <span style="color: #008080;">16</span> <span style="color: #0000ff;">var</span> peripheralManager : CBPeripheralManager!
- <span style="color: #008080;">17</span> 
- <span style="color: #008080;">18</span> 
- <span style="color: #008080;">19</span> <span style="color: #0000ff;">override</span><span style="color: #000000;"> func viewDidLoad() {
- </span><span style="color: #008080;">20</span> <span style="color: #000000;"> super.viewDidLoad()
- </span><span style="color: #008080;">21</span> 
- <span style="color: #008080;">22</span> <span style="color: #000000;"> self.initBeacon()
- </span><span style="color: #008080;">23</span> <span style="color: #000000;"> self.setLabels()
- </span><span style="color: #008080;">24</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">25</span> 
- <span style="color: #008080;">26</span> <span style="color: #000000;"> func initBeacon(){
- </span><span style="color: #008080;">27</span> self.beaconRegion = CLBeaconRegion(proximityUUID: NSUUID(UUIDString: <span style="color: #800000;">"</span><span style="color: #800000;">206A2476-D4DB-42F0-BF73-030236F2C756</span><span style="color: #800000;">"</span><span style="color: #000000;">)
- </span><span style="color: #008080;">28</span> , major: <span style="color: #800080;">1</span>, minor: <span style="color: #800080;">1</span>, identifier: <span style="color: #800000;">"</span><span style="color: #800000;">com.mybeacon.region</span><span style="color: #800000;">"</span><span style="color: #000000;">)
- </span><span style="color: #008080;">29</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">30</span> 
- <span style="color: #008080;">31</span> <span style="color: #000000;"> func setLabels(){
- </span><span style="color: #008080;">32</span> self.uuidLabel.text =<span style="color: #000000;"> self.beaconRegion.proximityUUID.UUIDString
- </span><span style="color: #008080;">33</span> self.majorLabel.text =<span style="color: #000000;"> self.beaconRegion.major.stringValue
- </span><span style="color: #008080;">34</span> self.minorLabel.text =<span style="color: #000000;"> self.beaconRegion.minor.stringValue
- </span><span style="color: #008080;">35</span> self.identityLabel.text =<span style="color: #000000;"> self.beaconRegion.identifier
- </span><span style="color: #008080;">36</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">37</span> 
- <span style="color: #008080;">38</span> <span style="color: #0000ff;">override</span><span style="color: #000000;"> func didReceiveMemoryWarning() {
- </span><span style="color: #008080;">39</span> <span style="color: #000000;"> super.didReceiveMemoryWarning()
- </span><span style="color: #008080;">40</span> <span style="color: #008000;">//</span><span style="color: #008000;"> Dispose of any resources that can be recreated.</span>
- <span style="color: #008080;">41</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">42</span> 
- <span style="color: #008080;">43</span> <span style="color: #000000;"> @IBAction func transmitAction(sender: UIButton) {
- </span><span style="color: #008080;">44</span> self.beaconPeripheralData =<span style="color: #000000;"> self.beaconRegion.peripheralDataWithMeasuredPower(nil)
- </span><span style="color: #008080;">45</span> self.peripheralManager = CBPeripheralManager(<span style="color: #0000ff;">delegate</span><span style="color: #000000;">: self, queue: nil, options: nil)
- </span><span style="color: #008080;">46</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">47</span> 
- <span style="color: #008080;">48</span> <span style="color: #008000;">//</span><span style="color: #008000;"> delegate methods</span>
- <span style="color: #008080;">49</span> func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager!<span style="color: #000000;">){
- </span><span style="color: #008080;">50</span> <span style="color: #0000ff;">if</span> peripheral.state ==<span style="color: #000000;"> CBPeripheralManagerState.PoweredOn {
- </span><span style="color: #008080;">51</span> println(<span style="color: #800000;">"</span><span style="color: #800000;">Powered on</span><span style="color: #800000;">"</span><span style="color: #000000;">)
- </span><span style="color: #008080;">52</span> <span style="color: #000000;"> self.peripheralManager.startAdvertising(self.beaconPeripheralData)
- </span><span style="color: #008080;">53</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">54</span> <span style="color: #0000ff;">else</span> <span style="color: #0000ff;">if</span> peripheral.state ==<span style="color: #000000;"> CBPeripheralManagerState.PoweredOff {
- </span><span style="color: #008080;">55</span> println(<span style="color: #800000;">"</span><span style="color: #800000;">Powered off</span><span style="color: #800000;">"</span><span style="color: #000000;">)
- </span><span style="color: #008080;">56</span> <span style="color: #000000;"> self.peripheralManager.stopAdvertising()
- </span><span style="color: #008080;">57</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">58</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">59</span> }</pre>
- </div>
- <p>&nbsp;</p>
- <p>TrackViewController：</p>
- <div class="cnblogs_code">
- <pre><span style="color: #008080;"> 1</span> <span style="color: #000000;">import UIKit
- </span><span style="color: #008080;"> 2</span> <span style="color: #000000;">import CoreLocation
- </span><span style="color: #008080;"> 3</span> 
- <span style="color: #008080;"> 4</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> TrackViewController: UIViewController, CLLocationManagerDelegate {
- </span><span style="color: #008080;"> 5</span> 
- <span style="color: #008080;"> 6</span> @IBOutlet <span style="color: #0000ff;">var</span><span style="color: #000000;"> beaconLabel: UILabel
- </span><span style="color: #008080;"> 7</span> @IBOutlet <span style="color: #0000ff;">var</span><span style="color: #000000;"> uuidLabel: UILabel
- </span><span style="color: #008080;"> 8</span> @IBOutlet <span style="color: #0000ff;">var</span><span style="color: #000000;"> majorLabel: UILabel
- </span><span style="color: #008080;"> 9</span> @IBOutlet <span style="color: #0000ff;">var</span><span style="color: #000000;"> minorLabel: UILabel
- </span><span style="color: #008080;">10</span> @IBOutlet <span style="color: #0000ff;">var</span><span style="color: #000000;"> accuracyLabel: UILabel
- </span><span style="color: #008080;">11</span> @IBOutlet <span style="color: #0000ff;">var</span><span style="color: #000000;"> distanceLabel: UILabel
- </span><span style="color: #008080;">12</span> @IBOutlet <span style="color: #0000ff;">var</span><span style="color: #000000;"> rssiLabel: UILabel
- </span><span style="color: #008080;">13</span> 
- <span style="color: #008080;">14</span> <span style="color: #0000ff;">var</span> beaconRegion : CLBeaconRegion!
- <span style="color: #008080;">15</span> <span style="color: #0000ff;">var</span> trackLocationManager : CLLocationManager!
- <span style="color: #008080;">16</span> 
- <span style="color: #008080;">17</span> <span style="color: #0000ff;">override</span><span style="color: #000000;"> func viewDidLoad() {
- </span><span style="color: #008080;">18</span> <span style="color: #000000;"> super.viewDidLoad()
- </span><span style="color: #008080;">19</span> 
- <span style="color: #008080;">20</span> self.trackLocationManager =<span style="color: #000000;"> CLLocationManager();
- </span><span style="color: #008080;">21</span> self.trackLocationManager.<span style="color: #0000ff;">delegate</span> =<span style="color: #000000;"> self;
- </span><span style="color: #008080;">22</span> <span style="color: #000000;"> self.initRegion()
- </span><span style="color: #008080;">23</span> <span style="color: #000000;"> self.locationManager(self.trackLocationManager, didStartMonitoringForRegion: self.beaconRegion)
- </span><span style="color: #008080;">24</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">25</span> 
- <span style="color: #008080;">26</span> <span style="color: #000000;"> func initRegion(){
- </span><span style="color: #008080;">27</span> <span style="color: #0000ff;">var</span> uuid = NSUUID(UUIDString: <span style="color: #800000;">"</span><span style="color: #800000;">206A2476-D4DB-42F0-BF73-030236F2C756</span><span style="color: #800000;">"</span><span style="color: #000000;">)
- </span><span style="color: #008080;">28</span> self.beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: <span style="color: #800000;">"</span><span style="color: #800000;">com.mybeacon.region</span><span style="color: #800000;">"</span><span style="color: #000000;">)
- </span><span style="color: #008080;">29</span> <span style="color: #000000;"> self.trackLocationManager.startMonitoringForRegion(self.beaconRegion)
- </span><span style="color: #008080;">30</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">31</span> 
- <span style="color: #008080;">32</span> func locationManager(manager: CLLocationManager!, didStartMonitoringForRegion region: CLRegion!<span style="color: #000000;">) {
- </span><span style="color: #008080;">33</span> <span style="color: #000000;"> self.trackLocationManager.startRangingBeaconsInRegion(self.beaconRegion)
- </span><span style="color: #008080;">34</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">35</span> 
- <span style="color: #008080;">36</span> <span style="color: #0000ff;">override</span><span style="color: #000000;"> func didReceiveMemoryWarning() {
- </span><span style="color: #008080;">37</span> <span style="color: #000000;"> super.didReceiveMemoryWarning()
- </span><span style="color: #008080;">38</span> <span style="color: #008000;">//</span><span style="color: #008000;"> Dispose of any resources that can be recreated.</span>
- <span style="color: #008080;">39</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">40</span> 
- <span style="color: #008080;">41</span> func locationManager(manager: CLLocationManager!, didEnterRegion region: CLRegion!<span style="color: #000000;">) {
- </span><span style="color: #008080;">42</span> <span style="color: #000000;"> self.trackLocationManager.startRangingBeaconsInRegion(self.beaconRegion)
- </span><span style="color: #008080;">43</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">44</span> 
- <span style="color: #008080;">45</span> func locationManager(manager: CLLocationManager!, didExitRegion region: CLRegion!<span style="color: #000000;">) {
- </span><span style="color: #008080;">46</span> <span style="color: #000000;"> self.trackLocationManager.stopRangingBeaconsInRegion(self.beaconRegion)
- </span><span style="color: #008080;">47</span> self.beaconLabel.text = <span style="color: #800000;">"</span><span style="color: #800000;">No</span><span style="color: #800000;">"</span>
- <span style="color: #008080;">48</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">49</span> 
- <span style="color: #008080;">50</span> func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: CLBeaconRegion!<span style="color: #000000;">) {
- </span><span style="color: #008080;">51</span> println(<span style="color: #800000;">"</span><span style="color: #800000;">beacons count</span><span style="color: #800000;">"</span> +<span style="color: #000000;"> String(beacons.count))
- </span><span style="color: #008080;">52</span> <span style="color: #0000ff;">if</span> beacons.count &lt;= <span style="color: #800080;">0</span><span style="color: #000000;"> {
- </span><span style="color: #008080;">53</span> <span style="color: #0000ff;">return</span>
- <span style="color: #008080;">54</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">55</span> 
- <span style="color: #008080;">56</span> <span style="color: #0000ff;">var</span> beacon: AnyObject = beacons[beacons.count - <span style="color: #800080;">1</span><span style="color: #000000;">]
- </span><span style="color: #008080;">57</span> 
- <span style="color: #008080;">58</span> self.beaconLabel.text = <span style="color: #800000;">"</span><span style="color: #800000;">Yes</span><span style="color: #800000;">"</span>
- <span style="color: #008080;">59</span> self.uuidLabel.text = beacon.proximityUUID ? beacon.proximityUUID!.UUIDString : <span style="color: #800000;">""</span>
- <span style="color: #008080;">60</span> self.majorLabel.text = beacon.major ? beacon.major!.stringValue : <span style="color: #800000;">""</span>
- <span style="color: #008080;">61</span> self.minorLabel.text = beacon.minor ? beacon.minor!.stringValue : <span style="color: #800000;">""</span>
- <span style="color: #008080;">62</span> self.accuracyLabel.text = beacon.accuracy ? String(beacon.accuracy) : <span style="color: #800000;">""</span>
- <span style="color: #008080;">63</span> <span style="color: #0000ff;">if</span><span style="color: #000000;"> beacon.proximity {
- </span><span style="color: #008080;">64</span> 
- <span style="color: #008080;">65</span> <span style="color: #0000ff;">switch</span>(beacon.proximity!<span style="color: #000000;">){
- </span><span style="color: #008080;">66</span> <span style="color: #0000ff;">case</span><span style="color: #000000;"> .Unknown:
- </span><span style="color: #008080;">67</span> self.distanceLabel.text = <span style="color: #800000;">"</span><span style="color: #800000;">Unknown proximity</span><span style="color: #800000;">"</span>
- <span style="color: #008080;">68</span> <span style="color: #0000ff;">case</span><span style="color: #000000;"> CLProximity.Immediate:
- </span><span style="color: #008080;">69</span> self.distanceLabel.text = <span style="color: #800000;">"</span><span style="color: #800000;">Immediate</span><span style="color: #800000;">"</span>
- <span style="color: #008080;">70</span> <span style="color: #0000ff;">case</span><span style="color: #000000;"> CLProximity.Near:
- </span><span style="color: #008080;">71</span> self.distanceLabel.text = <span style="color: #800000;">"</span><span style="color: #800000;">Near</span><span style="color: #800000;">"</span>
- <span style="color: #008080;">72</span> <span style="color: #0000ff;">case</span><span style="color: #000000;"> CLProximity.Far:
- </span><span style="color: #008080;">73</span> self.distanceLabel.text = <span style="color: #800000;">"</span><span style="color: #800000;">Far</span><span style="color: #800000;">"</span>
- <span style="color: #008080;">74</span> <span style="color: #0000ff;">default</span><span style="color: #000000;">:
- </span><span style="color: #008080;">75</span> println(<span style="color: #800000;">"</span><span style="color: #800000;">default of switch-case</span><span style="color: #800000;">"</span><span style="color: #000000;">)
- </span><span style="color: #008080;">76</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">77</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">78</span> self.rssiLabel.text = beacon.rssi ? beacon.rssi!.description : <span style="color: #800000;">""</span>
- <span style="color: #008080;">79</span> <span style="color: #000000;"> }</span>
- 80 }</pre>
- </div>
- <p>&nbsp;</p>
- <p>&nbsp;</p>
- <p>&nbsp;转载请注明出处！</p>
-
+	<div id="header">
+		<h1></h1>
+		<span id="author"> </span>
+		<span id="reader"></span>
+	</div>
+	<div id="blogcontent" class="container">	
 	</div>
 </body>
 </html>

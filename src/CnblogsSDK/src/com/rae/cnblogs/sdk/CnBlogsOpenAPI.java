@@ -2,18 +2,52 @@ package com.rae.cnblogs.sdk;
 
 import android.content.Context;
 
+import com.rae.cnblogs.sdk.data.DataProvider;
+import com.rae.cnblogs.sdk.data.IDataProvider;
 import com.rae.cnblogs.sdk.download.Downloader;
 import com.rae.cnblogs.sdk.model.Blog;
 import com.rae.cnblogs.sdk.model.Comment;
 
+/**
+ * 博客园接口抽象类
+ * 
+ * @author ChenRui
+ * 
+ */
 public abstract class CnBlogsOpenAPI
 {
-	protected Context	mContext;
-	protected int		mPageSize	= 20;
+	private static CnBlogsOpenAPI	sdk	= null;
+	
+	/**
+	 * 获取博客园接口的实例
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static CnBlogsOpenAPI getInstance(Context context)
+	{
+		if (sdk == null) sdk = new CnBlogsOfficialOpenAPI(context);
+		return sdk;
+	}
+	
+	protected Context		mContext;
+	protected int			mPageSize	= 20;
+	private IDataProvider	mProvider;
 	
 	public CnBlogsOpenAPI(Context context)
 	{
 		this.mContext = context;
+	}
+	
+	/**
+	 * 获取数据库访问接口
+	 * 
+	 * @return
+	 */
+	public IDataProvider getDataProvider()
+	{
+		if (mProvider == null) mProvider = new DataProvider(mContext);
+		return mProvider;
 	}
 	
 	/**
@@ -31,7 +65,7 @@ public abstract class CnBlogsOpenAPI
 	protected abstract Downloader<Comment> getCommentDownloader();
 	
 	/**
-	 * 获取博客
+	 * 获取首页博客
 	 * 
 	 * @param l
 	 *            回调监听
@@ -39,6 +73,26 @@ public abstract class CnBlogsOpenAPI
 	 *            页码
 	 */
 	public abstract void getCnblogs(CnBlogsCallbackListener<Blog> l, int index);
+	
+	/**
+	 * 获取分类博客
+	 * 
+	 * @param l
+	 *            回调监听
+	 * @param index
+	 *            页码
+	 */
+	public abstract void getCnblogs(CnBlogsCallbackListener<Blog> l, String cateId, String blogId, int index);
+	
+	/**
+	 * 获取博客内容
+	 * 
+	 * @param l
+	 *            回调监听
+	 * @param blogId
+	 *            博客ID
+	 */
+	public abstract void getBlogContent(CnBlogsCallbackListener<Blog> l, String blogId);
 	
 	/**
 	 * 获取首页文章列表
@@ -96,7 +150,7 @@ public abstract class CnBlogsOpenAPI
 	 * @param index
 	 *            页码
 	 */
-	protected void getCnblogs(CnBlogsCallbackListener<Blog> l, String url, int index)
+	protected void getCnblogsByUrl(CnBlogsCallbackListener<Blog> l, String url, int index)
 	{
 		getBlogDownloader().setOnCnBlogCallbackListener(l);
 		getBlogDownloader().download(url, index, mPageSize);

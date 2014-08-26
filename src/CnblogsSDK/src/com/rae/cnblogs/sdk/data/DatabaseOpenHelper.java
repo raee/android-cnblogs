@@ -1,17 +1,12 @@
 package com.rae.cnblogs.sdk.data;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.rae.cnblogs.sdk.R;
+import com.rae.cnblogs.sdk.model.Constant;
 
 /**
  * 数据库帮助类
@@ -21,12 +16,12 @@ import com.rae.cnblogs.sdk.R;
  */
 public class DatabaseOpenHelper extends SQLiteOpenHelper
 {
-	private Context	mContext;
+	//	private Context	mContext;
 	
 	public DatabaseOpenHelper(Context context)
 	{
 		super(context, "cnblogs.db", null, 1);
-		this.mContext = context;
+		//		this.mContext = context;
 	}
 	
 	@Override
@@ -34,20 +29,8 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper
 	{
 		try
 		{
-			InputStream inputStream = mContext.getResources().openRawResource(R.raw.init);
-			InputStreamReader inReader = new InputStreamReader(inputStream);
-			BufferedReader reader = new BufferedReader(inReader);
-			StringBuilder sb = new StringBuilder();
-			String str = null;
-			while ((str = reader.readLine()) != null)
-			{
-				sb.append(str);
-			}
-			String sql = sb.toString();
-			if (TextUtils.isEmpty(sql)) return;
-			db.beginTransaction();
-			// 根据分号进行分割
-			String[] group = sql.split(";");
+			db.beginTransaction(); // 开始事务
+			String[] group = Constant.getInitSql().split(";");// 根据分号进行分割
 			for (String strSql : group)
 			{
 				if (TextUtils.isEmpty(strSql.trim())) continue;
@@ -65,7 +48,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper
 			db.setTransactionSuccessful(); // 提交事务
 			
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}

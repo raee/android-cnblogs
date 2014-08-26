@@ -1203,19 +1203,19 @@ body{
 	width: 100%;
 	margin: 0;
 	background-color: #f5f5f5;
-	/*font-size: 14px;font-family: "Microsoft JhengHei";*/
 	text-shadow: 1px 1px 1px #fff;
-	line-height: 26px;
+
 }
 #blogcontent{		
 	padding: 10px;
 	overflow: hidden;
+	line-height: 24px;
 }
 h1,h2{
-	font-size: 16px;
+	font-size: 14px;
 }
 h3,h4,h5,h6{
-	font-size: 14px;
+	font-size: 12px;
 }
 h1,h2,h3,h4,h5,h6{
 	color: #336699;
@@ -1228,4 +1228,21 @@ img{
 }
 *{
 	word-wrap: break-word; /*溢出换行*/
+}
+.cnblogs_code{
+	line-height: normal;
+}
+#header{
+	padding-bottom: 20px;
+	border-bottom: 1px dotted #CCC;
+	padding-left: 20px;
+	padding-top: 10px;
+}
+#header h1{
+	font-size: 21px;
+	border: none;
+}
+#header span{
+	font-size: 14px;
+	display: block;
 }

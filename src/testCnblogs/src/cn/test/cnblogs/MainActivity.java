@@ -4,19 +4,23 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.rae.cnblogs.sdk.CnBlogsCallbackListener;
 import com.rae.cnblogs.sdk.CnBlogsException;
+import com.rae.cnblogs.sdk.CnBlogsOfficialOpenAPI;
 import com.rae.cnblogs.sdk.CnBlogsOpenAPI;
 import com.rae.cnblogs.sdk.data.DataProvider;
-import com.rae.cnblogs.sdk.http.HttpCnBlogsOpenAPI;
 import com.rae.cnblogs.sdk.model.Blog;
+import com.rae.cnblogs.sdk.model.Comment;
 
-public class MainActivity extends Activity
+public class MainActivity extends Activity implements CnBlogsCallbackListener<Blog>, OnClickListener
 {
-	DataProvider	db;
+	final CnBlogsOpenAPI	sdk	= new CnBlogsOfficialOpenAPI(this);
+	DataProvider			db;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -29,34 +33,7 @@ public class MainActivity extends Activity
 	
 	private void test()
 	{
-		final CnBlogsOpenAPI sdk = new HttpCnBlogsOpenAPI(this);
-		sdk.setOnCnBlogsLoadListener(new CnBlogsCallbackListener<Blog>()
-		{
-			
-			@Override
-			public void onLoadError(CnBlogsException e)
-			{
-				error(e.getMessage());
-			}
-			
-			@Override
-			public void onLoadBlogs(List<Blog> result)
-			{
-				for (Blog blog : result)
-				{
-					if (TextUtils.isEmpty(blog.getContent()))
-					{
-						db.addBlog(blog);
-						sdk.getBlogContent(blog);
-					}
-					else
-					{
-						db.updateBlog(blog);
-					}
-				}
-			}
-		});
-		sdk.getBlogs("", 0);
+		
 	}
 	
 	void log(Object obj)
@@ -69,6 +46,71 @@ public class MainActivity extends Activity
 	{
 		obj = obj == null ? "" : obj;
 		Log.e("cnblogtest", obj.toString());
+	}
+	
+	@Override
+	public void onLoadError(CnBlogsException e)
+	{
+		e.printStackTrace();
+		error(e.getMessage());
+	}
+	
+	@Override
+	public void onLoadBlogs(List<Blog> result)
+	{
+		for (Blog blog : result)
+		{
+			log("标题：" + blog.getTitle());
+		}
+	}
+	
+	int	index	= 0;
+	
+	@Override
+	public void onClick(View v)
+	{
+		log(((Button) v).getText());
+		switch (v.getId())
+		{
+			case R.id.Button01:
+				sdk.getTenDaysTopDiggPosts(this, 20);
+				break;
+			case R.id.Button02:
+				sdk.getRecentCnblogs(this, index);
+				break;
+			case R.id.Button03:
+				sdk.getCnblogs(this, index);
+				break;
+			case R.id.Button04:
+				sdk.getRecommend(this, index);
+				break;
+			case R.id.Button05:
+				sdk.get48HoursTopViewPosts(this, 20);
+				break;
+			case R.id.Button06:
+				sdk.getComments(new CnBlogsCallbackListener<Comment>()
+				{
+					
+					@Override
+					public void onLoadError(CnBlogsException e)
+					{
+						error(e.getMessage());
+					}
+					
+					@Override
+					public void onLoadBlogs(List<Comment> result)
+					{
+						for (Comment comment : result)
+						{
+							log(comment.getAuthor() + ":" + comment.getContent());
+						}
+					}
+				}, "3878591", 1);
+				break;
+			default:
+				break;
+		}
+		index++;
 	}
 	
 }

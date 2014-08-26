@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:drawable="@drawable/refreshing01"
+        android:duration="100"/>
+    <item
+        android:drawable="@drawable/refreshing02"
+        android:duration="100"/>
+    <item
+        android:drawable="@drawable/refreshing03"
+        android:duration="100"/>
+    <item
+        android:drawable="@drawable/refreshing04"
+        android:duration="100"/>
+    <item
+        android:drawable="@drawable/refreshing05"
+        android:duration="100"/>
+
+</animation-list>

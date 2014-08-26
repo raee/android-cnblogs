@@ -8,6 +8,7 @@ import com.rae.cnblogs.sdk.model.Comment;
 import com.rae.cnblogs.sdk.model.Constant;
 import com.rae.cnblogs.sdk.official.BlogDownload;
 import com.rae.cnblogs.sdk.official.CommentDownloader;
+import com.rae.cnblogs.sdk.official.ContentDownloader;
 
 /**
  * 官方博客园接口
@@ -19,6 +20,8 @@ public class CnBlogsOfficialOpenAPI extends CnBlogsOpenAPI
 {
 	private Downloader<Blog>	mBlogDownloader;
 	private Downloader<Comment>	mCommentDownloader;
+	private Downloader<Blog>	mContentDownloader;
+	private CnBlogsOtherOpenAPI	mOtherSdk;
 	
 	public CnBlogsOfficialOpenAPI(Context context)
 	{
@@ -36,31 +39,31 @@ public class CnBlogsOfficialOpenAPI extends CnBlogsOpenAPI
 	@Override
 	public void getCnblogs(CnBlogsCallbackListener<Blog> l, int index)
 	{
-		super.getCnblogs(l, Constant.CNBLOGS_PAGE, index);
+		super.getCnblogsByUrl(l, Constant.CNBLOGS_PAGE, index);
 	}
 	
 	@Override
 	public void getRecentCnblogs(CnBlogsCallbackListener<Blog> l, int index)
 	{
-		super.getCnblogs(l, Constant.CNBLOGS_RECENT, index);
+		super.getCnblogsByUrl(l, Constant.CNBLOGS_RECENT, index);
 	}
 	
 	@Override
 	public void getTenDaysTopDiggPosts(CnBlogsCallbackListener<Blog> l, int size)
 	{
-		super.getCnblogs(l, Constant.CNBLOGS_DAY_READING, size);
+		super.getCnblogsByUrl(l, Constant.CNBLOGS_DAY_READING, size);
 	}
 	
 	@Override
 	public void getRecommend(CnBlogsCallbackListener<Blog> l, int index)
 	{
-		super.getCnblogs(l, Constant.CNBLOGS_RECOMMENT_PAGE, index);
+		super.getCnblogsByUrl(l, Constant.CNBLOGS_RECOMMENT_PAGE, index);
 	}
 	
 	@Override
 	public void get48HoursTopViewPosts(CnBlogsCallbackListener<Blog> l, int size)
 	{
-		super.getCnblogs(l, Constant.CNBLOGS_HOUR_READING, size);
+		super.getCnblogsByUrl(l, Constant.CNBLOGS_HOUR_READING, size);
 	}
 	
 	@Override
@@ -77,4 +80,29 @@ public class CnBlogsOfficialOpenAPI extends CnBlogsOpenAPI
 		return mCommentDownloader;
 	}
 	
+	private CnBlogsOtherOpenAPI getOtherSdk()
+	{
+		if (mOtherSdk == null)
+		{
+			mOtherSdk = new CnBlogsOtherOpenAPI(mContext);
+		}
+		return mOtherSdk;
+	}
+	
+	@Override
+	public void getCnblogs(CnBlogsCallbackListener<Blog> l, String cateId, String blogId, int index)
+	{
+		getOtherSdk().getCnblogs(l, index, blogId, blogId, cateId);
+	}
+	
+	@Override
+	public void getBlogContent(CnBlogsCallbackListener<Blog> l, String blogId)
+	{
+		if (mContentDownloader == null)
+		{
+			mContentDownloader = new ContentDownloader(mContext);
+		}
+		mContentDownloader.setOnCnBlogCallbackListener(l);
+		mContentDownloader.download(Constant.CNBLOGS_CONTENT, blogId);
+	}
 }

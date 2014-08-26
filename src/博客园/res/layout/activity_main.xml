@@ -1,18 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-<!-- 
-    <com.rae.cnblogs.view.RefreshListView
-        android:id="@android:id/list"
+
+    <com.rae.cnblogs.view.BlogListView
+        android:id="@+id/blog_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e5e5e5"
-        android:divider="@null"
-        android:dividerHeight="5dp"
-        android:fadingEdge="none"
-        android:fastScrollEnabled="false"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:smoothScrollbar="true" /> -->
+        android:background="#EDEDF0"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="2dp"
+        android:listSelector="@android:color/transparent" />
 
 </LinearLayout>

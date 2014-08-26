@@ -59,8 +59,9 @@ public class ContentDownloader extends Downloader<Blog>
 						}
 					case XmlPullParser.START_TAG:
 						String name = parser.getName();
-						if (name.equals("string"))
+						if ("string".equals(name))
 						{
+							mBlog = new Blog();
 							result.add(mBlog);
 						}
 						break;

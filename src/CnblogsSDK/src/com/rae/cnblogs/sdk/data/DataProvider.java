@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.rae.cnblogs.sdk.model.Blog;
+import com.rae.cnblogs.sdk.model.Category;
 
 public class DataProvider implements IDataProvider
 {
@@ -100,5 +101,18 @@ public class DataProvider implements IDataProvider
 		String[] param = new String[] { blog.getCateId(), blog.getTitle(), blog.getSummary(), blog.getContent(), blog.getAutor(), blog.getViewCount(), blog.getCommentCount(),
 				blog.getPostDate(), blog.getId() };
 		db.execSQL("update blogs set cateid=?,title=?,summary=?,body=?,author=?,viewcout=?,commentcount=?,postdate=? where blogid=?", param);
+	}
+	
+	@Override
+	public List<Category> getCategories()
+	{
+		List<Category> result = new ArrayList<Category>();
+		Cursor cursor = db.rawQuery("select * from categroys where is_show=1 order by cate_order", null);
+		cursor.moveToFirst();
+		while (cursor.moveToNext())
+		{
+			result.add(new Category().toCategory(cursor));
+		}
+		return result;
 	}
 }

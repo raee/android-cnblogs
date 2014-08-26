@@ -12,7 +12,12 @@ import android.content.Context;
 import com.rae.cnblogs.sdk.CnBlogsException;
 import com.rae.cnblogs.sdk.model.Blog;
 
-
+/**
+ * Json类型的博客接口
+ * 
+ * @author ChenRui
+ * 
+ */
 public class JsonBlogDownloader extends Downloader<Blog>
 {
 	

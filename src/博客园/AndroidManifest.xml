@@ -26,7 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.rae.cnblogs.ViewBlogActivity" >
+        <activity
+            android:name="com.rae.cnblogs.ViewBlogActivity"
+            android:theme="@style/AppNotTitleTheme" >
         </activity>
     </application>
 
