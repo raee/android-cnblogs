@@ -20,66 +20,58 @@ import com.rae.cnblogs.sdk.model.Blog;
  * @author ChenRui
  * 
  */
-public class ContentDownloader extends Downloader<Blog>
-{
-	private Blog	mBlog;
-	
-	public void download(String url, Blog model)
-	{
+public class ContentDownloader extends Downloader<Blog> {
+	private Blog mBlog;
+
+	public ContentDownloader(Context context) {
+		super(context);
+	}
+
+	public void download(String url, Blog model) {
 		super.download(url, model.getId());
 		mBlog = model;
 	}
-	
-	public ContentDownloader(Context context)
-	{
-		super(context);
-	}
-	
+
 	@Override
-	public void onHttpResponse(String xml)
-	{
+	public void onHttpResponse(String xml) {
 		List<Blog> result = new ArrayList<Blog>();
 		XmlPullParser parser = Xml.newPullParser();
-		
-		try
-		{
+
+		try {
 			parser.setInput(new StringReader(xml));
 			int eventType = 0;
-			while (eventType != XmlPullParser.END_DOCUMENT)
-			{
-				switch (eventType)
-				{
-					case XmlPullParser.TEXT:
-						if (mBlog != null)
-						{
-							mBlog.setContent(parser.getText());
-							info("获取博客正文：" + mBlog.getTitle());
-							onCallback(result);
-							return;
-						}
-					case XmlPullParser.START_TAG:
-						String name = parser.getName();
-						if ("string".equals(name))
-						{
-							mBlog = new Blog();
-							result.add(mBlog);
-						}
-						break;
-					default:
-						break;
+			while (eventType != XmlPullParser.END_DOCUMENT) {
+				switch (eventType) {
+				case XmlPullParser.TEXT:
+					if (mBlog != null) {
+						mBlog.setContent(parser.getText());
+						info("获取博客正文：" + mBlog.getTitle());
+						
+						result.add(mBlog);
+						// 把从网络获取到的博客添加到数据库中。
+						mDbProvider.addOrUpdateBlogs(result);
+						onCallback(result);
+						return;
+					}
+					// case XmlPullParser.START_TAG:
+					// String name = parser.getName();
+					// if ("string".equals(name)) {
+					// // mBlog = new Blog();
+					//
+					// }
+					// break;
+				default:
+					break;
 				}
 				eventType = parser.next();
 			}
-		}
-		catch (XmlPullParserException e)
-		{
+
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		
+
 	}
-	
+
 }

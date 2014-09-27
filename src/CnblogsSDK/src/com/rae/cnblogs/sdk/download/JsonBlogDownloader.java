@@ -18,24 +18,19 @@ import com.rae.cnblogs.sdk.model.Blog;
  * @author ChenRui
  * 
  */
-public class JsonBlogDownloader extends Downloader<Blog>
-{
-	
-	public JsonBlogDownloader(Context context)
-	{
+public class JsonBlogDownloader extends Downloader<Blog> {
+
+	public JsonBlogDownloader(Context context) {
 		super(context);
 	}
-	
+
 	@Override
-	public void onHttpResponse(String html)
-	{
-		try
-		{
+	public void onHttpResponse(String html) {
+		try {
 			List<Blog> result = new ArrayList<Blog>();
 			JSONObject obj = new JSONObject(html);
 			JSONArray arr = obj.getJSONArray("data");
-			for (int i = 0; i < arr.length(); i++)
-			{
+			for (int i = 0; i < arr.length(); i++) {
 				Blog blog = new Blog();
 				JSONObject item = arr.getJSONObject(i);
 				blog.setId(item.getString("blog_id"));
@@ -49,13 +44,14 @@ public class JsonBlogDownloader extends Downloader<Blog>
 				blog.setBlogApp(item.getString("blogapp"));
 				result.add(blog);
 			}
+
+			// 把从网络获取到的博客添加到数据库中。
+			mDbProvider.addOrUpdateBlogs(result);
 			super.onCallback(result);
-			
-		}
-		catch (JSONException e)
-		{
+
+		} catch (JSONException e) {
 			onHttpRequestError(new CnBlogsException("数据解析错误！", e));
 		}
 	}
-	
+
 }

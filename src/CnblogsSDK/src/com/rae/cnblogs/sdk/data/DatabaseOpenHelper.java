@@ -14,68 +14,53 @@ import com.rae.cnblogs.sdk.model.Constant;
  * @author ChenRui
  * 
  */
-public class DatabaseOpenHelper extends SQLiteOpenHelper
-{
-	//	private Context	mContext;
-	
-	public DatabaseOpenHelper(Context context)
-	{
+public class DatabaseOpenHelper extends SQLiteOpenHelper {
+	private Context mContext;
+
+	public DatabaseOpenHelper(Context context) {
 		super(context, "cnblogs.db", null, 1);
-		//		this.mContext = context;
+		this.mContext = context;
 	}
-	
+
 	@Override
-	public void onCreate(SQLiteDatabase db)
-	{
-		try
-		{
+	public void onCreate(SQLiteDatabase db) {
+		try {
 			db.beginTransaction(); // 开始事务
-			String[] group = Constant.getInitSql().split(";");// 根据分号进行分割
-			for (String strSql : group)
-			{
-				if (TextUtils.isEmpty(strSql.trim())) continue;
-				try
-				{
+			String[] group = Constant.getInitSql(mContext).split(";");// 根据分号进行分割
+			for (String strSql : group) {
+				if (TextUtils.isEmpty(strSql.trim()))
+					continue;
+				try {
 					db.execSQL(strSql);
 					Log.i("cnblogs", "执行->" + strSql);
-				}
-				catch (Exception e)
-				{
-					Log.e("sql", "数据库初始化失败：" + strSql + ";\r\n" + e.getMessage());
+				} catch (Exception e) {
+					Log.e("sql",
+							"数据库初始化失败：" + strSql + ";\r\n" + e.getMessage());
 					continue;
 				}
 			}
 			db.setTransactionSuccessful(); // 提交事务
-			
-		}
-		catch (Exception e)
-		{
+
+		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		finally
-		{
+		} finally {
 			db.endTransaction(); // 结束事务
 		}
 	}
-	
+
 	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-	{
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		drop(db, "blogs");
 		drop(db, "categroys");
 		drop(db, "options");
 	}
-	
-	private void drop(SQLiteDatabase db, String table)
-	{
-		try
-		{
+
+	private void drop(SQLiteDatabase db, String table) {
+		try {
 			db.execSQL("drop table " + table);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			Log.e("sql", "删除数据库出错：" + e.getMessage());
 		}
 	}
-	
+
 }

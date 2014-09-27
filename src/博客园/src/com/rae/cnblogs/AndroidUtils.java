@@ -3,6 +3,11 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+/**
+ * 通用工具类
+ * @author ChenRui
+ *
+ */
 public final class AndroidUtils
 {
 	/**

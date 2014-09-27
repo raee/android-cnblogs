@@ -32,7 +32,8 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingBottom="5dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="10dp"
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/tv_category_name"

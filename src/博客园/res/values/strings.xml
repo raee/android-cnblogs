@@ -5,7 +5,7 @@
     <string name="setting">设置</string>
     <string name="serarch">搜索</string>
     <string name="night_line">夜间模式</string>
+    <string name="day_line">日间模式</string>
     <string name="loading">正在加载...</string>
-    
 
 </resources>

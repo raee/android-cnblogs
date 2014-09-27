@@ -81,6 +81,12 @@ public class BlogAdapter extends BaseListViewAdapter<Blog> implements OnItemClic
 		this.notifyDataSetChanged();
 	}
 	
+	public void clear()
+	{
+		this.mDataList.clear();
+		notifyChanged(mDataList, false);
+	}
+	
 	public void notifyChanged(List<Blog> datas)
 	{
 		notifyChanged(datas, true);
