@@ -1,87 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/item_list_bg"
-    android:orientation="vertical"
-    android:padding="15dp" >
+    android:background="@drawable/blog_selector"
+    android:padding="10dip" >
 
-    <TextView
-        android:id="@+id/tv_blog_title"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="一个关于自定义类型作为HashMap的key的问题"
-        android:textColor="#3e79c2"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tv_blog_summary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:text="在之前的项目需要用到以自定义类型作为HashMap的key，遇到一个问题：如果修改了已经存储在HashMap中的实例，会发生什么情况呢？用一段代码来试验：import java.util.HashMap;import java.util.Map;public class TestHashMap { ..."
-        android:textColor="#6b6b6b" />
+        <ImageView
+            android:id="@+id/img_blog_header"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_logo_circle"
+            android:visibility="gone" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_blog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:orientation="horizontal" >
+            android:text="title" />
 
-            <TextView
-                android:id="@+id/tv_blog_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_date"
-                android:gravity="center"
-                android:text="2014-12-12 5:00"
-                android:textColor="#6b6b6b"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_blog_user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_user"
-                android:gravity="center"
-                android:text="陈瑞"
-                android:textColor="#6b6b6b"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_blog_summry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true" >
+            android:layout_marginTop="14dp"
+            android:text="summary"
+            android:textColor="@color/blog_title"
+            android:textSize="11sp" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_blog_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:drawableLeft="@drawable/ic_comment"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="#6b6b6b"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_blog_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:drawableLeft="@drawable/ic_view"
-                android:gravity="center"
-                android:text="100"
-                android:textColor="#6b6b6b"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>
