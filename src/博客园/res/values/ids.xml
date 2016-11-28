@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <item name="viewpager" type="id"/>
-    <item name="logo" type="id"/>
-    <item name="search" type="id"/>
-
-</resources>
