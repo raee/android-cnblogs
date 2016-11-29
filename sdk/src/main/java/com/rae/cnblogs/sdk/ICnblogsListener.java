@@ -1,5 +1,7 @@
 package com.rae.cnblogs.sdk;
 
+import com.rae.core.sdk.exception.ApiErrorCode;
+
 import java.util.List;
 
 /**
