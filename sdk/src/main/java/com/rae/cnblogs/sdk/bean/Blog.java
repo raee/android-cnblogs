@@ -17,6 +17,17 @@ public class Blog implements Parcelable {
     private String comment;
     private String views;
     private String postDate;
+    private String id;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    private String content;
 
     public String getLikes() {
         return likes;
@@ -103,6 +114,14 @@ public class Blog implements Parcelable {
     public Blog() {
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -119,6 +138,8 @@ public class Blog implements Parcelable {
         dest.writeString(this.comment);
         dest.writeString(this.views);
         dest.writeString(this.postDate);
+        dest.writeString(this.id);
+        dest.writeString(this.content);
         dest.writeString(this.likes);
     }
 
@@ -132,6 +153,8 @@ public class Blog implements Parcelable {
         this.comment = in.readString();
         this.views = in.readString();
         this.postDate = in.readString();
+        this.id = in.readString();
+        this.content = in.readString();
         this.likes = in.readString();
     }
 

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+	<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(function () {
+
+			log('----------------------------------------------');
+			log('一级分类');
+			$('#cate_item li').each(function(i,e){
+				var id = $(e).attr('id').replace('cate_item_','');
+				var text = $(e).find('a').text().replace(/\(.*\)/,'').trim();
+				log(id + "-->" +text);
+			});
+
+			log('----------------------------------------------');
+
+			$('#cate_sub_block .cate_content_block_wrapper').each(function(index,e){
+				var parentId = $(e).attr('id').replace('cate_content_block_','');
+				$(e).find('.cate_content_block a').each(function(i,ce){
+					var text = $(ce).text().replace(/\(.*\)/,'').trim();
+					log(parentId + "-->" +text);
+					// log("INSERT INTO APP_BLOGS(NAME,categoryType,ParentCategoryId,categoryId)values('"+text+"','TopSiteCategory',"+parentId+","+$(ce).attr('href')+");");
+				});
+			});
+		});
+
+		function log(s){
+			console.log(s);
+		}
+	</script>
+</head>
+<body>
+
+<ul id="cate_item">
+<li id="cate_item_108698" onmouseover="cateShow(108698)" onmouseout="cateHidden(108698)" class="">
+<a href="/cate/108698/">.NET技术(7)</a>
+</li>
+<li id="cate_item_2" onmouseover="cateShow(2)" onmouseout="cateHidden(2)">
+<a href="/cate/2/">编程语言(23)</a>
+</li>
+<li id="cate_item_108701" onmouseover="cateShow(108701)" onmouseout="cateHidden(108701)">
+<a href="/cate/108701/">软件设计(1)</a>
+</li>
+<li id="cate_item_108703" onmouseover="cateShow(108703)" onmouseout="cateHidden(108703)">
+<a href="/cate/108703/">Web前端(11)</a>
+</li>
+<li id="cate_item_108704" onmouseover="cateShow(108704)" onmouseout="cateHidden(108704)">
+<a href="/cate/108704/">企业信息化(0)</a>
+</li>
+<li id="cate_item_108705" onmouseover="cateShow(108705)" onmouseout="cateHidden(108705)">
+<a href="/cate/108705/">手机开发(7)</a>
+</li>
+<li id="cate_item_108709" onmouseover="cateShow(108709)" onmouseout="cateHidden(108709)">
+<a href="/cate/108709/">软件工程(1)</a>
+</li>
+<li id="cate_item_108712" onmouseover="cateShow(108712)" onmouseout="cateHidden(108712)">
+<a href="/cate/108712/">数据库技术(6)</a>
+</li>
+<li id="cate_item_108724" onmouseover="cateShow(108724)" onmouseout="cateHidden(108724)">
+<a href="/cate/108724/">操作系统(6)</a>
+</li>
+<li id="cate_item_4" onmouseover="cateShow(4)" onmouseout="cateHidden(4)">
+<a href="/cate/4/">其他分类(11)</a>
+</li>
+<li id="cate_item_0" onmouseover="cateShow(0)" onmouseout="cateHidden(0)">
+<a href="/cate/all/">所有随笔(1622)</a>
+</li>
+<li id="cate_item_-1" onmouseover="cateShow(-1)" onmouseout="cateHidden(-1)">
+<a href="/comment/">所有评论(588)</a>
+</li>
+</ul>
+
+	<div id="cate_sub_block">
+		<div id="cate_content_block_108698" onmouseover="cateShow(108698)" onmouseout="cateHidden(108698)"
+		class="cate_content_block_wrapper" style="top: 30px; display: none;">
+		<div class="cate_content_top">
+		</div>
+		<div class="cate_content_block">
+			<ul>
+				<li>
+					<a href="/cate/beginner/">
+						.NET新手区(0)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/aspnet/">
+						ASP.NET(2)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/csharp/">
+						C#(1)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/dotnetcore/">
+						.NET Core(2)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/winform/">
+						WinForm(0)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/silverlight/">
+						Silverlight(0)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/wcf/">
+						WCF(0)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/clr/">
+						CLR(0)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/wpf/">
+						WPF(0)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/xna/">
+						XNA(0)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/vs2010/">
+						Visual Studio(0)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/mvc/">
+						ASP.NET MVC(0)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/control/">
+						控件开发(1)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/ef/">
+						Entity Framework(0)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/nhibernate/">
+						NHibernate(0)
+					</a>
+				</li>
+				<li>
+					<a href="/cate/winrt_metro/">
+						WinRT/Metro(0)
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="cate_content_bottom">
+		</div>
+	</div>
+	<div id="cate_content_block_2" onmouseover="cateShow(2)" onmouseout="cateHidden(2)"
+	class="cate_content_block_wrapper" style="top: 58px; display: none;">
+	<div class="cate_content_top">
+	</div>
+	<div class="cate_content_block">
+		<ul>
+			<li>
+				<a href="/cate/java/">
+					Java(4)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/cpp/">
+					C++(0)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/php/">
+					PHP(1)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/delphi/">
+					Delphi(0)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/python/">
+					Python(2)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/ruby/">
+					Ruby(0)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/c/">
+					C语言(0)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/erlang/">
+					Erlang(0)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/go/">
+					Go(1)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/swift/">
+					Swift(0)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/scala/">
+					Scala(0)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/r/">
+					R语言(0)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/verilog/">
+					Verilog(0)
+				</a>
+			</li>
+			<li>
+				<a href="/cate/otherlang/">
+					其它语言(0)
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="cate_content_bottom">
+	</div>
+</div>
+<div id="cate_content_block_108701" onmouseover="cateShow(108701)" onmouseout="cateHidden(108701)"
+class="cate_content_block_wrapper" style="top: 86px; display: none;">
+<div class="cate_content_top">
+</div>
+<div class="cate_content_block">
+	<ul>
+		<li>
+			<a href="/cate/design/">
+				架构设计(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/108702/">
+				面向对象(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/dp/">
+				设计模式(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/ddd/">
+				领域驱动设计(0)
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="cate_content_bottom">
+</div>
+</div>
+<div id="cate_content_block_108703" onmouseover="cateShow(108703)" onmouseout="cateHidden(108703)"
+class="cate_content_block_wrapper" style="top: 114px; display: none;">
+<div class="cate_content_top">
+</div>
+<div class="cate_content_block">
+	<ul>
+		<li>
+			<a href="/cate/web/">
+				Html/Css(1)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/javascript/">
+				JavaScript(2)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/jquery/">
+				jQuery(1)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/html5/">
+				HTML5(1)
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="cate_content_bottom">
+</div>
+</div>
+<div id="cate_content_block_108704" onmouseover="cateShow(108704)" onmouseout="cateHidden(108704)"
+class="cate_content_block_wrapper" style="top: 142px; display: none;">
+<div class="cate_content_top">
+</div>
+<div class="cate_content_block">
+	<ul>
+		<li>
+			<a href="/cate/sharepoint/">
+				SharePoint(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/gis/">
+				GIS技术(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/sap/">
+				SAP(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/OracleERP/">
+				Oracle ERP(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/dynamics/">
+				Dynamics CRM(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/k2/">
+				K2 BPM(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/infosec/">
+				信息安全(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/3/">
+				企业信息化其他(0)
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="cate_content_bottom">
+</div>
+</div>
+<div id="cate_content_block_108705" onmouseover="cateShow(108705)" onmouseout="cateHidden(108705)"
+class="cate_content_block_wrapper" style="top: 170px; display: none;">
+<div class="cate_content_top">
+</div>
+<div class="cate_content_block">
+	<ul>
+		<li>
+			<a href="/cate/android/">
+				Android开发(1)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/ios/">
+				iOS开发(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/wp/">
+				Windows Phone(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/wm/">
+				Windows Mobile(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/mobile/">
+				其他手机开发(0)
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="cate_content_bottom">
+</div>
+</div>
+<div id="cate_content_block_108709" onmouseover="cateShow(108709)" onmouseout="cateHidden(108709)"
+class="cate_content_block_wrapper" style="top:198px">
+<div class="cate_content_top">
+</div>
+<div class="cate_content_block">
+	<ul>
+		<li>
+			<a href="/cate/agile/">
+				敏捷开发(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/pm/">
+				项目与团队管理(1)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/Engineering/">
+				软件工程其他(0)
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="cate_content_bottom">
+</div>
+</div>
+<div id="cate_content_block_108712" onmouseover="cateShow(108712)" onmouseout="cateHidden(108712)"
+class="cate_content_block_wrapper" style="top:226px">
+<div class="cate_content_top">
+</div>
+<div class="cate_content_block">
+	<ul>
+		<li>
+			<a href="/cate/sqlserver/">
+				SQL Server(1)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/oracle/">
+				Oracle(2)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/mysql/">
+				MySQL(2)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/nosql/">
+				NoSQL(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/bigdata/">
+				大数据(1)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/database/">
+				其它数据库(0)
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="cate_content_bottom">
+</div>
+</div>
+<div id="cate_content_block_108724" onmouseover="cateShow(108724)" onmouseout="cateHidden(108724)"
+class="cate_content_block_wrapper" style="top:254px">
+<div class="cate_content_top">
+</div>
+<div class="cate_content_block">
+	<ul>
+		<li>
+			<a href="/cate/win7/">
+				Windows(1)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/winserver/">
+				Windows Server(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/linux/">
+				Linux(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/osx/">
+				OS X(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/eos/">
+				嵌入式(0)
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="cate_content_bottom">
+</div>
+</div>
+<div id="cate_content_block_4" onmouseover="cateShow(4)" onmouseout="cateHidden(4)"
+class="cate_content_block_wrapper" style="top:282px">
+<div class="cate_content_top">
+</div>
+<div class="cate_content_block">
+	<ul>
+		<li>
+			<a href="/cate/life/">
+				非技术区(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/testing/">
+				软件测试(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/software/">
+				代码与软件发布(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/cg/">
+				计算机图形学(1)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/google/">
+				Google开发(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/gamedev/">
+				游戏开发(1)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/codelife/">
+				程序人生(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/job/">
+				求职面试(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/book/">
+				读书区(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/quoted/">
+				转载区(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/wince/">
+				Windows CE(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/translate/">
+				翻译区(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/opensource/">
+				开源研究(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/flex/">
+				Flex(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/cloud/">
+				云计算(0)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/algorithm/">
+				算法与数据结构(2)
+			</a>
+		</li>
+		<li>
+			<a href="/cate/misc/">
+				其他技术区(0)
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="cate_content_bottom">
+</div>
+</div>
+</div>
+</body>
+</html>

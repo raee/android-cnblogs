@@ -1,8 +1,9 @@
 package com.rae.cnblogs.sdk.parser;
 
-import com.rae.cnblogs.sdk.ICnblogsListener;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiErrorCode;
+import com.rae.core.sdk.exception.ApiException;
 import com.rae.core.sdk.net.IApiJsonResponse;
 
 import org.jsoup.Jsoup;
@@ -20,9 +21,9 @@ import java.util.regex.Pattern;
  * Created by ChenRui on 2016/11/30 00:13.
  */
 public class BlogJsonParser implements IApiJsonResponse {
-    private final ICnblogsListener<Blog> mListener;
+    private final ApiUiArrayListener<Blog> mListener;
 
-    public BlogJsonParser(ICnblogsListener<Blog> listener) {
+    public BlogJsonParser(ApiUiArrayListener<Blog> listener) {
         mListener = listener;
     }
 
@@ -36,6 +37,7 @@ public class BlogJsonParser implements IApiJsonResponse {
         Document document = Jsoup.parse(json);
         Elements elements = document.select(".post_item .post_item_body");
         for (Element element : elements) {
+            String id = getNumber(element.select(".diggnum").attr("id"));
             String title = element.select(".titlelnk").text(); // 标题
             String url = element.select(".titlelnk").attr("href"); // 原文链接
             String avatar = "http:" + element.select(".pfs").attr("src"); // 头像地址
@@ -48,6 +50,7 @@ public class BlogJsonParser implements IApiJsonResponse {
             String likes = element.select(".diggnum").text(); // 点赞或者是推荐
 
             Blog m = new Blog();
+            m.setId(id);
             m.setTitle(title);
             m.setUrl(url);
             m.setAvatar(avatar);
@@ -69,7 +72,8 @@ public class BlogJsonParser implements IApiJsonResponse {
 
     @Override
     public void onJsonResponseError(int errorCode, Throwable e) {
-        mListener.onApiError(ApiErrorCode.valueOf(errorCode));
+        ApiErrorCode code = ApiErrorCode.valueOf(errorCode);
+        mListener.onApiFailed(new ApiException(), e == null ? code.getMessage() : e.getMessage());
     }
 
     private String getDate(String text) {

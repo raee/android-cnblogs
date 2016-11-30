@@ -9,7 +9,6 @@ import com.rae.cnblogs.sdk.impl.BlogApiImpl;
  * Created by ChenRui on 2016/11/28 23:38.
  */
 public final class CnblogsApiFactory {
-
     public static IBlogApi getBlogApi(Context context) {
         return new BlogApiImpl(context);
     }

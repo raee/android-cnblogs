@@ -1,6 +1,8 @@
 package com.rae.cnblogs.sdk;
 
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.core.sdk.ApiUiArrayListener;
+import com.rae.core.sdk.ApiUiListener;
 
 /**
  * 博客相关API
@@ -13,7 +15,7 @@ public interface IBlogApi {
      *
      * @param page 页码
      */
-    void getHomeBlogs(int page, ICnblogsListener<Blog> listener);
+    void getHomeBlogs(int page, ApiUiArrayListener<Blog> listener);
 
     /**
      * 获取分类博客列表
@@ -22,12 +24,12 @@ public interface IBlogApi {
      * @param parentId   父ID
      * @param categoryId 分类ID
      */
-    void getBlogs(int page, int parentId, int categoryId, ICnblogsListener<Blog> listener);
+    void getBlogs(int page, int parentId, int categoryId, ApiUiArrayListener<Blog> listener);
 
     /**
      * 获取博客文章内容
      *
      * @param id 博客ID
      */
-    void getContents(String id, ICnblogsListener<Blog> listener);
+    void getContents(String id, ApiUiListener<String> listener);
 }

@@ -4,9 +4,10 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
-import com.rae.cnblogs.sdk.ICnblogsListener;
 import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.core.sdk.exception.ApiErrorCode;
+import com.rae.core.sdk.ApiUiArrayListener;
+import com.rae.core.sdk.ApiUiListener;
+import com.rae.core.sdk.exception.ApiException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,13 @@ public class BlogApiTest extends BaseTest {
         run(new Runnable() {
             @Override
             public void run() {
-                mApi.getHomeBlogs(1, new ICnblogsListener<Blog>() {
+                mApi.getHomeBlogs(1, new ApiUiArrayListener<Blog>() {
+                    @Override
+                    public void onApiFailed(ApiException ex, String msg) {
+                        error(ex);
+                        stop();
+                    }
+
                     @Override
                     public void onApiSuccess(List<Blog> data) {
                         for (Blog blog : data) {
@@ -42,10 +49,25 @@ public class BlogApiTest extends BaseTest {
                         }
                         stop();
                     }
+                });
+            }
+        });
+    }
+
+    @Test
+    public void testContent() throws InterruptedException {
+        run(new Runnable() {
+            @Override
+            public void run() {
+                mApi.getContents("6105103", new ApiUiListener<String>() {
+                    @Override
+                    public void onApiFailed(ApiException ex, String msg) {
+                        stop();
+                    }
 
                     @Override
-                    public void onApiError(ApiErrorCode errorCode) {
-                        error(errorCode);
+                    public void onApiSuccess(String data) {
+                        log(data);
                         stop();
                     }
                 });
