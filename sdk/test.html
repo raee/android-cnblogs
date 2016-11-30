@@ -4,24 +4,64 @@
 	<title>test</title>
 	<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 	<script type="text/javascript">
+		var model = function(){
+			this.categoryId;
+			this.parentId;
+			this.name;
+			this.type;
+		}
+
 		$(function () {
 
-			log('----------------------------------------------');
 			log('一级分类');
+			log('----------------------------------------------');
+			var parentList = new Array();
 			$('#cate_item li').each(function(i,e){
 				var id = $(e).attr('id').replace('cate_item_','');
 				var text = $(e).find('a').text().replace(/\(.*\)/,'').trim();
-				log(id + "-->" +text);
+				var m = new model();
+				m.categoryId = id;
+				m.parentId = 0;
+				m.name = text;
+				m.type = 'parent';
+				if(id == "0" || id == "-1") return;
+
+				parentList.push(m);
+
 			});
+
+
+ 			//log(JSON.stringify(parentList));
 
 			log('----------------------------------------------');
 
-			$('#cate_sub_block .cate_content_block_wrapper').each(function(index,e){
+			var subCate = $('#cate_sub_block .cate_content_block_wrapper');
+
+			subCate.each(function(index,e){
 				var parentId = $(e).attr('id').replace('cate_content_block_','');
 				$(e).find('.cate_content_block a').each(function(i,ce){
 					var text = $(ce).text().replace(/\(.*\)/,'').trim();
-					log(parentId + "-->" +text);
-					// log("INSERT INTO APP_BLOGS(NAME,categoryType,ParentCategoryId,categoryId)values('"+text+"','TopSiteCategory',"+parentId+","+$(ce).attr('href')+");");
+					var href = 'http://www.cnblogs.com'+$(ce).attr('href');
+
+					$.get('http://localhost',{'url': href},function(data){
+						$(data.data).find("script").each(function(i,item){
+							var aggSiteModel = $(item).text();
+							if(aggSiteModel.indexOf('aggSiteModel')>0){
+								aggSiteModel = aggSiteModel.replace('var aggSiteModel =','').replace(';','').trim();
+								var category = JSON.parse(aggSiteModel);
+
+								var m = new model();
+								m.categoryId = category.CategoryId;
+								m.parentId = category.ParentCategoryId;
+								m.name = text;
+								m.type = 'sub';
+								parentList.push(m);
+								log(JSON.stringify(parentList));
+							}
+						});
+					})
+
+
 				});
 			});
 		});
@@ -29,6 +69,9 @@
 		function log(s){
 			console.log(s);
 		}
+
+		function cateShow(id){}
+		function cateHidden(id){}
 	</script>
 </head>
 <body>

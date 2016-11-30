@@ -7,5 +7,4 @@ package com.rae.cnblogs.sdk.impl;
 public final class ApiUrls {
     public static final String API_URL_HOME = "http://www.cnblogs.com/mvc/AggSite/PostList.aspx";
     public static final String API_URL_CONTENT = "http://wcf.open.cnblogs.com/blog/post/body/";
-    public static final String API_URL_CATEGORY_LIST = "http://www.timeplay.cn/cnblogs/api/category.json";
 }

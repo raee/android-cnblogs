@@ -4,7 +4,9 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
+import com.rae.cnblogs.sdk.ICategoryApi;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.Category;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;
@@ -22,12 +24,38 @@ import java.util.List;
 public class BlogApiTest extends BaseTest {
 
     private IBlogApi mApi;
+    private ICategoryApi mCategoryApi;
 
     @Override
     @Before
     public void setup() {
         super.setup();
         mApi = CnblogsApiFactory.getBlogApi(mContext);
+        mCategoryApi = CnblogsApiFactory.getCategoryApi(mContext);
+    }
+
+    @Test
+    public void testCategory() throws InterruptedException {
+        run(new Runnable() {
+            @Override
+            public void run() {
+                mCategoryApi.getCategory(new ApiUiArrayListener<Category>() {
+                    @Override
+                    public void onApiFailed(ApiException ex, String msg) {
+                        error(ex);
+                        stop();
+                    }
+
+                    @Override
+                    public void onApiSuccess(List<Category> data) {
+                        for (Category blog : data) {
+                            log("%s --> %s", blog.getName(), blog.getCategoryId());
+                        }
+                        stop();
+                    }
+                });
+            }
+        });
     }
 
     @Test
