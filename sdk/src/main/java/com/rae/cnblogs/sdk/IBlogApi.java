@@ -24,7 +24,7 @@ public interface IBlogApi {
      * @param parentId   父ID
      * @param categoryId 分类ID
      */
-    void getBlogs(int page, int parentId, int categoryId, ApiUiArrayListener<Blog> listener);
+    void getBlogs(int page, String parentId, String categoryId, ApiUiArrayListener<Blog> listener);
 
     /**
      * 获取博客文章内容

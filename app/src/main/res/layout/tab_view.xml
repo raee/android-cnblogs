@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.rae.cnblogs.widget.RaeTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_tab_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:drawablePadding="5dp"
+    android:drawableTop="@drawable/tab_home"
+    android:gravity="center"
+    android:text="首页"
+    android:textColor="@color/text_color_tab_selector"
+    android:textSize="10sp"/>

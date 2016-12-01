@@ -6,10 +6,15 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionBarDivider">@color/transparent</item>
         <item name="actionBarStyle">@style/AppActionBar</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppActionBar" parent="Base.Widget.AppCompat.ActionBar.Solid">
 
+    </style>
+
+    <style name="TabTextAppearance" parent="TextAppearance.AppCompat.Medium.Inverse">
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

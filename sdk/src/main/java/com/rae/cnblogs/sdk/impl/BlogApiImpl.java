@@ -33,7 +33,7 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
     }
 
     @Override
-    public void getBlogs(int page, int parentId, int categoryId, ApiUiArrayListener<Blog> listener) {
+    public void getBlogs(int page, String parentId, String categoryId, ApiUiArrayListener<Blog> listener) {
         post(ApiUrls.API_URL_HOME,
                 newParams().add("CategoryType", "TopSiteCategory")
                         .add("ParentCategoryId", parentId)
