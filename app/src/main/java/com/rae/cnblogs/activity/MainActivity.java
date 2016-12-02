@@ -33,9 +33,9 @@ public class MainActivity extends BaseActivity {
 
         // 初始化TAB
         addTab(R.string.tab_home, R.drawable.tab_home, new HomeFragment());
-        addTab(R.string.tab_news, R.drawable.tab_news, new HomeFragment());
-        addTab(R.string.tab_library, R.drawable.tab_library, new HomeFragment());
-        addTab(R.string.tab_mine, R.drawable.tab_mine, new HomeFragment());
+        addTab(R.string.tab_news, R.drawable.tab_news, null);
+        addTab(R.string.tab_library, R.drawable.tab_library, null);
+        addTab(R.string.tab_mine, R.drawable.tab_mine, null);
 
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(mFragmentAdapter);
@@ -43,7 +43,6 @@ public class MainActivity extends BaseActivity {
         // 联动
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-
     }
 
     private void addTab(int resId, int iconId, Fragment fragment) {
@@ -54,6 +53,7 @@ public class MainActivity extends BaseActivity {
         v.setCompoundDrawablesWithIntrinsicBounds(0, iconId, 0, 0);
         tab.setCustomView(tabView);
         mTabLayout.addTab(tab);
-        mFragmentAdapter.add(getString(resId), fragment);
+        if (fragment != null)
+            mFragmentAdapter.add(getString(resId), fragment);
     }
 }

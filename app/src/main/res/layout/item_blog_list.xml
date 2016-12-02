@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@mipmap/ic_launcher"
+            app:riv_corner_radius="32dp"/>
+
+        <com.rae.cnblogs.widget.RaeTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="9dp"
+            android:text="RAE敲代码"
+            android:textColor="@color/ph2"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+    <com.rae.cnblogs.widget.RaeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="11dp"
+        android:layout_marginTop="16dp"
+        android:text="HashMap源码"
+        android:textColor="@color/ph1"
+        android:textSize="16sp"/>
+
+
+    <com.rae.cnblogs.widget.RaeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="5sp"
+        android:text="每一个系统下都有对文件操作的应用，但是都大致相同，同样在Linux系统中也同样拥有对文件的操作。如：文件描述符、open()函数、close()函数、read()函数、write()函数、文件偏移lseek()函数、获取文件状态fstat()函数、文件空间映射mmap()函数、取消mmap()映射的"
+        android:textColor="@color/ph2"
+        android:textSize="14sp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp">
+
+        <com.rae.cnblogs.widget.RaeTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今天18:30"
+            android:textAlignment="gravity"
+            android:textColor="@color/ph2"
+            android:textSize="14sp"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="14dp"
+        android:background="@color/dividerColor"/>
+
+
+</LinearLayout>

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.AppBarLayout
+<com.rae.cnblogs.widget.AppLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/rec_blog_list"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</android.support.design.widget.AppBarLayout>
+</com.rae.cnblogs.widget.AppLayout>

@@ -26,7 +26,7 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     @Override
     public void start() {
         // 加载列表
-        mApi.getBlogs(mView.getPage(), mView.getCategoryId(), mView.getParentId(), this);
+        mApi.getBlogs(mView.getPage(), mView.getParentId(), mView.getCategoryId(), this);
     }
 
     @Override

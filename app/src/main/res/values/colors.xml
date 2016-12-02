@@ -6,6 +6,9 @@
     <color name="transparent">#00000000</color>
     <color name="navBar">#f9f9f9</color>
     <color name="dividerPrimary">#b2b2b2</color>
+    <color name="dividerColor">#dedede</color>
+    <color name="ph1">#2d2d2d</color>
+    <color name="ph2">#595959</color>
     <color name="ph3">#929292</color>
     <color name="default_background">#f1f1f1</color>
 </resources>
