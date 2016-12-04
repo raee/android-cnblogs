@@ -6,9 +6,11 @@ import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.Category;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +19,8 @@ import java.util.List;
 public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlogListView> implements IBlogListPresenter, ApiUiArrayListener<Blog> {
 
     private IBlogApi mApi;
+    private int mPageIndex = 1;
+    private final List<Blog> mBlogList = new ArrayList<>();
 
     public BlogListPresenterImpl(Context context, IBlogListPresenter.IBlogListView view) {
         super(context, view);
@@ -25,17 +29,39 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
 
     @Override
     public void start() {
+        mPageIndex = 1;
+        loadData();
+    }
+
+    private void loadData() {
         // 加载列表
-        mApi.getBlogs(mView.getPage(), mView.getParentId(), mView.getCategoryId(), this);
+        Category category = mView.getCategory();
+        mApi.getBlogs(mPageIndex, category.getType(), category.getParentId(), category.getCategoryId(), this);
     }
 
     @Override
     public void onApiFailed(ApiException ex, String msg) {
-        mView.onLoadFailed(msg);
+        mView.onLoadFailed(mPageIndex, msg);
     }
 
     @Override
     public void onApiSuccess(List<Blog> data) {
-        mView.onLoadBlogList(data);
+
+        // 无重复添加
+        data.removeAll(mBlogList);
+
+        if (mPageIndex <= 1) {
+            mBlogList.addAll(0, data);
+        } else {
+            mBlogList.addAll(data);
+        }
+
+        mView.onLoadBlogList(mPageIndex, mBlogList);
+        mPageIndex++;
+    }
+
+    @Override
+    public void loadMore() {
+        loadData();
     }
 }

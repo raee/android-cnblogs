@@ -20,22 +20,24 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
         super(context);
     }
 
-    @Override
-    public void getHomeBlogs(int page, ApiUiArrayListener<Blog> listener) {
-        post(ApiUrls.API_URL_HOME,
-                newParams().add("CategoryType", "SiteHome")
-                        .add("ParentCategoryId", "0")
-                        .add("CategoryId", "808")
-                        .add("PageIndex", page)
-                        .add("ItemListActionName", "PostList"),
-                new BlogJsonParser(listener)
-        );
-    }
+//    @Override
+//    public void getHomeBlogs(int page, ApiUiArrayListener<Blog> listener) {
+//        post(ApiUrls.API_URL_HOME,
+//                newParams().add("CategoryType", "SiteHome")
+//                        .add("ParentCategoryId", "0")
+//                        .add("CategoryId", "808")
+//                        .add("PageIndex", page)
+//                        .add("ItemListActionName", "PostList"),
+//                new BlogJsonParser(listener)
+//        );
+//    }
 
     @Override
-    public void getBlogs(int page, String parentId, String categoryId, ApiUiArrayListener<Blog> listener) {
+    public void getBlogs(int page, String type, String parentId, String categoryId, ApiUiArrayListener<Blog> listener) {
+
+
         post(ApiUrls.API_URL_HOME,
-                newParams().add("CategoryType", "TopSiteCategory")
+                newParams().add("CategoryType", type)
                         .add("ParentCategoryId", parentId)
                         .add("CategoryId", categoryId)
                         .add("PageIndex", page)

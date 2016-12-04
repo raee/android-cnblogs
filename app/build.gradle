@@ -11,9 +11,11 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        manifestPlaceholders = [
+                UMENG_APPKEY: '583d96522ae85b6d310011fb',
+                UMENG_CHANNEL: 'DEV'
+        ]
     }
     buildTypes {
         release {
@@ -38,4 +40,6 @@ dependencies {
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.jcodecraeer:xrecyclerview:1.3.2'
     compile 'com.makeramen:roundedimageview:2.2.1'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }

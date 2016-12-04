@@ -2,6 +2,7 @@ package com.rae.cnblogs.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -36,7 +37,7 @@ public class RaeTextView extends TextView {
     }
 
     private void init() {
-//        Typeface tf = Typeface.createFromAsset(getResources().getAssets(),"fonts/cnblogs.ttf");
-//        setTypeface(tf);
+        Typeface tf = Typeface.createFromAsset(getResources().getAssets(),"fonts/cnblogs.ttf");
+        setTypeface(tf);
     }
 }

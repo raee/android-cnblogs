@@ -7,9 +7,8 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
+    <com.rae.cnblogs.widget.RaeRecyclerView
         android:id="@+id/rec_blog_list"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

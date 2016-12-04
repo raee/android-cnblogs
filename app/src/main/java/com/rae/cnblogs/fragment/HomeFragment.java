@@ -50,7 +50,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
         RaeFragmentAdapter adapter = new RaeFragmentAdapter(getChildFragmentManager());
 
         for (Category category : data) {
-            adapter.add(category.getName(), BlogListFragment.newInstance(category.getCategoryId(), category.getParentId()));
+            adapter.add(category.getName(), BlogListFragment.newInstance(category));
         }
 
         mViewPager.setAdapter(adapter);

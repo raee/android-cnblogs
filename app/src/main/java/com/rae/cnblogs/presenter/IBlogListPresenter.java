@@ -1,6 +1,7 @@
 package com.rae.cnblogs.presenter;
 
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.Category;
 
 import java.util.List;
 
@@ -10,16 +11,15 @@ import java.util.List;
  */
 public interface IBlogListPresenter extends IRaePresenter {
 
+    void loadMore();
+
     interface IBlogListView {
 
-        void onLoadBlogList(List<Blog> data);
+        void onLoadBlogList(int pageIndex, List<Blog> data);
 
-        void onLoadFailed(String msg);
+        void onLoadFailed(int pageIndex, String msg);
 
-        int getPage();
+        Category getCategory();
 
-        String getCategoryId();
-
-        String getParentId();
     }
 }

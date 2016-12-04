@@ -11,4 +11,5 @@
     <color name="ph2">#595959</color>
     <color name="ph3">#929292</color>
     <color name="default_background">#f1f1f1</color>
+    <color name="colorToastPrimary">#daedfa</color>
 </resources>

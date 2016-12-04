@@ -11,7 +11,9 @@ import com.rae.cnblogs.adapter.BlogListItemAdapter;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.Category;
 import com.rae.cnblogs.widget.AppLayout;
+import com.rae.cnblogs.widget.RaeRecyclerView;
 
 import java.util.List;
 
@@ -20,18 +22,15 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
+ * 博客列表
  * Created by ChenRui on 2016/12/2 00:33.
  */
 public class BlogListFragment extends BaseFragment implements IBlogListPresenter.IBlogListView {
 
-    private String mId;
-    private String mParentId;
-
-    public static BlogListFragment newInstance(String id, String parentId) {
+    public static BlogListFragment newInstance(Category category) {
 
         Bundle args = new Bundle();
-        args.putString("id", id);
-        args.putString("parentId", parentId);
+        args.putParcelable("category", category);
         BlogListFragment fragment = new BlogListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -41,8 +40,9 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     AppLayout mAppLayout;
 
     @BindView(R.id.rec_blog_list)
-    XRecyclerView mRecyclerView;
+    RaeRecyclerView mRecyclerView;
 
+    private Category mCategory;
     private IBlogListPresenter mBlogListPresenter;
     private BlogListItemAdapter mItemAdapter;
 
@@ -55,15 +55,8 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBlogListPresenter = CnblogsPresenterFactory.getBlogListPresenter(getContext(), this);
-        mId = getArguments().getString("id");
-        mParentId = getArguments().getString("parentId");
+        mCategory = getArguments().getParcelable("category");
         mItemAdapter = new BlogListItemAdapter();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mBlogListPresenter.start();
     }
 
     @Override
@@ -80,35 +73,57 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return false;
+                return mRecyclerView.isOnTop();
             }
         });
+        mRecyclerView.setLoadingMoreEnabled(true);
+        mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+            }
+
+            @Override
+            public void onLoadMore() {
+                mBlogListPresenter.loadMore();
+            }
+        });
+
+        mBlogListPresenter.start();
     }
 
     @Override
-    public void onLoadBlogList(List<Blog> data) {
-        mAppLayout.refreshComplete();
+    public void onLoadBlogList(int page, List<Blog> data) {
+        showToast("博客加载成功!");
+        if (page <= 1)
+            mAppLayout.refreshComplete();
+        else
+            mRecyclerView.loadMoreComplete();
+
         mItemAdapter.invalidate(data);
         mItemAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onLoadFailed(String msg) {
-        mAppLayout.refreshComplete();
+    public void onLoadFailed(int page, String msg) {
+        showToast(msg);
+        if (page <= 1)
+            mAppLayout.refreshComplete();
+        else
+            mRecyclerView.loadMoreComplete();
     }
 
     @Override
-    public int getPage() {
-        return 1;
+    public Category getCategory() {
+        return mCategory;
     }
 
-    @Override
-    public String getCategoryId() {
-        return mId;
-    }
-
-    @Override
-    public String getParentId() {
-        return mParentId;
+    private void showToast(String msg) {
+       /* Toast toast = Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.view_toast_home, null);
+        TextView titleView = (TextView) view.findViewById(android.R.id.title);
+        titleView.setText(msg);
+        toast.setView(view);
+        toast.setGravity(Gravity.TOP | Gravity.LEFT | Gravity.RIGHT, 0, mRecyclerViewTop);
+        toast.show();*/
     }
 }

@@ -2,6 +2,7 @@ package com.rae.cnblogs.sdk.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 /**
  * 博客实体
@@ -169,4 +170,12 @@ public class Blog implements Parcelable {
             return new Blog[size];
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Blog && !TextUtils.isEmpty(id)) {
+            return TextUtils.equals(id, ((Blog) obj).getId());
+        }
+        return super.equals(obj);
+    }
 }

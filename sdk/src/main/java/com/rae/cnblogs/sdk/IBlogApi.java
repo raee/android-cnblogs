@@ -11,20 +11,13 @@ import com.rae.core.sdk.ApiUiListener;
 public interface IBlogApi {
 
     /**
-     * 获取首页博客列表
-     *
-     * @param page 页码
-     */
-    void getHomeBlogs(int page, ApiUiArrayListener<Blog> listener);
-
-    /**
      * 获取分类博客列表
      *
      * @param page       页码
      * @param parentId   父ID
      * @param categoryId 分类ID
      */
-    void getBlogs(int page, String parentId, String categoryId, ApiUiArrayListener<Blog> listener);
+    void getBlogs(int page, String type, String parentId, String categoryId, ApiUiArrayListener<Blog> listener);
 
     /**
      * 获取博客文章内容

@@ -1,554 +1,566 @@
 [
   {
+    "categoryId": "808",
+    "parentId": 0,
+    "name": "首页",
+    "type": "SiteHome"
+  },
+  {
+    "categoryId": "-2",
+    "parentId": 0,
+    "name": "推荐",
+    "type": "Picked"
+  },
+  {
     "categoryId": "108698",
     "parentId": 0,
     "name": ".NET技术",
-    "type": "parent"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": "2",
     "parentId": 0,
     "name": "编程语言",
-    "type": "parent"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": "108701",
     "parentId": 0,
     "name": "软件设计",
-    "type": "parent"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": "108703",
     "parentId": 0,
     "name": "Web前端",
-    "type": "parent"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": "108704",
     "parentId": 0,
     "name": "企业信息化",
-    "type": "parent"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": "108705",
     "parentId": 0,
     "name": "手机开发",
-    "type": "parent"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": "108709",
     "parentId": 0,
     "name": "软件工程",
-    "type": "parent"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": "108712",
     "parentId": 0,
     "name": "数据库技术",
-    "type": "parent"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": "108724",
     "parentId": 0,
     "name": "操作系统",
-    "type": "parent"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": "4",
     "parentId": 0,
     "name": "其他分类",
-    "type": "parent"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108699,
     "parentId": 108698,
     "name": "ASP.NET",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108717,
     "parentId": 108698,
     "name": "Silverlight",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108716,
     "parentId": 108698,
     "name": "WinForm",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 18156,
     "parentId": 108698,
     "name": ".NET新手区",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108760,
     "parentId": 108698,
     "name": ".NET Core",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108700,
     "parentId": 108698,
     "name": "C#",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108719,
     "parentId": 108698,
     "name": "CLR",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108720,
     "parentId": 108698,
     "name": "WPF",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108728,
     "parentId": 108698,
     "name": "XNA",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108718,
     "parentId": 108698,
     "name": "WCF",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108729,
     "parentId": 108698,
     "name": "Visual Studio",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108730,
     "parentId": 108698,
     "name": "ASP.NET MVC",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108738,
     "parentId": 108698,
     "name": "控件开发",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108739,
     "parentId": 108698,
     "name": "Entity Framework",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108745,
     "parentId": 108698,
     "name": "WinRT/Metro",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108758,
     "parentId": 108698,
     "name": "NHibernate",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106880,
     "parentId": 2,
     "name": "C++",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106877,
     "parentId": 2,
     "name": "Delphi",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106894,
     "parentId": 2,
     "name": "Ruby",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108735,
     "parentId": 2,
     "name": "C语言",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106882,
     "parentId": 2,
     "name": "PHP",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106876,
     "parentId": 2,
     "name": "Java",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108696,
     "parentId": 2,
     "name": "Python",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108746,
     "parentId": 2,
     "name": "Erlang",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108752,
     "parentId": 2,
     "name": "Scala",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108753,
     "parentId": 2,
     "name": "R语言",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108751,
     "parentId": 2,
     "name": "Swift",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108742,
     "parentId": 2,
     "name": "Verilog",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108748,
     "parentId": 2,
     "name": "Go",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108754,
     "parentId": 2,
     "name": "其它语言",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106892,
     "parentId": 108701,
     "name": "架构设计",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108702,
     "parentId": 108701,
     "name": "面向对象",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106884,
     "parentId": 108701,
     "name": "设计模式",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108750,
     "parentId": 108701,
     "name": "领域驱动设计",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106883,
     "parentId": 108703,
     "name": "Html/Css",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108731,
     "parentId": 108703,
     "name": "jQuery",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 78111,
     "parentId": 108704,
     "name": "SharePoint",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 50349,
     "parentId": 108704,
     "name": "GIS技术",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108737,
     "parentId": 108703,
     "name": "HTML5",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106878,
     "parentId": 108704,
     "name": "SAP",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108732,
     "parentId": 108704,
     "name": "Oracle ERP",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106893,
     "parentId": 108703,
     "name": "JavaScript",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108734,
     "parentId": 108704,
     "name": "Dynamics CRM",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108749,
     "parentId": 108704,
     "name": "信息安全",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108747,
     "parentId": 108704,
     "name": "K2 BPM",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 3,
     "parentId": 108704,
     "name": "企业信息化其他",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108707,
     "parentId": 108705,
     "name": "iOS开发",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106886,
     "parentId": 108705,
     "name": "其他手机开发",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108710,
     "parentId": 108709,
     "name": "敏捷开发",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108708,
     "parentId": 108705,
     "name": "Windows Mobile",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108706,
     "parentId": 108705,
     "name": "Android开发",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108736,
     "parentId": 108705,
     "name": "Windows Phone",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106891,
     "parentId": 108709,
     "name": "项目与团队管理",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108714,
     "parentId": 108712,
     "name": "Oracle",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106889,
     "parentId": 108709,
     "name": "软件工程其他",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108743,
     "parentId": 108712,
     "name": "NoSQL",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108715,
     "parentId": 108712,
     "name": "MySQL",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108756,
     "parentId": 108712,
     "name": "大数据",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108713,
     "parentId": 108712,
     "name": "SQL Server",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106881,
     "parentId": 108712,
     "name": "其它数据库",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108755,
     "parentId": 108724,
     "name": "OS X",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108721,
     "parentId": 108724,
     "name": "Windows",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108725,
     "parentId": 108724,
     "name": "Windows Server",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108726,
     "parentId": 108724,
     "name": "Linux",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108757,
     "parentId": 108724,
     "name": "嵌入式",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106879,
     "parentId": 4,
     "name": "软件测试",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 807,
     "parentId": 4,
     "name": "非技术区",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 33909,
     "parentId": 4,
     "name": "代码与软件发布",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106895,
     "parentId": 4,
     "name": "Google开发",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108759,
     "parentId": 4,
     "name": "游戏开发",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106885,
     "parentId": 4,
     "name": "计算机图形学",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 4347,
     "parentId": 4,
     "name": "转载区",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 5079,
     "parentId": 4,
     "name": "读书区",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106888,
     "parentId": 4,
     "name": "程序人生",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106875,
     "parentId": 4,
     "name": "翻译区",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108733,
     "parentId": 4,
     "name": "Windows CE",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 106890,
     "parentId": 4,
     "name": "求职面试",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108722,
     "parentId": 4,
     "name": "开源研究",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108741,
     "parentId": 4,
     "name": "算法与数据结构",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108723,
     "parentId": 4,
     "name": "Flex",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 7734,
     "parentId": 4,
     "name": "其他技术区",
-    "type": "sub"
+    "type": "TopSiteCategory",
   },
   {
     "categoryId": 108740,
     "parentId": 4,
     "name": "云计算",
-    "type": "sub"
+    "type": "TopSiteCategory",
   }
 ]
