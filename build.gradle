@@ -10,8 +10,8 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'http://localhost:8081/repository/maven-public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven { url 'http://localhost:8081/repository/maven-public/' }
         jcenter()
         mavenCentral()
     }

@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp"
-    android:paddingTop="12dp">
+    android:paddingLeft="@dimen/default_margin"
+    android:paddingRight="@dimen/default_margin"
+    android:paddingTop="@dimen/default_margin">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:layout_marginLeft="9dp"
             android:text="RAE敲代码"
             android:textColor="@color/ph2"
-            android:textSize="12sp"/>
+            android:textSize="@dimen/h3"/>
 
     </LinearLayout>
 
@@ -40,10 +40,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="11dp"
         android:layout_marginTop="16dp"
-        android:textStyle="bold"
         android:text="HashMap源码"
         android:textColor="@color/ph1"
-        android:textSize="16sp"/>
+        android:textSize="@dimen/h1"
+        android:textStyle="bold"/>
 
 
     <com.rae.cnblogs.widget.RaeTextView
@@ -53,12 +53,12 @@
         android:lineSpacingExtra="6sp"
         android:text="每一个系统下都有对文件操作的应用，但是都大致相同，同样在Linux系统中也同样拥有对文件的操作。如：文件描述符、open()函数、close()函数、read()函数、write()函数、文件偏移lseek()函数、获取文件状态fstat()函数、文件空间映射mmap()函数、取消mmap()映射的"
         android:textColor="@color/ph2"
-        android:textSize="15sp"/>
+        android:textSize="@dimen/summary"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp">
+        android:layout_marginTop="@dimen/default_margin">
 
         <com.rae.cnblogs.widget.RaeTextView
             android:id="@+id/tv_blog_date"
@@ -67,7 +67,7 @@
             android:text="今天18:30"
             android:textAlignment="gravity"
             android:textColor="@color/ph2"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/h2"/>
 
         <com.rae.cnblogs.widget.RaeTextView
             android:id="@+id/tv_blog_comment"
@@ -78,7 +78,7 @@
             android:drawablePadding="7dp"
             android:text="0"
             android:textColor="@color/ph2"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/h2"/>
 
         <com.rae.cnblogs.widget.RaeTextView
             android:id="@+id/tv_blog_like"
@@ -102,7 +102,7 @@
             android:drawablePadding="7dp"
             android:text="0"
             android:textColor="@color/ph2"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/h2"/>
 
 
     </RelativeLayout>

@@ -34,9 +34,9 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testDate() {
-        Log.d("rae", "测试今天:" + getDate("2016-12-04 10:30:00"));
-        Log.d("rae", "测试昨天:" + getDate("2016-12-03 12:30"));
-        Log.d("rae", "测试前天:" + getDate("2016-12-02 12:30"));
+        Log.d("rae", "测试今天:" + getDate("2016-12-06 00:00:00"));
+        Log.d("rae", "测试昨天:" + getDate("2016-12-05 23:30"));
+        Log.d("rae", "测试前天:" + getDate("2016-12-04 12:30"));
         Log.d("rae", "测试其他时间:" + getDate("2016-11-02 12:30"));
     }
 
@@ -50,15 +50,26 @@ public class ExampleInstrumentedTest {
         }
 
         text = matcher.group();
-        Date target = parseDate(text);
+        String time = text.split(" ")[1];
 
+        // 时间间隔
+        long span = (System.currentTimeMillis() - parseDate(text).getTime()) / 1000;
+
+        // 今天过去的时间
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(parseDate(text));
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
 
-        calendar.get(Calendar.DAY_OF_YEAR);
-        calendar.get(Calendar.DAY_OF_MONTH);
-        calendar.get(Calendar.DATE);
-
+        long today = (System.currentTimeMillis() - calendar.getTimeInMillis()) / 1000;
+        if (span < today) {
+            text = "今天 " + time;
+        } else if (span < today + 86400) {
+            text = "昨天 " + time;
+        } else if (span < today + 2 * 86400) {
+            text = "前天 " + time;
+        }
 
 
         return text;

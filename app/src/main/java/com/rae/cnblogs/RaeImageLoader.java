@@ -8,6 +8,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 /**
@@ -25,6 +26,19 @@ public final class RaeImageLoader {
 
     public static DisplayImageOptions.Builder defaultOptions() {
         return sDisplayImageOptions;
+    }
+
+    /**
+     * 头像的默认配置
+     * @return
+     */
+    public static DisplayImageOptions headerOptinos() {
+        return defaultOptions()
+                .displayer(new FadeInBitmapDisplayer(1000))
+                .showImageForEmptyUri(R.mipmap.ic_launcher)
+                .showImageOnLoading(R.mipmap.ic_launcher)
+                .showImageOnFail(R.mipmap.ic_launcher)
+                .build();
     }
 
 

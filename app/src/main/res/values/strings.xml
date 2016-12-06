@@ -4,4 +4,6 @@
     <string name="tab_news">新闻</string>
     <string name="tab_library">知识库</string>
     <string name="tab_mine">我</string>
+    <string name="more">更多</string>
+    <string name="edit_comment">写评论...</string>
 </resources>

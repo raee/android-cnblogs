@@ -5,7 +5,6 @@ import android.support.test.runner.AndroidJUnit4;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.ICategoryApi;
-import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.Category;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
@@ -63,21 +62,7 @@ public class BlogApiTest extends BaseTest {
         run(new Runnable() {
             @Override
             public void run() {
-                mApi.getHomeBlogs(1, new ApiUiArrayListener<Blog>() {
-                    @Override
-                    public void onApiFailed(ApiException ex, String msg) {
-                        error(ex);
-                        stop();
-                    }
 
-                    @Override
-                    public void onApiSuccess(List<Blog> data) {
-                        for (Blog blog : data) {
-                            log(blog.getTitle());
-                        }
-                        stop();
-                    }
-                });
             }
         });
     }

@@ -7,6 +7,11 @@
         <item name="actionBarDivider">@color/transparent</item>
         <item name="actionBarStyle">@style/AppActionBar</item>
         <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">#262626</item>
     </style>
 
     <style name="AppActionBar" parent="Base.Widget.AppCompat.ActionBar.Solid">
