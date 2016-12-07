@@ -2,6 +2,7 @@ package com.rae.cnblogs.presenter;
 
 import android.content.Context;
 
+import com.rae.cnblogs.presenter.impl.BlogContentPresenterImpl;
 import com.rae.cnblogs.presenter.impl.BlogListPresenterImpl;
 import com.rae.cnblogs.presenter.impl.HomePresenterImpl;
 
@@ -16,5 +17,9 @@ public final class CnblogsPresenterFactory {
 
     public static IBlogListPresenter getBlogListPresenter(Context context, IBlogListPresenter.IBlogListView view) {
         return new BlogListPresenterImpl(context, view);
+    }
+
+    public static IBlogContentPresenter getBlogContentPresenter(Context context, IBlogContentPresenter.IBlogContentView view) {
+        return new BlogContentPresenterImpl(context, view);
     }
 }

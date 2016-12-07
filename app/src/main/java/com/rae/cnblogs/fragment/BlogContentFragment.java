@@ -3,22 +3,28 @@ package com.rae.cnblogs.fragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.alibaba.fastjson.JSON;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
+import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
 
 import butterknife.BindView;
+
 
 /**
  * 博文内容
  * Created by ChenRui on 2016/12/6 23:39.
  */
-public class BlogContentFragment extends BaseFragment {
+public class BlogContentFragment extends BaseFragment implements IBlogContentPresenter.IBlogContentView {
 
     public static BlogContentFragment newInstance(Blog blog) {
 
@@ -33,6 +39,7 @@ public class BlogContentFragment extends BaseFragment {
     WebView mWebView;
 
     private Blog mBlog;
+    private IBlogContentPresenter mContentPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -42,27 +49,71 @@ public class BlogContentFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContentPresenter = CnblogsPresenterFactory.getBlogContentPresenter(getContext(), this);
         if (getArguments() != null) {
             mBlog = getArguments().getParcelable("blog");
         }
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDisplayZoomControls(false);
+        settings.setSupportZoom(true);
+        mWebView.addJavascriptInterface(new BlogJavascriptApi(), "app");
         mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebViewClient(new WebViewClient());
-        mWebView.loadUrl("http://www.cnblogs.com/wenJiaQi/p/6139599.html");
+
     }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
+        }
+        return false;
+    }
+
 
     @Override
     public void onStart() {
         super.onStart();
         if (mBlog == null) return;
+        mContentPresenter.loadContent();
+    }
+
+    @Override
+    public Blog getBlog() {
+        return mBlog;
+    }
+
+    @Override
+    public void onLoadContentSuccess(Blog blog) {
+        mWebView.loadUrl("file:///android_asset/view.html");
+    }
+
+    @Override
+    public void onLoadContentFailed(String msg) {
+
+    }
+
+
+    /**
+     * 加载原文
+     */
+    public void loadSourceUrl() {
         mWebView.loadUrl(mBlog.getUrl());
+    }
+
+
+    class BlogJavascriptApi {
+
+        @JavascriptInterface
+        public String getBlog() {
+            return JSON.toJSONString(mBlog);
+        }
     }
 }

@@ -6,11 +6,12 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.dialog.BlogContentDialog;
 import com.rae.cnblogs.widget.RaeLoadMoreView;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by ChenRui on 2016/12/3 18:06.
@@ -29,6 +30,7 @@ public class TestActivity extends BaseActivity {
     };
 
     private int mCurrent = -1;
+    private BlogContentDialog mDialog;
 
     private void toggle() {
         if (mCurrent > 27) {
@@ -51,10 +53,18 @@ public class TestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         bindView();
+        mDialog = new BlogContentDialog(this, null);
+
+
 //        mLoadMoreView.setProgressStyle(ProgressStyle.BallScaleMultiple);
-        mLoadMoreView.setProgressStyle(ProgressStyle.BallScale);
+//        mLoadMoreView.setProgressStyle(ProgressStyle.BallScale);
         //mHandler.sendEmptyMessageDelayed(0, 2000);
 
+    }
+
+    @OnClick(R.id.btn_test)
+    void onTestClick() {
+        mDialog.show();
     }
 
 

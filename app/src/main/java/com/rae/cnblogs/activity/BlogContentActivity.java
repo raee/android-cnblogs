@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,10 +13,13 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
+import com.rae.cnblogs.dialog.BlogContentDialog;
 import com.rae.cnblogs.fragment.BlogContentFragment;
 import com.rae.cnblogs.sdk.bean.Blog;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+
 
 /**
  * 博文查看
@@ -38,6 +42,9 @@ public class BlogContentActivity extends BaseActivity {
     @BindView(R.id.tv_like_badge)
     TextView mLikeBadgeView;
 
+    private BlogContentDialog mContentDialog;
+    private BlogContentFragment mContentFragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +54,13 @@ public class BlogContentActivity extends BaseActivity {
         showHomeAsUp(mToolbar);
 
         Blog blog = getIntent().getParcelableExtra("blog");
+        mContentDialog = new BlogContentDialog(this, blog) {
+            @Override
+            protected void onViewSourceClick() {
+                if (mContentFragment.isHidden() || mContentFragment.isDetached()) return;
+                mContentFragment.loadSourceUrl();
+            }
+        };
 
         if (blog != null) {
             ImageLoader.getInstance().displayImage(blog.getAvatar(), mAvatarView, RaeImageLoader.headerOptinos());
@@ -62,9 +76,23 @@ public class BlogContentActivity extends BaseActivity {
 
         }
 
+        mContentFragment = BlogContentFragment.newInstance(blog);
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_content, BlogContentFragment.newInstance(blog));
+        transaction.add(R.id.fl_content, mContentFragment);
         transaction.commit();
     }
 
+    @OnClick(R.id.img_action_bar_more)
+    public void onActionMenuMoreClick() {
+        mContentDialog.show();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (mContentFragment != null && mContentFragment.isVisible() && mContentFragment.onKeyDown(keyCode, event)) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

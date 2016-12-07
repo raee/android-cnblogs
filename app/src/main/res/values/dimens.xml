@@ -10,4 +10,5 @@
     <dimen name="h3">12sp</dimen>
     <dimen name="default_margin">12dp</dimen>
     <dimen name="summary">15sp</dimen>
+    <dimen name="button_height">45dp</dimen>
 </resources>
