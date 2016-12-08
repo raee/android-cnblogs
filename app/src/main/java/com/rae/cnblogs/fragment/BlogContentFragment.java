@@ -17,6 +17,8 @@ import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
 
+import java.io.File;
+
 import butterknife.BindView;
 
 
@@ -63,9 +65,20 @@ public class BlogContentFragment extends BaseFragment implements IBlogContentPre
         settings.setJavaScriptEnabled(true);
         settings.setDisplayZoomControls(false);
         settings.setSupportZoom(true);
+        settings.setDomStorageEnabled(true);
+        settings.setAllowContentAccess(true);
+        settings.setAllowFileAccess(true);
+
+        File cacheDir = getContext().getExternalCacheDir();
+
+        if (cacheDir != null && cacheDir.canRead() && cacheDir.canWrite()) {
+            settings.setAppCacheEnabled(true);
+            settings.setAppCachePath(cacheDir.getPath());
+        }
         mWebView.addJavascriptInterface(new BlogJavascriptApi(), "app");
         mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebViewClient(new WebViewClient());
+
 
     }
 
@@ -77,13 +90,13 @@ public class BlogContentFragment extends BaseFragment implements IBlogContentPre
         return false;
     }
 
-
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         if (mBlog == null) return;
         mContentPresenter.loadContent();
     }
+
 
     @Override
     public Blog getBlog() {
@@ -92,7 +105,8 @@ public class BlogContentFragment extends BaseFragment implements IBlogContentPre
 
     @Override
     public void onLoadContentSuccess(Blog blog) {
-        mWebView.loadUrl("file:///android_asset/view.html");
+//        mWebView.loadUrl("file:///android_asset/view.html");
+        mWebView.loadUrl("http://192.168.168.21/view.html");
     }
 
     @Override
@@ -106,6 +120,10 @@ public class BlogContentFragment extends BaseFragment implements IBlogContentPre
      */
     public void loadSourceUrl() {
         mWebView.loadUrl(mBlog.getUrl());
+    }
+
+    public String getUrl() {
+        return mWebView.getUrl();
     }
 
 

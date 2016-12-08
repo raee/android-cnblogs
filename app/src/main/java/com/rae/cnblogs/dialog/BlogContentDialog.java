@@ -137,12 +137,16 @@ public class BlogContentDialog extends SlideDialog {
         if (mBlog == null) return;
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(mBlog.getUrl()));
+            intent.setData(Uri.parse(getUrl()));
             getContext().startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
         dismiss();
+    }
+
+    protected String getUrl() {
+        return mBlog == null ? null : mBlog.getUrl();
     }
 
 

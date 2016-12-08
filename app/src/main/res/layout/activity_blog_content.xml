@@ -9,7 +9,8 @@
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_bar_height"
-        android:background="@drawable/bg_default_action_bar">
+        android:background="@drawable/bg_default_action_bar"
+        android:navigationIcon="@drawable/ic_back">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -74,10 +75,10 @@
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_write_comment"
-            android:paddingBottom="9dp"
+            android:paddingBottom="6dp"
             android:paddingLeft="21dp"
             android:paddingRight="21dp"
-            android:paddingTop="9dp"
+            android:paddingTop="6dp"
             android:text="@string/edit_comment"
             android:textColor="@color/ph2"
             android:textSize="@dimen/h2"/>
@@ -114,9 +115,9 @@
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
                     android:paddingTop="1dp"
-                    android:visibility="gone"
                     android:textColor="@android:color/white"
-                    android:textSize="9sp"/>
+                    android:textSize="9sp"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -146,9 +147,9 @@
                     android:paddingRight="2dp"
                     android:paddingTop="1dp"
                     android:text="6"
-                    android:visibility="gone"
                     android:textColor="@android:color/white"
-                    android:textSize="9sp"/>
+                    android:textSize="9sp"
+                    android:visibility="gone"/>
 
             </RelativeLayout>
 

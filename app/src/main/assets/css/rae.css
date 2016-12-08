@@ -1,0 +1,9 @@
+*{
+    word-wrap: break-word;
+}
+#header{
+    padding-bottom:20px;
+}
+#blog_content{
+    line-height:26px;
+}
