@@ -34,10 +34,10 @@ public final class RaeImageLoader {
      */
     public static DisplayImageOptions headerOptinos() {
         return defaultOptions()
-                .displayer(new FadeInBitmapDisplayer(1000))
-                .showImageForEmptyUri(R.mipmap.ic_launcher)
-                .showImageOnLoading(R.mipmap.ic_launcher)
-                .showImageOnFail(R.mipmap.ic_launcher)
+                .displayer(new FadeInBitmapDisplayer(800))
+                .showImageForEmptyUri(R.drawable.ic_default_user_avatar)
+                .showImageOnLoading(R.drawable.ic_default_user_avatar)
+                .showImageOnFail(R.drawable.ic_default_user_avatar)
                 .build();
     }
 

@@ -52,4 +52,9 @@
         <item name="contentInsetStart">0dp</item><!-- 设置该属性解决空白部分-->
     </style>
 
+    <style name="progress_bar_web" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_web_view</item>
+        <item name="android:minHeight">2dp</item>
+    </style>
+
 </resources>
