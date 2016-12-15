@@ -24,9 +24,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
+ * 分享对话框
  * Created by ChenRui on 2016/12/7 22:15.
  */
-public class BlogContentDialog extends SlideDialog {
+public class BlogShareDialog extends SlideDialog {
 
     private final Blog mBlog;
 
@@ -51,7 +52,7 @@ public class BlogContentDialog extends SlideDialog {
     View mBrowseriew;
 
 
-    public BlogContentDialog(Context context, Blog blog) {
+    public BlogShareDialog(Context context, Blog blog) {
         super(context);
         mBlog = blog;
         setContentView(R.layout.dialog_blog_content);

@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.dialog.BlogContentDialog;
+import com.rae.cnblogs.dialog.BlogShareDialog;
 import com.rae.cnblogs.widget.RaeLoadMoreView;
 
 import butterknife.BindView;
@@ -30,7 +30,7 @@ public class TestActivity extends BaseActivity {
     };
 
     private int mCurrent = -1;
-    private BlogContentDialog mDialog;
+    private BlogShareDialog mDialog;
 
     private void toggle() {
         if (mCurrent > 27) {
@@ -53,7 +53,7 @@ public class TestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         bindView();
-        mDialog = new BlogContentDialog(this, null);
+        mDialog = new BlogShareDialog(this, null);
 
 
 //        mLoadMoreView.setProgressStyle(ProgressStyle.BallScaleMultiple);

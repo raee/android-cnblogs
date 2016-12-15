@@ -32,7 +32,7 @@ public final class RaeImageLoader {
      * 头像的默认配置
      * @return
      */
-    public static DisplayImageOptions headerOptinos() {
+    public static DisplayImageOptions headerOption() {
         return defaultOptions()
                 .displayer(new FadeInBitmapDisplayer(800))
                 .showImageForEmptyUri(R.drawable.ic_default_user_avatar)

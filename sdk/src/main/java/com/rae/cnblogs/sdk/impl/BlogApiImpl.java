@@ -59,7 +59,7 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
     }
 
     @Override
-    public void getComment(int page, String id, String blogApp, ApiUiListener<BlogComment> listener) {
+    public void getComment(int page, String id, String blogApp, ApiUiArrayListener<BlogComment> listener) {
         get(ApiUrls.API_URL_COMMENT, newParams().add("postId", id).add("blogApp", blogApp).add("pageIndex", page), new BlogCommentParser(listener));
     }
 }

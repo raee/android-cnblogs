@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/default_margin"
+    android:paddingRight="@dimen/default_margin"
+    android:paddingTop="@dimen/default_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/img_blog_avatar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_user_avatar"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_default_user_avatar"
+            app:riv_corner_radius="32dp"/>
+
+
+        <com.rae.cnblogs.widget.RaeTextView
+            android:id="@+id/tv_blog_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="9dp"
+            android:layout_weight="1"
+            android:text="RAE敲代码"
+            android:textColor="@color/commentAvatarColor"
+            android:textSize="@dimen/h3"
+            android:textStyle="bold"/>
+
+        <com.rae.cnblogs.widget.RaeTextView
+            android:id="@+id/tv_blog_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今天18:30"
+            android:textAlignment="gravity"
+            android:textColor="@color/ph3"
+            android:textSize="@dimen/h4"/>
+
+    </LinearLayout>
+
+
+    <com.rae.cnblogs.widget.RaeTextView
+        android:id="@+id/tv_blog_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="11dp"
+        android:lineSpacingExtra="6sp"
+        android:text="每一个系统下都有对文件操作的应用，但是都大致相同，同样在Linux系统中也同样拥有对文件的操作。如：文件描述符、open()函数、close()函数、read()函数、write()函数、文件偏移lseek()函数、获取文件状态fstat()函数、文件空间映射mmap()函数、取消mmap()映射的"
+        android:textColor="@color/ph2"
+        android:textSize="@dimen/summary"/>
+
+    <RelativeLayout
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin">
+
+
+        <com.rae.cnblogs.widget.RaeTextView
+            android:id="@+id/tv_blog_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/ic_comment"
+            android:drawablePadding="7dp"
+            android:text="回复"
+            android:textColor="@color/ph2"
+            android:textSize="@dimen/h2"/>
+
+        <com.rae.cnblogs.widget.RaeTextView
+            android:id="@+id/tv_blog_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/tv_blog_comment"
+            android:drawableLeft="@drawable/ic_like_normal"
+            android:drawablePadding="7dp"
+            android:text="0"
+            android:textColor="@color/ph2"
+            android:textSize="14sp"/>
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="18dp"
+        android:background="@color/dividerColor"/>
+
+
+</LinearLayout>

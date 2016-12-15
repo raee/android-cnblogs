@@ -13,7 +13,8 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
-import com.rae.cnblogs.dialog.BlogContentDialog;
+import com.rae.cnblogs.dialog.BlogCommentDialog;
+import com.rae.cnblogs.dialog.BlogShareDialog;
 import com.rae.cnblogs.fragment.BlogContentFragment;
 import com.rae.cnblogs.sdk.bean.Blog;
 
@@ -42,7 +43,8 @@ public class BlogContentActivity extends BaseActivity {
     @BindView(R.id.tv_like_badge)
     TextView mLikeBadgeView;
 
-    private BlogContentDialog mContentDialog;
+    private BlogShareDialog mContentDialog;
+    private BlogCommentDialog mCommentDialog;
     private BlogContentFragment mContentFragment;
 
     @Override
@@ -54,7 +56,7 @@ public class BlogContentActivity extends BaseActivity {
         showHomeAsUp(mToolbar);
 
         Blog blog = getIntent().getParcelableExtra("blog");
-        mContentDialog = new BlogContentDialog(this, blog) {
+        mContentDialog = new BlogShareDialog(this, blog) {
             @Override
             protected void onViewSourceClick() {
                 if (mContentFragment.isHidden() || mContentFragment.isDetached()) return;
@@ -70,8 +72,10 @@ public class BlogContentActivity extends BaseActivity {
             }
         };
 
+        mCommentDialog = BlogCommentDialog.newInstance(blog);
+
         if (blog != null) {
-            ImageLoader.getInstance().displayImage(blog.getAvatar(), mAvatarView, RaeImageLoader.headerOptinos());
+            ImageLoader.getInstance().displayImage(blog.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
             mAuthorView.setText(blog.getAuthor());
             if (!TextUtils.equals(blog.getComment(), "0")) {
                 mCommentBadgeView.setText(blog.getComment());
@@ -94,6 +98,11 @@ public class BlogContentActivity extends BaseActivity {
     @OnClick(R.id.img_action_bar_more)
     public void onActionMenuMoreClick() {
         mContentDialog.show();
+    }
+
+    @OnClick(R.id.layout_content_comment)
+    public void onCommentClick() {
+        mCommentDialog.show(getSupportFragmentManager());
     }
 
     @Override

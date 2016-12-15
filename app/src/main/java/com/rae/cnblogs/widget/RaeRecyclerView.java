@@ -32,6 +32,7 @@ public class RaeRecyclerView extends XRecyclerView {
     }
 
     private void init() {
+        setPullRefreshEnabled(false);
         mFootView = new RaeLoadMoreView(getContext());
         mFootView.setVisibility(GONE);
         setLoadingMoreProgressStyle(ProgressStyle.BallScaleMultiple);

@@ -42,5 +42,5 @@ public interface IBlogApi {
      * @param blogApp
      * @param listener
      */
-    void getComment(int page, String id, String blogApp, ApiUiListener<BlogComment> listener);
+    void getComment(int page, String id, String blogApp, ApiUiArrayListener<BlogComment> listener);
 }

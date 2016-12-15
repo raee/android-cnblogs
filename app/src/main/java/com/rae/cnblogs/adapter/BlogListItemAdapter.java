@@ -1,6 +1,5 @@
 package com.rae.cnblogs.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,31 +11,26 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.BlogItemViewHolder;
 import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.core.Rae;
-
-import java.util.List;
 
 /**
+ * 博客列表ITEM
  * Created by ChenRui on 2016/12/2 0002 19:43.
  */
-public class BlogListItemAdapter extends RecyclerView.Adapter<BlogItemViewHolder> implements View.OnClickListener {
+public class BlogListItemAdapter extends BaseItemAdapter<Blog, BlogItemViewHolder> implements View.OnClickListener {
 
-    private List<Blog> mBlogList;
     private DisplayImageOptions mAvatarOptions;
 
     public BlogListItemAdapter() {
-        mAvatarOptions = RaeImageLoader.headerOptinos();
+        mAvatarOptions = RaeImageLoader.headerOption();
     }
 
     @Override
-    public BlogItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BlogItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_blog_list, parent, false));
+    public BlogItemViewHolder onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
+        return new BlogItemViewHolder(inflateView(parent, R.layout.item_blog_list));
     }
 
     @Override
-    public void onBindViewHolder(BlogItemViewHolder holder, int position) {
-        Blog m = mBlogList.get(position);
-
+    public void onBindViewHolder(BlogItemViewHolder holder, int position, Blog m) {
         ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, mAvatarOptions);
         holder.authorView.setText(m.getAuthor());
         holder.titleView.setText(m.getTitle());
@@ -50,14 +44,6 @@ public class BlogListItemAdapter extends RecyclerView.Adapter<BlogItemViewHolder
         holder.itemView.setOnClickListener(this);
     }
 
-    @Override
-    public int getItemCount() {
-        return Rae.getCount(mBlogList);
-    }
-
-    public void invalidate(List<Blog> data) {
-        mBlogList = data;
-    }
 
     @Override
     public void onClick(View view) {

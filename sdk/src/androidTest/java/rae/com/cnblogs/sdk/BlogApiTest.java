@@ -5,6 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.ICategoryApi;
+import com.rae.cnblogs.sdk.bean.BlogComment;
 import com.rae.cnblogs.sdk.bean.Category;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
@@ -81,6 +82,30 @@ public class BlogApiTest extends BaseTest {
                     @Override
                     public void onApiSuccess(String data) {
                         log(data);
+                        stop();
+                    }
+                });
+            }
+        });
+    }
+
+    @Test
+    public void testComment() throws InterruptedException {
+        run(new Runnable() {
+            @Override
+            public void run() {
+                mApi.getComment(1, "6134506", "pengze0902", new ApiUiArrayListener<BlogComment>() {
+                    @Override
+                    public void onApiFailed(ApiException ex, String msg) {
+                        stop();
+                    }
+
+                    @Override
+                    public void onApiSuccess(List<BlogComment> data) {
+
+                        for (BlogComment comment : data) {
+                            log(comment.getBody());
+                        }
                         stop();
                     }
                 });
