@@ -1,6 +1,7 @@
 package com.rae.cnblogs.sdk;
 
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogComment;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 
@@ -9,6 +10,14 @@ import com.rae.core.sdk.ApiUiListener;
  * Created by ChenRui on 2016/11/28 23:34.
  */
 public interface IBlogApi {
+
+    /**
+     * 根据博客ID 获取博客
+     *
+     * @param blogId   博客Id
+     * @param listener 回调
+     */
+    void getBlog(String blogId, ApiUiListener<Blog> listener);
 
     /**
      * 获取分类博客列表
@@ -25,4 +34,13 @@ public interface IBlogApi {
      * @param id 博客ID
      */
     void getContents(String id, ApiUiListener<String> listener);
+
+    /**
+     * 获取评论列表
+     * @param page
+     * @param id
+     * @param blogApp
+     * @param listener
+     */
+    void getComment(int page, String id, String blogApp, ApiUiListener<BlogComment> listener);
 }

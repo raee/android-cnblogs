@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.parser.BlogCommentParser;
 import com.rae.cnblogs.sdk.parser.BlogContentParser;
 import com.rae.cnblogs.sdk.parser.BlogJsonParser;
 import com.rae.core.sdk.ApiUiArrayListener;
@@ -33,6 +35,11 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 //    }
 
     @Override
+    public void getBlog(String blogId, ApiUiListener<Blog> listener) {
+
+    }
+
+    @Override
     public void getBlogs(int page, String type, String parentId, String categoryId, ApiUiArrayListener<Blog> listener) {
 
 
@@ -49,5 +56,10 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
     @Override
     public void getContents(String id, ApiUiListener<String> listener) {
         get(ApiUrls.API_URL_CONTENT + id, null, new BlogContentParser(listener));
+    }
+
+    @Override
+    public void getComment(int page, String id, String blogApp, ApiUiListener<BlogComment> listener) {
+        get(ApiUrls.API_URL_COMMENT, newParams().add("postId", id).add("blogApp", blogApp).add("pageIndex", page), new BlogCommentParser(listener));
     }
 }

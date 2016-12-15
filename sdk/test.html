@@ -14,8 +14,28 @@
 		$(function () {
 
 			log('一级分类');
-			log('----------------------------------------------');
+			//log('----------------------------------------------');
 			var parentList = new Array();
+
+			// 首页
+			var home = new model();
+			home.categoryId = '808';
+			home.parentId = 0;
+			home.name = '首页';
+			home.type = 'SiteHome';
+			parentList.push(home);
+
+			// 推荐
+			var tuijian = new model();
+			tuijian.categoryId = '-2';
+			tuijian.parentId = 0;
+			tuijian.name = '推荐';
+			tuijian.type = 'Picked';
+
+			parentList.push(tuijian);
+
+			var count = 0;
+
 			$('#cate_item li').each(function(i,e){
 				var id = $(e).attr('id').replace('cate_item_','');
 				var text = $(e).find('a').text().replace(/\(.*\)/,'').trim();
@@ -23,11 +43,11 @@
 				m.categoryId = id;
 				m.parentId = 0;
 				m.name = text;
-				m.type = 'parent';
+				m.type = 'TopSiteCategory';
 				if(id == "0" || id == "-1") return;
 
 				parentList.push(m);
-
+				count++;
 			});
 
 
@@ -42,8 +62,9 @@
 				$(e).find('.cate_content_block a').each(function(i,ce){
 					var text = $(ce).text().replace(/\(.*\)/,'').trim();
 					var href = 'http://www.cnblogs.com'+$(ce).attr('href');
+					count++;
 
-					$.get('http://localhost',{'url': href},function(data){
+					$.get('http://api.yixiaoshipin.com',{'url': href},function(data){
 						$(data.data).find("script").each(function(i,item){
 							var aggSiteModel = $(item).text();
 							if(aggSiteModel.indexOf('aggSiteModel')>0){
@@ -54,15 +75,17 @@
 								m.categoryId = category.CategoryId;
 								m.parentId = category.ParentCategoryId;
 								m.name = text;
-								m.type = 'sub';
+								m.type = category.CategoryType;
 								parentList.push(m);
 								log(JSON.stringify(parentList));
 							}
 						});
 					})
 
-
 				});
+
+
+			
 			});
 		});
 

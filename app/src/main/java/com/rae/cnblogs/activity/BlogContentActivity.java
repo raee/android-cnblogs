@@ -60,6 +60,14 @@ public class BlogContentActivity extends BaseActivity {
                 if (mContentFragment.isHidden() || mContentFragment.isDetached()) return;
                 mContentFragment.loadSourceUrl();
             }
+
+            @Override
+            protected String getUrl() {
+                if (mContentFragment.isHidden() || mContentFragment.isDetached()) {
+                    return super.getUrl();
+                }
+                return mContentFragment.getUrl();
+            }
         };
 
         if (blog != null) {
