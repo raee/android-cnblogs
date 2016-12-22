@@ -28,8 +28,14 @@ public final class RaeImageLoader {
         return sDisplayImageOptions;
     }
 
+    //
+    public static DisplayImageOptions.Builder fadeOptions(int durationMillis) {
+        return defaultOptions().displayer(new FadeInBitmapDisplayer(durationMillis));
+    }
+
     /**
      * 头像的默认配置
+     *
      * @return
      */
     public static DisplayImageOptions headerOption() {

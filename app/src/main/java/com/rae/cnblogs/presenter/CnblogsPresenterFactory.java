@@ -5,6 +5,7 @@ import android.content.Context;
 import com.rae.cnblogs.presenter.impl.BlogContentPresenterImpl;
 import com.rae.cnblogs.presenter.impl.BlogListPresenterImpl;
 import com.rae.cnblogs.presenter.impl.HomePresenterImpl;
+import com.rae.cnblogs.presenter.impl.LauncherPresenterImpl;
 
 /**
  * Created by ChenRui on 2016/12/2 00:23.
@@ -21,5 +22,9 @@ public final class CnblogsPresenterFactory {
 
     public static IBlogContentPresenter getBlogContentPresenter(Context context, IBlogContentPresenter.IBlogContentView view) {
         return new BlogContentPresenterImpl(context, view);
+    }
+
+    public static ILauncherPresenter getLauncherPresenter(Context context, ILauncherPresenter.ILauncherView view) {
+        return new LauncherPresenterImpl(context, view);
     }
 }

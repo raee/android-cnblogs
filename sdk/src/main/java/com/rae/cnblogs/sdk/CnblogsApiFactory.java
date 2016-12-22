@@ -2,6 +2,7 @@ package com.rae.cnblogs.sdk;
 
 import android.content.Context;
 
+import com.rae.cnblogs.sdk.impl.AdvertApiImpl;
 import com.rae.cnblogs.sdk.impl.BlogApiImpl;
 import com.rae.cnblogs.sdk.impl.CategoryApiImpl;
 
@@ -16,5 +17,15 @@ public final class CnblogsApiFactory {
 
     public static ICategoryApi getCategoryApi(Context context) {
         return new CategoryApiImpl(context);
+    }
+
+    /**
+     * 获取广告接口
+     *
+     * @param context
+     * @return
+     */
+    public static IAdvertApi getAdvertApi(Context context) {
+        return new AdvertApiImpl(context);
     }
 }
