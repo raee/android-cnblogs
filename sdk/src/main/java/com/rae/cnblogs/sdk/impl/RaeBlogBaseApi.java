@@ -2,6 +2,7 @@ package com.rae.cnblogs.sdk.impl;
 
 import android.content.Context;
 
+import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.RaeBaseApi;
 import com.rae.core.sdk.net.IApiJsonResponse;
@@ -22,6 +23,11 @@ public class RaeBlogBaseApi extends RaeBaseApi {
 
     @Override
     protected <T> IApiJsonResponse getDefaultJsonResponse(Class<T> cls, ApiUiListener<T> listener) {
-        return super.getDefaultJsonResponse(cls, listener);
+        return new RaeBlogApiResponse<>(cls, listener);
+    }
+
+    @Override
+    protected <T> IApiJsonResponse getDefaultListJsonResponse(Class<T> cls, ApiUiArrayListener<T> listener) {
+        return new RaeBlogApiResponse<>(cls, listener);
     }
 }

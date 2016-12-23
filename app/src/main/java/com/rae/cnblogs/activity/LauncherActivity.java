@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -40,7 +39,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     }
 
     private void showImage(String url) {
-        ImageLoader.getInstance().displayImage(url, mDisplayView, RaeImageLoader.fadeOptions(1000).build(), new ImageLoadingListener() {
+        ImageLoader.getInstance().displayImage(url, mDisplayView, RaeImageLoader.fadeOptions(800).build(), new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
 
@@ -53,7 +52,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.ad_scale_fade_in));
+//                view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.ad_scale_fade_in));
             }
 
             @Override

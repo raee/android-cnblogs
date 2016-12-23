@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.fragment.BlogCommentFragment;
 import com.rae.cnblogs.sdk.bean.Blog;
 
 /**
@@ -35,15 +34,14 @@ public class BlogCommentDialog extends SlideDialogFragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mBlog = getArguments().getParcelable("blog");
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
-    public void show(FragmentManager manager, String tag) {
-        manager.beginTransaction().add(R.id.content, BlogCommentFragment.newInstance(mBlog)).commit();
-        super.show(manager, tag);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mBlog = getArguments().getParcelable("blog");
     }
 
     public void show(FragmentManager manager) {

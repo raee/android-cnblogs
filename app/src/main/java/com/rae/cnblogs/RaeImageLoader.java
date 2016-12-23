@@ -58,7 +58,7 @@ public final class RaeImageLoader {
                 .memoryCache(new LargestLimitedMemoryCache(2 * 1024 * 1024))//内存缓存
                 .memoryCacheSize(2 * 1024 * 1024)//内存缓存大小
                 .diskCacheSize(50 * 1024 * 1024)//存储卡缓存大小
-                .diskCacheFileCount(100)//存储卡文件个数
+                .diskCacheFileCount(300)//存储卡文件个数
                 .memoryCacheSizePercentage(13) // default
                 .diskCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
                 .imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // default

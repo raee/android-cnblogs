@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
+import com.rae.core.sdk.exception.ApiErrorCode;
+import com.rae.core.sdk.exception.ApiException;
 import com.rae.core.sdk.net.RaeSimpleJsonResponse;
 
 /**
@@ -25,7 +27,23 @@ public class RaeBlogApiResponse<T> extends RaeSimpleJsonResponse<T> {
         String message = obj.getString("message");
         String dataJson = obj.get("data").toString();
 
+        if (code != 200) {
+            notifyApiFailed(ApiErrorCode.ERROR_EMPTY_DATA, message);
+            return null;
+        }
+
 
         return dataJson;
     }
+
+    private void notifyApiFailed(ApiErrorCode errorCode, String msg) {
+        if (mListener != null) {
+            mListener.onApiFailed(new ApiException(errorCode), msg);
+        }
+        if (mArrayListener != null) {
+            mArrayListener.onApiFailed(new ApiException(errorCode), msg);
+        }
+    }
+
+
 }

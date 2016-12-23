@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
-import com.rae.cnblogs.dialog.BlogCommentDialog;
 import com.rae.cnblogs.dialog.BlogShareDialog;
+import com.rae.cnblogs.fragment.BlogCommentFragment;
 import com.rae.cnblogs.fragment.BlogContentFragment;
 import com.rae.cnblogs.sdk.bean.Blog;
 
@@ -44,7 +44,7 @@ public class BlogContentActivity extends BaseActivity {
     TextView mLikeBadgeView;
 
     private BlogShareDialog mContentDialog;
-    private BlogCommentDialog mCommentDialog;
+    //    private BlogCommentDialog mCommentDialog;
     private BlogContentFragment mContentFragment;
 
     @Override
@@ -72,7 +72,7 @@ public class BlogContentActivity extends BaseActivity {
             }
         };
 
-        mCommentDialog = BlogCommentDialog.newInstance(blog);
+//        mCommentDialog = BlogCommentDialog.newInstance(blog);
 
         if (blog != null) {
             ImageLoader.getInstance().displayImage(blog.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
@@ -92,6 +92,7 @@ public class BlogContentActivity extends BaseActivity {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.fl_content, mContentFragment);
+        transaction.add(R.id.fl_content, BlogCommentFragment.newInstance(null));
         transaction.commit();
     }
 
@@ -102,7 +103,8 @@ public class BlogContentActivity extends BaseActivity {
 
     @OnClick(R.id.layout_content_comment)
     public void onCommentClick() {
-        mCommentDialog.show(getSupportFragmentManager());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_content, BlogCommentFragment.newInstance(null)).addToBackStack(null).commit();
+//        mCommentDialog.show(getSupportFragmentManager());
     }
 
     @Override
