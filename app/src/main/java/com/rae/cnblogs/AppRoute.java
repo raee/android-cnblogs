@@ -2,6 +2,7 @@ package com.rae.cnblogs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import com.rae.cnblogs.activity.BlogContentActivity;
 import com.rae.cnblogs.sdk.bean.Blog;
@@ -20,5 +21,15 @@ public final class AppRoute {
         Intent intent = new Intent(context, BlogContentActivity.class);
         intent.putExtra("blog", blog);
         startActivity(context, intent);
+    }
+
+    public static void jumpToDownload(Context context, String url) {
+        try {
+            Intent intent = new Intent();
+            intent.setData(Uri.parse(url));
+            startActivity(context, intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

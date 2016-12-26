@@ -2,6 +2,7 @@ package com.rae.cnblogs.presenter;
 
 import android.content.Context;
 
+import com.rae.cnblogs.presenter.impl.BlogCommentPresenterImpl;
 import com.rae.cnblogs.presenter.impl.BlogContentPresenterImpl;
 import com.rae.cnblogs.presenter.impl.BlogListPresenterImpl;
 import com.rae.cnblogs.presenter.impl.HomePresenterImpl;
@@ -26,5 +27,14 @@ public final class CnblogsPresenterFactory {
 
     public static ILauncherPresenter getLauncherPresenter(Context context, ILauncherPresenter.ILauncherView view) {
         return new LauncherPresenterImpl(context, view);
+    }
+
+    /**
+     * 评论
+     *
+     * @return
+     */
+    public static IBlogCommentPresenter getBlogCommentPresenter(Context context, IBlogCommentPresenter.IBlogCommentView view) {
+        return new BlogCommentPresenterImpl(context, view);
     }
 }

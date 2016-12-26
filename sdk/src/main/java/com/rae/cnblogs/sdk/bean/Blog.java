@@ -19,6 +19,15 @@ public class Blog implements Parcelable {
     private String views;
     private String postDate;
     private String id;
+    private String blogApp;
+
+    public String getBlogApp() {
+        return blogApp;
+    }
+
+    public void setBlogApp(String blogApp) {
+        this.blogApp = blogApp;
+    }
 
     public String getContent() {
         return content;
@@ -124,6 +133,14 @@ public class Blog implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Blog && !TextUtils.isEmpty(id)) {
+            return TextUtils.equals(id, ((Blog) obj).getId());
+        }
+        return super.equals(obj);
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -140,6 +157,7 @@ public class Blog implements Parcelable {
         dest.writeString(this.views);
         dest.writeString(this.postDate);
         dest.writeString(this.id);
+        dest.writeString(this.blogApp);
         dest.writeString(this.content);
         dest.writeString(this.likes);
     }
@@ -155,6 +173,7 @@ public class Blog implements Parcelable {
         this.views = in.readString();
         this.postDate = in.readString();
         this.id = in.readString();
+        this.blogApp = in.readString();
         this.content = in.readString();
         this.likes = in.readString();
     }
@@ -170,12 +189,4 @@ public class Blog implements Parcelable {
             return new Blog[size];
         }
     };
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Blog && !TextUtils.isEmpty(id)) {
-            return TextUtils.equals(id, ((Blog) obj).getId());
-        }
-        return super.equals(obj);
-    }
 }

@@ -1,5 +1,7 @@
 package com.rae.cnblogs.sdk.bean;
 
+import android.text.TextUtils;
+
 /**
  * 博客评论实体
  * Created by ChenRui on 2016/12/10 18:00.
@@ -68,5 +70,14 @@ public class BlogComment {
 
     public void setUnlike(String unlike) {
         this.unlike = unlike;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof BlogComment) {
+            BlogComment comment = (BlogComment) obj;
+            return TextUtils.equals(comment.getId(), this.getId());
+        }
+        return super.equals(obj);
     }
 }
