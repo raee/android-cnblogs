@@ -27,7 +27,7 @@ public abstract class DbCnblogs extends SQLiteOpenHelper {
             db.execSQL("create table categories(categoryId VARCHAR(128) PRIMARY KEY, parentId VARCHAR(128), NAME VARCHAR(128), C_TYPE VARCHAR(18), ORDER_NO INT)");
 
             // 广告表
-            db.execSQL("create table ads(ad_id VARCHAR(128) PRIMARY KEY,ad_name VARCHAR(1024),ad_type VARCHAR(128),jump_type VARCHAR(128),ad_url VARCHAR(128),ad_end_date VARCHAR(128))");
+            db.execSQL("create table ads(ad_id VARCHAR(128) PRIMARY KEY,ad_name VARCHAR(1024),ad_type VARCHAR(128),jump_type VARCHAR(128),ad_url VARCHAR(128),image_url VARCHAR(4000),ad_end_date VARCHAR(128))");
 
             db.setTransactionSuccessful();
         } catch (Exception e) {

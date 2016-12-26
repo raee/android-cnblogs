@@ -27,6 +27,7 @@ public class DbAdvert extends DbCnblogs {
             m.setAd_type(readString(cursor, "ad_type"));
             m.setJump_type(readString(cursor, "jump_type"));
             m.setAd_url(readString(cursor, "ad_url"));
+            m.setImage_url(readString(cursor, "image_url"));
             m.setAd_end_date(readString(cursor, "ad_end_date"));
             cursor.close();
             return m;
@@ -45,6 +46,7 @@ public class DbAdvert extends DbCnblogs {
         values.put("ad_type", data.getAd_type());
         values.put("jump_type", data.getJump_type());
         values.put("ad_url", data.getAd_url());
+        values.put("image_url", data.getImage_url());
         values.put("ad_end_date", data.getAd_end_date());
         db().insert(mTbName, null, values);
     }

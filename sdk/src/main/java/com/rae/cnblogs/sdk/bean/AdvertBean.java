@@ -5,6 +5,7 @@ public class AdvertBean {
     private String ad_id;
     private String create_time;
     private String ad_url;
+    private String image_url;
     private String ad_name;
     private String ad_type;
     private String jump_type;
@@ -64,5 +65,13 @@ public class AdvertBean {
 
     public void setAd_type(String ad_type) {
         this.ad_type = ad_type;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 }

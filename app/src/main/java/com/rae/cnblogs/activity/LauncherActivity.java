@@ -5,16 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILauncherPresenter;
-import com.rae.cnblogs.sdk.bean.Blog;
 
 import butterknife.BindView;
 
@@ -27,7 +29,12 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     @BindView(R.id.img_launcher_display)
     ImageView mDisplayView;
 
+    @BindView(R.id.tv_launcher_name)
+    TextView mNameView;
+
+
     ILauncherPresenter mLauncherPresenter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,25 +70,34 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     }
 
     @Override
-    public void onLoadImage(String url) {
+    public void onLoadImage(String name, String url) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
+        mNameView.setText(name);
         showImage(url);
     }
 
     @Override
     public void onJumpToWeb(String url) {
-
+        AppRoute.jumpToWeb(url);
+        finish();
     }
 
     @Override
-    public void onJumpToBlog(Blog blog) {
-
+    public void onJumpToBlog(String id) {
+        AppRoute.jumpToBlogContent(this, null);
+        finish();
     }
 
     @Override
     public void onNormalImage() {
+        mDisplayView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+    }
 
+    @Override
+    public void onJumpToMain() {
+        AppRoute.jumpToMain(this);
+        finish();
     }
 }
