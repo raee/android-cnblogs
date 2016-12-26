@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,6 +57,16 @@ public class BlogContentActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         showHomeAsUp(mToolbar);
 
+        for (int i = 0; i < mToolbar.getChildCount(); i++) {
+            View childAt = mToolbar.getChildAt(i);
+            if (childAt.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) childAt.getLayoutParams();
+                Log.w("Rae", params.leftMargin + "_" + params.topMargin + "_" + params.rightMargin + "_" + params.bottomMargin);
+            }
+            Log.d("Rae", childAt.getId() + " -- >" + childAt.toString());
+        }
+
+
         Blog blog = getIntent().getParcelableExtra("blog");
         mContentDialog = new BlogShareDialog(this, blog) {
             @Override
@@ -91,7 +103,7 @@ public class BlogContentActivity extends BaseActivity {
         mContentFragment = BlogContentFragment.newInstance(blog);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_content, BlogCommentFragment.newInstance(null));
+        transaction.add(R.id.fl_content, BlogCommentFragment.newInstance(blog));
         transaction.add(R.id.fl_content, mContentFragment);
         transaction.commit();
     }
@@ -114,4 +126,9 @@ public class BlogContentActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+//    @OnClick(android.R.id.home)
+//    public void onBackClick() {
+//        onBackPressed();
+//    }
 }

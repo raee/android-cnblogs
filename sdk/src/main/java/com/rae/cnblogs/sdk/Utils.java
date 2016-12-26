@@ -79,4 +79,11 @@ public final class Utils {
         if (TextUtils.isEmpty(text)) return "0";
         return text.trim();
     }
+
+    public static String getBlogApp(String authorUrl) {
+        if (authorUrl == null) return null;
+
+        return authorUrl.replace("http://www.cnblogs.com/", "").replace("/", "");
+
+    }
 }

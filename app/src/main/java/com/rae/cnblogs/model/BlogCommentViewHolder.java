@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.rae.cnblogs.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 博客评论View
@@ -26,5 +27,6 @@ public class BlogCommentViewHolder extends RecyclerView.ViewHolder {
 
     public BlogCommentViewHolder(View itemView) {
         super(itemView);
+        ButterKnife.bind(this, itemView);
     }
 }

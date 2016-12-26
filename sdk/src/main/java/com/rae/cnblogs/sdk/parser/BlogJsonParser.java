@@ -48,6 +48,7 @@ public class BlogJsonParser implements IApiJsonResponse {
             String summary = element.select(".post_item_summary").text(); // 摘要
             String author = element.select(".lightblue").text(); // 作者
             String authorUrl = element.select(".lightblue").attr("href"); // 作者博客地址
+            String blogApp = Utils.getBlogApp(authorUrl);
             String comment = Utils.getCount(Utils.getNumber(element.select(".article_comment .gray").text())); // 评论
             String views = Utils.getCount(Utils.getNumber(element.select(".article_view .gray").text())); // 阅读
             String likes = Utils.getCount(element.select(".diggnum").text()); // 点赞或者是推荐
@@ -61,6 +62,7 @@ public class BlogJsonParser implements IApiJsonResponse {
             m.setSummary(summary);
             m.setAuthor(author);
             m.setAuthorUrl(authorUrl);
+            m.setBlogApp(blogApp);
             m.setComment(comment);
             m.setViews(views);
             m.setPostDate(date);

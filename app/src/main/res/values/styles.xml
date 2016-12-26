@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="actionBarDivider">@color/transparent</item>
         <item name="actionBarStyle">@style/AppActionBar</item>
         <item name="windowNoTitle">true</item>
@@ -11,8 +11,8 @@
         <item name="buttonStyle">@style/AppButton</item>
     </style>
 
-    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">#262626</item>
+
+    <style name="AppTheme.Light" parent="Theme.AppCompat.NoActionBar">
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -23,6 +23,7 @@
     <style name="AppTheme.NoActionBar.FullScreen">
         <item name="android:windowFullscreen">true</item>
     </style>
+
 
     <style name="AppButton" parent="@style/Widget.AppCompat.Button">
     </style>
@@ -59,6 +60,8 @@
 
     <style name="AppToolBar" parent="Widget.AppCompat.Toolbar">
         <item name="contentInsetStart">0dp</item><!-- 设置该属性解决空白部分-->
+        <item name="contentInsetStartWithNavigation">0dp</item>
+
     </style>
 
     <style name="progress_bar_web" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">

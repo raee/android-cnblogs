@@ -37,7 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setHomeAsUpIndicator(R.drawable.ic_back);
-            bar.setDisplayShowHomeEnabled(true);
+            bar.setDisplayShowHomeEnabled(false);
             bar.setDisplayShowTitleEnabled(false);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -48,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected  int parseInt(String text){
+    protected int parseInt(String text) {
         try {
             return Integer.parseInt(text);
         } catch (NumberFormatException e) {

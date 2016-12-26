@@ -2,6 +2,7 @@ package com.rae.cnblogs.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.rae.cnblogs.R;
@@ -60,6 +61,9 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mItemAdapter = new BlogCommentItemAdapter();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setPullRefreshEnabled(false);
+        mRecyclerView.setLoadingMoreEnabled(false);
         mRecyclerView.setAdapter(mItemAdapter);
     }
 

@@ -33,7 +33,15 @@ public class BlogCommentParser implements IApiJsonResponse {
 
     @Override
     public void onJsonResponse(String json) {
+        if (TextUtils.isEmpty(json)) {
+            onJsonResponseError(ApiErrorCode.ERROR_EMPTY_DATA.getErrorCode(), null);
+            return;
+        }
         BlogCommentModel model = JSON.parseObject(json, BlogCommentModel.class);
+        if (model == null) {
+            onJsonResponseError(ApiErrorCode.ERROR_EMPTY_DATA.getErrorCode(), null);
+            return;
+        }
         String html = model.getCommentsHtml();
         if (TextUtils.isEmpty(html)) {
             onJsonResponseError(ApiErrorCode.ERROR_EMPTY_DATA.getErrorCode(), null);
@@ -48,7 +56,7 @@ public class BlogCommentParser implements IApiJsonResponse {
         for (Element feed : feeds) {
             String id = Utils.getNumber(feed.select(".layer").attr("href"));
             String authorName = feed.select("#a_comment_author_" + id).text();
-            String blogApp = feed.select("#a_comment_author_" + id).attr("href").replace("http://www.cnblogs.com/", "").replace("/", "");
+            String blogApp = Utils.getBlogApp(feed.select("#a_comment_author_" + id).attr("href"));
             String date = Utils.getDate(feed.select(".comment_date").text());
             String body = feed.select(".blog_comment_body").text();
             String like = Utils.getNumber(feed.select(".comment_digg").text());
