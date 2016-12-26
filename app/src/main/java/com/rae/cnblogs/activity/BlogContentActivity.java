@@ -91,8 +91,8 @@ public class BlogContentActivity extends BaseActivity {
         mContentFragment = BlogContentFragment.newInstance(blog);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_content, mContentFragment);
         transaction.add(R.id.fl_content, BlogCommentFragment.newInstance(null));
+        transaction.add(R.id.fl_content, mContentFragment);
         transaction.commit();
     }
 

@@ -6,10 +6,13 @@ import android.view.View;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogCommentItemAdapter;
+import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
+import com.rae.cnblogs.presenter.IBlogCommentPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -18,7 +21,7 @@ import butterknife.BindView;
  * 评论
  * Created by ChenRui on 2016/12/15 0015 19:22.
  */
-public class BlogCommentFragment extends BaseFragment {
+public class BlogCommentFragment extends BaseFragment implements IBlogCommentPresenter.IBlogCommentView {
 
     public static BlogCommentFragment newInstance(Blog blog) {
 
@@ -31,7 +34,12 @@ public class BlogCommentFragment extends BaseFragment {
 
     @BindView(R.id.rec_blog_comment_list)
     RaeRecyclerView mRecyclerView;
+
+    @BindView(R.id.placeholder)
+    PlaceholderView mPlaceholderView;
+
     private BlogCommentItemAdapter mItemAdapter;
+    private IBlogCommentPresenter mCommentPresenter;
 
     private Blog mBlog;
 
@@ -43,6 +51,7 @@ public class BlogCommentFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mCommentPresenter = CnblogsPresenterFactory.getBlogCommentPresenter(getContext(), this);
         if (getArguments() != null)
             mBlog = getArguments().getParcelable("blog");
     }
@@ -51,16 +60,34 @@ public class BlogCommentFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mItemAdapter = new BlogCommentItemAdapter();
-        List<Blog> data = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            data.add(new Blog());
-        }
-        mItemAdapter.invalidate(data);
         mRecyclerView.setAdapter(mItemAdapter);
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        mCommentPresenter.start();
+    }
+
+    @Override
+    public void onLoadCommentSuccess(List<BlogComment> data) {
+        mPlaceholderView.dismiss();
+        mItemAdapter.invalidate(data);
+        mItemAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public Blog getBlog() {
+        return mBlog;
+    }
+
+    @Override
+    public void onLoadCommentEmpty() {
+        mPlaceholderView.empty();
+    }
+
+    @Override
+    public void onLoadMoreCommentEmpty() {
+
     }
 }

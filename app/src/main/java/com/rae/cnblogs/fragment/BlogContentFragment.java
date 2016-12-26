@@ -18,6 +18,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.alibaba.fastjson.JSON;
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
@@ -120,7 +121,10 @@ public class BlogContentFragment extends BaseFragment implements IBlogContentPre
                         Log.w("rae", "博客ID为：" + id);
                         return true;
                     }
-
+                    if (url.endsWith("apk") || url.endsWith("zip")) {
+                        AppRoute.jumpToDownload(view.getContext(), url);
+                        return true;
+                    }
                 }
 
                 return super.shouldOverrideUrlLoading(view, url);
