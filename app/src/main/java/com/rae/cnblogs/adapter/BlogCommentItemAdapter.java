@@ -1,9 +1,12 @@
 package com.rae.cnblogs.adapter;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.BlogCommentViewHolder;
 import com.rae.cnblogs.sdk.bean.BlogComment;
 
@@ -24,5 +27,9 @@ public class BlogCommentItemAdapter extends BaseItemAdapter<BlogComment, BlogCom
         holder.authorTitleView.setText(m.getAuthorName());
         holder.dateView.setText(m.getDate());
         holder.contentView.setText(m.getBody());
+
+        if (!TextUtils.isEmpty(m.getAvatar())) {
+            ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, RaeImageLoader.headerOption());
+        }
     }
 }

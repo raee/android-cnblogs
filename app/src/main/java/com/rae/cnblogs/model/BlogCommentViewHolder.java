@@ -2,6 +2,7 @@ package com.rae.cnblogs.model;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rae.cnblogs.R;
@@ -17,6 +18,9 @@ public class BlogCommentViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.tv_blog_author)
     public TextView authorTitleView;
+
+    @BindView(R.id.img_blog_avatar)
+    public ImageView avatarView;
 
     @BindView(R.id.tv_blog_date)
     public TextView dateView;

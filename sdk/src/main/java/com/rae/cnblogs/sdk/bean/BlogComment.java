@@ -15,6 +15,7 @@ public class BlogComment {
     private String body;
     private String like;
     private String unlike;
+    private String mAvatar;
 
     public String getId() {
         return id;
@@ -79,5 +80,13 @@ public class BlogComment {
             return TextUtils.equals(comment.getId(), this.getId());
         }
         return super.equals(obj);
+    }
+
+    public void setAvatar(String avatar) {
+        mAvatar = avatar;
+    }
+
+    public String getAvatar() {
+        return mAvatar;
     }
 }

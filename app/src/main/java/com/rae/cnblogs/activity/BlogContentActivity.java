@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,8 +46,14 @@ public class BlogContentActivity extends BaseActivity {
     @BindView(R.id.tv_like_badge)
     TextView mLikeBadgeView;
 
+    @BindView(R.id.fl_content)
+    View mContentLayout;
+
+    @BindView(R.id.fl_comment)
+    View mCommentLayout;
+
     private BlogShareDialog mContentDialog;
-    //    private BlogCommentDialog mCommentDialog;
+    private BlogCommentFragment mBlogCommentFragment;
     private BlogContentFragment mContentFragment;
 
     @Override
@@ -74,14 +81,6 @@ public class BlogContentActivity extends BaseActivity {
                 if (mContentFragment.isHidden() || mContentFragment.isDetached()) return;
                 mContentFragment.loadSourceUrl();
             }
-
-            @Override
-            protected String getUrl() {
-                if (mContentFragment.isHidden() || mContentFragment.isDetached()) {
-                    return super.getUrl();
-                }
-                return mContentFragment.getUrl();
-            }
         };
 
 //        mCommentDialog = BlogCommentDialog.newInstance(blog);
@@ -101,11 +100,13 @@ public class BlogContentActivity extends BaseActivity {
         }
 
         mContentFragment = BlogContentFragment.newInstance(blog);
+        mBlogCommentFragment = BlogCommentFragment.newInstance(blog);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_content, BlogCommentFragment.newInstance(blog));
+        transaction.add(R.id.fl_comment, mBlogCommentFragment);
         transaction.add(R.id.fl_content, mContentFragment);
         transaction.commit();
+
     }
 
     @OnClick(R.id.img_action_bar_more)
@@ -115,20 +116,46 @@ public class BlogContentActivity extends BaseActivity {
 
     @OnClick(R.id.layout_content_comment)
     public void onCommentClick() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_content, BlogCommentFragment.newInstance(null)).addToBackStack(null).commit();
-//        mCommentDialog.show(getSupportFragmentManager());
+//        mBlogCommentFragment.show(getSupportFragmentManager());
+
+        if (mCommentLayout.getVisibility() == View.VISIBLE) {
+            dismissCommentDialog();
+        } else {
+            showCommentDialog();
+        }
+
+
+    }
+
+
+    private void dismissCommentDialog() {
+        mCommentLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_bottom));
+        mContentLayout.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
+        mCommentLayout.setVisibility(View.GONE);
+    }
+
+    private void showCommentDialog() {
+        mCommentLayout.setVisibility(View.VISIBLE);
+        mCommentLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_bottom));
+        mContentLayout.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+
         if (mContentFragment != null && mContentFragment.isVisible() && mContentFragment.onKeyDown(keyCode, event)) {
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
-//    @OnClick(android.R.id.home)
-//    public void onBackClick() {
-//        onBackPressed();
-//    }
+    @Override
+    public void onBackPressed() {
+        if (mCommentLayout.getVisibility() == View.VISIBLE) {
+            dismissCommentDialog();
+            return;
+        }
+        super.onBackPressed();
+
+    }
 }

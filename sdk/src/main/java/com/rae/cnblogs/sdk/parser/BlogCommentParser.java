@@ -61,15 +61,18 @@ public class BlogCommentParser implements IApiJsonResponse {
             String body = feed.select(".blog_comment_body").text();
             String like = Utils.getNumber(feed.select(".comment_digg").text());
             String unlike = Utils.getNumber(feed.select(".comment_bury").text());
+            String avatar = feed.select(".comment_" + id + "_avatar").text();
 
             BlogComment m = new BlogComment();
             m.setId(id);
             m.setAuthorName(authorName);
+            m.setAvatar(avatar);
             m.setBlogApp(blogApp);
             m.setDate(date);
             m.setBody(body);
             m.setLike(like);
             m.setUnlike(unlike);
+
             result.add(m);
         }
 

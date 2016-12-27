@@ -12,7 +12,8 @@
     </style>
 
 
-    <style name="AppTheme.Light" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme.Light">
+        <item name="colorPrimaryDark">#cccccc</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -41,6 +42,12 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowAnimationStyle">@style/SlideAnimation</item>
+    </style>
+
+    <style name="SlideDialog.Comment">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
     <style name="SlideAnimation">

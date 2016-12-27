@@ -4,16 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/default_background">
 
-    >
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:gravity="center"
-                  android:fitsSystemWindows="true"
-                  android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/tool_bar"
@@ -70,14 +68,27 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <!--内容区域-->
-        <FrameLayout
-            android:id="@+id/fl_content"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@android:color/white"/>
+            android:layout_weight="1">
+            <!--内容区域-->
+            <FrameLayout
+                android:id="@+id/fl_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"/>
 
+
+            <!--评论区域-->
+            <FrameLayout
+                android:id="@+id/fl_comment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
