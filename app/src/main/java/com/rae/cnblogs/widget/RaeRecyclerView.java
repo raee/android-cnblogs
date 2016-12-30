@@ -10,11 +10,14 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 /**
+ * RecycleView
  * Created by ChenRui on 2016/12/3 17:26.
  */
 public class RaeRecyclerView extends XRecyclerView {
 
     private RaeLoadMoreView mFootView;
+
+
 
     public RaeRecyclerView(Context context) {
         super(context);
@@ -32,12 +35,16 @@ public class RaeRecyclerView extends XRecyclerView {
     }
 
     private void init() {
+
+
         setPullRefreshEnabled(false);
         mFootView = new RaeLoadMoreView(getContext());
         mFootView.setVisibility(GONE);
         setLoadingMoreProgressStyle(ProgressStyle.BallScaleMultiple);
         setFootView(mFootView);
+
     }
+
 
     @Override
     public void setLoadingMoreProgressStyle(int style) {
@@ -84,4 +91,7 @@ public class RaeRecyclerView extends XRecyclerView {
         }
         return false;
     }
+
+
+
 }

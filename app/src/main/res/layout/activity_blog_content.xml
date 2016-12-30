@@ -79,6 +79,12 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/white"/>
 
+            <View
+                android:id="@+id/view_alpha"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0"
+                android:background="@android:color/black"/>
 
             <!--评论区域-->
             <FrameLayout

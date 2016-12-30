@@ -14,6 +14,7 @@ import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogCommentPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.ui.SwipeDownScrollerCompat;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 
@@ -46,6 +47,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     private IBlogCommentPresenter mCommentPresenter;
 
     private Blog mBlog;
+    private SwipeDownScrollerCompat mSwipeDownScrollerCompat;
 
     @Override
     protected int getLayoutId() {
@@ -93,42 +95,31 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
                 mCommentPresenter.loadMore();
             }
         });
-        mRecyclerView.setAdapter(mItemAdapter);
 
-        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-            private float mStartY;
+        final View alphaView = getActivity().findViewById(R.id.view_alpha);
+
+        mRecyclerView.setAdapter(mItemAdapter);
+        mSwipeDownScrollerCompat = new SwipeDownScrollerCompat((View) mRecyclerView.getParent().getParent(), new SwipeDownScrollerCompat.SwipeDownScrollerHandler() {
+            @Override
+            public boolean canSwipe() {
+                return mRecyclerView.isOnTop();
+            }
 
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                final View parentView = (View) view.getParent().getParent();
-                final int canSwipeHeight = parentView.getHeight() / 3;
-
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        mStartY = motionEvent.getRawY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        float offset = motionEvent.getRawY() - mStartY;
-
-                        Log.w("Rae", "offset：" + offset);
-
-                        if (offset < 0) {
-                            parentView.setTranslationY(0);
-                            break;
-                        }
-
-                        parentView.setTranslationY(offset);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
-                        float translationY = parentView.getTranslationY();
-                        if (translationY > canSwipeHeight) {
-                            parentView.setTranslationY(parentView.getHeight());
-                        }
-                        break;
+            public void onComputeScrollOffset(int offset, float p) {
+                if (Float.isNaN(p) || Float.isInfinite(p)) {
+                    return;
                 }
-
-                return false;
+                float alpha = 1 - p;
+                if (alpha < 0.5) alpha = 0.2f;
+                alphaView.setAlpha(alpha);
+                Log.w("Rae", "onComputeScrollOffset, offset = " + offset + "; p = " + p);
+            }
+        });
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return mSwipeDownScrollerCompat.onTouchEvent(motionEvent);
             }
         });
     }
