@@ -9,12 +9,13 @@ import com.rae.cnblogs.R;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 
 /**
  * 基类
  * Created by ChenRui on 2016/12/1 21:35.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity{
 
     protected void bindView() {
         ButterKnife.bind(this);

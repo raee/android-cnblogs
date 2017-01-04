@@ -41,7 +41,20 @@ public class BaseTest {
     }
 
     public void log(Object msg, Object... args) {
-        Log.d("Rae", String.format(msg.toString(), args));
+        // 超出大小
+        int maxLength = 3 * 1024;
+        String response = msg.toString();
+        if (response.length() > maxLength) {
+            for (int i = 0; i < response.length(); i += maxLength) {
+                int len = i + maxLength;
+                if (len < response.length())
+                    Log.i("rae", response.substring(i, len));
+                else
+                    Log.i("rae", response.substring(i, response.length()));
+            }
+        } else {
+            Log.i("rae", String.format(msg.toString(), args));
+        }
     }
 
     public void error(Object msg, Object... args) {

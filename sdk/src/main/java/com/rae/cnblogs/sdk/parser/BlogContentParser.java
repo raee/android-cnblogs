@@ -1,12 +1,17 @@
 package com.rae.cnblogs.sdk.parser;
 
+import android.text.TextUtils;
+
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiErrorCode;
 import com.rae.core.sdk.exception.ApiException;
 import com.rae.core.sdk.net.IApiJsonResponse;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import org.w3c.dom.Document;
+
+import java.io.ByteArrayInputStream;
+
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * 博文解析
@@ -22,9 +27,21 @@ public class BlogContentParser implements IApiJsonResponse {
 
     @Override
     public void onJsonResponse(String json) {
+        if (TextUtils.isEmpty(json)) {
+            onJsonResponseError(ApiErrorCode.ERROR_EMPTY_DATA.getErrorCode(), null);
+            return;
+        }
+
         // 解析XML
-        Document document = Jsoup.parse(json);
-        mListener.onApiSuccess(document.select("string").text());
+        try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(json.getBytes("UTF-8"));
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
+            String content = doc.getDocumentElement().getTextContent();
+            mListener.onApiSuccess(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+            onJsonResponseError(ApiErrorCode.ERROR_JSON_PARSE.getErrorCode(), e);
+        }
     }
 
     @Override

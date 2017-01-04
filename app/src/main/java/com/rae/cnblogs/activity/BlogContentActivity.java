@@ -29,7 +29,7 @@ import butterknife.OnClick;
  * 博文查看
  * Created by ChenRui on 2016/12/6 21:38.
  */
-public class BlogContentActivity extends BaseActivity {
+public class BlogContentActivity extends SwipeBackBaseActivity {
 
     @BindView(R.id.tool_bar)
     Toolbar mToolbar;

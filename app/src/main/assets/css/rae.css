@@ -7,3 +7,6 @@
 #blog_content{
     line-height:26px;
 }
+.container-fluid{
+        overflow: auto;
+}

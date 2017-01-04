@@ -73,7 +73,7 @@ public class BlogApiTest extends BaseTest {
         run(new Runnable() {
             @Override
             public void run() {
-                mApi.getContents("6105103", new ApiUiListener<String>() {
+                mApi.getContents("6246780", new ApiUiListener<String>() {
                     @Override
                     public void onApiFailed(ApiException ex, String msg) {
                         stop();
