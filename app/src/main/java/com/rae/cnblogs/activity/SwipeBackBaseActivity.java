@@ -13,7 +13,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
  * 可以滑动返回的
  * Created by ChenRui on 2017/1/4 0004 10:03.
  */
-public abstract class SwipeBackBaseActivity extends BaseActivity {
+public abstract class SwipeBackBaseActivity extends BaseActivity implements SwipeBackActivityBase {
 
     private SwipeBackActivityHelper mHelper;
 

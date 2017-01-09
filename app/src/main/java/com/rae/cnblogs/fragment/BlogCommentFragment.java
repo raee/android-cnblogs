@@ -3,8 +3,6 @@ package com.rae.cnblogs.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -14,7 +12,6 @@ import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogCommentPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.BlogComment;
-import com.rae.cnblogs.ui.SwipeDownScrollerCompat;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 
@@ -47,7 +44,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     private IBlogCommentPresenter mCommentPresenter;
 
     private Blog mBlog;
-    private SwipeDownScrollerCompat mSwipeDownScrollerCompat;
+//    private SwipeDownScrollerCompat mSwipeDownScrollerCompat;
 
     @Override
     protected int getLayoutId() {
@@ -96,32 +93,32 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
             }
         });
 
-        final View alphaView = getActivity().findViewById(R.id.view_alpha);
+//        final View alphaView = getActivity().findViewById(R.id.view_alpha);
 
         mRecyclerView.setAdapter(mItemAdapter);
-        mSwipeDownScrollerCompat = new SwipeDownScrollerCompat((View) mRecyclerView.getParent().getParent(), new SwipeDownScrollerCompat.SwipeDownScrollerHandler() {
-            @Override
-            public boolean canSwipe() {
-                return mRecyclerView.isOnTop();
-            }
-
-            @Override
-            public void onComputeScrollOffset(int offset, float p) {
-                if (Float.isNaN(p) || Float.isInfinite(p)) {
-                    return;
-                }
-                float alpha = 1 - p;
-                if (alpha < 0.5) alpha = 0.2f;
-                alphaView.setAlpha(alpha);
-                Log.w("Rae", "onComputeScrollOffset, offset = " + offset + "; p = " + p);
-            }
-        });
-        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return mSwipeDownScrollerCompat.onTouchEvent(motionEvent);
-            }
-        });
+//        mSwipeDownScrollerCompat = new SwipeDownScrollerCompat((View) mRecyclerView.getParent().getParent(), new SwipeDownScrollerCompat.SwipeDownScrollerHandler() {
+//            @Override
+//            public boolean canSwipe() {
+//                return mRecyclerView.isOnTop();
+//            }
+//
+//            @Override
+//            public void onComputeScrollOffset(int offset, float p) {
+//                if (Float.isNaN(p) || Float.isInfinite(p)) {
+//                    return;
+//                }
+//                float alpha = 1 - p;
+//                if (alpha < 0.5) alpha = 0.2f;
+//                alphaView.setAlpha(alpha);
+//                Log.w("Rae", "onComputeScrollOffset, offset = " + offset + "; p = " + p);
+//            }
+//        });
+//        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                return mSwipeDownScrollerCompat.onTouchEvent(motionEvent);
+//            }
+//        });
     }
 
     @Override

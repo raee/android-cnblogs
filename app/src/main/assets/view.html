@@ -72,13 +72,23 @@
 				$(val).load(function(){
 					$(this).addClass("img-thumbnail");
 					setImageSize($(this));
-				});
+					});
 			});
 		}
 
 		// 设置图片大小，防止图像溢出
 		function setImageSize(obj){
 			var imgWidth = $(obj).width();
+			var src = $(obj).attr("src");
+			var filter = ["ExpandedBlockStart.gif","ContractedBlock.gif"];
+
+			for(var i in filter){
+			    var item = filter[i];
+			    if(src.indexOf(item)>=0){
+			        return;
+			    }
+			}
+
 			if(imgWidth>=width)
 			{
 				$(obj).css("width","100%");
@@ -99,6 +109,8 @@
 
 			loadImage();
 		}
+
+
 
 
     </script>

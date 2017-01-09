@@ -14,6 +14,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.widget.RaeDrawerLayout;
 import com.rae.core.sdk.net.VolleyManager;
 
 import java.io.UnsupportedEncodingException;
@@ -29,6 +30,9 @@ public class TestActivity extends BaseActivity {
     @BindView(R.id.tv_console)
     TextView mTextView;
 
+    @BindView(R.id.test)
+    RaeDrawerLayout mRaeDrawerLayout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +47,7 @@ public class TestActivity extends BaseActivity {
     @OnClick(R.id.btn_test)
     void onTestClick() {
 
+        mRaeDrawerLayout.swipeUp();
 
         RequestQueue requestQueue = VolleyManager.newRequestQueue(getApplicationContext());
         StringRequest request = new StringRequest(Request.Method.GET, "http://192.168.210.97:808/rae/index.php/welcome/cachetest", new Response.Listener<String>() {
