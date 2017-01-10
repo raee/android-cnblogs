@@ -1,10 +1,12 @@
 package com.rae.cnblogs.dialog;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -15,6 +17,9 @@ import android.view.animation.TranslateAnimation;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +56,24 @@ public class BlogShareDialog extends SlideDialog {
     @BindView(R.id.tv_share_browser)
     View mBrowseriew;
 
+    private ShareAction mShareAction;
+
 
     public BlogShareDialog(Context context, Blog blog) {
         super(context);
         mBlog = blog;
         setContentView(R.layout.dialog_blog_content);
         ButterKnife.bind(this, this);
+
+        mShareAction = new ShareAction((Activity) context);
+        mShareAction.withTitle(blog.getTitle());
+        mShareAction.withText(blog.getSummary());
+        mShareAction.withTargetUrl(blog.getUrl());
+        if (!TextUtils.isEmpty(blog.getAvatar())) {
+            mShareAction.withMedia(new UMImage(getContext(), blog.getAvatar()));
+        } else {
+            mShareAction.withMedia(new UMImage(getContext(), R.drawable.ic_share));
+        }
     }
 
     // 开始动画
@@ -108,18 +125,28 @@ public class BlogShareDialog extends SlideDialog {
         startAnim();
     }
 
+    private void share(SHARE_MEDIA type) {
+        mShareAction.setPlatform(type);
+        mShareAction.share();
+    }
+
     @OnClick({R.id.tv_share_wechat, R.id.tv_share_wechat_sns, R.id.tv_share_qq, R.id.tv_share_qzone, R.id.tv_share_sina, R.id.tv_share_source})
     void onShareClick(View view) {
         switch (view.getId()) {
             case R.id.tv_share_wechat:
+                share(SHARE_MEDIA.WEIXIN);
                 break;
             case R.id.tv_share_wechat_sns:
+                share(SHARE_MEDIA.WEIXIN_CIRCLE);
                 break;
             case R.id.tv_share_qq:
+                share(SHARE_MEDIA.QQ);
                 break;
             case R.id.tv_share_qzone:
+                share(SHARE_MEDIA.QZONE);
                 break;
             case R.id.tv_share_sina:
+                share(SHARE_MEDIA.SINA);
                 break;
             case R.id.tv_share_source:
                 onViewSourceClick();
