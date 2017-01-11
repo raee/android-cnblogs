@@ -20,6 +20,7 @@ import com.rae.cnblogs.dialog.BlogShareDialog;
 import com.rae.cnblogs.fragment.BlogCommentFragment;
 import com.rae.cnblogs.fragment.BlogContentFragment;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.widget.RaeDrawerLayout;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -50,10 +51,9 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     View mContentLayout;
 
     @BindView(R.id.fl_comment)
-    View mCommentLayout;
+    RaeDrawerLayout mCommentLayout;
 
     private BlogShareDialog mContentDialog;
-    private BlogCommentFragment mBlogCommentFragment;
     private BlogContentFragment mContentFragment;
 
     @Override
@@ -100,10 +100,10 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         }
 
         mContentFragment = BlogContentFragment.newInstance(blog);
-        mBlogCommentFragment = BlogCommentFragment.newInstance(blog);
+        BlogCommentFragment blogCommentFragment = BlogCommentFragment.newInstance(blog);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_comment, mBlogCommentFragment);
+        transaction.add(R.id.fl_comment, blogCommentFragment);
         transaction.add(R.id.fl_content, mContentFragment);
         transaction.commit();
 
@@ -118,11 +118,13 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     public void onCommentClick() {
 //        mBlogCommentFragment.show(getSupportFragmentManager());
 
-        if (mCommentLayout.getVisibility() == View.VISIBLE) {
-            dismissCommentDialog();
-        } else {
-            showCommentDialog();
-        }
+        mCommentLayout.toggle();
+
+//        if (mCommentLayout.getVisibility() == View.VISIBLE) {
+//            dismissCommentDialog();
+//        } else {
+//            showCommentDialog();
+//        }
 
 
     }

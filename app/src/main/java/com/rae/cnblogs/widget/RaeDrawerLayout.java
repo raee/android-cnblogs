@@ -118,6 +118,14 @@ public class RaeDrawerLayout extends DrawerLayout {
         mDragHelper.smoothSlideViewTo(mDrawView, 0, 0);
     }
 
+    public void toggle() {
+        if (getVisibility() == View.GONE) {
+            swipeUp();
+        } else {
+            smooth(getHeight());
+        }
+    }
+
     private class ViewDrawCallBack extends ViewDragHelper.Callback {
 
         @Override
