@@ -63,6 +63,11 @@ public class RaeDrawerLayout extends DrawerLayout {
 
 
     @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return mDragHelper.shouldInterceptTouchEvent(ev);
+    }
+
+    @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         boolean ret = super.drawChild(canvas, child, drawingTime);
 
@@ -77,11 +82,6 @@ public class RaeDrawerLayout extends DrawerLayout {
             canvas.drawColor(color);
         }
         return ret;
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return mDragHelper.shouldInterceptTouchEvent(ev);
     }
 
     public void smooth() {
