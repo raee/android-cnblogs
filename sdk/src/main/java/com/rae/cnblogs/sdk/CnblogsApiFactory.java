@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.rae.cnblogs.sdk.impl.AdvertApiImpl;
 import com.rae.cnblogs.sdk.impl.BlogApiImpl;
+import com.rae.cnblogs.sdk.impl.BookmarksApiImpl;
 import com.rae.cnblogs.sdk.impl.CategoryApiImpl;
+import com.rae.cnblogs.sdk.impl.UserApiImpl;
 
 /**
  * 博客园接口实例化
@@ -20,10 +22,20 @@ public final class CnblogsApiFactory {
     }
 
     /**
+     * 获取用户接口
+     */
+    public static IUserApi getUserApi(Context context) {
+        return new UserApiImpl(context);
+    }
+    /**
+     * 获取收藏接口
+     */
+    public static IBookmarksApi getBookmarksApi(Context context) {
+        return new BookmarksApiImpl(context);
+    }
+
+    /**
      * 获取广告接口
-     *
-     * @param context
-     * @return
      */
     public static IAdvertApi getAdvertApi(Context context) {
         return new AdvertApiImpl(context);

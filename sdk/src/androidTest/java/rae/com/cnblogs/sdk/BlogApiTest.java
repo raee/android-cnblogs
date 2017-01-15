@@ -36,7 +36,7 @@ public class BlogApiTest extends BaseTest {
 
     @Test
     public void testCategory() throws InterruptedException {
-        run(new Runnable() {
+        startTest(new Runnable() {
             @Override
             public void run() {
                 mCategoryApi.getCategory(new ApiUiArrayListener<Category>() {
@@ -60,7 +60,7 @@ public class BlogApiTest extends BaseTest {
 
     @Test
     public void testHomeBlogs() throws InterruptedException {
-        run(new Runnable() {
+        startTest(new Runnable() {
             @Override
             public void run() {
 
@@ -70,7 +70,7 @@ public class BlogApiTest extends BaseTest {
 
     @Test
     public void testContent() throws InterruptedException {
-        run(new Runnable() {
+        startTest(new Runnable() {
             @Override
             public void run() {
                 mApi.getContents("6246780", new ApiUiListener<String>() {
@@ -91,7 +91,7 @@ public class BlogApiTest extends BaseTest {
 
     @Test
     public void testComment() throws InterruptedException {
-        run(new Runnable() {
+        startTest(new Runnable() {
             @Override
             public void run() {
                 mApi.getComment(1, "6134506", "pengze0902", new ApiUiArrayListener<BlogComment>() {

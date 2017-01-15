@@ -88,6 +88,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         if (blog != null) {
             ImageLoader.getInstance().displayImage(blog.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
             mAuthorView.setText(blog.getAuthor());
+            // 角标处理
             if (!TextUtils.equals(blog.getComment(), "0")) {
                 mCommentBadgeView.setText(blog.getComment());
                 mCommentBadgeView.setVisibility(View.VISIBLE);

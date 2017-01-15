@@ -44,17 +44,12 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     private IBlogCommentPresenter mCommentPresenter;
 
     private Blog mBlog;
-//    private SwipeDownScrollerCompat mSwipeDownScrollerCompat;
 
     @Override
     protected int getLayoutId() {
         return R.layout.fm_blog_comment;
     }
 
-//    @Override
-//    protected int getDialogThemeId() {
-//        return R.style.SlideDialog_Comment;
-//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,11 +58,6 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
         if (getArguments() != null)
             mBlog = getArguments().getParcelable("blog");
     }
-
-//    @Override
-//    protected void onDialogViewCreate(View view) {
-//        initView();
-//    }
 
 
     @Override
@@ -93,32 +83,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
             }
         });
 
-//        final View alphaView = getActivity().findViewById(R.id.view_alpha);
-
         mRecyclerView.setAdapter(mItemAdapter);
-//        mSwipeDownScrollerCompat = new SwipeDownScrollerCompat((View) mRecyclerView.getParent().getParent(), new SwipeDownScrollerCompat.SwipeDownScrollerHandler() {
-//            @Override
-//            public boolean canSwipe() {
-//                return mRecyclerView.isOnTop();
-//            }
-//
-//            @Override
-//            public void onComputeScrollOffset(int offset, float p) {
-//                if (Float.isNaN(p) || Float.isInfinite(p)) {
-//                    return;
-//                }
-//                float alpha = 1 - p;
-//                if (alpha < 0.5) alpha = 0.2f;
-//                alphaView.setAlpha(alpha);
-//                Log.w("Rae", "onComputeScrollOffset, offset = " + offset + "; p = " + p);
-//            }
-//        });
-//        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                return mSwipeDownScrollerCompat.onTouchEvent(motionEvent);
-//            }
-//        });
     }
 
     @Override
@@ -149,8 +114,4 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
         mRecyclerView.loadMoreComplete();
         mRecyclerView.setNoMore(true);
     }
-//
-//    public void show(FragmentManager fm) {
-//        show(fm, "blog_comment");
-//    }
 }

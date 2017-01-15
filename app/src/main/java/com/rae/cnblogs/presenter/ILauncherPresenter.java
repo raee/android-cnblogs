@@ -8,6 +8,9 @@ public interface ILauncherPresenter extends IAppPresenter {
 
     void advertClick();
 
+    void stop();
+
+
     interface ILauncherView {
 
         void onLoadImage(String name, String url);

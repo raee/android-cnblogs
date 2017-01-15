@@ -55,6 +55,11 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
     }
 
     @Override
+    public void stop() {
+        mCountDownTimer.cancel();
+    }
+
+    @Override
     public void start() {
 
         mCountDownTimer.start();

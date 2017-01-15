@@ -11,28 +11,22 @@ import com.rae.cnblogs.sdk.parser.BlogJsonParser;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 
+import java.util.HashMap;
+
 /**
  * 博客接口
  * Created by ChenRui on 2016/11/30 00:06.
  */
 public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 
-
     public BlogApiImpl(Context context) {
         super(context);
     }
 
-//    @Override
-//    public void getHomeBlogs(int page, ApiUiArrayListener<Blog> listener) {
-//        post(ApiUrls.API_URL_HOME,
-//                newParams().add("CategoryType", "SiteHome")
-//                        .add("ParentCategoryId", "0")
-//                        .add("CategoryId", "808")
-//                        .add("PageIndex", page)
-//                        .add("ItemListActionName", "PostList"),
-//                new BlogJsonParser(listener)
-//        );
-//    }
+    @Override
+    protected boolean enablePerCache(String url, HashMap<String, String> params) {
+        return true; // 允许首次从缓存加载
+    }
 
     @Override
     public void getBlog(String blogId, ApiUiListener<Blog> listener) {
@@ -41,7 +35,6 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 
     @Override
     public void getBlogs(int page, String type, String parentId, String categoryId, ApiUiArrayListener<Blog> listener) {
-
 
         post(ApiUrls.API_URL_HOME,
                 newParams().add("CategoryType", type)

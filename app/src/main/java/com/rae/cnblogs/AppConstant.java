@@ -21,4 +21,12 @@ public final class AppConstant {
      * 微博APPSecret
      */
     public final static String WEIBO_APP_SECRET = "79152f5ac3d4b183b346f241e2966310";
+    /**
+     * QQ APP ID
+     */
+    public final static String QQ_APP_ID = "1105927778";
+    /**
+     * QQ APPSecret
+     */
+    public final static String QQ_APP_SECRET = "6klDHIKKtF3JYCz4";
 }

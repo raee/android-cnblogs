@@ -67,6 +67,12 @@ public class RaeDrawerLayout extends DrawerLayout {
         return mDragHelper.shouldInterceptTouchEvent(ev);
     }
 
+    // 事件分发
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
+    }
+
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         boolean ret = super.drawChild(canvas, child, drawingTime);
@@ -119,7 +125,7 @@ public class RaeDrawerLayout extends DrawerLayout {
     }
 
     public void toggle() {
-        if (getVisibility() == View.GONE) {
+        if (getVisibility() != View.VISIBLE) {
             swipeUp();
         } else {
             smooth(getHeight());

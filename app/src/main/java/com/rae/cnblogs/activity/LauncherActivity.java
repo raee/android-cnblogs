@@ -42,7 +42,18 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
         setContentView(R.layout.activity_launcher);
         bindView();
         mLauncherPresenter = CnblogsPresenterFactory.getLauncherPresenter(this, this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mLauncherPresenter.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mLauncherPresenter.stop();
     }
 
     private void showImage(String url) {

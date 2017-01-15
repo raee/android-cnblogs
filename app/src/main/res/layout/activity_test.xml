@@ -25,6 +25,7 @@
 
     <com.rae.cnblogs.widget.RaeDrawerLayout
         android:id="@+id/test"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

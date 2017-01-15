@@ -5,19 +5,27 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
+import com.github.raee.runit.RUnitTestLogUtils;
+import com.rae.core.sdk.ApiUiArrayListener;
+import com.rae.core.sdk.ApiUiListener;
+import com.rae.core.sdk.exception.ApiException;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 接口测试基类
  * Created by ChenRui on 2016/11/30 00:16.
  */
 @RunWith(AndroidJUnit4.class)
 public class BaseTest {
 
-    protected Context mContext;
+    Context mContext;
 
     private final CountDownLatch mCountDownLatch = new CountDownLatch(1);
 
@@ -26,9 +34,13 @@ public class BaseTest {
         mContext = InstrumentationRegistry.getTargetContext();
     }
 
-    public void run(Runnable runnable) throws InterruptedException {
-        new Thread(runnable).run();
-        mCountDownLatch.await(5, TimeUnit.MINUTES);
+    public void startTest(Runnable runnable) {
+        try {
+            InstrumentationRegistry.getInstrumentation().runOnMainSync(runnable);
+            mCountDownLatch.await(30, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void stop() {
@@ -58,6 +70,37 @@ public class BaseTest {
     }
 
     public void error(Object msg, Object... args) {
-        Log.e("Rae", String.format(msg.toString(), args));
+        stop();
+        Assert.fail(String.format(msg.toString(), args));
+    }
+
+    protected <T> ApiUiListener<T> listener(Class<T> cls) {
+        return new ApiUiListener<T>() {
+            @Override
+            public void onApiFailed(ApiException ex, String msg) {
+                error("错误信息：%s", msg);
+            }
+
+            @Override
+            public void onApiSuccess(T data) {
+                RUnitTestLogUtils.print("rae", data);
+                stop();
+            }
+        };
+    }
+
+    protected <T> ApiUiArrayListener<T> listListener(Class<T> cls) {
+        return new ApiUiArrayListener<T>() {
+            @Override
+            public void onApiFailed(ApiException ex, String msg) {
+                error("错误信息：%s",  msg);
+            }
+
+            @Override
+            public void onApiSuccess(List<T> data) {
+                RUnitTestLogUtils.print("rae", data);
+                stop();
+            }
+        };
     }
 }
