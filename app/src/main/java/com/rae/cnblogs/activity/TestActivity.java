@@ -2,16 +2,17 @@ package com.rae.cnblogs.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.TextView;
 
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.sdk.CnblogsApiFactory;
+import com.rae.cnblogs.adapter.BlogCommentItemAdapter;
 import com.rae.cnblogs.sdk.bean.BlogComment;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
-import com.rae.core.sdk.ApiUiArrayListener;
-import com.rae.core.sdk.exception.ApiException;
+import com.rae.cnblogs.widget.RaeRecyclerView;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,11 +29,32 @@ public class TestActivity extends BaseActivity {
     @BindView(R.id.test)
     RaeDrawerLayout mRaeDrawerLayout;
 
+    @BindView(R.id.rv_test)
+    RaeRecyclerView mRecyclerView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         bindView();
+
+        BlogCommentItemAdapter adapter = new BlogCommentItemAdapter();
+        List<BlogComment> data = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat("00.##");
+        for (int i = 1; i <= 60; i++) {
+            BlogComment m = new BlogComment();
+            m.setBody("I AM CONTENT " + df.format(i));
+            m.setAuthorName("ITEM " + df.format(i));
+            data.add(m);
+        }
+        adapter.invalidate(data);
+        mRecyclerView.setAdapter(adapter);
+        mRaeDrawerLayout.setDrawerHandler(new RaeDrawerLayout.RaeDrawerHandler() {
+            @Override
+            public boolean checkCanDoDrawer(RaeDrawerLayout view, MotionEvent event) {
+                return mRecyclerView.isOnTop();
+            }
+        });
     }
 
     private void log(String msg) {
@@ -42,19 +64,21 @@ public class TestActivity extends BaseActivity {
     @OnClick(R.id.btn_test)
     void onTestClick() {
 
-        CnblogsApiFactory.getBlogApi(this).getComment(1, "6219795", "everhad", new ApiUiArrayListener<BlogComment>() {
-            @Override
-            public void onApiFailed(ApiException ex, String msg) {
-                Log.e("api", msg);
-            }
+//        CnblogsApiFactory.getBlogApi(this).getComment(1, "6219795", "everhad", new ApiUiArrayListener<BlogComment>() {
+//            @Override
+//            public void onApiFailed(ApiException ex, String msg) {
+//                Log.e("api", msg);
+//            }
+//
+//            @Override
+//            public void onApiSuccess(List<BlogComment> data) {
+//                for (BlogComment comment : data) {
+//                    Log.i("api", "评论；" + comment.getBody());
+//                }
+//            }
+//        });
 
-            @Override
-            public void onApiSuccess(List<BlogComment> data) {
-                for (BlogComment comment : data) {
-                    Log.i("api", "评论；" + comment.getBody());
-                }
-            }
-        });
+        mRaeDrawerLayout.toggle();
 
 //        mRaeDrawerLayout.swipeUp();
 //

@@ -25,23 +25,30 @@
 
     <com.rae.cnblogs.widget.RaeDrawerLayout
         android:id="@+id/test"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <!--        <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/cancel"
+                        android:textSize="32sp"/>
+                </LinearLayout>-->
+
+        <com.rae.cnblogs.widget.RaeRecyclerView
+            android:id="@+id/rv_test"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="@color/commentAvatarColor">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="DEMO TEST"/>
-        </LinearLayout>
+            android:background="@drawable/bg_button_while"
+            android:gravity="center"/>
 
     </com.rae.cnblogs.widget.RaeDrawerLayout>
+
 
 </RelativeLayout>

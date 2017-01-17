@@ -25,13 +25,15 @@ public class WebUserApiImpl extends CnblogsBaseApi implements IUserApi {
     }
 
     @Override
-    public void login(String userName, String password, ApiUiListener<LoginTokenBean> listener) {
+    public void login(String userName, String password, final ApiUiListener<LoginTokenBean> listener) {
         String url = "https://passport.cnblogs.com/user/signin";
         ApiRequest req = newApiRequestBuilder(url,
                 newParams()
                         .add("input1", mRSAEncrypt.publicKeyEncrypt(userName))
                         .add("input2", mRSAEncrypt.publicKeyEncrypt(password)))
                 .addHeader("X-Requested-With", "XMLHttpRequest")
+                .addHeader("Accept", "*/*")
+                .addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36")
                 .addHeader("Content-Type", "application/json; charset=UTF-8")
                 .postMethod()
                 .asJsonBody()
@@ -39,11 +41,13 @@ public class WebUserApiImpl extends CnblogsBaseApi implements IUserApi {
                     @Override
                     public void onJsonResponse(String s) {
                         Log.d("api", s);
+                        listener.onApiSuccess(null);
                     }
 
                     @Override
                     public void onJsonResponseError(int i, Throwable throwable) {
                         throwable.printStackTrace();
+                        listener.onApiSuccess(null);
                     }
                 }).build();
 
