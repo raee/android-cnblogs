@@ -12,6 +12,12 @@
     "type": "Picked"
   },
   {
+    "categoryId": "-3",
+    "parentId": 0,
+    "name": "新闻",
+    "type": "news"
+  },
+  {
     "categoryId": 108706,
     "parentId": 108705,
     "name": "Android开发",

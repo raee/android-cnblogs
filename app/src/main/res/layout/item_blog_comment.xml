@@ -21,7 +21,6 @@
             android:background="@drawable/bg_user_avatar"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_default_user_avatar"
-            android:visibility="gone"
             app:riv_corner_radius="32dp"/>
 
 

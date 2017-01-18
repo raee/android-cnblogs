@@ -1,10 +1,12 @@
 package com.rae.cnblogs.presenter.impl;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
+import com.rae.cnblogs.sdk.INewsApi;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.Category;
 import com.rae.core.sdk.ApiUiArrayListener;
@@ -19,12 +21,14 @@ import java.util.List;
 public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlogListView> implements IBlogListPresenter, ApiUiArrayListener<Blog> {
 
     private IBlogApi mApi;
+    private INewsApi mNewsApi;
     private int mPageIndex = 1;
     private final List<Blog> mBlogList = new ArrayList<>();
 
     public BlogListPresenterImpl(Context context, IBlogListPresenter.IBlogListView view) {
         super(context, view);
         mApi = CnblogsApiFactory.getBlogApi(mContext);
+        mNewsApi = CnblogsApiFactory.getNewsApi(mContext);
     }
 
     @Override
@@ -36,7 +40,11 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     private void loadData() {
         // 加载列表
         Category category = mView.getCategory();
-        mApi.getBlogs(mPageIndex, category.getType(), category.getParentId(), category.getCategoryId(), this);
+        if (TextUtils.equals("news", category.getType())) {
+            mNewsApi.getNews(mPageIndex, this);
+        } else {
+            mApi.getBlogs(mPageIndex, category.getType(), category.getParentId(), category.getCategoryId(), this);
+        }
     }
 
     @Override

@@ -13,6 +13,7 @@
 
     <com.rae.cnblogs.widget.PlaceholderView
         android:id="@+id/placeholder"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:empty_message="@string/empty_comment"

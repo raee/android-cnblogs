@@ -3,6 +3,7 @@ package com.rae.cnblogs.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -13,7 +14,9 @@ import com.rae.cnblogs.presenter.IBlogCommentPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.BlogComment;
 import com.rae.cnblogs.widget.PlaceholderView;
+import com.rae.cnblogs.widget.RaeDrawerLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
+import com.rae.cnblogs.widget.compat.RaeDragDownCompat;
 
 import java.util.List;
 
@@ -36,6 +39,8 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     @BindView(R.id.rec_blog_comment_list)
     RaeRecyclerView mRecyclerView;
+
+    private RaeDrawerLayout mParentView;
 
     @BindView(R.id.placeholder)
     PlaceholderView mPlaceholderView;
@@ -63,6 +68,19 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mParentView = (RaeDrawerLayout) view.getParent();
+        mParentView.setDragDownHandler(new RaeDragDownCompat.DragDownHandler() {
+            @Override
+            public boolean checkCanDrag(float dy, MotionEvent ev) {
+                if (mPlaceholderView.getVisibility() == View.VISIBLE) {
+                    return true;
+                }
+                if (dy < 0 && mRecyclerView.isOnTop()) {
+                    return true;
+                }
+                return false;
+            }
+        });
         initView();
     }
 

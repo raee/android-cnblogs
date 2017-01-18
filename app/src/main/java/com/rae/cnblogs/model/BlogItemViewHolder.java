@@ -19,6 +19,7 @@ public class BlogItemViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.img_blog_avatar)
     public ImageView avatarView;
 
+
     @BindView(R.id.tv_blog_author)
     public TextView authorView;
 

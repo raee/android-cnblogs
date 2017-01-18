@@ -33,7 +33,7 @@ public class MainActivity extends BaseActivity {
 
         // 初始化TAB
         addTab(R.string.tab_home, R.drawable.tab_home, new HomeFragment());
-        addTab(R.string.tab_news, R.drawable.tab_news, null);
+        addTab(R.string.tab_library, R.drawable.tab_library, new HomeFragment());
 //        addTab(R.string.tab_library, R.drawable.tab_library, null);
         addTab(R.string.tab_mine, R.drawable.tab_mine, null);
 

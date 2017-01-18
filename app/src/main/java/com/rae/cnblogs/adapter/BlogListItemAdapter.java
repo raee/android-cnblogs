@@ -31,7 +31,9 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, BlogItemViewHolde
 
     @Override
     public void onBindViewHolder(BlogItemViewHolder holder, int position, Blog m) {
+
         ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, mAvatarOptions);
+
         holder.authorView.setText(m.getAuthor());
         holder.titleView.setText(m.getTitle());
         holder.summaryView.setText(m.getSummary());
@@ -39,6 +41,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, BlogItemViewHolde
         holder.readerView.setText(m.getViews());
         holder.likeView.setText(m.getLikes());
         holder.commentView.setText(m.getComment());
+
 
         holder.itemView.setTag(m);
         holder.itemView.setOnClickListener(this);

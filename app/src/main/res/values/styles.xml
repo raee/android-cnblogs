@@ -10,6 +10,7 @@
         <item name="windowActionBar">false</item>
         <item name="buttonStyle">@style/AppButton</item>
         <item name="android:windowIsTranslucent">true</item>
+
     </style>
 
 

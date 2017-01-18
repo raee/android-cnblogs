@@ -3,11 +3,15 @@ package com.rae.cnblogs.sdk.impl;
 import android.content.Context;
 
 import com.rae.cnblogs.sdk.IBlogApi;
+import com.rae.cnblogs.sdk.INewsApi;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.BlogComment;
 import com.rae.cnblogs.sdk.parser.BlogCommentParser;
 import com.rae.cnblogs.sdk.parser.BlogContentParser;
 import com.rae.cnblogs.sdk.parser.BlogJsonParser;
+import com.rae.cnblogs.sdk.parser.NewsCommentParser;
+import com.rae.cnblogs.sdk.parser.NewsContentParser;
+import com.rae.cnblogs.sdk.parser.NewsParser;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 
@@ -17,7 +21,7 @@ import java.util.HashMap;
  * 博客接口
  * Created by ChenRui on 2016/11/30 00:06.
  */
-public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
+public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi, INewsApi {
 
     public BlogApiImpl(Context context) {
         super(context);
@@ -35,7 +39,6 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 
     @Override
     public void getBlogs(int page, String type, String parentId, String categoryId, ApiUiArrayListener<Blog> listener) {
-
         post(ApiUrls.API_URL_HOME,
                 newParams().add("CategoryType", type)
                         .add("ParentCategoryId", parentId)
@@ -54,5 +57,20 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
     @Override
     public void getComment(int page, String id, String blogApp, ApiUiArrayListener<BlogComment> listener) {
         get(ApiUrls.API_URL_COMMENT, newParams().add("postId", id).add("blogApp", blogApp).add("pageIndex", page), new BlogCommentParser(listener));
+    }
+
+    @Override
+    public void getNews(int page, ApiUiArrayListener<Blog> listener) {
+        get(ApiUrls.API_NEWS_LIST.replace("@page", String.valueOf(page)), null, new NewsParser(listener));
+    }
+
+    @Override
+    public void getNewsContent(String newsId, ApiUiListener<String> listener) {
+        get(ApiUrls.API_NEWS_CONTENT.replace("@id", newsId), null, new NewsContentParser(listener));
+    }
+
+    @Override
+    public void getNewsComment(String newsId, int page, ApiUiArrayListener<BlogComment> listener) {
+        get(ApiUrls.API_NEWS_COMMENT, newParams().add("contentId", newsId), new NewsCommentParser(listener));
     }
 }

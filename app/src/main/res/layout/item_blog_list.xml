@@ -19,9 +19,9 @@
             android:id="@+id/img_blog_avatar"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/ic_default_user_avatar"
             android:background="@drawable/bg_user_avatar"
             android:scaleType="centerCrop"
+            android:src="@drawable/ic_default_user_avatar"
             app:riv_corner_radius="32dp"/>
 
 
@@ -46,7 +46,6 @@
         android:textColor="@color/ph1"
         android:textSize="@dimen/h1"
         android:textStyle="bold"/>
-
 
     <com.rae.cnblogs.widget.RaeTextView
         android:id="@+id/tv_blog_summary"

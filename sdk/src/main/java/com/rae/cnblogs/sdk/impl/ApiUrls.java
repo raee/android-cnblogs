@@ -36,6 +36,10 @@ final class ApiUrls {
 
     // 删除收藏
     static final String API_BOOK_MARKS_ID_DELETE = "https://api.cnblogs.com/api/bookmarks";
-
     static final String API_BOOK_MARKS_URL_DELETE = "https://api.cnblogs.com/api/Bookmarks";
+    // 新闻列表
+    static final String API_NEWS_LIST = "http://wcf.open.cnblogs.com/news/recent/paged/@page/20";
+    static final String API_NEWS_CONTENT = "http://wcf.open.cnblogs.com/news/item/@id";
+    static final String API_NEWS_COMMENT = "https://news.cnblogs.com/CommentAjax/GetComments";
+
 }

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
+import com.rae.cnblogs.sdk.INewsApi;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;
 
@@ -16,10 +17,12 @@ import com.rae.core.sdk.exception.ApiException;
 public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresenter.IBlogContentView> implements IBlogContentPresenter, ApiUiListener<String> {
 
     private IBlogApi mBlogApi;
+    private INewsApi mNewsApi;
 
     public BlogContentPresenterImpl(Context context, IBlogContentView view) {
         super(context, view);
         mBlogApi = CnblogsApiFactory.getBlogApi(context);
+        mNewsApi = CnblogsApiFactory.getNewsApi(context);
     }
 
     @Override
@@ -30,7 +33,11 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
             return;
         }
 
-        mBlogApi.getContents(mView.getBlog().getId(), this);
+        if (mView.getBlog().isNews()) {
+            mNewsApi.getNewsContent(mView.getBlog().getId(), this);
+        } else {
+            mBlogApi.getContents(mView.getBlog().getId(), this);
+        }
     }
 
     @Override

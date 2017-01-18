@@ -7,6 +7,7 @@ import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.ICategoryApi;
 import com.rae.cnblogs.sdk.bean.BlogComment;
 import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.NewsBean;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;
@@ -109,6 +110,17 @@ public class BlogApiTest extends BaseTest {
                         stop();
                     }
                 });
+            }
+        });
+    }
+
+
+    @Test
+    public void testNews() throws InterruptedException {
+        startTest(new Runnable() {
+            @Override
+            public void run() {
+                CnblogsApiFactory.getNewsApi(mContext).getNews(1, listListener(NewsBean.class));
             }
         });
     }

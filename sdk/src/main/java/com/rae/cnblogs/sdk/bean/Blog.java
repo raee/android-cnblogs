@@ -21,6 +21,8 @@ public class Blog implements Parcelable {
     private String id;
     private String blogApp;
 
+    private boolean isNews;
+
     public String getBlogApp() {
         return blogApp;
     }
@@ -140,6 +142,14 @@ public class Blog implements Parcelable {
         return super.equals(obj);
     }
 
+    public boolean isNews() {
+        return isNews;
+    }
+
+    public void setNews(boolean news) {
+        isNews = news;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -158,6 +168,7 @@ public class Blog implements Parcelable {
         dest.writeString(this.postDate);
         dest.writeString(this.id);
         dest.writeString(this.blogApp);
+        dest.writeByte(this.isNews ? (byte) 1 : (byte) 0);
         dest.writeString(this.content);
         dest.writeString(this.likes);
     }
@@ -174,6 +185,7 @@ public class Blog implements Parcelable {
         this.postDate = in.readString();
         this.id = in.readString();
         this.blogApp = in.readString();
+        this.isNews = in.readByte() != 0;
         this.content = in.readString();
         this.likes = in.readString();
     }

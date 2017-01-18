@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -117,30 +116,8 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
 
     @OnClick(R.id.layout_content_comment)
     public void onCommentClick() {
-//        mBlogCommentFragment.show(getSupportFragmentManager());
+        mCommentLayout.toggleSmoothScroll();
 
-        mCommentLayout.toggle();
-
-//        if (mCommentLayout.getVisibility() == View.VISIBLE) {
-//            dismissCommentDialog();
-//        } else {
-//            showCommentDialog();
-//        }
-
-
-    }
-
-
-    private void dismissCommentDialog() {
-        mCommentLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_bottom));
-        mContentLayout.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
-        mCommentLayout.setVisibility(View.GONE);
-    }
-
-    private void showCommentDialog() {
-        mCommentLayout.setVisibility(View.VISIBLE);
-        mCommentLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_bottom));
-        mContentLayout.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
     }
 
     @Override
@@ -155,7 +132,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     @Override
     public void onBackPressed() {
         if (mCommentLayout.getVisibility() == View.VISIBLE) {
-            dismissCommentDialog();
+            mCommentLayout.toggleSmoothScroll();
             return;
         }
         super.onBackPressed();

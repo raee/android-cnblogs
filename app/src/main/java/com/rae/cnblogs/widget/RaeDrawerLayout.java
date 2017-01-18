@@ -2,13 +2,13 @@ package com.rae.cnblogs.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import com.rae.cnblogs.widget.compat.RaeDragDownCompat;
 
 /**
  * 可拖动的视图
@@ -16,14 +16,7 @@ import android.widget.FrameLayout;
  */
 public class RaeDrawerLayout extends FrameLayout {
 
-
-    private ViewDragHelper mDragHelper;
-    private View mDrawView;
-    private final ViewDrawCallBack mViewDrawCallBack = new ViewDrawCallBack();
-    private static final int MIN_FLING_VELOCITY = 200; // dips per second
-    private float mMinFlingVelocity;
-    private float mScrollPercent;
-    private RaeDrawerHandler mDrawerHandler;
+    private RaeDragDownCompat mDragDownCompat;
 
     public RaeDrawerLayout(Context context) {
         super(context);
@@ -40,172 +33,73 @@ public class RaeDrawerLayout extends FrameLayout {
         initView();
     }
 
+    private void initView() {
+        mDragDownCompat = new RaeDragDownCompat(this);
+    }
+
     @Override
     protected void onFinishInflate() {
-        this.mDrawView = getChildAt(0);
-        mMinFlingVelocity = MIN_FLING_VELOCITY * getResources().getDisplayMetrics().density;
-    }
-
-    private void initView() {
-        mDragHelper = ViewDragHelper.create(this, mViewDrawCallBack);
-    }
-
-    // 事件分发
-    float mStartY;
-    boolean mCanDoDrawer;
-    MotionEvent mStartMotionEvent;
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.w("rae", "dispatchTouchEvent - " + ev.getAction());
-
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mStartY = ev.getRawY();
-                dispatchTouchEventSupport(ev);
-                mStartMotionEvent = ev;
-                mCanDoDrawer = false;
-                return true;
-            case MotionEvent.ACTION_MOVE:
-                if (mStartY - ev.getRawY() < 0 && mDrawerHandler != null && mDrawerHandler.checkCanDoDrawer(this, ev)) {
-                    Log.w("rae", "下");
-                    mCanDoDrawer = true;
-                    mDragHelper.processTouchEvent(mStartMotionEvent);
-                    return true;
-                }
-                mCanDoDrawer = false;
-                break;
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
-//                mCanDoDrawer = false;
-                break;
-        }
-        return dispatchTouchEventSupport(ev);
-    }
-
-    private boolean dispatchTouchEventSupport(MotionEvent ev) {
-        return super.dispatchTouchEvent(ev);
-    }
-
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        Log.w("rae", "onInterceptTouchEvent - " + ev.getAction() + ";" + mCanDoDrawer);
-
-        boolean result = mDragHelper.shouldInterceptTouchEvent(ev);
-        return result | mCanDoDrawer;
-
-//        mDragHelper.shouldInterceptTouchEvent(ev);
-//        return true;
+//        mDragDownCompat.setDragView(getChildAt(0));
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        Log.i("rae", "onTouchEvent - " + ev.getAction());
-        mDragHelper.processTouchEvent(ev);
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                smooth();
-                break;
-        }
-        return super.onTouchEvent(ev);
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        Log.w("rae", "onLayout = " + getChildCount());
+        mDragDownCompat.setDragView(getChildAt(0));
     }
 
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         boolean ret = super.drawChild(canvas, child, drawingTime);
-
-
-        float op = (1 - mScrollPercent);
+        float scrollPercent = mDragDownCompat.getScrollPercent();
+        float op = (1 - scrollPercent);
         if (op > 0) {
             final int mScrimColor = 0x99000000;
             final int baseAlpha = (mScrimColor & 0xff000000) >>> 24;
-            final int alpha = (int) (baseAlpha * (1 - mScrollPercent));
+            final int alpha = (int) (baseAlpha * op);
             final int color = alpha << 24;
-            canvas.clipRect(0, 0, getWidth(), mDrawView.getTop());
+            canvas.clipRect(0, 0, getWidth(), mDragDownCompat.getDragViewTop());
             canvas.drawColor(color);
         }
         return ret;
     }
 
-    public void smooth() {
-        int dy = 0;
-        float y = mDrawView.getY();
-        if (y > mMinFlingVelocity) {
-            dy = getHeight();
-        }
-
-        smooth(dy);
+    @Override
+    public void computeScroll() {
+        mDragDownCompat.computeScroll();
     }
 
-    public void smooth(int dy) {
-        if (mDragHelper.smoothSlideViewTo(mDrawView, 0, dy)) {
-            ViewCompat.postInvalidateOnAnimation(this);
-        }
+    public boolean dispatchTouchEventSupport(MotionEvent event) {
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
-    public void computeScroll() {
-        super.computeScroll();
-//        Log.d("rae", "computeScroll");
-        if (mDragHelper.continueSettling(true)) {
-            ViewCompat.postInvalidateOnAnimation(this);
-        }
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        mDragDownCompat.dispatchTouchEvent(ev);
+
+        return this.dispatchTouchEventSupport(ev);
     }
 
-    public void swipeComplete() {
-        setVisibility(View.GONE);
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return mDragDownCompat.shouldInterceptTouchEvent(ev);
     }
 
-    public void swipeUp() {
-        setVisibility(View.VISIBLE);
-        mDragHelper.smoothSlideViewTo(mDrawView, 0, 0);
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mDragDownCompat.processTouchEvent(event);
+        return true;
     }
 
-    public void toggle() {
-        if (getVisibility() != View.VISIBLE) {
-            swipeUp();
-        } else {
-            smooth(getHeight());
-        }
+
+    public void toggleSmoothScroll() {
+        mDragDownCompat.setDragView(getChildAt(0));
+        mDragDownCompat.toggleSmoothScroll();
     }
 
-    public void setDrawerHandler(RaeDrawerHandler drawerHandler) {
-        mDrawerHandler = drawerHandler;
-    }
 
-    public interface RaeDrawerHandler {
-        boolean checkCanDoDrawer(RaeDrawerLayout view, MotionEvent event);
-    }
-
-    private class ViewDrawCallBack extends ViewDragHelper.Callback {
-
-        @Override
-        public boolean tryCaptureView(View child, int pointerId) {
-            return child == mDrawView;
-        }
-
-        @Override
-        public int clampViewPositionVertical(View child, int top, int dy) {
-            final int topBound = getPaddingTop();
-            final int bottomBound = getHeight();
-            return Math.min(Math.max(top, topBound), bottomBound);
-        }
-
-
-        @Override
-        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
-            super.onViewPositionChanged(changedView, left, top, dx, dy);
-
-            mScrollPercent = Math.abs((float) top / mDrawView.getHeight());
-//            Log.d("rae", "onViewPositionChanged：" + dy + ";" + mScrollPercent);
-            invalidate();
-
-            if (mScrollPercent >= 1) {
-                swipeComplete();
-            }
-        }
-
+    public void setDragDownHandler(RaeDragDownCompat.DragDownHandler dragDownHandler) {
+        mDragDownCompat.setDragDownHandler(dragDownHandler);
     }
 }

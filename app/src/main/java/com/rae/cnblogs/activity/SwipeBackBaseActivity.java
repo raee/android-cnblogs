@@ -2,7 +2,10 @@ package com.rae.cnblogs.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
+
+import com.rae.cnblogs.R;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;
@@ -17,6 +20,8 @@ public abstract class SwipeBackBaseActivity extends BaseActivity implements Swip
 
     private SwipeBackActivityHelper mHelper;
 
+    private boolean mIsSwipeBack;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +34,22 @@ public abstract class SwipeBackBaseActivity extends BaseActivity implements Swip
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mHelper.onPostCreate();
+        getSwipeBackLayout().addSwipeListener(new SwipeBackLayout.SwipeListener() {
+            @Override
+            public void onScrollStateChange(int state, float scrollPercent) {
+                mIsSwipeBack = state == SwipeBackLayout.STATE_SETTLING;
+            }
+
+            @Override
+            public void onEdgeTouch(int edgeFlag) {
+
+            }
+
+            @Override
+            public void onScrollOverThreshold() {
+                Log.w("rae", "onScrollOverThreshold");
+            }
+        });
     }
 
     @Override
@@ -53,5 +74,13 @@ public abstract class SwipeBackBaseActivity extends BaseActivity implements Swip
     public void scrollToFinishActivity() {
         Utils.convertActivityToTranslucent(this);
         getSwipeBackLayout().scrollToFinishActivity();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        if (!mIsSwipeBack) {
+            overridePendingTransition(0, R.anim.slide_out_bottom);
+        }
     }
 }

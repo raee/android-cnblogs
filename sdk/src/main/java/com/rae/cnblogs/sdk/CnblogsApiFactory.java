@@ -27,6 +27,7 @@ public final class CnblogsApiFactory {
     public static IUserApi getUserApi(Context context) {
         return new UserApiImpl(context);
     }
+
     /**
      * 获取收藏接口
      */
@@ -39,5 +40,13 @@ public final class CnblogsApiFactory {
      */
     public static IAdvertApi getAdvertApi(Context context) {
         return new AdvertApiImpl(context);
+    }
+
+
+    /**
+     * 获取新闻接口
+     */
+    public static INewsApi getNewsApi(Context context) {
+        return new BlogApiImpl(context);
     }
 }
