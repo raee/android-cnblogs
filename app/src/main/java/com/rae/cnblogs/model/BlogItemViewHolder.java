@@ -16,6 +16,9 @@ import butterknife.ButterKnife;
  */
 public class BlogItemViewHolder extends RecyclerView.ViewHolder {
 
+    @BindView(R.id.ll_blog_author_layout)
+    public View authorLayout;
+
     @BindView(R.id.img_blog_avatar)
     public ImageView avatarView;
 

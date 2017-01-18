@@ -4,15 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
     android:background="@drawable/bg_blog_item_selector"
     android:orientation="vertical"
+    android:paddingBottom="@dimen/default_margin"
     android:paddingLeft="@dimen/default_margin"
     android:paddingRight="@dimen/default_margin"
     android:paddingTop="@dimen/default_margin">
 
     <LinearLayout
+        android:id="@+id/ll_blog_author_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:gravity="center_vertical">
 
         <com.makeramen.roundedimageview.RoundedImageView
@@ -41,7 +45,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="11dp"
-        android:layout_marginTop="16dp"
         android:text="HashMap源码"
         android:textColor="@color/ph1"
         android:textSize="@dimen/h1"
@@ -108,11 +111,11 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="14dp"
-        android:background="@color/dividerColor"/>
+    <!--   <View
+           android:layout_width="match_parent"
+           android:layout_height="5dp"
+           android:layout_marginTop="14dp"
+           android:background="@color/dividerColor"/>-->
 
 
 </LinearLayout>

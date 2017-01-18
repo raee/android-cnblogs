@@ -9,6 +9,7 @@ import com.rae.cnblogs.sdk.bean.BlogComment;
 import com.rae.cnblogs.sdk.parser.BlogCommentParser;
 import com.rae.cnblogs.sdk.parser.BlogContentParser;
 import com.rae.cnblogs.sdk.parser.BlogJsonParser;
+import com.rae.cnblogs.sdk.parser.KBParser;
 import com.rae.cnblogs.sdk.parser.NewsCommentParser;
 import com.rae.cnblogs.sdk.parser.NewsContentParser;
 import com.rae.cnblogs.sdk.parser.NewsParser;
@@ -57,6 +58,11 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi, INewsApi {
     @Override
     public void getComment(int page, String id, String blogApp, ApiUiArrayListener<BlogComment> listener) {
         get(ApiUrls.API_URL_COMMENT, newParams().add("postId", id).add("blogApp", blogApp).add("pageIndex", page), new BlogCommentParser(listener));
+    }
+
+    @Override
+    public void getKbArticles(int page, ApiUiArrayListener<Blog> listener) {
+        post(ApiUrls.API_KB_LIST.replace("@page", String.valueOf(page)), null, new KBParser(listener));
     }
 
     @Override

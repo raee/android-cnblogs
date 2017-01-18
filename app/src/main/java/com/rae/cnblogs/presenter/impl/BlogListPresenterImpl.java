@@ -40,9 +40,11 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     private void loadData() {
         // 加载列表
         Category category = mView.getCategory();
-        if (TextUtils.equals("news", category.getType())) {
+        if (TextUtils.equals("news", category.getType())) { // 新闻
             mNewsApi.getNews(mPageIndex, this);
-        } else {
+        } else if (TextUtils.equals("kb", category.getType())) { // 知识库
+            mApi.getKbArticles(mPageIndex, this);
+        } else { // 博客列表
             mApi.getBlogs(mPageIndex, category.getType(), category.getParentId(), category.getCategoryId(), this);
         }
     }

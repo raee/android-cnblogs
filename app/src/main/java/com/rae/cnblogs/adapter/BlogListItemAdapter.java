@@ -18,10 +18,22 @@ import com.rae.cnblogs.sdk.bean.Blog;
  */
 public class BlogListItemAdapter extends BaseItemAdapter<Blog, BlogItemViewHolder> implements View.OnClickListener {
 
+    public static final int VIEW_TYPE_NORMAL = 0;
+    /**
+     * 没有用户信息的类型
+     */
+    public static final int VIEW_TYPE_WITHOUT_AVATAR = 1;
+
+    private int mViewType; // 显示类型
+
     private DisplayImageOptions mAvatarOptions;
 
     public BlogListItemAdapter() {
         mAvatarOptions = RaeImageLoader.headerOption();
+    }
+
+    public void setViewType(int viewType) {
+        mViewType = viewType;
     }
 
     @Override
@@ -31,6 +43,12 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, BlogItemViewHolde
 
     @Override
     public void onBindViewHolder(BlogItemViewHolder holder, int position, Blog m) {
+
+        switch (mViewType) {
+            case VIEW_TYPE_WITHOUT_AVATAR:
+                holder.authorLayout.setVisibility(View.GONE);
+                break;
+        }
 
         ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, mAvatarOptions);
 

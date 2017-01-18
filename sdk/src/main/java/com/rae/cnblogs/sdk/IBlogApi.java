@@ -37,10 +37,19 @@ public interface IBlogApi {
 
     /**
      * 获取评论列表
+     *
      * @param page
      * @param id
      * @param blogApp
      * @param listener
      */
     void getComment(int page, String id, String blogApp, ApiUiArrayListener<BlogComment> listener);
+
+    /**
+     * 分页获取知识库
+     *
+     * @param page
+     * @param listener
+     */
+    void getKbArticles(int page, ApiUiArrayListener<Blog> listener);
 }

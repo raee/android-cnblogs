@@ -42,4 +42,6 @@ final class ApiUrls {
     static final String API_NEWS_CONTENT = "http://wcf.open.cnblogs.com/news/item/@id";
     static final String API_NEWS_COMMENT = "https://news.cnblogs.com/CommentAjax/GetComments";
 
+    // 知识库
+    public static final String API_KB_LIST = "https://home.cnblogs.com/kb/page/@page/";
 }

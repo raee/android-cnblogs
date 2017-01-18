@@ -42,9 +42,9 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @BindView(R.id.rec_blog_list)
     RaeRecyclerView mRecyclerView;
 
-    private Category mCategory;
-    private IBlogListPresenter mBlogListPresenter;
-    private BlogListItemAdapter mItemAdapter;
+    protected Category mCategory;
+    protected IBlogListPresenter mBlogListPresenter;
+    protected BlogListItemAdapter mItemAdapter;
 
     @Override
     protected int getLayoutId() {

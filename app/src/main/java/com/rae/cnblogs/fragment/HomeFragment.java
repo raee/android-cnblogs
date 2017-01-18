@@ -22,6 +22,11 @@ import butterknife.BindView;
  */
 public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeView {
 
+    public static HomeFragment newInstance() {
+        HomeFragment fragment = new HomeFragment();
+        return fragment;
+    }
+
     @BindView(R.id.tool_bar)
     Toolbar mToolbar;
 

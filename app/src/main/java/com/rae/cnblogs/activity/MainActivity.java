@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.fragment.HomeFragment;
+import com.rae.cnblogs.fragment.KBListFragment;
+import com.rae.cnblogs.fragment.MineFragment;
+import com.rae.cnblogs.sdk.bean.Category;
 import com.rae.core.fm.RaeFragmentAdapter;
 
 import butterknife.BindView;
@@ -31,11 +34,15 @@ public class MainActivity extends BaseActivity {
 
         mFragmentAdapter = new RaeFragmentAdapter(getSupportFragmentManager());
 
+        Category kb = new Category();
+        kb.setType("kb");
+        kb.setName(getString(R.string.tab_library));
+
         // 初始化TAB
-        addTab(R.string.tab_home, R.drawable.tab_home, new HomeFragment());
-        addTab(R.string.tab_library, R.drawable.tab_library, new HomeFragment());
+        addTab(R.string.tab_home, R.drawable.tab_home, HomeFragment.newInstance());
+        addTab(R.string.tab_library, R.drawable.tab_library, KBListFragment.newInstance(kb));
 //        addTab(R.string.tab_library, R.drawable.tab_library, null);
-        addTab(R.string.tab_mine, R.drawable.tab_mine, null);
+        addTab(R.string.tab_mine, R.drawable.tab_mine, MineFragment.newInstance());
 
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(mFragmentAdapter);
