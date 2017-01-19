@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
-import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.INewsApi;
 import com.rae.core.sdk.ApiUiListener;
@@ -21,8 +20,8 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
 
     public BlogContentPresenterImpl(Context context, IBlogContentView view) {
         super(context, view);
-        mBlogApi = CnblogsApiFactory.getBlogApi(context);
-        mNewsApi = CnblogsApiFactory.getNewsApi(context);
+        mBlogApi = getApiProvider().getBlogApi();
+        mNewsApi = getApiProvider().getNewsApi();
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.rae.cnblogs.presenter.impl;
 import android.content.Context;
 
 import com.rae.cnblogs.presenter.IBlogCommentPresenter;
-import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.INewsApi;
 import com.rae.cnblogs.sdk.bean.Blog;
@@ -28,8 +27,9 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
 
     public BlogCommentPresenterImpl(Context context, IBlogCommentView view) {
         super(context, view);
-        mBlogApi = CnblogsApiFactory.getBlogApi(context);
-        mNewsApi = CnblogsApiFactory.getNewsApi(context);
+
+        mBlogApi = getApiProvider().getBlogApi();
+        mNewsApi = getApiProvider().getNewsApi();
     }
 
     @Override

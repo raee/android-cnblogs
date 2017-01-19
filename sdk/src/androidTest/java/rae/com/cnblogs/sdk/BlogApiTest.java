@@ -2,7 +2,6 @@ package rae.com.cnblogs.sdk;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.ICategoryApi;
 import com.rae.cnblogs.sdk.bean.Blog;
@@ -31,8 +30,8 @@ public class BlogApiTest extends BaseTest {
     @Before
     public void setup() {
         super.setup();
-        mApi = CnblogsApiFactory.getBlogApi(mContext);
-        mCategoryApi = CnblogsApiFactory.getCategoryApi(mContext);
+        mApi = getApiProvider().getBlogApi();
+        mCategoryApi = getApiProvider().getCategoryApi();
     }
 
     @Test
@@ -120,7 +119,7 @@ public class BlogApiTest extends BaseTest {
         startTest(new Runnable() {
             @Override
             public void run() {
-                CnblogsApiFactory.getNewsApi(mContext).getNews(1, listListener(Blog.class));
+                getApiProvider().getNewsApi().getNews(1, listListener(Blog.class));
             }
         });
     }

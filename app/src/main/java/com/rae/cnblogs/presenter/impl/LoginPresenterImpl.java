@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.presenter.ILoginPresenter;
-import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IUserApi;
 import com.rae.cnblogs.sdk.bean.LoginTokenBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
@@ -20,7 +19,7 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
 
     public LoginPresenterImpl(Context context, ILoginView view) {
         super(context, view);
-        mUserApi = CnblogsApiFactory.getUserApi(context);
+        mUserApi = getApiProvider().getUserApi();
     }
 
     @Override

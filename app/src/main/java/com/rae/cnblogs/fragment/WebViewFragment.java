@@ -71,6 +71,7 @@ public class WebViewFragment extends BaseFragment {
         mWebView.setWebChromeClient(getWebChromeClient());
         mWebView.setWebViewClient(getWebViewClient());
 
+
     }
 
     @Override
@@ -82,11 +83,17 @@ public class WebViewFragment extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onStart() {
+        super.onStart();
         if (mWebView != null && mUrl != null) {
             loadUrl(mUrl);
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
     }
 
     public String getUrl() {

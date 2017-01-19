@@ -6,6 +6,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.github.raee.runit.RUnitTestLogUtils;
+import com.rae.cnblogs.sdk.CnblogsApiFactory;
+import com.rae.cnblogs.sdk.CnblogsApiProvider;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;
@@ -32,6 +34,10 @@ public class BaseTest {
     @Before
     public void setup() {
         mContext = InstrumentationRegistry.getTargetContext();
+    }
+
+    protected CnblogsApiProvider getApiProvider() {
+        return CnblogsApiFactory.getInstance(mContext);
     }
 
     public void startTest(Runnable runnable) {
@@ -93,7 +99,7 @@ public class BaseTest {
         return new ApiUiArrayListener<T>() {
             @Override
             public void onApiFailed(ApiException ex, String msg) {
-                error("错误信息：%s",  msg);
+                error("错误信息：%s", msg);
             }
 
             @Override

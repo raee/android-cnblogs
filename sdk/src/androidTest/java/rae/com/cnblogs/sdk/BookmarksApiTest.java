@@ -2,7 +2,6 @@ package rae.com.cnblogs.sdk;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBookmarksApi;
 import com.rae.cnblogs.sdk.bean.BookmarksBean;
 
@@ -22,7 +21,7 @@ public class BookmarksApiTest extends BaseTest {
     @Before
     public void setup() {
         super.setup();
-        mApi = CnblogsApiFactory.getBookmarksApi(mContext);
+        mApi = getApiProvider().getBookmarksApi();
     }
 
     @Test

@@ -1,12 +1,12 @@
 package com.rae.cnblogs.sdk;
 
 import android.content.Context;
+import android.os.Environment;
 
-import com.rae.cnblogs.sdk.impl.AdvertApiImpl;
-import com.rae.cnblogs.sdk.impl.BlogApiImpl;
-import com.rae.cnblogs.sdk.impl.BookmarksApiImpl;
-import com.rae.cnblogs.sdk.impl.CategoryApiImpl;
-import com.rae.cnblogs.sdk.impl.UserApiImpl;
+import java.io.File;
+import java.lang.reflect.Constructor;
+
+import dalvik.system.DexClassLoader;
 
 /**
  * 博客园接口实例化
@@ -14,41 +14,39 @@ import com.rae.cnblogs.sdk.impl.UserApiImpl;
  */
 public final class CnblogsApiFactory {
 
+    private static CnblogsApiProvider sProvider;
 
-    public static IBlogApi getBlogApi(Context context) {
-        return new BlogApiImpl(context);
+    public static CnblogsApiProvider getInstance(Context context) {
+
+        if (sProvider == null) {
+            sProvider = loadProviderPatch(context);
+            if (sProvider == null) {
+                sProvider = new DefaultCnblogsApiProvider(context.getApplicationContext());
+            }
+        }
+
+        return sProvider;
+
     }
 
-    public static ICategoryApi getCategoryApi(Context context) {
-        return new CategoryApiImpl(context);
+    private static CnblogsApiProvider loadProviderPatch(Context context) {
+        try {
+            // 反射创建示例
+            File dexFile = new File(Environment.getExternalStorageDirectory(), "classes.jar");
+            if (!dexFile.exists() && dexFile.canRead() && dexFile.canWrite()) {
+                return null;
+            }
+            DexClassLoader loader = new DexClassLoader(dexFile.getPath(), context.getDir("dex", 0).getAbsolutePath(), null, ClassLoader.getSystemClassLoader());
+            Class<?> aClass = loader.loadClass("com.rae.cnblogs.sdk.DefaultCnblogsApiProvider");
+            Class[] paramsClass = {Context.class};
+            Object[] params = {context};
+            Constructor constructor = aClass.getConstructor(paramsClass);
+            CnblogsApiProvider instance = (CnblogsApiProvider) constructor.newInstance(params);
+            return instance;
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    /**
-     * 获取用户接口
-     */
-    public static IUserApi getUserApi(Context context) {
-        return new UserApiImpl(context);
-    }
-
-    /**
-     * 获取收藏接口
-     */
-    public static IBookmarksApi getBookmarksApi(Context context) {
-        return new BookmarksApiImpl(context);
-    }
-
-    /**
-     * 获取广告接口
-     */
-    public static IAdvertApi getAdvertApi(Context context) {
-        return new AdvertApiImpl(context);
-    }
-
-
-    /**
-     * 获取新闻接口
-     */
-    public static INewsApi getNewsApi(Context context) {
-        return new BlogApiImpl(context);
-    }
 }

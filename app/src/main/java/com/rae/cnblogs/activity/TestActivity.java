@@ -1,5 +1,6 @@
 package com.rae.cnblogs.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.animation.AnimationUtils;
@@ -86,7 +87,8 @@ public class TestActivity extends BaseActivity {
 
     @OnClick(R.id.btn_test_login)
     void onJumpToLogin() {
-        AppRoute.jumpToLogin(this);
+//        AppRoute.jumpToLogin(this);
+        startActivity(new Intent(this, WebLoginActivity.class));
     }
 
 

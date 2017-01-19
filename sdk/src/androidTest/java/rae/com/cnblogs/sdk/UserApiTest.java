@@ -2,7 +2,6 @@ package rae.com.cnblogs.sdk;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IUserApi;
 import com.rae.cnblogs.sdk.bean.LoginTokenBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
@@ -26,7 +25,7 @@ public class UserApiTest extends BaseTest {
     @Before
     public void setup() {
         super.setup();
-        mApi = CnblogsApiFactory.getUserApi(mContext);
+        mApi = getApiProvider().getUserApi();
     }
 
     @Test
