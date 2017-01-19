@@ -40,7 +40,6 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
-        bindView();
         mLauncherPresenter = CnblogsPresenterFactory.getLauncherPresenter(this, this);
     }
 

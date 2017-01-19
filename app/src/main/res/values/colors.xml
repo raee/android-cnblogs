@@ -3,7 +3,8 @@
     <!--3ba7ee-->
     <color name="colorPrimary">#3ba7ee</color>
     <color name="colorPrimaryDark">#3ba7ee</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryBlack">#409DDB</color>
+    <color name="colorAccent">#1783CB</color>
     <color name="transparent">#00000000</color>
     <color name="navBar">#f9f9f9</color>
     <color name="dividerPrimary">#b2b2b2</color>
@@ -11,9 +12,11 @@
     <color name="ph1">#2d2d2d</color>
     <color name="ph2">#595959</color>
     <color name="ph3">#929292</color>
+    <color name="ph4">#999999</color>
     <color name="default_background">#f9f9f9</color>
     <color name="background_divider">#f8f8f8</color>
     <color name="colorToastPrimary">#daedfa</color>
     <color name="commentAvatarColor">#6293b3</color>
     <color name="blog_item_pressed">#F0F0F0</color>
+    <color name="white">#FFFFFF</color>
 </resources>

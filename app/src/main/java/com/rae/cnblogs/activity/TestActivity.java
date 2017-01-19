@@ -2,6 +2,7 @@ package com.rae.cnblogs.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
@@ -37,8 +38,7 @@ public class TestActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        bindView();
-
+        startAnim();
         BlogCommentItemAdapter adapter = new BlogCommentItemAdapter();
         List<BlogComment> data = new ArrayList<>();
         DecimalFormat df = new DecimalFormat("00.##");
@@ -71,12 +71,22 @@ public class TestActivity extends BaseActivity {
     @OnClick(R.id.btn_test)
     void onTestClick() {
 //        mRaeDrawerLayout.toggle();
-        mRaeDrawerLayout.toggleSmoothScroll();
+//        mRaeDrawerLayout.toggleSmoothScroll();
+        startAnim();
+    }
+
+    private void startAnim() {
+        getWindow().getDecorView().findViewById(android.R.id.content).startAnimation(AnimationUtils.loadAnimation(this, R.anim.at_slide_fade_in));
     }
 
     @OnClick(R.id.btn_main)
     void onJumpToMain() {
         AppRoute.jumpToMain(this);
+    }
+
+    @OnClick(R.id.btn_test_login)
+    void onJumpToLogin() {
+        AppRoute.jumpToLogin(this);
     }
 
 

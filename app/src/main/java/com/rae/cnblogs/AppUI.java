@@ -1,6 +1,7 @@
 package com.rae.cnblogs;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 /**
@@ -9,12 +10,16 @@ import android.widget.Toast;
  */
 public final class AppUI {
 
+
     public static void toast(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
     public static void loading(Context context, String msg) {
-        toast(context, msg);
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setMessage(msg)
+                .create();
+        dialog.show();
     }
 
     public static void loading(Context context) {
@@ -27,5 +32,9 @@ public final class AppUI {
 
     public static void success(Context context, int resId) {
         toast(context, context.getString(resId));
+    }
+
+    public static void dismiss() {
+
     }
 }

@@ -1,5 +1,6 @@
 package com.rae.cnblogs.activity;
 
+import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,16 +10,26 @@ import com.rae.cnblogs.R;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 
 /**
  * 基类
  * Created by ChenRui on 2016/12/1 21:35.
  */
-public abstract class BaseActivity extends AppCompatActivity{
+public abstract class BaseActivity extends AppCompatActivity {
 
-    protected void bindView() {
+    protected View mBackView;
+
+    private void bindView() {
         ButterKnife.bind(this);
+        mBackView = findViewById(R.id.back);
+        if (mBackView != null) {
+            mBackView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackClick(v);
+                }
+            });
+        }
     }
 
     @Override
@@ -31,6 +42,12 @@ public abstract class BaseActivity extends AppCompatActivity{
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+        bindView();
     }
 
     protected void showHomeAsUp(Toolbar toolbar) {
@@ -58,7 +75,11 @@ public abstract class BaseActivity extends AppCompatActivity{
         return 0;
     }
 
-    private BaseActivity getContext() {
+    protected BaseActivity getContext() {
         return this;
+    }
+
+    public void onBackClick(View view) {
+        finish();
     }
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.rae.cnblogs.activity.BlogContentActivity;
+import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
 import com.rae.cnblogs.sdk.bean.Blog;
 
@@ -44,5 +45,12 @@ public final class AppRoute {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 登录
+     */
+    public static void jumpToLogin(Context context) {
+        startActivity(context, LoginActivity.class);
     }
 }

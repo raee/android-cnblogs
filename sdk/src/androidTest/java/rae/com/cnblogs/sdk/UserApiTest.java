@@ -94,7 +94,7 @@ public class UserApiTest extends BaseTest {
         startTest(new Runnable() {
             @Override
             public void run() {
-                new WebUserApiImpl(mContext).login("chenrui72", "123123", listener(LoginTokenBean.class));
+                new WebUserApiImpl(mContext).login("rae", "123123", listener(LoginTokenBean.class));
             }
         });
     }

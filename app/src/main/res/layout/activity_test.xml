@@ -21,6 +21,13 @@
                 android:layout_height="wrap_content"
                 android:text="首页"/>
 
+
+            <Button
+                android:id="@+id/btn_test_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="登录"/>
+
             <Button
                 android:id="@+id/btn_test"
                 android:layout_width="match_parent"
