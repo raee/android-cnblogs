@@ -5,7 +5,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "25.0.0"
 
-    signingConfigs{
+    signingConfigs {
         release {
             keyAlias 'com.rae.cnblogs'
             keyPassword 'lovecr1992721'
@@ -22,7 +22,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
-                UMENG_APPKEY: '583d96522ae85b6d310011fb',
+                UMENG_APPKEY : '583d96522ae85b6d310011fb',
                 UMENG_CHANNEL: 'DEV'
         ]
     }
@@ -32,7 +32,7 @@ android {
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug{
+        debug {
             minifyEnabled false
             debuggable true
             signingConfig signingConfigs.release
@@ -57,5 +57,8 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'me.imid.swipebacklayout.lib:library:1.0.0' // 滑动返回
+    // 事件通知
+    compile 'org.greenrobot:eventbus:3.0.0'
+    // 滑动返回
+    compile 'me.imid.swipebacklayout.lib:library:1.0.0'
 }

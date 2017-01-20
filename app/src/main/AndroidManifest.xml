@@ -71,7 +71,6 @@
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.Light"
             />
-        <activity android:name=".activity.WebLoginActivity"/>
 
 
         <meta-data

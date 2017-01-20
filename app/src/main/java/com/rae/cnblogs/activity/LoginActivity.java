@@ -1,5 +1,6 @@
 package com.rae.cnblogs.activity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -11,9 +12,14 @@ import android.widget.EditText;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeAnim;
+import com.rae.cnblogs.event.LoginEventMessage;
+import com.rae.cnblogs.fragment.WebLoginFragment;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILoginPresenter;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
+import com.rae.cnblogs.widget.webclient.bridge.WebLoginListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -22,7 +28,7 @@ import butterknife.OnClick;
  * 登录
  * Created by ChenRui on 2017/1/19 0019 9:59.
  */
-public class LoginActivity extends BaseActivity implements ILoginPresenter.ILoginView {
+public class LoginActivity extends BaseActivity implements ILoginPresenter.ILoginView, WebLoginListener {
 
     @BindView(com.rae.cnblogs.R.id.ll_login_container)
     View mLoginLayout;
@@ -57,6 +63,8 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
         mAccountTextWatcher = new AccountTextWatcher();
         addAccountTextListener(mAccountTextWatcher);
+
+        getSupportFragmentManager().beginTransaction().add(R.id.fl_content, WebLoginFragment.newInstance()).commit();
     }
 
     private void addAccountTextListener(AccountTextWatcher watcher) {
@@ -77,12 +85,15 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
         overridePendingTransition(0, com.rae.cnblogs.R.anim.slide_out_bottom);
     }
 
+    /**
+     * 登录点击
+     */
     @OnClick(R.id.btn_login)
     public void onLoginClick() {
-        mLoginPresenter.login();
+        // 先WEB登录
+        EventBus.getDefault().post(new LoginEventMessage(getUserName(), getPassword()));
         removeAccountTextListener(mAccountTextWatcher);
         mLoginButton.setEnabled(false);
-
     }
 
     @Override
@@ -98,13 +109,37 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
     @Override
     public void onLoginSuccess(UserInfoBean userInfo) {
         onLoginCallback();
-        AppUI.toast(this, "登录成功：" + userInfo.getDisplayName());
+        AppUI.toast(this, "官方接口登录成功：" + userInfo.getDisplayName());
     }
 
     @Override
     public void onLoginError(String message) {
         onLoginCallback();
-        AppUI.toast(this, message);
+        AppUI.toast(this, "官方接口登录失败：" + message);
+    }
+
+    @Override
+    public void onWebLoginSuccess() {
+        AppUI.toast(this, "WEB登录成功");
+        // 登录官方接口
+        mLoginPresenter.login();
+    }
+
+    @Override
+    public void onWebLoginError(String message) {
+        onLoginCallback();
+        AppUI.toast(this, "WEB登录失败：" + message);
+    }
+
+    @Override
+    public void onWebLoginCodeError(String msg) {
+        onLoginCallback();
+        AppUI.toast(this, "WEB登录失败：" + msg);
+    }
+
+    @Override
+    public void onWebLoginCodeBitmap(Bitmap bitmap) {
+        AppUI.toast(this, "WEB登录失败：需要验证码");
     }
 
     private void onLoginCallback() {

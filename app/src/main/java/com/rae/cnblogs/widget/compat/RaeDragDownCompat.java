@@ -101,7 +101,7 @@ public class RaeDragDownCompat extends ViewDragHelper.Callback {
     }
 
     public void smoothScrollToTop() {
-        Log.d(TAG, "smoothScrollToTop");
+//        Log.d(TAG, "smoothScrollToTop");
         smoothScrollBy(0);
     }
 
@@ -112,8 +112,17 @@ public class RaeDragDownCompat extends ViewDragHelper.Callback {
     public void toggleSmoothScroll() {
         if (mDragView.getTop() >= getParentHeight() || mParentView.getVisibility() != View.VISIBLE) {
             // show and smooth top
-            mParentView.setVisibility(View.VISIBLE);
-            smoothScrollToTop();
+            if (getParentHeight() <= 0) {
+                mParentView.setTop(800);
+                mParentView.setVisibility(View.VISIBLE);
+
+                Log.e(TAG, "高度 = " + getParentHeight());
+
+            } else {
+                mParentView.setVisibility(View.VISIBLE);
+                smoothScrollToTop();
+            }
+
         } else {
             smoothScrollToBottom();
         }
@@ -121,9 +130,9 @@ public class RaeDragDownCompat extends ViewDragHelper.Callback {
 
     public void computeScroll() {
 
-        Log.d(TAG, "computeScroll");
+//        Log.d(TAG, "computeScroll");
         if (mDragHelper.continueSettling(true)) {
-            Log.d(TAG, "postInvalidateOnAnimation");
+            Log.d(TAG, "computeScroll");
             ViewCompat.postInvalidateOnAnimation(mParentView);
         }
     }
@@ -156,8 +165,7 @@ public class RaeDragDownCompat extends ViewDragHelper.Callback {
 
     public void processTouchEvent(MotionEvent ev) {
         mDragHelper.processTouchEvent(ev);
-        int action = ev.getAction();
-        Log.d(TAG, "processTouchEvent action = " + action);
+//        Log.d(TAG, "processTouchEvent action = " + action);
 
         if (mVelocityTracker == null) {
             mVelocityTracker = VelocityTracker.obtain();
@@ -175,7 +183,7 @@ public class RaeDragDownCompat extends ViewDragHelper.Callback {
                 if (y > mMinFlingVelocity || yVelocity > mMinFlingVelocitySpeed) {
                     dy = getParentHeight();
                 }
-                Log.w("rae", "yVelocity = " + yVelocity);
+//                Log.w("rae", "yVelocity = " + yVelocity);
                 smoothScrollBy(dy);
                 break;
         }
@@ -183,7 +191,7 @@ public class RaeDragDownCompat extends ViewDragHelper.Callback {
 
     public boolean shouldInterceptTouchEvent(MotionEvent ev) {
         boolean b = mDragHelper.shouldInterceptTouchEvent(ev);
-        Log.d(TAG, "shouldInterceptTouchEvent = " + b + "; action = " + ev.getAction());
+//        Log.d(TAG, "shouldInterceptTouchEvent = " + b + "; action = " + ev.getAction());
         return b;
     }
 

@@ -38,15 +38,10 @@ public class RaeDrawerLayout extends FrameLayout {
     }
 
     @Override
-    protected void onFinishInflate() {
-//        mDragDownCompat.setDragView(getChildAt(0));
-    }
-
-    @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        Log.w("rae", "onLayout = " + getChildCount());
         mDragDownCompat.setDragView(getChildAt(0));
+        Log.w("rae", String.format("onLayout,top=%d", top));
     }
 
     @Override
@@ -93,12 +88,18 @@ public class RaeDrawerLayout extends FrameLayout {
     }
 
 
+    /**
+     * 显示/隐藏
+     */
     public void toggleSmoothScroll() {
         mDragDownCompat.setDragView(getChildAt(0));
         mDragDownCompat.toggleSmoothScroll();
     }
 
 
+    /**
+     * 设置拖动Touch处理
+     */
     public void setDragDownHandler(RaeDragDownCompat.DragDownHandler dragDownHandler) {
         mDragDownCompat.setDragDownHandler(dragDownHandler);
     }

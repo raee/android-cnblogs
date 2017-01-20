@@ -2,6 +2,7 @@ package com.rae.cnblogs;
 
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -12,6 +13,7 @@ public final class AppUI {
 
 
     public static void toast(Context context, String msg) {
+        Log.d("toast", msg);
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 

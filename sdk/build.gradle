@@ -11,7 +11,7 @@ android {
         versionName "1.0"
         testApplicationId "com.rae.cnblogs.sdk.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -20,6 +20,11 @@ android {
         }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+
+
+    dexOptions {
+        javaMaxHeapSize '4g'
+    }
 }
 
 dependencies {

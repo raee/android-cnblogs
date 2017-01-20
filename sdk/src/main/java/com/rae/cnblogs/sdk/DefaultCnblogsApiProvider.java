@@ -1,6 +1,7 @@
 package com.rae.cnblogs.sdk;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.rae.cnblogs.sdk.impl.AdvertApiImpl;
 import com.rae.cnblogs.sdk.impl.BlogApiImpl;
@@ -18,7 +19,7 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
 
     DefaultCnblogsApiProvider(Context applicationContext) {
         mContext = applicationContext;
-//        Log.e("rae", "接口成功反射调用！");
+        Log.e("rae", "接口成功反射调用！");
     }
 
 

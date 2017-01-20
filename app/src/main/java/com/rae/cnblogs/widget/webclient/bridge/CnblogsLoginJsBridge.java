@@ -10,7 +10,7 @@ import android.webkit.JavascriptInterface;
  */
 public class CnblogsLoginJsBridge {
 
-    private final LoginListener mListener;
+    private final WebLoginListener mListener;
 
     private String mUserName;
     private String mPassword;
@@ -18,7 +18,7 @@ public class CnblogsLoginJsBridge {
     private Handler mHandler;
 
 
-    public CnblogsLoginJsBridge(LoginListener listener) {
+    public CnblogsLoginJsBridge(WebLoginListener listener) {
         mListener = listener;
         mHandler = new Handler(Looper.getMainLooper());
     }
@@ -31,7 +31,7 @@ public class CnblogsLoginJsBridge {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mListener.onLoginError(msg);
+                mListener.onWebLoginError(msg);
             }
         });
     }
@@ -42,7 +42,7 @@ public class CnblogsLoginJsBridge {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mListener.onLoginCodeError(msg);
+                mListener.onWebLoginCodeError(msg);
             }
         });
     }
