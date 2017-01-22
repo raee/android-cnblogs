@@ -1,10 +1,10 @@
 package rae.com.cnblogs.sdk;
 
 import android.support.test.runner.AndroidJUnit4;
+import android.webkit.CookieManager;
 
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.ICategoryApi;
-import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.BlogComment;
 import com.rae.cnblogs.sdk.bean.Category;
 import com.rae.core.sdk.ApiUiArrayListener;
@@ -32,6 +32,10 @@ public class BlogApiTest extends BaseTest {
         super.setup();
         mApi = getApiProvider().getBlogApi();
         mCategoryApi = getApiProvider().getCategoryApi();
+
+        // 模拟已经登录
+        CookieManager.getInstance().setCookie("http://www.cnblogs.com", ".CNBlogsCookie=8C6D967C837C2CCBABCEC7567EE8AB7D44FE79BF1D0FC1219DD216AA34DE6B1A1FA8656DFCFC7370985A3EB177A82942FBCB5B3797B975F4DA582590059D123417B74C2FC28647F5541DD7F873BCEE5B4B627E3B");
+
     }
 
     @Test
@@ -73,7 +77,7 @@ public class BlogApiTest extends BaseTest {
         startTest(new Runnable() {
             @Override
             public void run() {
-                mApi.getContents("6246780", new ApiUiListener<String>() {
+                mApi.getBlogContent("6246780", new ApiUiListener<String>() {
                     @Override
                     public void onApiFailed(ApiException ex, String msg) {
                         stop();
@@ -94,7 +98,7 @@ public class BlogApiTest extends BaseTest {
         startTest(new Runnable() {
             @Override
             public void run() {
-                mApi.getComment(1, "6134506", "pengze0902", new ApiUiArrayListener<BlogComment>() {
+                mApi.getBlogComments(1, "6134506", "pengze0902", new ApiUiArrayListener<BlogComment>() {
                     @Override
                     public void onApiFailed(ApiException ex, String msg) {
                         stop();
@@ -113,13 +117,43 @@ public class BlogApiTest extends BaseTest {
         });
     }
 
-
     @Test
-    public void testNews() throws InterruptedException {
+    public void testLikeBlog() throws InterruptedException {
         startTest(new Runnable() {
             @Override
             public void run() {
-                getApiProvider().getNewsApi().getNews(1, listListener(Blog.class));
+                getApiProvider().getBlogApi().likeBlog("6323406", "silenttiger", listener(Void.class));
+            }
+        });
+    }
+
+    @Test
+    public void testUnLikeBlog() throws InterruptedException {
+        startTest(new Runnable() {
+            @Override
+            public void run() {
+                getApiProvider().getBlogApi().unLikeBlog("6323406", "silenttiger", listener(Void.class));
+            }
+        });
+    }
+
+    @Test
+    public void testAddCommentBlog() throws InterruptedException {
+        startTest(new Runnable() {
+            @Override
+            public void run() {
+                // 普通
+                getApiProvider().getBlogApi().addBlogComment("6323406", "silenttiger", (String) null, "test comment", listener(Void.class));
+            }
+        });
+    }
+
+    @Test
+    public void testDelCommentBlog() throws InterruptedException {
+        startTest(new Runnable() {
+            @Override
+            public void run() {
+                getApiProvider().getBlogApi().deleteBlogComment("3608338", listener(Void.class));
             }
         });
     }

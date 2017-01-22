@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.INewsApi;
+import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;
 
@@ -26,16 +27,22 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
 
     @Override
     public void loadContent() {
-        if (mView.getBlog() == null) return;
-        if (!TextUtils.isEmpty(mView.getBlog().getContent())) {
-            mView.onLoadContentSuccess(mView.getBlog());
+        Blog blog = mView.getBlog();
+        if (blog == null) return;
+        if (!TextUtils.isEmpty(blog.getContent())) {
+            mView.onLoadContentSuccess(blog);
             return;
         }
 
-        if (mView.getBlog().isNews()) {
-            mNewsApi.getNewsContent(mView.getBlog().getId(), this);
+        if (blog.isNews()) {
+            // 新闻
+            mNewsApi.getNewsContent(blog.getId(), this);
+        } else if (blog.isKb()) {
+            // 知识库
+            mBlogApi.getKbContent(blog.getId(), this);
         } else {
-            mBlogApi.getContents(mView.getBlog().getId(), this);
+            // 博文
+            mBlogApi.getBlogContent(blog.getId(), this);
         }
     }
 

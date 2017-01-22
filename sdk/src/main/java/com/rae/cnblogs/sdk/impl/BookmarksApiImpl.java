@@ -25,7 +25,7 @@ public class BookmarksApiImpl extends CnblogsBaseApi implements IBookmarksApi {
     public void addBookmarks(BookmarksBean m, ApiUiListener<Void> listener) {
 
         // http 返回409 表示已经添加过了
-        post(ApiUrls.API_BOOK_MARKS_ADD,
+        post(ApiUrls.OFFICIAL_API_BOOK_MARKS_ADD,
                 newParams()
                         .add("Title", m.getTitle())
                         .add("LinkUrl", m.getLinkUrl())
@@ -37,7 +37,7 @@ public class BookmarksApiImpl extends CnblogsBaseApi implements IBookmarksApi {
 
     @Override
     public void getBookmarks(int page, ApiUiArrayListener<BookmarksBean> listener) {
-        get(ApiUrls.API_BOOK_MARKS_LIST,
+        get(ApiUrls.OFFICIAL_API_BOOK_MARKS_LIST,
                 newParams().add("pageIndex", page).add("pageSize", 20),
                 BookmarksBean.class,
                 listener);
@@ -48,10 +48,10 @@ public class BookmarksApiImpl extends CnblogsBaseApi implements IBookmarksApi {
         String requestUrl;
         ApiParams apiParams = newParams();
         if (url.startsWith("http")) {
-            requestUrl = ApiUrls.API_BOOK_MARKS_URL_DELETE;
+            requestUrl = ApiUrls.OFFICIAL_API_BOOK_MARKS_URL_DELETE;
             apiParams.add("url", URLEncoder.encode(url));
         } else {
-            requestUrl = ApiUrls.API_BOOK_MARKS_ID_DELETE + "/" + url;
+            requestUrl = ApiUrls.OFFICIAL_API_BOOK_MARKS_ID_DELETE + "/" + url;
         }
 
         ApiRequest request = newDelRequestBuilder(requestUrl, apiParams).listener(getDefaultJsonResponse(Void.class, listener)).build();
