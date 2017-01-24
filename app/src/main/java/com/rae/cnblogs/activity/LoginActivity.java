@@ -6,20 +6,23 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeAnim;
-import com.rae.cnblogs.event.LoginEventMessage;
 import com.rae.cnblogs.fragment.WebLoginFragment;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILoginPresenter;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.widget.webclient.bridge.WebLoginListener;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -41,6 +44,13 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
     @BindView(R.id.btn_login)
     Button mLoginButton;
+
+    @BindView(R.id.img_login_logo)
+    ImageView mLogoView;
+    @BindView(R.id.tv_login_tips)
+    TextView mTipsView;
+    @BindView(R.id.ll_login_tips_layout)
+    View mTipsLayout;
 
     private ILoginPresenter mLoginPresenter;
     private AccountTextWatcher mAccountTextWatcher;
@@ -91,9 +101,19 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
     @OnClick(R.id.btn_login)
     public void onLoginClick() {
         // 先WEB登录
-        EventBus.getDefault().post(new LoginEventMessage(getUserName(), getPassword()));
+//        EventBus.getDefault().post(new LoginEventMessage(getUserName(), getPassword()));
+
+        // 模拟
+        mLoginButton.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                onLoginCallback();
+            }
+        }, 5000);
+
         removeAccountTextListener(mAccountTextWatcher);
         mLoginButton.setEnabled(false);
+        startLoginAnim();
     }
 
     @Override
@@ -145,6 +165,90 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
     private void onLoginCallback() {
         mLoginButton.setEnabled(true);
         addAccountTextListener(mAccountTextWatcher);
+
+        // 结束动画效果
+//        mLoginLayout.clearAnimation();
+//        mLogoView.clearAnimation();
+//        mTipsLayout.clearAnimation();
+
+
+        long duration = 800;
+
+        // LOGO 下移
+        // 获取位移差值
+        float dy = mLoginLayout.getHeight() / 2;
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, 0, Animation.ABSOLUTE, dy, Animation.ABSOLUTE, 0);
+        translateAnimation.setDuration(duration);
+        translateAnimation.setFillAfter(true);
+        mLogoView.startAnimation(translateAnimation);
+
+        // 提示信息上移
+        AnimationSet tipsLayoutAnimSet = new AnimationSet(true);
+
+        TranslateAnimation tipsLayoutAnim = new TranslateAnimation(0, 0, 0, 0, Animation.ABSOLUTE, -dy, Animation.ABSOLUTE, 0);
+        tipsLayoutAnim.setDuration(duration);
+
+        AlphaAnimation tipsLayoutAlphaAnimation = new AlphaAnimation(1, 0);
+        tipsLayoutAlphaAnimation.setDuration(duration);
+
+        tipsLayoutAnimSet.addAnimation(tipsLayoutAnim);
+        tipsLayoutAnimSet.addAnimation(tipsLayoutAlphaAnimation);
+        tipsLayoutAnimSet.setFillAfter(true);
+        mTipsLayout.startAnimation(tipsLayoutAnimSet);
+
+        // 登录框渐入
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setStartOffset(duration);
+        mLoginLayout.startAnimation(alphaAnimation);
+    }
+
+    // 开始登录动画
+    private void startLoginAnim() {
+        long duration = 500;
+        // 登录框渐隐
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setFillAfter(true);
+        mLoginLayout.startAnimation(alphaAnimation);
+
+        // LOGO 下移
+        // 获取位移差值
+        float dy = mLoginLayout.getHeight() / 2;
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, dy);
+        translateAnimation.setDuration(duration);
+        translateAnimation.setFillAfter(true);
+        mLogoView.startAnimation(translateAnimation);
+
+        // 提示信息上移
+        AnimationSet tipsLayoutAnimSet = new AnimationSet(true);
+
+        TranslateAnimation tipsLayoutAnim = new TranslateAnimation(0, 0, 0, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, -dy);
+        tipsLayoutAnim.setDuration(duration);
+
+        AlphaAnimation tipsLayoutAlphaAnimation = new AlphaAnimation(0, 1);
+        tipsLayoutAlphaAnimation.setDuration(duration);
+
+        AnimationSet fadeSet = new AnimationSet(true);
+        AlphaAnimation fadeInAnim = new AlphaAnimation(1, 0.5f);
+        fadeInAnim.setDuration(800);
+        AlphaAnimation fadeOutAnim = new AlphaAnimation(0.5f, 1f);
+        fadeOutAnim.setDuration(800);
+        fadeOutAnim.setStartOffset(800);
+        fadeSet.setRepeatCount(-1);
+
+        tipsLayoutAnimSet.addAnimation(tipsLayoutAnim);
+        tipsLayoutAnimSet.addAnimation(tipsLayoutAlphaAnimation);
+        fadeSet.addAnimation(fadeInAnim);
+//        fadeSet.addAnimation(fadeOutAnim);
+        tipsLayoutAnimSet.addAnimation(fadeSet);
+        tipsLayoutAnimSet.setFillAfter(true);
+
+
+        mTipsLayout.setVisibility(View.VISIBLE);
+        mTipsLayout.startAnimation(tipsLayoutAnimSet);
+
+
     }
 
     private class AccountTextWatcher implements TextWatcher {
