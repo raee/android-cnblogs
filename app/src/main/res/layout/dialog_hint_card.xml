@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.rae.cnblogs.widget.HintCardLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_hint_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:background="@drawable/bg_dialog_hint_card"
+            android:orientation="vertical"
+            android:padding="@dimen/default_radius">
+
+            <ImageView
+                android:id="@+id/img_dialog_hint"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/hint_card_1"/>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="SDWebImage源码解读之干货大总结"
+                android:textColor="@color/ph1"
+                android:textSize="@dimen/h1"/>
+
+            <TextView
+                android:id="@+id/tv_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.3"
+                android:text="这是我认为的一些重要的知识点进行的总结。\n 1.图片编码简介\n 大家都知道，数据在网络中是以二进制流的形式传播的，那么我们该如何把那些1和0解析成我们需要的数据格式呢？ 说的简单一点就是，当文件都使用二进制流作为传输时，需要制定一套规范，用来区分该文件到底是什么类型的。 文件头有很多个，我们在这里就介绍"
+                android:textColor="@color/ph3"
+                android:textSize="@dimen/h2"/>
+
+            <TextView
+                android:id="@+id/btn_ensure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:gravity="center"
+                android:text="阅读原文"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/h1"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/hint_card_close"/>
+    </RelativeLayout>
+</com.rae.cnblogs.widget.HintCardLayout>

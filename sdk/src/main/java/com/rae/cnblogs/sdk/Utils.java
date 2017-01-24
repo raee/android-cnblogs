@@ -16,6 +16,14 @@ import java.util.regex.Pattern;
  */
 public final class Utils {
 
+    public static String getUrl(String text) {
+        if (text == null || text.isEmpty()) return text;
+        if (text.startsWith("//")) {
+            return text.replace("//", "http://");
+        }
+        return text;
+    }
+
     public static String getDate(String text) {
 
         String regx = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}";

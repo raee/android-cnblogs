@@ -7,7 +7,7 @@ import com.rae.cnblogs.sdk.impl.BlogApiImpl;
 import com.rae.cnblogs.sdk.impl.BookmarksApiImpl;
 import com.rae.cnblogs.sdk.impl.CategoryApiImpl;
 import com.rae.cnblogs.sdk.impl.NewsApiImpl;
-import com.rae.cnblogs.sdk.impl.UserApiImpl;
+import com.rae.cnblogs.sdk.impl.WebUserApiImpl;
 
 /**
  * 博客园默认接口实现
@@ -39,7 +39,7 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
 
     @Override
     public IUserApi getUserApi() {
-        return new UserApiImpl(mContext);
+        return new WebUserApiImpl(mContext);
     }
 
     @Override

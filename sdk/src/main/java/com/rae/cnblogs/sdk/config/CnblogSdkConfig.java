@@ -53,4 +53,11 @@ public class CnblogSdkConfig {
         if (TextUtils.isEmpty(json)) return null;
         return JSON.parseObject(json, LoginTokenBean.class);
     }
+
+    /**
+     * 清除所有的配置项目
+     */
+    public void clear() {
+        mConfig.edit().clear().apply();
+    }
 }

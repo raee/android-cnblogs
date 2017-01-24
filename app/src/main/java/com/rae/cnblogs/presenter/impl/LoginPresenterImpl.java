@@ -11,6 +11,7 @@ import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;
 
 /**
+ * 登录逻辑
  * Created by ChenRui on 2017/1/19 0019 14:56.
  */
 public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView> implements ILoginPresenter, ApiUiListener<LoginTokenBean> {
@@ -35,12 +36,11 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
             return;
         }
 
-        mUserApi.login(userName, pwd, this);
+        mUserApi.login(userName, pwd, null, this);
     }
 
     @Override
     public void start() {
-
     }
 
     @Override

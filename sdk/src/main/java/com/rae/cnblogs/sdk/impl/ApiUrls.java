@@ -21,7 +21,7 @@ final class ApiUrls {
     static final String API_LOGIN_TOKEN = "https://api.cnblogs.com/token";
 
     // 用户信息
-    static final String API_USER_INFO = "https://api.cnblogs.com/api/Users";
+    static final String API_USER_INFO = "https://home.cnblogs.com/ajax/user/CurrentIngUserInfo";
 
     // 添加收藏
     static final String OFFICIAL_API_BOOK_MARKS_ADD = "https://api.cnblogs.com/api/Bookmarks";
@@ -69,4 +69,7 @@ final class ApiUrls {
 
     // 删除新闻评论
     public static final String API_NEWS_COMMENT_DELETE = "https://news.cnblogs.com/Comment/DelComment";
+
+    // 登录
+    public static final String API_SIGN_IN = "https://passport.cnblogs.com/user/signin?AspxAutoDetectCookieSupport=1";
 }

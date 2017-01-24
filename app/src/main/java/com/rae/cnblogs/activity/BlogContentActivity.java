@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
-import com.rae.cnblogs.dialog.BlogShareDialog;
+import com.rae.cnblogs.dialog.impl.BlogShareDialog;
 import com.rae.cnblogs.fragment.BlogCommentFragment;
 import com.rae.cnblogs.fragment.BlogContentFragment;
 import com.rae.cnblogs.sdk.bean.Blog;

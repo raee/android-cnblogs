@@ -1,6 +1,5 @@
-package com.rae.cnblogs.dialog;
+package com.rae.cnblogs.dialog.impl;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.Window;
@@ -12,7 +11,7 @@ import com.rae.cnblogs.R;
  * 底部滑动上来的对话框
  * Created by ChenRui on 2016/12/7 22:15.
  */
-public class SlideDialog extends Dialog {
+public class SlideDialog extends AppDialog {
 
     public SlideDialog(Context context) {
         this(context, R.style.SlideDialog);

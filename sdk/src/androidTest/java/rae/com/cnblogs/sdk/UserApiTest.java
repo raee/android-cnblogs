@@ -33,7 +33,7 @@ public class UserApiTest extends BaseTest {
         startTest(new Runnable() {
             @Override
             public void run() {
-                mApi.login("chenrui7", "chenrui123456789", new ApiUiListener<LoginTokenBean>() {
+                mApi.login("chenrui7", "chenrui123456789", null, new ApiUiListener<LoginTokenBean>() {
                     @Override
                     public void onApiFailed(ApiException e, String s) {
                         error(s);
@@ -93,7 +93,7 @@ public class UserApiTest extends BaseTest {
         startTest(new Runnable() {
             @Override
             public void run() {
-                new WebUserApiImpl(mContext).login("rae", "123123", listener(LoginTokenBean.class));
+                new WebUserApiImpl(mContext).login("chenrui7", "chenrui123456789", null, listener(LoginTokenBean.class));
             }
         });
     }

@@ -1,5 +1,7 @@
 package com.rae.cnblogs.sdk;
 
+import android.support.annotation.Nullable;
+
 import com.rae.cnblogs.sdk.bean.LoginTokenBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.core.sdk.ApiUiListener;
@@ -12,10 +14,11 @@ public interface IUserApi {
     /**
      * 登录
      *
-     * @param userName 用户名
-     * @param password 密码
+     * @param userName   用户名
+     * @param password   密码
+     * @param verifyCode 验证码，可为空
      */
-    void login(String userName, String password, ApiUiListener<LoginTokenBean> listener);
+    void login(String userName, String password, @Nullable String verifyCode, ApiUiListener<LoginTokenBean> listener);
 
     /**
      * 是否已经登录
@@ -32,4 +35,9 @@ public interface IUserApi {
      * 获取用户信息
      */
     void getUserInfo(ApiUiListener<UserInfoBean> listener);
+
+    /**
+     * 退出登录
+     */
+    void logout();
 }

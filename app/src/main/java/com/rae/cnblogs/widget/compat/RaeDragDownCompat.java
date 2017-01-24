@@ -28,7 +28,7 @@ public class RaeDragDownCompat extends ViewDragHelper.Callback {
     private static final int MIN_FLING_VELOCITY = 180; // dips per second
 
     private static final String TAG = "RAE.RaeDragDownCompat";
-    private final ViewGroup mParentView;
+    protected final ViewGroup mParentView;
     private View mDragView;
     private static final float mMinFlingVelocitySpeed = 10; // 速度
     private final float mMinFlingVelocity;

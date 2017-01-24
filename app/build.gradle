@@ -33,6 +33,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            applicationIdSuffix '.debug'
             minifyEnabled false
             debuggable true
             signingConfig signingConfigs.release

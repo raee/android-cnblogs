@@ -43,27 +43,6 @@ public class RaeWebViewClient extends WebViewClient {
 
     }
 
-    @Override
-    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//        // 重写URL，跳转原生的博文查看
-//        Log.i("rae", "URL = " + url);
-//        boolean isBlogContent = Pattern.matches("http://www.cnblogs.com/\\w.+/\\d+.html", url);
-//        if (isBlogContent) {
-//            // 获取博客ID
-//            String id = url.substring(url.lastIndexOf("/")).replace(".html", "").replace("/", "").trim();
-//            if (!TextUtils.isEmpty(id) && id.length() > 3) {
-//                Log.w("rae", "博客ID为：" + id);
-//                return true;
-//            }
-//            if (url.endsWith("apk") || url.endsWith("zip")) {
-//                AppRoute.jumpToDownload(view.getContext(), url);
-//                return true;
-//            }
-//        }
-
-        return super.shouldOverrideUrlLoading(view, url);
-    }
-
     /**
      * 注入脚本
      *

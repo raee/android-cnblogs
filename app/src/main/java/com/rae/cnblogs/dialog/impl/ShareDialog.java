@@ -1,25 +1,19 @@
-package com.rae.cnblogs.dialog;
+package com.rae.cnblogs.dialog.impl;
 
-import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 
-import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.dialog.IAppDialog;
+import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,20 +24,22 @@ import butterknife.OnClick;
 
 /**
  * 分享对话框
- * Created by ChenRui on 2016/12/7 22:15.
+ * Created by ChenRui on 2017/1/24 0024 14:14.
  */
-public class BlogShareDialog extends SlideDialog {
-
-    private final Blog mBlog;
+public class ShareDialog extends SlideDialog {
 
     @BindView(R.id.tv_share_wechat)
     View mWeChatView;
+
     @BindView(R.id.tv_share_wechat_sns)
     View mWeChatSNSView;
+
     @BindView(R.id.tv_share_qq)
     View mQQView;
+
     @BindView(R.id.tv_share_qzone)
     View mQzoneView;
+
     @BindView(R.id.tv_share_sina)
     View mSinaView;
 
@@ -56,24 +52,16 @@ public class BlogShareDialog extends SlideDialog {
     @BindView(R.id.tv_share_browser)
     View mBrowseriew;
 
-    private ShareAction mShareAction;
+    @BindView(R.id.btn_share_cancel)
+    Button mCancelView;
+
+    ShareAction mShareAction;
 
 
-    public BlogShareDialog(Context context, Blog blog) {
+    public ShareDialog(Context context) {
         super(context);
-        mBlog = blog;
         setContentView(R.layout.dialog_blog_content);
         ButterKnife.bind(this, this);
-
-        mShareAction = new ShareAction((Activity) context);
-        mShareAction.withTitle(blog.getTitle());
-        mShareAction.withText(blog.getSummary());
-        mShareAction.withTargetUrl(blog.getUrl());
-        if (!TextUtils.isEmpty(blog.getAvatar())) {
-            mShareAction.withMedia(new UMImage(getContext(), blog.getAvatar()));
-        } else {
-            mShareAction.withMedia(new UMImage(getContext(), R.drawable.ic_share));
-        }
     }
 
     // 开始动画
@@ -125,12 +113,15 @@ public class BlogShareDialog extends SlideDialog {
         startAnim();
     }
 
-    private void share(SHARE_MEDIA type) {
+    /**
+     * 调用友盟分享
+     */
+    protected void share(SHARE_MEDIA type) {
         mShareAction.setPlatform(type);
         mShareAction.share();
     }
 
-    @OnClick({R.id.tv_share_wechat, R.id.tv_share_wechat_sns, R.id.tv_share_qq, R.id.tv_share_qzone, R.id.tv_share_sina, R.id.tv_share_source})
+    @OnClick({R.id.tv_share_wechat, R.id.tv_share_wechat_sns, R.id.tv_share_qq, R.id.tv_share_qzone, R.id.tv_share_sina, R.id.tv_share_source, R.id.tv_share_browser, R.id.tv_share_link})
     void onShareClick(View view) {
         switch (view.getId()) {
             case R.id.tv_share_wechat:
@@ -151,6 +142,12 @@ public class BlogShareDialog extends SlideDialog {
             case R.id.tv_share_source:
                 onViewSourceClick();
                 break;
+            case R.id.tv_share_browser:
+                onBrowserViewClick();
+                break;
+            case R.id.tv_share_link:
+                onLinkClick();
+                break;
         }
 
         dismiss();
@@ -160,36 +157,37 @@ public class BlogShareDialog extends SlideDialog {
     protected void onViewSourceClick() {
     }
 
-    @OnClick(R.id.tv_share_browser)
-    void onBrowserViewClick() {
-        if (mBlog == null) return;
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(getUrl()));
-            getContext().startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        dismiss();
+    // 用浏览器打开
+    protected void onBrowserViewClick() {
     }
-
-    protected String getUrl() {
-        return mBlog == null ? null : mBlog.getUrl();
-    }
-
 
     // 复制链接
-    @OnClick(R.id.tv_share_link)
-    void onLinkClick() {
-        if (mBlog == null) return;
-        ClipboardManager clipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-        clipboardManager.setPrimaryClip(ClipData.newPlainText("url", mBlog.getUrl()));
-        AppUI.success(getContext(), R.string.copy_link_success);
-        dismiss();
+    protected void onLinkClick() {
     }
 
+    // 取消
     @OnClick(R.id.btn_share_cancel)
     void onCancelClick() {
         dismiss();
+    }
+
+    @Override
+    public void setButtonText(int buttonType, String text) {
+        switch (buttonType) {
+            // 取消文本
+            case IAppDialog.BUTTON_NEGATIVE:
+                mCancelView.setText(text);
+                break;
+        }
+    }
+
+    @Override
+    public void setOnClickListener(int buttonType, final IAppDialogClickListener listener) {
+        switch (buttonType) {
+            // 取消文本
+            case IAppDialog.BUTTON_NEGATIVE:
+                mCancelView.setOnClickListener(newClickListener(buttonType, listener));
+                break;
+        }
     }
 }

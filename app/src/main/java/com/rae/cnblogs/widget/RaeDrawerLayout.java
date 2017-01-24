@@ -3,7 +3,6 @@ package com.rae.cnblogs.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -41,7 +40,6 @@ public class RaeDrawerLayout extends FrameLayout {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         mDragDownCompat.setDragView(getChildAt(0));
-        Log.w("rae", String.format("onLayout,top=%d", top));
     }
 
     @Override

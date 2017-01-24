@@ -1,6 +1,5 @@
 package com.rae.cnblogs.activity;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -18,11 +17,9 @@ import android.widget.TextView;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeAnim;
-import com.rae.cnblogs.fragment.WebLoginFragment;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILoginPresenter;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
-import com.rae.cnblogs.widget.webclient.bridge.WebLoginListener;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,7 +28,9 @@ import butterknife.OnClick;
  * 登录
  * Created by ChenRui on 2017/1/19 0019 9:59.
  */
-public class LoginActivity extends BaseActivity implements ILoginPresenter.ILoginView, WebLoginListener {
+public class LoginActivity extends BaseActivity implements ILoginPresenter.ILoginView
+//        , WebLoginListener
+{
 
     @BindView(com.rae.cnblogs.R.id.ll_login_container)
     View mLoginLayout;
@@ -54,6 +53,7 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
     private ILoginPresenter mLoginPresenter;
     private AccountTextWatcher mAccountTextWatcher;
+    private long mStartAnimTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,8 +73,6 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
         mAccountTextWatcher = new AccountTextWatcher();
         addAccountTextListener(mAccountTextWatcher);
-
-        getSupportFragmentManager().beginTransaction().add(R.id.fl_content, WebLoginFragment.newInstance()).commit();
     }
 
     private void addAccountTextListener(AccountTextWatcher watcher) {
@@ -100,20 +98,19 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
      */
     @OnClick(R.id.btn_login)
     public void onLoginClick() {
-        // 先WEB登录
-//        EventBus.getDefault().post(new LoginEventMessage(getUserName(), getPassword()));
 
         // 模拟
-        mLoginButton.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-//                onLoginCallback();
-            }
-        }, 5000);
+//        mLoginButton.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+////                onLoginCallback();
+//            }
+//        }, 5000);
 
+        mLoginPresenter.login();
         removeAccountTextListener(mAccountTextWatcher);
         mLoginButton.setEnabled(false);
-        startLoginAnim();
+//        startLoginAnim();
     }
 
     @Override
@@ -138,40 +135,21 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
         AppUI.toast(this, "官方接口登录失败：" + message);
     }
 
-    @Override
-    public void onWebLoginSuccess() {
-        AppUI.toast(this, "WEB登录成功");
-        // 登录官方接口
-        mLoginPresenter.login();
-    }
-
-    @Override
-    public void onWebLoginError(String message) {
-        onLoginCallback();
-        AppUI.toast(this, "WEB登录失败：" + message);
-    }
-
-    @Override
-    public void onWebLoginCodeError(String msg) {
-        onLoginCallback();
-        AppUI.toast(this, "WEB登录失败：" + msg);
-    }
-
-    @Override
-    public void onWebLoginCodeBitmap(Bitmap bitmap) {
-        AppUI.toast(this, "WEB登录失败：需要验证码");
-    }
-
     private void onLoginCallback() {
         mLoginButton.setEnabled(true);
         addAccountTextListener(mAccountTextWatcher);
-
         // 结束动画效果
-//        mLoginLayout.clearAnimation();
-//        mLogoView.clearAnimation();
-//        mTipsLayout.clearAnimation();
+        stopAnim();
+    }
 
+    private void stopAnim() {
 
+        // 动画间隔相差较小
+        long diffTime = System.currentTimeMillis() - mStartAnimTime;
+        if (diffTime < 500) {
+            mLoginLayout.clearAnimation();
+            return;
+        }
         long duration = 800;
 
         // LOGO 下移
@@ -248,13 +226,11 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
         mTipsLayout.setVisibility(View.VISIBLE);
         mTipsLayout.startAnimation(tipsLayoutAnimSet);
 
+        mStartAnimTime = System.currentTimeMillis();
 
     }
 
     private class AccountTextWatcher implements TextWatcher {
-
-        public AccountTextWatcher() {
-        }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
