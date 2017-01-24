@@ -43,7 +43,7 @@ public class BaseTest {
     public void startTest(Runnable runnable) {
         try {
             InstrumentationRegistry.getInstrumentation().runOnMainSync(runnable);
-            mCountDownLatch.await(30, TimeUnit.SECONDS);
+            mCountDownLatch.await(5, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

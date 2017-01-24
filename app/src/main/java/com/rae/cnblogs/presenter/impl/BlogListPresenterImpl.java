@@ -44,7 +44,7 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
         } else if (TextUtils.equals("kb", category.getType())) { // 知识库
             mApi.getKbArticles(mPageIndex, this);
         } else { // 博客列表
-            mApi.getBlogs(mPageIndex, category.getType(), category.getParentId(), category.getCategoryId(), this);
+            mApi.getBlogList(mPageIndex, category.getType(), category.getParentId(), category.getCategoryId(), this);
         }
     }
 

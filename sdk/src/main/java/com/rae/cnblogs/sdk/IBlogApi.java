@@ -12,44 +12,83 @@ import com.rae.core.sdk.ApiUiListener;
 public interface IBlogApi {
 
     /**
-     * 根据博客ID 获取博客
-     *
-     * @param blogId   博客Id
-     * @param listener 回调
-     */
-    void getBlog(String blogId, ApiUiListener<Blog> listener);
-
-    /**
      * 获取分类博客列表
      *
      * @param page       页码
      * @param parentId   父ID
      * @param categoryId 分类ID
      */
-    void getBlogs(int page, String type, String parentId, String categoryId, ApiUiArrayListener<Blog> listener);
+    void getBlogList(int page, String type, String parentId, String categoryId, ApiUiArrayListener<Blog> listener);
 
     /**
      * 获取博客文章内容
      *
      * @param id 博客ID
      */
-    void getContents(String id, ApiUiListener<String> listener);
+    void getBlogContent(String id, ApiUiListener<String> listener);
 
     /**
      * 获取评论列表
      *
-     * @param page
-     * @param id
-     * @param blogApp
-     * @param listener
+     * @param id      博客ID
+     * @param blogApp 博主ID
      */
-    void getComment(int page, String id, String blogApp, ApiUiArrayListener<BlogComment> listener);
+    void getBlogComments(int page, String id, String blogApp, ApiUiArrayListener<BlogComment> listener);
 
     /**
      * 分页获取知识库
-     *
-     * @param page
-     * @param listener
      */
     void getKbArticles(int page, ApiUiArrayListener<Blog> listener);
+
+
+    /**
+     * 获取知识库内容
+     *
+     * @param id 知识库ID
+     */
+    void getKbContent(String id, ApiUiListener<String> listener);
+
+    /**
+     * 推荐/喜欢 博客
+     *
+     * @param id      博客ID
+     * @param blogApp 该文的博主ID
+     */
+    void likeBlog(String id, String blogApp, ApiUiListener<Void> listener);
+
+    /**
+     * 取消推荐博客
+     *
+     * @param id      博客ID
+     * @param blogApp 该文的博主ID
+     */
+    void unLikeBlog(String id, String blogApp, ApiUiListener<Void> listener);
+
+    /**
+     * 发表博客评论
+     *
+     * @param id              博客ID
+     * @param blogApp         该文的博主ID
+     * @param parentCommentId 引用回复评论ID，为空则发表新评论
+     * @param content         评论内容
+     */
+    void addBlogComment(String id, String blogApp, String parentCommentId, String content, ApiUiListener<Void> listener);
+
+    /**
+     * 引用评论，并发表评论
+     *
+     * @param id      博客ID
+     * @param blogApp 该文的博主ID
+     * @param comment 引用回复
+     * @param content 评论内容
+     */
+    void addBlogComment(String id, String blogApp, BlogComment comment, String content, ApiUiListener<Void> listener);
+
+    /**
+     * 删除博客评论
+     *
+     * @param commentId 评论ID
+     */
+    void deleteBlogComment(String commentId, ApiUiListener<Void> listener);
+
 }

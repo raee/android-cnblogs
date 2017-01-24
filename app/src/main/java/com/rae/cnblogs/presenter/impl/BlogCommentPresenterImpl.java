@@ -52,7 +52,7 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
         if (blog.isNews()) {
             mNewsApi.getNewsComment(blog.getId(), mPage, this);
         } else {
-            mBlogApi.getComment(mPage, blog.getId(), blog.getBlogApp(), this);
+            mBlogApi.getBlogComments(mPage, blog.getId(), blog.getBlogApp(), this);
         }
     }
 

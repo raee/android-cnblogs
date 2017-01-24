@@ -20,8 +20,18 @@ public class Blog implements Parcelable {
     private String postDate;
     private String id;
     private String blogApp;
+    private String tag; // 标签
 
-    private boolean isNews;
+    private boolean isNews; // 是否为新闻
+    private boolean isKb; // 是否为知识库
+
+    public boolean isKb() {
+        return isKb;
+    }
+
+    public void setKb(boolean kb) {
+        isKb = kb;
+    }
 
     public String getBlogApp() {
         return blogApp;
@@ -126,6 +136,14 @@ public class Blog implements Parcelable {
     public Blog() {
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -168,7 +186,9 @@ public class Blog implements Parcelable {
         dest.writeString(this.postDate);
         dest.writeString(this.id);
         dest.writeString(this.blogApp);
+        dest.writeString(this.tag);
         dest.writeByte(this.isNews ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isKb ? (byte) 1 : (byte) 0);
         dest.writeString(this.content);
         dest.writeString(this.likes);
     }
@@ -185,7 +205,9 @@ public class Blog implements Parcelable {
         this.postDate = in.readString();
         this.id = in.readString();
         this.blogApp = in.readString();
+        this.tag = in.readString();
         this.isNews = in.readByte() != 0;
+        this.isKb = in.readByte() != 0;
         this.content = in.readString();
         this.likes = in.readString();
     }

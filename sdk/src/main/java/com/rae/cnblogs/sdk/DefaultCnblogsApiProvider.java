@@ -1,12 +1,12 @@
 package com.rae.cnblogs.sdk;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.rae.cnblogs.sdk.impl.AdvertApiImpl;
 import com.rae.cnblogs.sdk.impl.BlogApiImpl;
 import com.rae.cnblogs.sdk.impl.BookmarksApiImpl;
 import com.rae.cnblogs.sdk.impl.CategoryApiImpl;
+import com.rae.cnblogs.sdk.impl.NewsApiImpl;
 import com.rae.cnblogs.sdk.impl.UserApiImpl;
 
 /**
@@ -19,7 +19,6 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
 
     DefaultCnblogsApiProvider(Context applicationContext) {
         mContext = applicationContext;
-        Log.e("rae", "接口成功反射调用！");
     }
 
 
@@ -55,6 +54,6 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
 
     @Override
     public INewsApi getNewsApi() {
-        return new BlogApiImpl(mContext);
+        return new NewsApiImpl(mContext);
     }
 }

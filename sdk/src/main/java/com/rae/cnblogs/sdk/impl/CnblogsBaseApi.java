@@ -1,6 +1,8 @@
 package com.rae.cnblogs.sdk.impl;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.webkit.CookieManager;
 
 import com.android.volley.Request;
 import com.rae.cnblogs.sdk.bean.LoginTokenBean;
@@ -66,6 +68,29 @@ class CnblogsBaseApi extends RaeBaseApi {
         return builder;
     }
 
+    protected ApiRequest postWithJsonBody(String url, HashMap<String, String> params, IApiJsonResponse response) {
+        ApiRequest req = newApiRequestBuilder(url, params).postMethod().contentType("application/json; charset=UTF-8").listener(response).build();
+        sendRequest(req);
+        return req;
+    }
+
+    protected ApiRequest xmlHttpRequestWithJsonBody(String url, HashMap<String, String> params, IApiJsonResponse response) {
+        ApiRequest req = newApiRequestBuilder(url, params).postMethod().contentType("application/json; charset=UTF-8").addHeader("X-Requested-With","XMLHttpRequest").listener(response).build();
+        sendRequest(req);
+        return req;
+    }
+
+
+    @Override
+    protected void sendRequest(ApiRequest request) {
+        // 添加cookie 信息
+
+        String cookie = CookieManager.getInstance().getCookie("http://www.cnblogs.com");
+        if (!TextUtils.isEmpty(cookie)) {
+            request.getHeaders().put("Cookie", cookie);
+        }
+        super.sendRequest(request);
+    }
 
     protected HashMap<String, String> objectToMap(Object obj) {
         HashMap<String, String> result = new HashMap<>();
