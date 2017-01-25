@@ -2,7 +2,7 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/statusBarColor</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="actionBarDivider">@color/transparent</item>
         <item name="actionBarStyle">@style/AppActionBar</item>
@@ -10,12 +10,13 @@
         <item name="windowActionBar">false</item>
         <item name="buttonStyle">@style/AppButton</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/SlideAnimation</item>
 
     </style>
 
 
-    <style name="AppTheme.Light">
-        <item name="colorPrimaryDark">#000000</item>
+    <style name="AppTheme.Dark">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -55,6 +56,10 @@
     <style name="SlideAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_out_bottom</item>
+
     </style>
 
     <style name="ShareIcon">

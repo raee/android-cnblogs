@@ -7,6 +7,7 @@ import android.net.Uri;
 import com.rae.cnblogs.activity.BlogContentActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
+import com.rae.cnblogs.activity.WebActivity;
 import com.rae.cnblogs.sdk.bean.Blog;
 
 /**
@@ -29,8 +30,10 @@ public final class AppRoute {
         startActivity(context, intent);
     }
 
-    public static void jumpToWeb(String url) {
-        // TODO WEB VIEW ACTIVITY
+    public static void jumpToWeb(Context context, String url) {
+        Intent intent = new Intent(context, WebActivity.class);
+        intent.setData(Uri.parse(url));
+        startActivity(context, intent);
     }
 
     public static void jumpToMain(Context context) {

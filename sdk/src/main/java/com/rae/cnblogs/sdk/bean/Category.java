@@ -3,16 +3,18 @@ package com.rae.cnblogs.sdk.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.activeandroid.Model;
+
 /**
  * 分类
  * Created by ChenRui on 2016/11/30 0030 17:20.
  */
-public class Category implements Parcelable {
+public class Category extends Model implements Parcelable {
     private String categoryId;
     private String parentId;
     private String name;
     private String type;
-    private  int orderNo; // 排序
+    private int orderNo; // 排序
 
     public int getOrderNo() {
         return orderNo;
@@ -77,6 +79,11 @@ public class Category implements Parcelable {
         this.name = in.readString();
         this.type = in.readString();
         this.orderNo = in.readInt();
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     public static final Creator<Category> CREATOR = new Creator<Category>() {

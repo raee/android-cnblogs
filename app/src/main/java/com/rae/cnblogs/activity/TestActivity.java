@@ -72,7 +72,8 @@ public class TestActivity extends BaseActivity {
 
     @OnClick(R.id.btn_test)
     void onTestClick() {
-        mRaeDrawerLayout.toggleSmoothScroll();
+//        mRaeDrawerLayout.toggleSmoothScroll();
+
     }
 
     private void startAnim() {

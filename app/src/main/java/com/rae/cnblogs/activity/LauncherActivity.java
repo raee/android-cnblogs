@@ -90,7 +90,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
 
     @Override
     public void onJumpToWeb(String url) {
-        AppRoute.jumpToWeb(url);
+        AppRoute.jumpToWeb(this, url);
         finish();
     }
 

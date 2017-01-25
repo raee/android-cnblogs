@@ -3,8 +3,8 @@ package com.rae.cnblogs.presenter.impl;
 import android.content.Context;
 import android.os.CountDownTimer;
 
+import com.github.raee.cnblogs.sdk.IAdvertApi;
 import com.rae.cnblogs.presenter.ILauncherPresenter;
-import com.rae.cnblogs.sdk.IAdvertApi;
 import com.rae.cnblogs.sdk.bean.AdvertBean;
 import com.rae.cnblogs.sdk.db.DbAdvert;
 import com.rae.core.sdk.ApiUiListener;
@@ -24,8 +24,8 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
 
     public LauncherPresenterImpl(Context context, ILauncherView view) {
         super(context, view);
-        mAdvertApi = getApiProvider().getAdvertApi();
-        mDbAdvert = new DbAdvert(context);
+        mAdvertApi = getServerApi().getAdvertApi();
+        mDbAdvert = new DbAdvert();
         mCountDownTimer = new CountDownTimer(3500, 1000) {
             @Override
             public void onTick(long l) {

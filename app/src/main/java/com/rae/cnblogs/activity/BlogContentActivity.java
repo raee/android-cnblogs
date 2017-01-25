@@ -6,13 +6,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.dialog.impl.BlogShareDialog;
@@ -52,8 +52,8 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     @BindView(R.id.fl_comment)
     RaeDrawerLayout mCommentLayout;
 
-    private BlogShareDialog mContentDialog;
-    private BlogContentFragment mContentFragment;
+    private BlogShareDialog mShareDialog;
+    private Blog mBlog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,62 +72,54 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         }
 
 
-        Blog blog = getIntent().getParcelableExtra("blog");
-        mContentDialog = new BlogShareDialog(this, blog) {
+        mBlog = getIntent().getParcelableExtra("blog");
+        mShareDialog = new BlogShareDialog(this, mBlog) {
             @Override
             protected void onViewSourceClick() {
-                if (mContentFragment.isHidden() || mContentFragment.isDetached()) return;
-                mContentFragment.loadSourceUrl();
+                AppRoute.jumpToWeb(getContext(), mBlog.getUrl());
             }
         };
 
 //        mCommentDialog = BlogCommentDialog.newInstance(blog);
 
-        if (blog != null) {
-            ImageLoader.getInstance().displayImage(blog.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
-            mAuthorView.setText(blog.getAuthor());
+        if (mBlog != null) {
+            ImageLoader.getInstance().displayImage(mBlog.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
+            mAuthorView.setText(mBlog.getAuthor());
             // 角标处理
-            if (!TextUtils.equals(blog.getComment(), "0")) {
-                mCommentBadgeView.setText(blog.getComment());
+            if (!TextUtils.equals(mBlog.getComment(), "0")) {
+                mCommentBadgeView.setText(mBlog.getComment());
                 mCommentBadgeView.setVisibility(View.VISIBLE);
             }
-            if (!TextUtils.equals(blog.getLikes(), "0")) {
-                mLikeBadgeView.setText(blog.getLikes());
+            if (!TextUtils.equals(mBlog.getLikes(), "0")) {
+                mLikeBadgeView.setText(mBlog.getLikes());
                 mLikeBadgeView.setVisibility(View.VISIBLE);
             }
 
         }
 
-        mContentFragment = BlogContentFragment.newInstance(blog);
-        BlogCommentFragment blogCommentFragment = BlogCommentFragment.newInstance(blog);
-
+        // 加载Fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_comment, blogCommentFragment);
-        transaction.add(R.id.fl_content, mContentFragment);
+        transaction.add(R.id.fl_comment, BlogCommentFragment.newInstance(mBlog));
+        transaction.add(R.id.fl_content, BlogContentFragment.newInstance(mBlog));
         transaction.commit();
 
     }
 
+    // 分享
     @OnClick(R.id.img_action_bar_more)
     public void onActionMenuMoreClick() {
-        mContentDialog.show();
+        mShareDialog.show();
     }
 
+    // 查看评论
     @OnClick(R.id.layout_content_comment)
     public void onCommentClick() {
         mCommentLayout.toggleSmoothScroll();
-
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (mContentFragment != null && mContentFragment.isVisible() && mContentFragment.onKeyDown(keyCode, event)) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 
+    // 返回键处理
     @Override
     public void onBackPressed() {
         if (mCommentLayout.getVisibility() == View.VISIBLE) {
@@ -135,6 +127,5 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
             return;
         }
         super.onBackPressed();
-
     }
 }

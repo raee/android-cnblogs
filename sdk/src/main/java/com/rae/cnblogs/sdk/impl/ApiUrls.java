@@ -6,7 +6,6 @@ package com.rae.cnblogs.sdk.impl;
  */
 final class ApiUrls {
 
-    static final String RAE_API_DOMAIN = "http://www.timeplay.cn/cnblogs/index.php";
 
     // 博客列表
     static final String API_URL_HOME = "http://www.cnblogs.com/mvc/AggSite/PostList.aspx";
@@ -26,9 +25,6 @@ final class ApiUrls {
     // 添加收藏
     static final String OFFICIAL_API_BOOK_MARKS_ADD = "https://api.cnblogs.com/api/Bookmarks";
 
-    // 首页广告
-    static final String RAE_API_URL_LAUNCHER_AD = "/app/ad/launcher";
-
 
     // 收藏列表
     static final String OFFICIAL_API_BOOK_MARKS_LIST = "https://api.cnblogs.com/api/Bookmarks";
@@ -42,34 +38,34 @@ final class ApiUrls {
     static final String API_NEWS_COMMENT = "https://news.cnblogs.com/CommentAjax/GetComments";
 
     // 知识库
-    public static final String API_KB_LIST = "https://home.cnblogs.com/kb/page/@page/";
+    static final String API_KB_LIST = "https://home.cnblogs.com/kb/page/@page/";
 
     // 推荐博客
-    public static final String API_BLOG_LIKE = "http://www.cnblogs.com/mvc/vote/VoteBlogPost.aspx";
+    static final String API_BLOG_LIKE = "http://www.cnblogs.com/mvc/vote/VoteBlogPost.aspx";
 
     // 发布博客评论
-    public static final String API_BLOG_COMMENT_ADD = "http://www.cnblogs.com/mvc/PostComment/Add.aspx";
+    static final String API_BLOG_COMMENT_ADD = "http://www.cnblogs.com/mvc/PostComment/Add.aspx";
     // 删除博客评论
-    public static final String API_BLOG_COMMENT_DELETE = "http://www.cnblogs.com/mvc/comment/DeleteComment.aspx";
+    static final String API_BLOG_COMMENT_DELETE = "http://www.cnblogs.com/mvc/comment/DeleteComment.aspx";
 
     // 添加收藏
-    public static final String API_BOOK_MARKS_ADD = "http://wz.cnblogs.com/ajax/wz/AddWzlink";
+    static final String API_BOOK_MARKS_ADD = "http://wz.cnblogs.com/ajax/wz/AddWzlink";
 
     // 删除收藏
-    public static final String API_BOOK_MARKS_DELETE = "http://wz.cnblogs.com/ajax/wz/DeleteWzlink";
+    static final String API_BOOK_MARKS_DELETE = "http://wz.cnblogs.com/ajax/wz/DeleteWzlink";
 
     // 获取收藏列表
-    public static final String API_BOOK_MARKS_LIST = "http://wz.cnblogs.com/my/@page.html";
+    static final String API_BOOK_MARKS_LIST = "http://wz.cnblogs.com/my/@page.html";
 
     // 知识库内容
-    public static final String API_KB_CONTENT = "https://kb.cnblogs.com/page/@id/";
+    static final String API_KB_CONTENT = "https://kb.cnblogs.com/page/@id/";
 
     // 新闻评论
-    public static final String API_NEWS_COMMENT_ADD = "https://news.cnblogs.com/Comment/InsertComment";
+    static final String API_NEWS_COMMENT_ADD = "https://news.cnblogs.com/Comment/InsertComment";
 
     // 删除新闻评论
-    public static final String API_NEWS_COMMENT_DELETE = "https://news.cnblogs.com/Comment/DelComment";
+    static final String API_NEWS_COMMENT_DELETE = "https://news.cnblogs.com/Comment/DelComment";
 
     // 登录
-    public static final String API_SIGN_IN = "https://passport.cnblogs.com/user/signin?AspxAutoDetectCookieSupport=1";
+    static final String API_SIGN_IN = "https://passport.cnblogs.com/user/signin?AspxAutoDetectCookieSupport=1";
 }

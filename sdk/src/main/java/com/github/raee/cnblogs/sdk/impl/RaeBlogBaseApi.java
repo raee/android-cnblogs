@@ -1,4 +1,4 @@
-package com.rae.cnblogs.sdk.impl;
+package com.github.raee.cnblogs.sdk.impl;
 
 import android.content.Context;
 
@@ -18,7 +18,7 @@ public class RaeBlogBaseApi extends RaeBaseApi {
     }
 
     protected String url(String path) {
-        return ApiUrls.RAE_API_DOMAIN + path;
+        return RaeApiUrls.RAE_API_DOMAIN + path;
     }
 
     @Override

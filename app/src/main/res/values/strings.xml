@@ -23,6 +23,7 @@
     <string name="retry">重新加载</string>
     <string name="empty_comment">暂时还没有评论\n你的评论是对作者是莫大的动力</string>
     <string name="nomore_loading"> ——阅读完毕——</string>
+    <string name="no_more_tips">全部加载完毕</string>
     <string name="register">注册</string>
     <string name="login_tips">登录即表示同意</string>
     <string name="login_contract">「用户协议」隐私条款</string>
@@ -31,4 +32,5 @@
     <string name="login">登录</string>
     <string name="error_username_empty">请输入用户名</string>
     <string name="error_password_empty">请输入密码</string>
+    <string name="no_more_comment">已显示全部评论</string>
 </resources>

@@ -1,8 +1,8 @@
-package com.rae.cnblogs.sdk.impl;
+package com.github.raee.cnblogs.sdk.impl;
 
 import android.content.Context;
 
-import com.rae.cnblogs.sdk.IAdvertApi;
+import com.github.raee.cnblogs.sdk.IAdvertApi;
 import com.rae.cnblogs.sdk.bean.AdvertBean;
 import com.rae.core.sdk.ApiUiListener;
 
@@ -10,7 +10,7 @@ import com.rae.core.sdk.ApiUiListener;
  * 广告接口实现
  * Created by ChenRui on 2016/12/22 22:58.
  */
-public class AdvertApiImpl extends RaeBlogBaseApi implements IAdvertApi {
+class AdvertApiImpl extends RaeBlogBaseApi implements IAdvertApi {
 
     public AdvertApiImpl(Context context) {
         super(context);
@@ -18,6 +18,6 @@ public class AdvertApiImpl extends RaeBlogBaseApi implements IAdvertApi {
 
     @Override
     public void getLauncherAd(ApiUiListener<AdvertBean> listener) {
-        post(url(ApiUrls.RAE_API_URL_LAUNCHER_AD), null, AdvertBean.class, listener);
+        post(url(RaeApiUrls.RAE_API_URL_LAUNCHER_AD), null, AdvertBean.class, listener);
     }
 }

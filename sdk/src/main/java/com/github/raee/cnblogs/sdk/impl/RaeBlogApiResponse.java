@@ -1,4 +1,4 @@
-package com.rae.cnblogs.sdk.impl;
+package com.github.raee.cnblogs.sdk.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

@@ -4,7 +4,8 @@
     <item>
         <color android:color="@color/dividerPrimary"/>
     </item>
-    <item android:bottom="0.5dp">
+
+    <item android:bottom="0dp">
         <color android:color="@color/navBar"/>
     </item>
 </layer-list>

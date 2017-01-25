@@ -8,6 +8,7 @@ import android.util.Log;
 import com.github.raee.runit.RUnitTestLogUtils;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.CnblogsApiProvider;
+import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;
@@ -27,13 +28,14 @@ import java.util.concurrent.TimeUnit;
 @RunWith(AndroidJUnit4.class)
 public class BaseTest {
 
-    Context mContext;
+    protected Context mContext;
 
     private final CountDownLatch mCountDownLatch = new CountDownLatch(1);
 
     @Before
     public void setup() {
         mContext = InstrumentationRegistry.getTargetContext();
+        DbCnblogs.init(mContext);
     }
 
     protected CnblogsApiProvider getApiProvider() {

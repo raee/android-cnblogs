@@ -2,7 +2,6 @@ package com.rae.cnblogs.sdk.parser;
 
 import com.rae.cnblogs.sdk.Utils;
 import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.NewsBean;
 import com.rae.core.sdk.ApiUiArrayListener;
 
 import org.jsoup.nodes.Document;
@@ -27,7 +26,7 @@ public class NewsParser extends HtmlParser<Blog> {
         List<Blog> result = new ArrayList<>();
         Elements elements = document.select("entry");
         for (Element element : elements) {
-            NewsBean m = new NewsBean();
+            Blog m = new Blog();
             m.setId(element.select("id").text());
             m.setTitle(element.select("title").text());
             m.setSummary(element.select("summary").text());

@@ -51,10 +51,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void showHomeAsUp(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
-            bar.setHomeAsUpIndicator(R.drawable.ic_back);
+            bar.setHomeAsUpIndicator(getHomeAsUpIndicator());
             bar.setDisplayShowHomeEnabled(false);
             bar.setDisplayShowTitleEnabled(false);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -66,13 +67,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected int parseInt(String text) {
-        try {
-            return Integer.parseInt(text);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-        return 0;
+    /**
+     * 返回按钮的图片
+     */
+    protected int getHomeAsUpIndicator() {
+        return R.drawable.ic_back;
     }
 
     protected BaseActivity getContext() {

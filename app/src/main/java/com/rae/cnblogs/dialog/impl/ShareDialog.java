@@ -55,6 +55,9 @@ public class ShareDialog extends SlideDialog {
     @BindView(R.id.btn_share_cancel)
     Button mCancelView;
 
+    @BindView(R.id.hl_ext_action_layout)
+    View mExtLayout;
+
     ShareAction mShareAction;
 
 
@@ -62,6 +65,15 @@ public class ShareDialog extends SlideDialog {
         super(context);
         setContentView(R.layout.dialog_blog_content);
         ButterKnife.bind(this, this);
+    }
+
+    /**
+     * 设置扩展栏可见性
+     *
+     * @param visibility
+     */
+    public void setExtLayoutVisibility(int visibility) {
+        mExtLayout.setVisibility(visibility);
     }
 
     // 开始动画

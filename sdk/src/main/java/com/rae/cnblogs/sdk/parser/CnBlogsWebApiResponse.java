@@ -39,7 +39,7 @@ public class CnBlogsWebApiResponse<T> extends RaeSimpleJsonResponse<T> {
         }
 
         if (mClass == Void.class && parseJson(json) == null) {
-            notifyApiSuccess(null);
+//            notifyApiSuccess(null);
             return;
         }
         super.onJsonResponse(json);

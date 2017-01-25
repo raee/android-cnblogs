@@ -2,7 +2,6 @@ package com.rae.cnblogs.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -86,7 +85,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     private void initView() {
         mItemAdapter = new BlogCommentItemAdapter();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setNoMoreText(R.string.no_more_comment);
         mRecyclerView.setPullRefreshEnabled(false);
         mRecyclerView.setLoadingMoreEnabled(true);
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {

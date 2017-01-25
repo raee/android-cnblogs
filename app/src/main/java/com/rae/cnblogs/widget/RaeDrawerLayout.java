@@ -5,8 +5,10 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
+import com.rae.cnblogs.R;
 import com.rae.cnblogs.widget.compat.RaeDragDownCompat;
 
 /**
@@ -91,6 +93,11 @@ public class RaeDrawerLayout extends FrameLayout {
      */
     public void toggleSmoothScroll() {
         mDragDownCompat.setDragView(getChildAt(0));
+        if (getHeight() <= 0 && getVisibility() != View.VISIBLE) {
+            setVisibility(View.VISIBLE);
+            startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_bottom));
+            return;
+        }
         mDragDownCompat.toggleSmoothScroll();
     }
 

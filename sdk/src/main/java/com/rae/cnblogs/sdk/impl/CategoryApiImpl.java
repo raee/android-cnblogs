@@ -31,7 +31,7 @@ public class CategoryApiImpl extends CnblogsBaseApi implements ICategoryApi {
     @Override
     public void getCategory(ApiUiArrayListener<Category> listener) {
         // 从数据库中获取
-        DbCategory db = new DbCategory(mContext);
+        DbCategory db = new DbCategory();
         List<Category> list = db.list();
 
         // 没有数据,开始初始化数据

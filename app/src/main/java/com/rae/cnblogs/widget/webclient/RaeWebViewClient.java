@@ -1,5 +1,6 @@
 package com.rae.cnblogs.widget.webclient;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
@@ -40,7 +41,8 @@ public class RaeWebViewClient extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
         dismissProgress();
-
+        Activity at = (Activity) view.getContext();
+        at.setTitle(view.getTitle());
     }
 
     /**

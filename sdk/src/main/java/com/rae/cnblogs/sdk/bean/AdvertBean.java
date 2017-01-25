@@ -1,13 +1,28 @@
 package com.rae.cnblogs.sdk.bean;
 
-public class AdvertBean {
-    private String ad_end_date;
+
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
+@Table(name = "ads")
+public class AdvertBean extends Model {
+
+    @Column(index = true)
     private String ad_id;
+    @Column
+    private String ad_end_date;
+    @Column
     private String create_time;
+    @Column
     private String ad_url;
+    @Column
     private String image_url;
+    @Column
     private String ad_name;
+    @Column
     private String ad_type;
+    @Column
     private String jump_type;
 
     public String getAd_end_date() {

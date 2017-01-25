@@ -111,18 +111,8 @@ public class RaeDragDownCompat extends ViewDragHelper.Callback {
 
     public void toggleSmoothScroll() {
         if (mDragView.getTop() >= getParentHeight() || mParentView.getVisibility() != View.VISIBLE) {
-            // show and smooth top
-            if (getParentHeight() <= 0) {
-                mParentView.setTop(800);
-                mParentView.setVisibility(View.VISIBLE);
-
-                Log.e(TAG, "高度 = " + getParentHeight());
-
-            } else {
-                mParentView.setVisibility(View.VISIBLE);
-                smoothScrollToTop();
-            }
-
+            mParentView.setVisibility(View.VISIBLE);
+            smoothScrollToTop();
         } else {
             smoothScrollToBottom();
         }

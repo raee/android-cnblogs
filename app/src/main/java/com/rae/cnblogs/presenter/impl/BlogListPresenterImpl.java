@@ -56,6 +56,9 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     @Override
     public void onApiSuccess(List<Blog> data) {
 
+        // 保存到数据库
+
+
         // 无重复添加
         data.removeAll(mBlogList);
 

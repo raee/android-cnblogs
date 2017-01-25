@@ -10,7 +10,6 @@ public abstract class CnblogsApiProvider {
      */
     public abstract int getApiVersion();
 
-
     /**
      * 获取博客接口
      */
@@ -31,11 +30,6 @@ public abstract class CnblogsApiProvider {
      * 获取收藏接口
      */
     public abstract IBookmarksApi getBookmarksApi();
-
-    /**
-     * 获取广告接口
-     */
-    public abstract IAdvertApi getAdvertApi();
 
 
     /**

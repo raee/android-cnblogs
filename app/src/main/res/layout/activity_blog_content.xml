@@ -83,7 +83,7 @@
                 android:id="@+id/fl_comment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible"/>
+                android:visibility="gone"/>
 
         </RelativeLayout>
 
@@ -187,9 +187,10 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/img_content_bookmarks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_favorite_normal"/>
+                        android:src="@drawable/ic_favorite"/>
                 </RelativeLayout>
             </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.rae.cnblogs;
 
 import android.app.Application;
 
+import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -14,6 +15,7 @@ public class CnblogsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        DbCnblogs.init(this);
         RaeImageLoader.initImageLoader(this);
         initUmengShareConfig();
     }

@@ -1,4 +1,4 @@
-package com.rae.cnblogs.sdk;
+package com.github.raee.cnblogs.sdk;
 
 import com.rae.cnblogs.sdk.bean.AdvertBean;
 import com.rae.core.sdk.ApiUiListener;

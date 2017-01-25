@@ -46,6 +46,10 @@ public class RaeRecyclerView extends XRecyclerView {
 
     }
 
+    public void setNoMoreText(int resId) {
+        mFootView.setNoMoreText(getResources().getString(resId));
+    }
+
 
     @Override
     public void setLoadingMoreProgressStyle(int style) {

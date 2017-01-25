@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -112,14 +111,6 @@ public class WebViewFragment extends BaseFragment {
         return new RaeJavaScriptBridge();
     }
 
-
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
-            mWebView.goBack();
-            return true;
-        }
-        return false;
-    }
 
     public void loadUrl(String url) {
         mWebView.loadUrl(url);

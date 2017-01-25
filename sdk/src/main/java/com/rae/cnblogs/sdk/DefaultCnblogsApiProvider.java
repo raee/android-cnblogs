@@ -2,7 +2,6 @@ package com.rae.cnblogs.sdk;
 
 import android.content.Context;
 
-import com.rae.cnblogs.sdk.impl.AdvertApiImpl;
 import com.rae.cnblogs.sdk.impl.BlogApiImpl;
 import com.rae.cnblogs.sdk.impl.BookmarksApiImpl;
 import com.rae.cnblogs.sdk.impl.CategoryApiImpl;
@@ -47,10 +46,6 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
         return new BookmarksApiImpl(mContext);
     }
 
-    @Override
-    public IAdvertApi getAdvertApi() {
-        return new AdvertApiImpl(mContext);
-    }
 
     @Override
     public INewsApi getNewsApi() {

@@ -11,7 +11,6 @@ android {
         versionName "1.0"
         testApplicationId "com.rae.cnblogs.sdk.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -20,11 +19,6 @@ android {
         }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
-
-
-    dexOptions {
-        javaMaxHeapSize '4g'
-    }
 }
 
 dependencies {
@@ -32,8 +26,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile('com.github.raee:runit:1.0.0')
+    androidTestCompile 'com.github.raee:runit:1.0.0'
     testCompile 'junit:junit:4.12'
     compile 'org.jsoup:jsoup:1.10.1'
     compile 'com.rae.core:lib:1.0.0'
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
 }
