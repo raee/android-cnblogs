@@ -1,7 +1,7 @@
 package com.rae.cnblogs.presenter;
 
 import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.db.model.UserBlogInfoModel;
+import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 
 /**
  * 博客查看
@@ -76,6 +76,6 @@ public interface IBlogContentPresenter {
          *
          * @param infoModel 实体
          */
-        void onLoadBlogInfoSuccess(UserBlogInfoModel infoModel);
+        void onLoadBlogInfoSuccess(UserBlogInfo infoModel);
     }
 }

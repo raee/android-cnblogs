@@ -8,8 +8,8 @@ import com.activeandroid.annotation.Table;
 @Table(name = "ads")
 public class AdvertBean extends Model {
 
-    @Column(index = true)
     private String ad_id;
+
     @Column
     private String ad_end_date;
     @Column

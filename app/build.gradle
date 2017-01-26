@@ -14,12 +14,17 @@ android {
         }
     }
 
+    dexOptions {
+        preDexLibraries false
+        
+    }
     defaultConfig {
         applicationId "com.rae.cnblogs"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 UMENG_APPKEY : '583d96522ae85b6d310011fb',
@@ -33,7 +38,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            applicationIdSuffix '.debug'
+//            applicationIdSuffix '.debug'
             minifyEnabled false
             debuggable true
             signingConfig signingConfigs.release
@@ -66,4 +71,5 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     // 滑动返回
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
+    compile 'com.android.support:multidex:1.0.0'
 }

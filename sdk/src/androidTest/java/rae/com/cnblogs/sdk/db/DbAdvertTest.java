@@ -37,8 +37,8 @@ public class DbAdvertTest extends BaseTest {
     public void testAdd() throws InterruptedException {
         AdvertBean data = new AdvertBean();
         data.setAd_id("1");
-        data.setAd_name("测试数据a");
-        data.setAd_type("CNBLOG_LAUNCHER");
+        data.setAd_name("test");
+        data.setAd_type("CNBLOG_LAUNCHERa");
         data.setJump_type("URL");
         data.setImage_url("http://test.com");
         mAdvert.save(data);
@@ -49,7 +49,16 @@ public class DbAdvertTest extends BaseTest {
 
 
     @Test
-    public void testCategory() throws InterruptedException {
+    public void testAddCategory() {
+        Category category = new Category();
+        category.setName("test");
+        category.save();
+
+    }
+
+
+    @Test
+    public void testSaveCategory() throws InterruptedException {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         ICategoryApi categoryApi = CnblogsApiFactory.getInstance(mContext).getCategoryApi();
         categoryApi.getCategory(new ApiUiArrayListener<Category>() {
@@ -61,12 +70,19 @@ public class DbAdvertTest extends BaseTest {
             @Override
             public void onApiSuccess(List<Category> data) {
                 DbCategory db = new DbCategory();
-                List<Category> list = db.list();
-                Log.d("Rae", "count = " + list);
+                db.reset(data);
                 countDownLatch.countDown();
             }
         });
         countDownLatch.await(10, TimeUnit.MINUTES);
+    }
+
+    @Test
+    public void testFindCategory() {
+        List<Category> list = new DbCategory().list();
+        for (Category category : list) {
+            Log.d("RAe", category.getCategoryId() + " = " + category.getName());
+        }
     }
 
 }

@@ -4,16 +4,23 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 
 /**
  * 分类
  * Created by ChenRui on 2016/11/30 0030 17:20.
  */
+@Table(name = "categories", id = "categoryId")
 public class Category extends Model implements Parcelable {
-    private String categoryId;
+    // private String categoryId;
+    @Column
     private String parentId;
+    @Column
     private String name;
+    @Column
     private String type;
+    @Column
     private int orderNo; // 排序
 
     public int getOrderNo() {
@@ -25,12 +32,12 @@ public class Category extends Model implements Parcelable {
     }
 
     public String getCategoryId() {
-        return categoryId;
+        return String.valueOf(getId());
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
-    }
+//    public void setCategoryId(String categoryId) {
+//        this.categoryId = categoryId;
+//    }
 
     public String getParentId() {
         return parentId;
@@ -56,8 +63,6 @@ public class Category extends Model implements Parcelable {
         this.type = type;
     }
 
-    public Category() {
-    }
 
     @Override
     public int describeContents() {
@@ -66,15 +71,19 @@ public class Category extends Model implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.categoryId);
+//        dest.writeString(this.categoryId);
         dest.writeString(this.parentId);
         dest.writeString(this.name);
         dest.writeString(this.type);
         dest.writeInt(this.orderNo);
     }
 
+    public Category() {
+        super();
+    }
+
     protected Category(Parcel in) {
-        this.categoryId = in.readString();
+//        this.categoryId = in.readString();
         this.parentId = in.readString();
         this.name = in.readString();
         this.type = in.readString();

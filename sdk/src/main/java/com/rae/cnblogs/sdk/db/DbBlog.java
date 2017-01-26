@@ -1,6 +1,8 @@
 package com.rae.cnblogs.sdk.db;
 
+import com.activeandroid.query.Select;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 
 /**
  * 博客数据库
@@ -8,6 +10,12 @@ import com.rae.cnblogs.sdk.bean.Blog;
  */
 public class DbBlog extends DbCnblogs<Blog> {
 
+    public UserBlogInfo get(String blogId) {
+        return new Select().from(UserBlogInfo.class).where("blogId=?", blogId).executeSingle();
+    }
 
+    public void saveBlogInfo(UserBlogInfo m) {
+        m.save();
+    }
 
 }

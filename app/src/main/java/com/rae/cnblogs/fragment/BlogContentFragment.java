@@ -14,7 +14,7 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.db.model.UserBlogInfoModel;
+import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 import com.rae.cnblogs.widget.webclient.RaeJavaScriptBridge;
 import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
 
@@ -124,7 +124,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     }
 
     @Override
-    public void onLoadBlogInfoSuccess(UserBlogInfoModel infoModel) {
+    public void onLoadBlogInfoSuccess(UserBlogInfo infoModel) {
         mLikeView.setSelected(infoModel.isLiked());
         mBookmarksView.setSelected(infoModel.isBookmarks());
     }

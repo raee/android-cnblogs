@@ -8,6 +8,7 @@ import android.text.TextUtils;
  * 博客实体
  * Created by ChenRui on 2016/11/28 23:45.
  */
+
 public class Blog implements Parcelable {
     private String title;
     private String url;

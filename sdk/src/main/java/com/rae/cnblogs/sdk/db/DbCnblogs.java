@@ -14,13 +14,23 @@ public abstract class DbCnblogs<T> {
     public static void init(Context applicationContext) {
         Configuration config = new Configuration
                 .Builder(applicationContext)
-                .setDatabaseName("rae.db")
+                .setDatabaseName("cnblogs.db")
                 .setDatabaseVersion(1)
                 .create();
         ActiveAndroid.initialize(config, true);
     }
 
-    public DbCnblogs() {
+    protected void executeTransaction(Runnable runnable) {
+        try {
+            ActiveAndroid.beginTransaction();
+            runnable.run();
+            ActiveAndroid.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ActiveAndroid.endTransaction();
+        }
     }
+
 
 }

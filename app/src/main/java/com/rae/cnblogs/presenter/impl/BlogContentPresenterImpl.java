@@ -10,7 +10,7 @@ import com.rae.cnblogs.sdk.INewsApi;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.BookmarksBean;
 import com.rae.cnblogs.sdk.db.DbBlog;
-import com.rae.cnblogs.sdk.db.model.UserBlogInfoModel;
+import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;
 
@@ -23,7 +23,7 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
     private IBlogApi mBlogApi;
     private IBookmarksApi mBookmarksApi;
     private INewsApi mNewsApi;
-    private UserBlogInfoModel mBlogInfoModel; // 博客信息
+    private UserBlogInfo mBlogInfo; // 博客信息
     private DbBlog mDbBlog;
 
     public BlogContentPresenterImpl(Context context, IBlogContentView view) {
@@ -39,16 +39,20 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
         Blog blog = mView.getBlog();
         if (blog == null) return;
 
-        if (mBlogInfoModel == null || mBlogInfoModel.getBlogId() == null) {
-            mBlogInfoModel = new UserBlogInfoModel();
-            mBlogInfoModel.setBlogId(blog.getId());
-            mBlogInfoModel.setRead(true);
+        // 获取用户的博客信息
+        mBlogInfo = mDbBlog.get(blog.getId());
+
+        if (mBlogInfo == null || mBlogInfo.getBlogId() == null) {
+            mBlogInfo = new UserBlogInfo();
+            mBlogInfo.setBlogId(blog.getId());
+            mBlogInfo.setRead(true);
         }
 
-        mView.onLoadBlogInfoSuccess(mBlogInfoModel);
+        mView.onLoadBlogInfoSuccess(mBlogInfo);
 
 
-        if (!TextUtils.isEmpty(blog.getContent())) {
+        if (!TextUtils.isEmpty(mBlogInfo.getContent())) {
+            blog.setContent(mBlogInfo.getContent());
             mView.onLoadContentSuccess(blog);
             return;
         }
@@ -96,6 +100,9 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
 
     @Override
     public void onApiSuccess(String data) {
+        // 保存博文内容
+        mBlogInfo.setContent(data);
+        mDbBlog.saveBlogInfo(mBlogInfo);
         mView.getBlog().setContent(data);
         mView.onLoadContentSuccess(mView.getBlog());
     }
@@ -131,14 +138,15 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
 
             if (isLike) {
                 mView.onLikeSuccess(isCancel);
-                mBlogInfoModel.setLiked(!isCancel);
+                mBlogInfo.setLiked(!isCancel);
 
             } else {
                 mView.onBookmarksSuccess(isCancel);
-                mBlogInfoModel.setBookmarks(!isCancel);
+                mBlogInfo.setBookmarks(!isCancel);
             }
 
             // 更新信息
+            mDbBlog.saveBlogInfo(mBlogInfo);
         }
     }
 }

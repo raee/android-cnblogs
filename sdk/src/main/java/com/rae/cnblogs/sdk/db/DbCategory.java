@@ -1,5 +1,7 @@
 package com.rae.cnblogs.sdk.db;
 
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.rae.cnblogs.sdk.bean.Category;
 
 import java.util.List;
@@ -13,6 +15,7 @@ public class DbCategory extends DbCnblogs<Category> {
 
 
     public void clear() {
+        new Delete().from(Category.class).execute();
     }
 
     /**
@@ -21,11 +24,20 @@ public class DbCategory extends DbCnblogs<Category> {
      * @param list 数据
      */
     public void reset(final List<Category> list) {
-        clear();
+
+        executeTransaction(new Runnable() {
+            @Override
+            public void run() {
+
+                for (Category category : list) {
+                    category.save();
+                }
+            }
+        });
 
     }
 
     public List<Category> list() {
-        return null;
+        return new Select().from(Category.class).execute();
     }
 }

@@ -7,6 +7,10 @@
         android:supportsRtl="true"
         >
 
+      <!--  <meta-data
+            android:name="AA_MODELS"
+            android:value="com.rae.cnblogs.sdk.db.model.UserBlogInfo,com.rae.cnblogs.sdk.bean.AdvertBean,com.rae.cnblogs.sdk.bean.Category"/>
+-->
     </application>
 
 </manifest>
