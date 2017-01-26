@@ -27,6 +27,7 @@ import butterknife.BindView;
 public class WebViewFragment extends BaseFragment {
 
     private String mUrl;
+    private RaeJavaScriptBridge mJavaScriptApi;
 
     public static WebViewFragment newInstance(String url) {
 
@@ -52,10 +53,15 @@ public class WebViewFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mJavaScriptApi = new RaeJavaScriptBridge();
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDisplayZoomControls(false);
         settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
         settings.setDomStorageEnabled(true);
         settings.setAllowContentAccess(true);
         settings.setAllowFileAccess(true);
@@ -66,6 +72,8 @@ public class WebViewFragment extends BaseFragment {
             settings.setAppCacheEnabled(true);
             settings.setAppCachePath(cacheDir.getPath());
         }
+
+
         mWebView.addJavascriptInterface(getJavascriptApi(), "app");
         mWebView.setWebChromeClient(getWebChromeClient());
         mWebView.setWebViewClient(getWebViewClient());
@@ -99,6 +107,15 @@ public class WebViewFragment extends BaseFragment {
         return mWebView.getUrl();
     }
 
+    /**
+     * 获取网页内容
+     *
+     * @return
+     */
+    public String getContent() {
+        return mJavaScriptApi.getHtml();
+    }
+
     public WebChromeClient getWebChromeClient() {
         return new RaeWebChromeClient(mProgressBar);
     }
@@ -108,9 +125,8 @@ public class WebViewFragment extends BaseFragment {
     }
 
     public Object getJavascriptApi() {
-        return new RaeJavaScriptBridge();
+        return mJavaScriptApi;
     }
-
 
     public void loadUrl(String url) {
         mWebView.loadUrl(url);

@@ -1,5 +1,6 @@
 package com.rae.cnblogs.activity;
 
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -80,5 +81,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void onBackClick(View view) {
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 721 && resultCode == RESULT_OK) {
+            onLoginCallBack();
+        }
+    }
+
+    /**
+     * 跳登录的时候回调
+     */
+    protected void onLoginCallBack() {
+
     }
 }

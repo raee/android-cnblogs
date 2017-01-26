@@ -16,7 +16,7 @@ public class DbAdvert extends DbCnblogs<AdvertBean> {
     }
 
     public AdvertBean getLauncherAd() {
-        return where("ad_type = ?", "CNBLOG_LAUNCHER").executeSingle();
+        return where("ad_type = ?", "CNBLOG_LAUNCHER").orderBy("id desc").executeSingle();
     }
 
     private void delete(AdvertBean m) {

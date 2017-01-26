@@ -10,7 +10,7 @@
         <item name="windowActionBar">false</item>
         <item name="buttonStyle">@style/AppButton</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@style/SlideAnimation</item>
+        <item name="android:windowAnimationStyle">@style/AppAnimation</item>
 
     </style>
 
@@ -53,13 +53,14 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <style name="AppAnimation" parent="Animation.AppCompat.DropDownUp">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_out_bottom</item>
+    </style>
+
     <style name="SlideAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
-
-        <item name="android:activityOpenEnterAnimation">@anim/slide_in_bottom</item>
-        <item name="android:activityCloseEnterAnimation">@anim/slide_out_bottom</item>
-
     </style>
 
     <style name="ShareIcon">

@@ -44,9 +44,11 @@
         android:layout_height="@dimen/tab_home_height"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_tab_home"
-        app:tabIndicatorHeight="0dp"
+        app:tabBackground="@color/white"
+        app:tabIndicatorColor="@color/colorPrimaryDark"
+        app:tabIndicatorHeight="2dp"
         app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/ph2"
+        app:tabSelectedTextColor="@color/ph1"
         app:tabTextAppearance="@style/TabTextAppearance"
         app:tabTextColor="@color/ph3"/>
 

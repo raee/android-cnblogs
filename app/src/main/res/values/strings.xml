@@ -19,6 +19,7 @@
     <string name="open_browser">浏览器打开</string>
     <string name="copyright">Copyright © 2004-2016 Cnblogs.com All Rights Reserved</string>
     <string name="loading">正在加载...</string>
+    <string name="signing">正在登录...</string>
     <string name="empty_message">这里什么都没有</string>
     <string name="retry">重新加载</string>
     <string name="empty_comment">暂时还没有评论\n你的评论是对作者是莫大的动力</string>

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.rae.cnblogs.dialog.impl.DefaultDialog;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
+import com.rae.cnblogs.dialog.impl.LoadingDialog;
 
 /**
  * 对话框提供者
@@ -14,6 +15,7 @@ public final class DialogProvider {
     // 博客分享对话框
     public static final int TYPE_DEFAULT = 0;
     public static final int TYPE_HINT_CARD = 1;
+    public static final int TYPE_LOADING = 2;
 
     public static IAppDialog create(Context context) {
         return create(context, TYPE_DEFAULT);
@@ -25,6 +27,8 @@ public final class DialogProvider {
                 return new DefaultDialog(context);
             case TYPE_HINT_CARD:
                 return new HintCardDialog(context);
+            case TYPE_LOADING:
+                return new LoadingDialog(context);
             default:
                 throw new NullPointerException("没有找到对话框类型！");
         }

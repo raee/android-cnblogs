@@ -3,9 +3,9 @@ package com.rae.cnblogs.sdk;
 import android.content.Context;
 
 import com.rae.cnblogs.sdk.impl.BlogApiImpl;
-import com.rae.cnblogs.sdk.impl.BookmarksApiImpl;
 import com.rae.cnblogs.sdk.impl.CategoryApiImpl;
 import com.rae.cnblogs.sdk.impl.NewsApiImpl;
+import com.rae.cnblogs.sdk.impl.WebBookmarksApiImpl;
 import com.rae.cnblogs.sdk.impl.WebUserApiImpl;
 
 /**
@@ -43,7 +43,7 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
 
     @Override
     public IBookmarksApi getBookmarksApi() {
-        return new BookmarksApiImpl(mContext);
+        return new WebBookmarksApiImpl(mContext);
     }
 
 

@@ -1,5 +1,6 @@
 package com.rae.cnblogs.dialog.impl;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -14,6 +15,7 @@ import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,11 @@ import butterknife.OnClick;
  * Created by ChenRui on 2017/1/24 0024 14:14.
  */
 public class ShareDialog extends SlideDialog {
+
+    public interface OnShareClickListener {
+
+        void onShare(ShareDialog dialog);
+    }
 
     @BindView(R.id.tv_share_wechat)
     View mWeChatView;
@@ -60,11 +67,39 @@ public class ShareDialog extends SlideDialog {
 
     ShareAction mShareAction;
 
+    private OnShareClickListener mOnShareClickListener;
+
 
     public ShareDialog(Context context) {
         super(context);
         setContentView(R.layout.dialog_blog_content);
         ButterKnife.bind(this, this);
+        mShareAction = new ShareAction((Activity) context);
+        setShareIcon(R.drawable.ic_share);
+    }
+
+    public void setShareTitle(String title) {
+        mShareAction.withTitle(title);
+    }
+
+    public void setShareUrl(String url) {
+        mShareAction.withTargetUrl(url);
+    }
+
+    public void setShareSummary(String summary) {
+        mShareAction.withText(summary);
+    }
+
+    public void setShareIcon(int resId) {
+        mShareAction.withMedia(new UMImage(getContext(), resId));
+    }
+
+    public void setShareIcon(String url) {
+        mShareAction.withMedia(new UMImage(getContext(), url));
+    }
+
+    public void setOnShareClickListener(OnShareClickListener onShareClickListener) {
+        mOnShareClickListener = onShareClickListener;
     }
 
     /**
@@ -129,6 +164,10 @@ public class ShareDialog extends SlideDialog {
      * 调用友盟分享
      */
     protected void share(SHARE_MEDIA type) {
+        if (mOnShareClickListener != null) {
+            mOnShareClickListener.onShare(this);
+        }
+
         mShareAction.setPlatform(type);
         mShareAction.share();
     }

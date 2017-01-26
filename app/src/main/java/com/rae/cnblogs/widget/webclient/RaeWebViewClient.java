@@ -20,6 +20,7 @@ public class RaeWebViewClient extends WebViewClient {
     private ProgressBar mProgressBar;
     private Context mContext;
 
+
     public RaeWebViewClient(ProgressBar progressBar) {
         mContext = progressBar.getContext();
         mProgressBar = progressBar;
@@ -41,8 +42,11 @@ public class RaeWebViewClient extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
         dismissProgress();
-        Activity at = (Activity) view.getContext();
-        at.setTitle(view.getTitle());
+        if (url.startsWith("http")) {
+            Activity at = (Activity) view.getContext();
+            at.setTitle(view.getTitle());
+            injectJavascriptFromAssets(view, "js/rae.js");
+        }
     }
 
     /**

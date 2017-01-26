@@ -12,6 +12,7 @@ import com.rae.cnblogs.adapter.BlogCommentItemAdapter;
 import com.rae.cnblogs.dialog.DialogProvider;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 
@@ -36,6 +37,9 @@ public class TestActivity extends BaseActivity {
 
     @BindView(R.id.rv_test)
     RaeRecyclerView mRecyclerView;
+
+    @BindView(R.id.img_test_like)
+    ImageLoadingView mLoadingView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +77,16 @@ public class TestActivity extends BaseActivity {
     @OnClick(R.id.btn_test)
     void onTestClick() {
 //        mRaeDrawerLayout.toggleSmoothScroll();
+
+//        mLoadingView.loading();
+
+        mLoadingView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mLoadingView.setSelected(!mLoadingView.isSelected());
+                mLoadingView.dismiss();
+            }
+        }, 300);
 
     }
 

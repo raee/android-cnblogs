@@ -5,10 +5,6 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -53,7 +49,6 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
     private ILoginPresenter mLoginPresenter;
     private AccountTextWatcher mAccountTextWatcher;
-    private long mStartAnimTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,19 +93,10 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
      */
     @OnClick(R.id.btn_login)
     public void onLoginClick() {
-
-        // 模拟
-//        mLoginButton.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-////                onLoginCallback();
-//            }
-//        }, 5000);
-
+        startLoginAnim();
         mLoginPresenter.login();
         removeAccountTextListener(mAccountTextWatcher);
         mLoginButton.setEnabled(false);
-//        startLoginAnim();
     }
 
     @Override
@@ -126,13 +112,14 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
     @Override
     public void onLoginSuccess(UserInfoBean userInfo) {
         onLoginCallback();
-        AppUI.toast(this, "官方接口登录成功：" + userInfo.getDisplayName());
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override
     public void onLoginError(String message) {
         onLoginCallback();
-        AppUI.toast(this, "官方接口登录失败：" + message);
+        AppUI.failed(this, message);
     }
 
     private void onLoginCallback() {
@@ -143,91 +130,12 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
     }
 
     private void stopAnim() {
-
-        // 动画间隔相差较小
-        long diffTime = System.currentTimeMillis() - mStartAnimTime;
-        if (diffTime < 500) {
-            mLoginLayout.clearAnimation();
-            return;
-        }
-        long duration = 800;
-
-        // LOGO 下移
-        // 获取位移差值
-        float dy = mLoginLayout.getHeight() / 2;
-        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, 0, Animation.ABSOLUTE, dy, Animation.ABSOLUTE, 0);
-        translateAnimation.setDuration(duration);
-        translateAnimation.setFillAfter(true);
-        mLogoView.startAnimation(translateAnimation);
-
-        // 提示信息上移
-        AnimationSet tipsLayoutAnimSet = new AnimationSet(true);
-
-        TranslateAnimation tipsLayoutAnim = new TranslateAnimation(0, 0, 0, 0, Animation.ABSOLUTE, -dy, Animation.ABSOLUTE, 0);
-        tipsLayoutAnim.setDuration(duration);
-
-        AlphaAnimation tipsLayoutAlphaAnimation = new AlphaAnimation(1, 0);
-        tipsLayoutAlphaAnimation.setDuration(duration);
-
-        tipsLayoutAnimSet.addAnimation(tipsLayoutAnim);
-        tipsLayoutAnimSet.addAnimation(tipsLayoutAlphaAnimation);
-        tipsLayoutAnimSet.setFillAfter(true);
-        mTipsLayout.startAnimation(tipsLayoutAnimSet);
-
-        // 登录框渐入
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
-        alphaAnimation.setDuration(duration);
-        alphaAnimation.setStartOffset(duration);
-        mLoginLayout.startAnimation(alphaAnimation);
+        AppUI.dismiss();
     }
 
     // 开始登录动画
     private void startLoginAnim() {
-        long duration = 500;
-        // 登录框渐隐
-        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
-        alphaAnimation.setDuration(duration);
-        alphaAnimation.setFillAfter(true);
-        mLoginLayout.startAnimation(alphaAnimation);
-
-        // LOGO 下移
-        // 获取位移差值
-        float dy = mLoginLayout.getHeight() / 2;
-        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, dy);
-        translateAnimation.setDuration(duration);
-        translateAnimation.setFillAfter(true);
-        mLogoView.startAnimation(translateAnimation);
-
-        // 提示信息上移
-        AnimationSet tipsLayoutAnimSet = new AnimationSet(true);
-
-        TranslateAnimation tipsLayoutAnim = new TranslateAnimation(0, 0, 0, 0, Animation.ABSOLUTE, 0, Animation.ABSOLUTE, -dy);
-        tipsLayoutAnim.setDuration(duration);
-
-        AlphaAnimation tipsLayoutAlphaAnimation = new AlphaAnimation(0, 1);
-        tipsLayoutAlphaAnimation.setDuration(duration);
-
-        AnimationSet fadeSet = new AnimationSet(true);
-        AlphaAnimation fadeInAnim = new AlphaAnimation(1, 0.5f);
-        fadeInAnim.setDuration(800);
-        AlphaAnimation fadeOutAnim = new AlphaAnimation(0.5f, 1f);
-        fadeOutAnim.setDuration(800);
-        fadeOutAnim.setStartOffset(800);
-        fadeSet.setRepeatCount(-1);
-
-        tipsLayoutAnimSet.addAnimation(tipsLayoutAnim);
-        tipsLayoutAnimSet.addAnimation(tipsLayoutAlphaAnimation);
-        fadeSet.addAnimation(fadeInAnim);
-//        fadeSet.addAnimation(fadeOutAnim);
-        tipsLayoutAnimSet.addAnimation(fadeSet);
-        tipsLayoutAnimSet.setFillAfter(true);
-
-
-        mTipsLayout.setVisibility(View.VISIBLE);
-        mTipsLayout.startAnimation(tipsLayoutAnimSet);
-
-        mStartAnimTime = System.currentTimeMillis();
-
+        AppUI.loading(this, R.string.signing);
     }
 
     private class AccountTextWatcher implements TextWatcher {

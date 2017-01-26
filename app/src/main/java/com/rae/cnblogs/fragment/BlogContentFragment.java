@@ -11,10 +11,12 @@ import com.alibaba.fastjson.JSON;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
+import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.webclient.RaeJavaScriptBridge;
 import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
 
@@ -25,8 +27,8 @@ import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
  */
 public class BlogContentFragment extends WebViewFragment implements IBlogContentPresenter.IBlogContentView, View.OnClickListener {
 
-    private View mLikeView;
-    private View mBookmarksView;
+    private ImageLoadingView mLikeView;
+    private ImageLoadingView mBookmarksView;
 
     public static BlogContentFragment newInstance(Blog blog) {
 
@@ -67,8 +69,8 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (mBlog == null) return;
-        mLikeView = getActivity().findViewById(R.id.img_content_like);
-        mBookmarksView = getActivity().findViewById(R.id.img_content_bookmarks);
+        mLikeView = (ImageLoadingView) getActivity().findViewById(R.id.img_content_like);
+        mBookmarksView = (ImageLoadingView) getActivity().findViewById(R.id.img_content_bookmarks);
         mLikeView.setOnClickListener(this);
         mBookmarksView.setOnClickListener(this);
         mContentPresenter.loadContent();
@@ -93,26 +95,34 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onLikeError(boolean isCancel, String msg) {
         mLikeView.setEnabled(true);
+        mLikeView.dismiss();
+        RaeAnim.scaleIn(mLikeView);
         AppUI.toast(getContext(), "点赞失败：" + msg);
     }
 
     @Override
     public void onLikeSuccess(boolean isCancel) {
         mLikeView.setEnabled(true);
-        mLikeView.setSelected(isCancel);
+        mLikeView.dismiss();
+        mLikeView.setSelected(!isCancel);
+        RaeAnim.scaleIn(mLikeView);
         AppUI.toast(getContext(), "点赞成功：" + isCancel);
     }
 
     @Override
     public void onBookmarksError(boolean isCancel, String msg) {
         mBookmarksView.setEnabled(true);
+        mBookmarksView.dismiss();
+        RaeAnim.scaleIn(mBookmarksView);
         AppUI.toast(getContext(), "收藏失败：" + msg);
     }
 
     @Override
     public void onBookmarksSuccess(boolean isCancel) {
         mBookmarksView.setEnabled(true);
-        mBookmarksView.setSelected(isCancel);
+        mBookmarksView.dismiss();
+        RaeAnim.scaleIn(mBookmarksView);
+        mBookmarksView.setSelected(!isCancel);
         AppUI.toast(getContext(), "收藏成功：" + isCancel);
     }
 
@@ -120,6 +130,8 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     public void onNeedLogin() {
         mLikeView.setEnabled(true);
         mBookmarksView.setEnabled(true);
+        mLikeView.dismiss();
+        mBookmarksView.dismiss();
         AppRoute.jumpToLogin(getContext());
     }
 
@@ -146,11 +158,13 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         switch (v.getId()) {
             case R.id.img_content_like:  // 点赞
                 v.setEnabled(false);
+                ((ImageLoadingView) v).loading();
                 mContentPresenter.doLike(v.isSelected());
                 break;
 
             case R.id.img_content_bookmarks:  // 收藏
                 v.setEnabled(false);
+                ((ImageLoadingView) v).loading();
                 mContentPresenter.doBookmarks(v.isSelected());
                 break;
         }

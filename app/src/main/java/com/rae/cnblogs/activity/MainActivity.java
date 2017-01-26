@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.fragment.HomeFragment;
 import com.rae.cnblogs.fragment.KBListFragment;
@@ -25,6 +26,8 @@ public class MainActivity extends BaseActivity {
     TabLayout mTabLayout;
 
     private RaeFragmentAdapter mFragmentAdapter;
+
+    private long mBackKeyDownTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,4 +64,16 @@ public class MainActivity extends BaseActivity {
         if (fragment != null)
             mFragmentAdapter.add(getString(resId), fragment);
     }
+
+    @Override
+    public void onBackPressed() {
+        if ((System.currentTimeMillis() - mBackKeyDownTime) > 2000) {
+            AppUI.toast(this, "再按一次退出");
+            mBackKeyDownTime = System.currentTimeMillis();
+            return;
+        }
+        super.onBackPressed();
+    }
+
+
 }

@@ -41,6 +41,8 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
 
     @Override
     public void advertClick() {
+        mCountDownTimer.cancel();
+
         if ("URL".equalsIgnoreCase(mAdvertBean.getJump_type())) {
             mView.onJumpToWeb(mAdvertBean.getAd_url());
         } else if ("BLOG_CONTENT".equalsIgnoreCase(mAdvertBean.getJump_type())) {
@@ -49,8 +51,6 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
             mView.onJumpToMain();
         }
 
-        mCountDownTimer.cancel();
-        mCountDownTimer.onFinish();
     }
 
     @Override

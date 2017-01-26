@@ -1,6 +1,5 @@
 package com.rae.cnblogs.dialog.impl;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -11,8 +10,6 @@ import android.text.TextUtils;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.bean.Blog;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.media.UMImage;
 
 /**
  * 分享对话框
@@ -26,14 +23,14 @@ public class BlogShareDialog extends ShareDialog {
         super(context);
         mBlog = blog;
 
-        mShareAction = new ShareAction((Activity) context);
-        mShareAction.withTitle(blog.getTitle());
-        mShareAction.withText(blog.getSummary());
-        mShareAction.withTargetUrl(blog.getUrl());
+        setShareTitle(blog.getTitle());
+        setShareSummary(blog.getSummary());
+        setShareUrl(blog.getUrl());
+
         if (!TextUtils.isEmpty(blog.getAvatar())) {
-            mShareAction.withMedia(new UMImage(getContext(), blog.getAvatar()));
+            setShareIcon(blog.getAvatar());
         } else {
-            mShareAction.withMedia(new UMImage(getContext(), R.drawable.ic_share));
+            setShareIcon(R.drawable.ic_share);
         }
     }
 

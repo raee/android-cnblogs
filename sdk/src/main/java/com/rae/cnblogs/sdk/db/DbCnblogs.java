@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
+import com.rae.cnblogs.sdk.bean.AdvertBean;
+import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 
 /**
  * 本地数据库
@@ -16,6 +19,9 @@ public abstract class DbCnblogs<T> {
                 .Builder(applicationContext)
                 .setDatabaseName("cnblogs.db")
                 .setDatabaseVersion(1)
+                .addModelClass(Category.class)
+                .addModelClass(UserBlogInfo.class)
+                .addModelClass(AdvertBean.class)
                 .create();
         ActiveAndroid.initialize(config, true);
     }

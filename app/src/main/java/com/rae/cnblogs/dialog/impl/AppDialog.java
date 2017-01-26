@@ -145,4 +145,5 @@ public abstract class AppDialog extends Dialog implements IAppDialog {
             mListener.onClick(mDialog, mButtonType);
         }
     }
+
 }

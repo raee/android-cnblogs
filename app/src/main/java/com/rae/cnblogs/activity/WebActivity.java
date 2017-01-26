@@ -27,6 +27,8 @@ public class WebActivity extends SwipeBackBaseActivity {
 
     private ShareDialog mShareDialog;
 
+    private WebViewFragment mWebViewFragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +39,21 @@ public class WebActivity extends SwipeBackBaseActivity {
         showHomeAsUp(mToolbar);
         String url = getIntent().getData().toString();
         mShareDialog = new ShareDialog(this);
+        mShareDialog.setOnShareClickListener(new ShareDialog.OnShareClickListener() {
+            @Override
+            public void onShare(ShareDialog dialog) {
+                dialog.setShareTitle(getTitle().toString());
+                dialog.setShareUrl(mWebViewFragment.getUrl());
+            }
+        });
         mShareDialog.setExtLayoutVisibility(View.GONE);
-        getSupportFragmentManager().beginTransaction().add(R.id.fl_content, WebViewFragment.newInstance(url)).commit();
+        mWebViewFragment = WebViewFragment.newInstance(url);
+        getSupportFragmentManager().beginTransaction().add(R.id.fl_content, mWebViewFragment).commit();
     }
 
     @Override
     public void setTitle(CharSequence title) {
+        super.setTitle(title);
         mTitleView.setText(title);
     }
 

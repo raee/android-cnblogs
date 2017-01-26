@@ -8,7 +8,7 @@ import com.activeandroid.annotation.Table;
  * 用户的博客信息
  * Created by ChenRui on 2017/1/25 0025 17:04.
  */
-@Table(name = "blog_info", id = "blogId")
+@Table(name = "blog_info")
 public class UserBlogInfo extends Model {
 
 

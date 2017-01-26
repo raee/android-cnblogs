@@ -14,4 +14,8 @@ public final class RaeAnim {
     public static void fadeOut(View view) {
         view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), android.R.anim.fade_out));
     }
+
+    public static void scaleIn(View view) {
+        view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.scale_in));
+    }
 }
