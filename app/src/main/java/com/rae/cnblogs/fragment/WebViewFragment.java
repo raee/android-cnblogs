@@ -46,7 +46,7 @@ public class WebViewFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fm_blog_content;
+        return R.layout.fm_web;
     }
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface", "JavascriptInterface"})

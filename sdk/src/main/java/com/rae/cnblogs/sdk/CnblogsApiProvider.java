@@ -36,4 +36,9 @@ public abstract class CnblogsApiProvider {
      * 获取新闻接口
      */
     public abstract INewsApi getNewsApi();
+
+    /**
+     * 取消所有请求
+     */
+    public abstract void cancel();
 }

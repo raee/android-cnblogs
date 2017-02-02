@@ -5,7 +5,7 @@
     <string name="tab_library">知识库</string>
     <string name="tab_mine">我</string>
     <string name="more">更多</string>
-    <string name="edit_comment">写评论...</string>
+    <string name="edit_comment">发表伟大的言论...</string>
     <string name="wechat_sns">微信朋友圈</string>
     <string name="qq">QQ</string>
     <string name="wechat">微信</string>
@@ -22,16 +22,19 @@
     <string name="signing">正在登录...</string>
     <string name="empty_message">这里什么都没有</string>
     <string name="retry">重新加载</string>
-    <string name="empty_comment">暂时还没有评论\n你的评论是对作者是莫大的动力</string>
+    <string name="empty_comment">还没有评论 快来说两句</string>
     <string name="nomore_loading"> ——阅读完毕——</string>
     <string name="no_more_tips">全部加载完毕</string>
     <string name="register">注册</string>
     <string name="login_tips">登录即表示同意</string>
-    <string name="login_contract">「用户协议」隐私条款</string>
+    <string name="login_contract">「博客园」用户协议和隐私条款</string>
     <string name="login_user_name_hint">用户名</string>
     <string name="login_password_hint">密码</string>
     <string name="login">登录</string>
     <string name="error_username_empty">请输入用户名</string>
     <string name="error_password_empty">请输入密码</string>
     <string name="no_more_comment">已显示全部评论</string>
+    <string name="edit_comment_hint">忍不了了，我来说两句..</string>
+    <string name="reference_comment">引用评论</string>
+    <string name="send">发送</string>
 </resources>

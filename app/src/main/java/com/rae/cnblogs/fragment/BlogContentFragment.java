@@ -17,8 +17,11 @@ import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 import com.rae.cnblogs.widget.ImageLoadingView;
+import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.webclient.RaeJavaScriptBridge;
 import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
+
+import butterknife.BindView;
 
 
 /**
@@ -26,6 +29,9 @@ import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
  * Created by ChenRui on 2016/12/6 23:39.
  */
 public class BlogContentFragment extends WebViewFragment implements IBlogContentPresenter.IBlogContentView, View.OnClickListener {
+
+    @BindView(R.id.view_holder)
+    PlaceholderView mPlaceholderView;
 
     private ImageLoadingView mLikeView;
     private ImageLoadingView mBookmarksView;
@@ -43,6 +49,10 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     private Blog mBlog;
     private IBlogContentPresenter mContentPresenter;
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fm_blog_content;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,12 +94,13 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
     @Override
     public void onLoadContentSuccess(Blog blog) {
+        mPlaceholderView.dismiss();
         mWebView.loadUrl("file:///android_asset/view.html");
     }
 
     @Override
     public void onLoadContentFailed(String msg) {
-
+        mPlaceholderView.empty(msg);
     }
 
     @Override

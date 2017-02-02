@@ -4,6 +4,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <include layout="@layout/fm_blog_content"/>
+    <include layout="@layout/fm_web"/>
 
 </RelativeLayout>

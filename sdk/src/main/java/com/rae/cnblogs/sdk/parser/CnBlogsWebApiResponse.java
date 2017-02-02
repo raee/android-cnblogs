@@ -1,9 +1,11 @@
 package com.rae.cnblogs.sdk.parser;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.android.volley.VolleyError;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiErrorCode;
@@ -71,5 +73,11 @@ public class CnBlogsWebApiResponse<T> extends RaeSimpleJsonResponse<T> {
             notifyApiError(ApiErrorCode.ERROR_EMPTY_DATA, message);
             return null;
         }
+    }
+
+    @Override
+    public void onJsonResponseError(int errorCode, Throwable e) {
+        Log.e("rae", "错误：" + new String(((VolleyError) e).networkResponse.data));
+        super.onJsonResponseError(errorCode, e);
     }
 }

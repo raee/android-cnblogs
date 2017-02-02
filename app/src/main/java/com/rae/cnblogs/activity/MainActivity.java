@@ -39,10 +39,14 @@ public class MainActivity extends BaseActivity {
         kb.setType("kb");
         kb.setName(getString(R.string.tab_library));
 
+        Category news = new Category();
+        news.setType("news");
+        news.setName(getString(R.string.tab_news));
+
         // 初始化TAB
         addTab(R.string.tab_home, R.drawable.tab_home, HomeFragment.newInstance());
+        addTab(R.string.tab_news, R.drawable.tab_news, KBListFragment.newInstance(news));
         addTab(R.string.tab_library, R.drawable.tab_library, KBListFragment.newInstance(kb));
-//        addTab(R.string.tab_library, R.drawable.tab_library, null);
         addTab(R.string.tab_mine, R.drawable.tab_mine, MineFragment.newInstance());
 
         mViewPager.setOffscreenPageLimit(4);

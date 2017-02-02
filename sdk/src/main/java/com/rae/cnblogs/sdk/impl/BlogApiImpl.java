@@ -13,6 +13,8 @@ import com.rae.cnblogs.sdk.parser.KBContentParser;
 import com.rae.cnblogs.sdk.parser.KBListParser;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
+import com.rae.core.sdk.exception.ApiErrorCode;
+import com.rae.core.sdk.exception.ApiException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,6 +78,12 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 
     @Override
     public void likeBlog(String id, String blogApp, ApiUiListener<Void> listener) {
+
+        if (isNotLogin()) {
+            listener.onApiFailed(new ApiException(ApiErrorCode.ERROR_NOT_LOGIN), ApiErrorCode.ERROR_NOT_LOGIN.getMessage());
+            return;
+        }
+
         postWithJsonBody(ApiUrls.API_BLOG_LIKE,
                 newParams()
                         .add("postId", id)
@@ -87,6 +95,12 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 
     @Override
     public void unLikeBlog(String id, String blogApp, ApiUiListener<Void> listener) {
+
+        if (isNotLogin()) {
+            listener.onApiFailed(new ApiException(ApiErrorCode.ERROR_NOT_LOGIN), ApiErrorCode.ERROR_NOT_LOGIN.getMessage());
+            return;
+        }
+
         postWithJsonBody(ApiUrls.API_BLOG_LIKE,
                 newParams()
                         .add("postId", id)
@@ -98,6 +112,12 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 
     @Override
     public void addBlogComment(String id, String blogApp, String parentCommentId, String content, ApiUiListener<Void> listener) {
+
+        if (isNotLogin()) {
+            listener.onApiFailed(new ApiException(ApiErrorCode.ERROR_NOT_LOGIN), ApiErrorCode.ERROR_NOT_LOGIN.getMessage());
+            return;
+        }
+
         postWithJsonBody(ApiUrls.API_BLOG_COMMENT_ADD,
                 newParams()
                         .add("postId", id)
@@ -109,6 +129,12 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 
     @Override
     public void addBlogComment(String id, String blogApp, BlogComment comment, String content, ApiUiListener<Void> listener) {
+
+        if (isNotLogin()) {
+            listener.onApiFailed(new ApiException(ApiErrorCode.ERROR_NOT_LOGIN), ApiErrorCode.ERROR_NOT_LOGIN.getMessage());
+            return;
+        }
+
         // {"blogApp":"silenttiger","postId":6323406,"body":"@TCG2008\n[quote]网页应用都差不多，什么QQ上的应用宝，空间的应用啊，百度轻应用...主要都是为了引流，你一个小公司当然要从微信百度上引导别人使用你的产品啦。[/quote]\naa","parentCommentId":"3608347"}
         StringBuilder sb = new StringBuilder();
         sb.append("@");
@@ -125,6 +151,12 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 
     @Override
     public void deleteBlogComment(String commentId, ApiUiListener<Void> listener) {
+
+        if (isNotLogin()) {
+            listener.onApiFailed(new ApiException(ApiErrorCode.ERROR_NOT_LOGIN), ApiErrorCode.ERROR_NOT_LOGIN.getMessage());
+            return;
+        }
+
         postWithJsonBody(ApiUrls.API_BLOG_COMMENT_DELETE,
                 newParams()
                         .add("commentId", commentId)

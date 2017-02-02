@@ -74,9 +74,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:drawableLeft="@drawable/ic_like_normal"
-                android:drawablePadding="3dp"
-                android:text="0"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/ic_like_content"
+                android:gravity="bottom"
+                android:text="200"
+                android:visibility="gone"
                 android:textColor="@color/ph4"
                 android:textSize="14sp"/>
 

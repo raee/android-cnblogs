@@ -4,34 +4,53 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 /**
  * 博客实体
  * Created by ChenRui on 2016/11/28 23:45.
  */
-
-public class Blog implements Parcelable {
+@Table(name = "blogs")
+public class Blog extends Model implements Parcelable {
+    @Column
     private String title;
+    @Column
     private String url;
+    @Column
     private String avatar;
+    @Column
     private String summary;
+    @Column
     private String author;
+    @Column
     private String authorUrl;
+    @Column
     private String comment;
+    @Column
     private String views;
+    @Column
     private String postDate;
-    private String id;
+    @Column
+    private String blogId;
+    @Column
     private String blogApp;
+    @Column
     private String tag; // 标签
 
-    private boolean isNews; // 是否为新闻
-    private boolean isKb; // 是否为知识库
+    /**
+     * 博客类型，参考取值{@link BlogType#getTypeName()}
+     */
+    @Column
+    private String blogType;
 
-    public boolean isKb() {
-        return isKb;
+    public String getBlogType() {
+        return blogType;
     }
 
-    public void setKb(boolean kb) {
-        isKb = kb;
+    public void setBlogType(String blogType) {
+        this.blogType = blogType;
     }
 
     public String getBlogApp() {
@@ -135,6 +154,7 @@ public class Blog implements Parcelable {
     }
 
     public Blog() {
+        super();
     }
 
     public String getTag() {
@@ -145,28 +165,20 @@ public class Blog implements Parcelable {
         this.tag = tag;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setBlogId(String blogId) {
+        this.blogId = blogId;
     }
 
-    public String getId() {
-        return id;
+    public String getBlogId() {
+        return blogId;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Blog && !TextUtils.isEmpty(id)) {
-            return TextUtils.equals(id, ((Blog) obj).getId());
+        if (obj instanceof Blog && !TextUtils.isEmpty(blogId)) {
+            return TextUtils.equals(blogId, ((Blog) obj).getBlogId());
         }
         return super.equals(obj);
-    }
-
-    public boolean isNews() {
-        return isNews;
-    }
-
-    public void setNews(boolean news) {
-        isNews = news;
     }
 
     @Override
@@ -185,11 +197,10 @@ public class Blog implements Parcelable {
         dest.writeString(this.comment);
         dest.writeString(this.views);
         dest.writeString(this.postDate);
-        dest.writeString(this.id);
+        dest.writeString(this.blogId);
         dest.writeString(this.blogApp);
         dest.writeString(this.tag);
-        dest.writeByte(this.isNews ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.isKb ? (byte) 1 : (byte) 0);
+        dest.writeString(this.blogType);
         dest.writeString(this.content);
         dest.writeString(this.likes);
     }
@@ -204,11 +215,10 @@ public class Blog implements Parcelable {
         this.comment = in.readString();
         this.views = in.readString();
         this.postDate = in.readString();
-        this.id = in.readString();
+        this.blogId = in.readString();
         this.blogApp = in.readString();
         this.tag = in.readString();
-        this.isNews = in.readByte() != 0;
-        this.isKb = in.readByte() != 0;
+        this.blogType = in.readString();
         this.content = in.readString();
         this.likes = in.readString();
     }

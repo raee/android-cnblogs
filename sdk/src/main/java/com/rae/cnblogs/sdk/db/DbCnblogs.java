@@ -5,6 +5,7 @@ import android.content.Context;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
 import com.rae.cnblogs.sdk.bean.AdvertBean;
+import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.Category;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 
@@ -22,6 +23,7 @@ public abstract class DbCnblogs<T> {
                 .addModelClass(Category.class)
                 .addModelClass(UserBlogInfo.class)
                 .addModelClass(AdvertBean.class)
+                .addModelClass(Blog.class)
                 .create();
         ActiveAndroid.initialize(config, true);
     }
@@ -37,6 +39,7 @@ public abstract class DbCnblogs<T> {
             ActiveAndroid.endTransaction();
         }
     }
+
 
 
 }

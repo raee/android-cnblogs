@@ -25,11 +25,11 @@
 
             <!--分割线颜色-->
             <item>
-                <color android:color="@color/dividerPrimary"/>
+                <color android:color="@color/dividerColor"/>
             </item>
 
             <item android:bottom="0.5dp">
-                <color android:color="@android:color/white"/>
+                <color android:color="@color/white"/>
             </item>
 
 

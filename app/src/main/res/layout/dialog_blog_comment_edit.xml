@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="@dimen/default_margin">
+
+    <EditText
+        android:id="@+id/et_edit_comment_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/bg_edit_comment"
+        android:gravity="left|top"
+        android:hint="@string/edit_comment_hint"
+        android:minHeight="62dp"
+        android:padding="6dp"
+        android:textColor="@color/ph2"
+        android:textColorHint="@color/ph3"
+        android:textSize="@dimen/h2"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/cb_ref_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/reference_comment"
+            android:textColor="@color/ph2"/>
+
+        <Button
+            android:id="@+id/btn_send_comment"
+            style="@style/AppButton"
+            android:layout_width="48dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_btn_send"
+            android:gravity="center"
+            android:text="@string/send"
+            android:textColor="@color/white"
+            android:textSize="@dimen/h3"/>
+    </RelativeLayout>
+</LinearLayout>

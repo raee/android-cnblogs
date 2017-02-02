@@ -5,20 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
+
+    <com.rae.cnblogs.widget.RaeViewPager
         android:id="@+id/vp_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/tab_main"/>
+        android:layout_marginBottom="48dp"
+        app:pageMode="fixed"/>
 
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_main"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_height"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bg_tab_main"
-        app:tabBackground="@android:color/transparent"
-        app:tabIndicatorHeight="0dp"/>
+        android:background="@drawable/tab_main_background"
+        android:paddingLeft="38dp"
+        android:paddingRight="38dp">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_main"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            app:tabBackground="@android:color/transparent"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="fixed"/>
+    </LinearLayout>
 
 </RelativeLayout>

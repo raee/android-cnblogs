@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.rae.cnblogs.sdk.Utils;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiErrorCode;
 import com.rae.core.sdk.exception.ApiException;
@@ -55,7 +56,7 @@ public class BlogJsonParser implements IApiJsonResponse {
             String date = Utils.getDate(element.select(".post_item_foot").text()); // 发布时间
 
             Blog m = new Blog();
-            m.setId(id);
+            m.setBlogId(id);
             m.setTitle(title);
             m.setUrl(url);
             m.setAvatar(avatar);
@@ -67,6 +68,7 @@ public class BlogJsonParser implements IApiJsonResponse {
             m.setViews(views);
             m.setPostDate(date);
             m.setLikes(likes);
+            m.setBlogType(BlogType.BLOG.getTypeName());
 
             result.add(m);
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rae.cnblogs.dialog.DialogProvider;
@@ -12,6 +13,8 @@ import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.impl.LoadingDialog;
 
 import java.lang.ref.WeakReference;
+
+
 
 /**
  * UI 规范
@@ -40,6 +43,8 @@ public final class AppUI {
     private static Toast makeToast(Context context, String msg) {
         Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
         toast.getView().setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_toast));
+        TextView msgView = (TextView) toast.getView().findViewById(android.R.id.message);
+        msgView.setTextSize(14);
         return toast;
     }
 

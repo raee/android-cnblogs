@@ -15,4 +15,5 @@ public interface ICategoryApi {
      * @param listener
      */
     void getCategory(ApiUiArrayListener<Category> listener);
+
 }

@@ -2,11 +2,11 @@ package com.rae.cnblogs.sdk.impl;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.CookieManager;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.rae.cnblogs.sdk.IUserApi;
 import com.rae.cnblogs.sdk.Utils;
@@ -69,6 +69,8 @@ public class WebUserApiImpl extends CnblogsBaseApi implements IUserApi {
                                     } else {
                                         listener.onApiFailed(new ApiException(ApiErrorCode.ERROR_SERVER), message);
                                     }
+                                } catch (JSONException e) {
+                                    listener.onApiFailed(new ApiException(e), ApiErrorCode.ERROR_JSON_PARSE.getMessage());
                                 } catch (Exception e) {
                                     onJsonResponseError(ApiErrorCode.ERROR_JSON_PARSE.getErrorCode(), e);
                                 }
@@ -84,14 +86,6 @@ public class WebUserApiImpl extends CnblogsBaseApi implements IUserApi {
         });
     }
 
-
-    @Override
-    public boolean isLogin() {
-        // 是否有登录COOKIE
-        CookieManager manager = CookieManager.getInstance();
-        String cookie = manager.getCookie("http://www.cnblogs.com");
-        return !TextUtils.isEmpty(cookie) && cookie.contains(".CNBlogsCookie");
-    }
 
     @Override
     public void refreshLoginToken(ApiUiListener<LoginTokenBean> listener) {
@@ -131,6 +125,6 @@ public class WebUserApiImpl extends CnblogsBaseApi implements IUserApi {
         CookieManager.getInstance().removeAllCookie();
 
         // 清除保存的登录信息
-        config().clear();
+        config().clearUserInfo();
     }
 }

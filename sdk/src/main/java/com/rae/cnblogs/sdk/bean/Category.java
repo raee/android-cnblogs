@@ -24,6 +24,17 @@ public class Category extends Model implements Parcelable {
     @Column
     private int orderNo; // 排序
 
+    @Column
+    private boolean isHide; // 是否隐藏
+
+    public boolean isHide() {
+        return isHide;
+    }
+
+    public void setHide(boolean hide) {
+        isHide = hide;
+    }
+
     public int getOrderNo() {
         return orderNo;
     }
@@ -86,6 +97,7 @@ public class Category extends Model implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.type);
         dest.writeInt(this.orderNo);
+        dest.writeByte(this.isHide ? (byte) 1 : (byte) 0);
     }
 
     protected Category(Parcel in) {
@@ -94,6 +106,7 @@ public class Category extends Model implements Parcelable {
         this.name = in.readString();
         this.type = in.readString();
         this.orderNo = in.readInt();
+        this.isHide = in.readByte() != 0;
     }
 
     public static final Creator<Category> CREATOR = new Creator<Category>() {

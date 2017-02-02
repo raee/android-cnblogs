@@ -10,4 +10,11 @@
         <attr name="empty_icon" format="reference"/>
         <attr name="empty_message" format="reference|string"/>
     </declare-styleable>
+
+    <declare-styleable name="RaeViewPager">
+        <attr name="pageMode">
+            <enum name="scrollable" value="0"/>
+            <enum name="fixed" value="1"/>
+        </attr>
+    </declare-styleable>
 </resources>

@@ -7,6 +7,7 @@ import com.rae.cnblogs.sdk.impl.CategoryApiImpl;
 import com.rae.cnblogs.sdk.impl.NewsApiImpl;
 import com.rae.cnblogs.sdk.impl.WebBookmarksApiImpl;
 import com.rae.cnblogs.sdk.impl.WebUserApiImpl;
+import com.rae.core.sdk.net.VolleyManager;
 
 /**
  * 博客园默认接口实现
@@ -50,5 +51,10 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
     @Override
     public INewsApi getNewsApi() {
         return new NewsApiImpl(mContext);
+    }
+
+    @Override
+    public void cancel() {
+        VolleyManager.newRequestQueue(mContext).cancelAll("CNBLOGS_API_REQUEST");
     }
 }

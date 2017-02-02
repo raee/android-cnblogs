@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.webkit.CookieManager;
 
 import com.android.volley.Request;
-import com.rae.cnblogs.sdk.bean.LoginTokenBean;
 import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
 import com.rae.cnblogs.sdk.parser.CnblogApiResponse;
 import com.rae.core.sdk.ApiUiArrayListener;
@@ -14,7 +13,6 @@ import com.rae.core.sdk.RaeBaseApi;
 import com.rae.core.sdk.net.ApiRequest;
 import com.rae.core.sdk.net.IApiJsonResponse;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 
 /**
@@ -59,11 +57,11 @@ class CnblogsBaseApi extends RaeBaseApi {
     @Override
     protected ApiRequest.Builder newApiRequestBuilder(String url, HashMap<String, String> params) {
         ApiRequest.Builder builder = super.newApiRequestBuilder(url, params);
-        // 添加授权信息
-        LoginTokenBean loginToken = config().getLoginToken();
-        if (loginToken != null) {
-            builder.addHeader("authorization", String.format("Bearer %s", loginToken.getAccess_token()));
-        }
+//        // 添加授权信息
+//        LoginTokenBean loginToken = config().getLoginToken();
+//        if (loginToken != null) {
+//            builder.addHeader("authorization", String.format("Bearer %s", loginToken.getAccess_token()));
+//        }
 
         return builder;
     }
@@ -75,7 +73,7 @@ class CnblogsBaseApi extends RaeBaseApi {
     }
 
     protected ApiRequest xmlHttpRequestWithJsonBody(String url, HashMap<String, String> params, IApiJsonResponse response) {
-        ApiRequest req = newApiRequestBuilder(url, params).postMethod().contentType("application/json; charset=UTF-8").addHeader("X-Requested-With","XMLHttpRequest").listener(response).build();
+        ApiRequest req = newApiRequestBuilder(url, params).postMethod().contentType("application/json; charset=UTF-8").addHeader("X-Requested-With", "XMLHttpRequest").listener(response).build();
         sendRequest(req);
         return req;
     }
@@ -83,8 +81,9 @@ class CnblogsBaseApi extends RaeBaseApi {
 
     @Override
     protected void sendRequest(ApiRequest request) {
-        // 添加cookie 信息
 
+        // 添加cookie 信息
+        request.setTag("CNBLOGS_API_REQUEST");
         String cookie = CookieManager.getInstance().getCookie("http://www.cnblogs.com");
         if (!TextUtils.isEmpty(cookie)) {
             request.getHeaders().put("Cookie", cookie);
@@ -92,20 +91,14 @@ class CnblogsBaseApi extends RaeBaseApi {
         super.sendRequest(request);
     }
 
-    protected HashMap<String, String> objectToMap(Object obj) {
-        HashMap<String, String> result = new HashMap<>();
-        Field[] fields = obj.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            try {
-                field.setAccessible(true);
-                String key = field.getName();
-                Object value = field.get(obj);
-                if (value == null) continue;
-                result.put(key, value.toString());
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
+    public boolean isLogin() {
+        // 是否有登录COOKIE
+        CookieManager manager = CookieManager.getInstance();
+        String cookie = manager.getCookie("http://www.cnblogs.com");
+        return !TextUtils.isEmpty(cookie) && cookie.contains(".CNBlogsCookie");
+    }
+
+    protected boolean isNotLogin() {
+        return !isLogin();
     }
 }

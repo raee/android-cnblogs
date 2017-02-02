@@ -1,7 +1,9 @@
 package com.rae.cnblogs.fragment;
 
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -12,6 +14,7 @@ import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.service.BlogServiceBinder;
 import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 
@@ -26,6 +29,8 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * Created by ChenRui on 2016/12/2 00:33.
  */
 public class BlogListFragment extends BaseFragment implements IBlogListPresenter.IBlogListView {
+
+    private BlogServiceBinder mBinder;
 
     public static BlogListFragment newInstance(Category category) {
 
@@ -43,8 +48,10 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     RaeRecyclerView mRecyclerView;
 
     protected Category mCategory;
+
     protected IBlogListPresenter mBlogListPresenter;
     protected BlogListItemAdapter mItemAdapter;
+    private ServiceConnection mBlogServiceConnection;
 
     @Override
     protected int getLayoutId() {
@@ -57,6 +64,31 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         mBlogListPresenter = CnblogsPresenterFactory.getBlogListPresenter(getContext(), this);
         mCategory = getArguments().getParcelable("category");
         mItemAdapter = new BlogListItemAdapter();
+
+        // 绑定服务
+//        mBlogServiceConnection = new ServiceConnection() {
+//            @Override
+//            public void onServiceConnected(ComponentName name, IBinder service) {
+//                mBinder = (BlogServiceBinder) service;
+//            }
+//
+//            @Override
+//            public void onServiceDisconnected(ComponentName name) {
+//
+//            }
+//        };
+//        getContext().bindService(new Intent(getContext(), BlogService.class), mBlogServiceConnection, Context.BIND_AUTO_CREATE);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        // 解绑服务
+        if (mBlogServiceConnection != null) {
+            getContext().unbindService(mBlogServiceConnection);
+        }
     }
 
     @Override
@@ -88,12 +120,12 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
             }
         });
 
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mBlogListPresenter.start();
     }
 
     @Override
     public void onLoadBlogList(int page, List<Blog> data) {
-        showToast("博客加载成功!");
         if (page <= 1)
             mAppLayout.refreshComplete();
         else
@@ -101,11 +133,15 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
 
         mItemAdapter.invalidate(data);
         mItemAdapter.notifyDataSetChanged();
+
+        // 异步下载博文内容
+        if (mBinder != null) {
+            mBinder.asyncBlogContent();
+        }
     }
 
     @Override
     public void onLoadFailed(int page, String msg) {
-        showToast(msg);
         if (page <= 1)
             mAppLayout.refreshComplete();
         else
@@ -117,13 +153,4 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         return mCategory;
     }
 
-    private void showToast(String msg) {
-       /* Toast toast = Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT);
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.view_toast_home, null);
-        TextView titleView = (TextView) view.findViewById(android.R.id.title);
-        titleView.setText(msg);
-        toast.setView(view);
-        toast.setGravity(Gravity.TOP | Gravity.LEFT | Gravity.RIGHT, 0, mRecyclerViewTop);
-        toast.show();*/
-    }
 }

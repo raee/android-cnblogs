@@ -1,5 +1,6 @@
 package com.rae.cnblogs.activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -13,13 +14,18 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppRoute;
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.dialog.impl.BlogShareDialog;
+import com.rae.cnblogs.dialog.impl.EditCommentDialog;
 import com.rae.cnblogs.fragment.BlogCommentFragment;
 import com.rae.cnblogs.fragment.BlogContentFragment;
+import com.rae.cnblogs.message.EditCommentEvent;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -53,6 +59,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     RaeDrawerLayout mCommentLayout;
 
     private BlogShareDialog mShareDialog;
+    private EditCommentDialog mEditCommentDialog;
     private Blog mBlog;
 
     @Override
@@ -79,6 +86,19 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
                 AppRoute.jumpToWeb(getContext(), mBlog.getUrl());
             }
         };
+
+        mEditCommentDialog = new EditCommentDialog(this, mBlog);
+        mEditCommentDialog.setOnEditCommentListener(new EditCommentDialog.OnEditCommentListener() {
+            @Override
+            public void onSendCommentSuccess(String body) {
+                // 发表评论成功，打开评论列表
+                if (mCommentLayout.getVisibility() != View.VISIBLE)
+                    mCommentLayout.toggleSmoothScroll();
+
+                // 通知刷新评论列表
+                EventBus.getDefault().post(new EditCommentEvent());
+            }
+        });
 
 //        mCommentDialog = BlogCommentDialog.newInstance(blog);
 
@@ -117,6 +137,10 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         mCommentLayout.toggleSmoothScroll();
     }
 
+    @OnClick(R.id.tv_edit_comment)
+    public void onEditCommentClick() {
+        mEditCommentDialog.show();
+    }
 
 
     // 返回键处理
@@ -127,5 +151,11 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
             return;
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        AppUI.toast(this, "事件改编：" + newConfig.hardKeyboardHidden);
     }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
+
 /**
  * 首页
  * Created by ChenRui on 2016/12/1 22:34.
@@ -60,6 +61,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
 
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setOffscreenPageLimit(5);
 
     }
 

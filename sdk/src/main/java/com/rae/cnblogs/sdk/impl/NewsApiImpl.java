@@ -31,10 +31,12 @@ public class NewsApiImpl extends CnblogsBaseApi implements INewsApi {
 
     @Override
     protected boolean enablePerCache(String url, HashMap<String, String> params) {
-        if (TextUtils.equals(url, ApiUrls.API_NEWS_LIST)) {
+        if (TextUtils.isEmpty(url)) return false;
+
+        if (url.contains(ApiUrls.API_NEWS_LIST.replace("@page/20", ""))) {
             return true;
         }
-        if (TextUtils.equals(url, ApiUrls.API_NEWS_CONTENT)) {
+        if (url.contains(ApiUrls.API_NEWS_CONTENT.replace("/@id", ""))) {
             return true;
         }
         if (TextUtils.equals(url, ApiUrls.API_NEWS_COMMENT)) {

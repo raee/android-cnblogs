@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
 
-    <com.rae.cnblogs.widget.RaeWebView
-        android:id="@+id/web_view_blog_content"
+    <include layout="@layout/fm_web"/>
+
+    <com.rae.cnblogs.widget.PlaceholderView
+        android:id="@+id/view_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <ProgressBar
-        android:id="@+id/pb_web_view"
-        style="@style/progress_bar_web"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="100"/>
-
-</RelativeLayout>
+</FrameLayout>

@@ -56,6 +56,8 @@ abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> extends Re
     }
 
 
+
+
     protected View inflateView(ViewGroup parent, int layoutId) {
         return mLayoutInflater.inflate(layoutId, parent, false);
     }

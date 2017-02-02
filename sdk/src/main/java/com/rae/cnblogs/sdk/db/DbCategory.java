@@ -40,4 +40,9 @@ public class DbCategory extends DbCnblogs<Category> {
     public List<Category> list() {
         return new Select().from(Category.class).execute();
     }
+
+
+    public List<Category> getUserList() {
+        return new Select().from(Category.class).where("isHide=?", 0).orderBy("orderNo DESC").execute();
+    }
 }

@@ -26,7 +26,7 @@ public class RaeTabLayout extends TabLayout {
 //    public Tab newTab() {
 //        Tab tab = super.newTab();
 //        RaeTextView view = new RaeTextView(getContext());
-//        view.setId(android.R.id.text1);
+//        view.setBlogId(android.R.id.text1);
 //        tab.setCustomView(view);
 //        return tab;
 //    }

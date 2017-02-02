@@ -2,10 +2,8 @@ package com.rae.cnblogs.sdk.config;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.rae.cnblogs.sdk.bean.LoginTokenBean;
 
 /**
  * 接口配置项
@@ -23,7 +21,7 @@ public class CnblogSdkConfig {
 
     public static CnblogSdkConfig getsInstance(Context applicationContext) {
         if (sInstance == null) {
-            sInstance = new CnblogSdkConfig(applicationContext);
+            sInstance = new CnblogSdkConfig(applicationContext.getApplicationContext());
         }
         return sInstance;
     }
@@ -34,25 +32,25 @@ public class CnblogSdkConfig {
         mConfig = context.getApplicationContext().getSharedPreferences("CNBLOG_SDK_CONFIG", Context.MODE_PRIVATE);
     }
 
-
-    /**
-     * 保存登录TOKEN
-     *
-     * @param token 凭证
-     */
-    public void saveLoginToken(LoginTokenBean token) {
-        if (token == null) return;
-        mConfig.edit().putString("login_token", JSON.toJSONString(token)).apply();
-    }
-
-    /**
-     * 获取登录TOKEN
-     */
-    public LoginTokenBean getLoginToken() {
-        String json = mConfig.getString("login_token", null);
-        if (TextUtils.isEmpty(json)) return null;
-        return JSON.parseObject(json, LoginTokenBean.class);
-    }
+//
+//    /**
+//     * 保存登录TOKEN
+//     *
+//     * @param token 凭证
+//     */
+//    public void saveLoginToken(LoginTokenBean token) {
+//        if (token == null) return;
+//        mConfig.edit().putString("login_token", JSON.toJSONString(token)).apply();
+//    }
+//
+//    /**
+//     * 获取登录TOKEN
+//     */
+//    public LoginTokenBean getLoginToken() {
+//        String json = mConfig.getString("login_token", null);
+//        if (TextUtils.isEmpty(json)) return null;
+//        return JSON.parseObject(json, LoginTokenBean.class);
+//    }
 
     /**
      * 清除所有的配置项目
@@ -60,4 +58,34 @@ public class CnblogSdkConfig {
     public void clear() {
         mConfig.edit().clear().apply();
     }
+
+    /**
+     * 清除所有的配置项目
+     */
+    public void clearUserInfo() {
+    }
+
+
+    /**
+     * 获取离线配置
+     *
+     * @return
+     */
+    public OfflineConfig getOfflineConfig() {
+        String config = mConfig.getString("OfflineConfig", null);
+        return config == null ? new OfflineConfig() : JSON.parseObject(config, OfflineConfig.class);
+    }
+
+    /**
+     * 保存离线配置
+     *
+     * @param config
+     */
+    public void setOfflineConfig(OfflineConfig config) {
+        if (config != null) {
+            mConfig.edit().putString("OfflineConfig", JSON.toJSONString(config));
+        }
+    }
+
+
 }

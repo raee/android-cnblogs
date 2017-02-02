@@ -8,6 +8,8 @@ import android.view.View;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogCommentItemAdapter;
+import com.rae.cnblogs.dialog.impl.EditCommentDialog;
+import com.rae.cnblogs.message.EditCommentEvent;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogCommentPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
@@ -16,6 +18,9 @@ import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 import com.rae.cnblogs.widget.compat.RaeDragDownCompat;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -49,6 +54,8 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     private Blog mBlog;
 
+    private EditCommentDialog mEditCommentDialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fm_blog_comment;
@@ -58,9 +65,18 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         mCommentPresenter = CnblogsPresenterFactory.getBlogCommentPresenter(getContext(), this);
         if (getArguments() != null)
             mBlog = getArguments().getParcelable("blog");
+
+        mEditCommentDialog = new EditCommentDialog(getContext(), mBlog);
+        mEditCommentDialog.setOnEditCommentListener(new EditCommentDialog.OnEditCommentListener() {
+            @Override
+            public void onSendCommentSuccess(String body) {
+                mCommentPresenter.start();
+            }
+        });
     }
 
 
@@ -100,6 +116,20 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
             }
         });
 
+        mItemAdapter.setOnBlogCommentItemClick(new BlogCommentItemAdapter.OnBlogCommentItemClick() {
+            @Override
+            public void onItemClick(BlogComment comment) {
+                mEditCommentDialog.show(comment);
+            }
+        });
+
+        mPlaceholderView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEditCommentDialog.show();
+            }
+        });
+
         mRecyclerView.setAdapter(mItemAdapter);
     }
 
@@ -110,10 +140,22 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEditCommentSuccessEvent(EditCommentEvent event) {
+        mCommentPresenter.start();
+    }
+
+    @Override
     public void onLoadCommentSuccess(List<BlogComment> data) {
         mPlaceholderView.dismiss();
         mItemAdapter.invalidate(data);
         mItemAdapter.notifyDataSetChanged();
+        mRecyclerView.loadMoreComplete();
     }
 
     @Override

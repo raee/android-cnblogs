@@ -5,8 +5,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
-import com.rae.cnblogs.R;
-
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
@@ -79,8 +77,8 @@ public abstract class SwipeBackBaseActivity extends BaseActivity implements Swip
     @Override
     public void finish() {
         super.finish();
-        if (!mIsSwipeBack) {
-            overridePendingTransition(0, R.anim.slide_out_bottom);
-        }
+//        if (!mIsSwipeBack) {
+            overridePendingTransition(0, 0);
+//        }
     }
 }

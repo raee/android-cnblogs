@@ -34,6 +34,11 @@ public class WebBookmarksApiImpl extends CnblogsBaseApi implements IBookmarksApi
 
     @Override
     public void addBookmarks(BookmarksBean m, ApiUiListener<Void> listener) {
+
+        if (isNotLogin()) {
+            listener.onApiFailed(new ApiException(ApiErrorCode.ERROR_NOT_LOGIN), ApiErrorCode.ERROR_NOT_LOGIN.getMessage());
+            return;
+        }
         postWithJsonBody(ApiUrls.API_BOOK_MARKS_ADD,
                 newParams()
                         .add("isPublic", "1")
@@ -46,11 +51,22 @@ public class WebBookmarksApiImpl extends CnblogsBaseApi implements IBookmarksApi
 
     @Override
     public void getBookmarks(int page, ApiUiArrayListener<BookmarksBean> listener) {
+
+        if (isNotLogin()) {
+            listener.onApiFailed(new ApiException(ApiErrorCode.ERROR_NOT_LOGIN), ApiErrorCode.ERROR_NOT_LOGIN.getMessage());
+            return;
+        }
         get(ApiUrls.API_BOOK_MARKS_LIST.replace("@page", String.valueOf(page)), null, new BookmarksParser(listener));
     }
 
     @Override
     public void delBookmarks(final String url, final ApiUiListener<Void> listener) {
+
+        if (isNotLogin()) {
+            listener.onApiFailed(new ApiException(ApiErrorCode.ERROR_NOT_LOGIN), ApiErrorCode.ERROR_NOT_LOGIN.getMessage());
+            return;
+        }
+
         // Web接口需要的是linkId，为了方便我们去获取列表的第一条数据跟URL做对比获取他的ID
         getBookmarks(1, new ApiUiArrayListener<BookmarksBean>() {
             @Override
@@ -78,6 +94,12 @@ public class WebBookmarksApiImpl extends CnblogsBaseApi implements IBookmarksApi
      * @param listener
      */
     private void delBookmarksByLinkId(String linkId, final ApiUiListener<Void> listener) {
+
+        if (isNotLogin()) {
+            listener.onApiFailed(new ApiException(ApiErrorCode.ERROR_NOT_LOGIN), ApiErrorCode.ERROR_NOT_LOGIN.getMessage());
+            return;
+        }
+
         xmlHttpRequestWithJsonBody(ApiUrls.API_BOOK_MARKS_DELETE,
                 newParams()
                         .add("linkId", linkId),

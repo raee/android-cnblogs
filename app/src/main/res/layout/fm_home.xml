@@ -4,59 +4,86 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_background"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_bar_height"
-        android:background="@color/colorPrimary">
+        android:paddingLeft="@dimen/default_margin">
 
-        <ImageView
-            android:id="@+id/img_actionbar_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="12dp"
-            android:src="@drawable/ic_action_bar_logo"/>
-
-        <com.rae.cnblogs.widget.RaeTextView
-            android:id="@+id/tv_actionbar_search"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="14dp"
-            android:background="@drawable/bg_action_bar_search"
-            android:drawableLeft="@drawable/ic_search"
-            android:gravity="center"
-            android:paddingBottom="6dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="6dp"
-            android:text="搜索博客、博主、新闻"
-            android:textColor="#84b3d2"
-            android:textSize="14sp"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_actionbar_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_action_bar_avatar"/>
+
+            <ImageView
+                android:id="@+id/img_actionbar_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_action_bar_logo"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_action_bar_search"/>
+        </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
 
-    <com.rae.cnblogs.widget.RaeTabLayout
-        android:id="@+id/tab_category"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_home_height"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bg_tab_home"
-        app:tabBackground="@color/white"
-        app:tabIndicatorColor="@color/colorPrimaryDark"
-        app:tabIndicatorHeight="2dp"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/ph1"
-        app:tabTextAppearance="@style/TabTextAppearance"
-        app:tabTextColor="@color/ph3"/>
+        android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_blog_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/tab_main"/>
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_blog_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="42dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_home_height"
+            android:background="@drawable/tab_channel_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="6dp">
+
+            <com.rae.cnblogs.widget.RaeTabLayout
+                android:id="@+id/tab_category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:tabBackground="@color/white"
+                app:tabIndicatorHeight="0dp"
+                app:tabMaxWidth="0dp"
+                app:tabMinWidth="0dp"
+                app:tabMode="scrollable"
+                app:tabPaddingEnd="6dp"
+                app:tabPaddingStart="6dp"
+                app:tabSelectedTextColor="#515151"
+                app:tabTextAppearance="@style/TabTextAppearance"
+                app:tabTextColor="#aaaaaa"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/channel_manager_icon"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </android.support.design.widget.AppBarLayout>

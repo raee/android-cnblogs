@@ -2,6 +2,7 @@ package com.rae.cnblogs.sdk.parser;
 
 import com.rae.cnblogs.sdk.Utils;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.core.sdk.ApiUiArrayListener;
 
 import org.jsoup.nodes.Document;
@@ -27,7 +28,7 @@ public class NewsParser extends HtmlParser<Blog> {
         Elements elements = document.select("entry");
         for (Element element : elements) {
             Blog m = new Blog();
-            m.setId(element.select("id").text());
+            m.setBlogId(element.select("id").text());
             m.setTitle(element.select("title").text());
             m.setSummary(element.select("summary").text());
             m.setPostDate(Utils.getDate(element.select("updated").text()));
@@ -37,7 +38,7 @@ public class NewsParser extends HtmlParser<Blog> {
             m.setComment(element.select("comments").text());
             m.setAuthor(element.select("sourceName").text());
             m.setAvatar(element.select("topicIcon").text().replace("images0.cnblogs.com/news_topic///", ""));
-            m.setNews(true);
+            m.setBlogType(BlogType.NEWS.getTypeName());
             result.add(m);
         }
         mArrayListener.onApiSuccess(result);

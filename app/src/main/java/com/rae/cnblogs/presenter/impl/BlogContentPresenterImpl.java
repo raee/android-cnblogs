@@ -8,6 +8,7 @@ import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.IBookmarksApi;
 import com.rae.cnblogs.sdk.INewsApi;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.BookmarksBean;
 import com.rae.cnblogs.sdk.db.DbBlog;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
@@ -40,11 +41,12 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
         if (blog == null) return;
 
         // 获取用户的博客信息
-        mBlogInfo = mDbBlog.get(blog.getId());
+        mBlogInfo = mDbBlog.get(blog.getBlogId());
 
         if (mBlogInfo == null || mBlogInfo.getBlogId() == null) {
             mBlogInfo = new UserBlogInfo();
-            mBlogInfo.setBlogId(blog.getId());
+            mBlogInfo.setBlogId(blog.getBlogId());
+            mBlogInfo.setBlogType(blog.getBlogType());
             mBlogInfo.setRead(true);
         }
 
@@ -57,16 +59,18 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
             return;
         }
 
-
-        if (blog.isNews()) {
-            // 新闻
-            mNewsApi.getNewsContent(blog.getId(), this);
-        } else if (blog.isKb()) {
-            // 知识库
-            mBlogApi.getKbContent(blog.getId(), this);
-        } else {
-            // 博文
-            mBlogApi.getBlogContent(blog.getId(), this);
+        BlogType blogType = BlogType.typeOf(blog.getBlogType());
+        switch (blogType) {
+            case BLOG:  // 博文
+            case UNKNOWN:
+                mBlogApi.getBlogContent(blog.getBlogId(), this);
+                break;
+            case NEWS:  // 新闻
+                mNewsApi.getNewsContent(blog.getBlogId(), this);
+                break;
+            case KB: // 知识库
+                mBlogApi.getKbContent(blog.getBlogId(), this);
+                break;
         }
     }
 
@@ -75,9 +79,9 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
         Blog blog = mView.getBlog();
 
         if (isCancel) {
-            mBlogApi.unLikeBlog(blog.getId(), blog.getBlogApp(), new LikeAndBookmarksListener(true, true));
+            mBlogApi.unLikeBlog(blog.getBlogId(), blog.getBlogApp(), new LikeAndBookmarksListener(true, true));
         } else {
-            mBlogApi.likeBlog(blog.getId(), blog.getBlogApp(), new LikeAndBookmarksListener(false, true));
+            mBlogApi.likeBlog(blog.getBlogId(), blog.getBlogApp(), new LikeAndBookmarksListener(false, true));
         }
     }
 
