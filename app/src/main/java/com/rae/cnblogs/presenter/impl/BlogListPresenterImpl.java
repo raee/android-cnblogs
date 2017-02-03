@@ -97,4 +97,8 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     public void loadMore() {
         loadData();
     }
+
+    @Override
+    public void refreshDataSet() {
+    }
 }

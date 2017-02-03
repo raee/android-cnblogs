@@ -17,8 +17,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/img_actionbar_avatar"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_user_avatar"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_default_user_avatar"
+                android:visibility="gone"
+                app:riv_corner_radius="32dp"/>
+
+            <ImageView
+                android:id="@+id/img_actionbar_avatar_not_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

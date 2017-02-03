@@ -1,6 +1,7 @@
 package com.rae.cnblogs.presenter.impl;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.presenter.ILoginPresenter;
@@ -40,16 +41,7 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
     }
 
     @Override
-    public void start() {
-    }
-
-    @Override
-    public void onApiFailed(ApiException ex, String msg) {
-        mView.onLoginError(msg);
-    }
-
-    @Override
-    public void onApiSuccess(LoginTokenBean data) {
+    public void loadUserInfo() {
         // 获取用户信息
         mUserApi.getUserInfo(new ApiUiListener<UserInfoBean>() {
             @Override
@@ -59,8 +51,28 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
 
             @Override
             public void onApiSuccess(UserInfoBean data) {
+                // 保存用户信息
                 mView.onLoginSuccess(data);
             }
         });
+    }
+
+    @Override
+    public void start() {
+    }
+
+    @Override
+    public void onApiFailed(ApiException ex, String msg) {
+        if (!TextUtils.isEmpty(msg) && msg.contains("验证码")) {
+            // 验证码错误
+            mView.onLoginVerifyCodeError();
+        } else {
+            mView.onLoginError(msg);
+        }
+    }
+
+    @Override
+    public void onApiSuccess(LoginTokenBean data) {
+        loadUserInfo();
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
 
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.rae.cnblogs.sdk.service.BlogService;
 import com.umeng.socialize.PlatformConfig;
@@ -16,9 +17,17 @@ import com.umeng.socialize.UMShareAPI;
  */
 public class CnblogsApplication extends Application {
 
+    private static CnblogsApplication sCnblogsApplication;
+
+    public static CnblogsApplication getInstance() {
+        return sCnblogsApplication;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        sCnblogsApplication = this;
+
         DbCnblogs.init(this);
         RaeImageLoader.initImageLoader(this);
         initUmengShareConfig();

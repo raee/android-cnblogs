@@ -1,7 +1,11 @@
 package com.rae.cnblogs.fragment;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +18,9 @@ import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.service.BlogService;
 import com.rae.cnblogs.sdk.service.BlogServiceBinder;
+import com.rae.cnblogs.sdk.service.task.OnTaskFinishListener;
 import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 
@@ -66,19 +72,33 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         mItemAdapter = new BlogListItemAdapter();
 
         // 绑定服务
-//        mBlogServiceConnection = new ServiceConnection() {
-//            @Override
-//            public void onServiceConnected(ComponentName name, IBinder service) {
-//                mBinder = (BlogServiceBinder) service;
-//            }
-//
-//            @Override
-//            public void onServiceDisconnected(ComponentName name) {
-//
-//            }
-//        };
-//        getContext().bindService(new Intent(getContext(), BlogService.class), mBlogServiceConnection, Context.BIND_AUTO_CREATE);
+        bindService();
 
+    }
+
+    /**
+     * 绑定服务
+     */
+    private void bindService() {
+        mBlogServiceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                mBinder = (BlogServiceBinder) service;
+                mBinder.setBlogContentTaskFinishListener(new OnTaskFinishListener() {
+                    @Override
+                    public void onTaskFinish(String taskName) {
+                        // 重新刷新列表
+                        mBlogListPresenter.refreshDataSet();
+                    }
+                });
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+        getContext().bindService(new Intent(getContext(), BlogService.class), mBlogServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override

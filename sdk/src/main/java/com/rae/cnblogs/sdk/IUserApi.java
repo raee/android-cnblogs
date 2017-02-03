@@ -7,7 +7,7 @@ import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.core.sdk.ApiUiListener;
 
 /**
- * 用户接口
+ * 用户接口，用户管理对应{@link UserProvider} 类
  * Created by ChenRui on 2017/1/14 01:00.
  */
 public interface IUserApi {
@@ -32,12 +32,7 @@ public interface IUserApi {
     void refreshLoginToken(final ApiUiListener<LoginTokenBean> listener);
 
     /**
-     * 获取用户信息
+     * 获取用户信息，不需再保存登录信息了。你可以通过{@link UserProvider} 来管理用户
      */
     void getUserInfo(ApiUiListener<UserInfoBean> listener);
-
-    /**
-     * 退出登录
-     */
-    void logout();
 }

@@ -16,7 +16,8 @@
             android:id="@+id/img_view_loading_progress"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:indeterminateDrawable="@drawable/progress_bar_loading_white"/>
+            android:indeterminateDrawable="@drawable/progress_bar_loading_white"
+            android:indeterminateDuration="1000"/>
 
         <TextView
             android:id="@+id/tv_view_loading_title"

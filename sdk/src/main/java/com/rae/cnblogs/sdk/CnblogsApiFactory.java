@@ -14,6 +14,7 @@ public final class CnblogsApiFactory {
 
         if (sProvider == null) {
             sProvider = new DefaultCnblogsApiProvider(context.getApplicationContext());
+            UserProvider.init(context.getApplicationContext());
         }
 
         return sProvider;

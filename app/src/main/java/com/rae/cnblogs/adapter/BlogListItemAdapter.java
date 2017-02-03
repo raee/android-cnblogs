@@ -14,6 +14,7 @@ import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.BlogItemViewHolder;
 import com.rae.cnblogs.model.ItemLoadingViewHolder;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.core.Rae;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,9 +99,31 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
         holder.likeView.setText(m.getLikes());
         holder.commentView.setText(m.getComment());
 
-
         holder.itemView.setTag(m);
         holder.itemView.setOnClickListener(this);
+
+        // 预览图处理
+        List<String> thumbs = m.getThumbs();
+        if (Rae.isEmpty(thumbs)) {
+            //  没有预览图
+            holder.largeThumbView.setVisibility(View.GONE);
+            holder.thumbLayout.setVisibility(View.GONE);
+        } else if (thumbs.size() < 3 && thumbs.size() > 0) {
+            // 一张预览图
+            holder.largeThumbView.setVisibility(View.VISIBLE);
+            holder.thumbLayout.setVisibility(View.GONE);
+            ImageLoader.getInstance().displayImage(thumbs.get(0), holder.largeThumbView);
+        } else if (thumbs.size() >= 3) {
+            holder.largeThumbView.setVisibility(View.GONE);
+            holder.thumbLayout.setVisibility(View.VISIBLE);
+            // 取三张预览图
+            ImageLoader.getInstance().displayImage(thumbs.get(0), holder.thumbOneView);
+            ImageLoader.getInstance().displayImage(thumbs.get(1), holder.thumbTwoView);
+            ImageLoader.getInstance().displayImage(thumbs.get(2), holder.thumbThreeView);
+        } else {
+            holder.largeThumbView.setVisibility(View.GONE);
+            holder.thumbLayout.setVisibility(View.GONE);
+        }
     }
 
 

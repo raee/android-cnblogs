@@ -100,7 +100,7 @@
             android:layout_height="@dimen/public_button_height"
             android:layout_marginTop="40dp"
             android:background="@drawable/public_button_login"
-            android:enabled="true"
+            android:enabled="false"
             android:text="@string/login"
             android:textColor="@color/text_color_login_button"
             android:textSize="16sp"/>
@@ -137,34 +137,34 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_login_tips_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/tv_login_tips"
-            android:layout_width="wrap_content"
+    <!--    <LinearLayout
+            android:id="@+id/ll_login_tips_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="每一次登录，都因你而改变"
-            android:textColor="#e666b7f1"
-            android:textSize="@dimen/h1"/>
+            android:visibility="visible"
+            android:gravity="center">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_login_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="每一次登录，都因你而改变"
+                android:textColor="#e666b7f1"
+                android:textSize="@dimen/h1"/>
+
+        </LinearLayout>-->
 
 
-<!--    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="right|bottom">
+    <!--    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right|bottom">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:scaleType="matrix"
-            android:src="@drawable/bg_login"/>
-    </LinearLayout>-->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:scaleType="matrix"
+                android:src="@drawable/bg_login"/>
+        </LinearLayout>-->
 </LinearLayout>

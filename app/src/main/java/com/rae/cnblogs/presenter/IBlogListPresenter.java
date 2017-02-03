@@ -13,6 +13,11 @@ public interface IBlogListPresenter extends IRaePresenter {
 
     void loadMore();
 
+    /**
+     * 刷新数据集
+     */
+    void refreshDataSet();
+
     interface IBlogListView {
 
         void onLoadBlogList(int pageIndex, List<Blog> data);

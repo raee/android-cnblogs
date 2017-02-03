@@ -2,9 +2,12 @@ package com.rae.cnblogs.sdk.parser;
 
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.rae.cnblogs.sdk.Utils;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.BlogType;
+import com.rae.cnblogs.sdk.db.DbBlog;
+import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiErrorCode;
 import com.rae.core.sdk.exception.ApiException;
@@ -25,8 +28,11 @@ import java.util.List;
 public class BlogJsonParser implements IApiJsonResponse {
     private final ApiUiArrayListener<Blog> mListener;
 
+    private DbBlog mDbBlog;
+
     public BlogJsonParser(ApiUiArrayListener<Blog> listener) {
         mListener = listener;
+        mDbBlog = new DbBlog();
     }
 
     /**
@@ -55,6 +61,11 @@ public class BlogJsonParser implements IApiJsonResponse {
             String likes = Utils.getCount(element.select(".diggnum").text()); // 点赞或者是推荐
             String date = Utils.getDate(element.select(".post_item_foot").text()); // 发布时间
 
+            // 博客ID为空不添加
+            if (TextUtils.isEmpty(id)) {
+                continue;
+            }
+
             Blog m = new Blog();
             m.setBlogId(id);
             m.setTitle(title);
@@ -70,12 +81,52 @@ public class BlogJsonParser implements IApiJsonResponse {
             m.setLikes(likes);
             m.setBlogType(BlogType.BLOG.getTypeName());
 
+            // 小图处理：从数据库中获取
+            Blog dbBlog = mDbBlog.getBlog(m.getBlogId());
+            if (dbBlog != null && !TextUtils.isEmpty(dbBlog.getThumbUrls())) {
+                m.setThumbUrls(dbBlog.getThumbUrls()); // 存在有小图
+            } else {
+                // 获取小图
+                UserBlogInfo blogInfo = mDbBlog.get(m.getBlogId());
+                if (dbBlog != null && blogInfo != null && !TextUtils.isEmpty(blogInfo.getContent())) {
+                    m.setThumbUrls(createThumbUrls(blogInfo.getContent()));
+                    dbBlog.setThumbUrls(m.getThumbUrls());
+                    // 更新小图
+                    mDbBlog.updateBlog(dbBlog);
+                }
+            }
             result.add(m);
-
         }
 
         mListener.onApiSuccess(result);
 
+    }
+
+    /**
+     * 获取小图
+     *
+     * @param content 博文
+     */
+    private String createThumbUrls(String content) {
+        try {
+            List<String> result = new ArrayList<>();
+            Elements elements = Jsoup.parse(content).select("img");
+            for (Element element : elements) {
+                String src = element.attr("src");
+
+                // 过滤一些没有用的图片
+                if (TextUtils.isEmpty(src) || src.contains(".gif")) {
+                    continue;
+                }
+
+                result.add(Utils.getUrl(src));
+            }
+
+            return JSON.toJSONString(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private String getAvatar(String src) {

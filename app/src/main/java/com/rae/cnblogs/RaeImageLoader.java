@@ -47,6 +47,19 @@ public final class RaeImageLoader {
                 .build();
     }
 
+    /**
+     * 头像的默认配置
+     *
+     * @return
+     */
+    public static DisplayImageOptions headerOptionWithoutAnim() {
+        return defaultOptions()
+                .showImageForEmptyUri(R.drawable.ic_default_user_avatar)
+                .showImageOnLoading(R.drawable.ic_default_user_avatar)
+                .showImageOnFail(R.drawable.ic_default_user_avatar)
+                .build();
+    }
+
 
     public static void initImageLoader(Context context) {
 

@@ -1,5 +1,7 @@
 package com.rae.cnblogs.activity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -8,13 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeAnim;
+import com.rae.cnblogs.dialog.DialogProvider;
+import com.rae.cnblogs.dialog.IAppDialog;
+import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILoginPresenter;
+import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 
 import butterknife.BindView;
@@ -42,13 +48,19 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
     @BindView(R.id.img_login_logo)
     ImageView mLogoView;
-    @BindView(R.id.tv_login_tips)
-    TextView mTipsView;
-    @BindView(R.id.ll_login_tips_layout)
-    View mTipsLayout;
+
+//    @BindView(R.id.ll_login_tips_layout)
+//    View mTipsLayout;
+
+//    @BindView(R.id.tv_login_tips)
+//    TextView mTipsView;
 
     private ILoginPresenter mLoginPresenter;
     private AccountTextWatcher mAccountTextWatcher;
+
+    private IAppDialog mErrorTipsDialog;
+
+    private int mErrorTime; // 登录错误次数，达到3次以上提示用户是否跳转网页登录
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +80,17 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
         mAccountTextWatcher = new AccountTextWatcher();
         addAccountTextListener(mAccountTextWatcher);
+
+        mErrorTipsDialog = DialogProvider.create(this);
+        mErrorTipsDialog.setButtonText(IAppDialog.BUTTON_NEGATIVE, getString(R.string.i_try_agin));
+        mErrorTipsDialog.setButtonText(IAppDialog.BUTTON_POSITIVE, getString(R.string.go_web_login));
+        mErrorTipsDialog.setOnClickListener(IAppDialog.BUTTON_POSITIVE, new IAppDialogClickListener() {
+            @Override
+            public void onClick(IAppDialog dialog, int buttonType) {
+                AppRoute.jumpToWebLogin(getContext());
+                dialog.dismiss();
+            }
+        });
     }
 
     private void addAccountTextListener(AccountTextWatcher watcher) {
@@ -93,8 +116,9 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
      */
     @OnClick(R.id.btn_login)
     public void onLoginClick() {
-        startLoginAnim();
+        showLoading();
         mLoginPresenter.login();
+//        mLoginPresenter.loadUserInfo();
         removeAccountTextListener(mAccountTextWatcher);
         mLoginButton.setEnabled(false);
     }
@@ -119,7 +143,21 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
     @Override
     public void onLoginError(String message) {
         onLoginCallback();
+        if (mErrorTime >= 3) {
+            mErrorTipsDialog.setMessage(message + "\n" + getString(R.string.login_retry_error));
+            mErrorTipsDialog.show();
+            return;
+        }
+
         AppUI.failed(this, message);
+        mErrorTime++;
+    }
+
+    @Override
+    public void onLoginVerifyCodeError() {
+        onLoginCallback();
+        mErrorTipsDialog.setMessage(getString(R.string.login_verify_code_error));
+        mErrorTipsDialog.show();
     }
 
     private void onLoginCallback() {
@@ -133,9 +171,39 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
         AppUI.dismiss();
     }
 
-    // 开始登录动画
-    private void startLoginAnim() {
-        AppUI.loading(this, R.string.signing);
+    /**
+     * 显示登录中
+     */
+    private void showLoading() {
+        showLoading(getString(R.string.signing));
+    }
+
+    /**
+     * 显示登录中
+     *
+     * @param msg
+     */
+    private void showLoading(String msg) {
+        IAppDialog dialog = AppUI.loading(this, msg);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                CnblogsApiFactory.getInstance(getContext()).cancel();
+                onLoginCallback();
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AppRoute.REQ_CODE_WEB_LOGIN && resultCode == RESULT_OK) {
+            // 登录成功，获取用户信息
+            mErrorTime = 0;
+            showLoading(getString(R.string.loading_user_info));
+            mLoginPresenter.loadUserInfo();
+        }
     }
 
     private class AccountTextWatcher implements TextWatcher {

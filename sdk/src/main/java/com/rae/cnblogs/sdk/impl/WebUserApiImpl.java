@@ -2,13 +2,13 @@ package com.rae.cnblogs.sdk.impl;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.webkit.CookieManager;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.rae.cnblogs.sdk.IUserApi;
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.Utils;
 import com.rae.cnblogs.sdk.bean.LoginTokenBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
@@ -21,7 +21,9 @@ import com.rae.core.sdk.net.IApiJsonResponse;
 import com.rae.core.security.X509RSAEncrypt;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.util.HashMap;
 
 /**
  * 网页调用的用户接口
@@ -33,6 +35,12 @@ public class WebUserApiImpl extends CnblogsBaseApi implements IUserApi {
     public WebUserApiImpl(Context context) {
         super(context);
         mRSAEncrypt = new X509RSAEncrypt(null, CnblogSdkConfig.API_PUB_KEY);
+    }
+
+    @Override
+    protected boolean shouldCache(String url, HashMap<String, String> params) {
+        // 该接口都不缓存
+        return false;
     }
 
     @Override
@@ -48,8 +56,8 @@ public class WebUserApiImpl extends CnblogsBaseApi implements IUserApi {
             @Override
             public void onApiSuccess(Void aVoid) {
                 CookieManager.getInstance().setCookie(ApiUrls.API_SIGN_IN, "AspxAutoDetectCookieSupport=1;path=/;");
-                String cookie = CookieManager.getInstance().getCookie(ApiUrls.API_SIGN_IN);
-                Log.e("rae", "获取到的cookie = " + cookie);
+//                String cookie = CookieManager.getInstance().getCookie(ApiUrls.API_SIGN_IN);
+//                Log.e("rae", "获取到的cookie = " + cookie);
 
                 // 提交登录参数
                 xmlHttpRequestWithJsonBody(
@@ -100,11 +108,15 @@ public class WebUserApiImpl extends CnblogsBaseApi implements IUserApi {
                 try {
                     UserInfoBean u = new UserInfoBean();
                     JSONObject object = JSON.parseObject(json);
-                    String src = Jsoup.parse(object.getString("Avatar")).attr("src");
-                    Document userName = Jsoup.parse(object.getString("Username"));
+                    String src = Jsoup.parse(object.getString("Avatar")).select("img").attr("src");
+                    Elements userName = Jsoup.parse(object.getString("Username")).select("a");
                     u.setAvatar(Utils.getUrl(src));
                     u.setBlogApp(userName.attr("href").replace("/u/", "").replace("/", ""));
                     u.setDisplayName(userName.text());
+
+                    // 保存登录信息
+                    UserProvider.getInstance().setLoginUserInfo(u);
+
                     listener.onApiSuccess(u);
                 } catch (Exception e) {
                     onJsonResponseError(ApiErrorCode.ERROR_SERVER.getErrorCode(), e);
@@ -116,15 +128,5 @@ public class WebUserApiImpl extends CnblogsBaseApi implements IUserApi {
                 listener.onApiFailed(new ApiHttpException(errorCode, e), ApiErrorCode.ERROR_SERVER.getMessage());
             }
         });
-    }
-
-    @Override
-    public void logout() {
-
-        // 移除所有的cookie
-        CookieManager.getInstance().removeAllCookie();
-
-        // 清除保存的登录信息
-        config().clearUserInfo();
     }
 }

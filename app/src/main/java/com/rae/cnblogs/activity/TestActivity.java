@@ -2,7 +2,6 @@ package com.rae.cnblogs.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
@@ -101,18 +100,18 @@ public class TestActivity extends BaseActivity {
 
     @OnClick(R.id.btn_test_login)
     void onJumpToLogin() {
+//        AppRoute.jumpToWebLogin(this);
         AppRoute.jumpToLogin(this);
-//        startActivity(new Intent(this, WebLoginActivity.class));
     }
 
     @OnClick(R.id.btn_test_dialog)
     void testDialogClick() {
-        IAppDialog dialog = DialogProvider.create(this, DialogProvider.TYPE_DEFAULT);
+        IAppDialog dialog = DialogProvider.create(this, DialogProvider.TYPE_HINT_CARD);
         dialog.setMessage("我是提示信息");
         dialog.setTitle("大大的标题");
         dialog.setImage(0, "http://mobike.com/wp-content/uploads/2016/11/23.jpg");
         dialog.setButtonText(IAppDialog.BUTTON_POSITIVE, "立即查看");
-        dialog.setButtonVisibility(IAppDialog.BUTTON_POSITIVE, View.GONE);
+//        dialog.setButtonVisibility(IAppDialog.BUTTON_POSITIVE, View.GONE);
         dialog.show();
     }
 

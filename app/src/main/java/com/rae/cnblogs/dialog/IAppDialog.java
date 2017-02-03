@@ -1,5 +1,7 @@
 package com.rae.cnblogs.dialog;
 
+import android.content.DialogInterface;
+
 /**
  * 弹出窗口
  * Created by ChenRui on 2017/1/24 0024 13:53.
@@ -89,4 +91,11 @@ public interface IAppDialog {
      */
     void setImage(int type, String url);
 
+
+    /**
+     * 取消监听
+     *
+     * @param listener
+     */
+    void setOnDismissListener(DialogInterface.OnDismissListener listener);
 }

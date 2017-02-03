@@ -20,6 +20,9 @@
     <string name="copyright">Copyright © 2004-2016 Cnblogs.com All Rights Reserved</string>
     <string name="loading">正在加载...</string>
     <string name="signing">正在登录...</string>
+    <string name="loading_user_info">正在获取用户信息...</string>
+    <string name="login_retry_error">多次登录失败？试试官方网页登录吧！</string>
+    <string name="login_verify_code_error">登录需要校验验证码，请前往官方网页登录。</string>
     <string name="empty_message">这里什么都没有</string>
     <string name="retry">重新加载</string>
     <string name="empty_comment">还没有评论 快来说两句</string>
@@ -37,4 +40,6 @@
     <string name="edit_comment_hint">忍不了了，我来说两句..</string>
     <string name="reference_comment">引用评论</string>
     <string name="send">发送</string>
+    <string name="i_try_agin">我再试试</string>
+    <string name="go_web_login">去网页版登录</string>
 </resources>

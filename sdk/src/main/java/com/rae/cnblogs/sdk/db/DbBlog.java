@@ -1,5 +1,6 @@
 package com.rae.cnblogs.sdk.db;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.activeandroid.query.Select;
@@ -15,7 +16,12 @@ import java.util.List;
 public class DbBlog extends DbCnblogs<Blog> {
 
     public UserBlogInfo get(String blogId) {
+        if (TextUtils.isEmpty(blogId)) return null;
         return new Select().from(UserBlogInfo.class).where("blogId=?", blogId).executeSingle();
+    }
+
+    public Blog getBlog(String blogId) {
+        return new Select().from(Blog.class).where("blogId=?", blogId).executeSingle();
     }
 
     public void saveBlogInfo(UserBlogInfo m) {
@@ -54,5 +60,10 @@ public class DbBlog extends DbCnblogs<Blog> {
 
     public List<Blog> findAll() {
         return new Select().from(Blog.class).execute();
+    }
+
+
+    public void updateBlog(Blog m) {
+        m.save();
     }
 }

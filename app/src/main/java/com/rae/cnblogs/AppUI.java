@@ -15,7 +15,6 @@ import com.rae.cnblogs.dialog.impl.LoadingDialog;
 import java.lang.ref.WeakReference;
 
 
-
 /**
  * UI 规范
  * Created by ChenRui on 2016/12/8 00:22.
@@ -24,18 +23,22 @@ public final class AppUI {
 
     private static WeakReference<IAppDialog> dialogWeakReference;
 
-    public static void failed(Context context, String msg) {
-        toastInCenter(context, msg);
+    public static Toast failed(Context context, String msg) {
+        return toastInCenter(context, msg);
     }
 
-    public static void toast(Context context, String msg) {
-        makeToast(context, msg).show();
+    public static Toast toast(Context context, String msg) {
+        Toast toast = makeToast(context, msg);
+        toast.show();
+        return toast;
+
     }
 
-    public static void toastInCenter(Context context, String msg) {
+    public static Toast toastInCenter(Context context, String msg) {
         Toast toast = makeToast(context, msg);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
+        return toast;
     }
 
     @NonNull
@@ -48,7 +51,7 @@ public final class AppUI {
         return toast;
     }
 
-    public static void loading(Context context, String msg) {
+    public static IAppDialog loading(Context context, String msg) {
         IAppDialog dialog;
         if (dialogWeakReference == null || dialogWeakReference.get() == null) {
             dialog = DialogProvider.create(context, DialogProvider.TYPE_LOADING);
@@ -70,14 +73,15 @@ public final class AppUI {
 
         dialog.setMessage(msg);
         dialog.show();
+        return dialog;
     }
 
-    public static void loading(Context context) {
-        loading(context, R.string.tips_loading);
+    public static IAppDialog loading(Context context) {
+        return loading(context, R.string.tips_loading);
     }
 
-    public static void loading(Context context, int resId) {
-        loading(context, context.getString(resId));
+    public static IAppDialog loading(Context context, int resId) {
+        return loading(context, context.getString(resId));
     }
 
     public static void success(Context context, int resId) {

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
@@ -95,6 +96,17 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 跳登录的时候回调
      */
     protected void onLoginCallBack() {
+    }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        onCancelHttpRequest();
+    }
+
+    protected void onCancelHttpRequest() {
+        // 取消HTTP请求
+        CnblogsApiFactory.getInstance(this).cancel();
     }
 }

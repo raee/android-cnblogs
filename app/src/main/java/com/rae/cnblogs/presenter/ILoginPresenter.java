@@ -9,6 +9,8 @@ import com.rae.cnblogs.sdk.bean.UserInfoBean;
 public interface ILoginPresenter extends IRaePresenter {
     void login();
 
+    void loadUserInfo();
+
     interface ILoginView {
 
         String getUserName();
@@ -18,5 +20,11 @@ public interface ILoginPresenter extends IRaePresenter {
         void onLoginSuccess(UserInfoBean userInfo);
 
         void onLoginError(String message);
+
+        /**
+         * 登录验证码错误
+         */
+        void onLoginVerifyCodeError();
+
     }
 }

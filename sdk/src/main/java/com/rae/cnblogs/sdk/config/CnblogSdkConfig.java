@@ -2,8 +2,10 @@ package com.rae.cnblogs.sdk.config;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.rae.cnblogs.sdk.bean.UserInfoBean;
 
 /**
  * 接口配置项
@@ -83,9 +85,30 @@ public class CnblogSdkConfig {
      */
     public void setOfflineConfig(OfflineConfig config) {
         if (config != null) {
-            mConfig.edit().putString("OfflineConfig", JSON.toJSONString(config));
+            mConfig.edit().putString("OfflineConfig", JSON.toJSONString(config)).apply();
         }
     }
 
+    /**
+     * 保存用户信息
+     *
+     * @param userInfo 用户信息
+     */
+    public void saveUserInfo(UserInfoBean userInfo) {
+        if (userInfo != null)
+            mConfig.edit().putString("UserInfo", JSON.toJSONString(userInfo)).apply();
+    }
 
+    /**
+     * 获取用户信息
+     *
+     * @return 用户信息
+     */
+    public UserInfoBean getUserInfo() {
+        String json = mConfig.getString("UserInfo", null);
+        if (TextUtils.isEmpty(json)) {
+            return null;
+        }
+        return JSON.parseObject(json, UserInfoBean.class);
+    }
 }

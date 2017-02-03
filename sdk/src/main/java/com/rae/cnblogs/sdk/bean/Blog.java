@@ -2,11 +2,15 @@ package com.rae.cnblogs.sdk.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.alibaba.fastjson.JSON;
+
+import java.util.List;
 
 /**
  * 博客实体
@@ -39,11 +43,15 @@ public class Blog extends Model implements Parcelable {
     @Column
     private String tag; // 标签
 
+    @Column
+    private String thumbUrls; // 预览小图,JSON 格式，比如：["http://img.cnblogs.com/a.jpg","http://img.cnblogs.com/b.jpg"]
+
     /**
      * 博客类型，参考取值{@link BlogType#getTypeName()}
      */
     @Column
     private String blogType;
+    private List<String> mThumbList;
 
     public String getBlogType() {
         return blogType;
@@ -55,6 +63,14 @@ public class Blog extends Model implements Parcelable {
 
     public String getBlogApp() {
         return blogApp;
+    }
+
+    public String getThumbUrls() {
+        return thumbUrls;
+    }
+
+    public void setThumbUrls(String thumbUrls) {
+        this.thumbUrls = thumbUrls;
     }
 
     public void setBlogApp(String blogApp) {
@@ -200,6 +216,7 @@ public class Blog extends Model implements Parcelable {
         dest.writeString(this.blogId);
         dest.writeString(this.blogApp);
         dest.writeString(this.tag);
+        dest.writeString(this.thumbUrls);
         dest.writeString(this.blogType);
         dest.writeString(this.content);
         dest.writeString(this.likes);
@@ -218,6 +235,7 @@ public class Blog extends Model implements Parcelable {
         this.blogId = in.readString();
         this.blogApp = in.readString();
         this.tag = in.readString();
+        this.thumbUrls = in.readString();
         this.blogType = in.readString();
         this.content = in.readString();
         this.likes = in.readString();
@@ -234,4 +252,21 @@ public class Blog extends Model implements Parcelable {
             return new Blog[size];
         }
     };
+
+
+    /**
+     * 获取小图
+     */
+    @Nullable
+    public List<String> getThumbs() {
+        if (TextUtils.isEmpty(thumbUrls)) return null;
+        try {
+            if (mThumbList == null) {
+                mThumbList = JSON.parseArray(thumbUrls, String.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mThumbList;
+    }
 }

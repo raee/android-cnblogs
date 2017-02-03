@@ -55,6 +55,14 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
 
     @Override
     public void cancel() {
+//        RequestQueue.RequestFilter requestFilter = new RequestQueue.RequestFilter() {
+//            @Override
+//            public boolean apply(Request<?> request) {
+//                return request.getTag() != null && request.getTag().toString().startsWith("CNBLOGS_API_");
+//            }
+//        };
+//        VolleyManager.newRequestQueue(mContext).cancelAll(requestFilter);
+
         VolleyManager.newRequestQueue(mContext).cancelAll("CNBLOGS_API_REQUEST");
     }
 }

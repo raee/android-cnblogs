@@ -21,7 +21,7 @@ import java.util.HashMap;
  */
 class CnblogsBaseApi extends RaeBaseApi {
 
-    public CnblogsBaseApi(Context context) {
+    CnblogsBaseApi(Context context) {
         super(context);
     }
 
@@ -57,7 +57,7 @@ class CnblogsBaseApi extends RaeBaseApi {
     @Override
     protected ApiRequest.Builder newApiRequestBuilder(String url, HashMap<String, String> params) {
         ApiRequest.Builder builder = super.newApiRequestBuilder(url, params);
-//        // 添加授权信息
+//        // 添加官方接口授权信息
 //        LoginTokenBean loginToken = config().getLoginToken();
 //        if (loginToken != null) {
 //            builder.addHeader("authorization", String.format("Bearer %s", loginToken.getAccess_token()));
@@ -82,8 +82,10 @@ class CnblogsBaseApi extends RaeBaseApi {
     @Override
     protected void sendRequest(ApiRequest request) {
 
-        // 添加cookie 信息
+        // 设置标志，用于取消请求
         request.setTag("CNBLOGS_API_REQUEST");
+
+        // 添加cookie 信息
         String cookie = CookieManager.getInstance().getCookie("http://www.cnblogs.com");
         if (!TextUtils.isEmpty(cookie)) {
             request.getHeaders().put("Cookie", cookie);

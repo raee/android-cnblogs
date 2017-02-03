@@ -16,6 +16,7 @@ import com.rae.cnblogs.sdk.config.OfflineConfig;
 import com.rae.cnblogs.sdk.service.task.BlogContentTask;
 import com.rae.cnblogs.sdk.service.task.BlogServiceBroadcastReceiver;
 import com.rae.cnblogs.sdk.service.task.BlogServiceTask;
+import com.rae.cnblogs.sdk.service.task.OnTaskFinishListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -59,6 +60,7 @@ public class BlogServiceBinder extends Binder {
         }
     });
     private BroadcastReceiver mReceiver;
+    private OnTaskFinishListener mBlogContentTaskFinishListener;
 
     public BlogServiceBinder(Context context) {
         mContext = context;
@@ -125,6 +127,7 @@ public class BlogServiceBinder extends Binder {
         BlogServiceTask task = null;
         if (type == TYPE_BLOG_CONTENT) {
             task = new BlogContentTask(mContext, null);
+            task.setOnTaskFinishListener(mBlogContentTaskFinishListener);
         }
 
         if (task != null) {
@@ -146,6 +149,10 @@ public class BlogServiceBinder extends Binder {
      */
     public void asyncBlogContent() {
         startTask(TYPE_BLOG_CONTENT);
+    }
+
+    public void setBlogContentTaskFinishListener(OnTaskFinishListener listener) {
+        mBlogContentTaskFinishListener = listener;
     }
 
 }

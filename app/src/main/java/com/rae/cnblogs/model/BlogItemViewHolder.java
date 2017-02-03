@@ -22,7 +22,6 @@ public class BlogItemViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.img_blog_avatar)
     public ImageView avatarView;
 
-
     @BindView(R.id.tv_blog_author)
     public TextView authorView;
 
@@ -43,6 +42,22 @@ public class BlogItemViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.tv_blog_comment)
     public TextView commentView;
+
+
+    @BindView(R.id.img_blog_list_large_thumb)
+    public ImageView largeThumbView;
+
+    @BindView(R.id.layout_blog_list_thumb)
+    public View thumbLayout;
+
+    @BindView(R.id.img_blog_list_thumb_one)
+    public ImageView thumbOneView;
+
+    @BindView(R.id.img_blog_list_thumb_two)
+    public ImageView thumbTwoView;
+
+    @BindView(R.id.img_blog_list_thumb_three)
+    public ImageView thumbThreeView;
 
     public BlogItemViewHolder(View itemView) {
         super(itemView);
