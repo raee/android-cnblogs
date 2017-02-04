@@ -7,23 +7,25 @@ import android.widget.TextView;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogListItemAdapter;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.Category;
 
 import butterknife.BindView;
 
 /**
- * 知识库
+ * 博客类型的列表
  * Created by ChenRui on 2017/1/18 23:49.
  */
-public class KBListFragment extends BlogListFragment {
+public class BlogTypeListFragment extends BlogListFragment {
 
     @BindView(R.id.tv_title)
     TextView mTitleView;
 
-    public static KBListFragment newInstance(Category category) {
+    public static BlogTypeListFragment newInstance(Category category, BlogType type) {
         Bundle args = new Bundle();
         args.putParcelable("category", category);
-        KBListFragment fragment = new KBListFragment();
+        args.putString("type", type.getTypeName());
+        BlogTypeListFragment fragment = new BlogTypeListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,12 +38,14 @@ public class KBListFragment extends BlogListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mItemAdapter.setViewType(BlogListItemAdapter.VIEW_TYPE_WITHOUT_AVATAR);
+        if (getBlogType() == BlogType.KB) {
+            mItemAdapter.setViewType(BlogListItemAdapter.VIEW_TYPE_WITHOUT_AVATAR);
+        }
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mTitleView.setText(mCategory.getName());
+        mTitleView.setText(getTitle());
     }
 }

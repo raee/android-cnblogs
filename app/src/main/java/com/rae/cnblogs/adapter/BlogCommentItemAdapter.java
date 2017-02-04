@@ -16,13 +16,23 @@ import com.rae.cnblogs.sdk.bean.BlogComment;
  * 评论列表ITEM
  * Created by ChenRui on 2016/12/15 22:48.
  */
-public class BlogCommentItemAdapter extends BaseItemAdapter<BlogComment, BlogCommentViewHolder> implements View.OnClickListener {
+public class BlogCommentItemAdapter extends BaseItemAdapter<BlogComment, BlogCommentViewHolder> implements View.OnClickListener, View.OnLongClickListener {
+
+    private OnBlogCommentItemClick mOnBlogCommentItemLongClick;
 
     @Override
     public void onClick(View v) {
         BlogComment m = (BlogComment) v.getTag();
         if (mOnBlogCommentItemClick == null || m == null) return;
         mOnBlogCommentItemClick.onItemClick(m);
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        BlogComment m = (BlogComment) v.getTag();
+        if (mOnBlogCommentItemLongClick == null || m == null) return false;
+        mOnBlogCommentItemLongClick.onItemClick(m);
+        return true;
     }
 
     public interface OnBlogCommentItemClick {
@@ -33,6 +43,10 @@ public class BlogCommentItemAdapter extends BaseItemAdapter<BlogComment, BlogCom
 
     public void setOnBlogCommentItemClick(OnBlogCommentItemClick onBlogCommentItemClick) {
         mOnBlogCommentItemClick = onBlogCommentItemClick;
+    }
+
+    public void setOnBlogCommentItemLongClick(OnBlogCommentItemClick onBlogCommentItemClick) {
+        mOnBlogCommentItemLongClick = onBlogCommentItemClick;
     }
 
     @Override
@@ -47,6 +61,7 @@ public class BlogCommentItemAdapter extends BaseItemAdapter<BlogComment, BlogCom
         holder.contentView.setText(m.getBody());
         holder.itemView.setTag(m);
         holder.itemView.setOnClickListener(this);
+        holder.itemView.setOnLongClickListener(this);
 
         if (!TextUtils.isEmpty(m.getAvatar())) {
             ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, RaeImageLoader.headerOption());

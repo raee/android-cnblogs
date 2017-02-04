@@ -33,7 +33,7 @@ public class NewsCommentParser implements IApiJsonResponse {
         Elements elements = document.select(".user_comment");
         for (Element element : elements) {
             BlogComment m = new BlogComment();
-            m.setId(Utils.getNumber(element.select(".comment_main").text()));
+            m.setId(Utils.getNumber(element.select(".comment_main").attr("id")));
             m.setAuthorName(element.select(".comment-author").text());
             m.setLike(Utils.getCount(".agree_" + m.getId()));
             m.setBody(element.select(".comment_main").text());

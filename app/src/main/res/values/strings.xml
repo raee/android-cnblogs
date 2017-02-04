@@ -42,4 +42,5 @@
     <string name="send">发送</string>
     <string name="i_try_agin">我再试试</string>
     <string name="go_web_login">去网页版登录</string>
+    <string name="delete_comment">删除评论</string>
 </resources>

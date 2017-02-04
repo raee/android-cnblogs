@@ -6,10 +6,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogCommentItemAdapter;
-import com.rae.cnblogs.dialog.DialogProvider;
-import com.rae.cnblogs.dialog.IAppDialog;
+import com.rae.cnblogs.dialog.impl.MenuDialog;
+import com.rae.cnblogs.model.MenuDialogItem;
 import com.rae.cnblogs.sdk.bean.BlogComment;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 /**
  * TEST ACTIVITY
@@ -104,15 +106,31 @@ public class TestActivity extends BaseActivity {
         AppRoute.jumpToLogin(this);
     }
 
-    @OnClick(R.id.btn_test_dialog)
-    void testDialogClick() {
-        IAppDialog dialog = DialogProvider.create(this, DialogProvider.TYPE_HINT_CARD);
-        dialog.setMessage("我是提示信息");
-        dialog.setTitle("大大的标题");
-        dialog.setImage(0, "http://mobike.com/wp-content/uploads/2016/11/23.jpg");
-        dialog.setButtonText(IAppDialog.BUTTON_POSITIVE, "立即查看");
-//        dialog.setButtonVisibility(IAppDialog.BUTTON_POSITIVE, View.GONE);
+    @OnLongClick(R.id.btn_test_dialog)
+    boolean testDialogClick() {
+//        IAppDialog dialog = DialogProvider.create(this, DialogProvider.TYPE_HINT_CARD);
+//        dialog.setMessage("我是提示信息");
+//        dialog.setTitle("大大的标题");
+//        dialog.setImage(0, "http://mobike.com/wp-content/uploads/2016/11/23.jpg");
+//        dialog.setButtonText(IAppDialog.BUTTON_POSITIVE, "立即查看");
+////        dialog.setButtonVisibility(IAppDialog.BUTTON_POSITIVE, View.GONE);
+//        dialog.show();
+
+        MenuDialog dialog = new MenuDialog(this);
+        dialog.addDeleteItem("删除评论");
+//        dialog.addItem("新增");
+//        dialog.addItem("修噶");
+//        dialog.addDeleteItem("退出");
+        dialog.setOnMenuItemClickListener(new MenuDialog.OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(MenuDialogItem item) {
+                AppUI.toast(getContext(), item.getName());
+            }
+
+        });
         dialog.show();
+
+        return true;
     }
 
 }

@@ -8,14 +8,8 @@ import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.sdk.CnblogsApiFactory;
-import com.rae.cnblogs.sdk.IBlogApi;
-import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.BlogComment;
-import com.rae.core.sdk.ApiUiListener;
-import com.rae.core.sdk.exception.ApiException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,13 +19,19 @@ import butterknife.OnClick;
  * 写评论
  * Created by ChenRui on 2017/1/31 23:17.
  */
-public class EditCommentDialog extends SlideDialog implements ApiUiListener<Void> {
+public class EditCommentDialog extends SlideDialog {
 
     public interface OnEditCommentListener {
-        void onSendCommentSuccess(String body);
+        /**
+         * 当发布按钮点击的时候出发
+         *
+         * @param content     发表内容
+         * @param parent      引用评论
+         * @param isReference 是否引用评论内容
+         */
+        void onPostComment(String content, BlogComment parent, boolean isReference);
     }
 
-    private final Blog mBlog;
     @BindView(R.id.et_edit_comment_body)
     EditText mBodyView;
 
@@ -40,15 +40,11 @@ public class EditCommentDialog extends SlideDialog implements ApiUiListener<Void
 
     private BlogComment mBlogComment;
 
-    private IBlogApi mBlogApi;
-
     private OnEditCommentListener mOnEditCommentListener;
 
 
-    public EditCommentDialog(Context context, Blog blog) {
+    public EditCommentDialog(Context context) {
         super(context);
-        mBlog = blog;
-        mBlogApi = CnblogsApiFactory.getInstance(context).getBlogApi();
         setContentView(R.layout.dialog_blog_comment_edit);
         ButterKnife.bind(this);
     }
@@ -89,44 +85,32 @@ public class EditCommentDialog extends SlideDialog implements ApiUiListener<Void
         mBlogComment = blogComment;
     }
 
+    public BlogComment getBlogComment() {
+        return mBlogComment;
+    }
+
     public void setOnEditCommentListener(OnEditCommentListener onEditCommentListener) {
         mOnEditCommentListener = onEditCommentListener;
     }
 
+
+    public boolean enableReferenceComment() {
+        return mReferenceView.isChecked();
+    }
+
+
+    public String getCommentContent() {
+        return mBodyView.getText().toString().trim();
+    }
+
     @OnClick(R.id.btn_send_comment)
     void onSendClick() {
-        String content = mBodyView.getText().toString().trim();
-        if (TextUtils.isEmpty(content)) {
+        if (TextUtils.isEmpty(getCommentContent())) {
             return;
         }
 
-        AppUI.loading(getContext(), "正在发表...");
-        if (mBlogComment == null) {
-            mBlogApi.addBlogComment(mBlog.getBlogId(), mBlog.getBlogApp(), "", content, this);
-        } else {
-            // 引用评论
-            if (mReferenceView.isChecked()) {
-                mBlogApi.addBlogComment(mBlog.getBlogId(), mBlog.getBlogApp(), mBlogComment, content, this);
-            } else {
-                mBlogApi.addBlogComment(mBlog.getBlogId(), mBlog.getBlogApp(), mBlogComment.getId(), content, this);
-            }
-        }
-    }
-
-    @Override
-    public void onApiFailed(ApiException e, String s) {
-        AppUI.dismiss();
-        dismiss();
-        AppUI.toast(getContext(), s);
-    }
-
-    @Override
-    public void onApiSuccess(Void aVoid) {
-        AppUI.dismiss();
-        AppUI.toastInCenter(getContext(), "评论发表成功！");
         if (mOnEditCommentListener != null) {
-            mOnEditCommentListener.onSendCommentSuccess(mBodyView.getText().toString().trim());
+            mOnEditCommentListener.onPostComment(getCommentContent(), mBlogComment, mReferenceView.isChecked());
         }
-        dismiss();
     }
 }

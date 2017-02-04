@@ -26,6 +26,7 @@ public class NewsTask extends BlogServiceTask {
     protected void runTask() {
 
         INewsApi newsApi = CnblogsApiFactory.getInstance(mContext).getNewsApi();
+        newsApi.setShouldCache(false);
         int pageSize = mConfig.getPageSize();
         final CountDownLatch countDownLatch = new CountDownLatch(pageSize);
         final DbBlog dbBlog = new DbBlog();

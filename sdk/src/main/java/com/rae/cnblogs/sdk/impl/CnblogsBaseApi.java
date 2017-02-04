@@ -21,6 +21,9 @@ import java.util.HashMap;
  */
 class CnblogsBaseApi extends RaeBaseApi {
 
+    boolean mShouldCache = true;
+
+
     CnblogsBaseApi(Context context) {
         super(context);
     }
@@ -30,6 +33,17 @@ class CnblogsBaseApi extends RaeBaseApi {
      */
     CnblogSdkConfig config() {
         return CnblogSdkConfig.getsInstance(mContext.getApplicationContext());
+    }
+
+    @Override
+    protected boolean enablePerCache(String url, HashMap<String, String> params) {
+
+        // 不启用缓存
+        if (!mShouldCache) {
+            return false;
+        }
+
+        return super.enablePerCache(url, params);
     }
 
     /**
@@ -103,4 +117,10 @@ class CnblogsBaseApi extends RaeBaseApi {
     protected boolean isNotLogin() {
         return !isLogin();
     }
+
+
+    public void setShouldCache(boolean shouldCache) {
+        mShouldCache = shouldCache;
+    }
+
 }

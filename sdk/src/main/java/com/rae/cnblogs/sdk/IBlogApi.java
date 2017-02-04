@@ -91,4 +91,12 @@ public interface IBlogApi {
      */
     void deleteBlogComment(String commentId, ApiUiListener<Void> listener);
 
+
+    /**
+     * 是否缓存结果
+     *
+     * @param shouldCache
+     */
+    void setShouldCache(boolean shouldCache);
+
 }

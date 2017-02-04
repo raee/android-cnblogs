@@ -9,9 +9,10 @@ import android.widget.TextView;
 
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.fragment.BlogTypeListFragment;
 import com.rae.cnblogs.fragment.HomeFragment;
-import com.rae.cnblogs.fragment.KBListFragment;
 import com.rae.cnblogs.fragment.MineFragment;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.Category;
 import com.rae.core.fm.RaeFragmentAdapter;
 
@@ -45,8 +46,8 @@ public class MainActivity extends BaseActivity {
 
         // 初始化TAB
         addTab(R.string.tab_home, R.drawable.tab_home, HomeFragment.newInstance());
-        addTab(R.string.tab_news, R.drawable.tab_news, KBListFragment.newInstance(news));
-        addTab(R.string.tab_library, R.drawable.tab_library, KBListFragment.newInstance(kb));
+        addTab(R.string.tab_news, R.drawable.tab_news, BlogTypeListFragment.newInstance(news, BlogType.NEWS));
+        addTab(R.string.tab_library, R.drawable.tab_library, BlogTypeListFragment.newInstance(kb, BlogType.KB));
         addTab(R.string.tab_mine, R.drawable.tab_mine, MineFragment.newInstance());
 
         mViewPager.setOffscreenPageLimit(4);
@@ -56,13 +57,23 @@ public class MainActivity extends BaseActivity {
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
 
-//        IAppDialog dialog = DialogProvider.create(this, DialogProvider.TYPE_HINT_CARD);
-//        dialog.setMessage("我是提示信息");
-//        dialog.setTitle("大大的标题");
-//        dialog.setImage(0, "http://mobike.com/wp-content/uploads/2016/11/23.jpg");
-//        dialog.setButtonText(IAppDialog.BUTTON_POSITIVE, "立即查看");
-////        dialog.setButtonVisibility(IAppDialog.BUTTON_POSITIVE, View.GONE);
-//        dialog.show();
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0) {
+                    HomeFragment fragment = (HomeFragment) mFragmentAdapter.getItem(0);
+                    fragment.onLogoClick();
+                }
+            }
+        });
     }
 
     private void addTab(int resId, int iconId, Fragment fragment) {

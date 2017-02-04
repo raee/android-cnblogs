@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -15,6 +16,7 @@ import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.PlaceholderView;
@@ -35,11 +37,12 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
     private ImageLoadingView mLikeView;
     private ImageLoadingView mBookmarksView;
+    private BlogType mBlogType;
 
-    public static BlogContentFragment newInstance(Blog blog) {
-
+    public static BlogContentFragment newInstance(Blog blog, BlogType type) {
         Bundle args = new Bundle();
         args.putParcelable("blog", blog);
+        args.putString("type", type.getTypeName());
         BlogContentFragment fragment = new BlogContentFragment();
         fragment.setArguments(args);
         return fragment;
@@ -57,10 +60,17 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContentPresenter = CnblogsPresenterFactory.getBlogContentPresenter(getContext(), this);
         if (getArguments() != null) {
             mBlog = getArguments().getParcelable("blog");
+            mBlogType = BlogType.typeOf(getArguments().getString("type"));
+            mContentPresenter = CnblogsPresenterFactory.getBlogContentPresenter(getContext(), mBlogType, this);
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
     }
 
     @Override
@@ -100,7 +110,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
     @Override
     public void onLoadContentFailed(String msg) {
-        mPlaceholderView.empty(msg);
+        mPlaceholderView.empty();
     }
 
     @Override
@@ -150,6 +160,11 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     public void onLoadBlogInfoSuccess(UserBlogInfo infoModel) {
         mLikeView.setSelected(infoModel.isLiked());
         mBookmarksView.setSelected(infoModel.isBookmarks());
+    }
+
+    @Override
+    public BlogType getBlogType() {
+        return mBlogType;
     }
 
     @Override

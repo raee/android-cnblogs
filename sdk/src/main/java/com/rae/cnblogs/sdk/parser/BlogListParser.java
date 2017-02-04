@@ -25,12 +25,12 @@ import java.util.List;
  * 博客列表解析器
  * Created by ChenRui on 2016/11/30 00:13.
  */
-public class BlogJsonParser implements IApiJsonResponse {
+public class BlogListParser implements IApiJsonResponse {
     private final ApiUiArrayListener<Blog> mListener;
 
     private DbBlog mDbBlog;
 
-    public BlogJsonParser(ApiUiArrayListener<Blog> listener) {
+    public BlogListParser(ApiUiArrayListener<Blog> listener) {
         mListener = listener;
         mDbBlog = new DbBlog();
     }

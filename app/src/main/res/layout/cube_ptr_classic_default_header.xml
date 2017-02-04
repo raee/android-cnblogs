@@ -52,7 +52,9 @@
                 android:id="@+id/ptr_classic_header_rotate_view_progressbar"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:indeterminateDrawable="@drawable/progress_bar_loading"
+                android:indeterminateDuration="1000"/>
         </FrameLayout>
     </RelativeLayout>
 

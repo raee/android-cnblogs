@@ -1,7 +1,6 @@
 package com.rae.cnblogs.sdk.service.task;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
@@ -37,6 +36,10 @@ public class BlogContentTask extends BlogServiceTask {
         super(context, task);
         mBlogApi = CnblogsApiFactory.getInstance(context).getBlogApi();
         mNewsApi = CnblogsApiFactory.getInstance(context).getNewsApi();
+
+        // 不从缓存读取
+        mBlogApi.setShouldCache(false);
+        mNewsApi.setShouldCache(false);
     }
 
     @Override
@@ -49,20 +52,15 @@ public class BlogContentTask extends BlogServiceTask {
 
         // 查询要下载的博客列表
         final DbBlog db = new DbBlog();
-        List<Blog> list = db.findAll();
+        List<Blog> list = db.findAllWithoutBlogContnet();
         if (Rae.isEmpty(list)) {
             return;
         }
 
+        // 添加到队列中去
         for (Blog model : list) {
-            // 查找是否需要同步
-            UserBlogInfo blogInfo = db.get(model.getBlogId());
-            if (blogInfo == null || TextUtils.isEmpty(blogInfo.getContent())) {
-                // 添加到队列中去
-                mBlogQueue.add(model);
-            }
+            mBlogQueue.add(model);
         }
-
 
         while (!mBlogQueue.isEmpty()) {
             if (isFinish()) {

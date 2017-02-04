@@ -62,6 +62,15 @@ public class DbBlog extends DbCnblogs<Blog> {
         return new Select().from(Blog.class).execute();
     }
 
+    /**
+     * 获取没有内容的列表
+     *
+     * @return
+     */
+    public List<Blog> findAllWithoutBlogContnet() {
+        return new Select().from(Blog.class).as("blog").leftJoin(UserBlogInfo.class).as("info").on("blog.blogId=info.blogId").where("info.content is NULL").execute();
+    }
+
 
     public void updateBlog(Blog m) {
         m.save();

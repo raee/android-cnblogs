@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.rae.cnblogs.sdk.INewsApi;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.parser.CnBlogsWebApiResponse;
 import com.rae.cnblogs.sdk.parser.NewsCommentParser;
 import com.rae.cnblogs.sdk.parser.NewsContentParser;
 import com.rae.cnblogs.sdk.parser.NewsParser;
@@ -31,7 +32,7 @@ public class NewsApiImpl extends CnblogsBaseApi implements INewsApi {
 
     @Override
     protected boolean enablePerCache(String url, HashMap<String, String> params) {
-        if (TextUtils.isEmpty(url)) return false;
+        if (TextUtils.isEmpty(url) || !mShouldCache) return false;
 
         if (url.contains(ApiUrls.API_NEWS_LIST.replace("@page/20", ""))) {
             return true;
@@ -66,8 +67,7 @@ public class NewsApiImpl extends CnblogsBaseApi implements INewsApi {
                 newParams()
                         .add("Content", content)
                         .add("ContentID", id)
-                        .add("ContentID", id)
-                        .add("parentCommentId", parentCommentId == null ? "0" : parentCommentId),
+                        .add("parentCommentId", TextUtils.isEmpty(parentCommentId) ? "0" : parentCommentId),
                 new IApiJsonResponse() {
                     @Override
                     public void onJsonResponse(String s) {
@@ -122,4 +122,10 @@ public class NewsApiImpl extends CnblogsBaseApi implements INewsApi {
                     }
                 });
     }
+
+    @Override
+    public void like(String newsId, ApiUiListener<Void> listener) {
+        xmlHttpRequestWithJsonBody(ApiUrls.API_NEWS_LIKE, newParams().add("contentId", newsId).add("action", "agree"), new CnBlogsWebApiResponse<>(Void.class, listener));
+    }
+
 }

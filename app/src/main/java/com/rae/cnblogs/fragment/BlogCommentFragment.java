@@ -6,14 +6,19 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogCommentItemAdapter;
 import com.rae.cnblogs.dialog.impl.EditCommentDialog;
+import com.rae.cnblogs.dialog.impl.MenuDialog;
 import com.rae.cnblogs.message.EditCommentEvent;
+import com.rae.cnblogs.model.MenuDialogItem;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogCommentPresenter;
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
@@ -30,11 +35,11 @@ import butterknife.BindView;
  * 评论
  * Created by ChenRui on 2016/12/15 0015 19:22.
  */
-public class BlogCommentFragment extends BaseFragment implements IBlogCommentPresenter.IBlogCommentView {
+public class BlogCommentFragment extends BaseFragment implements IBlogCommentPresenter.IBlogCommentView, EditCommentDialog.OnEditCommentListener {
 
-    public static BlogCommentFragment newInstance(Blog blog) {
-
+    public static BlogCommentFragment newInstance(Blog blog, BlogType type) {
         Bundle args = new Bundle();
+        args.putString("type", type.getTypeName());
         args.putParcelable("blog", blog);
         BlogCommentFragment fragment = new BlogCommentFragment();
         fragment.setArguments(args);
@@ -56,6 +61,9 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     private EditCommentDialog mEditCommentDialog;
 
+    private MenuDialog mCommentMenuDialog;
+
+
     @Override
     protected int getLayoutId() {
         return R.layout.fm_blog_comment;
@@ -66,17 +74,14 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        mCommentPresenter = CnblogsPresenterFactory.getBlogCommentPresenter(getContext(), this);
-        if (getArguments() != null)
+        if (getArguments() != null) {
             mBlog = getArguments().getParcelable("blog");
+            BlogType blogType = BlogType.typeOf(getArguments().getString("type"));
+            mCommentPresenter = CnblogsPresenterFactory.getBlogCommentPresenter(getContext(), blogType, this);
+        }
 
-        mEditCommentDialog = new EditCommentDialog(getContext(), mBlog);
-        mEditCommentDialog.setOnEditCommentListener(new EditCommentDialog.OnEditCommentListener() {
-            @Override
-            public void onSendCommentSuccess(String body) {
-                mCommentPresenter.start();
-            }
-        });
+        mEditCommentDialog = new EditCommentDialog(getContext());
+        mEditCommentDialog.setOnEditCommentListener(this);
     }
 
 
@@ -116,10 +121,33 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
             }
         });
 
+        mCommentMenuDialog = new MenuDialog(getContext());
+        mCommentMenuDialog.addDeleteItem(getString(R.string.delete_comment));
+        mCommentMenuDialog.setOnMenuItemClickListener(new MenuDialog.OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(MenuDialogItem item) {
+                // 执行删除
+                mCommentPresenter.delete(null);
+            }
+        });
+
+
         mItemAdapter.setOnBlogCommentItemClick(new BlogCommentItemAdapter.OnBlogCommentItemClick() {
             @Override
             public void onItemClick(BlogComment comment) {
                 mEditCommentDialog.show(comment);
+            }
+        });
+
+        // 长按删除评论
+        mItemAdapter.setOnBlogCommentItemLongClick(new BlogCommentItemAdapter.OnBlogCommentItemClick() {
+            @Override
+            public void onItemClick(BlogComment comment) {
+                // 判断当前评论是否属于自己的
+                UserProvider instance = UserProvider.getInstance();
+                if (instance.isLogin() && instance.getLoginUserInfo().getDisplayName().equalsIgnoreCase(comment.getAuthorName().trim())) {
+                    mCommentMenuDialog.show();
+                }
             }
         });
 
@@ -146,8 +174,9 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     }
 
     @Subscribe
-    public void onEditCommentSuccessEvent(EditCommentEvent event) {
-        mCommentPresenter.start();
+    public void onEditCommentOpenEvent(EditCommentEvent event) {
+        // 打开评论对话框事件
+        mEditCommentDialog.show();
     }
 
     @Override
@@ -172,5 +201,48 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     public void onLoadMoreCommentEmpty() {
         mRecyclerView.loadMoreComplete();
         mRecyclerView.setNoMore(true);
+    }
+
+    @Override
+    public String getCommentContent() {
+        return mEditCommentDialog.getCommentContent();
+    }
+
+    @Override
+    public void onPostCommentFailed(String msg) {
+        AppUI.dismiss();
+        AppUI.failed(getContext(), msg);
+        mEditCommentDialog.dismiss();
+    }
+
+    @Override
+    public void onPostCommentSuccess() {
+        AppUI.dismiss();
+        AppUI.toastInCenter(getContext(), "发表成功！");
+        mEditCommentDialog.dismiss();
+        mCommentPresenter.start(); // 重新加载评论列表
+    }
+
+    @Override
+    public boolean enableReferenceComment() {
+        return mEditCommentDialog.enableReferenceComment();
+    }
+
+    @Override
+    public void onDeleteCommentSuccess(BlogComment item) {
+
+    }
+
+    @Override
+    public void onDeleteCommentFailed(String msg) {
+
+    }
+
+    @Override
+    public void onPostComment(String content, BlogComment parent, boolean isReference) {
+        // 发表评论
+        AppUI.loading(getContext(), "正在发表..");
+        mCommentPresenter.post(parent);
+        mEditCommentDialog.dismiss();
     }
 }

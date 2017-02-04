@@ -1,14 +1,13 @@
-package com.rae.cnblogs.presenter.impl;
+package com.rae.cnblogs.presenter.impl.blog;
 
 import android.content.Context;
 import android.text.TextUtils;
 
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
+import com.rae.cnblogs.presenter.impl.BasePresenter;
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.IBookmarksApi;
-import com.rae.cnblogs.sdk.INewsApi;
 import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.BookmarksBean;
 import com.rae.cnblogs.sdk.db.DbBlog;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
@@ -21,16 +20,15 @@ import com.rae.core.sdk.exception.ApiException;
  */
 public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresenter.IBlogContentView> implements IBlogContentPresenter, ApiUiListener<String> {
 
-    private IBlogApi mBlogApi;
+    protected IBlogApi mBlogApi;
     private IBookmarksApi mBookmarksApi;
-    private INewsApi mNewsApi;
     private UserBlogInfo mBlogInfo; // 博客信息
     private DbBlog mDbBlog;
+    private LikeAndBookmarksListener mLikeAndBookmarksListener;
 
     public BlogContentPresenterImpl(Context context, IBlogContentView view) {
         super(context, view);
         mBlogApi = getApiProvider().getBlogApi();
-        mNewsApi = getApiProvider().getNewsApi();
         mBookmarksApi = getApiProvider().getBookmarksApi();
         mDbBlog = new DbBlog();
     }
@@ -58,20 +56,11 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
             mView.onLoadContentSuccess(blog);
             return;
         }
+        onLoadData(blog);
+    }
 
-        BlogType blogType = BlogType.typeOf(blog.getBlogType());
-        switch (blogType) {
-            case BLOG:  // 博文
-            case UNKNOWN:
-                mBlogApi.getBlogContent(blog.getBlogId(), this);
-                break;
-            case NEWS:  // 新闻
-                mNewsApi.getNewsContent(blog.getBlogId(), this);
-                break;
-            case KB: // 知识库
-                mBlogApi.getKbContent(blog.getBlogId(), this);
-                break;
-        }
+    protected void onLoadData(Blog blog) {
+        mBlogApi.getBlogContent(blog.getBlogId(), this);
     }
 
     @Override
@@ -79,10 +68,19 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
         Blog blog = mView.getBlog();
 
         if (isCancel) {
-            mBlogApi.unLikeBlog(blog.getBlogId(), blog.getBlogApp(), new LikeAndBookmarksListener(true, true));
+            mBlogApi.unLikeBlog(blog.getBlogId(), blog.getBlogApp(), getLikeAndBookmarksListener(true, true));
         } else {
-            mBlogApi.likeBlog(blog.getBlogId(), blog.getBlogApp(), new LikeAndBookmarksListener(false, true));
+            mBlogApi.likeBlog(blog.getBlogId(), blog.getBlogApp(), getLikeAndBookmarksListener(false, true));
         }
+    }
+
+    protected ApiUiListener<Void> getLikeAndBookmarksListener(boolean isCancel, boolean isLike) {
+        if (mLikeAndBookmarksListener == null) {
+            mLikeAndBookmarksListener = new LikeAndBookmarksListener(isCancel, isLike);
+        }
+        mLikeAndBookmarksListener.setCancel(isCancel);
+        mLikeAndBookmarksListener.setLike(isLike);
+        return mLikeAndBookmarksListener;
     }
 
     @Override
@@ -91,9 +89,9 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
         BookmarksBean m = new BookmarksBean(blog.getTitle(), blog.getSummary(), blog.getUrl());
 
         if (isCancel) {
-            mBookmarksApi.delBookmarks(blog.getUrl(), new LikeAndBookmarksListener(true, false));
+            mBookmarksApi.delBookmarks(blog.getUrl(), getLikeAndBookmarksListener(true, false));
         } else {
-            mBookmarksApi.addBookmarks(m, new LikeAndBookmarksListener(false, false));
+            mBookmarksApi.addBookmarks(m, getLikeAndBookmarksListener(false, false));
         }
     }
 
@@ -107,6 +105,8 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
         // 保存博文内容
         mBlogInfo.setContent(data);
         mDbBlog.saveBlogInfo(mBlogInfo);
+
+        // 回调
         mView.getBlog().setContent(data);
         mView.onLoadContentSuccess(mView.getBlog());
     }
@@ -122,10 +122,24 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
             this.isLike = isLike;
         }
 
+        public void setCancel(boolean cancel) {
+            isCancel = cancel;
+        }
+
+        public void setLike(boolean like) {
+            isLike = like;
+        }
+
         @Override
         public void onApiFailed(ApiException ex, String msg) {
             if (!TextUtils.isEmpty(msg) && (msg.contains("登录") || msg.contains("Authorization"))) {
                 mView.onNeedLogin();
+                return;
+            }
+
+            // 新闻推荐过了
+            if (msg.contains("您已经推荐过")) {
+                mView.onLikeSuccess(isCancel);
                 return;
             }
 

@@ -68,4 +68,9 @@ final class ApiUrls {
 
     // 登录
     static final String API_SIGN_IN = "https://passport.cnblogs.com/user/signin?AspxAutoDetectCookieSupport=1";
+
+    /**
+     * 新闻点赞
+     */
+    public static final String API_NEWS_LIKE = "https://news.cnblogs.com/News/VoteNews";
 }

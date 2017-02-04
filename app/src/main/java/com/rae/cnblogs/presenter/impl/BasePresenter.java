@@ -9,12 +9,13 @@ import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.CnblogsApiProvider;
 
 /**
+ * 基类
  * Created by ChenRui on 2016/12/2 00:23.
  */
 public abstract class BasePresenter<V> {
-    final Context mContext;
+    protected final Context mContext;
 
-    V mView;
+    protected V mView;
 
     public BasePresenter(Context context, V view) {
         mView = view;

@@ -1,14 +1,11 @@
 package com.rae.cnblogs.activity;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,11 +15,11 @@ import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.dialog.impl.BlogShareDialog;
-import com.rae.cnblogs.dialog.impl.EditCommentDialog;
 import com.rae.cnblogs.fragment.BlogCommentFragment;
 import com.rae.cnblogs.fragment.BlogContentFragment;
 import com.rae.cnblogs.message.EditCommentEvent;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -59,7 +56,6 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     RaeDrawerLayout mCommentLayout;
 
     private BlogShareDialog mShareDialog;
-    private EditCommentDialog mEditCommentDialog;
     private Blog mBlog;
 
     @Override
@@ -69,17 +65,15 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         setSupportActionBar(mToolbar);
         showHomeAsUp(mToolbar);
 
-        for (int i = 0; i < mToolbar.getChildCount(); i++) {
-            View childAt = mToolbar.getChildAt(i);
-            if (childAt.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) childAt.getLayoutParams();
-                Log.w("Rae", params.leftMargin + "_" + params.topMargin + "_" + params.rightMargin + "_" + params.bottomMargin);
-            }
-            Log.d("Rae", childAt.getId() + " -- >" + childAt.toString());
+        mBlog = getIntent().getParcelableExtra("blog");
+        BlogType blogType = BlogType.typeOf(getIntent().getStringExtra("type"));
+
+        if (mBlog == null) {
+            AppUI.toast(this, "博客为空！");
+            finish();
+            return;
         }
 
-
-        mBlog = getIntent().getParcelableExtra("blog");
         mShareDialog = new BlogShareDialog(this, mBlog) {
             @Override
             protected void onViewSourceClick() {
@@ -87,40 +81,24 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
             }
         };
 
-        mEditCommentDialog = new EditCommentDialog(this, mBlog);
-        mEditCommentDialog.setOnEditCommentListener(new EditCommentDialog.OnEditCommentListener() {
-            @Override
-            public void onSendCommentSuccess(String body) {
-                // 发表评论成功，打开评论列表
-                if (mCommentLayout.getVisibility() != View.VISIBLE)
-                    mCommentLayout.toggleSmoothScroll();
 
-                // 通知刷新评论列表
-                EventBus.getDefault().post(new EditCommentEvent());
-            }
-        });
-
-//        mCommentDialog = BlogCommentDialog.newInstance(blog);
-
-        if (mBlog != null) {
-            ImageLoader.getInstance().displayImage(mBlog.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
-            mAuthorView.setText(mBlog.getAuthor());
-            // 角标处理
-            if (!TextUtils.equals(mBlog.getComment(), "0")) {
-                mCommentBadgeView.setText(mBlog.getComment());
-                mCommentBadgeView.setVisibility(View.VISIBLE);
-            }
-            if (!TextUtils.equals(mBlog.getLikes(), "0")) {
-                mLikeBadgeView.setText(mBlog.getLikes());
-                mLikeBadgeView.setVisibility(View.VISIBLE);
-            }
-
+        ImageLoader.getInstance().displayImage(mBlog.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
+        mAuthorView.setText(mBlog.getAuthor());
+        // 角标处理
+        if (!TextUtils.equals(mBlog.getComment(), "0")) {
+            mCommentBadgeView.setText(mBlog.getComment());
+            mCommentBadgeView.setVisibility(View.VISIBLE);
         }
+        if (!TextUtils.equals(mBlog.getLikes(), "0")) {
+            mLikeBadgeView.setText(mBlog.getLikes());
+            mLikeBadgeView.setVisibility(View.VISIBLE);
+        }
+
 
         // 加载Fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_comment, BlogCommentFragment.newInstance(mBlog));
-        transaction.add(R.id.fl_content, BlogContentFragment.newInstance(mBlog));
+        transaction.add(R.id.fl_comment, BlogCommentFragment.newInstance(mBlog, blogType));
+        transaction.add(R.id.fl_content, BlogContentFragment.newInstance(mBlog, blogType));
         transaction.commit();
 
     }
@@ -139,7 +117,8 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
 
     @OnClick(R.id.tv_edit_comment)
     public void onEditCommentClick() {
-        mEditCommentDialog.show();
+        // 通知里面的评论打开发表对话框
+        EventBus.getDefault().post(new EditCommentEvent());
     }
 
 
@@ -151,11 +130,5 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
             return;
         }
         super.onBackPressed();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        AppUI.toast(this, "事件改编：" + newConfig.hardKeyboardHidden);
     }
 }

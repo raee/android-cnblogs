@@ -26,6 +26,7 @@ public class KBListTask extends BlogServiceTask {
     protected void runTask() {
 
         IBlogApi blogApi = CnblogsApiFactory.getInstance(mContext).getBlogApi();
+        blogApi.setShouldCache(false);
         int pageSize = mConfig.getPageSize();
         final CountDownLatch countDownLatch = new CountDownLatch(pageSize);
         final DbBlog dbBlog = new DbBlog();

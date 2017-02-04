@@ -73,7 +73,7 @@ public class PlaceholderView extends FrameLayout {
                 case R.styleable.PlaceholderView_empty_message:
                     String msg = a.getString(index);
                     if (!TextUtils.isEmpty(msg)) {
-                        setEmptyMessage(msg);
+                        setEmptyMessage(msg.equals("null") ? null : msg);
                     }
                     break;
                 case R.styleable.PlaceholderView_empty_icon:

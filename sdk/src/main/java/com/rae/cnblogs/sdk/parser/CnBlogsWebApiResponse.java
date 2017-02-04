@@ -57,6 +57,9 @@ public class CnBlogsWebApiResponse<T> extends RaeSimpleJsonResponse<T> {
         if (obj.containsKey("IsSuccess")) {
             isSuccess = obj.getBoolean("IsSuccess");
         }
+        if (obj.containsKey("IsSucceed")) {
+            isSuccess = obj.getBoolean("IsSucceed");
+        }
         if (obj.containsKey("Message")) {
             message = obj.getString("Message");
         }

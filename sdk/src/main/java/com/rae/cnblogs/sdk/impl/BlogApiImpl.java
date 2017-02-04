@@ -7,7 +7,7 @@ import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.BlogComment;
 import com.rae.cnblogs.sdk.parser.BlogCommentParser;
 import com.rae.cnblogs.sdk.parser.BlogContentParser;
-import com.rae.cnblogs.sdk.parser.BlogJsonParser;
+import com.rae.cnblogs.sdk.parser.BlogListParser;
 import com.rae.cnblogs.sdk.parser.CnBlogsWebApiResponse;
 import com.rae.cnblogs.sdk.parser.KBContentParser;
 import com.rae.cnblogs.sdk.parser.KBListParser;
@@ -28,6 +28,7 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 
     private final List<String> mIgnoreCacheUrls = new ArrayList<>(); // 忽略缓存的URL
 
+
     public BlogApiImpl(Context context) {
         super(context);
         mIgnoreCacheUrls.add(ApiUrls.API_BLOG_LIKE); // 博客点赞不缓存
@@ -37,10 +38,17 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 
     @Override
     protected boolean enablePerCache(String url, HashMap<String, String> params) {
+
+        // 不启用缓存
+        if (!mShouldCache) {
+            return false;
+        }
+
         // 不缓存的接口
         if (mIgnoreCacheUrls.contains(url)) {
             return false;
         }
+
         return true; // 允许首次从缓存加载
     }
 
@@ -52,7 +60,7 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
                         .add("CategoryId", categoryId)
                         .add("PageIndex", page)
                         .add("ItemListActionName", "PostList"),
-                new BlogJsonParser(listener)
+                new BlogListParser(listener)
         );
     }
 
@@ -163,6 +171,5 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
                         .add("pageIndex", "0"),
                 new CnBlogsWebApiResponse<>(Void.class, listener));
     }
-
 
 }

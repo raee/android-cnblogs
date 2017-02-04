@@ -41,4 +41,6 @@ public abstract class CnblogsApiProvider {
      * 取消所有请求
      */
     public abstract void cancel();
+
+
 }

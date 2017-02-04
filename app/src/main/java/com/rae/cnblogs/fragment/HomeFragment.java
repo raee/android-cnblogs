@@ -13,6 +13,7 @@ import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IHomePresenter;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.Category;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.core.fm.RaeFragmentAdapter;
@@ -82,7 +83,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
         mAdapter.clear();
 
         for (Category category : data) {
-            mAdapter.add(category.getName(), BlogListFragment.newInstance(category));
+            mAdapter.add(category.getName(), BlogListFragment.newInstance(category, BlogType.BLOG));
         }
 
         mAdapter.notifyDataSetChanged();
@@ -99,6 +100,15 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
         // 跳到个人中心
         AppRoute.jumpToUserCenter(getContext());
     }
+
+    @OnClick(R.id.img_actionbar_logo)
+    public void onLogoClick() {
+        // 返回顶部
+        int currentItem = mViewPager.getCurrentItem();
+        BlogListFragment fragment = (BlogListFragment) mAdapter.getItem(currentItem);
+        fragment.scrollToTop();
+    }
+
 
     @Override
     public void onLoadUserInfo(UserInfoBean userInfo) {

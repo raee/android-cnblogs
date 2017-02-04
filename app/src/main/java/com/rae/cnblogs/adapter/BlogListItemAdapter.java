@@ -14,6 +14,7 @@ import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.BlogItemViewHolder;
 import com.rae.cnblogs.model.ItemLoadingViewHolder;
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.core.Rae;
 
 import java.util.ArrayList;
@@ -25,21 +26,22 @@ import java.util.List;
  */
 public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.ViewHolder> implements View.OnClickListener {
 
-    public static final int VIEW_TYPE_NORMAL = 0;
-    public static final int VIEW_TYPE_LOADING = 2;
+    private static final int VIEW_TYPE_NORMAL = 0;
+    private static final int VIEW_TYPE_LOADING = 2;
 
     /**
      * 没有用户信息的类型
      */
     public static final int VIEW_TYPE_WITHOUT_AVATAR = 1;
+    private final BlogType mBlogType;
 
     private int mViewType; // 显示类型
 
     private DisplayImageOptions mAvatarOptions;
 
-    public BlogListItemAdapter() {
+    public BlogListItemAdapter(BlogType type) {
         mAvatarOptions = RaeImageLoader.headerOption();
-
+        mBlogType = type;
         int size = 5;
         List<Blog> data = new ArrayList<>();
         for (int i = 0; i < size; i++) {
@@ -47,6 +49,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
             m.setTag("loading");
             data.add(m);
         }
+
         invalidate(data);
 
     }
@@ -66,7 +69,6 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
-//        return new ItemLoadingViewHolder(inflateView(parent, R.layout.item_list_loading));
         if (viewType == VIEW_TYPE_LOADING) {
             return new ItemLoadingViewHolder(inflateView(parent, R.layout.item_list_loading));
         }
@@ -101,8 +103,17 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
 
         holder.itemView.setTag(m);
         holder.itemView.setOnClickListener(this);
+//        showThumbImages(m, holder);
 
-        // 预览图处理
+    }
+
+    /**
+     * 预览图处理
+     *
+     * @param m
+     * @param holder
+     */
+    private void showThumbImages(Blog m, BlogItemViewHolder holder) {
         List<String> thumbs = m.getThumbs();
         if (Rae.isEmpty(thumbs)) {
             //  没有预览图
@@ -130,7 +141,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
     @Override
     public void onClick(View view) {
         Blog blog = (Blog) view.getTag();
-        AppRoute.jumpToBlogContent(view.getContext(), blog);
+        AppRoute.jumpToBlogContent(view.getContext(), blog, mBlogType);
     }
 
 }

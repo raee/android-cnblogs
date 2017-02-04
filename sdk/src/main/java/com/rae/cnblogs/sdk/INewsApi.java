@@ -42,4 +42,18 @@ public interface INewsApi {
      * @param listener
      */
     void deleteNewsComment(String newsId, String commentId, ApiUiListener<Void> listener);
+
+
+    /**
+     * 是否缓存结果
+     *
+     * @param shouldCache
+     */
+    void setShouldCache(boolean shouldCache);
+
+    /**
+     * 点赞
+     */
+    void like(String newsId, ApiUiListener<Void> listener);
+
 }

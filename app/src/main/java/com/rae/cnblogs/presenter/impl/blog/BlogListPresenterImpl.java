@@ -1,13 +1,12 @@
-package com.rae.cnblogs.presenter.impl;
+package com.rae.cnblogs.presenter.impl.blog;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 
 import com.rae.cnblogs.presenter.IBlogListPresenter;
+import com.rae.cnblogs.presenter.impl.BasePresenter;
 import com.rae.cnblogs.sdk.IBlogApi;
-import com.rae.cnblogs.sdk.INewsApi;
 import com.rae.cnblogs.sdk.bean.Blog;
 import com.rae.cnblogs.sdk.bean.Category;
 import com.rae.cnblogs.sdk.db.DbBlog;
@@ -24,8 +23,7 @@ import java.util.List;
  */
 public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlogListView> implements IBlogListPresenter, ApiUiArrayListener<Blog> {
 
-    private IBlogApi mApi;
-    private INewsApi mNewsApi;
+    protected IBlogApi mApi;
     private DbBlog mDbBlog;
     private int mPageIndex = 1;
     private final List<Blog> mBlogList = new ArrayList<>();
@@ -40,7 +38,6 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     public BlogListPresenterImpl(Context context, IBlogListPresenter.IBlogListView view) {
         super(context, view);
         mApi = getApiProvider().getBlogApi();
-        mNewsApi = getApiProvider().getNewsApi();
         mDbBlog = new DbBlog();
     }
 
@@ -48,19 +45,15 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     public void start() {
         mPageIndex = 1;
         mBlogList.clear();
-        loadData();
+        // 加载列表
+        onLoadData(mView.getCategory(), mPageIndex);
     }
 
-    private void loadData() {
-        // 加载列表
-        Category category = mView.getCategory();
-        if (TextUtils.equals("news", category.getType())) { // 新闻
-            mNewsApi.getNews(mPageIndex, this);
-        } else if (TextUtils.equals("kb", category.getType())) { // 知识库
-            mApi.getKbArticles(mPageIndex, this);
-        } else { // 博客列表
-            mApi.getBlogList(mPageIndex, category.getType(), category.getParentId(), category.getCategoryId(), this);
-        }
+    /**
+     * 加数据
+     */
+    protected void onLoadData(Category category, int pageIndex) {
+        mApi.getBlogList(pageIndex, category.getType(), category.getParentId(), category.getCategoryId(), this);
     }
 
     @Override
@@ -95,7 +88,7 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
 
     @Override
     public void loadMore() {
-        loadData();
+        onLoadData(mView.getCategory(), mPageIndex);
     }
 
     @Override

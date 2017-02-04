@@ -1,6 +1,7 @@
 package com.rae.cnblogs.presenter;
 
 import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 
 /**
@@ -77,5 +78,7 @@ public interface IBlogContentPresenter {
          * @param infoModel 实体
          */
         void onLoadBlogInfoSuccess(UserBlogInfo infoModel);
+
+        BlogType getBlogType();
     }
 }

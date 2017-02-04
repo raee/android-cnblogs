@@ -12,6 +12,7 @@ import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILauncherPresenter;
+import com.rae.cnblogs.sdk.bean.BlogType;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -74,7 +75,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     @Override
     public void onJumpToBlog(String id) {
         AppRoute.jumpToMain(this);
-        AppRoute.jumpToBlogContent(this, null);
+        AppRoute.jumpToBlogContent(this, null, BlogType.BLOG);
         finish();
     }
 

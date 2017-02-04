@@ -2,12 +2,9 @@ package com.rae.cnblogs;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.support.multidex.MultiDex;
 
-import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
-import com.rae.cnblogs.sdk.service.BlogService;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -33,7 +30,7 @@ public class CnblogsApplication extends Application {
         initUmengShareConfig();
 
         // 启动服务
-        startService(new Intent(this, BlogService.class));
+//        startService(new Intent(this, BlogService.class));
     }
 
     /**
