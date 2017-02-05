@@ -116,41 +116,46 @@
             android:textColor="@color/ph3"
             android:textSize="@dimen/h2"/>
 
-        <com.rae.cnblogs.widget.RaeTextView
-            android:id="@+id/tv_blog_comment"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:drawableLeft="@drawable/ic_comment"
-            android:drawablePadding="7dp"
-            android:text="0"
-            android:textColor="@color/ph2"
-            android:textSize="@dimen/h2"/>
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true">
 
-        <com.rae.cnblogs.widget.RaeTextView
-            android:id="@+id/tv_blog_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/tv_blog_comment"
-            android:drawableLeft="@drawable/ic_like_normal"
-            android:drawablePadding="7dp"
-            android:text="0"
-            android:textColor="@color/ph2"
-            android:textSize="14sp"/>
 
-        <com.rae.cnblogs.widget.RaeTextView
-            android:id="@+id/tv_blog_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/tv_blog_like"
-            android:drawableLeft="@drawable/ic_view"
-            android:drawablePadding="7dp"
-            android:text="0"
-            android:textColor="@color/ph2"
-            android:textSize="@dimen/h2"/>
+            <com.rae.cnblogs.widget.RaeTextView
+                android:id="@+id/tv_blog_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_view"
+                android:drawablePadding="7dp"
+                android:text="0"
+                android:textColor="@color/ph2"
+                android:textSize="@dimen/h2"/>
 
+            <com.rae.cnblogs.widget.RaeTextView
+                android:id="@+id/tv_blog_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:drawableLeft="@drawable/ic_like_normal"
+                android:drawablePadding="7dp"
+                android:text="0"
+                android:textColor="@color/ph2"
+                android:textSize="14sp"/>
+
+
+            <com.rae.cnblogs.widget.RaeTextView
+                android:id="@+id/tv_blog_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:drawableLeft="@drawable/ic_comment"
+                android:drawablePadding="7dp"
+                android:text="0"
+                android:textColor="@color/ph2"
+                android:textSize="@dimen/h2"/>
+        </LinearLayout>
 
     </RelativeLayout>
 

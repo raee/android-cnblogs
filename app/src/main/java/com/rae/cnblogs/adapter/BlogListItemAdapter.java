@@ -32,10 +32,9 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
     /**
      * 没有用户信息的类型
      */
-    public static final int VIEW_TYPE_WITHOUT_AVATAR = 1;
+    public static final int VIEW_TYPE_KB = 1;
     private final BlogType mBlogType;
 
-    private int mViewType; // 显示类型
 
     private DisplayImageOptions mAvatarOptions;
 
@@ -52,10 +51,6 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
 
         invalidate(data);
 
-    }
-
-    public void setViewType(int viewType) {
-        mViewType = viewType;
     }
 
     @Override
@@ -85,9 +80,10 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
 
         BlogItemViewHolder holder = (BlogItemViewHolder) vh;
 
-        switch (mViewType) {
-            case VIEW_TYPE_WITHOUT_AVATAR:
+        switch (mBlogType) {
+            case KB: // 知识库
                 holder.authorLayout.setVisibility(View.GONE);
+                holder.commentView.setVisibility(View.GONE);
                 break;
         }
 

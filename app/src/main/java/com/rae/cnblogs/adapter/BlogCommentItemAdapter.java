@@ -35,6 +35,7 @@ public class BlogCommentItemAdapter extends BaseItemAdapter<BlogComment, BlogCom
         return true;
     }
 
+
     public interface OnBlogCommentItemClick {
         void onItemClick(BlogComment comment);
     }

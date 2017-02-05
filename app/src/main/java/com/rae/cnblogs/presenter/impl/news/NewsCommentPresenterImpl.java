@@ -43,4 +43,10 @@ public class NewsCommentPresenterImpl extends BlogCommentPresenterImpl {
             mNewsApi.addNewsComment(blog.getBlogId(), parent.getId(), mView.getCommentContent(), getCommentListener());
         }
     }
+
+    @Override
+    public void delete(BlogComment item) {
+        mDelCommentListener.setBlogComment(item);
+        mNewsApi.deleteNewsComment(mView.getBlog().getBlogId(), item.getId(), mDelCommentListener);
+    }
 }

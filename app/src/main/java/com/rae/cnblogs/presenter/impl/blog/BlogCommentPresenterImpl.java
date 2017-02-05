@@ -45,25 +45,8 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
             mView.onPostCommentSuccess();
         }
     };
-    private ApiUiListener<Void> mDelCommentListener = new ApiUiListener<Void>() {
 
-        public BlogComment mItem;
-
-
-        public void setBlogComment(BlogComment item) {
-            mItem = item;
-        }
-
-        @Override
-        public void onApiFailed(ApiException ex, String msg) {
-            mView.onDeleteCommentFailed(msg);
-        }
-
-        @Override
-        public void onApiSuccess(Void data) {
-            mView.onDeleteCommentSuccess(mItem);
-        }
-    };
+    protected final BlogCommentListener mDelCommentListener = new BlogCommentListener();
 
     public BlogCommentPresenterImpl(Context context, IBlogCommentView view) {
         super(context, view);
@@ -93,7 +76,7 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
 
     @Override
     public void delete(BlogComment item) {
-//        mDelCommentListener.setBlogComment(item);
+        mDelCommentListener.setBlogComment(item);
         mBlogApi.deleteBlogComment(item.getId(), mDelCommentListener);
     }
 
@@ -130,10 +113,11 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
             return;
         }
 
-        mCommentList.removeAll(data);
         if (mPage <= 1) {
+            mCommentList.clear();
             mCommentList.addAll(0, data);
         } else {
+            mCommentList.removeAll(data);
             mCommentList.addAll(data);
         }
 
@@ -147,4 +131,27 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
     public ApiUiListener<Void> getCommentListener() {
         return mCommentListener;
     }
+
+
+    public class BlogCommentListener implements ApiUiListener<Void> {
+
+        private BlogComment mItem;
+
+        public void setBlogComment(BlogComment item) {
+            mItem = item;
+        }
+
+        @Override
+        public void onApiFailed(ApiException ex, String msg) {
+            mView.onDeleteCommentFailed(msg);
+        }
+
+        @Override
+        public void onApiSuccess(Void data) {
+            mView.onDeleteCommentSuccess(mItem);
+            mItem = null;
+        }
+    }
+
+    ;
 }

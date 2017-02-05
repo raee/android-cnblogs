@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.adapter.BlogListItemAdapter;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.Category;
 
@@ -35,13 +34,6 @@ public class BlogTypeListFragment extends BlogListFragment {
         return R.layout.fm_kb_list;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getBlogType() == BlogType.KB) {
-            mItemAdapter.setViewType(BlogListItemAdapter.VIEW_TYPE_WITHOUT_AVATAR);
-        }
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

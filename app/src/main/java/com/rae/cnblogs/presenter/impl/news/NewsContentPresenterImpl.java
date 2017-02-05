@@ -25,6 +25,12 @@ public class NewsContentPresenterImpl extends BlogContentPresenterImpl {
 
     @Override
     public void doLike(boolean isCancel) {
+
+        // 不支持取消点赞
+        if (isCancel) {
+            mView.onLikeError(isCancel, "您已经推荐过了");
+            return;
+        }
         mNewsApi.like(mView.getBlog().getBlogId(), getLikeAndBookmarksListener(isCancel, true));
     }
 }

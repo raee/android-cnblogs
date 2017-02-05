@@ -56,9 +56,15 @@ abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> extends Re
     }
 
 
-
+    public void remove(T item) {
+        mDataList.remove(item);
+    }
 
     protected View inflateView(ViewGroup parent, int layoutId) {
         return mLayoutInflater.inflate(layoutId, parent, false);
+    }
+
+    public int getItemPosition(T item) {
+        return mDataList.indexOf(item);
     }
 }

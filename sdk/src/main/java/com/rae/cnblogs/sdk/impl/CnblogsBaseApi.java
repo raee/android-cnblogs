@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.webkit.CookieManager;
 
 import com.android.volley.Request;
+import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
 import com.rae.cnblogs.sdk.parser.CnblogApiResponse;
 import com.rae.core.sdk.ApiUiArrayListener;
@@ -76,6 +77,12 @@ class CnblogsBaseApi extends RaeBaseApi {
 //        if (loginToken != null) {
 //            builder.addHeader("authorization", String.format("Bearer %s", loginToken.getAccess_token()));
 //        }
+
+        // 添加用户信息
+        UserInfoBean userInfo = config().getUserInfo();
+        if (userInfo != null) {
+            builder.addHeader("blogApp", userInfo.getBlogApp());
+        }
 
         return builder;
     }

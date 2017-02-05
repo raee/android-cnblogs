@@ -8,30 +8,30 @@ final class ApiUrls {
 
 
     // 博客列表
-    static final String API_URL_HOME = "http://www.cnblogs.com/mvc/AggSite/PostList.aspx";
+    static final String API_BLOG_LIST = "http://www.cnblogs.com/mvc/AggSite/PostList.aspx";
 
     // 博文
-    static final String API_URL_CONTENT = "http://wcf.open.cnblogs.com/blog/post/body/";
+    static final String API_BLOG_CONTENT = "http://wcf.open.cnblogs.com/blog/post/body/";
 
     // 评论列表
-    static final String API_URL_COMMENT = "http://www.cnblogs.com/mvc/blog/GetComments.aspx";
+    static final String API_BLOG_COMMENT_LIST = "http://www.cnblogs.com/mvc/blog/GetComments.aspx";
 
     // 登录接口
-    static final String API_LOGIN_TOKEN = "https://api.cnblogs.com/token";
+//    static final String API_LOGIN_TOKEN = "https://api.cnblogs.com/token";
 
     // 用户信息
     static final String API_USER_INFO = "https://home.cnblogs.com/ajax/user/CurrentIngUserInfo";
 
     // 添加收藏
-    static final String OFFICIAL_API_BOOK_MARKS_ADD = "https://api.cnblogs.com/api/Bookmarks";
-
+//    static final String OFFICIAL_API_BOOK_MARKS_ADD = "https://api.cnblogs.com/api/Bookmarks";
 
     // 收藏列表
-    static final String OFFICIAL_API_BOOK_MARKS_LIST = "https://api.cnblogs.com/api/Bookmarks";
+//    static final String OFFICIAL_API_BOOK_MARKS_LIST = "https://api.cnblogs.com/api/Bookmarks";
 
     // 删除收藏
-    static final String OFFICIAL_API_BOOK_MARKS_ID_DELETE = "https://api.cnblogs.com/api/bookmarks";
-    static final String OFFICIAL_API_BOOK_MARKS_URL_DELETE = "https://api.cnblogs.com/api/Bookmarks";
+//    static final String OFFICIAL_API_BOOK_MARKS_ID_DELETE = "https://api.cnblogs.com/api/bookmarks";
+//    static final String OFFICIAL_API_BOOK_MARKS_URL_DELETE = "https://api.cnblogs.com/api/Bookmarks";
+
     // 新闻列表
     static final String API_NEWS_LIST = "http://wcf.open.cnblogs.com/news/recent/paged/@page/20";
     static final String API_NEWS_CONTENT = "http://wcf.open.cnblogs.com/news/item/@id";

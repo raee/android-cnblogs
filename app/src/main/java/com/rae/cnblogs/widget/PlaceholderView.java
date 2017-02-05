@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -191,5 +192,23 @@ public class PlaceholderView extends FrameLayout {
         if (resId > 0) {
             mEmptyImageView.setImageResource(resId);
         }
+    }
+
+    /**
+     * 注册adapter监听
+     *
+     * @param adapter
+     */
+    public void registerAdapterDataObserver(final RecyclerView.Adapter adapter) {
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                if (adapter.getItemCount() > 0) {
+                    dismiss();
+                } else {
+                    empty();
+                }
+            }
+        });
     }
 }

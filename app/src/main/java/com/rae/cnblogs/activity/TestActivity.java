@@ -6,11 +6,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
-import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogCommentItemAdapter;
 import com.rae.cnblogs.dialog.impl.MenuDialog;
-import com.rae.cnblogs.model.MenuDialogItem;
 import com.rae.cnblogs.sdk.bean.BlogComment;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
@@ -121,13 +119,6 @@ public class TestActivity extends BaseActivity {
 //        dialog.addItem("新增");
 //        dialog.addItem("修噶");
 //        dialog.addDeleteItem("退出");
-        dialog.setOnMenuItemClickListener(new MenuDialog.OnMenuItemClickListener() {
-            @Override
-            public void onMenuItemClick(MenuDialogItem item) {
-                AppUI.toast(getContext(), item.getName());
-            }
-
-        });
         dialog.show();
 
         return true;

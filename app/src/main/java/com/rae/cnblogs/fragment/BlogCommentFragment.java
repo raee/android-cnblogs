@@ -9,6 +9,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogCommentItemAdapter;
+import com.rae.cnblogs.dialog.impl.CommentMenuDialog;
 import com.rae.cnblogs.dialog.impl.EditCommentDialog;
 import com.rae.cnblogs.dialog.impl.MenuDialog;
 import com.rae.cnblogs.message.EditCommentEvent;
@@ -61,7 +62,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     private EditCommentDialog mEditCommentDialog;
 
-    private MenuDialog mCommentMenuDialog;
+    private CommentMenuDialog mCommentMenuDialog;
 
 
     @Override
@@ -106,6 +107,8 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     private void initView() {
         mItemAdapter = new BlogCommentItemAdapter();
+        mPlaceholderView.registerAdapterDataObserver(mItemAdapter);
+
         mRecyclerView.setNoMoreText(R.string.no_more_comment);
         mRecyclerView.setPullRefreshEnabled(false);
         mRecyclerView.setLoadingMoreEnabled(true);
@@ -121,13 +124,17 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
             }
         });
 
-        mCommentMenuDialog = new MenuDialog(getContext());
+
+        mCommentMenuDialog = new CommentMenuDialog(getContext());
         mCommentMenuDialog.addDeleteItem(getString(R.string.delete_comment));
         mCommentMenuDialog.setOnMenuItemClickListener(new MenuDialog.OnMenuItemClickListener() {
             @Override
-            public void onMenuItemClick(MenuDialogItem item) {
+            public void onMenuItemClick(MenuDialog dialog, MenuDialogItem item) {
                 // 执行删除
-                mCommentPresenter.delete(null);
+                if (mCommentMenuDialog.getBlogComment() != null) {
+                    AppUI.loading(getContext());
+                    mCommentPresenter.delete(mCommentMenuDialog.getBlogComment());
+                }
             }
         });
 
@@ -146,6 +153,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
                 // 判断当前评论是否属于自己的
                 UserProvider instance = UserProvider.getInstance();
                 if (instance.isLogin() && instance.getLoginUserInfo().getDisplayName().equalsIgnoreCase(comment.getAuthorName().trim())) {
+                    mCommentMenuDialog.setBlogComment(comment);
                     mCommentMenuDialog.show();
                 }
             }
@@ -175,7 +183,6 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     @Subscribe
     public void onEditCommentOpenEvent(EditCommentEvent event) {
-        // 打开评论对话框事件
         mEditCommentDialog.show();
     }
 
@@ -230,12 +237,16 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     @Override
     public void onDeleteCommentSuccess(BlogComment item) {
-
+        AppUI.dismiss();
+        // 删除成功
+        mItemAdapter.remove(item);
+        mItemAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onDeleteCommentFailed(String msg) {
-
+        AppUI.dismiss();
+        AppUI.toast(getContext(), msg);
     }
 
     @Override

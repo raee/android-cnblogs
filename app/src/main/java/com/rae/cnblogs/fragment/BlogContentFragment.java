@@ -118,7 +118,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         mLikeView.setEnabled(true);
         mLikeView.dismiss();
         RaeAnim.scaleIn(mLikeView);
-        AppUI.toast(getContext(), "点赞失败：" + msg);
+        AppUI.toastInCenter(getContext(), msg);
     }
 
     @Override
@@ -127,7 +127,6 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         mLikeView.dismiss();
         mLikeView.setSelected(!isCancel);
         RaeAnim.scaleIn(mLikeView);
-        AppUI.toast(getContext(), "点赞成功：" + isCancel);
     }
 
     @Override
@@ -135,7 +134,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         mBookmarksView.setEnabled(true);
         mBookmarksView.dismiss();
         RaeAnim.scaleIn(mBookmarksView);
-        AppUI.toast(getContext(), "收藏失败：" + msg);
+        AppUI.toastInCenter(getContext(), msg);
     }
 
     @Override
@@ -144,7 +143,6 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         mBookmarksView.dismiss();
         RaeAnim.scaleIn(mBookmarksView);
         mBookmarksView.setSelected(!isCancel);
-        AppUI.toast(getContext(), "收藏成功：" + isCancel);
     }
 
     @Override

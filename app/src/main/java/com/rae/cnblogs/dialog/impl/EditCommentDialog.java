@@ -8,7 +8,9 @@ import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.BlogComment;
 
 import butterknife.BindView;
@@ -58,6 +60,11 @@ public class EditCommentDialog extends SlideDialog {
 
     @Override
     public void show() {
+        // 没有登录
+        if (!UserProvider.getInstance().isLogin()) {
+            AppRoute.jumpToLogin(getContext());
+            return;
+        }
         super.show();
         mReferenceView.setVisibility(View.GONE);
         mBodyView.setText("");

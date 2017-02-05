@@ -16,9 +16,7 @@ import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiErrorCode;
 import com.rae.core.sdk.exception.ApiException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * 博客接口
@@ -26,35 +24,35 @@ import java.util.List;
  */
 public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 
-    private final List<String> mIgnoreCacheUrls = new ArrayList<>(); // 忽略缓存的URL
-
 
     public BlogApiImpl(Context context) {
         super(context);
-        mIgnoreCacheUrls.add(ApiUrls.API_BLOG_LIKE); // 博客点赞不缓存
-        mIgnoreCacheUrls.add(ApiUrls.API_BLOG_COMMENT_ADD); // 发表博客评论不缓存
-        mIgnoreCacheUrls.add(ApiUrls.API_BLOG_COMMENT_DELETE); // 删除博客评论不缓存
     }
 
     @Override
     protected boolean enablePerCache(String url, HashMap<String, String> params) {
 
-        // 不启用缓存
-        if (!mShouldCache) {
-            return false;
+        // 博客列表
+        if (ApiUrls.API_BLOG_LIST.equals(url) && params.get("PageIndex").equals("1")) {
+            return true;
         }
 
-        // 不缓存的接口
-        if (mIgnoreCacheUrls.contains(url)) {
-            return false;
+        // 博客评论列表
+        if (ApiUrls.API_BLOG_COMMENT_LIST.equals(url) && params.get("pageIndex").equals("1")) {
+            return true;
         }
 
-        return true; // 允许首次从缓存加载
+        // 知识库
+        if (ApiUrls.API_KB_LIST.equals(url) && params.get("PageIndex").equals("1")) {
+            return true;
+        }
+
+        return super.enablePerCache(url, params); // 允许首次从缓存加载
     }
 
     @Override
     public void getBlogList(int page, String type, String parentId, String categoryId, ApiUiArrayListener<Blog> listener) {
-        post(ApiUrls.API_URL_HOME,
+        post(ApiUrls.API_BLOG_LIST,
                 newParams().add("CategoryType", type)
                         .add("ParentCategoryId", parentId)
                         .add("CategoryId", categoryId)
@@ -66,17 +64,17 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
 
     @Override
     public void getBlogContent(String id, ApiUiListener<String> listener) {
-        get(ApiUrls.API_URL_CONTENT + id, null, new BlogContentParser(listener));
+        get(ApiUrls.API_BLOG_CONTENT + id, null, new BlogContentParser(listener));
     }
 
     @Override
     public void getBlogComments(int page, String id, String blogApp, ApiUiArrayListener<BlogComment> listener) {
-        get(ApiUrls.API_URL_COMMENT, newParams().add("postId", id).add("blogApp", blogApp).add("pageIndex", page), new BlogCommentParser(listener));
+        get(ApiUrls.API_BLOG_COMMENT_LIST, newParams().add("postId", id).add("blogApp", blogApp).add("pageIndex", page), new BlogCommentParser(listener));
     }
 
     @Override
     public void getKbArticles(int page, ApiUiArrayListener<Blog> listener) {
-        post(ApiUrls.API_KB_LIST.replace("@page", String.valueOf(page)), null, new KBListParser(listener));
+        post(ApiUrls.API_KB_LIST.replace("@page", String.valueOf(page)), newParams().add("PageIndex", page), new KBListParser(listener));
     }
 
     @Override

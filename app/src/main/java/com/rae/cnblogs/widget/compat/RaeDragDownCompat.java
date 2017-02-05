@@ -2,7 +2,6 @@ package com.rae.cnblogs.widget.compat;
 
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -122,7 +121,7 @@ public class RaeDragDownCompat extends ViewDragHelper.Callback {
 
 //        Log.d(TAG, "computeScroll");
         if (mDragHelper.continueSettling(true)) {
-            Log.d(TAG, "computeScroll");
+//            Log.d(TAG, "computeScroll");
             ViewCompat.postInvalidateOnAnimation(mParentView);
         }
     }

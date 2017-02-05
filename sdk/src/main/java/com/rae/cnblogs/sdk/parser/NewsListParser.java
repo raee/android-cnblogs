@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 新闻列表解析器
  * Created by ChenRui on 2017/1/18 0018 18:27.
  */
-public class NewsParser extends HtmlParser<Blog> {
+public class NewsListParser extends HtmlParser<Blog> {
 
-    public NewsParser(ApiUiArrayListener<Blog> arrayListener) {
+    public NewsListParser(ApiUiArrayListener<Blog> arrayListener) {
         super(arrayListener);
     }
 
@@ -31,7 +32,7 @@ public class NewsParser extends HtmlParser<Blog> {
             m.setBlogId(element.select("id").text());
             m.setTitle(element.select("title").text());
             m.setSummary(element.select("summary").text());
-            m.setPostDate(Utils.getDate(element.select("updated").text()));
+            m.setPostDate(Utils.getDate(element.select("updated").text().replace("T", " ").replace("Z", " ")));
             m.setUrl(element.select("link").attr("href"));
             m.setLikes(element.select("diggs").text());
             m.setViews(element.select("views").text());

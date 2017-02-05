@@ -70,10 +70,6 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         return mCategory.getName();
     }
 
-    protected BlogType getBlogType() {
-        return mBlogType;
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

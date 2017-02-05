@@ -9,7 +9,7 @@ import com.rae.cnblogs.sdk.bean.BlogComment;
 import com.rae.cnblogs.sdk.parser.CnBlogsWebApiResponse;
 import com.rae.cnblogs.sdk.parser.NewsCommentParser;
 import com.rae.cnblogs.sdk.parser.NewsContentParser;
-import com.rae.cnblogs.sdk.parser.NewsParser;
+import com.rae.cnblogs.sdk.parser.NewsListParser;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiErrorCode;
@@ -34,21 +34,23 @@ public class NewsApiImpl extends CnblogsBaseApi implements INewsApi {
     protected boolean enablePerCache(String url, HashMap<String, String> params) {
         if (TextUtils.isEmpty(url) || !mShouldCache) return false;
 
-        if (url.contains(ApiUrls.API_NEWS_LIST.replace("@page/20", ""))) {
+        // 新闻列表
+        if (url.contains(ApiUrls.API_NEWS_LIST.replace("@page/20", "")) && params.get("page").equals("1")) {
             return true;
         }
-        if (url.contains(ApiUrls.API_NEWS_CONTENT.replace("/@id", ""))) {
+
+        // 新闻评论列表
+        if (url.contains(ApiUrls.API_NEWS_COMMENT)) {
             return true;
         }
-        if (TextUtils.equals(url, ApiUrls.API_NEWS_COMMENT)) {
-            return true;
-        }
+
+
         return super.enablePerCache(url, params);
     }
 
     @Override
     public void getNews(int page, ApiUiArrayListener<Blog> listener) {
-        get(ApiUrls.API_NEWS_LIST.replace("@page", String.valueOf(page)), null, new NewsParser(listener));
+        get(ApiUrls.API_NEWS_LIST.replace("@page", String.valueOf(page)), newParams().add("page", page), new NewsListParser(listener));
     }
 
     @Override
@@ -58,7 +60,7 @@ public class NewsApiImpl extends CnblogsBaseApi implements INewsApi {
 
     @Override
     public void getNewsComment(String newsId, int page, ApiUiArrayListener<BlogComment> listener) {
-        get(ApiUrls.API_NEWS_COMMENT, newParams().add("contentId", newsId), new NewsCommentParser(listener));
+        get(ApiUrls.API_NEWS_COMMENT, newParams().add("contentId", newsId).add("page", page), new NewsCommentParser(listener));
     }
 
     @Override

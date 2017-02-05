@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 public class MenuDialog extends SlideDialog {
 
     public interface OnMenuItemClickListener {
-        void onMenuItemClick(MenuDialogItem item);
+        void onMenuItemClick(MenuDialog dialog, MenuDialogItem item);
     }
 
     private final MenuDialogAdapter mAdapter;
@@ -102,7 +102,7 @@ public class MenuDialog extends SlideDialog {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnMenuItemClickListener.onMenuItemClick(dataItem);
+                    mOnMenuItemClickListener.onMenuItemClick(MenuDialog.this, dataItem);
                     dismiss();
                 }
             });

@@ -52,6 +52,12 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     @BindView(R.id.fl_content)
     View mContentLayout;
 
+    @BindView(R.id.tv_edit_comment)
+    View mPostCommentView;
+
+    @BindView(R.id.layout_content_comment)
+    View mViewCommentView;
+
     @BindView(R.id.fl_comment)
     RaeDrawerLayout mCommentLayout;
 
@@ -92,6 +98,12 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         if (!TextUtils.equals(mBlog.getLikes(), "0")) {
             mLikeBadgeView.setText(mBlog.getLikes());
             mLikeBadgeView.setVisibility(View.VISIBLE);
+        }
+
+        // 知识库没有评论处理
+        if (blogType == BlogType.KB) {
+            mPostCommentView.setVisibility(View.GONE);
+            mViewCommentView.setVisibility(View.GONE);
         }
 
 
