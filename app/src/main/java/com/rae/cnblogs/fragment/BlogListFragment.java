@@ -136,6 +136,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
      * 滚动到顶部
      */
     public void scrollToTop() {
+        if (mRecyclerView == null) return;
         LinearLayoutManager manager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
         if (manager.findFirstVisibleItemPosition() <= 1) {
             mAppLayout.autoRefresh();

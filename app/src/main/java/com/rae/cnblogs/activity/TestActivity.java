@@ -101,7 +101,9 @@ public class TestActivity extends BaseActivity {
     @OnClick(R.id.btn_test_login)
     void onJumpToLogin() {
 //        AppRoute.jumpToWebLogin(this);
-        AppRoute.jumpToLogin(this);
+//        AppRoute.jumpToLogin(this);
+
+        AppRoute.jumpToImagePreview(this);
     }
 
     @OnLongClick(R.id.btn_test_dialog)

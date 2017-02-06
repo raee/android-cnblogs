@@ -2,6 +2,7 @@ package com.rae.cnblogs.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -255,5 +256,18 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
         AppUI.loading(getContext(), "正在发表..");
         mCommentPresenter.post(parent);
         mEditCommentDialog.dismiss();
+    }
+
+
+    /**
+     * 滚动到顶部
+     */
+    public void scrollToTop() {
+        if (mRecyclerView == null) return;
+        LinearLayoutManager manager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+        if (manager.findFirstVisibleItemPosition() <= 1) {
+            return;
+        }
+        mRecyclerView.smoothScrollToPosition(0);
     }
 }

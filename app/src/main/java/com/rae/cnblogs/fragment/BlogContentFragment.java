@@ -7,6 +7,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.rae.cnblogs.AppRoute;
@@ -35,7 +36,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @BindView(R.id.view_holder)
     PlaceholderView mPlaceholderView;
 
-    private ImageLoadingView mLikeView;
+    private TextView mLikeView;
     private ImageLoadingView mBookmarksView;
     private BlogType mBlogType;
 
@@ -89,7 +90,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (mBlog == null) return;
-        mLikeView = (ImageLoadingView) getActivity().findViewById(R.id.img_content_like);
+        mLikeView = (TextView) getActivity().findViewById(R.id.tv_like_badge);
         mBookmarksView = (ImageLoadingView) getActivity().findViewById(R.id.img_content_bookmarks);
         mLikeView.setOnClickListener(this);
         mBookmarksView.setOnClickListener(this);
@@ -116,7 +117,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onLikeError(boolean isCancel, String msg) {
         mLikeView.setEnabled(true);
-        mLikeView.dismiss();
+//        mLikeView.dismiss();
         RaeAnim.scaleIn(mLikeView);
         AppUI.toastInCenter(getContext(), msg);
     }
@@ -124,7 +125,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onLikeSuccess(boolean isCancel) {
         mLikeView.setEnabled(true);
-        mLikeView.dismiss();
+//        mLikeView.dismiss();
         mLikeView.setSelected(!isCancel);
         RaeAnim.scaleIn(mLikeView);
     }
@@ -149,15 +150,18 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     public void onNeedLogin() {
         mLikeView.setEnabled(true);
         mBookmarksView.setEnabled(true);
-        mLikeView.dismiss();
+//        mLikeView.dismiss();
         mBookmarksView.dismiss();
         AppRoute.jumpToLogin(getContext());
     }
 
     @Override
     public void onLoadBlogInfoSuccess(UserBlogInfo infoModel) {
+        // 角标处理
         mLikeView.setSelected(infoModel.isLiked());
         mBookmarksView.setSelected(infoModel.isBookmarks());
+
+        // 判断是否为自己的
     }
 
     @Override
@@ -180,9 +184,9 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.img_content_like:  // 点赞
+            case R.id.tv_like_badge:  // 点赞
                 v.setEnabled(false);
-                ((ImageLoadingView) v).loading();
+//                ((ImageLoadingView) v).loading();
                 mContentPresenter.doLike(v.isSelected());
                 break;
 
@@ -192,5 +196,13 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
                 mContentPresenter.doBookmarks(v.isSelected());
                 break;
         }
+    }
+
+
+    /**
+     * 滚动到顶部
+     */
+    public void scrollToTop() {
+        mWebView.scrollTo(0, 0);
     }
 }

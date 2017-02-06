@@ -68,9 +68,17 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+
+                // 首页
                 if (tab.getPosition() == 0) {
                     HomeFragment fragment = (HomeFragment) mFragmentAdapter.getItem(0);
                     fragment.onLogoClick();
+                }
+
+                // 新闻
+                if (tab.getPosition() == 1 || tab.getPosition() == 2) {
+                    BlogTypeListFragment fragment = (BlogTypeListFragment) mFragmentAdapter.getItem(tab.getPosition());
+                    fragment.scrollToTop();
                 }
             }
         });

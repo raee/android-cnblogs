@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.rae.cnblogs.activity.BlogContentActivity;
+import com.rae.cnblogs.activity.ImagePreviewActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
 import com.rae.cnblogs.activity.WebActivity;
@@ -84,5 +85,9 @@ public final class AppRoute {
      */
     public static void jumpToUserCenter(Context context) {
 
+    }
+
+    public static void jumpToImagePreview(Context context) {
+        startActivity(context, ImagePreviewActivity.class);
     }
 }

@@ -2,6 +2,7 @@ package com.rae.cnblogs.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -23,6 +24,8 @@ import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -88,15 +91,17 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         };
 
 
-        ImageLoader.getInstance().displayImage(mBlog.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
-        mAuthorView.setText(mBlog.getAuthor());
-        // 角标处理
+        // 评论角标
         if (!TextUtils.equals(mBlog.getComment(), "0")) {
             mCommentBadgeView.setText(mBlog.getComment());
+            mCommentBadgeView.setSelected(true);
             mCommentBadgeView.setVisibility(View.VISIBLE);
         }
+
+        // 点赞角标
         if (!TextUtils.equals(mBlog.getLikes(), "0")) {
             mLikeBadgeView.setText(mBlog.getLikes());
+            mLikeBadgeView.setBackgroundResource(R.drawable.ic_like_content_badge);
             mLikeBadgeView.setVisibility(View.VISIBLE);
         }
 
@@ -104,6 +109,11 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         if (blogType == BlogType.KB) {
             mPostCommentView.setVisibility(View.GONE);
             mViewCommentView.setVisibility(View.GONE);
+            mAuthorView.setVisibility(View.GONE);
+            mAvatarView.setVisibility(View.GONE);
+        } else {
+            ImageLoader.getInstance().displayImage(mBlog.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
+            mAuthorView.setText(mBlog.getAuthor());
         }
 
 
@@ -131,6 +141,23 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     public void onEditCommentClick() {
         // 通知里面的评论打开发表对话框
         EventBus.getDefault().post(new EditCommentEvent());
+    }
+
+    @OnClick(R.id.tool_bar)
+    public void onActionBarClick() {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments == null || fragments.size() < 1) {
+            return;
+        }
+
+        if (mCommentLayout.getVisibility() == View.VISIBLE) {
+            BlogCommentFragment fragment = (BlogCommentFragment) fragments.get(0);
+            fragment.scrollToTop();
+        } else {
+            BlogContentFragment fragment = (BlogContentFragment) fragments.get(1);
+            fragment.scrollToTop();
+        }
+
     }
 
 

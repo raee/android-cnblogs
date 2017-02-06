@@ -21,4 +21,5 @@
     <color name="white">#FFFFFF</color>
     <color name="statusBarColor">#000000</color>
     <color name="red">#F00000</color>
+    <color name="badge_color">#fec63d</color>
 </resources>

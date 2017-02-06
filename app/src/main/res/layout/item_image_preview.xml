@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <uk.co.senab.photoview.PhotoView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/img_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="center"/>
+
+    <com.rae.cnblogs.widget.RaeGifView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gif_view_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
+
+</RelativeLayout>

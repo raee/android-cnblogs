@@ -117,6 +117,11 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
     }
 
     @Override
+    public void likeKb(String id, ApiUiListener<Void> listener) {
+        xmlHttpRequestWithJsonBody(ApiUrls.API_KB_LIKE, newParams().add("contentId", id).add("voteType", "Digg"), new CnBlogsWebApiResponse<>(Void.class, listener));
+    }
+
+    @Override
     public void addBlogComment(String id, String blogApp, String parentCommentId, String content, ApiUiListener<Void> listener) {
 
         if (isNotLogin()) {

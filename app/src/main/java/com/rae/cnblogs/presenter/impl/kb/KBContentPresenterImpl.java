@@ -2,7 +2,6 @@ package com.rae.cnblogs.presenter.impl.kb;
 
 import android.content.Context;
 
-import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.presenter.impl.blog.BlogContentPresenterImpl;
 import com.rae.cnblogs.sdk.bean.Blog;
 
@@ -24,6 +23,12 @@ public class KBContentPresenterImpl extends BlogContentPresenterImpl {
 
     @Override
     public void doLike(boolean isCancel) {
-        AppUI.toast(mContext, "知识库未实现点赞功能！");
+
+        // 不支持取消点赞
+        if (isCancel) {
+            mView.onLikeError(isCancel, "您已经推荐过了");
+            return;
+        }
+        mBlogApi.likeKb(mView.getBlog().getBlogId(), getLikeAndBookmarksListener(isCancel, true));
     }
 }

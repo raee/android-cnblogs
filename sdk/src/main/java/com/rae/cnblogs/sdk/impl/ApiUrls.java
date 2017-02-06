@@ -39,6 +39,7 @@ final class ApiUrls {
 
     // 知识库
     static final String API_KB_LIST = "https://home.cnblogs.com/kb/page/@page/";
+    static final String API_KB_LIKE = "https://kb.cnblogs.com/mvcajax/vote/VoteArticle";
 
     // 推荐博客
     static final String API_BLOG_LIKE = "http://www.cnblogs.com/mvc/vote/VoteBlogPost.aspx";

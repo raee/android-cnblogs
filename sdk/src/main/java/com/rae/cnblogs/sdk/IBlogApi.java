@@ -65,6 +65,14 @@ public interface IBlogApi {
     void unLikeBlog(String id, String blogApp, ApiUiListener<Void> listener);
 
     /**
+     * 知识库点赞
+     *
+     * @param id       知识库ID
+     * @param listener 回调
+     */
+    void likeKb(String id, ApiUiListener<Void> listener);
+
+    /**
      * 发表博客评论
      *
      * @param id              博客ID

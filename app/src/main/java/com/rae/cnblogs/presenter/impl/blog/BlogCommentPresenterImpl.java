@@ -124,8 +124,10 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
         mView.onLoadCommentSuccess(mCommentList);
 
         // 由于第一次会加载缓存，所以要等待一段时间才处理
-        mHandler.removeMessages(0);
-        mHandler.sendEmptyMessageDelayed(0, 1500);
+        if (mPage <= 1) {
+            mHandler.removeMessages(0);
+            mHandler.sendEmptyMessageDelayed(0, 1500);
+        }
     }
 
     public ApiUiListener<Void> getCommentListener() {
@@ -152,6 +154,4 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
             mItem = null;
         }
     }
-
-    ;
 }
