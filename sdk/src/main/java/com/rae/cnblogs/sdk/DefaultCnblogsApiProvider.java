@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.rae.cnblogs.sdk.impl.BlogApiImpl;
 import com.rae.cnblogs.sdk.impl.CategoryApiImpl;
+import com.rae.cnblogs.sdk.impl.FriendsApiImpl;
 import com.rae.cnblogs.sdk.impl.NewsApiImpl;
 import com.rae.cnblogs.sdk.impl.WebBookmarksApiImpl;
 import com.rae.cnblogs.sdk.impl.WebUserApiImpl;
@@ -51,6 +52,11 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
     @Override
     public INewsApi getNewsApi() {
         return new NewsApiImpl(mContext);
+    }
+
+    @Override
+    public IFriendsApi getFriendApi() {
+        return new FriendsApiImpl(mContext);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.rae.cnblogs.presenter.impl.kb;
 import android.content.Context;
 
 import com.rae.cnblogs.presenter.impl.blog.BlogContentPresenterImpl;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 
 /**
  * 知识库
@@ -16,7 +16,7 @@ public class KBContentPresenterImpl extends BlogContentPresenterImpl {
     }
 
     @Override
-    protected void onLoadData(Blog blog) {
+    protected void onLoadData(BlogBean blog) {
         mBlogApi.getKbContent(blog.getBlogId(), this);
     }
 

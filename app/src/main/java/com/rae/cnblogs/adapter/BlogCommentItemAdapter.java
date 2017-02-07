@@ -9,27 +9,27 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.BlogCommentViewHolder;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 
 
 /**
  * 评论列表ITEM
  * Created by ChenRui on 2016/12/15 22:48.
  */
-public class BlogCommentItemAdapter extends BaseItemAdapter<BlogComment, BlogCommentViewHolder> implements View.OnClickListener, View.OnLongClickListener {
+public class BlogCommentItemAdapter extends BaseItemAdapter<BlogCommentBean, BlogCommentViewHolder> implements View.OnClickListener, View.OnLongClickListener {
 
     private OnBlogCommentItemClick mOnBlogCommentItemLongClick;
 
     @Override
     public void onClick(View v) {
-        BlogComment m = (BlogComment) v.getTag();
+        BlogCommentBean m = (BlogCommentBean) v.getTag();
         if (mOnBlogCommentItemClick == null || m == null) return;
         mOnBlogCommentItemClick.onItemClick(m);
     }
 
     @Override
     public boolean onLongClick(View v) {
-        BlogComment m = (BlogComment) v.getTag();
+        BlogCommentBean m = (BlogCommentBean) v.getTag();
         if (mOnBlogCommentItemLongClick == null || m == null) return false;
         mOnBlogCommentItemLongClick.onItemClick(m);
         return true;
@@ -37,7 +37,7 @@ public class BlogCommentItemAdapter extends BaseItemAdapter<BlogComment, BlogCom
 
 
     public interface OnBlogCommentItemClick {
-        void onItemClick(BlogComment comment);
+        void onItemClick(BlogCommentBean comment);
     }
 
     private OnBlogCommentItemClick mOnBlogCommentItemClick;
@@ -56,7 +56,7 @@ public class BlogCommentItemAdapter extends BaseItemAdapter<BlogComment, BlogCom
     }
 
     @Override
-    public void onBindViewHolder(BlogCommentViewHolder holder, int position, BlogComment m) {
+    public void onBindViewHolder(BlogCommentViewHolder holder, int position, BlogCommentBean m) {
         holder.authorTitleView.setText(m.getAuthorName());
         holder.dateView.setText(m.getDate());
         holder.contentView.setText(m.getBody());

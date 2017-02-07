@@ -11,9 +11,9 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogListItemAdapter;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogListPresenter;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 
@@ -30,7 +30,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 public class BlogListFragment extends BaseFragment implements IBlogListPresenter.IBlogListView {
 
 
-    public static BlogListFragment newInstance(Category category, BlogType type) {
+    public static BlogListFragment newInstance(CategoryBean category, BlogType type) {
         Bundle args = new Bundle();
         args.putParcelable("category", category);
         args.putString("blogType", type.getTypeName());
@@ -46,7 +46,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @BindView(R.id.rec_blog_list)
     RaeRecyclerView mRecyclerView;
 
-    protected Category mCategory;
+    protected CategoryBean mCategory;
     protected BlogType mBlogType;
 
     protected IBlogListPresenter mBlogListPresenter;
@@ -104,7 +104,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     }
 
     @Override
-    public void onLoadBlogList(int page, List<Blog> data) {
+    public void onLoadBlogList(int page, List<BlogBean> data) {
         if (page <= 1)
             mAppLayout.refreshComplete();
         else
@@ -128,7 +128,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     }
 
     @Override
-    public Category getCategory() {
+    public CategoryBean getCategory() {
         return mCategory;
     }
 

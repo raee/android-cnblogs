@@ -7,8 +7,8 @@ import android.os.Message;
 import com.rae.cnblogs.presenter.IBlogCommentPresenter;
 import com.rae.cnblogs.presenter.impl.BasePresenter;
 import com.rae.cnblogs.sdk.IBlogApi;
-import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.core.Rae;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
@@ -21,11 +21,11 @@ import java.util.List;
  * 评论
  * Created by ChenRui on 2016/12/26 0026 8:49.
  */
-public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresenter.IBlogCommentView> implements IBlogCommentPresenter, ApiUiArrayListener<BlogComment> {
+public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresenter.IBlogCommentView> implements IBlogCommentPresenter, ApiUiArrayListener<BlogCommentBean> {
 
     private IBlogApi mBlogApi;
     private int mPage = 1;
-    private final List<BlogComment> mCommentList = new ArrayList<>();
+    private final List<BlogCommentBean> mCommentList = new ArrayList<>();
     private final Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -59,8 +59,8 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
     }
 
     @Override
-    public void post(BlogComment parent) {
-        Blog blog = mView.getBlog();
+    public void post(BlogCommentBean parent) {
+        BlogBean blog = mView.getBlog();
         if (parent == null) {
             mBlogApi.addBlogComment(blog.getBlogId(), blog.getBlogApp(), "", mView.getCommentContent(), mCommentListener);
             return;
@@ -75,7 +75,7 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
     }
 
     @Override
-    public void delete(BlogComment item) {
+    public void delete(BlogCommentBean item) {
         mDelCommentListener.setBlogComment(item);
         mBlogApi.deleteBlogComment(item.getId(), mDelCommentListener);
     }
@@ -83,7 +83,7 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
     @Override
     public void start() {
         mPage = 1;
-        Blog blog = mView.getBlog();
+        BlogBean blog = mView.getBlog();
         if (blog == null) {
             mView.onLoadCommentEmpty();
             return;
@@ -92,7 +92,7 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
         onLoadData(blog, mPage);
     }
 
-    protected void onLoadData(Blog blog, int page) {
+    protected void onLoadData(BlogBean blog, int page) {
         mBlogApi.getBlogComments(page, blog.getBlogId(), blog.getBlogApp(), this);
     }
 
@@ -103,7 +103,7 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
     }
 
     @Override
-    public void onApiSuccess(List<BlogComment> data) {
+    public void onApiSuccess(List<BlogCommentBean> data) {
         if (Rae.isEmpty(data)) {
             if (mPage <= 1)
                 mView.onLoadCommentEmpty();
@@ -137,9 +137,9 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
 
     public class BlogCommentListener implements ApiUiListener<Void> {
 
-        private BlogComment mItem;
+        private BlogCommentBean mItem;
 
-        public void setBlogComment(BlogComment item) {
+        public void setBlogComment(BlogCommentBean item) {
             mItem = item;
         }
 

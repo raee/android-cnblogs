@@ -1,6 +1,6 @@
 package com.rae.cnblogs.presenter;
 
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 
@@ -31,9 +31,9 @@ public interface IBlogContentPresenter {
 
     interface IBlogContentView {
 
-        Blog getBlog();
+        BlogBean getBlog();
 
-        void onLoadContentSuccess(Blog blog);
+        void onLoadContentSuccess(BlogBean blog);
 
         void onLoadContentFailed(String msg);
 

@@ -17,7 +17,7 @@ import java.util.List;
  * Created by ChenRui on 2016/11/28 23:45.
  */
 @Table(name = "blogs")
-public class Blog extends Model implements Parcelable {
+public class BlogBean extends Model implements Parcelable {
     @Column
     private String title;
     @Column
@@ -169,7 +169,7 @@ public class Blog extends Model implements Parcelable {
         this.postDate = postDate;
     }
 
-    public Blog() {
+    public BlogBean() {
         super();
     }
 
@@ -191,8 +191,8 @@ public class Blog extends Model implements Parcelable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Blog && !TextUtils.isEmpty(blogId)) {
-            return TextUtils.equals(blogId, ((Blog) obj).getBlogId());
+        if (obj instanceof BlogBean && !TextUtils.isEmpty(blogId)) {
+            return TextUtils.equals(blogId, ((BlogBean) obj).getBlogId());
         }
         return super.equals(obj);
     }
@@ -222,7 +222,7 @@ public class Blog extends Model implements Parcelable {
         dest.writeString(this.likes);
     }
 
-    protected Blog(Parcel in) {
+    protected BlogBean(Parcel in) {
         this.title = in.readString();
         this.url = in.readString();
         this.avatar = in.readString();
@@ -241,15 +241,15 @@ public class Blog extends Model implements Parcelable {
         this.likes = in.readString();
     }
 
-    public static final Creator<Blog> CREATOR = new Creator<Blog>() {
+    public static final Creator<BlogBean> CREATOR = new Creator<BlogBean>() {
         @Override
-        public Blog createFromParcel(Parcel source) {
-            return new Blog(source);
+        public BlogBean createFromParcel(Parcel source) {
+            return new BlogBean(source);
         }
 
         @Override
-        public Blog[] newArray(int size) {
-            return new Blog[size];
+        public BlogBean[] newArray(int size) {
+            return new BlogBean[size];
         }
     };
 

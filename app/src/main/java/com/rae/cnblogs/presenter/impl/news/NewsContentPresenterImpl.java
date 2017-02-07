@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.rae.cnblogs.presenter.impl.blog.BlogContentPresenterImpl;
 import com.rae.cnblogs.sdk.INewsApi;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 
 /**
  * 新闻内容
@@ -19,7 +19,7 @@ public class NewsContentPresenterImpl extends BlogContentPresenterImpl {
     }
 
     @Override
-    protected void onLoadData(Blog blog) {
+    protected void onLoadData(BlogBean blog) {
         mNewsApi.getNewsContent(blog.getBlogId(), this);
     }
 

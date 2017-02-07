@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.bean.BlogType;
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 
 import butterknife.BindView;
 
@@ -20,7 +20,7 @@ public class BlogTypeListFragment extends BlogListFragment {
     @BindView(R.id.tv_title)
     TextView mTitleView;
 
-    public static BlogTypeListFragment newInstance(Category category, BlogType type) {
+    public static BlogTypeListFragment newInstance(CategoryBean category, BlogType type) {
         Bundle args = new Bundle();
         args.putParcelable("category", category);
         args.putString("type", type.getTypeName());

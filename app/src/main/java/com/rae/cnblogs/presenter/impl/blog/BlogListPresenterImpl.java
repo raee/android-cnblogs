@@ -7,8 +7,8 @@ import android.os.Message;
 import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.presenter.impl.BasePresenter;
 import com.rae.cnblogs.sdk.IBlogApi;
-import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.db.DbBlog;
 import com.rae.core.Rae;
 import com.rae.core.sdk.ApiUiArrayListener;
@@ -21,12 +21,12 @@ import java.util.List;
  * 博客列表处理
  * Created by ChenRui on 2016/12/2 00:25.
  */
-public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlogListView> implements IBlogListPresenter, ApiUiArrayListener<Blog> {
+public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlogListView> implements IBlogListPresenter, ApiUiArrayListener<BlogBean> {
 
     protected IBlogApi mApi;
     private DbBlog mDbBlog;
     private int mPageIndex = 1;
-    private final List<Blog> mBlogList = new ArrayList<>();
+    private final List<BlogBean> mBlogList = new ArrayList<>();
     private final Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -52,7 +52,7 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     /**
      * 加数据
      */
-    protected void onLoadData(Category category, int pageIndex) {
+    protected void onLoadData(CategoryBean category, int pageIndex) {
         mApi.getBlogList(pageIndex, category.getType(), category.getParentId(), category.getCategoryId(), this);
     }
 
@@ -62,7 +62,7 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     }
 
     @Override
-    public void onApiSuccess(List<Blog> data) {
+    public void onApiSuccess(List<BlogBean> data) {
 
         // 保存到数据库
         if (!Rae.isEmpty(data)) {

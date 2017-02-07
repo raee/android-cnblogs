@@ -3,7 +3,7 @@ package com.rae.cnblogs.presenter.impl.kb;
 import android.content.Context;
 
 import com.rae.cnblogs.presenter.impl.blog.BlogListPresenterImpl;
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 
 /**
  * 知识库
@@ -16,7 +16,7 @@ public class KBListPresenterImpl extends BlogListPresenterImpl {
     }
 
     @Override
-    protected void onLoadData(Category category, int pageIndex) {
+    protected void onLoadData(CategoryBean category, int pageIndex) {
         mApi.getKbArticles(pageIndex, this);
     }
 }

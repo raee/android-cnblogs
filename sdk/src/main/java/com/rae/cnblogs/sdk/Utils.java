@@ -25,6 +25,11 @@ public final class Utils {
     }
 
     public static String getDate(String text) {
+        if (TextUtils.isEmpty(text)) {
+            return text;
+        }
+
+        text = text.replace("T", " ").replace("Z", "");
 
         String regx = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}";
         Matcher matcher = Pattern.compile(regx).matcher(text);

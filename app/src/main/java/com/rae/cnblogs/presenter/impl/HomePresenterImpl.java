@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.rae.cnblogs.presenter.IHomePresenter;
 import com.rae.cnblogs.sdk.UserProvider;
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiException;
 
@@ -15,9 +15,9 @@ import java.util.List;
  * 首页处理
  * Created by ChenRui on 2016/12/2 00:25.
  */
-public class HomePresenterImpl extends BasePresenter<IHomePresenter.IHomeView> implements IHomePresenter, ApiUiArrayListener<Category> {
+public class HomePresenterImpl extends BasePresenter<IHomePresenter.IHomeView> implements IHomePresenter, ApiUiArrayListener<CategoryBean> {
 
-    private List<Category> mCategoryData;
+    private List<CategoryBean> mCategoryData;
 
     public HomePresenterImpl(Context context, IHomeView view) {
         super(context, view);
@@ -40,15 +40,15 @@ public class HomePresenterImpl extends BasePresenter<IHomePresenter.IHomeView> i
     @Override
     public void onApiFailed(ApiException ex, String msg) {
         // 发生错误至少加载首页这个分类
-        List<Category> data = new ArrayList<>();
+        List<CategoryBean> data = new ArrayList<>();
 
-        Category home = new Category();
+        CategoryBean home = new CategoryBean();
         home.setCategoryId("808");
         home.setParentId("0");
         home.setName("首页");
         home.setType("SiteHome");
 
-        Category recommend = new Category();
+        CategoryBean recommend = new CategoryBean();
         recommend.setCategoryId("-2");
         recommend.setParentId("0");
         recommend.setName("推荐");
@@ -59,7 +59,7 @@ public class HomePresenterImpl extends BasePresenter<IHomePresenter.IHomeView> i
     }
 
     @Override
-    public void onApiSuccess(List<Category> data) {
+    public void onApiSuccess(List<CategoryBean> data) {
         // 集合发生改变才回调
         if (mCategoryData == null || mCategoryData.size() != data.size()) {
             mView.onLoadCategory(data);

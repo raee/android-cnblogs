@@ -18,8 +18,8 @@ import com.rae.cnblogs.model.MenuDialogItem;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogCommentPresenter;
 import com.rae.cnblogs.sdk.UserProvider;
-import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
@@ -39,7 +39,7 @@ import butterknife.BindView;
  */
 public class BlogCommentFragment extends BaseFragment implements IBlogCommentPresenter.IBlogCommentView, EditCommentDialog.OnEditCommentListener {
 
-    public static BlogCommentFragment newInstance(Blog blog, BlogType type) {
+    public static BlogCommentFragment newInstance(BlogBean blog, BlogType type) {
         Bundle args = new Bundle();
         args.putString("type", type.getTypeName());
         args.putParcelable("blog", blog);
@@ -59,7 +59,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     private BlogCommentItemAdapter mItemAdapter;
     private IBlogCommentPresenter mCommentPresenter;
 
-    private Blog mBlog;
+    private BlogBean mBlog;
 
     private EditCommentDialog mEditCommentDialog;
 
@@ -142,7 +142,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
         mItemAdapter.setOnBlogCommentItemClick(new BlogCommentItemAdapter.OnBlogCommentItemClick() {
             @Override
-            public void onItemClick(BlogComment comment) {
+            public void onItemClick(BlogCommentBean comment) {
                 mEditCommentDialog.show(comment);
             }
         });
@@ -150,7 +150,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
         // 长按删除评论
         mItemAdapter.setOnBlogCommentItemLongClick(new BlogCommentItemAdapter.OnBlogCommentItemClick() {
             @Override
-            public void onItemClick(BlogComment comment) {
+            public void onItemClick(BlogCommentBean comment) {
                 // 判断当前评论是否属于自己的
                 UserProvider instance = UserProvider.getInstance();
                 if (instance.isLogin() && instance.getLoginUserInfo().getDisplayName().equalsIgnoreCase(comment.getAuthorName().trim())) {
@@ -188,7 +188,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     }
 
     @Override
-    public void onLoadCommentSuccess(List<BlogComment> data) {
+    public void onLoadCommentSuccess(List<BlogCommentBean> data) {
         mPlaceholderView.dismiss();
         mItemAdapter.invalidate(data);
         mItemAdapter.notifyDataSetChanged();
@@ -196,7 +196,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     }
 
     @Override
-    public Blog getBlog() {
+    public BlogBean getBlog() {
         return mBlog;
     }
 
@@ -237,7 +237,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     }
 
     @Override
-    public void onDeleteCommentSuccess(BlogComment item) {
+    public void onDeleteCommentSuccess(BlogCommentBean item) {
         AppUI.dismiss();
         // 删除成功
         mItemAdapter.remove(item);
@@ -251,7 +251,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     }
 
     @Override
-    public void onPostComment(String content, BlogComment parent, boolean isReference) {
+    public void onPostComment(String content, BlogCommentBean parent, boolean isReference) {
         // 发表评论
         AppUI.loading(getContext(), "正在发表..");
         mCommentPresenter.post(parent);

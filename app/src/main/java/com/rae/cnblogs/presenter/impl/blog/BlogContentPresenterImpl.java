@@ -7,7 +7,7 @@ import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.presenter.impl.BasePresenter;
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.IBookmarksApi;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BookmarksBean;
 import com.rae.cnblogs.sdk.db.DbBlog;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
@@ -35,7 +35,7 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
 
     @Override
     public void loadContent() {
-        Blog blog = mView.getBlog();
+        BlogBean blog = mView.getBlog();
         if (blog == null) return;
 
         // 获取用户的博客信息
@@ -59,13 +59,13 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
         onLoadData(blog);
     }
 
-    protected void onLoadData(Blog blog) {
+    protected void onLoadData(BlogBean blog) {
         mBlogApi.getBlogContent(blog.getBlogId(), this);
     }
 
     @Override
     public void doLike(boolean isCancel) {
-        Blog blog = mView.getBlog();
+        BlogBean blog = mView.getBlog();
 
         if (isCancel) {
             mBlogApi.unLikeBlog(blog.getBlogId(), blog.getBlogApp(), getLikeAndBookmarksListener(true, true));
@@ -85,7 +85,7 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
 
     @Override
     public void doBookmarks(boolean isCancel) {
-        Blog blog = mView.getBlog();
+        BlogBean blog = mView.getBlog();
         BookmarksBean m = new BookmarksBean(blog.getTitle(), blog.getSummary(), blog.getUrl());
 
         if (isCancel) {

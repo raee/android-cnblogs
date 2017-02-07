@@ -3,7 +3,7 @@ package com.rae.cnblogs.sdk.parser;
 import android.text.TextUtils;
 
 import com.rae.cnblogs.sdk.Utils;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.core.sdk.ApiUiArrayListener;
 
@@ -20,9 +20,9 @@ import java.util.regex.Pattern;
  * 知识库列表解析器
  * Created by ChenRui on 2017/1/18 0018 18:27.
  */
-public class KBListParser extends HtmlParser<Blog> {
+public class KBListParser extends HtmlParser<BlogBean> {
 
-    public KBListParser(ApiUiArrayListener<Blog> arrayListener) {
+    public KBListParser(ApiUiArrayListener<BlogBean> arrayListener) {
         super(arrayListener);
     }
 
@@ -30,10 +30,10 @@ public class KBListParser extends HtmlParser<Blog> {
     protected void onParseHtmlDocument(Document document) {
 
         // 解析HTML
-        List<Blog> result = new ArrayList<>();
+        List<BlogBean> result = new ArrayList<>();
         Elements elements = document.select(".kb_item");
         for (Element element : elements) {
-            Blog m = new Blog();
+            BlogBean m = new BlogBean();
             m.setBlogId(Utils.getNumber(element.attr("id")));
             m.setTitle(element.select(".kb_entry .kb-title").text());
             m.setTag(element.select(".kb_entry .deepred").text());

@@ -9,7 +9,7 @@ import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogCommentItemAdapter;
 import com.rae.cnblogs.dialog.impl.MenuDialog;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
@@ -45,10 +45,10 @@ public class TestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         BlogCommentItemAdapter adapter = new BlogCommentItemAdapter();
-        List<BlogComment> data = new ArrayList<>();
+        List<BlogCommentBean> data = new ArrayList<>();
         DecimalFormat df = new DecimalFormat("00.##");
         for (int i = 1; i <= 60; i++) {
-            BlogComment m = new BlogComment();
+            BlogCommentBean m = new BlogCommentBean();
             m.setBody("I AM CONTENT " + df.format(i));
             m.setAuthorName("ITEM " + df.format(i));
             data.add(m);

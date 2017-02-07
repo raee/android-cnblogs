@@ -1,7 +1,7 @@
 package com.rae.cnblogs.sdk;
 
-import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 
@@ -18,7 +18,7 @@ public interface IBlogApi {
      * @param parentId   父ID
      * @param categoryId 分类ID
      */
-    void getBlogList(int page, String type, String parentId, String categoryId, ApiUiArrayListener<Blog> listener);
+    void getBlogList(int page, String type, String parentId, String categoryId, ApiUiArrayListener<BlogBean> listener);
 
     /**
      * 获取博客文章内容
@@ -33,12 +33,12 @@ public interface IBlogApi {
      * @param id      博客ID
      * @param blogApp 博主ID
      */
-    void getBlogComments(int page, String id, String blogApp, ApiUiArrayListener<BlogComment> listener);
+    void getBlogComments(int page, String id, String blogApp, ApiUiArrayListener<BlogCommentBean> listener);
 
     /**
      * 分页获取知识库
      */
-    void getKbArticles(int page, ApiUiArrayListener<Blog> listener);
+    void getKbArticles(int page, ApiUiArrayListener<BlogBean> listener);
 
 
     /**
@@ -90,7 +90,7 @@ public interface IBlogApi {
      * @param comment 引用回复
      * @param content 评论内容
      */
-    void addBlogComment(String id, String blogApp, BlogComment comment, String content, ApiUiListener<Void> listener);
+    void addBlogComment(String id, String blogApp, BlogCommentBean comment, String content, ApiUiListener<Void> listener);
 
     /**
      * 删除博客评论

@@ -13,7 +13,7 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.BlogItemViewHolder;
 import com.rae.cnblogs.model.ItemLoadingViewHolder;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.core.Rae;
 
@@ -24,7 +24,7 @@ import java.util.List;
  * 博客列表ITEM
  * Created by ChenRui on 2016/12/2 0002 19:43.
  */
-public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.ViewHolder> implements View.OnClickListener {
+public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.ViewHolder> implements View.OnClickListener {
 
     private static final int VIEW_TYPE_NORMAL = 0;
     private static final int VIEW_TYPE_LOADING = 2;
@@ -42,9 +42,9 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
         mAvatarOptions = RaeImageLoader.headerOption();
         mBlogType = type;
         int size = 5;
-        List<Blog> data = new ArrayList<>();
+        List<BlogBean> data = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            Blog m = new Blog();
+            BlogBean m = new BlogBean();
             m.setTag("loading");
             data.add(m);
         }
@@ -55,7 +55,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
 
     @Override
     public int getItemViewType(int position) {
-        Blog blog = getDataItem(position);
+        BlogBean blog = getDataItem(position);
         if (TextUtils.equals("loading", blog.getTag())) {
             return VIEW_TYPE_LOADING;
         }
@@ -72,7 +72,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder vh, int position, Blog m) {
+    public void onBindViewHolder(RecyclerView.ViewHolder vh, int position, BlogBean m) {
 
         if (getItemViewType(position) == VIEW_TYPE_LOADING) {
             return;
@@ -109,7 +109,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
      * @param m
      * @param holder
      */
-    private void showThumbImages(Blog m, BlogItemViewHolder holder) {
+    private void showThumbImages(BlogBean m, BlogItemViewHolder holder) {
         List<String> thumbs = m.getThumbs();
         if (Rae.isEmpty(thumbs)) {
             //  没有预览图
@@ -136,7 +136,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<Blog, RecyclerView.View
 
     @Override
     public void onClick(View view) {
-        Blog blog = (Blog) view.getTag();
+        BlogBean blog = (BlogBean) view.getTag();
         AppRoute.jumpToBlogContent(view.getContext(), blog, mBlogType);
     }
 

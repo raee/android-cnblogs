@@ -16,7 +16,7 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 import com.rae.cnblogs.widget.ImageLoadingView;
@@ -40,7 +40,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     private ImageLoadingView mBookmarksView;
     private BlogType mBlogType;
 
-    public static BlogContentFragment newInstance(Blog blog, BlogType type) {
+    public static BlogContentFragment newInstance(BlogBean blog, BlogType type) {
         Bundle args = new Bundle();
         args.putParcelable("blog", blog);
         args.putString("type", type.getTypeName());
@@ -50,7 +50,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     }
 
 
-    private Blog mBlog;
+    private BlogBean mBlog;
     private IBlogContentPresenter mContentPresenter;
 
     @Override
@@ -99,12 +99,12 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
 
     @Override
-    public Blog getBlog() {
+    public BlogBean getBlog() {
         return mBlog;
     }
 
     @Override
-    public void onLoadContentSuccess(Blog blog) {
+    public void onLoadContentSuccess(BlogBean blog) {
         mPlaceholderView.dismiss();
         mWebView.loadUrl("file:///android_asset/view.html");
     }

@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.rae.cnblogs.presenter.impl.blog.BlogCommentPresenterImpl;
 import com.rae.cnblogs.sdk.INewsApi;
-import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 
 /**
  * 评论
@@ -22,13 +22,13 @@ public class NewsCommentPresenterImpl extends BlogCommentPresenterImpl {
     }
 
     @Override
-    protected void onLoadData(Blog blog, int page) {
+    protected void onLoadData(BlogBean blog, int page) {
         mNewsApi.getNewsComment(blog.getBlogId(), page, this);
     }
 
     @Override
-    public void post(BlogComment parent) {
-        Blog blog = mView.getBlog();
+    public void post(BlogCommentBean parent) {
+        BlogBean blog = mView.getBlog();
         if (parent == null) {
             mNewsApi.addNewsComment(blog.getBlogId(), "", mView.getCommentContent(), getCommentListener());
             return;
@@ -45,7 +45,7 @@ public class NewsCommentPresenterImpl extends BlogCommentPresenterImpl {
     }
 
     @Override
-    public void delete(BlogComment item) {
+    public void delete(BlogCommentBean item) {
         mDelCommentListener.setBlogComment(item);
         mNewsApi.deleteNewsComment(mView.getBlog().getBlogId(), item.getId(), mDelCommentListener);
     }

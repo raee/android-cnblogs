@@ -9,7 +9,7 @@ import android.text.TextUtils;
 
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 
 /**
  * 分享对话框
@@ -17,9 +17,9 @@ import com.rae.cnblogs.sdk.bean.Blog;
  */
 public class BlogShareDialog extends ShareDialog {
 
-    private final Blog mBlog;
+    private final BlogBean mBlog;
 
-    public BlogShareDialog(Context context, Blog blog) {
+    public BlogShareDialog(Context context, BlogBean blog) {
         super(context);
         mBlog = blog;
 

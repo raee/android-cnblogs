@@ -2,8 +2,8 @@ package com.rae.cnblogs.presenter;
 
 import android.support.annotation.Nullable;
 
-import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 
 import java.util.List;
 
@@ -20,14 +20,14 @@ public interface IBlogCommentPresenter extends IRaePresenter {
      *
      * @param parent 要回复的评论，可以为空。为空则发表新评论
      */
-    void post(@Nullable BlogComment parent);
+    void post(@Nullable BlogCommentBean parent);
 
-    void delete(BlogComment item);
+    void delete(BlogCommentBean item);
 
     interface IBlogCommentView {
-        void onLoadCommentSuccess(List<BlogComment> data);
+        void onLoadCommentSuccess(List<BlogCommentBean> data);
 
-        Blog getBlog();
+        BlogBean getBlog();
 
         void onLoadCommentEmpty();
 
@@ -59,7 +59,7 @@ public interface IBlogCommentPresenter extends IRaePresenter {
          */
         boolean enableReferenceComment();
 
-        void onDeleteCommentSuccess(BlogComment item);
+        void onDeleteCommentSuccess(BlogCommentBean item);
 
         void onDeleteCommentFailed(String msg);
     }

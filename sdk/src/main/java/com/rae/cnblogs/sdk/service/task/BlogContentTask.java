@@ -6,7 +6,7 @@ import android.util.Log;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.INewsApi;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.DbBlog;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class BlogContentTask extends BlogServiceTask {
 
-    private final Queue<Blog> mBlogQueue = new LinkedList<>(); // 待离线下载列表
+    private final Queue<BlogBean> mBlogQueue = new LinkedList<>(); // 待离线下载列表
 
     private IBlogApi mBlogApi;
     private final static String TAG = "BlogContentTask";
@@ -52,13 +52,13 @@ public class BlogContentTask extends BlogServiceTask {
 
         // 查询要下载的博客列表
         final DbBlog db = new DbBlog();
-        List<Blog> list = db.findAllWithoutBlogContnet();
+        List<BlogBean> list = db.findAllWithoutBlogContnet();
         if (Rae.isEmpty(list)) {
             return;
         }
 
         // 添加到队列中去
-        for (Blog model : list) {
+        for (BlogBean model : list) {
             mBlogQueue.add(model);
         }
 
@@ -69,7 +69,7 @@ public class BlogContentTask extends BlogServiceTask {
             }
 
             // 获取博文内容
-            final Blog blog = mBlogQueue.poll();
+            final BlogBean blog = mBlogQueue.poll();
 
             // 等待下载完成
 
@@ -98,11 +98,11 @@ public class BlogContentTask extends BlogServiceTask {
 
     private class ApiListener implements ApiUiListener<String> {
 
-        private Blog mBlog;
+        private BlogBean mBlog;
         private CountDownLatch mCountDownLatch;
         private DbBlog mDbBlog;
 
-        ApiListener(Blog blog) {
+        ApiListener(BlogBean blog) {
             mBlog = blog;
             mDbBlog = new DbBlog();
             mCountDownLatch = new CountDownLatch(1);

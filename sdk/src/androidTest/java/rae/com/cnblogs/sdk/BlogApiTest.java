@@ -5,8 +5,8 @@ import android.webkit.CookieManager;
 
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.ICategoryApi;
-import com.rae.cnblogs.sdk.bean.BlogComment;
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;
@@ -43,7 +43,7 @@ public class BlogApiTest extends BaseTest {
         startTest(new Runnable() {
             @Override
             public void run() {
-                mCategoryApi.getCategory(new ApiUiArrayListener<Category>() {
+                mCategoryApi.getCategory(new ApiUiArrayListener<CategoryBean>() {
                     @Override
                     public void onApiFailed(ApiException ex, String msg) {
                         error(ex);
@@ -51,8 +51,8 @@ public class BlogApiTest extends BaseTest {
                     }
 
                     @Override
-                    public void onApiSuccess(List<Category> data) {
-                        for (Category blog : data) {
+                    public void onApiSuccess(List<CategoryBean> data) {
+                        for (CategoryBean blog : data) {
                             log("%s --> %s", blog.getName(), blog.getCategoryId());
                         }
                         stop();
@@ -98,16 +98,16 @@ public class BlogApiTest extends BaseTest {
         startTest(new Runnable() {
             @Override
             public void run() {
-                mApi.getBlogComments(1, "6134506", "pengze0902", new ApiUiArrayListener<BlogComment>() {
+                mApi.getBlogComments(1, "6134506", "pengze0902", new ApiUiArrayListener<BlogCommentBean>() {
                     @Override
                     public void onApiFailed(ApiException ex, String msg) {
                         stop();
                     }
 
                     @Override
-                    public void onApiSuccess(List<BlogComment> data) {
+                    public void onApiSuccess(List<BlogCommentBean> data) {
 
-                        for (BlogComment comment : data) {
+                        for (BlogCommentBean comment : data) {
                             log(comment.getBody());
                         }
                         stop();

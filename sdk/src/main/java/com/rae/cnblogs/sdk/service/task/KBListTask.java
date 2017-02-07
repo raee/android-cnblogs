@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.db.DbBlog;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiException;
@@ -32,14 +32,14 @@ public class KBListTask extends BlogServiceTask {
         final DbBlog dbBlog = new DbBlog();
         for (int page = 0; page < pageSize; page++) {
 
-            blogApi.getKbArticles(page, new ApiUiArrayListener<Blog>() {
+            blogApi.getKbArticles(page, new ApiUiArrayListener<BlogBean>() {
                 @Override
                 public void onApiFailed(ApiException ex, String msg) {
                     countDownLatch.countDown();
                 }
 
                 @Override
-                public void onApiSuccess(List<Blog> data) {
+                public void onApiSuccess(List<BlogBean> data) {
                     // 保存到列表中
                     dbBlog.addAll(data);
                     countDownLatch.countDown();

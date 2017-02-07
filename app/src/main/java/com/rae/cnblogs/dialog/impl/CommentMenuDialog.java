@@ -2,7 +2,7 @@ package com.rae.cnblogs.dialog.impl;
 
 import android.content.Context;
 
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 
 /**
  * 评论的菜单
@@ -10,17 +10,17 @@ import com.rae.cnblogs.sdk.bean.BlogComment;
  */
 public class CommentMenuDialog extends MenuDialog {
 
-    private BlogComment mBlogComment;
+    private BlogCommentBean mBlogComment;
 
     public CommentMenuDialog(Context context) {
         super(context);
     }
 
-    public void setBlogComment(BlogComment blogComment) {
+    public void setBlogComment(BlogCommentBean blogComment) {
         mBlogComment = blogComment;
     }
 
-    public BlogComment getBlogComment() {
+    public BlogCommentBean getBlogComment() {
         return mBlogComment;
     }
 }

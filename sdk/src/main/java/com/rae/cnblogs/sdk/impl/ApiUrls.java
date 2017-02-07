@@ -73,5 +73,23 @@ final class ApiUrls {
     /**
      * 新闻点赞
      */
-    public static final String API_NEWS_LIKE = "https://news.cnblogs.com/News/VoteNews";
+    static final String API_NEWS_LIKE = "https://news.cnblogs.com/News/VoteNews";
+
+    // 用户中心
+    static final String API_USER_CENTER = "https://home.cnblogs.com/u/@blogApp/";
+
+    // 关注博主
+    public static final String API_FRIENDS_FOLLOW = "https://home.cnblogs.com/ajax/follow/FollowUser";
+
+    // 取消关注博主
+    public static final String API_FRIENDS_UN_FOLLOW = "https://home.cnblogs.com/ajax/follow/RemoveFollow";
+
+    // 博主的博客列表
+    public static final String API_FRIENDS_BLOG_LIST = "http://wcf.open.cnblogs.com/blog/u/@blogApp/posts/@page/20";
+
+    // 关注列表
+    public static final String API_FRIENDS_FOLLOW_LIST = "https://home.cnblogs.com/relation_users";
+
+    // 粉丝列表
+    public static final String API_FRIENDS_FANS_LIST = "https://home.cnblogs.com/relation_users";
 }

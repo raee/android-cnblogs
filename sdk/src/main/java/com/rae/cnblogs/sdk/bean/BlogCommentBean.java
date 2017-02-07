@@ -6,7 +6,7 @@ import android.text.TextUtils;
  * 博客评论实体
  * Created by ChenRui on 2016/12/10 18:00.
  */
-public class BlogComment {
+public class BlogCommentBean {
 
     private String id;
     private String authorName;
@@ -75,8 +75,8 @@ public class BlogComment {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof BlogComment) {
-            BlogComment comment = (BlogComment) obj;
+        if (obj instanceof BlogCommentBean) {
+            BlogCommentBean comment = (BlogCommentBean) obj;
             return TextUtils.equals(comment.getId(), this.getId());
         }
         return super.equals(obj);

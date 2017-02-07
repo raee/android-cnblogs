@@ -12,7 +12,7 @@ import com.activeandroid.annotation.Table;
  * Created by ChenRui on 2016/11/30 0030 17:20.
  */
 @Table(name = "categories")
-public class Category extends Model implements Parcelable {
+public class CategoryBean extends Model implements Parcelable {
     @Column
     private String categoryId;
     @Column
@@ -76,7 +76,7 @@ public class Category extends Model implements Parcelable {
     }
 
 
-    public Category() {
+    public CategoryBean() {
         super();
     }
 
@@ -100,7 +100,7 @@ public class Category extends Model implements Parcelable {
         dest.writeByte(this.isHide ? (byte) 1 : (byte) 0);
     }
 
-    protected Category(Parcel in) {
+    protected CategoryBean(Parcel in) {
         this.categoryId = in.readString();
         this.parentId = in.readString();
         this.name = in.readString();
@@ -109,15 +109,15 @@ public class Category extends Model implements Parcelable {
         this.isHide = in.readByte() != 0;
     }
 
-    public static final Creator<Category> CREATOR = new Creator<Category>() {
+    public static final Creator<CategoryBean> CREATOR = new Creator<CategoryBean>() {
         @Override
-        public Category createFromParcel(Parcel source) {
-            return new Category(source);
+        public CategoryBean createFromParcel(Parcel source) {
+            return new CategoryBean(source);
         }
 
         @Override
-        public Category[] newArray(int size) {
-            return new Category[size];
+        public CategoryBean[] newArray(int size) {
+            return new CategoryBean[size];
         }
     };
 }

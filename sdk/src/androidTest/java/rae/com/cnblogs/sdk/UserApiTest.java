@@ -41,7 +41,7 @@ public class UserApiTest extends BaseTest {
 
                     @Override
                     public void onApiSuccess(LoginTokenBean loginTokenBean) {
-                        stop(loginTokenBean.getAccess_token());
+                        stop();
                     }
                 });
             }
@@ -73,20 +73,11 @@ public class UserApiTest extends BaseTest {
         startTest(new Runnable() {
             @Override
             public void run() {
-                mApi.getUserInfo(new ApiUiListener<UserInfoBean>() {
-                    @Override
-                    public void onApiFailed(ApiException e, String s) {
-                        error(s);
-                    }
-
-                    @Override
-                    public void onApiSuccess(UserInfoBean userInfo) {
-                        stop(userInfo.getDisplayName());
-                    }
-                });
+                mApi.getUserInfo(listener(UserInfoBean.class));
             }
         });
     }
+
 
     @Test
     public void testWebApiLogin() {

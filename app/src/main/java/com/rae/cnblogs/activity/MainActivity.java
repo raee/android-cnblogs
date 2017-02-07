@@ -13,7 +13,7 @@ import com.rae.cnblogs.fragment.BlogTypeListFragment;
 import com.rae.cnblogs.fragment.HomeFragment;
 import com.rae.cnblogs.fragment.MineFragment;
 import com.rae.cnblogs.sdk.bean.BlogType;
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.core.fm.RaeFragmentAdapter;
 
 import butterknife.BindView;
@@ -36,11 +36,11 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         mFragmentAdapter = new RaeFragmentAdapter(getSupportFragmentManager());
 
-        Category kb = new Category();
+        CategoryBean kb = new CategoryBean();
         kb.setType("kb");
         kb.setName(getString(R.string.tab_library));
 
-        Category news = new Category();
+        CategoryBean news = new CategoryBean();
         news.setType("news");
         news.setName(getString(R.string.tab_news));
 

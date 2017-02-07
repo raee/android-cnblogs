@@ -1,6 +1,6 @@
 package com.rae.cnblogs.sdk;
 
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.core.sdk.ApiUiArrayListener;
 
 /**
@@ -14,6 +14,6 @@ public interface ICategoryApi {
      *
      * @param listener
      */
-    void getCategory(ApiUiArrayListener<Category> listener);
+    void getCategory(ApiUiArrayListener<CategoryBean> listener);
 
 }

@@ -3,8 +3,8 @@ package com.rae.cnblogs.sdk.impl;
 import android.content.Context;
 
 import com.rae.cnblogs.sdk.IBlogApi;
-import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.cnblogs.sdk.parser.BlogCommentParser;
 import com.rae.cnblogs.sdk.parser.BlogContentParser;
 import com.rae.cnblogs.sdk.parser.BlogListParser;
@@ -51,7 +51,7 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
     }
 
     @Override
-    public void getBlogList(int page, String type, String parentId, String categoryId, ApiUiArrayListener<Blog> listener) {
+    public void getBlogList(int page, String type, String parentId, String categoryId, ApiUiArrayListener<BlogBean> listener) {
         post(ApiUrls.API_BLOG_LIST,
                 newParams().add("CategoryType", type)
                         .add("ParentCategoryId", parentId)
@@ -68,12 +68,12 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
     }
 
     @Override
-    public void getBlogComments(int page, String id, String blogApp, ApiUiArrayListener<BlogComment> listener) {
+    public void getBlogComments(int page, String id, String blogApp, ApiUiArrayListener<BlogCommentBean> listener) {
         get(ApiUrls.API_BLOG_COMMENT_LIST, newParams().add("postId", id).add("blogApp", blogApp).add("pageIndex", page), new BlogCommentParser(listener));
     }
 
     @Override
-    public void getKbArticles(int page, ApiUiArrayListener<Blog> listener) {
+    public void getKbArticles(int page, ApiUiArrayListener<BlogBean> listener) {
         post(ApiUrls.API_KB_LIST.replace("@page", String.valueOf(page)), newParams().add("PageIndex", page), new KBListParser(listener));
     }
 
@@ -139,7 +139,7 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
     }
 
     @Override
-    public void addBlogComment(String id, String blogApp, BlogComment comment, String content, ApiUiListener<Void> listener) {
+    public void addBlogComment(String id, String blogApp, BlogCommentBean comment, String content, ApiUiListener<Void> listener) {
 
         if (isNotLogin()) {
             listener.onApiFailed(new ApiException(ApiErrorCode.ERROR_NOT_LOGIN), ApiErrorCode.ERROR_NOT_LOGIN.getMessage());
@@ -174,5 +174,6 @@ public class BlogApiImpl extends CnblogsBaseApi implements IBlogApi {
                         .add("pageIndex", "0"),
                 new CnBlogsWebApiResponse<>(Void.class, listener));
     }
+
 
 }

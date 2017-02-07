@@ -8,88 +8,67 @@ import android.os.Parcelable;
  * Created by ChenRui on 2017/1/14 02:21.
  */
 public class UserInfoBean implements Parcelable {
+
     /**
-     * UserId : b73f02a0-081c-4127-adea-6e475340feb6
-     * SpaceUserId : 2
-     * BlogId : 3
-     * DisplayName : sample string 4
-     * Face : sample string 5
-     * Avatar : sample string 6
-     * Seniority : sample string 7
-     * BlogApp : sample string 8
+     * 用户ID，不同于blogApp
      */
+    private String userId;
 
-    private String UserId;
-    private int SpaceUserId;
-    private int BlogId;
-    private String DisplayName;
-    private String Face;
-    private String Avatar;
-    private String Seniority;
-    private String BlogApp;
+    private String blogApp;
 
-    public String getUserId() {
-        return UserId;
-    }
+    /**
+     * 头像地址
+     */
+    private String avatar;
 
-    public void setUserId(String UserId) {
-        this.UserId = UserId;
-    }
+    /**
+     * 昵称
+     */
+    private String displayName;
 
-    public int getSpaceUserId() {
-        return SpaceUserId;
-    }
-
-    public void setSpaceUserId(int SpaceUserId) {
-        this.SpaceUserId = SpaceUserId;
-    }
-
-    public int getBlogId() {
-        return BlogId;
-    }
-
-    public void setBlogId(int BlogId) {
-        this.BlogId = BlogId;
-    }
-
-    public String getDisplayName() {
-        return DisplayName;
-    }
-
-    public void setDisplayName(String DisplayName) {
-        this.DisplayName = DisplayName;
-    }
-
-    public String getFace() {
-        return Face;
-    }
-
-    public void setFace(String Face) {
-        this.Face = Face;
-    }
+    /**
+     * 备注名称
+     */
+    private String remarkName;
 
     public String getAvatar() {
-        return Avatar;
+        return avatar;
     }
 
-    public void setAvatar(String Avatar) {
-        this.Avatar = Avatar;
-    }
-
-    public String getSeniority() {
-        return Seniority;
-    }
-
-    public void setSeniority(String Seniority) {
-        this.Seniority = Seniority;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getBlogApp() {
-        return BlogApp;
+        return blogApp;
     }
 
-    public void setBlogApp(String BlogApp) {
-        this.BlogApp = BlogApp;
+    public void setBlogApp(String blogApp) {
+        this.blogApp = blogApp;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getRemarkName() {
+        return remarkName;
+    }
+
+    public void setRemarkName(String remarkName) {
+        this.remarkName = remarkName;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -99,31 +78,25 @@ public class UserInfoBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.UserId);
-        dest.writeInt(this.SpaceUserId);
-        dest.writeInt(this.BlogId);
-        dest.writeString(this.DisplayName);
-        dest.writeString(this.Face);
-        dest.writeString(this.Avatar);
-        dest.writeString(this.Seniority);
-        dest.writeString(this.BlogApp);
+        dest.writeString(this.userId);
+        dest.writeString(this.blogApp);
+        dest.writeString(this.avatar);
+        dest.writeString(this.displayName);
+        dest.writeString(this.remarkName);
     }
 
     public UserInfoBean() {
     }
 
     protected UserInfoBean(Parcel in) {
-        this.UserId = in.readString();
-        this.SpaceUserId = in.readInt();
-        this.BlogId = in.readInt();
-        this.DisplayName = in.readString();
-        this.Face = in.readString();
-        this.Avatar = in.readString();
-        this.Seniority = in.readString();
-        this.BlogApp = in.readString();
+        this.userId = in.readString();
+        this.blogApp = in.readString();
+        this.avatar = in.readString();
+        this.displayName = in.readString();
+        this.remarkName = in.readString();
     }
 
-    public static final Parcelable.Creator<UserInfoBean> CREATOR = new Parcelable.Creator<UserInfoBean>() {
+    public static final Creator<UserInfoBean> CREATOR = new Creator<UserInfoBean>() {
         @Override
         public UserInfoBean createFromParcel(Parcel source) {
             return new UserInfoBean(source);

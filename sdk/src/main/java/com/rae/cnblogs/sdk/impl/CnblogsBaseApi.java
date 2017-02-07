@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.webkit.CookieManager;
 
 import com.android.volley.Request;
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
 import com.rae.cnblogs.sdk.parser.CnblogApiResponse;
@@ -24,9 +25,16 @@ class CnblogsBaseApi extends RaeBaseApi {
 
     boolean mShouldCache = true;
 
+    private UserProvider mUserProvider;
 
-    CnblogsBaseApi(Context context) {
+
+    public CnblogsBaseApi(Context context) {
         super(context);
+        mUserProvider = UserProvider.getInstance();
+    }
+
+    UserProvider user() {
+        return mUserProvider;
     }
 
     /**
@@ -115,16 +123,12 @@ class CnblogsBaseApi extends RaeBaseApi {
     }
 
     public boolean isLogin() {
-        // 是否有登录COOKIE
-        CookieManager manager = CookieManager.getInstance();
-        String cookie = manager.getCookie("http://www.cnblogs.com");
-        return !TextUtils.isEmpty(cookie) && cookie.contains(".CNBlogsCookie");
+        return user().isLogin();
     }
 
-    protected boolean isNotLogin() {
+    boolean isNotLogin() {
         return !isLogin();
     }
-
 
     public void setShouldCache(boolean shouldCache) {
         mShouldCache = shouldCache;

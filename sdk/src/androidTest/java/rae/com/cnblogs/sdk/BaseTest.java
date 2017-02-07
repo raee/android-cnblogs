@@ -17,7 +17,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -31,6 +33,8 @@ public class BaseTest {
     protected Context mContext;
 
     private final CountDownLatch mCountDownLatch = new CountDownLatch(1);
+
+    private Queue<ApiTestRunnable> mTestRunnables = new LinkedList<>();
 
     @Before
     public void setup() {
@@ -49,6 +53,25 @@ public class BaseTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void put(ApiTestRunnable runnable) {
+        mTestRunnables.add(runnable);
+    }
+
+    public void runTestGroup() {
+        for (ApiTestRunnable runnable : mTestRunnables) {
+            CountDownLatch countDownLatch = new CountDownLatch(1);
+            runnable.setCountDownLatch(countDownLatch);
+            runnable.run();
+            try {
+                countDownLatch.await(30, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
     }
 
     public void stop() {

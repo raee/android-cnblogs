@@ -1,7 +1,7 @@
 package com.rae.cnblogs.presenter;
 
-import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 
 import java.util.List;
 
@@ -20,11 +20,11 @@ public interface IBlogListPresenter extends IRaePresenter {
 
     interface IBlogListView {
 
-        void onLoadBlogList(int pageIndex, List<Blog> data);
+        void onLoadBlogList(int pageIndex, List<BlogBean> data);
 
         void onLoadFailed(int pageIndex, String msg);
 
-        Category getCategory();
+        CategoryBean getCategory();
 
     }
 }

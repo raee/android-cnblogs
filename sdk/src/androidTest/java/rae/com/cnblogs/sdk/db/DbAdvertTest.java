@@ -5,7 +5,7 @@ import android.util.Log;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.ICategoryApi;
 import com.rae.cnblogs.sdk.bean.AdvertBean;
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.db.DbAdvert;
 import com.rae.cnblogs.sdk.db.DbCategory;
 import com.rae.core.sdk.ApiUiArrayListener;
@@ -50,7 +50,7 @@ public class DbAdvertTest extends BaseTest {
 
     @Test
     public void testAddCategory() {
-        Category category = new Category();
+        CategoryBean category = new CategoryBean();
         category.setName("test");
         category.save();
 
@@ -61,14 +61,14 @@ public class DbAdvertTest extends BaseTest {
     public void testSaveCategory() throws InterruptedException {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         ICategoryApi categoryApi = CnblogsApiFactory.getInstance(mContext).getCategoryApi();
-        categoryApi.getCategory(new ApiUiArrayListener<Category>() {
+        categoryApi.getCategory(new ApiUiArrayListener<CategoryBean>() {
             @Override
             public void onApiFailed(ApiException ex, String msg) {
                 countDownLatch.countDown();
             }
 
             @Override
-            public void onApiSuccess(List<Category> data) {
+            public void onApiSuccess(List<CategoryBean> data) {
                 DbCategory db = new DbCategory();
                 db.reset(data);
                 countDownLatch.countDown();
@@ -79,8 +79,8 @@ public class DbAdvertTest extends BaseTest {
 
     @Test
     public void testFindCategory() {
-        List<Category> list = new DbCategory().list();
-        for (Category category : list) {
+        List<CategoryBean> list = new DbCategory().list();
+        for (CategoryBean category : list) {
             Log.d("RAe", category.getCategoryId() + " = " + category.getName());
         }
     }

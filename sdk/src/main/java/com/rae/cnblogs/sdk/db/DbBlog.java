@@ -4,7 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.activeandroid.query.Select;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 
 import java.util.List;
@@ -13,15 +13,15 @@ import java.util.List;
  * 博客数据库
  * Created by ChenRui on 2017/1/25 0025 16:56.
  */
-public class DbBlog extends DbCnblogs<Blog> {
+public class DbBlog extends DbCnblogs<BlogBean> {
 
     public UserBlogInfo get(String blogId) {
         if (TextUtils.isEmpty(blogId)) return null;
         return new Select().from(UserBlogInfo.class).where("blogId=?", blogId).executeSingle();
     }
 
-    public Blog getBlog(String blogId) {
-        return new Select().from(Blog.class).where("blogId=?", blogId).executeSingle();
+    public BlogBean getBlog(String blogId) {
+        return new Select().from(BlogBean.class).where("blogId=?", blogId).executeSingle();
     }
 
     public void saveBlogInfo(UserBlogInfo m) {
@@ -30,10 +30,10 @@ public class DbBlog extends DbCnblogs<Blog> {
 
 
     public boolean exists(String blogId) {
-        return new Select().from(Blog.class).where("blogId=?", blogId).exists();
+        return new Select().from(BlogBean.class).where("blogId=?", blogId).exists();
     }
 
-    public void addAll(final List<Blog> blogs) {
+    public void addAll(final List<BlogBean> blogs) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -41,7 +41,7 @@ public class DbBlog extends DbCnblogs<Blog> {
                 executeTransaction(new Runnable() {
                     @Override
                     public void run() {
-                        for (Blog blog : blogs) {
+                        for (BlogBean blog : blogs) {
                             // 查找是否已经有了，有了就跳过
                             if (exists(blog.getBlogId())) {
                                 Log.w("rae-db", "跳过：" + blog.getBlogId() + " = " + blog.getTitle());
@@ -58,8 +58,8 @@ public class DbBlog extends DbCnblogs<Blog> {
         }).start();
     }
 
-    public List<Blog> findAll() {
-        return new Select().from(Blog.class).execute();
+    public List<BlogBean> findAll() {
+        return new Select().from(BlogBean.class).execute();
     }
 
     /**
@@ -67,12 +67,12 @@ public class DbBlog extends DbCnblogs<Blog> {
      *
      * @return
      */
-    public List<Blog> findAllWithoutBlogContnet() {
-        return new Select().from(Blog.class).as("blog").leftJoin(UserBlogInfo.class).as("info").on("blog.blogId=info.blogId").where("info.content is NULL").execute();
+    public List<BlogBean> findAllWithoutBlogContnet() {
+        return new Select().from(BlogBean.class).as("blog").leftJoin(UserBlogInfo.class).as("info").on("blog.blogId=info.blogId").where("info.content is NULL").execute();
     }
 
 
-    public void updateBlog(Blog m) {
+    public void updateBlog(BlogBean m) {
         m.save();
     }
 }

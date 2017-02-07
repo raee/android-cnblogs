@@ -5,7 +5,7 @@ import android.content.Context;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.rae.cnblogs.sdk.ICategoryApi;
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.db.DbCategory;
 import com.rae.core.Rae;
 import com.rae.core.sdk.ApiUiArrayListener;
@@ -29,10 +29,10 @@ public class CategoryApiImpl extends CnblogsBaseApi implements ICategoryApi {
     }
 
     @Override
-    public void getCategory(ApiUiArrayListener<Category> listener) {
+    public void getCategory(ApiUiArrayListener<CategoryBean> listener) {
         // 从数据库中获取
         DbCategory db = new DbCategory();
-        List<Category> list = db.list();
+        List<CategoryBean> list = db.list();
 
         // 没有数据,开始初始化数据
         if (Rae.isEmpty(list)) {
@@ -50,11 +50,11 @@ public class CategoryApiImpl extends CnblogsBaseApi implements ICategoryApi {
 
     }
 
-    private List<Category> getFromAssets() {
+    private List<CategoryBean> getFromAssets() {
         String json = readString("category.json");
         if (json == null) return null;
         try {
-            return JSON.parseArray(json, Category.class);
+            return JSON.parseArray(json, CategoryBean.class);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

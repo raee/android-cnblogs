@@ -1,7 +1,7 @@
 package com.rae.cnblogs.sdk.parser;
 
 import com.rae.cnblogs.sdk.Utils;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.core.sdk.ApiUiArrayListener;
 
@@ -16,19 +16,19 @@ import java.util.List;
  * 新闻列表解析器
  * Created by ChenRui on 2017/1/18 0018 18:27.
  */
-public class NewsListParser extends HtmlParser<Blog> {
+public class NewsListParser extends HtmlParser<BlogBean> {
 
-    public NewsListParser(ApiUiArrayListener<Blog> arrayListener) {
+    public NewsListParser(ApiUiArrayListener<BlogBean> arrayListener) {
         super(arrayListener);
     }
 
     @Override
     protected void onParseHtmlDocument(Document document) {
         // 解析HTML
-        List<Blog> result = new ArrayList<>();
+        List<BlogBean> result = new ArrayList<>();
         Elements elements = document.select("entry");
         for (Element element : elements) {
-            Blog m = new Blog();
+            BlogBean m = new BlogBean();
             m.setBlogId(element.select("id").text());
             m.setTitle(element.select("title").text());
             m.setSummary(element.select("summary").text());

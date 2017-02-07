@@ -35,4 +35,5 @@ public interface IUserApi {
      * 获取用户信息，不需再保存登录信息了。你可以通过{@link UserProvider} 来管理用户
      */
     void getUserInfo(ApiUiListener<UserInfoBean> listener);
+
 }

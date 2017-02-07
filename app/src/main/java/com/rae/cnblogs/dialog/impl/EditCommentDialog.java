@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.UserProvider;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +31,7 @@ public class EditCommentDialog extends SlideDialog {
          * @param parent      引用评论
          * @param isReference 是否引用评论内容
          */
-        void onPostComment(String content, BlogComment parent, boolean isReference);
+        void onPostComment(String content, BlogCommentBean parent, boolean isReference);
     }
 
     @BindView(R.id.et_edit_comment_body)
@@ -40,7 +40,7 @@ public class EditCommentDialog extends SlideDialog {
     @BindView(R.id.cb_ref_comment)
     CheckBox mReferenceView;
 
-    private BlogComment mBlogComment;
+    private BlogCommentBean mBlogComment;
 
     private OnEditCommentListener mOnEditCommentListener;
 
@@ -70,7 +70,7 @@ public class EditCommentDialog extends SlideDialog {
         mBodyView.setText("");
     }
 
-    public void show(BlogComment comment) {
+    public void show(BlogCommentBean comment) {
         setBlogComment(comment);
         show();
         mReferenceView.setVisibility(View.VISIBLE);
@@ -88,11 +88,11 @@ public class EditCommentDialog extends SlideDialog {
         mBlogComment = null;
     }
 
-    public void setBlogComment(BlogComment blogComment) {
+    public void setBlogComment(BlogCommentBean blogComment) {
         mBlogComment = blogComment;
     }
 
-    public BlogComment getBlogComment() {
+    public BlogCommentBean getBlogComment() {
         return mBlogComment;
     }
 

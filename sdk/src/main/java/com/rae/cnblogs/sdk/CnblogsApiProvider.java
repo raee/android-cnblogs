@@ -38,6 +38,11 @@ public abstract class CnblogsApiProvider {
     public abstract INewsApi getNewsApi();
 
     /**
+     * 获取朋友圈接口
+     */
+    public abstract IFriendsApi getFriendApi();
+
+    /**
      * 取消所有请求
      */
     public abstract void cancel();

@@ -11,7 +11,7 @@ import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
 import com.rae.cnblogs.activity.WebActivity;
 import com.rae.cnblogs.activity.WebLoginActivity;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 
 /**
@@ -39,7 +39,7 @@ public final class AppRoute {
         startActivityForResult(context, new Intent(context, cls), requestCode);
     }
 
-    public static void jumpToBlogContent(Context context, Blog blog, BlogType type) {
+    public static void jumpToBlogContent(Context context, BlogBean blog, BlogType type) {
         Intent intent = new Intent(context, BlogContentActivity.class);
         intent.putExtra("blog", blog);
         intent.putExtra("type", type.getTypeName());

@@ -1,6 +1,6 @@
 package com.rae.cnblogs.presenter;
 
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 public interface IHomePresenter extends IRaePresenter {
 
     interface IHomeView {
-        void onLoadCategory(List<Category> data);
+        void onLoadCategory(List<CategoryBean> data);
 
         /**
          * 加载用户信息

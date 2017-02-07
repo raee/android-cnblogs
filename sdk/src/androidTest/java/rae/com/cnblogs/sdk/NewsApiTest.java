@@ -2,8 +2,8 @@ package rae.com.cnblogs.sdk;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,7 @@ public class NewsApiTest extends BaseTest {
         startTest(new Runnable() {
             @Override
             public void run() {
-                getApiProvider().getNewsApi().getNews(1, listListener(Blog.class));
+                getApiProvider().getNewsApi().getNews(1, listListener(BlogBean.class));
             }
         });
     }
@@ -49,7 +49,7 @@ public class NewsApiTest extends BaseTest {
         startTest(new Runnable() {
             @Override
             public void run() {
-                BlogComment comment = new BlogComment();
+                BlogCommentBean comment = new BlogCommentBean();
                 comment.setId("360847");
                 comment.setBlogApp("Rae");
                 comment.setBody("dgfd");

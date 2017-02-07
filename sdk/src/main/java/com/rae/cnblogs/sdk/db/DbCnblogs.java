@@ -5,8 +5,8 @@ import android.content.Context;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
 import com.rae.cnblogs.sdk.bean.AdvertBean;
-import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 
 /**
@@ -20,10 +20,10 @@ public abstract class DbCnblogs<T> {
                 .Builder(applicationContext)
                 .setDatabaseName("cnblogs.db")
                 .setDatabaseVersion(1)
-                .addModelClass(Category.class)
+                .addModelClass(CategoryBean.class)
                 .addModelClass(UserBlogInfo.class)
                 .addModelClass(AdvertBean.class)
-                .addModelClass(Blog.class)
+                .addModelClass(BlogBean.class)
                 .create();
         ActiveAndroid.initialize(config, true);
     }

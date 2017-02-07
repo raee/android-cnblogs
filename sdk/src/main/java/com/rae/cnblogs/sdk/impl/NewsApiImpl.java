@@ -4,8 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.rae.cnblogs.sdk.INewsApi;
-import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.cnblogs.sdk.parser.CnBlogsWebApiResponse;
 import com.rae.cnblogs.sdk.parser.NewsCommentParser;
 import com.rae.cnblogs.sdk.parser.NewsContentParser;
@@ -49,7 +49,7 @@ public class NewsApiImpl extends CnblogsBaseApi implements INewsApi {
     }
 
     @Override
-    public void getNews(int page, ApiUiArrayListener<Blog> listener) {
+    public void getNews(int page, ApiUiArrayListener<BlogBean> listener) {
         get(ApiUrls.API_NEWS_LIST.replace("@page", String.valueOf(page)), newParams().add("page", page), new NewsListParser(listener));
     }
 
@@ -59,7 +59,7 @@ public class NewsApiImpl extends CnblogsBaseApi implements INewsApi {
     }
 
     @Override
-    public void getNewsComment(String newsId, int page, ApiUiArrayListener<BlogComment> listener) {
+    public void getNewsComment(String newsId, int page, ApiUiArrayListener<BlogCommentBean> listener) {
         get(ApiUrls.API_NEWS_COMMENT, newParams().add("contentId", newsId).add("page", page), new NewsCommentParser(listener));
     }
 
@@ -88,7 +88,7 @@ public class NewsApiImpl extends CnblogsBaseApi implements INewsApi {
     }
 
     @Override
-    public void addNewsComment(String id, BlogComment comment, String content, ApiUiListener<Void> listener) {
+    public void addNewsComment(String id, BlogCommentBean comment, String content, ApiUiListener<Void> listener) {
         StringBuilder sb = new StringBuilder();
         sb.append("@");
         sb.append(comment.getBlogApp());

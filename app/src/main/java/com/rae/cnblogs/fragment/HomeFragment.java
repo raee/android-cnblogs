@@ -14,7 +14,7 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IHomePresenter;
 import com.rae.cnblogs.sdk.bean.BlogType;
-import com.rae.cnblogs.sdk.bean.Category;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.core.fm.RaeFragmentAdapter;
 
@@ -79,10 +79,10 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     }
 
     @Override
-    public void onLoadCategory(List<Category> data) {
+    public void onLoadCategory(List<CategoryBean> data) {
         mAdapter.clear();
 
-        for (Category category : data) {
+        for (CategoryBean category : data) {
             mAdapter.add(category.getName(), BlogListFragment.newInstance(category, BlogType.BLOG));
         }
 

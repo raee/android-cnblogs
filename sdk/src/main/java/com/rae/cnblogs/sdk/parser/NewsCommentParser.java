@@ -1,7 +1,7 @@
 package com.rae.cnblogs.sdk.parser;
 
 import com.rae.cnblogs.sdk.Utils;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiErrorCode;
 import com.rae.core.sdk.exception.ApiException;
@@ -19,20 +19,20 @@ import java.util.List;
  * Created by ChenRui on 2017/1/18 0018 18:27.
  */
 public class NewsCommentParser implements IApiJsonResponse {
-    private final ApiUiArrayListener<BlogComment> mListener;
+    private final ApiUiArrayListener<BlogCommentBean> mListener;
 
-    public NewsCommentParser(ApiUiArrayListener<BlogComment> listener) {
+    public NewsCommentParser(ApiUiArrayListener<BlogCommentBean> listener) {
         mListener = listener;
     }
 
     @Override
     public void onJsonResponse(String json) {
         // 解析HTML
-        List<BlogComment> result = new ArrayList<>();
+        List<BlogCommentBean> result = new ArrayList<>();
         Document document = Jsoup.parse(json);
         Elements elements = document.select(".user_comment");
         for (Element element : elements) {
-            BlogComment m = new BlogComment();
+            BlogCommentBean m = new BlogCommentBean();
             m.setId(Utils.getNumber(element.select(".comment_main").attr("id")));
             m.setAuthorName(element.select(".comment-author").text());
             m.setLike(Utils.getCount(".agree_" + m.getId()));

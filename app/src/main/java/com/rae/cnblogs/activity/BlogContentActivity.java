@@ -19,7 +19,7 @@ import com.rae.cnblogs.dialog.impl.BlogShareDialog;
 import com.rae.cnblogs.fragment.BlogCommentFragment;
 import com.rae.cnblogs.fragment.BlogContentFragment;
 import com.rae.cnblogs.message.EditCommentEvent;
-import com.rae.cnblogs.sdk.bean.Blog;
+import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 
@@ -65,7 +65,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     RaeDrawerLayout mCommentLayout;
 
     private BlogShareDialog mShareDialog;
-    private Blog mBlog;
+    private BlogBean mBlog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

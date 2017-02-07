@@ -1,7 +1,7 @@
 package com.rae.cnblogs.sdk;
 
-import com.rae.cnblogs.sdk.bean.Blog;
-import com.rae.cnblogs.sdk.bean.BlogComment;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.ApiUiListener;
 
@@ -10,11 +10,11 @@ import com.rae.core.sdk.ApiUiListener;
  */
 public interface INewsApi {
 
-    void getNews(int page, ApiUiArrayListener<Blog> listener);
+    void getNews(int page, ApiUiArrayListener<BlogBean> listener);
 
     void getNewsContent(String newsId, ApiUiListener<String> listener);
 
-    void getNewsComment(String newsId, int page, ApiUiArrayListener<BlogComment> listener);
+    void getNewsComment(String newsId, int page, ApiUiArrayListener<BlogCommentBean> listener);
 
     /**
      * 发表新闻评论
@@ -32,7 +32,7 @@ public interface INewsApi {
      * @param comment 引用回复
      * @param content 评论内容
      */
-    void addNewsComment(String newsId, BlogComment comment, String content, ApiUiListener<Void> listener);
+    void addNewsComment(String newsId, BlogCommentBean comment, String content, ApiUiListener<Void> listener);
 
     /**
      * 删除新闻评论
