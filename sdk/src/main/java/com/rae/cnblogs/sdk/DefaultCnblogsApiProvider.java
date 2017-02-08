@@ -6,6 +6,7 @@ import com.rae.cnblogs.sdk.impl.BlogApiImpl;
 import com.rae.cnblogs.sdk.impl.CategoryApiImpl;
 import com.rae.cnblogs.sdk.impl.FriendsApiImpl;
 import com.rae.cnblogs.sdk.impl.NewsApiImpl;
+import com.rae.cnblogs.sdk.impl.SearchApiImpl;
 import com.rae.cnblogs.sdk.impl.WebBookmarksApiImpl;
 import com.rae.cnblogs.sdk.impl.WebUserApiImpl;
 import com.rae.core.sdk.net.VolleyManager;
@@ -57,6 +58,11 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
     @Override
     public IFriendsApi getFriendApi() {
         return new FriendsApiImpl(mContext);
+    }
+
+    @Override
+    public ISearchApi getSearchApi() {
+        return new SearchApiImpl(mContext);
     }
 
     @Override

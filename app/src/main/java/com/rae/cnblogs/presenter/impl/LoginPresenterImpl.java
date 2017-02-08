@@ -10,6 +10,7 @@ import com.rae.cnblogs.sdk.bean.LoginTokenBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 登录逻辑
@@ -18,6 +19,7 @@ import com.rae.core.sdk.exception.ApiException;
 public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView> implements ILoginPresenter, ApiUiListener<LoginTokenBean> {
 
     private IUserApi mUserApi;
+    private boolean mFromLogin;
 
     public LoginPresenterImpl(Context context, ILoginView view) {
         super(context, view);
@@ -37,6 +39,7 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
             return;
         }
 
+        mFromLogin = true;
         mUserApi.login(userName, pwd, null, this);
     }
 
@@ -51,7 +54,12 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
 
             @Override
             public void onApiSuccess(UserInfoBean data) {
-                // 保存用户信息
+
+                // 统计用户
+                if (mFromLogin) {
+                    MobclickAgent.onProfileSignIn(data.getBlogApp());
+                }
+
                 mView.onLoginSuccess(data);
             }
         });
@@ -74,5 +82,6 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
     @Override
     public void onApiSuccess(LoginTokenBean data) {
         loadUserInfo();
+
     }
 }

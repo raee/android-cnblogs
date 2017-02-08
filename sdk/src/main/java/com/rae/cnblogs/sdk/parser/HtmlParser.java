@@ -29,13 +29,13 @@ public abstract class HtmlParser<T> implements IParser<T> {
 
     @Override
     public void onJsonResponse(String html) {
-        try {
+//        try {
             // 解析XML
             Document document = Jsoup.parse(html);
             onParseHtmlDocument(document);
-        } catch (Exception e) {
-            onJsonResponseError(ApiErrorCode.ERROR_JSON_PARSE.getErrorCode(), e);
-        }
+//        } catch (Exception e) {
+//            onJsonResponseError(ApiErrorCode.ERROR_JSON_PARSE.getErrorCode(), e);
+//        }
     }
 
     @Override

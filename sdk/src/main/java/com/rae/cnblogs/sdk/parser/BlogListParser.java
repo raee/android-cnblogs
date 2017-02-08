@@ -37,9 +37,7 @@ public class BlogListParser extends HtmlParser<BlogBean> {
         List<BlogBean> result = new ArrayList<>();
         Elements elements = document.select(".post_item");
         for (Element item : elements) {
-
             Elements element = item.select(".post_item_body");
-
             String id = Utils.getNumber(item.select(".digg .diggnum").attr("id"));
             String title = element.select(".titlelnk").text(); // 标题
             String url = element.select(".titlelnk").attr("href"); // 原文链接

@@ -15,6 +15,6 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fm_mine;
+        return R.layout.fm_blogger_info;
     }
 }

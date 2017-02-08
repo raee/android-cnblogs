@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -28,6 +29,7 @@ public class CnblogsApplication extends Application {
         DbCnblogs.init(this);
         RaeImageLoader.initImageLoader(this);
         initUmengShareConfig();
+        UserProvider.init(this);
 
         // 启动服务
 //        startService(new Intent(this, BlogService.class));

@@ -1,6 +1,8 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppBaseTheme" parent="Theme.AppCompat"/>
+
+    <style name="AppTheme" parent="AppBaseTheme">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/statusBarColor</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
@@ -11,7 +13,7 @@
         <item name="buttonStyle">@style/AppButton</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@style/AppAnimation</item>
-
+        <item name="android:windowBackground">@color/default_background</item>
     </style>
 
 
@@ -81,6 +83,21 @@
     <style name="progress_bar_web" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_web_view</item>
         <item name="android:minHeight">2dp</item>
+    </style>
+
+    <style name="ItemStyle">
+        <item name="android:background">@drawable/public_divider_while_primary</item>
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+        <item name="android:layout_marginRight">@dimen/default_margin</item>
+        <item name="android:paddingTop">18dp</item>
+        <item name="android:paddingBottom">18dp</item>
+    </style>
+
+
+    <style name="ItemTitleStyle">
+        <item name="android:textColor">#3b424c</item>
+        <item name="android:textSize">@dimen/h1</item>
+        <item name="android:drawableRight">@drawable/default_right_arrow</item>
     </style>
 
 </resources>

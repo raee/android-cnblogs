@@ -157,5 +157,4 @@ public class BlogApiTest extends BaseTest {
             }
         });
     }
-
 }

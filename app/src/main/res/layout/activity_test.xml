@@ -1,92 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/hint_card_1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="首页"/>
+
+
+        <Button
+            android:id="@+id/btn_test_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="登录"/>
+
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试"/>
+
+
+        <Button
+            android:id="@+id/btn_test_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="对话框"/>
+
+        <TextView
+            android:id="@+id/tv_console"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.rae.cnblogs.widget.ImageLoadingView
+            android:id="@+id/img_test_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="50dp"
+            android:src="@drawable/ic_like_content"/>
+
+    </LinearLayout>
+
+
+    <com.rae.cnblogs.widget.RaeDrawerLayout
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btn_main"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="首页"/>
-
-
-            <Button
-                android:id="@+id/btn_test_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="登录"/>
-
-            <Button
-                android:id="@+id/btn_test"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="测试"/>
-
-
-            <Button
-                android:id="@+id/btn_test_dialog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="对话框"/>
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary">
 
             <TextView
-                android:id="@+id/tv_console"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <com.rae.cnblogs.widget.ImageLoadingView
-                android:id="@+id/img_test_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="50dp"
-                android:src="@drawable/ic_like_content"/>
-
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="I AM TEST DEMO TEXT"
+                android:textColor="@color/dividerColor"
+                android:textSize="32sp"/>
         </LinearLayout>
 
 
-        <com.rae.cnblogs.widget.RaeDrawerLayout
-            android:id="@+id/test"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
+    </com.rae.cnblogs.widget.RaeDrawerLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorPrimary">
+    <com.rae.cnblogs.widget.RaeRecyclerView
+        android:id="@+id/rv_test"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_button_while"
+        android:gravity="center"
+        android:visibility="gone"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="I AM TEST DEMO TEXT"
-                    android:textColor="@color/dividerColor"
-                    android:textSize="32sp"/>
-            </LinearLayout>
-
-
-        </com.rae.cnblogs.widget.RaeDrawerLayout>
-
-        <com.rae.cnblogs.widget.RaeRecyclerView
-            android:id="@+id/rv_test"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_button_while"
-            android:gravity="center"
-            android:visibility="gone"/>
-
-    </RelativeLayout>
-</android.support.v4.widget.DrawerLayout>
+</RelativeLayout>

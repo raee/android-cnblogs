@@ -43,6 +43,11 @@ public abstract class CnblogsApiProvider {
     public abstract IFriendsApi getFriendApi();
 
     /**
+     * 获取搜索接口
+     */
+    public abstract ISearchApi getSearchApi();
+
+    /**
      * 取消所有请求
      */
     public abstract void cancel();

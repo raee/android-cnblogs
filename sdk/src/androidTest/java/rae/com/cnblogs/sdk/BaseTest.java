@@ -120,7 +120,7 @@ public class BaseTest {
         };
     }
 
-    protected <T> ApiUiArrayListener<T> listListener(Class<T> cls) {
+    protected <T> ApiUiArrayListener<T> listListener(final Class<T> cls) {
         return new ApiUiArrayListener<T>() {
             @Override
             public void onApiFailed(ApiException ex, String msg) {
@@ -129,7 +129,13 @@ public class BaseTest {
 
             @Override
             public void onApiSuccess(List<T> data) {
-                RUnitTestLogUtils.print("rae", data);
+                if (cls == String.class) {
+                    for (T t : data) {
+                        Log.d("rae", t.toString());
+                    }
+                } else {
+                    RUnitTestLogUtils.print("rae", data);
+                }
                 stop();
             }
         };

@@ -7,6 +7,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppMobclickAgent;
+import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.fragment.BlogTypeListFragment;
@@ -32,6 +34,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppStatusBar.setStatusbarToDark(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mFragmentAdapter = new RaeFragmentAdapter(getSupportFragmentManager());
@@ -80,8 +83,13 @@ public class MainActivity extends BaseActivity {
                     BlogTypeListFragment fragment = (BlogTypeListFragment) mFragmentAdapter.getItem(tab.getPosition());
                     fragment.scrollToTop();
                 }
+
             }
         });
+
+        // 统计打开时间
+        AppMobclickAgent.onAppOpenEvent(this);
+        mViewPager.setCurrentItem(0);
     }
 
     private void addTab(int resId, int iconId, Fragment fragment) {

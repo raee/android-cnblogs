@@ -81,6 +81,7 @@ public final class UserProvider {
 
         // 清除保存的登录信息
         mConfig.clearUserInfo();
+
     }
 
 }

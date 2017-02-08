@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.CountDownTimer;
 
 import com.github.raee.cnblogs.sdk.IAdvertApi;
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.presenter.ILauncherPresenter;
 import com.rae.cnblogs.sdk.bean.AdvertBean;
 import com.rae.cnblogs.sdk.db.DbAdvert;
@@ -43,6 +44,9 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
     public void advertClick() {
         mCountDownTimer.cancel();
 
+        // 统计
+        AppMobclickAgent.onLaunchAdClickEvent(mContext, mAdvertBean.getAd_id(), mAdvertBean.getAd_name());
+
         if ("URL".equalsIgnoreCase(mAdvertBean.getJump_type())) {
             mView.onJumpToWeb(mAdvertBean.getAd_url());
         } else if ("BLOG_CONTENT".equalsIgnoreCase(mAdvertBean.getJump_type())) {
@@ -69,6 +73,8 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
             if (System.currentTimeMillis() > endTime) {
                 mView.onNormalImage();
             } else {
+                // 统计
+                AppMobclickAgent.onLaunchAdExposureEvent(mContext, mAdvertBean.getAd_id(), mAdvertBean.getAd_name());
                 mView.onLoadImage(mAdvertBean.getAd_name(), mAdvertBean.getImage_url());
             }
         }

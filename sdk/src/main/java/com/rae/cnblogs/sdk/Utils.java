@@ -81,6 +81,7 @@ public final class Utils {
 
 
     public static String getNumber(String text) {
+        if (TextUtils.isEmpty(text)) return text;
         Matcher matcher = Pattern.compile("\\d+").matcher(text);
         if (matcher.find()) {
             return matcher.group();
