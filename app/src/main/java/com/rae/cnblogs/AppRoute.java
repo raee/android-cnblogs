@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.rae.cnblogs.activity.BlogContentActivity;
+import com.rae.cnblogs.activity.BloggerActivity;
 import com.rae.cnblogs.activity.ImagePreviewActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
@@ -89,5 +90,9 @@ public final class AppRoute {
 
     public static void jumpToImagePreview(Context context) {
         startActivity(context, ImagePreviewActivity.class);
+    }
+
+    public static void jumpToBlogger(Context context, String blogApp) {
+        startActivity(context, BloggerActivity.class);
     }
 }

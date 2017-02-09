@@ -78,6 +78,7 @@
             android:name=".activity.WebActivity"/>
         <activity android:name=".activity.WebLoginActivity"/>
         <activity android:name=".activity.ImagePreviewActivity"/>
+        <activity android:name=".activity.BloggerActivity"/>
 
 
         <meta-data

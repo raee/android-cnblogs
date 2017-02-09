@@ -11,10 +11,18 @@ public enum BlogType {
      * 博客
      */
     BLOG("BLOG"),
+
     /**
      * 新闻
      */
     NEWS("NEWS"),
+
+
+    /**
+     * 博主
+     */
+    BLOGGER("BLOGGER"),
+
     /**
      * 知识库
      */

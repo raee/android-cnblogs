@@ -67,6 +67,8 @@ public class TestActivity extends BaseActivity {
 //                return mRecyclerView.isOnTop();
 //            }
 //        });
+
+        AppRoute.jumpToBlogger(this, null);
     }
 
     private void log(String msg) {
@@ -78,6 +80,9 @@ public class TestActivity extends BaseActivity {
 //        mRaeDrawerLayout.toggleSmoothScroll();
 
 //        mLoadingView.loading();
+
+
+        AppRoute.jumpToBlogger(this, null);
 
         mLoadingView.postDelayed(new Runnable() {
             @Override

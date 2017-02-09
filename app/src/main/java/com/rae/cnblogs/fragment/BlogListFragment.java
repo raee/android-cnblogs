@@ -33,7 +33,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     public static BlogListFragment newInstance(CategoryBean category, BlogType type) {
         Bundle args = new Bundle();
         args.putParcelable("category", category);
-        args.putString("blogType", type.getTypeName());
+        args.putString("type", type.getTypeName());
         BlogListFragment fragment = new BlogListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -98,6 +98,10 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
                 mBlogListPresenter.loadMore();
             }
         });
+
+        if (mBlogType == BlogType.BLOGGER) {
+            mAppLayout.setEnabled(false);
+        }
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mBlogListPresenter.start();

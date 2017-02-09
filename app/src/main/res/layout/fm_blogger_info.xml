@@ -1,69 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.rae.cnblogs.widget.BloggerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <include layout="@layout/view_account_info"/>
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/tool_bar"
-            style="@style/AppToolBar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/action_bar_height"
-            android:layout_marginTop="@dimen/default_padding_top">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="#3b424c"
+                android:paddingBottom="40dp">
 
-                <Button
-                    style="@style/AppButton"
+                <LinearLayout
+                    android:id="@+id/ll_blog_avatar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/bg_btn_follow"
-                    android:text="@string/following"/>
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/default_padding_top">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/img_blog_avatar"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="32dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_default_user_avatar"
+                        app:riv_corner_radius="64dp"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_mine_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_blog_avatar"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="RAE敲代码"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/h1"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_mine_name"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_mine_name"
+                            android:layout_centerHorizontal="true"
+                            android:text="3"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/h3"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_mine_name"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="14dp"
+                            android:text="关注"
+                            android:textColor="@color/ph3"
+                            android:textSize="@dimen/h3"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="45dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_mine_name"
+                            android:layout_centerHorizontal="true"
+                            android:text="1"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/h3"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_mine_name"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="14dp"
+                            android:text="粉丝"
+                            android:textColor="@color/ph3"
+                            android:textSize="@dimen/h3"/>
+
+                    </LinearLayout>
+                </LinearLayout>
 
             </RelativeLayout>
-        </android.support.v7.widget.Toolbar>
 
 
-    </RelativeLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tool_bar"
+                style="@style/AppToolBar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/action_bar_height"
+                android:layout_marginTop="@dimen/default_padding_top">
 
-    <com.rae.cnblogs.widget.RaeTabLayout
-        android:id="@+id/tab_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/public_divider_while_primary"
-        app:tabBackground="@color/white"
-        app:tabIndicatorHeight="0dp"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="#515151"
-        app:tabTextAppearance="@style/TabTextAppearance"
-        app:tabTextColor="#aaaaaa">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="动态"/>
+                    <Button
+                        style="@style/AppButton"
+                        android:layout_width="52dp"
+                        android:layout_height="26dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/default_margin"
+                        android:background="@drawable/bg_btn_follow"
+                        android:text="@string/following"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/h3"/>
 
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="博客"/>
-
-    </com.rae.cnblogs.widget.RaeTabLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
 
 
-</LinearLayout>
+        </RelativeLayout>
+
+        <com.rae.cnblogs.widget.RaeTabLayout
+            android:id="@+id/tab_category"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/public_divider_while_primary"
+            app:tabBackground="@color/white"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="#515151"
+            app:tabTextAppearance="@style/TabTextAppearance"
+            app:tabTextColor="#aaaaaa">
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="动态"/>
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="博客"/>
+
+        </com.rae.cnblogs.widget.RaeTabLayout>
+
+        <com.rae.cnblogs.widget.RaeViewPager
+            android:id="@+id/vp_blogger"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+    </LinearLayout>
+
+</com.rae.cnblogs.widget.BloggerLayout>

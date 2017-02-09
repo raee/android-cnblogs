@@ -8,6 +8,7 @@ import com.rae.cnblogs.presenter.impl.LoginPresenterImpl;
 import com.rae.cnblogs.presenter.impl.blog.BlogCommentPresenterImpl;
 import com.rae.cnblogs.presenter.impl.blog.BlogContentPresenterImpl;
 import com.rae.cnblogs.presenter.impl.blog.BlogListPresenterImpl;
+import com.rae.cnblogs.presenter.impl.blog.BloggerListPresenterImpl;
 import com.rae.cnblogs.presenter.impl.kb.KBContentPresenterImpl;
 import com.rae.cnblogs.presenter.impl.kb.KBListPresenterImpl;
 import com.rae.cnblogs.presenter.impl.kb.KbCommentPresenterImpl;
@@ -39,6 +40,9 @@ public final class CnblogsPresenterFactory {
                 break;
             case KB:
                 presenter = getKbListPresenter(context, view);
+                break;
+            case BLOGGER:
+                presenter = new BloggerListPresenterImpl(context, view);
                 break;
             case UNKNOWN:
             case BLOG:
