@@ -7,6 +7,7 @@ import com.rae.cnblogs.sdk.Utils;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.DbBlog;
+import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 import com.rae.core.sdk.ApiUiArrayListener;
 
@@ -28,7 +29,7 @@ public class BlogListParser extends HtmlParser<BlogBean> {
 
     public BlogListParser(ApiUiArrayListener<BlogBean> listener) {
         super(listener);
-        mDbBlog = new DbBlog();
+        mDbBlog = DbFactory.getInstance().getBlog();
     }
 
     @Override

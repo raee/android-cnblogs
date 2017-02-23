@@ -27,6 +27,7 @@ import butterknife.BindView;
 public class WebViewFragment extends BaseFragment {
 
     private String mUrl;
+    private String mRawUrl;
     private RaeJavaScriptBridge mJavaScriptApi;
 
     public static WebViewFragment newInstance(String url) {
@@ -78,6 +79,9 @@ public class WebViewFragment extends BaseFragment {
         mWebView.setWebChromeClient(getWebChromeClient());
         mWebView.setWebViewClient(getWebViewClient());
 
+        if (mWebView != null && mUrl != null ) {
+            loadUrl(mUrl);
+        }
 
     }
 
@@ -85,16 +89,22 @@ public class WebViewFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mUrl = getArguments().getString("url");
+            mRawUrl = getArguments().getString("url");
+            mUrl = mRawUrl;
         }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if (mWebView != null && mUrl != null) {
-            loadUrl(mUrl);
-        }
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mWebView.removeAllViews();
+        mWebView.destroy();
     }
 
     @Override

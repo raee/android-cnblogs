@@ -91,6 +91,9 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
                 dialog.dismiss();
             }
         });
+
+        mUserNameView.setText("chenrui7");
+        mPasswordView.setText("chenrui123456789");
     }
 
     private void addAccountTextListener(AccountTextWatcher watcher) {

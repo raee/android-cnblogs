@@ -97,7 +97,6 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         mContentPresenter.loadContent();
     }
 
-
     @Override
     public BlogBean getBlog() {
         return mBlog;

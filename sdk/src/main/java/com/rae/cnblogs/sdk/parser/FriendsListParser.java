@@ -3,6 +3,7 @@ package com.rae.cnblogs.sdk.parser;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.rae.cnblogs.sdk.Utils;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.core.Rae;
 import com.rae.core.sdk.ApiUiArrayListener;
@@ -47,7 +48,7 @@ public class FriendsListParser extends RaeSimpleJsonResponse<UserInfoBean> {
             m.setDisplayName(user.getString("DisplayName"));
             m.setBlogApp(user.getString("Alias"));
             m.setRemarkName(user.getString("Remark"));
-            m.setAvatar(user.getString("IconName"));
+            m.setAvatar(Utils.getUrl(user.getString("IconName")));
             result.add(m);
         }
 

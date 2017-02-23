@@ -99,7 +99,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
 
         holder.itemView.setTag(m);
         holder.itemView.setOnClickListener(this);
-//        showThumbImages(m, holder);
+        showThumbImages(m, holder);
 
     }
 

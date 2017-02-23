@@ -6,6 +6,7 @@ import android.support.multidex.MultiDex;
 
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
+import com.squareup.leakcanary.LeakCanary;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -25,14 +26,11 @@ public class CnblogsApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sCnblogsApplication = this;
-
         DbCnblogs.init(this);
         RaeImageLoader.initImageLoader(this);
         initUmengShareConfig();
         UserProvider.init(this);
-
-        // 启动服务
-//        startService(new Intent(this, BlogService.class));
+        LeakCanary.install(this);
     }
 
     /**

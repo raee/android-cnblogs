@@ -8,6 +8,7 @@ import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.db.DbBlog;
 import com.rae.cnblogs.sdk.db.DbCategory;
+import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.core.Rae;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiException;
@@ -31,7 +32,7 @@ public class BlogListTask extends BlogServiceTask {
     @Override
     protected void runTask() {
         IBlogApi blogApi = CnblogsApiFactory.getInstance(mContext).getBlogApi();
-        DbCategory db = new DbCategory();
+        DbCategory db = DbFactory.getInstance().getCategory();
         List<CategoryBean> categories = db.getUserList();
         if (Rae.isEmpty(categories)) {
             return;
@@ -39,7 +40,7 @@ public class BlogListTask extends BlogServiceTask {
 
         int pageSize = mConfig.getPageSize();
         final CountDownLatch countDownLatch = new CountDownLatch(pageSize * categories.size());
-        final DbBlog dbBlog = new DbBlog();
+        final DbBlog dbBlog = DbFactory.getInstance().getBlog();
 
         // 遍历分类
         for (CategoryBean m : categories) {

@@ -70,4 +70,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
     compile 'com.github.Cutta:GifView:1.1'
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
 }

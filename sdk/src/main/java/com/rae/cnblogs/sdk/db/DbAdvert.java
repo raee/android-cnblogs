@@ -9,7 +9,10 @@ import com.rae.cnblogs.sdk.bean.AdvertBean;
  * 广告表
  * Created by ChenRui on 2016/12/22 23:12.
  */
-public class DbAdvert extends DbCnblogs<AdvertBean> {
+public class DbAdvert extends DbCnblogs {
+
+    DbAdvert() {
+    }
 
     protected From where(String clause, Object... args) {
         return new Select().from(AdvertBean.class).where(clause, args);

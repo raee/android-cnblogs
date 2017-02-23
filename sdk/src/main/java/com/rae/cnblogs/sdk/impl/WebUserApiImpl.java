@@ -77,6 +77,8 @@ public class WebUserApiImpl extends CnblogsBaseApi implements IUserApi {
                                     boolean hasCookie = !TextUtils.isEmpty(cookie) && cookie.contains("CNBlogsCookie");
                                     if (hasCookie && obj.containsKey("success") && obj.getBoolean("success")) {
                                         listener.onApiSuccess(null);
+                                    } else if (hasCookie && message.contains("登录状态")) {
+                                        listener.onApiSuccess(null);
                                     } else {
                                         listener.onApiFailed(new ApiException(ApiErrorCode.ERROR_SERVER), message);
                                     }
@@ -100,6 +102,11 @@ public class WebUserApiImpl extends CnblogsBaseApi implements IUserApi {
 
     @Override
     public void refreshLoginToken(ApiUiListener<LoginTokenBean> listener) {
+    }
+
+    @Override
+    boolean isNotLogin() {
+        return TextUtils.isEmpty(CookieManager.getInstance().getCookie(ApiUrls.API_SIGN_IN));
     }
 
     @Override

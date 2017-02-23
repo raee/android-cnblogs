@@ -7,6 +7,7 @@ import android.net.Uri;
 
 import com.rae.cnblogs.activity.BlogContentActivity;
 import com.rae.cnblogs.activity.BloggerActivity;
+import com.rae.cnblogs.activity.FriendsActivity;
 import com.rae.cnblogs.activity.ImagePreviewActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
@@ -86,6 +87,18 @@ public final class AppRoute {
      */
     public static void jumpToUserCenter(Context context) {
 
+    }
+
+    public static void jumpToFans(Context context) {
+        Intent intent = new Intent(context, FriendsActivity.class);
+        intent.putExtra("title", context.getString(R.string.title_fans));
+        startActivity(context, intent);
+    }
+
+    public static void jumpToFollow(Context context) {
+        Intent intent = new Intent(context, FriendsActivity.class);
+        intent.putExtra("title", context.getString(R.string.title_follow));
+        startActivity(context, intent);
     }
 
     public static void jumpToImagePreview(Context context) {

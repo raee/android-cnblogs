@@ -23,12 +23,16 @@ public class WebLoginFragment extends WebViewFragment {
         return fragment;
     }
 
+    private String mUserName;
+    private String mPassword;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 清除COOKIE
         CookieManager.getInstance().removeAllCookie();
     }
+
 
     @Override
     public WebViewClient getWebViewClient() {

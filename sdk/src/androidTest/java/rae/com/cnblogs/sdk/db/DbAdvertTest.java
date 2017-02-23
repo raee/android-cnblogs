@@ -7,7 +7,7 @@ import com.rae.cnblogs.sdk.ICategoryApi;
 import com.rae.cnblogs.sdk.bean.AdvertBean;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.db.DbAdvert;
-import com.rae.cnblogs.sdk.db.DbCategory;
+import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiException;
 
@@ -30,7 +30,7 @@ public class DbAdvertTest extends BaseTest {
     @Override
     public void setup() {
         super.setup();
-        mAdvert = new DbAdvert();
+        mAdvert = DbFactory.getInstance().getAdvert();
     }
 
     @Test
@@ -69,8 +69,7 @@ public class DbAdvertTest extends BaseTest {
 
             @Override
             public void onApiSuccess(List<CategoryBean> data) {
-                DbCategory db = new DbCategory();
-                db.reset(data);
+//                mAdvert.save();
                 countDownLatch.countDown();
             }
         });
@@ -79,10 +78,10 @@ public class DbAdvertTest extends BaseTest {
 
     @Test
     public void testFindCategory() {
-        List<CategoryBean> list = new DbCategory().list();
-        for (CategoryBean category : list) {
-            Log.d("RAe", category.getCategoryId() + " = " + category.getName());
-        }
+        AdvertBean category = mAdvert.getLauncherAd();
+//        for (CategoryBean category : list) {
+//            Log.d("RAe", category.getCategoryId() + " = " + category.getName());
+//        }
     }
 
 }

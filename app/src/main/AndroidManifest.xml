@@ -36,22 +36,22 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-            <!-- <intent-filter>
+             <intent-filter>
                  <action android:name="android.intent.action.MAIN"/>
 
                  <category android:name="android.intent.category.LAUNCHER"/>
-             </intent-filter>-->
+             </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.TestActivity"
             android:label="测试入口"
             android:screenOrientation="portrait">
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <activity
@@ -79,6 +79,7 @@
         <activity android:name=".activity.WebLoginActivity"/>
         <activity android:name=".activity.ImagePreviewActivity"/>
         <activity android:name=".activity.BloggerActivity"/>
+        <activity android:name=".activity.FriendsActivity"/>
 
 
         <meta-data

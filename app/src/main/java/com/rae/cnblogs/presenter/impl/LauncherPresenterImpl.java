@@ -8,6 +8,7 @@ import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.presenter.ILauncherPresenter;
 import com.rae.cnblogs.sdk.bean.AdvertBean;
 import com.rae.cnblogs.sdk.db.DbAdvert;
+import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;
 import com.rae.core.utils.RaeDateUtil;
@@ -26,7 +27,7 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
     public LauncherPresenterImpl(Context context, ILauncherView view) {
         super(context, view);
         mAdvertApi = getServerApi().getAdvertApi();
-        mDbAdvert = new DbAdvert();
+        mDbAdvert = DbFactory.getInstance().getAdvert();
         mCountDownTimer = new CountDownTimer(3500, 1000) {
             @Override
             public void onTick(long l) {

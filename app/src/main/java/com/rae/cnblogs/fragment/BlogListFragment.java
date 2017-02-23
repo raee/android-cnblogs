@@ -1,5 +1,6 @@
 package com.rae.cnblogs.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,6 +15,7 @@ import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
+import com.rae.cnblogs.sdk.service.BlogService;
 import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 
@@ -118,9 +120,9 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         mItemAdapter.notifyDataSetChanged();
 
         // 异步下载博文内容
-//        Intent intent = new Intent(BlogService.ACTION_OFFLINE_BLOG_CONTENT);
-//        intent.setClass(getContext(), BlogService.class);
-//        getContext().startService(intent);
+        Intent intent = new Intent(BlogService.ACTION_OFFLINE_BLOG_CONTENT);
+        intent.setClass(getContext(), BlogService.class);
+        getContext().startService(intent);
     }
 
     @Override

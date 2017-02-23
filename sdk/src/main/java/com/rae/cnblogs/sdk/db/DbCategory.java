@@ -11,8 +11,10 @@ import java.util.List;
  * 分类表
  * Created by ChenRui on 2016/12/1 00:24.
  */
-public class DbCategory extends DbCnblogs<CategoryBean> {
+public class DbCategory extends DbCnblogs {
 
+    DbCategory() {
+    }
 
     public void clear() {
         new Delete().from(CategoryBean.class).execute();

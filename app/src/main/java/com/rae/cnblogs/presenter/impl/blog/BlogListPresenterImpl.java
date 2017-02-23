@@ -10,6 +10,7 @@ import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.db.DbBlog;
+import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.core.Rae;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiException;
@@ -38,7 +39,7 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     public BlogListPresenterImpl(Context context, IBlogListPresenter.IBlogListView view) {
         super(context, view);
         mApi = getApiProvider().getBlogApi();
-        mDbBlog = new DbBlog();
+        mDbBlog = DbFactory.getInstance().getBlog();
     }
 
     @Override

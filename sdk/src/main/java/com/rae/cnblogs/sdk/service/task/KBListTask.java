@@ -6,6 +6,7 @@ import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IBlogApi;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.db.DbBlog;
+import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiException;
 
@@ -29,7 +30,7 @@ public class KBListTask extends BlogServiceTask {
         blogApi.setShouldCache(false);
         int pageSize = mConfig.getPageSize();
         final CountDownLatch countDownLatch = new CountDownLatch(pageSize);
-        final DbBlog dbBlog = new DbBlog();
+        final DbBlog dbBlog = DbFactory.getInstance().getBlog();
         for (int page = 0; page < pageSize; page++) {
 
             blogApi.getKbArticles(page, new ApiUiArrayListener<BlogBean>() {

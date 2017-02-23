@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONException;
 import com.rae.cnblogs.sdk.ICategoryApi;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.db.DbCategory;
+import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.core.Rae;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiErrorCode;
@@ -31,7 +32,7 @@ public class CategoryApiImpl extends CnblogsBaseApi implements ICategoryApi {
     @Override
     public void getCategory(ApiUiArrayListener<CategoryBean> listener) {
         // 从数据库中获取
-        DbCategory db = new DbCategory();
+        DbCategory db = DbFactory.getInstance().getCategory();
         List<CategoryBean> list = db.list();
 
         // 没有数据,开始初始化数据

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical"
+              android:paddingTop="@dimen/default_padding_top">
+
+    <include layout="@layout/view_title"/>
+
+    <com.rae.cnblogs.widget.PlaceholderView
+        android:id="@+id/placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.rae.cnblogs.widget.RaeRecyclerView
+        android:id="@+id/rec_friends_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

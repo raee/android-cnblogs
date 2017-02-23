@@ -9,6 +9,7 @@ import com.rae.cnblogs.sdk.INewsApi;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.DbBlog;
+import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 import com.rae.core.Rae;
 import com.rae.core.sdk.ApiUiListener;
@@ -51,7 +52,7 @@ public class BlogContentTask extends BlogServiceTask {
     protected void runTask() {
 
         // 查询要下载的博客列表
-        final DbBlog db = new DbBlog();
+        final DbBlog db = DbFactory.getInstance().getBlog();
         List<BlogBean> list = db.findAllWithoutBlogContnet();
         if (Rae.isEmpty(list)) {
             return;
@@ -104,7 +105,7 @@ public class BlogContentTask extends BlogServiceTask {
 
         ApiListener(BlogBean blog) {
             mBlog = blog;
-            mDbBlog = new DbBlog();
+            mDbBlog = DbFactory.getInstance().getBlog();
             mCountDownLatch = new CountDownLatch(1);
         }
 

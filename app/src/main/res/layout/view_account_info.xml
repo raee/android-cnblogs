@@ -47,17 +47,19 @@
         android:layout_marginTop="30dp">
 
         <LinearLayout
+            android:id="@+id/layout_account_follow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_follow_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_mine_name"
                 android:layout_centerHorizontal="true"
-                android:text="3"
+                android:text="0"
                 android:textColor="@color/ph3"
                 android:textSize="@dimen/h3"
                 android:textStyle="bold"/>
@@ -75,6 +77,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_account_fans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="45dp"
@@ -82,11 +85,12 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_fans_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_mine_name"
                 android:layout_centerHorizontal="true"
-                android:text="1"
+                android:text="0"
                 android:textColor="@color/ph3"
                 android:textSize="@dimen/h3"
                 android:textStyle="bold"/>

@@ -14,12 +14,21 @@ import java.util.List;
  * ITEM 适配器
  * Created by ChenRui on 2016/12/15 22:50.
  */
-abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+
+    public interface onItemClickListener<T> {
+        void onItemClick(T item);
+    }
 
     protected List<T> mDataList;
     private LayoutInflater mLayoutInflater;
     protected Context mContext;
 
+    private onItemClickListener<T> mOnItemClickListener;
+
+    public void setOnItemClickListener(onItemClickListener<T> listener) {
+        mOnItemClickListener = listener;
+    }
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,7 +44,16 @@ abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> extends Re
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        onBindViewHolder(holder, position, getDataItem(position));
+        final T dataItem = getDataItem(position);
+        onBindViewHolder(holder, position, dataItem);
+        if (mOnItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(dataItem);
+                }
+            });
+        }
     }
 
     public abstract VH onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType);

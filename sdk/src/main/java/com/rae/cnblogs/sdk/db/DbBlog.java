@@ -13,7 +13,10 @@ import java.util.List;
  * 博客数据库
  * Created by ChenRui on 2017/1/25 0025 16:56.
  */
-public class DbBlog extends DbCnblogs<BlogBean> {
+public class DbBlog extends DbCnblogs{
+
+    DbBlog() {
+    }
 
     public UserBlogInfo get(String blogId) {
         if (TextUtils.isEmpty(blogId)) return null;

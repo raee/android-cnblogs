@@ -17,6 +17,8 @@ public final class CnblogsApiFactory {
 //            UserProvider.init(context.getApplicationContext());
         }
 
+
+
         return sProvider;
 
     }

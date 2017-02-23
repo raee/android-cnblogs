@@ -10,6 +10,7 @@ import com.rae.cnblogs.sdk.IBookmarksApi;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BookmarksBean;
 import com.rae.cnblogs.sdk.db.DbBlog;
+import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;
@@ -30,7 +31,7 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
         super(context, view);
         mBlogApi = getApiProvider().getBlogApi();
         mBookmarksApi = getApiProvider().getBookmarksApi();
-        mDbBlog = new DbBlog();
+        mDbBlog = DbFactory.getInstance().getBlog();
     }
 
     @Override
