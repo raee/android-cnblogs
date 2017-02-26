@@ -1,6 +1,7 @@
 package com.rae.cnblogs;
 
 import android.content.Context;
+import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.cache.memory.impl.LargestLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -42,6 +43,10 @@ public final class RaeImageLoader {
                 .showImageOnLoading(R.drawable.ic_default_user_avatar)
                 .showImageOnFail(R.drawable.ic_default_user_avatar)
                 .build();
+    }
+
+    public static void displayHeaderView(String url, ImageView view) {
+        ImageLoader.getInstance().displayImage(url, view, headerOption());
     }
 
     /**

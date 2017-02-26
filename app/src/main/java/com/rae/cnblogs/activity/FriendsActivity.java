@@ -8,15 +8,16 @@ import android.widget.TextView;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.AppRoute;
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.FriendsAdapter;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.IFriendsApi;
-import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
+import com.rae.core.Rae;
 import com.rae.core.sdk.ApiUiArrayListener;
 import com.rae.core.sdk.exception.ApiException;
 
@@ -48,28 +49,42 @@ public class FriendsActivity extends SwipeBackBaseActivity implements ApiUiArray
     private int mPage = 1;
     private FriendsAdapter mAdapter;
     private final List<UserInfoBean> mDataList = new ArrayList<>();
+    private String mUserId;
+    private int mFromType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
         showHomeAsUp(mToolbar);
-        String title = getIntent().getStringExtra("title");
-        if (TextUtils.isEmpty(title)) {
-            title = getString(R.string.title_fans);
+        mUserId = getIntent().getStringExtra("userId");
+        String bloggerName = getIntent().getStringExtra("bloggerName");
+        mFromType = getIntent().getIntExtra("fromType", AppRoute.ACTIVITY_FRIENDS_TYPE_FANS);
+        if (TextUtils.isEmpty(mUserId)) {
+            AppUI.toast(this, "博主信息为空！");
+            finish();
+            return;
         }
 
-        setTitle(title);
-        mFriendApi = CnblogsApiFactory.getInstance(this).getFriendApi();
+        if (TextUtils.isEmpty(bloggerName)) {
+            bloggerName = "我";
+        }
+        if (isFansType()) {
+            setTitle(getString(R.string.title_fans, bloggerName));
+        } else {
+            setTitle(getString(R.string.title_follow, bloggerName));
+        }
 
+        mFriendApi = CnblogsApiFactory.getInstance(this).getFriendApi();
         mAdapter = new FriendsAdapter();
+        mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseItemAdapter.onItemClickListener<UserInfoBean>() {
             @Override
             public void onItemClick(UserInfoBean item) {
                 AppRoute.jumpToBlogger(getContext(), item.getBlogApp());
             }
         });
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLoadingMoreEnabled(true);
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -78,12 +93,12 @@ public class FriendsActivity extends SwipeBackBaseActivity implements ApiUiArray
 
             @Override
             public void onLoadMore() {
-                mPage++;
                 start();
             }
         });
 
         start();
+
     }
 
     @Override
@@ -91,25 +106,23 @@ public class FriendsActivity extends SwipeBackBaseActivity implements ApiUiArray
         mTitleView.setText(title);
     }
 
-
     // 获取数据
     private void start() {
-        if (UserProvider.getInstance().getLoginUserInfo() == null) {
-            mPlaceholderView.empty(getString(R.string.not_login));
-            return;
-        }
-
         // 粉丝
-        if (TextUtils.equals(mTitleView.getText(), getString(R.string.title_fans))) {
-            mFriendApi.getFansList(UserProvider.getInstance().getLoginUserInfo().getUserId(), mPage, this);
+        if (isFansType()) {
+            mFriendApi.getFansList(mUserId, mPage, this);
         } else {
-            mFriendApi.getFollowList(UserProvider.getInstance().getLoginUserInfo().getUserId(), mPage, this);
+            mFriendApi.getFollowList(mUserId, mPage, this);
         }
     }
 
     @Override
     public void onApiFailed(ApiException ex, String msg) {
-        mPlaceholderView.empty(msg);
+        if (mPage > 1) {
+            mRecyclerView.setNoMore(true);
+        } else {
+            mPlaceholderView.empty(msg);
+        }
     }
 
     @Override
@@ -123,15 +136,28 @@ public class FriendsActivity extends SwipeBackBaseActivity implements ApiUiArray
             mDataList.removeAll(data);
             mDataList.addAll(data);
         }
+
         if (mDataList.size() <= 0 && mPage <= 1) {
             mPlaceholderView.empty(getString(R.string.empty_message));
             return;
-        } else {
+        } else if (Rae.isEmpty(mDataList) && mPage > 1) {
             mRecyclerView.setNoMore(true);
+            return;
         }
+
         mAdapter.invalidate(mDataList);
         mAdapter.notifyDataSetChanged();
         mRecyclerView.loadMoreComplete();
         mPage++;
     }
+
+    /**
+     * 是否为粉丝类型
+     *
+     * @return
+     */
+    public boolean isFansType() {
+        return mFromType == AppRoute.ACTIVITY_FRIENDS_TYPE_FANS;
+    }
+
 }

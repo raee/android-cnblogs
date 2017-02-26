@@ -25,8 +25,7 @@ import butterknife.OnClick;
 public class MineFragment extends BaseFragment {
 
     public static MineFragment newInstance() {
-        MineFragment fragment = new MineFragment();
-        return fragment;
+        return new MineFragment();
     }
 
     @BindView(R.id.img_blog_avatar)
@@ -47,35 +46,54 @@ public class MineFragment extends BaseFragment {
     @Override
     protected void onCreateView(View view) {
         super.onCreateView(view);
-        UserInfoBean user = UserProvider.getInstance().getLoginUserInfo();
-        if (user != null) {
-            ImageLoader.getInstance().displayImage(user.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
-            mDisplayNameView.setText(user.getDisplayName());
-            CnblogsApiFactory.getInstance(this.getContext()).getFriendApi().getFriendsInfo(user.getBlogApp(), new ApiUiListener<FriendsInfoBean>() {
-                @Override
-                public void onApiFailed(ApiException ex, String msg) {
+    }
 
-                }
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadUserInfo();
+    }
 
-                @Override
-                public void onApiSuccess(FriendsInfoBean data) {
-                    mFollowCountView.setText(data.getFollows());
-                    mFansCountView.setText(data.getFans());
-                }
-            });
+    private boolean isNotLogin() {
+        return UserProvider.getInstance().getLoginUserInfo() == null;
+    }
+
+    private void loadUserInfo() {
+        if (isNotLogin()) {
+            return;
         }
 
+        UserInfoBean user = UserProvider.getInstance().getLoginUserInfo();
+        ImageLoader.getInstance().displayImage(user.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
+        mDisplayNameView.setText(user.getDisplayName());
+        CnblogsApiFactory.getInstance(this.getContext()).getFriendApi().getFriendsInfo(user.getBlogApp(), new ApiUiListener<FriendsInfoBean>() {
+            @Override
+            public void onApiFailed(ApiException ex, String msg) {
 
+            }
+
+            @Override
+            public void onApiSuccess(FriendsInfoBean data) {
+                mFollowCountView.setText(data.getFollows());
+                mFansCountView.setText(data.getFans());
+            }
+        });
     }
 
     @OnClick(R.id.layout_account_fans)
     public void onFansClick() {
-        AppRoute.jumpToFans(this.getContext());
+        if (isNotLogin()) {
+            return;
+        }
+        AppRoute.jumpToFans(this.getContext(), getString(R.string.me), UserProvider.getInstance().getLoginUserInfo().getUserId());
     }
 
     @OnClick(R.id.layout_account_follow)
     public void onFollowClick() {
-        AppRoute.jumpToFollow(this.getContext());
+        if (isNotLogin()) {
+            return;
+        }
+        AppRoute.jumpToFollow(this.getContext(), getString(R.string.me), UserProvider.getInstance().getLoginUserInfo().getUserId());
     }
 
 

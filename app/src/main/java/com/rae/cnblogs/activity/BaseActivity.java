@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.umeng.analytics.MobclickAgent;
@@ -103,6 +104,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         onCancelHttpRequest();
+        ImageLoader.getInstance().getMemoryCache().clear();
     }
 
     protected void onCancelHttpRequest() {

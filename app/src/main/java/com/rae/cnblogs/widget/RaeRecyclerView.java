@@ -5,8 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -18,7 +16,6 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 public class RaeRecyclerView extends XRecyclerView {
 
     private RaeLoadMoreView mFootView;
-    private float mTouchDownY;
 
 
     public RaeRecyclerView(Context context) {
@@ -43,7 +40,6 @@ public class RaeRecyclerView extends XRecyclerView {
         mFootView.setVisibility(GONE);
         setLoadingMoreProgressStyle(ProgressStyle.BallScaleMultiple);
         setFootView(mFootView);
-
     }
 
     public void setNoMoreText(int resId) {
@@ -95,26 +91,5 @@ public class RaeRecyclerView extends XRecyclerView {
             }
         }
         return false;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        boolean res = super.onTouchEvent(ev);
-        Log.d("rae-RecyclerView", "onTouchEvent - " + ev.getAction() + " - " + res);
-        return res;
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        boolean res = super.dispatchTouchEvent(ev);
-        Log.d("rae-RecyclerView", "dispatchTouchEvent - " + ev.getAction() + " - " + res);
-        return res;
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        boolean res = super.onInterceptTouchEvent(ev);
-        Log.d("rae-RecyclerView", "onInterceptTouchEvent - " + ev.getAction() + " - " + res);
-        return res;
     }
 }

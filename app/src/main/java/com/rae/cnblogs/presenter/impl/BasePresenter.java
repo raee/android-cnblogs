@@ -13,7 +13,7 @@ import com.rae.cnblogs.sdk.CnblogsApiProvider;
  * Created by ChenRui on 2016/12/2 00:23.
  */
 public abstract class BasePresenter<V> {
-    protected final Context mContext;
+    protected Context mContext;
 
     protected V mView;
 
@@ -32,5 +32,14 @@ public abstract class BasePresenter<V> {
 
     protected IRaeCnblogsApiProvider getServerApi() {
         return RaeCnblogsApiFactory.getInstance(mContext);
+    }
+
+    public String getString(int resId) {
+        return mContext.getString(resId);
+    }
+
+    public void destroy() {
+        mView = null;
+        mContext = null;
     }
 }

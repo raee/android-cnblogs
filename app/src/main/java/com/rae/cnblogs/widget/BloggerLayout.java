@@ -4,7 +4,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 /**
@@ -34,32 +37,26 @@ public class BloggerLayout extends ScrollView {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private float mStartY;
-
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        switch (ev.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                mStartY = ev.getRawY();
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//
-//                this.scrollBy(0, ev.getRawY() - mStartY);
-//
-//                return false;
-//        }
-//        return super.dispatchTouchEvent(ev);
-//    }
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        Log.w("layout", "height = " + getRootView().getMeasuredHeight());
+        if (getChildCount() > 0) {
+            ViewGroup child = (ViewGroup) getChildAt(0);
+            int childCount = child.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View view = child.getChildAt(i);
+                int size = MeasureSpec.getSize(view.getMeasuredHeight());
+                Log.i("layout", view + ";size = " + size);
+                if (size == 0) {
+                    view.getLayoutParams().height = getRootView().getMeasuredHeight();
+                }
+            }
+        }
+    }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return super.onInterceptTouchEvent(ev);
+        return true;
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
-    }
-
-
 }

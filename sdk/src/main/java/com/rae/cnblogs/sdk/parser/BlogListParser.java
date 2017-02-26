@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class BlogListParser extends HtmlParser<BlogBean> {
 
-    DbBlog mDbBlog;
+    private DbBlog mDbBlog;
 
     public BlogListParser(ApiUiArrayListener<BlogBean> listener) {
         super(listener);
@@ -37,20 +37,10 @@ public class BlogListParser extends HtmlParser<BlogBean> {
         // 解析HTML
         List<BlogBean> result = new ArrayList<>();
         Elements elements = document.select(".post_item");
+        String id;
         for (Element item : elements) {
             Elements element = item.select(".post_item_body");
-            String id = Utils.getNumber(item.select(".digg .diggnum").attr("id"));
-            String title = element.select(".titlelnk").text(); // 标题
-            String url = element.select(".titlelnk").attr("href"); // 原文链接
-            String avatar = getAvatar(element.select(".pfs").attr("src")); // 头像地址
-            String summary = element.select(".post_item_summary").text(); // 摘要
-            String author = element.select(".lightblue").text(); // 作者
-            String authorUrl = element.select(".lightblue").attr("href"); // 作者博客地址
-            String blogApp = Utils.getBlogApp(authorUrl);
-            String comment = Utils.getCount(Utils.getNumber(element.select(".article_comment .gray").text())); // 评论
-            String views = Utils.getCount(Utils.getNumber(element.select(".article_view .gray").text())); // 阅读
-            String likes = Utils.getCount(element.select(".diggnum").text()); // 点赞或者是推荐
-            String date = Utils.getDate(element.select(".post_item_foot").text()); // 发布时间
+            id = Utils.getNumber(item.select(".digg .diggnum").attr("id"));
 
             // 博客ID为空不添加
             if (TextUtils.isEmpty(id)) {
@@ -59,19 +49,18 @@ public class BlogListParser extends HtmlParser<BlogBean> {
 
             BlogBean m = new BlogBean();
             m.setBlogId(id);
-            m.setTitle(title);
-            m.setUrl(url);
-            m.setAvatar(avatar);
-            m.setSummary(summary);
-            m.setAuthor(author);
-            m.setAuthorUrl(authorUrl);
-            m.setBlogApp(blogApp);
-            m.setComment(comment);
-            m.setViews(views);
-            m.setPostDate(date);
-            m.setLikes(likes);
+            m.setTitle(element.select(".titlelnk").text()); // 标题
+            m.setUrl(element.select(".titlelnk").attr("href"));  // 原文链接
+            m.setAvatar(getAvatar(element.select(".pfs").attr("src"))); // 头像地址
+            m.setSummary(element.select(".post_item_summary").text()); // 摘要
+            m.setAuthor(element.select(".lightblue").text()); // 作者
+            m.setAuthorUrl(element.select(".lightblue").attr("href")); // 作者博客地址
+            m.setBlogApp(Utils.getBlogApp(m.getAuthorUrl()));
+            m.setComment(Utils.getCount(Utils.getNumber(element.select(".article_comment .gray").text()))); // 评论
+            m.setViews(Utils.getCount(Utils.getNumber(element.select(".article_view .gray").text())));  // 阅读
+            m.setPostDate(Utils.getDate(element.select(".post_item_foot").text())); // 发布时间
+            m.setLikes(Utils.getCount(element.select(".diggnum").text()));  // 点赞或者是推荐
             m.setBlogType(BlogType.BLOG.getTypeName());
-
             cacheThumbUrls(m);
             result.add(m);
         }

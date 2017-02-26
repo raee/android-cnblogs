@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -40,7 +40,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tv_mine_name"
+                    android:id="@+id/tv_blogger_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ll_blog_avatar"
@@ -53,22 +53,25 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_mine_name"
+                    android:layout_below="@+id/tv_blogger_name"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="30dp">
 
                     <LinearLayout
+                        android:id="@+id/layout_account_follow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:clickable="false"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_follow_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_mine_name"
+                            android:layout_below="@+id/tv_blogger_name"
                             android:layout_centerHorizontal="true"
-                            android:text="3"
+                            android:text="0"
                             android:textColor="@color/white"
                             android:textSize="@dimen/h3"
                             android:textStyle="bold"/>
@@ -76,7 +79,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_mine_name"
+                            android:layout_below="@+id/tv_blogger_name"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="14dp"
                             android:text="关注"
@@ -86,18 +89,21 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layout_account_fans"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="45dp"
+                        android:clickable="false"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_fans_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/tv_mine_name"
                             android:layout_centerHorizontal="true"
-                            android:text="1"
+                            android:text="0"
                             android:textColor="@color/white"
                             android:textSize="@dimen/h3"
                             android:textStyle="bold"/>
@@ -130,11 +136,15 @@
                     android:layout_height="wrap_content">
 
                     <Button
+                        android:id="@+id/btn_blogger_follow"
                         style="@style/AppButton"
-                        android:layout_width="52dp"
+                        android:layout_width="62dp"
                         android:layout_height="26dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/default_margin"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginRight="12dp"
                         android:background="@drawable/bg_btn_follow"
                         android:text="@string/following"
                         android:textColor="@color/white"
@@ -171,10 +181,10 @@
         </com.rae.cnblogs.widget.RaeTabLayout>
 
         <com.rae.cnblogs.widget.RaeViewPager
-            android:id="@+id/vp_blogger"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"/>
+        android:id="@+id/vp_blogger"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
     </LinearLayout>
 
 </com.rae.cnblogs.widget.BloggerLayout>

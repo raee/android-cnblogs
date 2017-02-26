@@ -68,7 +68,7 @@ public class TestActivity extends BaseActivity {
 //            }
 //        });
 
-        AppRoute.jumpToBlogger(this, null);
+        AppRoute.jumpToBlogger(this, "sloane");
     }
 
     private void log(String msg) {
@@ -82,7 +82,7 @@ public class TestActivity extends BaseActivity {
 //        mLoadingView.loading();
 
 
-        AppRoute.jumpToBlogger(this, null);
+        AppRoute.jumpToBlogger(this, "sloane");
 
         mLoadingView.postDelayed(new Runnable() {
             @Override

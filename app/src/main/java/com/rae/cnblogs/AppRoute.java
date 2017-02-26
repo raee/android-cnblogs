@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.rae.cnblogs.activity.BlogContentActivity;
 import com.rae.cnblogs.activity.BloggerActivity;
@@ -24,6 +25,10 @@ public final class AppRoute {
 
     // WEB 登录
     public static final int REQ_CODE_WEB_LOGIN = 100;
+    /*朋友界面 - 来自粉丝*/
+    public static final int ACTIVITY_FRIENDS_TYPE_FANS = 1;
+    /*朋友界面 - 来自关注*/
+    public static final int ACTIVITY_FRIENDS_TYPE_FOLLOW = 2;
 
     private static void startActivity(Context context, Intent intent) {
         context.startActivity(intent);
@@ -89,15 +94,27 @@ public final class AppRoute {
 
     }
 
-    public static void jumpToFans(Context context) {
-        Intent intent = new Intent(context, FriendsActivity.class);
-        intent.putExtra("title", context.getString(R.string.title_fans));
-        startActivity(context, intent);
+    public static void jumpToFans(Context context, String bloggerName, String userId) {
+        jumpToFriends(context, ACTIVITY_FRIENDS_TYPE_FANS, bloggerName, userId);
     }
 
-    public static void jumpToFollow(Context context) {
+    public static void jumpToFollow(Context context, String bloggerName, String userId) {
+        jumpToFriends(context, ACTIVITY_FRIENDS_TYPE_FOLLOW, bloggerName, userId);
+    }
+
+    /**
+     * 跳转到朋友界面
+     *
+     * @param context
+     * @param type        来源类型，参考该类{@link #ACTIVITY_FRIENDS_TYPE_FANS}
+     * @param bloggerName 博主昵称
+     * @param userId      博主ID
+     */
+    public static void jumpToFriends(Context context, int type, String bloggerName, String userId) {
         Intent intent = new Intent(context, FriendsActivity.class);
-        intent.putExtra("title", context.getString(R.string.title_follow));
+        intent.putExtra("userId", userId);
+        intent.putExtra("bloggerName", bloggerName);
+        intent.putExtra("fromType", type);
         startActivity(context, intent);
     }
 
@@ -106,6 +123,12 @@ public final class AppRoute {
     }
 
     public static void jumpToBlogger(Context context, String blogApp) {
-        startActivity(context, BloggerActivity.class);
+        if (TextUtils.isEmpty(blogApp)) {
+            AppUI.toast(context, "博主信息为空！");
+            return;
+        }
+        Intent intent = new Intent(context, BloggerActivity.class);
+        intent.putExtra("blogApp", blogApp);
+        startActivity(context, intent);
     }
 }

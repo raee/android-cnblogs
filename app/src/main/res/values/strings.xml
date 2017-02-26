@@ -47,9 +47,12 @@
     <string name="setting">设置</string>
     <string name="logout">退出登录</string>
     <string name="following">关注</string>
+    <string name="cancel_follow">取消关注</string>
     <string name="feed">动态</string>
     <string name="blog">博客</string>
-    <string name="title_fans">我的粉丝</string>
-    <string name="title_follow">我的关注</string>
+    <string name="title_fans">%s的粉丝</string>
+    <string name="title_follow">%s的关注</string>
     <string name="not_login">登录，做一名有态度的人</string>
+    <string name="me">我</string>
+    <string name="tips_blogger_follow_not_info">请等待博主信息加载完毕后再操作。</string>
 </resources>

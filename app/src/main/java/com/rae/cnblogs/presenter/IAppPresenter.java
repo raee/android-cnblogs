@@ -6,4 +6,6 @@ package com.rae.cnblogs.presenter;
  */
 public interface IAppPresenter {
     void start();
+
+    void destroy();
 }

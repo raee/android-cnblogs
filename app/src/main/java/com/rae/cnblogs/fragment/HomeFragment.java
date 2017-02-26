@@ -11,12 +11,11 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.adapter.BlogListAdapter;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IHomePresenter;
-import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
-import com.rae.core.fm.RaeFragmentAdapter;
 
 import java.util.List;
 
@@ -30,12 +29,11 @@ import butterknife.OnClick;
  */
 public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeView {
 
-    private RaeFragmentAdapter mAdapter;
+    private BlogListAdapter mAdapter;
     private IHomePresenter mHomePresenter;
 
     public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
-        return fragment;
+        return new HomeFragment();
     }
 
     @BindView(R.id.tool_bar)
@@ -66,24 +64,16 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mHomePresenter = CnblogsPresenterFactory.getHomePresenter(getContext(), this);
-        mAdapter = new RaeFragmentAdapter(getChildFragmentManager());
-        mViewPager.setAdapter(mAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
-//        mViewPager.setOffscreenPageLimit(5);
     }
 
     @Override
     public void onLoadCategory(List<CategoryBean> data) {
-        mAdapter.clear();
 
-        for (CategoryBean category : data) {
-            mAdapter.add(category.getName(), BlogListFragment.newInstance(category, BlogType.BLOG));
+        if (mAdapter == null) {
+            mAdapter = new BlogListAdapter(getChildFragmentManager(), data);
+            mViewPager.setAdapter(mAdapter);
+            mTabLayout.setupWithViewPager(mViewPager);
         }
 
         mAdapter.notifyDataSetChanged();
