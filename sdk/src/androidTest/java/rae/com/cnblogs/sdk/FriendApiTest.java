@@ -40,7 +40,7 @@ public class FriendApiTest extends BaseTest {
         put(new ApiTestRunnable<UserFeedBean>() {
             @Override
             public void run() {
-                mApi.getFeeds("cs_net", this);
+                mApi.getFeeds(1, "cs_net", this);
             }
         });
 

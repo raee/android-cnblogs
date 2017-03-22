@@ -33,7 +33,7 @@ public class FriendsListParser extends RaeSimpleJsonResponse<UserInfoBean> {
         }
         JSONArray users = obj.getJSONArray("Users");
         int len = users.size();
-        List<UserInfoBean> result = new ArrayList<>();
+        List<UserInfoBean> result = new ArrayList<>(      );
         for (int i = 0; i < len; i++) {
             /*
                 {

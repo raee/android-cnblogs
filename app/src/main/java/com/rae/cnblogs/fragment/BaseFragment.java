@@ -23,7 +23,16 @@ public abstract class BaseFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        onLoadData();
+    }
+
     protected void onCreateView(View view) {
+    }
+
+    protected void onLoadData(){
 
     }
 

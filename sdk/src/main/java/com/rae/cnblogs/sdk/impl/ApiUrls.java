@@ -28,7 +28,10 @@ final class ApiUrls {
     static final String API_USER_INFO = "https://home.cnblogs.com/ajax/user/CurrentIngUserInfo";
 
     // 用户-信息
-    static final String API_USER_CENTER = "https://home.cnblogs.com/u/@blogApp/";
+    static final String API_USER_CENTER = "https://home.cnblogs.com/u/@blogApp";
+
+    // 用户-动态
+    static final String API_USER_FEED = "https://home.cnblogs.com/u/@blogApp/feed/@page.html";
 
     // 用户-登录
     static final String API_SIGN_IN = "https://passport.cnblogs.com/user/signin?AspxAutoDetectCookieSupport=1";

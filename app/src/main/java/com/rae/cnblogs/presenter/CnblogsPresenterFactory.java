@@ -3,6 +3,7 @@ package com.rae.cnblogs.presenter;
 import android.content.Context;
 
 import com.rae.cnblogs.presenter.impl.BloggerPresenterImpl;
+import com.rae.cnblogs.presenter.impl.FeedPresenterImpl;
 import com.rae.cnblogs.presenter.impl.HomePresenterImpl;
 import com.rae.cnblogs.presenter.impl.LauncherPresenterImpl;
 import com.rae.cnblogs.presenter.impl.LoginPresenterImpl;
@@ -147,5 +148,12 @@ public final class CnblogsPresenterFactory {
      */
     public static IBloggerPresenter getBloggerPresenter(Context context, IBloggerPresenter.IBloggerView view) {
         return new BloggerPresenterImpl(context, view);
+    }
+
+    /**
+     * 动态列表
+     */
+    public static IFeedPresenter getFeedPresenter(Context context, IFeedPresenter.IFeedView view) {
+        return new FeedPresenterImpl(context, view);
     }
 }

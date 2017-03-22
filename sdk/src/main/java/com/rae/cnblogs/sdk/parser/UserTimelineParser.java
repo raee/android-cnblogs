@@ -10,6 +10,8 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 用户动态
@@ -30,8 +32,9 @@ public class UserTimelineParser extends HtmlParser<UserFeedBean> {
             m.setAvatar(Utils.getUrl(element.select(".feed_avatar a img").attr("src")));
             m.setAuthor(element.select(".feed_author").text());
             m.setBlogApp(element.select(".feed_author").attr("href").replace("/u/", "").replace("/", ""));
-            m.setAction(getAction(element.select(".feed_title").text()));
+            m.setAction(getAction(element.select(".feed_title").html()));
             m.setTitle(element.select(".feed_title a").eq(1).text());
+            m.setUrl(element.select(".feed_title a").eq(1).attr("href"));
             m.setFeedDate(Utils.getDate(element.select(".feed_date").text()));
             m.setContent(element.select(".feed_desc").text());
             result.add(m);
@@ -40,6 +43,11 @@ public class UserTimelineParser extends HtmlParser<UserFeedBean> {
     }
 
     private String getAction(String text) {
-        return text.substring(text.indexOf(" "), text.indexOf("：")).trim();
+        Pattern regx = Pattern.compile(">\\s.+\\n");
+        Matcher matcher = regx.matcher(text);
+        if (matcher.find()) {
+            return matcher.group().replace(">", "").replace("：", "").trim();
+        }
+        return "未知类型";
     }
 }

@@ -2,13 +2,16 @@ package com.rae.cnblogs.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+
+import com.rae.cnblogs.R;
 
 /**
  * blogger
@@ -16,47 +19,188 @@ import android.widget.ScrollView;
  */
 public class BloggerLayout extends ScrollView {
 
-    // 帐号布局高度
-    private int mAccountLayoutHeight;
+    private MotionEvent mActionDownEvent;
+
+    public interface ScrollPercentChangeListener {
+        void onScrollPercentChange(float percent);
+    }
+
+    private View mActionBarView; // 固定的导航栏
+    private View mTabView; // Tab
+    private View mListView; // 列表
+    private float mTouchDownY;
+    private ScrollPercentChangeListener mOnScrollPercentChangeListener;
 
 
     public BloggerLayout(Context context) {
         super(context);
+        initView();
     }
 
     public BloggerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initView();
     }
 
     public BloggerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initView();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BloggerLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        initView();
+    }
+
+    private void initView() {
+    }
+
+    public void setOnScrollPercentChangeListener(ScrollPercentChangeListener onScrollPercentChangeListener) {
+        this.mOnScrollPercentChangeListener = onScrollPercentChangeListener;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.w("layout", "height = " + getRootView().getMeasuredHeight());
-        if (getChildCount() > 0) {
-            ViewGroup child = (ViewGroup) getChildAt(0);
-            int childCount = child.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View view = child.getChildAt(i);
-                int size = MeasureSpec.getSize(view.getMeasuredHeight());
-                Log.i("layout", view + ";size = " + size);
-                if (size == 0) {
-                    view.getLayoutParams().height = getRootView().getMeasuredHeight();
-                }
-            }
+
+        int height = MeasureSpec.getSize(heightMeasureSpec); // 父容器高度
+
+        if (mActionBarView == null) {
+            mActionBarView = ((View) getParent()).findViewById(R.id.tool_bar);
         }
+
+        if (mTabView == null) {
+            mTabView = findViewById(R.id.tab_category);
+        }
+
+        if (mListView == null) {
+            mListView = findViewById(R.id.vp_blogger);
+        }
+
+        // 计算列表的高度 = 父容器的高度 - Tab的高度 - 导航栏的高度
+        int listViewHeight = height - mTabView.getMeasuredHeight() - mActionBarView.getMeasuredHeight() - ((RelativeLayout.LayoutParams) mActionBarView.getLayoutParams()).topMargin;
+        if (listViewHeight > 0) {
+            mListView.getLayoutParams().height = listViewHeight;
+        }
+
+    }
+
+    /**
+     * 计算滚动的百分比
+     * <pre>
+     *     百分比 = Tab 距离顶部的高度 / （Tab 距离顶部的高度 - 导航栏底部距离顶部的高度）
+     * </pre>
+     *
+     * @return
+     */
+    private float measureScrollPercent() {
+        if (mTabView == null || mActionBarView == null) return 0;
+        int tabScrollHeight = mTabView.getTop() - mActionBarView.getBottom();
+        return (getScrollY() * 0.1f) / (tabScrollHeight * 0.1f);
+    }
+
+    @Override
+    public void computeScroll() {
+        super.computeScroll();
+
+        float percent = measureScrollPercent();
+        if (mOnScrollPercentChangeListener != null) {
+            mOnScrollPercentChangeListener.onScrollPercentChange(percent);
+        }
+        int alphaHex = Math.round(0xFF * percent);
+        int color = Color.argb(alphaHex, 0xFF, 0xFF, 0xFF);
+        mActionBarView.setBackgroundColor(color);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mTouchDownY = ev.getRawY();
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                mActionDownEvent = null;
+                break;
+        }
+
+
+        Log.d("rae", "dispatchTouchEvent");
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return true;
+        Log.w("rae", "onInterceptTouchEvent");
+        if (measureScrollPercent() < 1 && ev.getAction() == MotionEvent.ACTION_MOVE) {
+            return true;
+        }
+        return super.onInterceptTouchEvent(ev); // 拦截事件
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        Log.d("rae", "onTouchEvent = " + ev.getAction());
+
+
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_UP:
+                float diffY = ev.getRawY() - mTouchDownY;
+
+                // 向上滑动，自动滚动
+                if (measureScrollPercent() >= 0 && diffY < 0) {
+                    post(new Runnable() {
+                        @Override
+                        public void run() {
+                            smoothScrollTo(0, getHeight());
+                        }
+                    });
+                }
+
+                if (measureScrollPercent() <= 1 && diffY > 0) {
+                    post(new Runnable() {
+                        @Override
+                        public void run() {
+                            smoothScrollTo(0, 0);
+                        }
+                    });
+                }
+
+
+                break;
+        }
+
+
+        //  如果以及滑动到最底部，把事件分发给列表去处理
+        if (checkInBottom()) {
+
+            if (mActionDownEvent == null && ev.getAction() == MotionEvent.ACTION_MOVE) {
+                ev.setAction(MotionEvent.ACTION_DOWN);
+                mActionDownEvent = ev;
+            }
+            mListView.dispatchTouchEvent(ev);
+            return true;
+        }
+
+
+        return super.onTouchEvent(ev);
+    }
+
+    /**
+     * 是否滑动到底部了
+     */
+    private boolean checkInBottom() {
+        // 公式 :  滑动的高度 + 屏幕高度 = 当前高度
+        int h = getChildAt(0).getMeasuredHeight();
+        int scrollY = getScrollY();
+        int sh = getResources().getDisplayMetrics().heightPixels;
+
+        boolean result = scrollY + sh >= h;
+//        Log.w("rae", "是否到达底部=" + result + ";" + scrollY + " + " + sh + " = " + h);
+        return result;
+
     }
 }

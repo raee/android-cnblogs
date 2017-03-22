@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.android.volley.VolleyError;
 import com.rae.core.sdk.ApiUiArrayListener;
@@ -50,32 +51,47 @@ public class CnBlogsWebApiResponse<T> extends RaeSimpleJsonResponse<T> {
     @Override
     protected String parseJson(String json) {
         // 解析公共部分
-        JSONObject obj = JSON.parseObject(json);
-        boolean isSuccess = false;
-        String message = null;
-        Object data = null;
-        if (obj.containsKey("IsSuccess")) {
-            isSuccess = obj.getBoolean("IsSuccess");
+        try {
+            if (json.contains("用户登录")) {
+                notifyApiError(ApiErrorCode.ERROR_NOT_LOGIN, null);
+                return null;
+            }
+
+            JSONObject obj = JSON.parseObject(json);
+            boolean isSuccess = false;
+            String message = null;
+            Object data = null;
+            if (obj.containsKey("IsSuccess")) {
+                isSuccess = obj.getBoolean("IsSuccess");
+            }
+            if (obj.containsKey("IsSucceed")) {
+                isSuccess = obj.getBoolean("IsSucceed");
+            }
+            if (obj.containsKey("Message")) {
+                message = obj.getString("Message");
+            }
+            if (obj.containsKey("Data")) {
+                data = obj.get("Data");
+            }
+            if (isSuccess && data != null) {
+                return data.toString();
+            } else if (isSuccess && mClass == Void.class) {
+                notifyApiSuccess(null);
+                return null;
+            } else {
+                message = Jsoup.parse(message).text();
+                notifyApiError(ApiErrorCode.ERROR_EMPTY_DATA, message);
+                return null;
+            }
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+            notifyApiError(ApiErrorCode.ERROR_JSON_PARSE, null);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            notifyApiError(ApiErrorCode.ERROR_EMPTY_DATA, null);
         }
-        if (obj.containsKey("IsSucceed")) {
-            isSuccess = obj.getBoolean("IsSucceed");
-        }
-        if (obj.containsKey("Message")) {
-            message = obj.getString("Message");
-        }
-        if (obj.containsKey("Data")) {
-            data = obj.get("Data");
-        }
-        if (isSuccess && data != null) {
-            return data.toString();
-        } else if (isSuccess && mClass == Void.class) {
-            notifyApiSuccess(null);
-            return null;
-        } else {
-            message = Jsoup.parse(message).text();
-            notifyApiError(ApiErrorCode.ERROR_EMPTY_DATA, message);
-            return null;
-        }
+
+        return null;
     }
 
     @Override

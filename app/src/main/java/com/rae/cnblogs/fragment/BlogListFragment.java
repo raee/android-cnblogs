@@ -73,8 +73,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onLoadData() {
         mRecyclerView.setAdapter(mItemAdapter);
         mAppLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override

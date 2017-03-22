@@ -39,7 +39,7 @@ public class FriendsApiImpl extends CnblogsBaseApi implements IFriendsApi {
 
 
     @Override
-    public void getFeeds(String blogApp, ApiUiArrayListener<UserFeedBean> listener) {
+    public void getFeeds(int page, String blogApp, ApiUiArrayListener<UserFeedBean> listener) {
         if (blogApp == null && isLogin()) {
             blogApp = user().getLoginUserInfo().getBlogApp();
         }
@@ -48,7 +48,7 @@ public class FriendsApiImpl extends CnblogsBaseApi implements IFriendsApi {
             return;
         }
 
-        get(ApiUrls.API_USER_CENTER.replace("@blogApp", blogApp), null, new UserTimelineParser(listener));
+        get(ApiUrls.API_USER_FEED.replace("@blogApp", blogApp).replace("@page", String.valueOf(page)), null, new UserTimelineParser(listener));
 
     }
 

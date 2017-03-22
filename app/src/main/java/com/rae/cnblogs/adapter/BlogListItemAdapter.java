@@ -26,13 +26,6 @@ import java.util.List;
  */
 public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.ViewHolder> implements View.OnClickListener {
 
-    private static final int VIEW_TYPE_NORMAL = 0;
-    private static final int VIEW_TYPE_LOADING = 2;
-
-    /**
-     * 没有用户信息的类型
-     */
-    public static final int VIEW_TYPE_KB = 1;
     private final BlogType mBlogType;
 
 
@@ -72,7 +65,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder vh, int position, BlogBean m) {
+    public void onBindViewHolder(RecyclerView.ViewHolder vh, int position, final BlogBean m) {
 
         if (getItemViewType(position) == VIEW_TYPE_LOADING) {
             return;
@@ -81,15 +74,28 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         BlogItemViewHolder holder = (BlogItemViewHolder) vh;
 
         switch (mBlogType) {
+            case BLOG:
+                holder.authorLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AppRoute.jumpToBlogger(v.getContext(), m.getBlogApp());
+                    }
+                });
+                break;
+            case BLOGGER: // 作者
+                holder.authorLayout.setVisibility(View.GONE);
+                break;
             case KB: // 知识库
                 holder.authorLayout.setVisibility(View.GONE);
                 holder.commentView.setVisibility(View.GONE);
                 break;
+            default:
+                ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, mAvatarOptions);
+                holder.authorView.setText(m.getAuthor());
+                break;
         }
 
-        ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, mAvatarOptions);
 
-        holder.authorView.setText(m.getAuthor());
         holder.titleView.setText(m.getTitle());
         holder.summaryView.setText(m.getSummary());
         holder.dateView.setText(m.getPostDate());
@@ -99,6 +105,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
 
         holder.itemView.setTag(m);
         holder.itemView.setOnClickListener(this);
+
         showThumbImages(m, holder);
 
     }

@@ -139,10 +139,18 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         mCommentLayout.toggleSmoothScroll();
     }
 
+    // 发表评论
     @OnClick(R.id.tv_edit_comment)
     public void onEditCommentClick() {
         // 通知里面的评论打开发表对话框
         EventBus.getDefault().post(new EditCommentEvent());
+    }
+
+    // 作者头像
+    @OnClick({R.id.img_blog_avatar, R.id.tv_blog_author})
+    public void onBloggerClick() {
+        if (mBlog == null) return;
+        AppRoute.jumpToBlogger(this, mBlog.getBlogApp());
     }
 
     @OnClick(R.id.tool_bar)

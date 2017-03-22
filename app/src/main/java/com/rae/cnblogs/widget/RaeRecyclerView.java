@@ -40,8 +40,14 @@ public class RaeRecyclerView extends XRecyclerView {
         mFootView.setVisibility(GONE);
         setLoadingMoreProgressStyle(ProgressStyle.BallScaleMultiple);
         setFootView(mFootView);
+        addView(new PlaceholderView(getContext()), LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
 
+    /**
+     * 设置没有更多数据的文本文字
+     *
+     * @param resId 资源
+     */
     public void setNoMoreText(int resId) {
         mFootView.setNoMoreText(getResources().getString(resId));
     }
@@ -52,6 +58,11 @@ public class RaeRecyclerView extends XRecyclerView {
         mFootView.setProgressStyle(style);
     }
 
+    /**
+     * 是否在顶部
+     *
+     * @return
+     */
     public boolean isOnTop() {
         if (getChildCount() == 0) {
             return true;

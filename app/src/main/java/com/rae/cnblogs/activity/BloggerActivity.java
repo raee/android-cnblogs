@@ -3,6 +3,7 @@ package com.rae.cnblogs.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,11 +16,13 @@ import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.fragment.BlogListFragment;
+import com.rae.cnblogs.model.FeedListFragment;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBloggerPresenter;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
+import com.rae.cnblogs.widget.BloggerLayout;
 import com.rae.core.fm.RaeFragmentAdapter;
 
 import butterknife.BindView;
@@ -62,6 +65,15 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     @BindView(R.id.layout_account_follow)
     View mFollowLayout;
 
+    @BindView(R.id.tv_title)
+    TextView mTitleView;
+
+    @BindView(R.id.view_bg_holder)
+    View mBloggerBackgroundView;
+
+    @BindView(R.id.layout_blogger)
+    BloggerLayout mBloggerLayout;
+
     String mBlogApp;
 
     private FriendsInfoBean mUserInfo;
@@ -77,15 +89,46 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         showHomeAsUp(mToolbar);
         mBlogApp = getIntent().getStringExtra("blogApp");
 
+        // 测试
+        if (mBlogApp == null) {
+            mBlogApp = "davenkin";
+        }
+
         RaeFragmentAdapter adapter = new RaeFragmentAdapter(getSupportFragmentManager());
         CategoryBean category = new CategoryBean();
         category.setCategoryId(getBlogApp()); // 这里设置blogApp
 
-        adapter.add(getString(R.string.feed), BlogListFragment.newInstance(category, BlogType.BLOGGER));
+        adapter.add(getString(R.string.feed), FeedListFragment.newInstance(getBlogApp()));
         adapter.add(getString(R.string.blog), BlogListFragment.newInstance(category, BlogType.BLOGGER));
 
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        mBloggerLayout.setOnScrollPercentChangeListener(new BloggerLayout.ScrollPercentChangeListener() {
+            @Override
+            public void onScrollPercentChange(float percent) {
+                mBloggerBackgroundView.setAlpha(percent);
+                mFollowView.setAlpha(percent > 0 ? percent : 1);
+                mTitleView.setAlpha(percent);
+
+                if (percent > 0.5) {
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow_drak);
+                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.ph2));
+                } else {
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
+                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow);
+                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                }
+            }
+        });
+
+        mBloggerLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mBloggerLayout.scrollTo(0, 0);
+            }
+        });
 
         // 获取博主信息
         mBloggerPresenter = CnblogsPresenterFactory.getBloggerPresenter(this, this);
@@ -107,6 +150,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
         RaeImageLoader.displayHeaderView(userInfo.getAvatar(), mAvatarView);
         mBloggerNameView.setText(userInfo.getDisplayName());
+        mTitleView.setText(userInfo.getDisplayName());
         mFansCountView.setText(userInfo.getFans());
         mFollowCountView.setText(userInfo.getFollows());
         mFollowView.setText(userInfo.isFollowed() ? R.string.cancel_follow : R.string.following);

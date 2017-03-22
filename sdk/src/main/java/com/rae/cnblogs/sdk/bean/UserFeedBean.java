@@ -12,6 +12,15 @@ public class UserFeedBean {
     private String title;
     private String content;
     private String feedDate;
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getBlogApp() {
         return blogApp;
@@ -73,4 +82,5 @@ public class UserFeedBean {
     public String toString() {
         return author + action + title + "\n" + content;
     }
+
 }

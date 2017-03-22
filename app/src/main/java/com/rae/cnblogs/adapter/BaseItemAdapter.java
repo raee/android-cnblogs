@@ -16,19 +16,23 @@ import java.util.List;
  */
 public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
+    /* 正常类型 */
+    static final int VIEW_TYPE_NORMAL = 0;
+    /* 正在加载中 */
+    static final int VIEW_TYPE_LOADING = 2;
+    /* 内容为空的时候显示 */
+    static final int VIEW_TYPE_EMPTY = 3;
+
     public interface onItemClickListener<T> {
         void onItemClick(T item);
     }
 
-    protected List<T> mDataList;
+    private List<T> mDataList;
     private LayoutInflater mLayoutInflater;
-    protected Context mContext;
+    private Context mContext;
 
     private onItemClickListener<T> mOnItemClickListener;
 
-    public void setOnItemClickListener(onItemClickListener<T> listener) {
-        mOnItemClickListener = listener;
-    }
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -38,6 +42,7 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
         if (mLayoutInflater == null) {
             mLayoutInflater = LayoutInflater.from(parent.getContext());
         }
+
 
         return onCreateViewHolder(mLayoutInflater, parent, viewType);
     }
@@ -56,11 +61,8 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
         }
     }
 
-    public abstract VH onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType);
 
-    public abstract void onBindViewHolder(VH holder, int position, T m);
-
-    protected T getDataItem(int position) {
+    T getDataItem(int position) {
         return mDataList == null ? null : mDataList.get(position);
     }
 
@@ -69,20 +71,60 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
         return Rae.getCount(mDataList);
     }
 
+
+    public abstract VH onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType);
+
+    public abstract void onBindViewHolder(VH holder, int position, T m);
+
+
+    /**
+     * 通知数据集合发生改变
+     *
+     * @param data 数据
+     */
     public void invalidate(List<T> data) {
         mDataList = data;
     }
 
 
+    /**
+     * 初始化布局文件
+     *
+     * @param parent   可以为空
+     * @param layoutId 布局ID
+     * @return 视图
+     */
+    View inflateView(ViewGroup parent, int layoutId) {
+        return mLayoutInflater.inflate(layoutId, parent, false);
+    }
+
+    public Context getContext() {
+        return mContext;
+    }
+
+    /**
+     * 移除数据实体
+     *
+     * @param item 实体
+     */
     public void remove(T item) {
         mDataList.remove(item);
     }
 
-    protected View inflateView(ViewGroup parent, int layoutId) {
-        return mLayoutInflater.inflate(layoutId, parent, false);
-    }
-
+    /**
+     * 获取数据实体所在的索引
+     *
+     * @param item 实体
+     * @return 索引
+     */
     public int getItemPosition(T item) {
         return mDataList.indexOf(item);
+    }
+
+    /**
+     * 设置ITEM的点击事件
+     */
+    public void setOnItemClickListener(onItemClickListener<T> listener) {
+        mOnItemClickListener = listener;
     }
 }

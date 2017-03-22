@@ -86,7 +86,6 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
         mEditCommentDialog.setOnEditCommentListener(this);
     }
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

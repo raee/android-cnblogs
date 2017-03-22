@@ -32,7 +32,7 @@ public interface IFriendsApi {
      *
      * @param listener
      */
-    void getFeeds(String blogApp, ApiUiArrayListener<UserFeedBean> listener);
+    void getFeeds(int page, String blogApp, ApiUiArrayListener<UserFeedBean> listener);
 
     /**
      * 关注博主

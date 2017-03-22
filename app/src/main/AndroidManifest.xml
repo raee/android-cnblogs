@@ -36,22 +36,22 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-        <!--     <intent-filter>
-                 <action android:name="android.intent.action.MAIN"/>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-                 <category android:name="android.intent.category.LAUNCHER"/>
-             </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.TestActivity"
             android:label="测试入口"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            <!--        <intent-filter>
+                        <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+                        <category android:name="android.intent.category.LAUNCHER"/>
+                    </intent-filter>-->
         </activity>
 
         <activity
@@ -72,13 +72,19 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity
-            android:name=".activity.LoginActivity"
-            />
+            android:name=".activity.LoginActivity"/>
         <activity
             android:name=".activity.WebActivity"/>
         <activity android:name=".activity.WebLoginActivity"/>
         <activity android:name=".activity.ImagePreviewActivity"/>
-        <activity android:name=".activity.BloggerActivity"/>
+        <activity android:name=".activity.BloggerActivity"
+            >
+            <!--   <intent-filter>
+                   <action android:name="android.intent.action.MAIN"/>
+
+                   <category android:name="android.intent.category.LAUNCHER"/>
+               </intent-filter>-->
+        </activity>
         <activity android:name=".activity.FriendsActivity"/>
 
 
@@ -88,9 +94,6 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL}"/>
-
-
-
 
     </application>
 
