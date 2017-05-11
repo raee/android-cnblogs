@@ -40,7 +40,6 @@ public class RaeRecyclerView extends XRecyclerView {
         mFootView.setVisibility(GONE);
         setLoadingMoreProgressStyle(ProgressStyle.BallScaleMultiple);
         setFootView(mFootView);
-        addView(new PlaceholderView(getContext()), LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
 
     /**

@@ -3,19 +3,16 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0-beta1'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.4.0'
     }
 }
 
 allprojects {
     repositories {
-        maven { url 'http://localhost:8081/repository/maven-public/' }
-        jcenter()
-        mavenCentral()
+        maven { url 'http://maven.raeblog.com:8081/repository/maven-public/' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://jitpack.io" }
-        maven { url  'https://dl.bintray.com/raee/Android' }
+        jcenter()
     }
 }
 
