@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.presenter.IBloggerPresenter;
-import com.rae.cnblogs.sdk.IFriendsApi;
+import com.rae.cnblogs.sdk.api.IFriendsApi;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.core.sdk.ApiUiListener;
 import com.rae.core.sdk.exception.ApiException;

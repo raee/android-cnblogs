@@ -8,7 +8,8 @@ import android.text.TextUtils;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
@@ -262,7 +263,8 @@ public class BlogBean extends Model implements Parcelable {
         if (TextUtils.isEmpty(thumbUrls)) return null;
         try {
             if (mThumbList == null) {
-                mThumbList = JSON.parseArray(thumbUrls, String.class);
+                mThumbList = new Gson().fromJson(thumbUrls, new TypeToken<List<String>>(){}.getType());
+//                mThumbList = JSON.parseArray(thumbUrls, String.class);
             }
         } catch (Exception e) {
             e.printStackTrace();

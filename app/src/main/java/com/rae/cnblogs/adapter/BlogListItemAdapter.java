@@ -90,12 +90,11 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
                 holder.commentView.setVisibility(View.GONE);
                 break;
             default:
-                ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, mAvatarOptions);
-                holder.authorView.setText(m.getAuthor());
+
                 break;
         }
-
-
+        ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, mAvatarOptions);
+        holder.authorView.setText(m.getAuthor());
         holder.titleView.setText(m.getTitle());
         holder.summaryView.setText(m.getSummary());
         holder.dateView.setText(m.getPostDate());

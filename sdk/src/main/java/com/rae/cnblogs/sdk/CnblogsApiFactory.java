@@ -13,13 +13,12 @@ public final class CnblogsApiFactory {
     public static CnblogsApiProvider getInstance(Context context) {
 
         if (sProvider == null) {
-            sProvider = new DefaultCnblogsApiProvider(context.getApplicationContext());
-//            UserProvider.init(context.getApplicationContext());
+            synchronized (CnblogsApiFactory.class) {
+                if (sProvider == null) {
+                    sProvider = new DefaultCnblogsApiProvider(context.getApplicationContext());
+                }
+            }
         }
-
-
-
         return sProvider;
-
     }
 }

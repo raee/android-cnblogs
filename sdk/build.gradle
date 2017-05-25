@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion '25.0.2'
 
     defaultConfig {
@@ -29,6 +29,17 @@ dependencies {
     androidTestCompile 'com.github.raee:runit:1.0.0'
     testCompile 'junit:junit:4.12'
     compile 'org.jsoup:jsoup:1.10.1'
-    compile 'com.rae.core:lib:1.0.0'
+    //    compile 'com.rae.core:lib:1.0.0'
+    compile 'com.squareup.okhttp3:okhttp-ext:3.6.0'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    // RX JAVA
+    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+//    compile 'com.alibaba:fastjson:1.2.32'
+    compile 'com.android.support:support-annotations:25.2.0'
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.google.code.gson:gson:2.8.0'
 }

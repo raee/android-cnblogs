@@ -5,8 +5,8 @@ import android.text.TextUtils;
 
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.presenter.impl.BasePresenter;
-import com.rae.cnblogs.sdk.IBlogApi;
-import com.rae.cnblogs.sdk.IBookmarksApi;
+import com.rae.cnblogs.sdk.api.IBlogApi;
+import com.rae.cnblogs.sdk.api.IBookmarksApi;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BookmarksBean;
 import com.rae.cnblogs.sdk.db.DbBlog;

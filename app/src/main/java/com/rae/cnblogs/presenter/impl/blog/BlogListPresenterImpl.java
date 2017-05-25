@@ -6,7 +6,7 @@ import android.os.Message;
 
 import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.presenter.impl.BasePresenter;
-import com.rae.cnblogs.sdk.IBlogApi;
+import com.rae.cnblogs.sdk.api.IBlogApi;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.db.DbBlog;

@@ -2,7 +2,7 @@ package com.rae.cnblogs.presenter.impl.blog;
 
 import android.content.Context;
 
-import com.rae.cnblogs.sdk.IFriendsApi;
+import com.rae.cnblogs.sdk.api.IFriendsApi;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 
 /**

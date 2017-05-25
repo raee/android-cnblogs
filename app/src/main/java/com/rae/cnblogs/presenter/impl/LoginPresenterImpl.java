@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.presenter.ILoginPresenter;
-import com.rae.cnblogs.sdk.IUserApi;
+import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.LoginTokenBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.core.sdk.ApiUiListener;

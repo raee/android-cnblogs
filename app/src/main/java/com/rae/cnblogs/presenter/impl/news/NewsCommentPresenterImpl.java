@@ -3,7 +3,7 @@ package com.rae.cnblogs.presenter.impl.news;
 import android.content.Context;
 
 import com.rae.cnblogs.presenter.impl.blog.BlogCommentPresenterImpl;
-import com.rae.cnblogs.sdk.INewsApi;
+import com.rae.cnblogs.sdk.api.INewsApi;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 

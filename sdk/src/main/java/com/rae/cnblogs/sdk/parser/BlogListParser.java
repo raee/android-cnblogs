@@ -2,14 +2,13 @@ package com.rae.cnblogs.sdk.parser;
 
 import android.text.TextUtils;
 
-import com.alibaba.fastjson.JSON;
-import com.rae.cnblogs.sdk.Utils;
+import com.google.gson.Gson;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.DbBlog;
 import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
-import com.rae.core.sdk.ApiUiArrayListener;
+import com.rae.cnblogs.sdk.utils.ApiUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,49 +22,14 @@ import java.util.List;
  * 博客列表解析器
  * Created by ChenRui on 2016/11/30 00:13.
  */
-public class BlogListParser extends HtmlParser<BlogBean> {
+public class BlogListParser implements IHtmlParser<List<BlogBean>> {
 
     private DbBlog mDbBlog;
+    private Gson mGson = new Gson();
 
-    public BlogListParser(ApiUiArrayListener<BlogBean> listener) {
-        super(listener);
+
+    public BlogListParser() {
         mDbBlog = DbFactory.getInstance().getBlog();
-    }
-
-    @Override
-    protected void onParseHtmlDocument(Document document) {
-        // 解析HTML
-        List<BlogBean> result = new ArrayList<>();
-        Elements elements = document.select(".post_item");
-        String id;
-        for (Element item : elements) {
-            Elements element = item.select(".post_item_body");
-            id = Utils.getNumber(item.select(".digg .diggnum").attr("id"));
-
-            // 博客ID为空不添加
-            if (TextUtils.isEmpty(id)) {
-                continue;
-            }
-
-            BlogBean m = new BlogBean();
-            m.setBlogId(id);
-            m.setTitle(element.select(".titlelnk").text()); // 标题
-            m.setUrl(element.select(".titlelnk").attr("href"));  // 原文链接
-            m.setAvatar(getAvatar(element.select(".pfs").attr("src"))); // 头像地址
-            m.setSummary(element.select(".post_item_summary").text()); // 摘要
-            m.setAuthor(element.select(".lightblue").text()); // 作者
-            m.setAuthorUrl(element.select(".lightblue").attr("href")); // 作者博客地址
-            m.setBlogApp(Utils.getBlogApp(m.getAuthorUrl()));
-            m.setComment(Utils.getCount(Utils.getNumber(element.select(".article_comment .gray").text()))); // 评论
-            m.setViews(Utils.getCount(Utils.getNumber(element.select(".article_view .gray").text())));  // 阅读
-            m.setPostDate(Utils.getDate(element.select(".post_item_foot").text())); // 发布时间
-            m.setLikes(Utils.getCount(element.select(".diggnum").text()));  // 点赞或者是推荐
-            m.setBlogType(BlogType.BLOG.getTypeName());
-            cacheThumbUrls(m);
-            result.add(m);
-        }
-
-        notifySuccess(result);
     }
 
     /**
@@ -73,7 +37,7 @@ public class BlogListParser extends HtmlParser<BlogBean> {
      *
      * @param m
      */
-    void cacheThumbUrls(BlogBean m) {
+    private void cacheThumbUrls(BlogBean m) {
         // 小图处理：从数据库中获取
         BlogBean dbBlog = mDbBlog.getBlog(m.getBlogId());
         if (dbBlog != null && !TextUtils.isEmpty(dbBlog.getThumbUrls())) {
@@ -95,7 +59,7 @@ public class BlogListParser extends HtmlParser<BlogBean> {
      *
      * @param content 博文
      */
-    String createThumbUrls(String content) {
+    private String createThumbUrls(String content) {
         try {
             List<String> result = new ArrayList<>();
             Elements elements = Jsoup.parse(content).select("img");
@@ -107,17 +71,17 @@ public class BlogListParser extends HtmlParser<BlogBean> {
                     continue;
                 }
 
-                result.add(Utils.getUrl(src));
+                result.add(ApiUtils.getUrl(src));
             }
 
-            return JSON.toJSONString(result);
+            return mGson.toJson(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    String getAvatar(String src) {
+    private String getAvatar(String src) {
         if (TextUtils.isEmpty(src)) {
             return null;
         }
@@ -127,4 +91,42 @@ public class BlogListParser extends HtmlParser<BlogBean> {
         return src;
     }
 
+    @Override
+    public List<BlogBean> parse(String html) {
+
+        Document document = Jsoup.parse(html);
+
+        // 解析HTML
+        List<BlogBean> result = new ArrayList<>();
+        Elements elements = document.select(".post_item");
+        String id;
+        for (Element item : elements) {
+            Elements element = item.select(".post_item_body");
+            id = ApiUtils.getNumber(item.select(".digg .diggnum").attr("id"));
+
+            // 博客ID为空不添加
+            if (TextUtils.isEmpty(id)) {
+                continue;
+            }
+
+            BlogBean m = new BlogBean();
+            m.setBlogId(id);
+            m.setTitle(element.select(".titlelnk").text()); // 标题
+            m.setUrl(element.select(".titlelnk").attr("href"));  // 原文链接
+            m.setAvatar(getAvatar(element.select(".pfs").attr("src"))); // 头像地址
+            m.setSummary(element.select(".post_item_summary").text()); // 摘要
+            m.setAuthor(element.select(".lightblue").text()); // 作者
+            m.setAuthorUrl(element.select(".lightblue").attr("href")); // 作者博客地址
+            m.setBlogApp(ApiUtils.getBlogApp(m.getAuthorUrl()));
+            m.setComment(ApiUtils.getCount(ApiUtils.getNumber(element.select(".article_comment .gray").text()))); // 评论
+            m.setViews(ApiUtils.getCount(ApiUtils.getNumber(element.select(".article_view .gray").text())));  // 阅读
+            m.setPostDate(ApiUtils.getDate(element.select(".post_item_foot").text())); // 发布时间
+            m.setLikes(ApiUtils.getCount(element.select(".diggnum").text()));  // 点赞或者是推荐
+            m.setBlogType(BlogType.BLOG.getTypeName());
+            cacheThumbUrls(m);
+            result.add(m);
+        }
+
+        return result;
+    }
 }

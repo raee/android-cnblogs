@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 
 /**
@@ -20,6 +20,7 @@ public class CnblogSdkConfig {
 
 
     private static CnblogSdkConfig sInstance;
+    private Gson mGson = new Gson();
 
     public static CnblogSdkConfig getsInstance(Context applicationContext) {
         if (sInstance == null) {
@@ -75,7 +76,7 @@ public class CnblogSdkConfig {
      */
     public OfflineConfig getOfflineConfig() {
         String config = mConfig.getString("OfflineConfig", null);
-        return config == null ? new OfflineConfig() : JSON.parseObject(config, OfflineConfig.class);
+        return config == null ? new OfflineConfig() : mGson.fromJson(config, OfflineConfig.class);// JSON.parseObject(config, OfflineConfig.class);
     }
 
     /**
@@ -85,7 +86,7 @@ public class CnblogSdkConfig {
      */
     public void setOfflineConfig(OfflineConfig config) {
         if (config != null) {
-            mConfig.edit().putString("OfflineConfig", JSON.toJSONString(config)).apply();
+            mConfig.edit().putString("OfflineConfig", mGson.toJson(config)).apply(); // JSON.toJSONString(config)
         }
     }
 
@@ -96,7 +97,7 @@ public class CnblogSdkConfig {
      */
     public void saveUserInfo(UserInfoBean userInfo) {
         if (userInfo != null)
-            mConfig.edit().putString("UserInfo", JSON.toJSONString(userInfo)).apply();
+            mConfig.edit().putString("UserInfo", mGson.toJson(userInfo)).apply();
     }
 
     /**
@@ -109,6 +110,6 @@ public class CnblogSdkConfig {
         if (TextUtils.isEmpty(json)) {
             return null;
         }
-        return JSON.parseObject(json, UserInfoBean.class);
+        return mGson.fromJson(json, UserInfoBean.class);
     }
 }

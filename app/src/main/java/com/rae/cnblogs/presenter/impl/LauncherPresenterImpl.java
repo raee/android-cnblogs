@@ -3,7 +3,7 @@ package com.rae.cnblogs.presenter.impl;
 import android.content.Context;
 import android.os.CountDownTimer;
 
-import com.github.raee.cnblogs.sdk.IAdvertApi;
+import com.rae.cnblogs.sdk.IAdvertApi;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.presenter.ILauncherPresenter;
 import com.rae.cnblogs.sdk.bean.AdvertBean;
