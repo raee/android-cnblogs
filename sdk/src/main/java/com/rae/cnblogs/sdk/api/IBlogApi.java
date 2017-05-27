@@ -1,5 +1,7 @@
 package com.rae.cnblogs.sdk.api;
 
+import com.rae.cnblogs.sdk.Empty;
+import com.rae.cnblogs.sdk.FixField;
 import com.rae.cnblogs.sdk.Parser;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogCommentBean;
@@ -79,8 +81,12 @@ public interface IBlogApi {
      * @param blogApp 该文的博主ID
      */
     @POST(ApiUrls.API_BLOG_LIKE)
+    @FormUrlEncoded
     @Parser(KBContentParser.class)
-    Observable<Void> likeBlog(@Field("postId") String id, @Field("blogApp") String blogApp);
+    @FixField({
+          "voteType=Digg","isAbandoned=false"
+    })
+    Observable<Empty> likeBlog(@Field("postId") String id, @Field("blogApp") String blogApp);
 
     /**
      * 取消推荐博客

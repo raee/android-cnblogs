@@ -4,13 +4,15 @@
     <application
         android:label="@string/app_name">
 
+<!--
 
-        <!--博客服务-->
+        &lt;!&ndash;博客服务&ndash;&gt;
         <service
             android:name=".service.BlogService"
             android:description="@string/blog_service_desc"
             android:enabled="true"
             android:label="@string/blog_service_label"/>
+-->
 
     </application>
 

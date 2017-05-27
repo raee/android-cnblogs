@@ -3,6 +3,8 @@ package com.rae.cnblogs.sdk;
 import android.content.Context;
 
 import com.rae.cnblogs.sdk.api.IBlogApi;
+import com.rae.cnblogs.sdk.api.ICategoryApi;
+import com.rae.cnblogs.sdk.api.impl.CategoryApiImpl;
 
 /**
  * 博客园默认接口实现
@@ -24,10 +26,10 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
         return mRetrofit.create(IBlogApi.class);
     }
 
-//    @Override
-//    public ICategoryApi getCategoryApi() {
-//        return null;
-//    }
+    @Override
+    public ICategoryApi getCategoriesApi() {
+        return new CategoryApiImpl(mContext);
+    }
 //
 //    @Override
 //    public IUserApi getUserApi() {

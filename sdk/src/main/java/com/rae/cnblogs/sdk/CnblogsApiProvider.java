@@ -3,6 +3,7 @@ package com.rae.cnblogs.sdk;
 import android.content.Context;
 
 import com.rae.cnblogs.sdk.api.IBlogApi;
+import com.rae.cnblogs.sdk.api.ICategoryApi;
 import com.rae.cnblogs.sdk.converter.ConverterFactory;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.squareup.okhttp3.OkHttpExtBuilder;
@@ -20,9 +21,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 public abstract class CnblogsApiProvider {
 
     protected final Retrofit mRetrofit;
+    protected final Context mContext;
 
     protected CnblogsApiProvider(Context context) {
-
+        mContext = context;
         OkHttpClient client = new OkHttpExtBuilder()
                 .cache(context)
                 .debug("CNBLOGS-API")
@@ -58,10 +60,10 @@ public abstract class CnblogsApiProvider {
      */
     public abstract IBlogApi getBlogApi();
 
-//    /**
-//     * 获取博客分类接口
-//     */
-//    public abstract ICategoryApi getCategoryApi();
+    /**
+     * 获取博客分类接口
+     */
+    public abstract ICategoryApi getCategoriesApi();
 //
 //
 //    /**
