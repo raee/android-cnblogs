@@ -27,7 +27,7 @@ public class BlogApiTest extends BaseTest {
 //        mCategoryApi = getApiProvider().getCategoryApi();
 
         // 模拟已经登录
-        CookieManager.getInstance().setCookie("http://www.cnblogs.com", ".CNBlogsCookie=8C6D967C837C2CCBABCEC7567EE8AB7D44FE79BF1D0FC1219DD216AA34DE6B1A1FA8656DFCFC7370985A3EB177A82942FBCB5B3797B975F4DA582590059D123417B74C2FC28647F5541DD7F873BCEE5B4B627E3B");
+        CookieManager.getInstance().setCookie("http://www.cnblogs.com", ".CNBlogsCookie=CDFE7816E5AE5E642714451EDD29C27281CBE721475FBB78475E9E0E0FD6530161F251A2802A4CA286F22366101E8DDC47C30D8A5AD8FB183BDBE1709FD2EFA0E08860ABE10D1EE42437F4D00757CFDD39630464;");
 
     }
 
@@ -66,35 +66,24 @@ public class BlogApiTest extends BaseTest {
     public void testLikeBlog() throws InterruptedException {
         runTest("testLikeBlog", mApi.likeBlog("6323406", "silenttiger"));
     }
-//
-//    @Test
-//    public void testUnLikeBlog() throws InterruptedException {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                getApiProvider().getBlogApi().unLikeBlog("6323406", "silenttiger", listener(Void.class));
-//            }
-//        });
-//    }
-//
-//    @Test
-//    public void testAddCommentBlog() throws InterruptedException {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                // 普通
-//                getApiProvider().getBlogApi().addBlogComment("6323406", "silenttiger", (String) null, "test comment", listener(Void.class));
-//            }
-//        });
-//    }
-//
-//    @Test
-//    public void testDelCommentBlog() throws InterruptedException {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                getApiProvider().getBlogApi().deleteBlogComment("3608338", listener(Void.class));
-//            }
-//        });
-//    }
+
+    @Test
+    public void testUnLikeBlog() throws InterruptedException {
+        runTest("testUnLikeBlog", mApi.unLikeBlog("6323406", "silenttiger"));
+    }
+
+    @Test
+    public void testLikeKb() throws InterruptedException {
+        runTest("testLikeKb", mApi.likeKb("569992"));
+    }
+
+    @Test
+    public void testAddCommentBlog() throws InterruptedException {
+        runTest("testAddCommentBlog", mApi.addBlogComment("6323406", "silenttiger", (String) null, "test comment"));
+    }
+
+    @Test
+    public void testDelCommentBlog() throws InterruptedException {
+        runTest("testDelCommentBlog", mApi.deleteBlogComment("6323406"));
+    }
 }

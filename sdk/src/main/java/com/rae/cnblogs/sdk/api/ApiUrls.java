@@ -13,7 +13,12 @@ final class ApiUrls {
     static final String API_BLOG_CONTENT = "http://wcf.open.cnblogs.com/blog/post/body/{id}";
 
     // 博客-点赞
-    static final String API_BLOG_LIKE = "http://www.cnblogs.com/mvc/vote/VoteBlogPost.aspx";
+    static final String API_BLOG_LIKE = "http://www.cnblogs.com/mvc/vote/VoteBlogPost.aspx?voteType=Digg&isAbandoned=false";
+
+    /**
+     * 博客-取消点赞
+     */
+    static final String API_BLOG_UNLIKE = "http://www.cnblogs.com/mvc/vote/VoteBlogPost.aspx?voteType=Digg&isAbandoned=true";
 
     // 博客-评论-列表
     static final String API_BLOG_COMMENT_LIST = "http://www.cnblogs.com/mvc/blog/GetComments.aspx";
@@ -22,7 +27,7 @@ final class ApiUrls {
     static final String API_BLOG_COMMENT_ADD = "http://www.cnblogs.com/mvc/PostComment/Add.aspx";
 
     // 博客-评论-发表
-    static final String API_BLOG_COMMENT_DELETE = "http://www.cnblogs.com/mvc/comment/DeleteComment.aspx";
+    static final String API_BLOG_COMMENT_DELETE = "http://www.cnblogs.com/mvc/comment/DeleteComment.aspx?pageIndex=0";
 
     // 用户-当前用户信息
     static final String API_USER_INFO = "https://home.cnblogs.com/ajax/user/CurrentIngUserInfo";
@@ -49,7 +54,7 @@ final class ApiUrls {
     static final String API_KB_LIST = "https://home.cnblogs.com/kb/page/{page}/";
 
     // 知识库-点赞
-    static final String API_KB_LIKE = "https://kb.cnblogs.com/mvcajax/vote/VoteArticle";
+    static final String API_KB_LIKE = "https://kb.cnblogs.com/mvcajax/vote/VoteArticle?voteType=Digg";
 
     // 收藏-添加
     static final String API_BOOK_MARKS_ADD = "http://wz.cnblogs.com/ajax/wz/AddWzlink";

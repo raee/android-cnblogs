@@ -6,6 +6,7 @@ import com.rae.cnblogs.sdk.api.IBlogApi;
 import com.rae.cnblogs.sdk.api.ICategoryApi;
 import com.rae.cnblogs.sdk.converter.ConverterFactory;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
+import com.rae.cnblogs.sdk.interceptor.RequestInterceptor;
 import com.squareup.okhttp3.OkHttpExtBuilder;
 
 import java.util.concurrent.TimeUnit;
@@ -31,7 +32,7 @@ public abstract class CnblogsApiProvider {
                 .https()
                 .build()
                 .connectTimeout(30, TimeUnit.SECONDS)
-//                .addInterceptor(ResponseInterceptor.create())
+                .addInterceptor(RequestInterceptor.create())
                 .retryOnConnectionFailure(true)
                 .build();
 

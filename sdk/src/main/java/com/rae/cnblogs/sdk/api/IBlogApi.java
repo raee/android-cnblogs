@@ -1,7 +1,7 @@
 package com.rae.cnblogs.sdk.api;
 
 import com.rae.cnblogs.sdk.Empty;
-import com.rae.cnblogs.sdk.FixField;
+import com.rae.cnblogs.sdk.JsonBody;
 import com.rae.cnblogs.sdk.Parser;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogCommentBean;
@@ -17,6 +17,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -82,10 +83,7 @@ public interface IBlogApi {
      */
     @POST(ApiUrls.API_BLOG_LIKE)
     @FormUrlEncoded
-    @Parser(KBContentParser.class)
-    @FixField({
-          "voteType=Digg","isAbandoned=false"
-    })
+    @Headers({JsonBody.CONTENT_TYPE})
     Observable<Empty> likeBlog(@Field("postId") String id, @Field("blogApp") String blogApp);
 
     /**
@@ -94,14 +92,20 @@ public interface IBlogApi {
      * @param id      博客ID
      * @param blogApp 该文的博主ID
      */
-    Observable<Void> unLikeBlog(String id, String blogApp);
+    @POST(ApiUrls.API_BLOG_UNLIKE)
+    @FormUrlEncoded
+    @Headers({JsonBody.CONTENT_TYPE})
+    Observable<Void> unLikeBlog(@Field("postId") String id, @Field("blogApp") String blogApp);
 
     /**
      * 知识库点赞
      *
      * @param id 知识库ID
      */
-    Observable<Void> likeKb(String id);
+    @POST(ApiUrls.API_KB_LIKE)
+    @FormUrlEncoded
+    @Headers({JsonBody.CONTENT_TYPE, JsonBody.XHR})
+    Observable<Void> likeKb(@Field("contentId") String id);
 
     /**
      * 发表博客评论
@@ -111,7 +115,10 @@ public interface IBlogApi {
      * @param parentCommentId 引用回复评论ID，为空则发表新评论
      * @param content         评论内容
      */
-    Observable<Void> addBlogComment(String id, String blogApp, String parentCommentId, String content);
+    @POST(ApiUrls.API_BLOG_COMMENT_ADD)
+    @FormUrlEncoded
+    @Headers({JsonBody.CONTENT_TYPE})
+    Observable<Void> addBlogComment(@Field("postId") String id, @Field("blogApp") String blogApp, @Field("parentCommentId") String parentCommentId, @Field("body") String content);
 
     /**
      * 引用评论，并发表评论
@@ -121,6 +128,9 @@ public interface IBlogApi {
      * @param comment 引用回复
      * @param content 评论内容
      */
+    @POST(ApiUrls.API_BLOG_COMMENT_ADD)
+    @FormUrlEncoded
+    @Headers({JsonBody.CONTENT_TYPE})
     Observable<Void> addBlogComment(String id, String blogApp, BlogCommentBean comment, String content);
 
     /**
@@ -128,6 +138,9 @@ public interface IBlogApi {
      *
      * @param commentId 评论ID
      */
-    Observable<Void> deleteBlogComment(String commentId);
+    @POST(ApiUrls.API_BLOG_COMMENT_DELETE)
+    @FormUrlEncoded
+    @Headers({JsonBody.CONTENT_TYPE})
+    Observable<Void> deleteBlogComment(@Field("commentId") String commentId);
 
 }
