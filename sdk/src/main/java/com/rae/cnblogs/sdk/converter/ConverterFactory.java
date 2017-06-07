@@ -1,6 +1,7 @@
 package com.rae.cnblogs.sdk.converter;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonWriter;
@@ -26,10 +27,14 @@ import retrofit2.Retrofit;
 public class ConverterFactory extends Converter.Factory {
 
 
-    private Gson gson = new Gson();
+    private final Gson gson;
 
     public static ConverterFactory create() {
         return new ConverterFactory();
+    }
+
+    public ConverterFactory() {
+        gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     }
 
     @Override

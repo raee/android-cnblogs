@@ -29,6 +29,7 @@ public abstract class CnblogsApiProvider {
                 .cache(context)
                 .debug("CNBLOGS-API")
                 .https()
+                .cookie()
                 .build()
                 .connectTimeout(30, TimeUnit.SECONDS)
 //                .addInterceptor(ResponseInterceptor.create())
