@@ -33,13 +33,13 @@ final class ApiUrls {
     static final String API_USER_INFO = "https://home.cnblogs.com/ajax/user/CurrentIngUserInfo";
 
     // 用户-信息
-    static final String API_USER_CENTER = "https://home.cnblogs.com/u/@blogApp";
+    static final String API_USER_CENTER = "https://home.cnblogs.com/u/{blogApp}";
 
     // 用户-动态
-    static final String API_USER_FEED = "https://home.cnblogs.com/u/@blogApp/feed/@page.html";
+    static final String API_USER_FEED = "https://home.cnblogs.com/u/{blogApp}/feed/{page}.html";
 
     // 用户-登录
-    static final String API_SIGN_IN = "https://passport.cnblogs.com/user/signin?AspxAutoDetectCookieSupport=1";
+    static final String API_SIGN_IN = "https://passport.cnblogs.com/user/signin?AspxAutoDetectCookieSupport=1&remember=true";
 
     // 新闻-列表
     static final String API_NEWS_LIST = "http://wcf.open.cnblogs.com/news/recent/paged/@page/20";
@@ -78,16 +78,16 @@ final class ApiUrls {
     static final String API_NEWS_LIKE = "https://news.cnblogs.com/News/VoteNews";
 
     // 朋友-关注-列表
-    static final String API_FRIENDS_FOLLOW_LIST = "https://home.cnblogs.com/relation_users";
+    static final String API_FRIENDS_FOLLOW_LIST = "https://home.cnblogs.com/relation_users?groupId=00000000-0000-0000-0000-000000000000&isFollowes=false";
 
     // 朋友-关注-发起
-    static final String API_FRIENDS_FOLLOW = "https://home.cnblogs.com/ajax/follow/FollowUser";
+    static final String API_FRIENDS_FOLLOW = "https://home.cnblogs.com/ajax/follow/FollowUser?remark=";
 
     // 朋友-关注-取消
-    static final String API_FRIENDS_UN_FOLLOW = "https://home.cnblogs.com/ajax/follow/RemoveFollow";
+    static final String API_FRIENDS_UN_FOLLOW = "https://home.cnblogs.com/ajax/follow/RemoveFollow?isRemoveGroup=false";
 
     // 朋友-博客列表
-    static final String API_FRIENDS_BLOG_LIST = "http://wcf.open.cnblogs.com/blog/u/@blogApp/posts/@page/20";
+    static final String API_FRIENDS_BLOG_LIST = "http://wcf.open.cnblogs.com/blog/u/{blogApp}/posts/{page}/20";
 
     // 朋友-粉丝-列表
     public static final String API_FRIENDS_FANS_LIST = "https://home.cnblogs.com/relation_users";

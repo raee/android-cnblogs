@@ -1,91 +1,53 @@
-//package rae.com.cnblogs.sdk;
-//
-//import android.support.test.runner.AndroidJUnit4;
-//
-//import com.rae.cnblogs.sdk.api.IUserApi;
-//import com.rae.cnblogs.sdk.bean.LoginTokenBean;
-//import com.rae.cnblogs.sdk.bean.UserInfoBean;
-//import com.rae.cnblogs.sdk.impl.WebUserApiImpl;
-//import com.rae.core.sdk.ApiUiListener;
-//import com.rae.core.sdk.exception.ApiException;
-//
-//import org.junit.Before;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//
-///**
-// * 用户接口测试
-// * Created by ChenRui on 2017/1/14 01:09.
-// */
-//@RunWith(AndroidJUnit4.class)
-//public class UserApiTest extends BaseTest {
-//    IUserApi mApi;
-//
-//    @Override
-//    @Before
-//    public void setup() {
-//        super.setup();
-//        mApi = getApiProvider().getUserApi();
-//    }
-//
-//    @Test
-//    public void testLogin() throws InterruptedException {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                mApi.login("chenrui7", "chenrui123456789", null, new ApiUiListener<LoginTokenBean>() {
-//                    @Override
-//                    public void onApiFailed(ApiException e, String s) {
-//                        error(s);
-//                    }
-//
-//                    @Override
-//                    public void onApiSuccess(LoginTokenBean loginTokenBean) {
-//                        stop();
-//                    }
-//                });
-//            }
-//        });
-//    }
-//
-//    @Test
-//    public void testRefreshToken() throws InterruptedException {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                mApi.refreshLoginToken(new ApiUiListener<LoginTokenBean>() {
-//                    @Override
-//                    public void onApiFailed(ApiException e, String s) {
-//                        error(s);
-//                    }
-//
-//                    @Override
-//                    public void onApiSuccess(LoginTokenBean loginTokenBean) {
-//                        stop(loginTokenBean.getAccess_token());
-//                    }
-//                });
-//            }
-//        });
-//    }
-//
-//    @Test
-//    public void testUserInfo() throws InterruptedException {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                mApi.getUserInfo(listener(UserInfoBean.class));
-//            }
-//        });
-//    }
-//
-//
-//    @Test
-//    public void testWebApiLogin() {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                new WebUserApiImpl(mContext).login("chenrui7", "chenrui123456789", null, listener(LoginTokenBean.class));
-//            }
-//        });
-//    }
-//}
+package rae.com.cnblogs.sdk;
+
+import com.github.raee.runit.AndroidRUnit4ClassRunner;
+import com.rae.cnblogs.sdk.api.IUserApi;
+import com.rae.cnblogs.sdk.bean.UserInfoBean;
+import com.rae.cnblogs.sdk.utils.ApiEncrypt;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Function;
+
+/**
+ * 用户接口测试
+ * Created by ChenRui on 2017/1/14 01:09.
+ */
+@RunWith(AndroidRUnit4ClassRunner.class)
+public class UserApiTest extends BaseTest {
+    IUserApi mApi;
+
+    @Override
+    @Before
+    public void setup() {
+        super.setup();
+        mApi = getApiProvider().getUserApi();
+    }
+
+    /**
+     * 登录
+     */
+    @Test
+    public void testLogin() throws InterruptedException {
+        String userName = ApiEncrypt.encrypt("chenrui7");
+        String pwd = ApiEncrypt.encrypt("chenrui123456789");
+        runTest("testLogin", mApi.login(userName, pwd));
+    }
+
+    /**
+     * 获取用户信息
+     */
+    @Test
+    public void testUserInfo() throws InterruptedException {
+        // 先获取到blogApp信息，然后再根据blogApp获取用户信息
+        runTest("testUserInfo", mApi.getUserInfo().flatMap(new Function<UserInfoBean, ObservableSource<UserInfoBean>>() {
+            @Override
+            public ObservableSource<UserInfoBean> apply(UserInfoBean u) throws Exception {
+                return mApi.getUserInfo(u.getBlogApp());
+            }
+        }));
+    }
+}

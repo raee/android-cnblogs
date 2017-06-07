@@ -6,8 +6,10 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.rae.cnblogs.sdk.Empty;
+import com.rae.cnblogs.sdk.JsonParser;
 import com.rae.cnblogs.sdk.Parser;
 import com.rae.cnblogs.sdk.parser.IHtmlParser;
+import com.rae.cnblogs.sdk.parser.IJsonParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +32,7 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
     private final Type type;
     private final TypeAdapter<T> mAdapter;
     private final Gson mGson;
+    private IJsonParser<T> mJsonParser;
     private IHtmlParser<T> mHtmlParser;
 
     @SuppressWarnings("unchecked")
@@ -45,7 +48,15 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                break;
+                continue;
+            }
+            if (annotation instanceof JsonParser) {
+                Class<?> cls = ((JsonParser) annotation).value();
+                try {
+                    mJsonParser = (IJsonParser<T>) cls.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -57,6 +68,8 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
         if (TextUtils.isEmpty(text)) {
             return null;
         }
+
+        text = text.trim();
         if (text.startsWith("{") || text.startsWith("[")) {
             // 解析JSON
             return json2Entity(text);
@@ -81,6 +94,11 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
      */
     @SuppressWarnings("unchecked")
     private T json2Entity(String text) throws IOException {
+
+        // 交给自定义的JSON解析
+        if (mJsonParser != null) {
+            return mJsonParser.parse(text);
+        }
 
 
         // 删除评论的时候会返回true or false
@@ -107,11 +125,20 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
             if (obj.has("IsSucceed")) {
                 isSuccess = obj.getBoolean("IsSucceed");
             }
+            if (obj.has("success")) {
+                isSuccess = obj.getBoolean("success");
+            }
             if (obj.has("Message")) {
                 message = obj.getString("Message");
             }
+            if (obj.has("message")) {
+                message = obj.getString("message");
+            }
             if (obj.has("Data")) {
                 data = obj.get("Data");
+            }
+            if (obj.has("data")) {
+                data = obj.get("data");
             }
             if (isSuccess && data != null) {
                 text = data.toString();
@@ -120,8 +147,10 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
 
             } else if (isSuccess && type == Void.class) {
                 return null;
+            } else if (isSuccess && type == Empty.class) {
+                return (T) Empty.value();
             } else {
-                message = Jsoup.parse(message).text();
+                message = TextUtils.isEmpty(message) ? "未知错误" : Jsoup.parse(message).text();
                 throw new IOException(message);
             }
         } catch (JSONException e) {

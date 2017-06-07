@@ -1,6 +1,6 @@
 package com.rae.cnblogs.sdk;
 
-import com.rae.cnblogs.sdk.parser.IHtmlParser;
+import com.rae.cnblogs.sdk.parser.IJsonParser;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -10,16 +10,16 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * 解析器
- * Created by ChenRui on 2017/5/22 0022 23:30.
+ * JSON解析器
+ * Created by ChenRui on 2017/6/7 0007 19:18.
  */
 @Documented
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface Parser {
-    /**
-     * HTML解析器
-     */
-    Class<? extends IHtmlParser> value();
+public @interface JsonParser {
 
+    /**
+     * JSON解析器
+     */
+    Class<? extends IJsonParser> value();
 }

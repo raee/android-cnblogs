@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.rae.cnblogs.sdk.api.IBlogApi;
 import com.rae.cnblogs.sdk.api.ICategoryApi;
+import com.rae.cnblogs.sdk.api.IFriendsApi;
+import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.api.impl.CategoryApiImpl;
 
 /**
@@ -30,12 +32,13 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
     public ICategoryApi getCategoriesApi() {
         return new CategoryApiImpl(mContext);
     }
-//
-//    @Override
-//    public IUserApi getUserApi() {
-//        return null;
-//    }
-//
+
+    @Override
+    public IUserApi getUserApi() {
+        return mRetrofit.create(IUserApi.class);
+    }
+
+    //
 //    @Override
 //    public IBookmarksApi getBookmarksApi() {
 //        return null;
@@ -47,10 +50,10 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
 //        return null;
 //    }
 //
-//    @Override
-//    public IFriendsApi getFriendApi() {
-//        return null;
-//    }
+    @Override
+    public IFriendsApi getFriendApi() {
+        return mRetrofit.create(IFriendsApi.class);
+    }
 //
 //    @Override
 //    public ISearchApi getSearchApi() {

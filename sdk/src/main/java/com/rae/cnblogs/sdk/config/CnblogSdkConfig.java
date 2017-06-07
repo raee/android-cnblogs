@@ -17,6 +17,7 @@ public class CnblogSdkConfig {
     // cdfb6ec8-e78d-4c70-82df-7b1651a98808:TFgkwiEVDBGZwPncPL9b5a9_z7E2pipUPFHo9OWIeOXkGTImxr_-LQBMw9_gQLX94Faqkbs9VbL_CKk-
     public static final String API_AUTH_KEY = "Y2RmYjZlYzgtZTc4ZC00YzcwLTgyZGYtN2IxNjUxYTk4ODA4OlRGZ2t3aUVWREJHWndQbmNQTDliNWE5X3o3RTJwaXBVUEZIbzlPV0llT1hrR1RJbXhyXy1MUUJNdzlfZ1FMWDk0RmFxa2JzOVZiTF9DS2st";
     public static final String API_PUB_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCp0wHYbg/NOPO3nzMD3dndwS0MccuMeXCHgVlGOoYyFwLdS24Im2e7YyhB0wrUsyYf0/nhzCzBK8ZC9eCWqd0aHbdgOQT6CuFQBMjbyGYvlVYU2ZP7kG9Ft6YV6oc9ambuO7nPZh+bvXH0zDKfi02prknrScAKC0XhadTHT3Al0QIDAQAB";
+    public static final byte[] API_PUB_KEY_BYTE = API_PUB_KEY.getBytes();
 
 
     private static CnblogSdkConfig sInstance;

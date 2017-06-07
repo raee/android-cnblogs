@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.rae.cnblogs.sdk.api.IBlogApi;
 import com.rae.cnblogs.sdk.api.ICategoryApi;
+import com.rae.cnblogs.sdk.api.IFriendsApi;
+import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.converter.ConverterFactory;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.rae.cnblogs.sdk.interceptor.RequestInterceptor;
@@ -66,13 +68,13 @@ public abstract class CnblogsApiProvider {
      * 获取博客分类接口
      */
     public abstract ICategoryApi getCategoriesApi();
-//
-//
-//    /**
-//     * 获取用户接口
-//     */
-//    public abstract IUserApi getUserApi();
-//
+
+
+    /**
+     * 获取用户接口
+     */
+    public abstract IUserApi getUserApi();
+
 //    /**
 //     * 获取收藏接口
 //     */
@@ -84,10 +86,10 @@ public abstract class CnblogsApiProvider {
 //     */
 //    public abstract INewsApi getNewsApi();
 //
-//    /**
-//     * 获取朋友圈接口
-//     */
-//    public abstract IFriendsApi getFriendApi();
+    /**
+     * 获取朋友圈接口
+     */
+    public abstract IFriendsApi getFriendApi();
 //
 //    /**
 //     * 获取搜索接口

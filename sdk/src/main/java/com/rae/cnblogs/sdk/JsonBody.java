@@ -92,16 +92,18 @@ public class JsonBody extends RequestBody {
         private final List<String> values = new ArrayList<>();
 
         public JsonBody.Builder add(String name, String value) {
-            names.add(OKHttpUrl.canonicalize(name, OKHttpUrl.FORM_ENCODE_SET, false, false, true, true));
-            values.add(OKHttpUrl.canonicalize(value, OKHttpUrl.FORM_ENCODE_SET, false, false, true, true));
+            names.add(name);
+            values.add(value);
+//            names.add(OKHttpUrl.canonicalize(name, OKHttpUrl.FORM_ENCODE_SET, false, false, true, true));
+//            values.add(OKHttpUrl.canonicalize(value, OKHttpUrl.FORM_ENCODE_SET, false, false, true, true));
             return this;
         }
 
-        public JsonBody.Builder addEncoded(String name, String value) {
-            names.add(OKHttpUrl.canonicalize(name, OKHttpUrl.FORM_ENCODE_SET, true, false, true, true));
-            values.add(OKHttpUrl.canonicalize(value, OKHttpUrl.FORM_ENCODE_SET, true, false, true, true));
-            return this;
-        }
+//        public JsonBody.Builder addEncoded(String name, String value) {
+//            names.add(OKHttpUrl.canonicalize(name, OKHttpUrl.FORM_ENCODE_SET, true, false, true, true));
+//            values.add(OKHttpUrl.canonicalize(value, OKHttpUrl.FORM_ENCODE_SET, true, false, true, true));
+//            return this;
+//        }
 
         public JsonBody build() {
             return new JsonBody(names, values);

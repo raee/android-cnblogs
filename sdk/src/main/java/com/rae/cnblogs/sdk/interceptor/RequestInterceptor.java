@@ -6,12 +6,14 @@ import android.webkit.CookieManager;
 import com.rae.cnblogs.sdk.JsonBody;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.Set;
 
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -39,10 +41,11 @@ public class RequestInterceptor implements Interceptor {
         Request request = chain.request();
 
         // 带上COOKIE，保持登录需要用到
-        String cookie = mCookieManager.getCookie("http://www.cnblogs.com");
         Request.Builder newBuilder = request.newBuilder();
-        newBuilder.addHeader("Cookie", cookie);
-
+        String cookie = CookieManager.getInstance().getCookie("http://www.cnblogs.com");
+        if (!TextUtils.isEmpty(cookie)) {
+            newBuilder.header("Cookie", cookie);
+        }
         if ("post".equalsIgnoreCase(request.method())) {
             // 将URL的参数转换到body里面去
             newBuilder = convertParamToBody(request, newBuilder);
@@ -65,7 +68,8 @@ public class RequestInterceptor implements Interceptor {
         }
 
         // 这里有两种类型：formBody jsonBody
-        String contentType = body.contentType().toString();
+        MediaType mediaType = body.contentType();
+        String contentType = mediaType == null ? null : mediaType.toString();
 
         // 表单类型
         if (body instanceof FormBody) {
@@ -90,7 +94,7 @@ public class RequestInterceptor implements Interceptor {
             try {
                 body.writeTo(sink);
                 String params = sink.readString(Charset.defaultCharset());
-                HttpUrl oldUrl = httUrlBuilder.query(params).build();
+                HttpUrl oldUrl = httUrlBuilder.query(URLDecoder.decode(params)).build();
                 Set<String> oldNames = oldUrl.queryParameterNames();
                 for (String name : oldNames) {
                     String value = oldUrl.queryParameter(name);
@@ -106,7 +110,6 @@ public class RequestInterceptor implements Interceptor {
                 builder.add(name, value);
                 httUrlBuilder.removeAllQueryParameters(name);
             }
-
 
             JsonBody jsonBody = builder.build();
             return newBuilder.url(httUrlBuilder.build()).post(jsonBody);

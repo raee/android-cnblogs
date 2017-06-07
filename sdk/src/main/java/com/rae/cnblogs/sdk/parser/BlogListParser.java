@@ -37,7 +37,7 @@ public class BlogListParser implements IHtmlParser<List<BlogBean>> {
      *
      * @param m
      */
-    private void cacheThumbUrls(BlogBean m) {
+    protected void cacheThumbUrls(BlogBean m) {
         // 小图处理：从数据库中获取
         BlogBean dbBlog = mDbBlog.getBlog(m.getBlogId());
         if (dbBlog != null && !TextUtils.isEmpty(dbBlog.getThumbUrls())) {
