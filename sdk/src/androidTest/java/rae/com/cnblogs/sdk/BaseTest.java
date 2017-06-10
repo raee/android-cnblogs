@@ -9,6 +9,7 @@ import com.github.raee.runit.AndroidRUnit4ClassRunner;
 import com.github.raee.runit.RUnitTestLogUtils;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.CnblogsApiProvider;
+import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.UserProvider;
 
 import org.junit.Before;
@@ -36,6 +37,10 @@ public class BaseTest {
         UserProvider.init(mContext);
 //        DbCnblogs.init(mContext);
         // 模拟已经登录, 需要.CNBlogsCookie和.Cnblogs.AspNetCore.Cookies
+        autoLogin();
+    }
+
+    protected void autoLogin() {
         String url = "www.cnblogs.com";
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
@@ -63,6 +68,14 @@ public class BaseTest {
                 .subscribe(new DefaultObserver<T>() {
                     @Override
                     public void onNext(T t) {
+                        if (t == null) {
+                            Log.w(TAG, "返回对象为空！");
+                            return;
+                        }
+                        if (t instanceof Empty) {
+                            Log.i(TAG, "返回对象为Empty");
+                            return;
+                        }
                         if (t instanceof String) {
                             Log.i(TAG, t.toString());
                             return;

@@ -1,71 +1,59 @@
-//package rae.com.cnblogs.sdk;
-//
-//import android.support.test.runner.AndroidJUnit4;
-//
-//import com.rae.cnblogs.sdk.bean.BlogBean;
-//import com.rae.cnblogs.sdk.bean.BlogCommentBean;
-//
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//
-///**
-// * Created by ChenRui on 2016/11/30 00:15.
-// */
-//@RunWith(AndroidJUnit4.class)
-//public class NewsApiTest extends BaseTest {
-//
-//    @Test
-//    public void testNews() throws InterruptedException {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                getApiProvider().getNewsApi().getNews(1, listListener(BlogBean.class));
-//            }
-//        });
-//    }
-//
-//    @Test
-//    public void testNewsContent() throws InterruptedException {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                getApiProvider().getNewsApi().getNewsContent("561600", listener(String.class));
-//            }
-//        });
-//    }
-//
-//    @Test
-//    public void testAddNewsComment() throws InterruptedException {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                getApiProvider().getNewsApi().addNewsComment("561600", (String) null, "test new comment!", listener(Void.class));
-//            }
-//        });
-//    }
-//
-//    @Test
-//    public void testAddNewsCommentWithReplay() throws InterruptedException {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                BlogCommentBean comment = new BlogCommentBean();
-//                comment.setId("360847");
-//                comment.setBlogApp("Rae");
-//                comment.setBody("dgfd");
-//                getApiProvider().getNewsApi().addNewsComment("561600", comment, "test new comment!", listener(Void.class));
-//            }
-//        });
-//    }
-//
-//
-//    @Test
-//    public void testDelNewsComment() throws InterruptedException {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                getApiProvider().getNewsApi().deleteNewsComment("561600", "360854", listener(Void.class));
-//            }
-//        });
-//    }
-//}
+package rae.com.cnblogs.sdk;
+
+import com.github.raee.runit.AndroidRUnit4ClassRunner;
+import com.rae.cnblogs.sdk.CnblogsApiFactory;
+import com.rae.cnblogs.sdk.api.INewsApi;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/**
+ * 新闻接口测试
+ * Created by ChenRui on 2016/11/30 00:15.
+ */
+@RunWith(AndroidRUnit4ClassRunner.class)
+public class NewsApiTest extends BaseTest {
+
+    private INewsApi mApi;
+
+    @Override
+    public void setup() {
+        super.setup();
+        mApi = CnblogsApiFactory.getInstance(mContext).getNewsApi();
+    }
+
+    @Test
+    public void testNews() throws InterruptedException {
+        runTest("testNews", mApi.getNews(1));
+    }
+
+    @Test
+    public void testNewsContent() throws InterruptedException {
+        runTest("testNewsContent", mApi.getNewsContent("561600"));
+    }
+
+    @Test
+    public void testCommentList() throws InterruptedException {
+        runTest("testCommentList", mApi.getNewsComment("561600", 1));
+    }
+
+    @Test
+    public void testAddNewsComment() throws InterruptedException {
+        // 发布一条新的新闻评论
+        runTest("testAddNewsComment", mApi.addNewsComment("561600", "0", "test news comment!"));
+    }
+
+    @Test
+    public void testDelNewsComment() throws InterruptedException {
+        // 删除一条自己发布的新闻评论
+        runTest("testDelNewsComment", mApi.deleteNewsComment("561600", "378551"));
+    }
+
+    /**
+     * 新闻点赞
+     */
+    @Test
+    public void testLikeNews() throws InterruptedException {
+        runTest("testLikeNews", mApi.like("561600"));
+    }
+}

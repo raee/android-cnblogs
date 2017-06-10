@@ -44,26 +44,19 @@ public class FriendApiTest extends BaseTest {
 
     @Test
     public void testUnFollow() {
-        runTest("testFollow", mApi.unFollow("649b5d31-64f0-de11-ba8f-001cf0cd104b"));
+        runTest("testUnFollow", mApi.unFollow("649b5d31-64f0-de11-ba8f-001cf0cd104b"));
     }
-//
-//    @Test
-//    public void testFollowList() {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                mApi.getFollowList(null, 1, listListener(UserInfoBean.class));
-//            }
-//        });
-//    }
-//
-//    @Test
-//    public void testFansList() {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                mApi.getFansList(null, 1, listListener(UserInfoBean.class));
-//            }
-//        });
-//    }
+
+    /**
+     * 测试获取关注列表
+     */
+    @Test
+    public void testFollowList() {
+        runTest("testFollowList", mApi.getFollowAndFansList("649b5d31-64f0-de11-ba8f-001cf0cd104b", 1, true));
+    }
+
+    @Test
+    public void testFansList() {
+        runTest("testFansList", mApi.getFollowAndFansList("649b5d31-64f0-de11-ba8f-001cf0cd104b", 1, false));
+    }
 }

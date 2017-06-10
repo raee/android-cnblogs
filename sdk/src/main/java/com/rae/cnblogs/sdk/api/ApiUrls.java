@@ -42,10 +42,10 @@ final class ApiUrls {
     static final String API_SIGN_IN = "https://passport.cnblogs.com/user/signin?AspxAutoDetectCookieSupport=1&remember=true";
 
     // 新闻-列表
-    static final String API_NEWS_LIST = "http://wcf.open.cnblogs.com/news/recent/paged/@page/20";
+    static final String API_NEWS_LIST = "http://wcf.open.cnblogs.com/news/recent/paged/{page}/20";
 
     // 新闻-内容
-    static final String API_NEWS_CONTENT = "http://wcf.open.cnblogs.com/news/item/@id";
+    static final String API_NEWS_CONTENT = "http://wcf.open.cnblogs.com/news/item/{id}";
 
     // 新闻-评论-列表
     static final String API_NEWS_COMMENT = "https://news.cnblogs.com/CommentAjax/GetComments";
@@ -57,13 +57,13 @@ final class ApiUrls {
     static final String API_KB_LIKE = "https://kb.cnblogs.com/mvcajax/vote/VoteArticle?voteType=Digg";
 
     // 收藏-添加
-    static final String API_BOOK_MARKS_ADD = "http://wz.cnblogs.com/ajax/wz/AddWzlink";
+    static final String API_BOOK_MARKS_ADD = "http://wz.cnblogs.com/ajax/wz/AddWzlink?isPublic=1&linkType=1";
 
     // 收藏-删除
     static final String API_BOOK_MARKS_DELETE = "http://wz.cnblogs.com/ajax/wz/DeleteWzlink";
 
     // 收藏-列表
-    static final String API_BOOK_MARKS_LIST = "http://wz.cnblogs.com/my/@page.html";
+    static final String API_BOOK_MARKS_LIST = "http://wz.cnblogs.com/my/{page}.html";
 
     // 知识库-内容
     static final String API_KB_CONTENT = "https://kb.cnblogs.com/page/{id}/";
@@ -75,7 +75,7 @@ final class ApiUrls {
     static final String API_NEWS_COMMENT_DELETE = "https://news.cnblogs.com/Comment/DelComment";
 
     // 新闻-点赞
-    static final String API_NEWS_LIKE = "https://news.cnblogs.com/News/VoteNews";
+    static final String API_NEWS_LIKE = "https://news.cnblogs.com/News/VoteNews?action=agree";
 
     // 朋友-关注-列表
     static final String API_FRIENDS_FOLLOW_LIST = "https://home.cnblogs.com/relation_users?groupId=00000000-0000-0000-0000-000000000000&isFollowes=false";
@@ -93,7 +93,7 @@ final class ApiUrls {
     public static final String API_FRIENDS_FANS_LIST = "https://home.cnblogs.com/relation_users";
 
     // 搜索-百度建议
-    static final String API_BAIDU_SUGGESTION = "http://suggestion.baidu.com/su";
+    static final String API_BAIDU_SUGGESTION = "http://suggestion.baidu.com/su?cb=cnblogs";
 
     // 搜索-博客-作者
     static final String API_SEARCH_BLOGGER = "http://wcf.open.cnblogs.com/blog/bloggers/search";

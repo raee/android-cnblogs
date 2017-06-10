@@ -1,58 +1,51 @@
-//package rae.com.cnblogs.sdk;
-//
-//import android.support.test.runner.AndroidJUnit4;
-//
-//import com.rae.cnblogs.sdk.CnblogsApiFactory;
-//import com.rae.cnblogs.sdk.api.ISearchApi;
-//import com.rae.cnblogs.sdk.bean.BlogBean;
-//import com.rae.cnblogs.sdk.bean.UserInfoBean;
-//
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//
-///**
-// * Created by ChenRui on 2017/2/7 0007 15:34.
-// */
-//@RunWith(AndroidJUnit4.class)
-//public class SearchApiTest extends BaseTest {
-//
-//    private ISearchApi mApi;
-//
-//    @Override
-//    public void setup() {
-//        super.setup();
-//        mApi = CnblogsApiFactory.getInstance(mContext).getSearchApi();
-//    }
-//
-//
-//    @Test
-//    public void testSuggestion() throws Exception {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                mApi.getSuggestion("android", listListener(String.class));
-//            }
-//        });
-//    }
-//
-//    @Test
-//    public void testSearchBlogAuthor() throws Exception {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                mApi.searchBlogAuthor("android", listListener(UserInfoBean.class));
-//            }
-//        });
-//    }
-//
-//    @Test
-//    public void testSearchBlogList() throws Exception {
-//        startTest(new Runnable() {
-//            @Override
-//            public void run() {
-//                mApi.searchNewsList("android", 2, listListener(BlogBean.class));
-//            }
-//        });
-//    }
-//
-//}
+package rae.com.cnblogs.sdk;
+
+import com.github.raee.runit.AndroidRUnit4ClassRunner;
+import com.rae.cnblogs.sdk.CnblogsApiFactory;
+import com.rae.cnblogs.sdk.api.ISearchApi;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/**
+ * 搜索接口
+ * Created by ChenRui on 2017/2/7 0007 15:34.
+ */
+@RunWith(AndroidRUnit4ClassRunner.class)
+public class SearchApiTest extends BaseTest {
+
+    private ISearchApi mApi;
+
+    @Override
+    public void setup() {
+        super.setup();
+        mApi = CnblogsApiFactory.getInstance(mContext).getSearchApi();
+    }
+
+
+    @Test
+    public void testSuggestion() throws Exception {
+        runTest("testSuggestion", mApi.getSuggestion("android"));
+    }
+
+    @Test
+    public void testSearchBlogAuthor() throws Exception {
+        runTest("testSearchBlogAuthor", mApi.searchBlogAuthor("android"));
+    }
+
+    @Test
+    public void testSearchBlogList() throws Exception {
+        runTest("testSearchBlogList", mApi.searchBlogList("android", 1));
+    }
+
+    @Test
+    public void testSearchNewsList() throws Exception {
+        runTest("testSearchNewsList", mApi.searchNewsList("android", 1));
+    }
+
+    @Test
+    public void testSearchKbList() throws Exception {
+        runTest("testSearchKbList", mApi.searchKbList("android", 1));
+    }
+
+}

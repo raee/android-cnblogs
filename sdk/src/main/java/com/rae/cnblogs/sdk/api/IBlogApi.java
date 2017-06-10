@@ -95,7 +95,7 @@ public interface IBlogApi {
     @POST(ApiUrls.API_BLOG_UNLIKE)
     @FormUrlEncoded
     @Headers({JsonBody.CONTENT_TYPE})
-    Observable<Void> unLikeBlog(@Field("postId") String id, @Field("blogApp") String blogApp);
+    Observable<Empty> unLikeBlog(@Field("postId") String id, @Field("blogApp") String blogApp);
 
     /**
      * 知识库点赞
@@ -105,10 +105,12 @@ public interface IBlogApi {
     @POST(ApiUrls.API_KB_LIKE)
     @FormUrlEncoded
     @Headers({JsonBody.CONTENT_TYPE, JsonBody.XHR})
-    Observable<Void> likeKb(@Field("contentId") String id);
+    Observable<Empty> likeKb(@Field("contentId") String id);
 
     /**
      * 发表博客评论
+     * <p>如果要引用评论，则content参数取值为： </p>
+     * {@link com.rae.cnblogs.sdk.utils.ApiUtils#getCommentContent(BlogCommentBean, String)} 来获取转换的内容
      *
      * @param id              博客ID
      * @param blogApp         该文的博主ID
@@ -118,20 +120,8 @@ public interface IBlogApi {
     @POST(ApiUrls.API_BLOG_COMMENT_ADD)
     @FormUrlEncoded
     @Headers({JsonBody.CONTENT_TYPE})
-    Observable<Void> addBlogComment(@Field("postId") String id, @Field("blogApp") String blogApp, @Field("parentCommentId") String parentCommentId, @Field("body") String content);
+    Observable<Empty> addBlogComment(@Field("postId") String id, @Field("blogApp") String blogApp, @Field("parentCommentId") String parentCommentId, @Field("body") String content);
 
-    /**
-     * 引用评论，并发表评论
-     *
-     * @param id      博客ID
-     * @param blogApp 该文的博主ID
-     * @param comment 引用回复
-     * @param content 评论内容
-     */
-    @POST(ApiUrls.API_BLOG_COMMENT_ADD)
-    @FormUrlEncoded
-    @Headers({JsonBody.CONTENT_TYPE})
-    Observable<Void> addBlogComment(String id, String blogApp, BlogCommentBean comment, String content);
 
     /**
      * 删除博客评论
@@ -141,6 +131,6 @@ public interface IBlogApi {
     @POST(ApiUrls.API_BLOG_COMMENT_DELETE)
     @FormUrlEncoded
     @Headers({JsonBody.CONTENT_TYPE})
-    Observable<Void> deleteBlogComment(@Field("commentId") String commentId);
+    Observable<Empty> deleteBlogComment(@Field("commentId") String commentId);
 
 }

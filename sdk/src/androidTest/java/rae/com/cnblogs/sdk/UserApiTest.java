@@ -1,5 +1,7 @@
 package rae.com.cnblogs.sdk;
 
+import android.webkit.CookieManager;
+
 import com.github.raee.runit.AndroidRUnit4ClassRunner;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
@@ -25,6 +27,12 @@ public class UserApiTest extends BaseTest {
     public void setup() {
         super.setup();
         mApi = getApiProvider().getUserApi();
+    }
+
+    @Override
+    protected void autoLogin() {
+        CookieManager.getInstance().removeAllCookie();
+        CookieManager.getInstance().flush();
     }
 
     /**

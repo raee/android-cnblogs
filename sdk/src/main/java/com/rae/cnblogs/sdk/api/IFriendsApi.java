@@ -2,6 +2,7 @@ package com.rae.cnblogs.sdk.api;
 
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.JsonBody;
+import com.rae.cnblogs.sdk.JsonParser;
 import com.rae.cnblogs.sdk.Parser;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
@@ -9,6 +10,7 @@ import com.rae.cnblogs.sdk.bean.UserFeedBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.parser.FriendsBlogListParser;
 import com.rae.cnblogs.sdk.parser.FriendsInfoParser;
+import com.rae.cnblogs.sdk.parser.FriendsListParser;
 import com.rae.cnblogs.sdk.parser.UserTimelineParser;
 
 import java.util.List;
@@ -70,25 +72,19 @@ public interface IFriendsApi {
     @POST(ApiUrls.API_FRIENDS_UN_FOLLOW)
     @FormUrlEncoded
     @Headers(JsonBody.CONTENT_TYPE)
-    Observable<Empty>  unFollow(@Field("userId") String userId);
+    Observable<Empty> unFollow(@Field("userId") String userId);
 
 
     /**
      * 获取我的关注列表
      *
-     * @param userId 用户ID，不是blogApp, 要获取用户的ID
-     * @param page   页码
+     * @param userId     用户ID，不是blogApp, 要获取用户的ID
+     * @param page       页码
+     * @param isFollowed TRUE:获取关注列表; FALSE: 获取粉丝列表
      */
     @POST(ApiUrls.API_FRIENDS_FOLLOW_LIST)
     @FormUrlEncoded
-    @Headers(JsonBody.CONTENT_TYPE)
-    Observable<List<UserInfoBean>> getFollowList(@Field("uid") String userId,@Field("page") int page);
-//
-//    /**
-//     * 获取我的粉丝列表
-//     *
-//     * @param userId 用户ID，不是blogApp, 当前登录用户可以传空
-//     * @param page   页码
-//     */
-//    void getFansList(String userId, int page, ApiUiArrayListener<UserInfoBean> listener);
+    @Headers({JsonBody.CONTENT_TYPE, JsonBody.XHR})
+    @JsonParser(FriendsListParser.class)
+    Observable<List<UserInfoBean>> getFollowAndFansList(@Field("uid") String userId, @Field("page") int page, @Field("isFollowes") boolean isFollowed);
 }

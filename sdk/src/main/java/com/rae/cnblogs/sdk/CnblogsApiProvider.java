@@ -3,8 +3,11 @@ package com.rae.cnblogs.sdk;
 import android.content.Context;
 
 import com.rae.cnblogs.sdk.api.IBlogApi;
+import com.rae.cnblogs.sdk.api.IBookmarksApi;
 import com.rae.cnblogs.sdk.api.ICategoryApi;
 import com.rae.cnblogs.sdk.api.IFriendsApi;
+import com.rae.cnblogs.sdk.api.INewsApi;
+import com.rae.cnblogs.sdk.api.ISearchApi;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.converter.ConverterFactory;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
@@ -75,26 +78,26 @@ public abstract class CnblogsApiProvider {
      */
     public abstract IUserApi getUserApi();
 
-//    /**
-//     * 获取收藏接口
-//     */
-//    public abstract IBookmarksApi getBookmarksApi();
+    /**
+     * 获取收藏接口
+     */
+    public abstract IBookmarksApi getBookmarksApi();
 
 
-//    /**
-//     * 获取新闻接口
-//     */
-//    public abstract INewsApi getNewsApi();
-//
+    /**
+     * 获取新闻接口
+     */
+    public abstract INewsApi getNewsApi();
+
     /**
      * 获取朋友圈接口
      */
     public abstract IFriendsApi getFriendApi();
-//
-//    /**
-//     * 获取搜索接口
-//     */
-//    public abstract ISearchApi getSearchApi();
+
+    /**
+     * 获取搜索接口
+     */
+    public abstract ISearchApi getSearchApi();
 
     /**
      * 取消所有请求
