@@ -43,7 +43,7 @@ public class RaeWebViewClient extends WebViewClient {
         super.onPageFinished(view, url);
         dismissProgress();
         if (url.startsWith("http")) {
-            Activity at = (Activity) view.getContext();
+            Activity at = (Activity) mContext;
             at.setTitle(view.getTitle());
             injectJavascriptFromAssets(view, "js/rae.js");
         }
@@ -58,6 +58,11 @@ public class RaeWebViewClient extends WebViewClient {
     public void injectJavascript(WebView view, String scriptContent) {
         String js = "javascript:(function(){" + scriptContent + "})();";
         view.loadUrl(js);
+    }
+
+    public void destroy() {
+        mProgressBar = null;
+        mContext = null;
     }
 
 

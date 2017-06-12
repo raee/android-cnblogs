@@ -59,6 +59,13 @@ public final class AppRoute {
         startActivity(context, intent);
     }
 
+    public static void jumpToWebNewTask(Context context, String url) {
+        Intent intent = new Intent(context, WebActivity.class);
+        intent.setData(Uri.parse(url));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(context, intent);
+    }
+
     public static void jumpToMain(Context context) {
         startActivity(context, MainActivity.class);
     }

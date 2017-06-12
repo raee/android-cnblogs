@@ -175,7 +175,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                AppRoute.jumpToWeb(view.getContext(), url);
+                AppRoute.jumpToWebNewTask(view.getContext(), url);
                 return true;
             }
         };

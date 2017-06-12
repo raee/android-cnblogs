@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,11 +12,16 @@ import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RxObservable;
+import com.rae.cnblogs.dialog.impl.VersionUpdateDialog;
 import com.rae.cnblogs.fragment.BlogTypeListFragment;
 import com.rae.cnblogs.fragment.HomeFragment;
 import com.rae.cnblogs.fragment.MineFragment;
+import com.rae.cnblogs.sdk.ApiDefaultObserver;
+import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
+import com.rae.cnblogs.sdk.bean.VersionInfo;
 import com.rae.swift.app.RaeFragmentAdapter;
 
 import butterknife.BindView;
@@ -90,6 +96,27 @@ public class MainActivity extends BaseActivity {
         // 统计打开时间
         AppMobclickAgent.onAppOpenEvent(this);
         mViewPager.setCurrentItem(0);
+
+        // 检查更新
+        RxObservable.create(CnblogsApiFactory
+                .getInstance(getContext())
+                .getRaeServerApi()
+                .versionInfo(getVersionCode()))
+                .subscribe(new ApiDefaultObserver<VersionInfo>() {
+                    @Override
+                    protected void onError(String message) {
+                        // 不用处理
+                        Log.e("rae", message);
+                    }
+
+                    @Override
+                    protected void accept(VersionInfo versionInfo) {
+                        VersionUpdateDialog dialog = new VersionUpdateDialog(getContext());
+                        dialog.setVersionInfo(versionInfo);
+                        dialog.show();
+                    }
+                });
+
     }
 
     private void addTab(int resId, int iconId, Fragment fragment) {

@@ -65,8 +65,6 @@ public class HintCardDragCompat extends ViewDragHelper.Callback {
 
     @Override
     public int clampViewPositionVertical(View child, int top, int dy) {
-        final int topBound = getParentPaddingTop();
-        final int bottomBound = getParentHeight();
         return top;
     }
 

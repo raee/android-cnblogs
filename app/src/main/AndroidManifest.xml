@@ -25,22 +25,22 @@
             android:name=".activity.LauncherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
-            <!--   <intent-filter>
+               <intent-filter>
                    <action android:name="android.intent.action.MAIN"/>
 
                    <category android:name="android.intent.category.LAUNCHER"/>
-               </intent-filter>-->
+               </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-            <intent-filter>
+         <!--   <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <activity

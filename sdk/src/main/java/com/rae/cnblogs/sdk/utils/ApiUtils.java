@@ -71,10 +71,21 @@ public final class ApiUtils {
     }
 
     public static Date parseDate(String text) {
+        return parseDate(text, "yyyy-MM-dd HH:mm");
+    }
+
+    public static Date parseDefaultDate(String text) {
+        return parseDate(text, "yyyy-MM-dd HH:mm:ss");
+    }
+
+    public static Date parseDate(String text, String pattern) {
+        if (TextUtils.isEmpty(text)) {
+            return new Date();
+        }
         Date target;
         try {
             @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat format = new SimpleDateFormat(pattern);
             target = format.parse(text);// RaeDateUtil.parse(text, "yyyy-MM-dd HH:mm");
         } catch (Exception e) {
             Log.e("rae", "解析出错!", e);

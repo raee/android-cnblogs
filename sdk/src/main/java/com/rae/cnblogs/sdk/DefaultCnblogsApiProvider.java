@@ -7,6 +7,7 @@ import com.rae.cnblogs.sdk.api.IBookmarksApi;
 import com.rae.cnblogs.sdk.api.ICategoryApi;
 import com.rae.cnblogs.sdk.api.IFriendsApi;
 import com.rae.cnblogs.sdk.api.INewsApi;
+import com.rae.cnblogs.sdk.api.IRaeServerApi;
 import com.rae.cnblogs.sdk.api.ISearchApi;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.api.impl.CategoryApiImpl;
@@ -61,6 +62,11 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
     @Override
     public ISearchApi getSearchApi() {
         return mRetrofit.create(ISearchApi.class);
+    }
+
+    @Override
+    public IRaeServerApi getRaeServerApi() {
+        return mRetrofit.create(IRaeServerApi.class);
     }
 
     @Override

@@ -106,4 +106,13 @@ final class ApiUrls {
 
     // 搜索-新闻-列表
     static final String API_SEARCH_NEWS_LIST = "http://zzk.cnblogs.com/s/news";
+
+
+    // 服务端接口地址
+    public static final String RAE_API_BASIC = "http://www.raeblog.com/cnblogs/index.php/";
+
+    // 启动页广告
+    public static final String RAE_API_AD_LAUNCHER = RAE_API_BASIC + "app/ad/launcher";
+    // 检查更新
+    public static final String RAE_API_CHECK_VERSION = RAE_API_BASIC + "app/version/{versionCode}";
 }

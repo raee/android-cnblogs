@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 
@@ -34,7 +35,9 @@ public class ConverterFactory extends Converter.Factory {
     }
 
     public ConverterFactory() {
-        gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
+        gson = builder.create();
     }
 
     @Override

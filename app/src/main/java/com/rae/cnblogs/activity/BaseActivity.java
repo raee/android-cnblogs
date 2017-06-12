@@ -1,6 +1,7 @@
 package com.rae.cnblogs.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -110,5 +111,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCancelHttpRequest() {
         // 取消HTTP请求
         CnblogsApiFactory.getInstance(this).cancel();
+    }
+
+
+    public int getVersionCode() {
+        try {
+            return getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_META_DATA).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 1;
     }
 }

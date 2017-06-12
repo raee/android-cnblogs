@@ -56,7 +56,7 @@ public class HintCardDialog extends SlideDialog {
         if (getWindow() != null) {
             getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
-        setContentView(R.layout.dialog_hint_card);
+        setContentView(getLayoutId());
         ButterKnife.bind(this);
         super.initDialog();
 
@@ -88,6 +88,10 @@ public class HintCardDialog extends SlideDialog {
                 dismiss();
             }
         });
+    }
+
+    protected int getLayoutId() {
+        return R.layout.dialog_hint_card;
     }
 
     @Override
