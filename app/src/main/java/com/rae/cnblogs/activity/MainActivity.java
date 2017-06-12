@@ -16,7 +16,7 @@ import com.rae.cnblogs.fragment.HomeFragment;
 import com.rae.cnblogs.fragment.MineFragment;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
-import com.rae.core.fm.RaeFragmentAdapter;
+import com.rae.swift.app.RaeFragmentAdapter;
 
 import butterknife.BindView;
 

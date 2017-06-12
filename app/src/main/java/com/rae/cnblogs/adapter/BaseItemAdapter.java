@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.rae.core.Rae;
+import com.rae.swift.Rx;
 
 import java.util.List;
 
@@ -68,7 +68,7 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
 
     @Override
     public int getItemCount() {
-        return Rae.getCount(mDataList);
+        return Rx.getCount(mDataList);
     }
 
 

@@ -3,34 +3,23 @@ package com.rae.cnblogs.presenter.impl;
 import android.content.Context;
 
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.IBloggerPresenter;
+import com.rae.cnblogs.sdk.ApiDefaultObserver;
+import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.api.IFriendsApi;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
-import com.rae.core.sdk.ApiUiListener;
-import com.rae.core.sdk.exception.ApiException;
+
+import io.reactivex.Observable;
 
 /**
  * 博主
  * Created by ChenRui on 2017/2/24 0024 16:25.
  */
-public class BloggerPresenterImpl extends BasePresenter<IBloggerPresenter.IBloggerView> implements IBloggerPresenter, ApiUiListener<FriendsInfoBean> {
+public class BloggerPresenterImpl extends BasePresenter<IBloggerPresenter.IBloggerView> implements IBloggerPresenter {
 
     private final IFriendsApi mFriendApi;
     private FriendsInfoBean mBloggerInfo;
-    private ApiUiListener<Void> mFollowListener = new ApiUiListener<Void>() {
-        @Override
-        public void onApiFailed(ApiException e, String msg) {
-            mView.onFollowFailed(msg);
-        }
-
-        @Override
-        public void onApiSuccess(Void aVoid) {
-            if (mBloggerInfo != null) {
-                mBloggerInfo.setFollowed(!mBloggerInfo.isFollowed());
-            }
-            mView.onFollowSuccess();
-        }
-    };
 
     public BloggerPresenterImpl(Context context, IBloggerView view) {
         super(context, view);
@@ -39,18 +28,19 @@ public class BloggerPresenterImpl extends BasePresenter<IBloggerPresenter.IBlogg
 
     @Override
     public void start() {
-        mFriendApi.getFriendsInfo(mView.getBlogApp(), this);
-    }
+        RxObservable.create(mFriendApi.getFriendsInfo(mView.getBlogApp())).subscribe(new ApiDefaultObserver<FriendsInfoBean>() {
+            @Override
+            protected void onError(String msg) {
 
-    @Override
-    public void onApiFailed(ApiException e, String msg) {
-        mView.onLoadBloggerInfoFailed(msg);
-    }
+                mView.onLoadBloggerInfoFailed(msg);
+            }
 
-    @Override
-    public void onApiSuccess(FriendsInfoBean friendsInfoBean) {
-        mBloggerInfo = friendsInfoBean;
-        mView.onLoadBloggerInfo(friendsInfoBean);
+            @Override
+            protected void accept(FriendsInfoBean friendsInfoBean) {
+                mBloggerInfo = friendsInfoBean;
+                mView.onLoadBloggerInfo(friendsInfoBean);
+            }
+        });
     }
 
     @Override
@@ -59,11 +49,27 @@ public class BloggerPresenterImpl extends BasePresenter<IBloggerPresenter.IBlogg
             mView.onFollowFailed(getString(R.string.tips_blogger_follow_not_info));
             return;
         }
+        Observable<Empty> observable;
         if (mBloggerInfo.isFollowed()) {
-            mFriendApi.unFollow(mBloggerInfo.getUserId(), mFollowListener);
+            observable = mFriendApi.unFollow(mBloggerInfo.getUserId());
         } else {
-            mFriendApi.follow(mBloggerInfo.getUserId(), mFollowListener);
+            observable = mFriendApi.follow(mBloggerInfo.getUserId());
         }
+
+        RxObservable.create(observable).subscribe(new ApiDefaultObserver<Empty>() {
+            @Override
+            protected void onError(String message) {
+                mView.onFollowFailed(message);
+            }
+
+            @Override
+            protected void accept(Empty empty) {
+                if (mBloggerInfo != null) {
+                    mBloggerInfo.setFollowed(!mBloggerInfo.isFollowed());
+                }
+                mView.onFollowSuccess();
+            }
+        });
     }
 
     @Override
@@ -74,6 +80,5 @@ public class BloggerPresenterImpl extends BasePresenter<IBloggerPresenter.IBlogg
     @Override
     public void destroy() {
         super.destroy();
-        mFollowListener = null;
     }
 }

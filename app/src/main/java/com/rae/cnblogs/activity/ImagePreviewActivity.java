@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.fragment.ImagePreviewFragment;
-import com.rae.core.fm.RaeFragmentAdapter;
+import com.rae.swift.app.RaeFragmentAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

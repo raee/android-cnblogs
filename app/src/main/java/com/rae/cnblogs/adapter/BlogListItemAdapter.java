@@ -15,7 +15,7 @@ import com.rae.cnblogs.model.BlogItemViewHolder;
 import com.rae.cnblogs.model.ItemLoadingViewHolder;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
-import com.rae.core.Rae;
+import com.rae.swift.Rx;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +117,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
      */
     private void showThumbImages(BlogBean m, BlogItemViewHolder holder) {
         List<String> thumbs = m.getThumbs();
-        if (Rae.isEmpty(thumbs)) {
+        if (Rx.isEmpty(thumbs)) {
             //  没有预览图
             holder.largeThumbView.setVisibility(View.GONE);
             holder.thumbLayout.setVisibility(View.GONE);

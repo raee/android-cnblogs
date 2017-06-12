@@ -10,27 +10,28 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.FriendsAdapter;
+import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.api.IFriendsApi;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
-import com.rae.core.Rae;
-import com.rae.core.sdk.ApiUiArrayListener;
-import com.rae.core.sdk.exception.ApiException;
+import com.rae.swift.Rx;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
 
 /**
  * 粉丝和关注
  * Created by ChenRui on 2017/2/23 00:41.
  */
-public class FriendsActivity extends SwipeBackBaseActivity implements ApiUiArrayListener<UserInfoBean> {
+public class FriendsActivity extends SwipeBackBaseActivity {
 
     @BindView(R.id.title_tool_bar)
     Toolbar mToolbar;
@@ -108,25 +109,31 @@ public class FriendsActivity extends SwipeBackBaseActivity implements ApiUiArray
 
     // 获取数据
     private void start() {
-        // 粉丝
-        if (isFansType()) {
-            mFriendApi.getFansList(mUserId, mPage, this);
-        } else {
-            mFriendApi.getFollowList(mUserId, mPage, this);
-        }
+        Observable<List<UserInfoBean>> observable = mFriendApi.getFollowAndFansList(mUserId, mPage, !isFansType());
+        RxObservable.create(observable).subscribe(new ApiDefaultObserver<List<UserInfoBean>>() {
+            @Override
+            protected void onError(String message) {
+                if (mPage > 1) {
+                    mRecyclerView.setNoMore(true);
+                } else {
+                    mPlaceholderView.empty(message);
+                }
+            }
+
+            @Override
+            protected void accept(List<UserInfoBean> data) {
+                onLoadFriends(data);
+            }
+        });
     }
 
     @Override
-    public void onApiFailed(ApiException ex, String msg) {
-        if (mPage > 1) {
-            mRecyclerView.setNoMore(true);
-        } else {
-            mPlaceholderView.empty(msg);
-        }
+    protected void onDestroy() {
+        super.onDestroy();
+        RxObservable.dispose();
     }
 
-    @Override
-    public void onApiSuccess(List<UserInfoBean> data) {
+    public void onLoadFriends(List<UserInfoBean> data) {
         mPlaceholderView.dismiss();
 
         if (mPage <= 1) {
@@ -140,7 +147,7 @@ public class FriendsActivity extends SwipeBackBaseActivity implements ApiUiArray
         if (mDataList.size() <= 0 && mPage <= 1) {
             mPlaceholderView.empty(getString(R.string.empty_message));
             return;
-        } else if (Rae.isEmpty(mDataList) && mPage > 1) {
+        } else if (Rx.isEmpty(mDataList) && mPage > 1) {
             mRecyclerView.setNoMore(true);
             return;
         }
@@ -153,8 +160,6 @@ public class FriendsActivity extends SwipeBackBaseActivity implements ApiUiArray
 
     /**
      * 是否为粉丝类型
-     *
-     * @return
      */
     public boolean isFansType() {
         return mFromType == AppRoute.ACTIVITY_FRIENDS_TYPE_FANS;

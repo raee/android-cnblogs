@@ -29,7 +29,7 @@ dependencies {
     androidTestCompile 'com.github.raee:runit:1.0.0'
     testCompile 'junit:junit:4.12'
     compile 'org.jsoup:jsoup:1.10.1'
-    //    compile 'com.rae.core:lib:1.0.0'
+        compile 'com.rae.swift:library:1.0.0'
     compile 'com.squareup.okhttp3:okhttp-ext:3.6.0'
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.6.0'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'

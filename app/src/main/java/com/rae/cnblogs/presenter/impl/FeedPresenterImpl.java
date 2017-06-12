@@ -2,12 +2,11 @@ package com.rae.cnblogs.presenter.impl;
 
 import android.content.Context;
 
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.IFeedPresenter;
+import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.bean.UserFeedBean;
-import com.rae.core.Rae;
-import com.rae.core.sdk.ApiUiArrayListener;
-import com.rae.core.sdk.exception.ApiErrorCode;
-import com.rae.core.sdk.exception.ApiException;
+import com.rae.swift.Rx;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,34 +32,41 @@ public class FeedPresenterImpl extends BasePresenter<IFeedPresenter.IFeedView> i
 
 
     private void loadData() {
-        getApiProvider().getFriendApi().getFeeds(mPage, mView.getBlogApp(), new ApiUiArrayListener<UserFeedBean>() {
-
-            @Override
-            public void onApiFailed(ApiException e, String msg) {
-                if (mPage <= 1) {
-                    mView.onLoadFeedFailed(msg);
-                } else if (e.getErrorCode() == ApiErrorCode.ERROR_EMPTY_DATA) {
-                    mView.onLoadMoreFinish();
-                } else {
-                    mView.onLoadMoreFeedFailed(msg);
-                }
-            }
-
-            @Override
-            public void onApiSuccess(List<UserFeedBean> userFeedBeen) {
-                if (mPage <= 1) {
-                    mDataList.clear();
-                } else {
-                    if (Rae.isEmpty(userFeedBeen)) {
-                        mView.onLoadMoreFinish();
-                        return;
+        RxObservable.create(getApiProvider().getFriendApi().getFeeds(mPage, mView.getBlogApp()))
+                .subscribe(new ApiDefaultObserver<List<UserFeedBean>>() {
+                    @Override
+                    protected void onError(String message) {
+                        if (mPage <= 1) {
+                            mView.onLoadFeedFailed(message);
+                        } else {
+                            mView.onLoadMoreFeedFailed(message);
+                        }
                     }
-                }
-                mDataList.addAll(userFeedBeen);
-                mView.onLoadFeedSuccess(mDataList);
-                mPage++;
-            }
-        });
+
+                    @Override
+                    protected void onEmpty(List<UserFeedBean> userFeedBeans) {
+                        if (mPage > 1) {
+                            mView.onLoadMoreFinish();
+                        }
+                    }
+
+                    @Override
+                    protected void accept(List<UserFeedBean> data) {
+                        if (mPage <= 1) {
+                            mDataList.clear();
+                        } else {
+                            if (Rx.isEmpty(data)) {
+                                mView.onLoadMoreFinish();
+                                return;
+                            }
+                        }
+                        mDataList.addAll(data);
+                        mView.onLoadFeedSuccess(mDataList);
+                        mPage++;
+                    }
+                });
+
+
     }
 
     @Override

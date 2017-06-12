@@ -21,7 +21,7 @@ import java.util.List;
  * 博文解析
  * Created by ChenRui on 2016/11/30 0030 17:00.
  */
-public class BlogCommentParser implements IHtmlParser<List<BlogCommentBean>> {
+public class BlogCommentParser implements IJsonParser<List<BlogCommentBean>> {
 
     private Gson mGson = new Gson();
 

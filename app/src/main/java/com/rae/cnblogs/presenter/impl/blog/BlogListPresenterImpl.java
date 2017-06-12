@@ -3,17 +3,18 @@ package com.rae.cnblogs.presenter.impl.blog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.presenter.impl.BasePresenter;
+import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.api.IBlogApi;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.db.DbBlog;
 import com.rae.cnblogs.sdk.db.DbFactory;
-import com.rae.core.Rae;
-import com.rae.core.sdk.ApiUiArrayListener;
-import com.rae.core.sdk.exception.ApiException;
+import com.rae.swift.Rx;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +23,11 @@ import java.util.List;
  * 博客列表处理
  * Created by ChenRui on 2016/12/2 00:25.
  */
-public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlogListView> implements IBlogListPresenter, ApiUiArrayListener<BlogBean> {
+public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlogListView> implements IBlogListPresenter {
 
     protected IBlogApi mApi;
     private DbBlog mDbBlog;
-    private int mPageIndex = 1;
+    protected int mPageIndex = 1;
     private final List<BlogBean> mBlogList = new ArrayList<>();
     private final Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -54,19 +55,29 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
      * 加数据
      */
     protected void onLoadData(CategoryBean category, int pageIndex) {
-        mApi.getBlogList(pageIndex, category.getType(), category.getParentId(), category.getCategoryId(), this);
+        RxObservable.create(mApi.getBlogList(pageIndex, category.getType(), category.getParentId(), category.getCategoryId())).subscribe(getBlogObserver());
     }
 
-    @Override
-    public void onApiFailed(ApiException ex, String msg) {
-        mView.onLoadFailed(mPageIndex, msg);
+    @NonNull
+    protected ApiDefaultObserver<List<BlogBean>> getBlogObserver() {
+        return new ApiDefaultObserver<List<BlogBean>>() {
+            @Override
+            protected void onError(String message) {
+
+                mView.onLoadFailed(mPageIndex, message);
+            }
+
+            @Override
+            protected void accept(List<BlogBean> blogBeans) {
+                onApiSuccess(blogBeans);
+            }
+        };
     }
 
-    @Override
     public void onApiSuccess(List<BlogBean> data) {
 
         // 保存到数据库
-        if (!Rae.isEmpty(data)) {
+        if (!Rx.isEmpty(data)) {
             mDbBlog.addAll(data);
         }
 

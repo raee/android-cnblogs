@@ -9,13 +9,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
+import com.rae.cnblogs.sdk.AppGson;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
@@ -35,6 +35,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
     @BindView(R.id.view_holder)
     PlaceholderView mPlaceholderView;
+
 
     private TextView mLikeView;
     private ImageLoadingView mBookmarksView;
@@ -80,7 +81,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
             @JavascriptInterface
             public String getBlog() {
-                return JSON.toJSONString(mBlog);
+                return AppGson.get().toJson(mBlog);
             }
         };
     }

@@ -81,7 +81,16 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
     /**
      * HTML convert to entity
      */
+    @SuppressWarnings("unchecked")
     private T html2Entity(String text) throws IOException {
+        if (TextUtils.equals(text, "true") && type == Empty.class) {
+            return (T) Empty.value();
+        }
+        if (TextUtils.equals(text, "false") && type == Empty.class) {
+            return (T) Empty.value();
+        }
+
+
         if (mHtmlParser == null) {
             throw new IOException("HTML 解析器为空！");
         }

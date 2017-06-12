@@ -23,7 +23,7 @@ import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.widget.BloggerLayout;
-import com.rae.core.fm.RaeFragmentAdapter;
+import com.rae.swift.app.RaeFragmentAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

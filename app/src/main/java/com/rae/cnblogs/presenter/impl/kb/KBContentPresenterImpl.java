@@ -2,8 +2,12 @@ package com.rae.cnblogs.presenter.impl.kb;
 
 import android.content.Context;
 
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.impl.blog.BlogContentPresenterImpl;
+import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.bean.BlogBean;
+
+import io.reactivex.Observable;
 
 /**
  * 知识库
@@ -17,7 +21,7 @@ public class KBContentPresenterImpl extends BlogContentPresenterImpl {
 
     @Override
     protected void onLoadData(BlogBean blog) {
-        mBlogApi.getKbContent(blog.getBlogId(), this);
+        RxObservable.create(mBlogApi.getKbContent(blog.getBlogId())).subscribe(getBlogContentObserver());
     }
 
 
@@ -29,6 +33,7 @@ public class KBContentPresenterImpl extends BlogContentPresenterImpl {
             mView.onLikeError(isCancel, "您已经推荐过了");
             return;
         }
-        mBlogApi.likeKb(mView.getBlog().getBlogId(), getLikeAndBookmarksListener(isCancel, true));
+        Observable<Empty> observable = mBlogApi.likeKb(mView.getBlog().getBlogId());
+        createObservable(isCancel, observable, false);
     }
 }

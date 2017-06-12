@@ -3,8 +3,7 @@ package com.rae.cnblogs.presenter.impl;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.github.raee.cnblogs.sdk.IRaeCnblogsApiProvider;
-import com.github.raee.cnblogs.sdk.RaeCnblogsApiFactory;
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.CnblogsApiProvider;
 
@@ -30,9 +29,9 @@ public abstract class BasePresenter<V> {
         return CnblogsApiFactory.getInstance(mContext);
     }
 
-    protected IRaeCnblogsApiProvider getServerApi() {
-        return RaeCnblogsApiFactory.getInstance(mContext);
-    }
+//    protected IRaeCnblogsApiProvider getServerApi() {
+//        return RaeCnblogsApiFactory.getInstance(mContext);
+//    }
 
     public String getString(int resId) {
         return mContext.getString(resId);
@@ -41,5 +40,6 @@ public abstract class BasePresenter<V> {
     public void destroy() {
         mView = null;
         mContext = null;
+        RxObservable.dispose();
     }
 }

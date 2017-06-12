@@ -3,6 +3,7 @@ package com.rae.cnblogs.sdk.api.impl;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.rae.cnblogs.sdk.api.ICategoryApi;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
@@ -13,6 +14,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,14 +29,17 @@ import io.reactivex.ObservableOnSubscribe;
 public class CategoryApiImpl implements ICategoryApi {
 
     private final Context mContext;
-    private final Gson mGson = new Gson();
+    private final Gson mGson;
 
     public CategoryApiImpl(Context context) {
         this.mContext = context.getApplicationContext();
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
+        mGson = builder.create();
     }
 
     private List<CategoryBean> getFromAssets() {
-        String json = readString("category.json");
+        String json = readString("category.json").replace("\r\n", "");
         if (json == null) return null;
         try {
             return mGson.fromJson(json, new TypeToken<List<CategoryBean>>() {

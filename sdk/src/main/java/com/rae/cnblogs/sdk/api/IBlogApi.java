@@ -2,6 +2,7 @@ package com.rae.cnblogs.sdk.api;
 
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.JsonBody;
+import com.rae.cnblogs.sdk.JsonParser;
 import com.rae.cnblogs.sdk.Parser;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogCommentBean;
@@ -56,7 +57,7 @@ public interface IBlogApi {
      * @param blogApp 博主ID
      */
     @GET(ApiUrls.API_BLOG_COMMENT_LIST)
-    @Parser(BlogCommentParser.class)
+    @JsonParser(BlogCommentParser.class)
     Observable<List<BlogCommentBean>> getBlogComments(@Query("pageIndex") int page, @Query("postId") String id, @Query("blogApp") String blogApp);
 
     /**

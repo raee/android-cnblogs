@@ -15,7 +15,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.ImagePreviewHolder;
-import com.rae.core.Rae;
+import com.rae.swift.Rx;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +34,7 @@ public class ImagePreviewAdapter extends PagerAdapter implements ImageLoadingLis
 
     @Override
     public int getCount() {
-        return Rae.getCount(mDataList);
+        return Rx.getCount(mDataList);
     }
 
     public void addItem(String url) {

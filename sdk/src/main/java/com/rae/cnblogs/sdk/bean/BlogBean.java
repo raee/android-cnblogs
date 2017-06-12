@@ -263,12 +263,18 @@ public class BlogBean extends Model implements Parcelable {
         if (TextUtils.isEmpty(thumbUrls)) return null;
         try {
             if (mThumbList == null) {
-                mThumbList = new Gson().fromJson(thumbUrls, new TypeToken<List<String>>(){}.getType());
+                mThumbList = new Gson().fromJson(thumbUrls, new TypeToken<List<String>>() {
+                }.getType());
 //                mThumbList = JSON.parseArray(thumbUrls, String.class);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return mThumbList;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "@" + title;
     }
 }

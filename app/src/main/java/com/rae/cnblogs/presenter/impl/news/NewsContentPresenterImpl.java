@@ -2,6 +2,7 @@ package com.rae.cnblogs.presenter.impl.news;
 
 import android.content.Context;
 
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.impl.blog.BlogContentPresenterImpl;
 import com.rae.cnblogs.sdk.api.INewsApi;
 import com.rae.cnblogs.sdk.bean.BlogBean;
@@ -20,7 +21,7 @@ public class NewsContentPresenterImpl extends BlogContentPresenterImpl {
 
     @Override
     protected void onLoadData(BlogBean blog) {
-        mNewsApi.getNewsContent(blog.getBlogId(), this);
+        RxObservable.create(mNewsApi.getNewsContent(blog.getBlogId())).subscribe(getBlogContentObserver());
     }
 
     @Override
@@ -29,8 +30,8 @@ public class NewsContentPresenterImpl extends BlogContentPresenterImpl {
         // 不支持取消点赞
         if (isCancel) {
             mView.onLikeError(isCancel, "您已经推荐过了");
-            return;
+        } else {
+            createObservable(isCancel, mNewsApi.like(mView.getBlog().getBlogId()), true);
         }
-        mNewsApi.like(mView.getBlog().getBlogId(), getLikeAndBookmarksListener(isCancel, true));
     }
 }

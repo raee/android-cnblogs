@@ -8,15 +8,16 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
+import com.rae.cnblogs.RxObservable;
+import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
-import com.rae.core.sdk.ApiUiListener;
-import com.rae.core.sdk.exception.ApiException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
 
 /**
  * 我的
@@ -66,18 +67,25 @@ public class MineFragment extends BaseFragment {
         UserInfoBean user = UserProvider.getInstance().getLoginUserInfo();
         ImageLoader.getInstance().displayImage(user.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
         mDisplayNameView.setText(user.getDisplayName());
-        CnblogsApiFactory.getInstance(this.getContext()).getFriendApi().getFriendsInfo(user.getBlogApp(), new ApiUiListener<FriendsInfoBean>() {
+        Observable<FriendsInfoBean> observable = CnblogsApiFactory.getInstance(this.getContext()).getFriendApi().getFriendsInfo(user.getBlogApp());
+        RxObservable.create(observable).subscribe(new ApiDefaultObserver<FriendsInfoBean>() {
             @Override
-            public void onApiFailed(ApiException ex, String msg) {
+            protected void onError(String message) {
 
             }
 
             @Override
-            public void onApiSuccess(FriendsInfoBean data) {
+            protected void accept(FriendsInfoBean data) {
                 mFollowCountView.setText(data.getFollows());
                 mFansCountView.setText(data.getFans());
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxObservable.dispose();
     }
 
     @OnClick(R.id.layout_account_fans)

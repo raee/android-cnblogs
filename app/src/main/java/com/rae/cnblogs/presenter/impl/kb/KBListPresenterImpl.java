@@ -2,6 +2,7 @@ package com.rae.cnblogs.presenter.impl.kb;
 
 import android.content.Context;
 
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.impl.blog.BlogListPresenterImpl;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 
@@ -17,6 +18,6 @@ public class KBListPresenterImpl extends BlogListPresenterImpl {
 
     @Override
     protected void onLoadData(CategoryBean category, int pageIndex) {
-        mApi.getKbArticles(pageIndex, this);
+        RxObservable.create(mApi.getKbArticles(pageIndex)).subscribe(getBlogObserver());
     }
 }

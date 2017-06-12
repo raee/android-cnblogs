@@ -204,8 +204,8 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
         if (requestCode == AppRoute.REQ_CODE_WEB_LOGIN && resultCode == RESULT_OK) {
             // 登录成功，获取用户信息
             mErrorTime = 0;
-            showLoading(getString(R.string.loading_user_info));
-            mLoginPresenter.loadUserInfo();
+//            showLoading(getString(R.string.loading_user_info));
+//            mLoginPresenter.loadUserInfo();
         }
     }
 
