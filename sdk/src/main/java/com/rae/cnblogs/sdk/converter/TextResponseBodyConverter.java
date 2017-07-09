@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
+import com.rae.cnblogs.sdk.CnblogsApiException;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.JsonParser;
 import com.rae.cnblogs.sdk.Parser;
@@ -128,6 +129,7 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
             boolean isSuccess = false;
             String message = null;
             Object data = null;
+
             if (obj.has("IsSuccess")) {
                 isSuccess = obj.getBoolean("IsSuccess");
             }
@@ -149,7 +151,7 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
             if (obj.has("data")) {
                 data = obj.get("data");
             }
-            if (isSuccess && data != null) {
+            if (isSuccess && !obj.isNull("data") && data != null) {
                 text = data.toString();
                 JsonReader jsonReader = mGson.newJsonReader(new StringReader(text));
                 return mAdapter.read(jsonReader);
@@ -158,6 +160,8 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
                 return null;
             } else if (isSuccess && type == Empty.class) {
                 return (T) Empty.value();
+            } else if (isSuccess && obj.isNull("data")) {
+                throw new CnblogsApiException("数据为空");
             } else {
                 message = TextUtils.isEmpty(message) ? "未知错误" : Jsoup.parse(message).text();
                 throw new IOException(message);

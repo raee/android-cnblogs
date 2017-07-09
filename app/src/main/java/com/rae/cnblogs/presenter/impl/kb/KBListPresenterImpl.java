@@ -18,6 +18,6 @@ public class KBListPresenterImpl extends BlogListPresenterImpl {
 
     @Override
     protected void onLoadData(CategoryBean category, int pageIndex) {
-        RxObservable.create(mApi.getKbArticles(pageIndex)).subscribe(getBlogObserver());
+        createObservable(mApi.getKbArticles(pageIndex)).subscribe(getBlogObserver());
     }
 }

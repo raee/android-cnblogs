@@ -2,10 +2,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
-        <color android:color="@color/dividerPrimary"/>
+        <color android:color="@color/background_divider"/>
     </item>
 
-    <item android:bottom="0dp">
+    <item android:bottom="1dp">
         <color android:color="@color/navBar"/>
     </item>
 </layer-list>

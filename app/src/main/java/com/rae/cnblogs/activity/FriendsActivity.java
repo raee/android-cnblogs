@@ -110,7 +110,7 @@ public class FriendsActivity extends SwipeBackBaseActivity {
     // 获取数据
     private void start() {
         Observable<List<UserInfoBean>> observable = mFriendApi.getFollowAndFansList(mUserId, mPage, !isFansType());
-        RxObservable.create(observable).subscribe(new ApiDefaultObserver<List<UserInfoBean>>() {
+        RxObservable.create(observable, "FriendsActivity").subscribe(new ApiDefaultObserver<List<UserInfoBean>>() {
             @Override
             protected void onError(String message) {
                 if (mPage > 1) {
@@ -130,7 +130,7 @@ public class FriendsActivity extends SwipeBackBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RxObservable.dispose();
+        RxObservable.dispose("FriendsActivity");
     }
 
     public void onLoadFriends(List<UserInfoBean> data) {

@@ -12,6 +12,7 @@
 
         <include layout="@layout/view_account_info"/>
 
+<!--
         <LinearLayout
             style="@style/ItemStyle"
             android:layout_width="match_parent"
@@ -49,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/logout"/>
 
-        </LinearLayout>
+        </LinearLayout>-->
 
     </LinearLayout>
 </ScrollView>

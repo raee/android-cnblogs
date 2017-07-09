@@ -132,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/public_divider_while_primary"
-                app:tabBackground="@color/white"
+                app:tabBackground="@drawable/bg_tab_home"
                 app:tabIndicatorHeight="0dp"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="#515151"
@@ -162,16 +162,16 @@
 
     <View
         android:id="@+id/view_bg_holder"
-        android:background="#3b424c"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/default_padding_top" />
+        android:layout_height="@dimen/default_padding_top"
+        android:background="#3b424c"/>
 
     <android.support.v7.widget.Toolbar
-        android:layout_marginTop="@dimen/default_padding_top"
         android:id="@+id/tool_bar"
         style="@style/AppToolBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_padding_top">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -205,5 +205,6 @@
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+
 
 </RelativeLayout>

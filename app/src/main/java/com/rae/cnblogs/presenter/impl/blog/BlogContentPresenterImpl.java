@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.presenter.impl.BasePresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
@@ -64,7 +63,7 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
     }
 
     protected void onLoadData(BlogBean blog) {
-        RxObservable.create(mBlogApi.getBlogContent(blog.getBlogId())).subscribe(getBlogContentObserver());
+        createObservable(mBlogApi.getBlogContent(blog.getBlogId())).subscribe(getBlogContentObserver());
     }
 
     @NonNull
@@ -93,37 +92,35 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
         BlogBean blog = mView.getBlog();
 
         Observable<Empty> observable;
-        boolean liked;
         if (isCancel) {
-            liked = false;
             observable = mBlogApi.unLikeBlog(blog.getBlogId(), blog.getBlogApp());
         } else {
-            liked = true;
             observable = mBlogApi.likeBlog(blog.getBlogId(), blog.getBlogApp());
         }
 
-
-        createObservable(isCancel, observable, liked);
+        createObservable(isCancel, observable, true);
     }
 
     @Override
     public void doBookmarks(boolean isCancel) {
+
+
         BlogBean blog = mView.getBlog();
         BookmarksBean m = new BookmarksBean(blog.getTitle(), blog.getSummary(), blog.getUrl());
         Observable<Empty> observable;
-        boolean isLike;
         if (isCancel) {
-            isLike = false;
-            observable = mBookmarksApi.delBookmarks(blog.getUrl());
-        } else {
-            isLike = true;
-            observable = mBookmarksApi.addBookmarks(m.getTitle(), m.getSummary(), m.getLinkUrl());
+
+            mView.onBookmarksError(true, "请到我的收藏里面取消收藏");
+            return;
+//            observable = mBookmarksApi.delBookmarks(blog.getUrl());
         }
-        createObservable(isCancel, observable, isLike);
+
+        observable = mBookmarksApi.addBookmarks(m.getTitle(), m.getSummary(), m.getLinkUrl());
+        createObservable(false, observable, false);
     }
 
     protected void createObservable(final boolean isCancel, Observable<Empty> observable, final boolean isLike) {
-        RxObservable.create(observable).subscribe(new ApiDefaultObserver<Empty>() {
+        createObservable(observable).subscribe(new ApiDefaultObserver<Empty>() {
             @Override
             protected void onError(String msg) {
                 if (!TextUtils.isEmpty(msg) && (msg.contains("登录") || msg.contains("Authorization"))) {
@@ -154,6 +151,7 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
                 } else {
                     mView.onBookmarksSuccess(isCancel);
                     mBlogInfo.setBookmarks(!isCancel);
+
                 }
 
                 // 更新信息

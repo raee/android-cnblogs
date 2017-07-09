@@ -22,6 +22,6 @@ public class NewsListPresenterImpl extends BlogListPresenterImpl {
 
     @Override
     protected void onLoadData(CategoryBean category, int pageIndex) {
-        RxObservable.create(mNewsApi.getNews(pageIndex)).subscribe(getBlogObserver());
+        createObservable(mNewsApi.getNews(pageIndex)).subscribe(getBlogObserver());
     }
 }

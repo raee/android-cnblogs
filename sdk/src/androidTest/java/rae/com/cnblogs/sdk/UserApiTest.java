@@ -51,7 +51,7 @@ public class UserApiTest extends BaseTest {
     @Test
     public void testUserInfo() throws InterruptedException {
         // 先获取到blogApp信息，然后再根据blogApp获取用户信息
-        runTest("testUserInfo", mApi.getUserInfo().flatMap(new Function<UserInfoBean, ObservableSource<UserInfoBean>>() {
+        runTest("testUserInfo", mApi.getUserBlogAppInfo().flatMap(new Function<UserInfoBean, ObservableSource<UserInfoBean>>() {
             @Override
             public ObservableSource<UserInfoBean> apply(UserInfoBean u) throws Exception {
                 return mApi.getUserInfo(u.getBlogApp());

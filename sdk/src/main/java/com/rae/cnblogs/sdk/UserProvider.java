@@ -1,10 +1,13 @@
 package com.rae.cnblogs.sdk;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.webkit.CookieManager;
 
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
+
+import io.reactivex.annotations.Nullable;
 
 /**
  * 用户提供者，保存用户信息，对已登录的用户进行操作。
@@ -55,6 +58,7 @@ public final class UserProvider {
      *
      * @return 用户信息视图
      */
+    @Nullable
     public UserInfoBean getLoginUserInfo() {
         // 如果用户为空，从偏好中获取
         if (mUserInfo == null) {
@@ -67,7 +71,8 @@ public final class UserProvider {
      * 是否登录
      */
     public boolean isLogin() {
-        return getLoginUserInfo() != null;
+        UserInfoBean info = getLoginUserInfo();
+        return info != null && !TextUtils.isEmpty(info.getUserId());
     }
 
     /**

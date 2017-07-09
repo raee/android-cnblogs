@@ -22,7 +22,7 @@ import retrofit2.http.Path;
  */
 public interface IUserApi {
     /**
-     * 登录
+     * 登录，登录成功返回cookie，api已经自动处理cookie持久化，所以这里返回的是空对象
      *
      * @param userName 用户名
      * @param password 密码
@@ -36,14 +36,21 @@ public interface IUserApi {
     })
     Observable<Empty> login(@Field("input1") String userName, @Field("input2") String password);
 
+
     /**
-     * 获取用户信息，不需再保存登录信息了。你可以通过{@link UserProvider} 来管理用户
+     * 登录后获取blogApp信息，然后需要再次调用{@link #getUserInfo(String)} 来获取真正的用户信息。
+     * <p>
+     * 登录后的用户信息可通过{@link UserProvider#getLoginUserInfo()}来获取
+     * </p>
      */
     @POST(ApiUrls.API_USER_INFO)
     @Headers({JsonBody.XHR})
     @JsonParser(SimpleUserInfoParser.class)
-    Observable<UserInfoBean> getUserInfo();
+    Observable<UserInfoBean> getUserBlogAppInfo();
 
+    /**
+     * 获取用户信息，不需再保存登录信息了。你可以通过{@link UserProvider} 来管理用户
+     */
     @POST(ApiUrls.API_USER_CENTER)
     @Headers({JsonBody.XHR})
     @Parser(UserInfoParser.class)

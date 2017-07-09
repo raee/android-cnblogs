@@ -6,6 +6,9 @@ import android.text.TextUtils;
 import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.CnblogsApiProvider;
+import com.rae.cnblogs.sdk.UserProvider;
+
+import io.reactivex.Observable;
 
 /**
  * 基类
@@ -16,9 +19,12 @@ public abstract class BasePresenter<V> {
 
     protected V mView;
 
+    protected String mTag;
+
     public BasePresenter(Context context, V view) {
         mView = view;
         mContext = context;
+        mTag = getClass().getSimpleName();
     }
 
     protected boolean isEmpty(String text) {
@@ -40,6 +46,14 @@ public abstract class BasePresenter<V> {
     public void destroy() {
         mView = null;
         mContext = null;
-        RxObservable.dispose();
+        RxObservable.dispose(mTag); // 释放当前请求
+    }
+
+    protected boolean isNotLogin() {
+        return !UserProvider.getInstance().isLogin();
+    }
+
+    public <T> Observable<T> createObservable(Observable<T> observable) {
+        return RxObservable.create(observable, mTag);
     }
 }

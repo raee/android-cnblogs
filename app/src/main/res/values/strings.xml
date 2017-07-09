@@ -30,7 +30,7 @@
     <string name="no_more_tips">全部加载完毕</string>
     <string name="register">注册</string>
     <string name="login_tips">登录即表示同意</string>
-    <string name="login_contract">「博客园」用户协议和隐私条款</string>
+    <string name="login_contract">博客园APP的隐私条款</string>
     <string name="login_user_name_hint">用户名</string>
     <string name="login_password_hint">密码</string>
     <string name="login">登录</string>
@@ -57,4 +57,6 @@
     <string name="tips_blogger_follow_not_info">请等待博主信息加载完毕后再操作。</string>
     <string name="update_now">立即更新</string>
     <string name="new_version_title">发现新版本</string>
+    <string name="login_expired">登录过期，请重新登录</string>
+    <string name="please_login">请登录</string>
 </resources>

@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity {
         RxObservable.create(CnblogsApiFactory
                 .getInstance(getContext())
                 .getRaeServerApi()
-                .versionInfo(getVersionCode()))
+                .versionInfo(getVersionCode()), "MainActivity")
                 .subscribe(new ApiDefaultObserver<VersionInfo>() {
                     @Override
                     protected void onError(String message) {
@@ -141,5 +141,9 @@ public class MainActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxObservable.dispose(); // 释放所有请求
+    }
 }

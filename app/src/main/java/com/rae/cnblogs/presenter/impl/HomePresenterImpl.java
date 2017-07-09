@@ -34,7 +34,7 @@ public class HomePresenterImpl extends BasePresenter<IHomePresenter.IHomeView> i
         }
 
         // 加载分类
-        RxObservable.create(getApiProvider().getCategoriesApi().getCategories()).subscribe(new ApiDefaultObserver<List<CategoryBean>>() {
+        createObservable(getApiProvider().getCategoriesApi().getCategories()).subscribe(new ApiDefaultObserver<List<CategoryBean>>() {
             @Override
             protected void onError(String message) {
                 // 发生错误至少加载首页这个分类

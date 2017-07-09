@@ -79,23 +79,23 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
 
         if (parent == null) {
             Observable<Empty> observable = mBlogApi.addBlogComment(blog.getBlogId(), blog.getBlogApp(), "0", mView.getCommentContent());
-            RxObservable.create(observable).subscribe(subscriber);
+            createObservable(observable).subscribe(subscriber);
             return;
         }
 
         // 引用评论
         if (mView.enableReferenceComment()) {
-            RxObservable.create(mBlogApi.addBlogComment(blog.getBlogId(), blog.getBlogApp(), ApiUtils.getCommentContent(parent, mView.getCommentContent()), mView.getCommentContent()))
+            createObservable(mBlogApi.addBlogComment(blog.getBlogId(), blog.getBlogApp(), ApiUtils.getCommentContent(parent, mView.getCommentContent()), mView.getCommentContent()))
                     .subscribe(subscriber);
         } else {
-            RxObservable.create(mBlogApi.addBlogComment(blog.getBlogId(), blog.getBlogApp(), parent.getId(), mView.getCommentContent())).subscribe(subscriber);
+            createObservable(mBlogApi.addBlogComment(blog.getBlogId(), blog.getBlogApp(), parent.getId(), mView.getCommentContent())).subscribe(subscriber);
         }
     }
 
     @Override
     public void delete(final BlogCommentBean item) {
         Observable<Empty> observable = mBlogApi.deleteBlogComment(item.getId());
-        RxObservable.create(observable).subscribe(new ApiDefaultObserver<Empty>() {
+        createObservable(observable).subscribe(new ApiDefaultObserver<Empty>() {
             @Override
             protected void onError(String message) {
                 mView.onDeleteCommentFailed(message);
@@ -121,7 +121,7 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
     }
 
     protected void onLoadData(BlogBean blog, int page) {
-        RxObservable.create(mBlogApi.getBlogComments(page, blog.getBlogId(), blog.getBlogApp())).subscribe(new ApiDefaultObserver<List<BlogCommentBean>>() {
+        createObservable(mBlogApi.getBlogComments(page, blog.getBlogId(), blog.getBlogApp())).subscribe(new ApiDefaultObserver<List<BlogCommentBean>>() {
             @Override
             protected void onError(String message) {
                 mView.onLoadCommentEmpty();

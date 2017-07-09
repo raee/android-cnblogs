@@ -2,7 +2,10 @@ package com.rae.cnblogs.sdk;
 
 import android.text.TextUtils;
 
+import com.rae.swift.session.SessionManager;
+
 import io.reactivex.observers.DefaultObserver;
+import retrofit2.HttpException;
 
 /**
  * 接口回调
@@ -32,8 +35,18 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
             onError((CnblogsApiException) e);
             return;
         }
+        if (e instanceof HttpException) {
+            HttpException ex = (HttpException) e;
+            if (ex.code() == 401) {
+                // 登录失效
+                clearLoginToken();
+                onLoginExpired();
+            }
+            return;
+        }
         String message = e.getMessage();
         if (message != null && message.contains("登录过期")) {
+            clearLoginToken();
             onLoginExpired();
             return;
         }
@@ -41,6 +54,11 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
             message = "接口信息异常";
         }
         onError(message);
+    }
+
+    protected void clearLoginToken() {
+        SessionManager.getDefault().clear(); // 清除用户信息
+        UserProvider.getInstance().logout(); // 退出登录
     }
 
     public void onError(CnblogsApiException e) {

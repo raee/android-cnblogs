@@ -67,6 +67,7 @@ public class CnblogSdkConfig {
      * 清除所有的配置项目
      */
     public void clearUserInfo() {
+        mConfig.edit().clear().apply();
     }
 
 

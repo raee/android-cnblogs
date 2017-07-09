@@ -3,7 +3,6 @@ package com.rae.cnblogs.presenter.impl;
 import android.content.Context;
 
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.IBloggerPresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.Empty;
@@ -28,10 +27,14 @@ public class BloggerPresenterImpl extends BasePresenter<IBloggerPresenter.IBlogg
 
     @Override
     public void start() {
-        RxObservable.create(mFriendApi.getFriendsInfo(mView.getBlogApp())).subscribe(new ApiDefaultObserver<FriendsInfoBean>() {
+        if (isNotLogin()) {
+            mView.onNotLogin();
+            return;
+        }
+
+        createObservable(mFriendApi.getFriendsInfo(mView.getBlogApp())).subscribe(new ApiDefaultObserver<FriendsInfoBean>() {
             @Override
             protected void onError(String msg) {
-
                 mView.onLoadBloggerInfoFailed(msg);
             }
 
@@ -56,7 +59,7 @@ public class BloggerPresenterImpl extends BasePresenter<IBloggerPresenter.IBlogg
             observable = mFriendApi.follow(mBloggerInfo.getUserId());
         }
 
-        RxObservable.create(observable).subscribe(new ApiDefaultObserver<Empty>() {
+        createObservable(observable).subscribe(new ApiDefaultObserver<Empty>() {
             @Override
             protected void onError(String message) {
                 mView.onFollowFailed(message);

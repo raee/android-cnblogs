@@ -32,7 +32,7 @@ public class FeedPresenterImpl extends BasePresenter<IFeedPresenter.IFeedView> i
 
 
     private void loadData() {
-        RxObservable.create(getApiProvider().getFriendApi().getFeeds(mPage, mView.getBlogApp()))
+        createObservable(getApiProvider().getFriendApi().getFeeds(mPage, mView.getBlogApp()))
                 .subscribe(new ApiDefaultObserver<List<UserFeedBean>>() {
                     @Override
                     protected void onError(String message) {

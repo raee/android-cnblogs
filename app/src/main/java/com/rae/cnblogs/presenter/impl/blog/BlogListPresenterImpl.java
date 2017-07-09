@@ -55,7 +55,7 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
      * 加数据
      */
     protected void onLoadData(CategoryBean category, int pageIndex) {
-        RxObservable.create(mApi.getBlogList(pageIndex, category.getType(), category.getParentId(), category.getCategoryId())).subscribe(getBlogObserver());
+        createObservable(mApi.getBlogList(pageIndex, category.getType(), category.getParentId(), category.getCategoryId())).subscribe(getBlogObserver());
     }
 
     @NonNull

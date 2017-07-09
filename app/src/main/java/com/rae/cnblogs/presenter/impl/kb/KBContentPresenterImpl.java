@@ -21,7 +21,7 @@ public class KBContentPresenterImpl extends BlogContentPresenterImpl {
 
     @Override
     protected void onLoadData(BlogBean blog) {
-        RxObservable.create(mBlogApi.getKbContent(blog.getBlogId())).subscribe(getBlogContentObserver());
+        createObservable(mBlogApi.getKbContent(blog.getBlogId())).subscribe(getBlogContentObserver());
     }
 
 

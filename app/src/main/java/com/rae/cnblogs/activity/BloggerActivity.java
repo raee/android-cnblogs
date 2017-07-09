@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import com.rae.cnblogs.fragment.BlogListFragment;
 import com.rae.cnblogs.model.FeedListFragment;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBloggerPresenter;
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
@@ -89,9 +91,10 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         showHomeAsUp(mToolbar);
         mBlogApp = getIntent().getStringExtra("blogApp");
 
-        // 测试
         if (mBlogApp == null) {
-            mBlogApp = "davenkin";
+            AppUI.failed(this, "BlogApp为空！");
+            finish();
+            return;
         }
 
         RaeFragmentAdapter adapter = new RaeFragmentAdapter(getSupportFragmentManager());
@@ -133,6 +136,12 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         // 获取博主信息
         mBloggerPresenter = CnblogsPresenterFactory.getBloggerPresenter(this, this);
         mBloggerPresenter.start();
+
+
+        // 如果是自己，则隐藏关注按钮
+        if (UserProvider.getInstance().isLogin() && TextUtils.equals(mBlogApp, UserProvider.getInstance().getLoginUserInfo().getBlogApp())) {
+            mFollowView.setVisibility(View.INVISIBLE);
+        }
     }
 
 
@@ -178,13 +187,26 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         mFollowView.setText(mBloggerPresenter.isFollowed() ? R.string.cancel_follow : R.string.following);
     }
 
+    @Override
+    public void onNotLogin() {
+        AppUI.toastInCenter(getContext(), getString(R.string.login_expired));
+        AppRoute.jumpToLogin(this);
+        finish();
+    }
 
+
+    /**
+     * 粉丝
+     */
     @OnClick(R.id.layout_account_fans)
     public void onFansClick() {
         AppRoute.jumpToFans(this.getContext(), mUserInfo.getDisplayName(), mUserInfo.getUserId());
     }
 
 
+    /**
+     * 关注
+     */
     @OnClick(R.id.layout_account_follow)
     public void onFollowClick() {
         AppRoute.jumpToFollow(this.getContext(), mUserInfo.getDisplayName(), mUserInfo.getUserId());

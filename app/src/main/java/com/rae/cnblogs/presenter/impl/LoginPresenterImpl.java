@@ -44,11 +44,17 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
         }
 
         mFromLogin = true;
-        RxObservable.create(mUserApi.login(ApiEncrypt.encrypt(userName), ApiEncrypt.encrypt(pwd)))
+        createObservable(mUserApi.login(ApiEncrypt.encrypt(userName), ApiEncrypt.encrypt(pwd)))
                 .flatMap(new Function<Empty, ObservableSource<UserInfoBean>>() {
                     @Override
                     public ObservableSource<UserInfoBean> apply(Empty empty) throws Exception {
-                        return RxObservable.create(mUserApi.getUserInfo());
+                        return createObservable(mUserApi.getUserBlogAppInfo()); // 获取BlogApp信息
+                    }
+                })
+                .flatMap(new Function<UserInfoBean, ObservableSource<UserInfoBean>>() {
+                    @Override
+                    public ObservableSource<UserInfoBean> apply(UserInfoBean userInfoBean) throws Exception {
+                        return createObservable(mUserApi.getUserInfo(userInfoBean.getBlogApp())); // 获取用户信息
                     }
                 })
                 .subscribe(new ApiDefaultObserver<UserInfoBean>() {

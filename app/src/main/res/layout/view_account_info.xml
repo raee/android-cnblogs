@@ -35,7 +35,7 @@
         android:layout_below="@+id/ll_blog_avatar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="RAE敲代码"
+        android:text="@string/please_login"
         android:textColor="@color/ph2"
         android:textSize="@dimen/h1"/>
 

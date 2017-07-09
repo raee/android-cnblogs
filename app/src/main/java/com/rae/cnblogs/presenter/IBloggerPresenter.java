@@ -25,5 +25,7 @@ public interface IBloggerPresenter extends IAppPresenter {
         void onFollowFailed(String msg);
 
         void onFollowSuccess();
+
+        void onNotLogin();
     }
 }

@@ -79,7 +79,7 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
             }
         }
 
-        RxObservable.create(mRaeServerApi.getLauncherAd()).subscribe(new ApiDefaultObserver<AdvertBean>() {
+        createObservable(mRaeServerApi.getLauncherAd()).subscribe(new ApiDefaultObserver<AdvertBean>() {
             @Override
             protected void onError(String message) {
                 if (mAdvertBean == null) {

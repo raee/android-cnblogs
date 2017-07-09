@@ -89,6 +89,7 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
             public void onClick(IAppDialog dialog, int buttonType) {
                 AppRoute.jumpToWebLogin(getContext());
                 dialog.dismiss();
+                finish();
             }
         });
 

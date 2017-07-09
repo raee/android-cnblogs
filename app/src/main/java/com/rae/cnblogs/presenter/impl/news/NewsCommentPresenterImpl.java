@@ -31,7 +31,7 @@ public class NewsCommentPresenterImpl extends BlogCommentPresenterImpl {
 
     @Override
     protected void onLoadData(BlogBean blog, int page) {
-        RxObservable.create(mNewsApi.getNewsComment(blog.getBlogId(), page)).subscribe(new ApiDefaultObserver<List<BlogCommentBean>>() {
+        createObservable(mNewsApi.getNewsComment(blog.getBlogId(), page)).subscribe(new ApiDefaultObserver<List<BlogCommentBean>>() {
             @Override
             protected void onError(String message) {
                 mView.onLoadCommentEmpty();
@@ -61,7 +61,7 @@ public class NewsCommentPresenterImpl extends BlogCommentPresenterImpl {
         };
 
         if (parent == null) {
-            RxObservable.create(mNewsApi.addNewsComment(blog.getBlogId(), "", mView.getCommentContent())).subscribe(subscriber);
+            createObservable(mNewsApi.addNewsComment(blog.getBlogId(), "", mView.getCommentContent())).subscribe(subscriber);
             return;
         }
 
@@ -69,15 +69,15 @@ public class NewsCommentPresenterImpl extends BlogCommentPresenterImpl {
 
         // 引用评论
         if (mView.enableReferenceComment()) {
-            RxObservable.create(mNewsApi.addNewsComment(blog.getBlogId(), ApiUtils.getCommentContent(parent, mView.getCommentContent()), mView.getCommentContent())).subscribe(subscriber);
+            createObservable(mNewsApi.addNewsComment(blog.getBlogId(), ApiUtils.getCommentContent(parent, mView.getCommentContent()), mView.getCommentContent())).subscribe(subscriber);
         } else {
-            RxObservable.create(mNewsApi.addNewsComment(blog.getBlogId(), parent.getId(), mView.getCommentContent())).subscribe(subscriber);
+            createObservable(mNewsApi.addNewsComment(blog.getBlogId(), parent.getId(), mView.getCommentContent())).subscribe(subscriber);
         }
     }
 
     @Override
     public void delete(final BlogCommentBean item) {
-        RxObservable.create(mNewsApi.deleteNewsComment(mView.getBlog().getBlogId(), item.getId())).subscribe(new ApiDefaultObserver<Empty>() {
+        createObservable(mNewsApi.deleteNewsComment(mView.getBlog().getBlogId(), item.getId())).subscribe(new ApiDefaultObserver<Empty>() {
             @Override
             protected void onError(String message) {
                 mView.onDeleteCommentFailed(message);

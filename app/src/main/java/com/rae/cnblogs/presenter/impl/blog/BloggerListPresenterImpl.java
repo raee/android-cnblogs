@@ -25,7 +25,7 @@ public class BloggerListPresenterImpl extends BlogListPresenterImpl {
 
     @Override
     protected void onLoadData(CategoryBean category, int pageIndex) {
-        RxObservable.create(mFriendsApi.getBlogList(pageIndex, category.getCategoryId())).subscribe(new ApiDefaultObserver<List<BlogBean>>() {
+        createObservable(mFriendsApi.getBlogList(pageIndex, category.getCategoryId())).subscribe(new ApiDefaultObserver<List<BlogBean>>() {
             @Override
             protected void onError(String message) {
                 mView.onLoadFailed(mPageIndex, message);

@@ -18,37 +18,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/img_actionbar_avatar"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_centerVertical="true"
-                android:background="@drawable/bg_user_avatar"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_default_user_avatar"
-                android:visibility="gone"
-                app:riv_corner_radius="32dp"/>
+            <!--     <com.makeramen.roundedimageview.RoundedImageView
+                     android:id="@+id/img_actionbar_avatar"
+                     android:layout_width="26dp"
+                     android:layout_height="26dp"
+                     android:layout_centerVertical="true"
+                     android:background="@drawable/bg_user_avatar"
+                     android:scaleType="centerCrop"
+                     android:src="@drawable/ic_default_user_avatar"
+                     android:visibility="gone"
+                     app:riv_corner_radius="32dp"/>
 
-            <ImageView
-                android:id="@+id/img_actionbar_avatar_not_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_action_bar_avatar"/>
+                 <ImageView
+                     android:id="@+id/img_actionbar_avatar_not_login"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_centerVertical="true"
+                     android:src="@drawable/ic_action_bar_avatar"/>-->
 
             <ImageView
                 android:id="@+id/img_actionbar_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone"
-                android:src="@drawable/ic_action_bar_logo"/>
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_action_bar_logo"
+                android:visibility="visible"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:visibility="visible"
                 android:src="@drawable/ic_action_bar_search"/>
         </RelativeLayout>
 
@@ -69,24 +70,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/tab_home_height"
-            android:background="@color/white"
+            android:background="@drawable/bg_tab_home"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="6dp">
+
+<!--            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/ic_action_bar_logo"/>-->
 
             <com.rae.cnblogs.widget.RaeTabLayout
                 android:id="@+id/tab_category"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:tabBackground="@color/white"
+                app:tabBackground="@android:color/transparent"
                 app:tabIndicatorHeight="0dp"
-                app:tabMaxWidth="0dp"
-                app:tabMinWidth="0dp"
+                app:tabMinWidth="52dp"
                 app:tabMode="scrollable"
-                app:tabPaddingEnd="6dp"
-                app:tabPaddingStart="6dp"
-                app:tabSelectedTextColor="#515151"
+                app:tabPaddingEnd="3dp"
+                app:tabPaddingStart="3dp"
+                app:tabSelectedTextColor="@color/ph1"
                 app:tabTextAppearance="@style/TabTextAppearance"
                 app:tabTextColor="#aaaaaa"/>
 

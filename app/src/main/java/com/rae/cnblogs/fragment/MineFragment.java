@@ -5,13 +5,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.rae.cnblogs.AppRoute;
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.UserProvider;
+import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 
@@ -49,29 +52,36 @@ public class MineFragment extends BaseFragment {
         super.onCreateView(view);
     }
 
+
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         loadUserInfo();
     }
 
     private boolean isNotLogin() {
-        return UserProvider.getInstance().getLoginUserInfo() == null;
+        return !UserProvider.getInstance().isLogin();
     }
 
+    /**
+     * 加载用户信息
+     */
     private void loadUserInfo() {
         if (isNotLogin()) {
+            mAvatarView.setImageResource(R.drawable.ic_default_user_avatar);
+            mDisplayNameView.setText(R.string.please_login);
+            mFansCountView.setText("0");
+            mFollowCountView.setText("0");
             return;
         }
 
         UserInfoBean user = UserProvider.getInstance().getLoginUserInfo();
-        ImageLoader.getInstance().displayImage(user.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
-        mDisplayNameView.setText(user.getDisplayName());
+        onLoadUserInfo(user);
         Observable<FriendsInfoBean> observable = CnblogsApiFactory.getInstance(this.getContext()).getFriendApi().getFriendsInfo(user.getBlogApp());
-        RxObservable.create(observable).subscribe(new ApiDefaultObserver<FriendsInfoBean>() {
+        RxObservable.create(observable, "MineFragment").subscribe(new ApiDefaultObserver<FriendsInfoBean>() {
             @Override
             protected void onError(String message) {
-
+                AppUI.toastInCenter(getContext(), message);
             }
 
             @Override
@@ -80,17 +90,47 @@ public class MineFragment extends BaseFragment {
                 mFansCountView.setText(data.getFans());
             }
         });
+
+        // 重新刷新用户信息
+        IUserApi userApi = CnblogsApiFactory.getInstance(getContext()).getUserApi();
+        RxObservable.create(userApi.getUserInfo(user.getBlogApp()), "MineFragment")
+                .subscribe(new ApiDefaultObserver<UserInfoBean>() {
+                    @Override
+                    protected void onError(String message) {
+                        // 不做处理
+                    }
+
+                    @Override
+                    protected void onLoginExpired() {
+                        // 登录过期
+                        AppUI.toastInCenter(getContext(), getString(R.string.login_expired));
+                        AppRoute.jumpToLogin(getContext());
+                    }
+
+                    @Override
+                    protected void accept(UserInfoBean userInfoBean) {
+                        // 更新用户信息
+                        UserProvider.getInstance().setLoginUserInfo(userInfoBean);
+                        // onLoadUserInfo(userInfoBean);
+                    }
+                });
+    }
+
+    private void onLoadUserInfo(UserInfoBean user) {
+        ImageLoader.getInstance().displayImage(user.getAvatar(), mAvatarView, RaeImageLoader.defaultOptions().displayer(new SimpleBitmapDisplayer()).build());
+        mDisplayNameView.setText(user.getDisplayName());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RxObservable.dispose();
+        RxObservable.dispose("MineFragment");
     }
 
     @OnClick(R.id.layout_account_fans)
     public void onFansClick() {
         if (isNotLogin()) {
+            AppRoute.jumpToLogin(getActivity());
             return;
         }
         AppRoute.jumpToFans(this.getContext(), getString(R.string.me), UserProvider.getInstance().getLoginUserInfo().getUserId());
@@ -99,10 +139,21 @@ public class MineFragment extends BaseFragment {
     @OnClick(R.id.layout_account_follow)
     public void onFollowClick() {
         if (isNotLogin()) {
+            AppRoute.jumpToLogin(getActivity());
             return;
         }
         AppRoute.jumpToFollow(this.getContext(), getString(R.string.me), UserProvider.getInstance().getLoginUserInfo().getUserId());
     }
 
 
+    @OnClick({R.id.img_blog_avatar, R.id.tv_mine_name})
+    public void onLoginClick() {
+        // 没有登录跳登录
+        if (isNotLogin()) {
+            AppRoute.jumpToLogin(getActivity());
+            return;
+        }
+
+        AppRoute.jumpToBlogger(getContext(), UserProvider.getInstance().getLoginUserInfo().getBlogApp());
+    }
 }

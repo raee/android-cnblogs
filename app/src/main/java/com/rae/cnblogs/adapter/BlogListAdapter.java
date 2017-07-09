@@ -17,7 +17,6 @@ import java.util.List;
  */
 public class BlogListAdapter extends FragmentStatePagerAdapter {
 
-    //    private final Map<String, WeakReference<BlogListFragment>> mFragments = new HashMap<>();
     private final List<CategoryBean> mDataList;
 
     public BlogListAdapter(FragmentManager fm, List<CategoryBean> dataList) {
@@ -28,15 +27,7 @@ public class BlogListAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         CategoryBean m = mDataList.get(position);
-        return BlogListFragment.newInstance(m, BlogType.BLOG); // TODO:调优
-//        String key = m.getName();
-//        if (mFragments.containsKey(key) && mFragments.get(key).get() != null) {
-//            return mFragments.get(key).get();
-//        } else {
-//            BlogListFragment fragment = BlogListFragment.newInstance(m, BlogType.BLOG);
-//            mFragments.put(key, new WeakReference<>(fragment));
-//            return fragment;
-//        }
+        return BlogListFragment.newInstance(m, BlogType.BLOG);
     }
 
     @Override

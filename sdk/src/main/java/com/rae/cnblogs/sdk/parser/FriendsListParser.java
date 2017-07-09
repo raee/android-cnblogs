@@ -40,8 +40,8 @@ public class FriendsListParser implements IJsonParser<List<UserInfoBean>> {
                 JSONObject user = users.getJSONObject(i);
                 m.setDisplayName(user.getString("DisplayName"));
                 m.setBlogApp(user.getString("Alias"));
-                m.setRemarkName(user.getString("Remark"));
-                m.setAvatar(ApiUtils.getUrl(user.getString("IconName")));
+                m.setRemarkName(user.isNull("Remark") ? null : user.getString("Remark"));
+                m.setAvatar(user.isNull("IconName") ? null : ApiUtils.getUrl(user.getString("IconName")));
                 result.add(m);
             }
 
