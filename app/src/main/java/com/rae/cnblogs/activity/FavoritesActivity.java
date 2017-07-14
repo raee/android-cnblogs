@@ -15,6 +15,5 @@ public class FavoritesActivity extends SwipeBackBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
         showHomeAsUp();
-        setTitle(R.string.my_collection);
     }
 }

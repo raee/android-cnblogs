@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.webkit.CookieManager;
 import android.widget.TextView;
 
 import com.rae.cnblogs.AppMobclickAgent;
@@ -19,12 +18,9 @@ import com.rae.cnblogs.fragment.BlogTypeListFragment;
 import com.rae.cnblogs.fragment.HomeFragment;
 import com.rae.cnblogs.fragment.MineFragment;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
-import com.rae.cnblogs.sdk.BuildConfig;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
-import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
-import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.bean.VersionInfo;
 import com.rae.swift.app.RaeFragmentAdapter;
 
@@ -47,17 +43,6 @@ public class MainActivity extends BaseActivity {
         AppStatusBar.setStatusbarToDark(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // 模拟登录
-        if(BuildConfig.DEBUG) {
-            UserInfoBean userInfo = new UserInfoBean();
-            userInfo.setAvatar("http://pic.cnblogs.com/avatar/446312/20170124105915.png");
-            userInfo.setBlogApp("chenrui7");
-            userInfo.setDisplayName("RAE");
-            userInfo.setUserId("fdeed5f3-11fb-e111-aa3f-842b2b196315");
-            CookieManager.getInstance().setCookie("http://www.cnblogs.com", ".CNBlogsCookie=80FDCAB0EBBE7772388EACB741A3FB57CA6D859BC6EF577A885F4ECF0B23631860BF05414E174E9CE32A6E0DC54E899B5650CD080777D5EC7B20247D094488A04EB45327B679DAD0FA7CC591CCDD39B603D017C0; .Cnblogs.AspNetCore.Cookies=CfDJ8PhlBN8IFxtHhqIV3s0LCDlTnIsf_KkYB04opjBUp_qeRD4_oKqtnDvr1zdsQ07TA8HmfUCuI7TWBwU6U_XPxHECcqUhtHpq9ecBa3wQ3MzTyr7fxF8Y6VKEum-uCZ3y0umuwXEWfxujWtgyHmJpSd7TXAsa6YxQEcT-JtW32yjgEDFbxr3dQg1fuiPA3GIa8sJl1xS9prbQi5NEFDd2YK_3cqmpnhSvsFQqCGzCc12o6XfrgSaOSCnXu3XqF_c7zcp4Xm93gmUZiirCe1EKZqr7ZKcJr_A2a6G89TcXl9jIoaN2JpXOk1WX8oLcI8jBqw; CONTAINERID=b73f4cdef6c2af5e595f530502ac2814eeafc0b0e474fd47e4b5f3fce8a7a65c");
-            UserProvider.getInstance().setLoginUserInfo(userInfo);
-        }
 
         mFragmentAdapter = new RaeFragmentAdapter(getSupportFragmentManager());
         CategoryBean kb = new CategoryBean();

@@ -2,8 +2,6 @@ package com.rae.cnblogs.sdk;
 
 import android.text.TextUtils;
 
-import com.rae.swift.session.SessionManager;
-
 import io.reactivex.observers.DefaultObserver;
 import retrofit2.HttpException;
 
@@ -57,7 +55,6 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
     }
 
     protected void clearLoginToken() {
-        SessionManager.getDefault().clear(); // 清除用户信息
         UserProvider.getInstance().logout(); // 退出登录
     }
 

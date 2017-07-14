@@ -3,7 +3,7 @@ apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '26.0.0'
 
     dexOptions{
         javaMaxHeapSize '2g'
@@ -52,10 +52,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(':sdk')
-    compile 'com.android.support:appcompat-v7:25.4.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.android.support:design:25.4.0'
+    compile 'com.android.support:multidex:1.0.1'
+    compile project(':sdk')
     compile 'com.jakewharton:butterknife:8.7.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
     compile 'in.srain.cube:ultra-ptr:1.0.11'
@@ -67,10 +68,8 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     // 滑动返回
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
-    compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
-    compile 'com.github.Cutta:GifView:1.1'
-
+//    compile 'com.github.Cutta:GifView:1.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     compile 'com.tencent.bugly:crashreport:2.6.5'
 }

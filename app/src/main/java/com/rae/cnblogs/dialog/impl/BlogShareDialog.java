@@ -23,14 +23,10 @@ public class BlogShareDialog extends ShareDialog {
         super(context);
         mBlog = blog;
 
-        setShareTitle(blog.getTitle());
-        setShareSummary(blog.getSummary());
-        setShareUrl(blog.getUrl());
-
-        if (!TextUtils.isEmpty(blog.getAvatar())) {
-            setShareIcon(blog.getAvatar());
+        if (TextUtils.isEmpty(blog.getAvatar())) {
+            setShareWeb(blog.getUrl(), blog.getTitle(), blog.getSummary(), R.drawable.ic_share);
         } else {
-            setShareIcon(R.drawable.ic_share);
+            setShareWeb(blog.getUrl(), blog.getTitle(), blog.getSummary(), blog.getAvatar());
         }
     }
 

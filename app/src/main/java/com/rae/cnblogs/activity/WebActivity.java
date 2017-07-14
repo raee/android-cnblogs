@@ -50,8 +50,7 @@ public class WebActivity extends SwipeBackBaseActivity {
         mShareDialog.setOnShareClickListener(new ShareDialog.OnShareClickListener() {
             @Override
             public void onShare(ShareDialog dialog) {
-                dialog.setShareTitle(getTitle().toString());
-                dialog.setShareUrl(mWebViewFragment.getUrl());
+                dialog.setShareWeb(mWebViewFragment.getUrl(), getTitle().toString(), null, null);
             }
         });
         mShareDialog.setExtLayoutVisibility(View.GONE);

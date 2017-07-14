@@ -6,6 +6,7 @@ import android.webkit.CookieManager;
 
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
+import com.rae.swift.session.SessionManager;
 
 import io.reactivex.annotations.Nullable;
 
@@ -81,6 +82,8 @@ public final class UserProvider {
     public void logout() {
         mUserInfo = null;
 
+        SessionManager.getDefault().clear(); // 清除用户信息
+
         // 移除所有的cookie
         CookieManager.getInstance().removeAllCookie();
 
@@ -89,4 +92,19 @@ public final class UserProvider {
 
     }
 
+    // TODO:调试登录
+    public void debugLogin() {
+        UserInfoBean userInfo = new UserInfoBean();
+        userInfo.setAvatar("http://pic.cnblogs.com/avatar/446312/20170124105915.png");
+        userInfo.setBlogApp("chenrui7");
+        userInfo.setDisplayName("RAE");
+        userInfo.setUserId("fdeed5f3-11fb-e111-aa3f-842b2b196315");
+        String url = "www.cnblogs.com";
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
+        cookieManager.setCookie(url, ".CNBlogsCookie=D87FFA7E12173CC051241037F901A795EB794E22620528D1E1E878BB2268BB532FEFE56D4ED695C7C91755730F641EA6223708544BFABBAFA5BD107848E8EE3A75952285118A93EF3014C8DEEE242CE6A1111A4B; domain=.cnblogs.com; path=/; HttpOnly");
+        cookieManager.setCookie(url, ".Cnblogs.AspNetCore.Cookies=CfDJ8PhlBN8IFxtHhqIV3s0LCDngiZhPetC8nTWqWIpm_YV4toKRrGPfBedwKqrr-7t6qJ6iE2d0BR2VG6059Dzuebd7xCyl2BYU-dpfPrqYgx-v5lqY62Qn_sToxAtvp6RX1TbJn1OlKwgkwjeaHL6iUZFnlaynqJQk2C4L1Qha-bnQkMA3XVdLL54DwtLHpOUYd2PjwLBDQxTxjVkQgEzvwmcQvXlW9zs51U-w5trAQ6aTiHELwuYR3avr1gE9n61chtmnBkMGaigR4p6d8UiAT5oO8tLe28RGIm9Tj5wI70q8WOCRJEm2cPLPgxhpoTdDEQ; domain=.cnblogs.com; path=/; HttpOnly");
+        cookieManager.flush();
+        UserProvider.getInstance().setLoginUserInfo(userInfo);
+    }
 }

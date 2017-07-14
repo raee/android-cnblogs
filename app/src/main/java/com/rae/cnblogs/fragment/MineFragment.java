@@ -1,5 +1,8 @@
 package com.rae.cnblogs.fragment;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,7 +21,6 @@ import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
-import com.rae.swift.session.SessionManager;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
@@ -58,6 +60,12 @@ public class MineFragment extends BaseFragment {
         super.onCreateView(view);
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 模拟登录
+//        UserProvider.getInstance().debugLogin();
+    }
 
     @Override
     public void onResume() {
@@ -81,6 +89,10 @@ public class MineFragment extends BaseFragment {
             mLogoutButton.setVisibility(View.GONE);
             return;
         }
+
+        // 打印 登录信息
+
+        Log.i("rae", "登录信息：" + android.webkit.CookieManager.getInstance().getCookie("www.cnblogs.com"));
 
         mLogoutButton.setVisibility(View.VISIBLE);
 
@@ -172,10 +184,10 @@ public class MineFragment extends BaseFragment {
     @OnClick(R.id.ll_favorites)
     public void onFavoritesClick() {
         // 没有登录跳登录
-        if (isNotLogin()) {
-            AppRoute.jumpToLogin(getActivity());
-            return;
-        }
+//        if (isNotLogin()) {
+//            AppRoute.jumpToLogin(getActivity());
+//            return;
+//        }
         AppRoute.jumpToFavorites(this.getContext());
     }
 
@@ -183,7 +195,6 @@ public class MineFragment extends BaseFragment {
     public void onLogoutClick() {
         MobclickAgent.onProfileSignOff();
         UserProvider.getInstance().logout();
-        SessionManager.getDefault().clear();
         loadUserInfo();
     }
 }

@@ -1,5 +1,7 @@
 package com.rae.cnblogs.activity;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -32,6 +34,7 @@ public abstract class SwipeBackBaseActivity extends BaseActivity implements Swip
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mHelper.onPostCreate();
+        getSwipeBackLayout().setShadow(new ColorDrawable(Color.TRANSPARENT), SwipeBackLayout.EDGE_ALL); // 不显示阴影
         getSwipeBackLayout().addSwipeListener(new SwipeBackLayout.SwipeListener() {
             @Override
             public void onScrollStateChange(int state, float scrollPercent) {
@@ -78,7 +81,7 @@ public abstract class SwipeBackBaseActivity extends BaseActivity implements Swip
     public void finish() {
         super.finish();
 //        if (!mIsSwipeBack) {
-            overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0);
 //        }
     }
 }

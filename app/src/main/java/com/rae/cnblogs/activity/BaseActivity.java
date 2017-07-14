@@ -6,7 +6,9 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
@@ -22,6 +24,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected View mBackView;
+    protected Toolbar mToolBar;
 
     private void bindView() {
         ButterKnife.bind(this);
@@ -52,6 +55,25 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         bindView();
+        View toolBar = findViewById(R.id.title_tool_bar);
+        if (toolBar != null) {
+            mToolBar = (Toolbar) toolBar;
+            CharSequence title = getTitle();
+            if (!TextUtils.isEmpty(title)) {
+                setTitle(title);
+            }
+        }
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+        if (mToolBar != null) {
+            TextView titleView = (TextView) mToolBar.findViewById(R.id.tv_title);
+            if (titleView != null) {
+                titleView.setText(title);
+            }
+        }
     }
 
     protected void showHomeAsUp(Toolbar toolbar) {
@@ -72,10 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void showHomeAsUp() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        showHomeAsUp(mToolBar);
     }
 
 

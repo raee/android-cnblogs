@@ -2,6 +2,8 @@ package com.rae.cnblogs.dialog.impl;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -16,6 +18,7 @@ import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,11 +82,27 @@ public class ShareDialog extends SlideDialog {
     }
 
     public void setShareTitle(String title) {
-        mShareAction.withTitle(title);
+        mShareAction.withText(title);
     }
 
     public void setShareUrl(String url) {
-        mShareAction.withTargetUrl(url);
+        mShareAction.withMedia(new UMWeb(url));
+    }
+
+    public void setShareWeb(@NonNull String url, @NonNull String title, @Nullable String desc, @Nullable String thumb) {
+        UMWeb web = new UMWeb(url);
+        web.setTitle(title);
+        web.setDescription(desc);
+        web.setThumb(new UMImage(getContext(), thumb));
+        mShareAction.withMedia(web);
+    }
+
+    public void setShareWeb(@NonNull String url, @NonNull String title, @Nullable String desc, @Nullable int thumbResId) {
+        UMWeb web = new UMWeb(url);
+        web.setTitle(title);
+        web.setDescription(desc);
+        web.setThumb(new UMImage(getContext(), thumbResId));
+        mShareAction.withMedia(web);
     }
 
     public void setShareSummary(String summary) {
