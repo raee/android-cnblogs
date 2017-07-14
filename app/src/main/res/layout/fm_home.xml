@@ -49,8 +49,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:visibility="visible"
-                android:src="@drawable/ic_action_bar_search"/>
+                android:src="@drawable/ic_action_bar_search"
+                android:visibility="gone"/>
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
@@ -75,12 +75,12 @@
             android:orientation="horizontal"
             android:paddingLeft="6dp">
 
-<!--            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/default_margin"
-                android:layout_marginRight="12dp"
-                android:src="@drawable/ic_action_bar_logo"/>-->
+            <!--            <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/default_margin"
+                            android:layout_marginRight="12dp"
+                            android:src="@drawable/ic_action_bar_logo"/>-->
 
             <com.rae.cnblogs.widget.RaeTabLayout
                 android:id="@+id/tab_category"
@@ -98,6 +98,7 @@
                 app:tabTextColor="#aaaaaa"/>
 
             <ImageView
+                android:id="@+id/img_edit_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/channel_manager_icon"/>

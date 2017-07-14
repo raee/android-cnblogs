@@ -26,5 +26,6 @@ public interface IBlogListPresenter extends IRaePresenter {
 
         CategoryBean getCategory();
 
+        void onLoadMoreEmpty();
     }
 }

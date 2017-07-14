@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 
-import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.presenter.impl.BasePresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
@@ -69,12 +68,17 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
 
             @Override
             protected void accept(List<BlogBean> blogBeans) {
+                if (Rx.isEmpty(blogBeans) && mPageIndex > 1) {
+                    // 没有更多
+                    mView.onLoadMoreEmpty();
+                    return;
+                }
                 onApiSuccess(blogBeans);
             }
         };
     }
 
-    public void onApiSuccess(List<BlogBean> data) {
+    private void onApiSuccess(List<BlogBean> data) {
 
         // 保存到数据库
         if (!Rx.isEmpty(data)) {

@@ -71,6 +71,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void showHomeAsUp() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+
     /**
      * 返回按钮的图片
      */

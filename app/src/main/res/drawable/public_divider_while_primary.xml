@@ -11,7 +11,7 @@
             </item>
 
             <item android:bottom="0.5dp">
-                <color android:color="@color/default_background"/>
+                <color android:color="@color/white"/>
             </item>
 
 
@@ -28,7 +28,7 @@
             </item>
 
             <item android:bottom="0.5dp">
-                <color android:color="@android:color/white"/>
+                <color android:color="@color/white"/>
             </item>
 
 

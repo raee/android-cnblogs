@@ -2,11 +2,15 @@ package com.rae.cnblogs;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
+import com.rae.cnblogs.sdk.BuildConfig;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.rae.swift.session.SessionManager;
+import com.squareup.leakcanary.LeakCanary;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -31,7 +35,12 @@ public class CnblogsApplication extends Application {
         initUmengShareConfig();
         UserProvider.init(this);
         SessionManager.initWithConfig(new SessionManager.ConfigBuilder().context(getApplicationContext()).userClass(UserInfoBean.class).build());
-//        LeakCanary.install(this);
+        if (!BuildConfig.BUILD_TYPE.equals("debug")) {
+            CrashReport.initCrashReport(getApplicationContext(), "7e5c07e5c9", BuildConfig.DEBUG);
+        }
+        if (BuildConfig.DEBUG) {
+            LeakCanary.install(this);
+        }
     }
 
     /**
@@ -47,6 +56,6 @@ public class CnblogsApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-//        MultiDex.install(base);
+        MultiDex.install(base);
     }
 }

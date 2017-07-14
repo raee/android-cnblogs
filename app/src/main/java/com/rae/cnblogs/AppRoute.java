@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.rae.cnblogs.activity.BlogContentActivity;
 import com.rae.cnblogs.activity.BloggerActivity;
+import com.rae.cnblogs.activity.FavoritesActivity;
 import com.rae.cnblogs.activity.FriendsActivity;
 import com.rae.cnblogs.activity.ImagePreviewActivity;
 import com.rae.cnblogs.activity.LoginActivity;
@@ -137,5 +138,12 @@ public final class AppRoute {
         Intent intent = new Intent(context, BloggerActivity.class);
         intent.putExtra("blogApp", blogApp);
         startActivity(context, intent);
+    }
+
+    /**
+     * 我的收藏
+     */
+    public static void jumpToFavorites(Context context) {
+        startActivity(context, FavoritesActivity.class);
     }
 }

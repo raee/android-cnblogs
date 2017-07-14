@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -10,10 +11,115 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/view_account_info"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp">
 
-<!--
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_login"/>
+
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_blog_avatar"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="56dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_default_user_avatar"
+                app:riv_corner_radius="64dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/img_blog_avatar"
+                android:layout_marginLeft="24dp"
+                android:layout_toRightOf="@+id/img_blog_avatar"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_mine_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/please_login"
+                    android:textColor="@color/ph1"
+                    android:textSize="18sp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <LinearLayout
+                        android:id="@+id/layout_account_follow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="关注"
+                            android:textColor="@color/ph3"
+                            android:textSize="@dimen/h3"/>
+
+                        <TextView
+                            android:id="@+id/tv_follow_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="0"
+                            android:textColor="@color/ph1"
+                            android:textSize="@dimen/h1"
+                            android:textStyle="bold"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_account_fans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="粉丝"
+                            android:textColor="@color/ph3"
+                            android:textSize="@dimen/h3"/>
+
+                        <TextView
+                            android:id="@+id/tv_fans_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="0"
+                            android:textColor="@color/ph1"
+                            android:textSize="@dimen/h1"
+                            android:textStyle="bold"/>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@color/background_divider"/>
+
         <LinearLayout
+            android:id="@+id/ll_favorites"
             style="@style/ItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -22,35 +128,34 @@
                 style="@style/ItemTitleStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/my_collection"/>
+                android:text="@string/my_collection"
+                android:textSize="@dimen/h2"/>
 
         </LinearLayout>
 
         <LinearLayout
             style="@style/ItemStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <TextView
                 style="@style/ItemTitleStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/setting"/>
+                android:text="@string/setting"
+                android:textSize="@dimen/h2"/>
 
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/ItemStyle"
+        <Button
+            android:id="@+id/btn_logout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                style="@style/ItemTitleStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/logout"/>
-
-        </LinearLayout>-->
-
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:background="@android:color/transparent"
+            android:text="@string/logout"
+            android:textColor="@color/ph1"
+            android:textSize="@dimen/h2"/>
     </LinearLayout>
 </ScrollView>

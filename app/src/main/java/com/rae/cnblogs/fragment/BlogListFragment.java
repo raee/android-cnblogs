@@ -106,6 +106,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
 
     @Override
     public void onLoadBlogList(int page, List<BlogBean> data) {
+        mRecyclerView.setNoMore(false);
         if (page <= 1)
             mAppLayout.refreshComplete();
         else
@@ -127,6 +128,12 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @Override
     public CategoryBean getCategory() {
         return mCategory;
+    }
+
+    @Override
+    public void onLoadMoreEmpty() {
+        mRecyclerView.loadMoreComplete();
+        mRecyclerView.setNoMore(true);
     }
 
     /**

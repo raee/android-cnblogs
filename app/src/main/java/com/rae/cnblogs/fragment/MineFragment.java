@@ -1,6 +1,7 @@
 package com.rae.cnblogs.fragment;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,8 @@ import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
+import com.rae.swift.session.SessionManager;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -41,6 +44,9 @@ public class MineFragment extends BaseFragment {
     TextView mFollowCountView;
     @BindView(R.id.tv_fans_count)
     TextView mFansCountView;
+
+    @BindView(R.id.btn_logout)
+    Button mLogoutButton;
 
     @Override
     protected int getLayoutId() {
@@ -72,8 +78,11 @@ public class MineFragment extends BaseFragment {
             mDisplayNameView.setText(R.string.please_login);
             mFansCountView.setText("0");
             mFollowCountView.setText("0");
+            mLogoutButton.setVisibility(View.GONE);
             return;
         }
+
+        mLogoutButton.setVisibility(View.VISIBLE);
 
         UserInfoBean user = UserProvider.getInstance().getLoginUserInfo();
         onLoadUserInfo(user);
@@ -155,5 +164,26 @@ public class MineFragment extends BaseFragment {
         }
 
         AppRoute.jumpToBlogger(getContext(), UserProvider.getInstance().getLoginUserInfo().getBlogApp());
+    }
+
+    /**
+     * 我的收藏
+     */
+    @OnClick(R.id.ll_favorites)
+    public void onFavoritesClick() {
+        // 没有登录跳登录
+        if (isNotLogin()) {
+            AppRoute.jumpToLogin(getActivity());
+            return;
+        }
+        AppRoute.jumpToFavorites(this.getContext());
+    }
+
+    @OnClick(R.id.btn_logout)
+    public void onLogoutClick() {
+        MobclickAgent.onProfileSignOff();
+        UserProvider.getInstance().logout();
+        SessionManager.getDefault().clear();
+        loadUserInfo();
     }
 }

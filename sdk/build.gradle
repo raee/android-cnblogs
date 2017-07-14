@@ -36,11 +36,10 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     // RX JAVA
-    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
-//    compile 'com.alibaba:fastjson:1.2.32'
-    compile 'com.android.support:support-annotations:25.2.0'
-    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:support-annotations:25.4.0'
+    compile 'com.android.support:support-v4:25.4.0'
     compile 'com.google.code.gson:gson:2.8.0'
 }

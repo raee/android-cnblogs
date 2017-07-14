@@ -115,11 +115,11 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
                 mTitleView.setAlpha(percent);
 
                 if (percent > 0.5) {
-                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+//                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
                     mFollowView.setBackgroundResource(R.drawable.bg_btn_follow_drak);
                     mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.ph2));
                 } else {
-                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
+//                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
                     mFollowView.setBackgroundResource(R.drawable.bg_btn_follow);
                     mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                 }
@@ -145,10 +145,10 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     }
 
 
-    @Override
-    protected int getHomeAsUpIndicator() {
-        return R.drawable.ic_back_white;
-    }
+//    @Override
+//    protected int getHomeAsUpIndicator() {
+//        return R.drawable.ic_back_white;
+//    }
 
     @Override
     public void onLoadBloggerInfo(FriendsInfoBean userInfo) {

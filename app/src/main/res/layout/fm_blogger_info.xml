@@ -21,7 +21,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#3b424c"
+                android:background="@drawable/account_top_bg"
                 android:paddingBottom="40dp">
 
 
@@ -50,7 +50,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="RAE敲代码"
-                    android:textColor="@color/white"
+                    android:textColor="@color/ph1"
                     android:textSize="@dimen/h1"/>
 
                 <LinearLayout
@@ -75,7 +75,7 @@
                             android:layout_below="@+id/tv_blogger_name"
                             android:layout_centerHorizontal="true"
                             android:text="0"
-                            android:textColor="@color/white"
+                            android:textColor="@color/ph1"
                             android:textSize="@dimen/h3"
                             android:textStyle="bold"/>
 
@@ -107,7 +107,7 @@
                             android:layout_below="@+id/tv_mine_name"
                             android:layout_centerHorizontal="true"
                             android:text="0"
-                            android:textColor="@color/white"
+                            android:textColor="@color/ph1"
                             android:textSize="@dimen/h3"
                             android:textStyle="bold"/>
 
@@ -164,7 +164,7 @@
         android:id="@+id/view_bg_holder"
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_padding_top"
-        android:background="#3b424c"/>
+        android:background="@color/background_divider"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"

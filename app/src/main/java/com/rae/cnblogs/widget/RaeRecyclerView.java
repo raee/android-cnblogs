@@ -60,7 +60,6 @@ public class RaeRecyclerView extends XRecyclerView {
     /**
      * 是否在顶部
      *
-     * @return
      */
     public boolean isOnTop() {
         if (getChildCount() == 0) {
@@ -83,18 +82,18 @@ public class RaeRecyclerView extends XRecyclerView {
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
             boolean allViewAreOverScreen = true;
             int[] positions = ((StaggeredGridLayoutManager) layoutManager).findFirstVisibleItemPositions(null);
-            for (int i = 0; i < positions.length; i++) {
-                if (positions[i] == 0) {
+            for (int position : positions) {
+                if (position == 0) {
                     return true;
                 }
-                if (positions[i] != -1) {
+                if (position != -1) {
                     allViewAreOverScreen = false;
                 }
             }
             if (allViewAreOverScreen) {
                 positions = ((StaggeredGridLayoutManager) layoutManager).findFirstVisibleItemPositions(null);
-                for (int i = 0; i < positions.length; i++) {
-                    if (positions[i] == 0) {
+                for (int position : positions) {
+                    if (position == 0) {
                         return true;
                     }
                 }

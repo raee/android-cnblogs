@@ -51,7 +51,7 @@
     <LinearLayout
         android:id="@+id/ll_login_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:orientation="vertical"
@@ -111,30 +111,29 @@
         <LinearLayout
             android:id="@+id/ll_login_contract"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:gravity="bottom">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/login_tips"
                 android:textColor="@color/ph4"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:visibility="gone"/>
 
             <TextView
 
                 android:id="@+id/tv_login_contract"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:gravity="center"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 android:text="@string/login_contract"
                 android:textColor="@color/ph4"
-                android:textSize="12sp"/>
+                android:textSize="10sp"/>
         </LinearLayout>
 
     </LinearLayout>

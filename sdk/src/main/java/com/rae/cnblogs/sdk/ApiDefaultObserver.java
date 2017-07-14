@@ -41,8 +41,8 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
                 // 登录失效
                 clearLoginToken();
                 onLoginExpired();
+                return;
             }
-            return;
         }
         String message = e.getMessage();
         if (message != null && message.contains("登录过期")) {

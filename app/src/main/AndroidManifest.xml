@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
-
+    <uses-permission android:name="android.permission.READ_LOGS"/>
 
     <application
         android:name=".CnblogsApplication"
@@ -72,9 +72,13 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity
-            android:name=".activity.LoginActivity"/>
+            android:name=".activity.LoginActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateVisible"/>
+
         <activity
             android:name=".activity.WebActivity"/>
+
         <activity android:name=".activity.WebLoginActivity"/>
         <activity android:name=".activity.ImagePreviewActivity"/>
         <activity android:name=".activity.BloggerActivity"
@@ -86,6 +90,11 @@
                </intent-filter>-->
         </activity>
         <activity android:name=".activity.FriendsActivity"/>
+
+        <activity
+            android:name=".activity.FavoritesActivity"
+            android:label="@string/my_collection"
+            android:launchMode="singleTop"/>
 
 
         <meta-data
