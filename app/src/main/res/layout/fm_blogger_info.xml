@@ -198,9 +198,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="12dp"
                 android:layout_marginRight="12dp"
-                android:background="@drawable/bg_btn_follow"
+                android:background="@drawable/bg_btn_follow_drak"
                 android:text="@string/following"
-                android:textColor="@color/white"
+                android:textColor="@color/ph1"
                 android:textSize="@dimen/h3"/>
 
         </RelativeLayout>

@@ -102,8 +102,10 @@ public final class UserProvider {
         String url = "www.cnblogs.com";
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
-        cookieManager.setCookie(url, ".CNBlogsCookie=D87FFA7E12173CC051241037F901A795EB794E22620528D1E1E878BB2268BB532FEFE56D4ED695C7C91755730F641EA6223708544BFABBAFA5BD107848E8EE3A75952285118A93EF3014C8DEEE242CE6A1111A4B; domain=.cnblogs.com; path=/; HttpOnly");
-        cookieManager.setCookie(url, ".Cnblogs.AspNetCore.Cookies=CfDJ8PhlBN8IFxtHhqIV3s0LCDngiZhPetC8nTWqWIpm_YV4toKRrGPfBedwKqrr-7t6qJ6iE2d0BR2VG6059Dzuebd7xCyl2BYU-dpfPrqYgx-v5lqY62Qn_sToxAtvp6RX1TbJn1OlKwgkwjeaHL6iUZFnlaynqJQk2C4L1Qha-bnQkMA3XVdLL54DwtLHpOUYd2PjwLBDQxTxjVkQgEzvwmcQvXlW9zs51U-w5trAQ6aTiHELwuYR3avr1gE9n61chtmnBkMGaigR4p6d8UiAT5oO8tLe28RGIm9Tj5wI70q8WOCRJEm2cPLPgxhpoTdDEQ; domain=.cnblogs.com; path=/; HttpOnly");
+        cookieManager.setCookie(url, ".CNBlogsCookie=C306D7D18BD1D816E4B20C87DD46D505A31D4B6783A89222D18774BDDCD934BEBE2994CAC5C3DB9BE9CB12B654CD9598417DAF4D5A7512425762DE872974EE0A80916EDAD8D45C7D9C44E2834773DBC87700B8A2; domain=.cnblogs.com; path=/; HttpOnly");
+        cookieManager.setCookie(url, ".Cnblogs.AspNetCore.Cookies=CfDJ8PhlBN8IFxtHhqIV3s0LCDkQKg5ot40UkHy5gGP_E6YuYQit2qSrbqu2_cNJqMFW2F2XbFgCUxnHBGKE_mpb-YZYETu5VFEU0CaBIzqrgmzgC_o9bvgtInaBXnsMTY-wkmQqW1Jp9pazhzDlsFXmYgPwDIueh8aiEkWbTFiK2DX9tHUdmfW89aezOAL6bSpE7DEfxb09zspl6xEYhlDZBiuVqu1pwj8nwg1JyxNLXBEeF2BVtbRjYDQfWviZfSWME6gUSw39OwULDJVLxSAHgTQDXJa6_qUlA9CNeOp4vAD3; domain=.cnblogs.com; path=/; HttpOnly");
+        cookieManager.setCookie(url, "_ga=GA1.2.1156272232.1485224862; domain=.cnblogs.com; path=/; HttpOnly");
+        cookieManager.setCookie(url, "_gid=GA1.2.1870524709.1500184527; domain=.cnblogs.com; path=/; HttpOnly");
         cookieManager.flush();
         UserProvider.getInstance().setLoginUserInfo(userInfo);
     }

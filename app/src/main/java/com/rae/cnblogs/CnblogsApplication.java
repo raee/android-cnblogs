@@ -8,9 +8,7 @@ import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.rae.swift.session.SessionManager;
-import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -39,7 +37,7 @@ public class CnblogsApplication extends Application {
             CrashReport.initCrashReport(getApplicationContext(), "7e5c07e5c9", BuildConfig.DEBUG);
         }
         if (BuildConfig.DEBUG) {
-            LeakCanary.install(this);
+//            LeakCanary.install(this);
         }
     }
 
@@ -47,7 +45,6 @@ public class CnblogsApplication extends Application {
      * 友盟分享
      */
     private void initUmengShareConfig() {
-        Config.DEBUG = true;
         UMShareAPI.get(this);
         PlatformConfig.setWeixin(AppConstant.WECHAT_APP_ID, AppConstant.WECHAT_APP_SECRET);
         PlatformConfig.setSinaWeibo(AppConstant.WEIBO_APP_ID, AppConstant.WEIBO_APP_SECRET, "http://www.raeblog.com/cnblogs/index.php/share/weibo/redirect");

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -89,11 +90,17 @@ public class ShareDialog extends SlideDialog {
         mShareAction.withMedia(new UMWeb(url));
     }
 
-    public void setShareWeb(@NonNull String url, @NonNull String title, @Nullable String desc, @Nullable String thumb) {
+    public void setShareWeb(@NonNull String url, @NonNull String title, @Nullable String desc, String thumb) {
         UMWeb web = new UMWeb(url);
         web.setTitle(title);
-        web.setDescription(desc);
-        web.setThumb(new UMImage(getContext(), thumb));
+        if (TextUtils.isEmpty(desc)) {
+            web.setDescription(desc);
+        }
+        if (!TextUtils.isEmpty(thumb)) {
+            web.setThumb(new UMImage(getContext(), thumb));
+        } else {
+            web.setThumb(new UMImage(getContext(), R.drawable.ic_share));
+        }
         mShareAction.withMedia(web);
     }
 

@@ -1,7 +1,5 @@
-	var hasJQuery = (typeof($) !="undefined");
+var hasJQuery = (typeof($) !="undefined");
 if(hasJQuery){
-
-
 	$(function(){
 		onPageLoad();
 	})
@@ -17,7 +15,6 @@ if(hasJQuery){
 
 function onPageLoad(){
     $("img").click(function(){
-
     	var src = $(this).attr("src");
     	var urls = new Array();
     	$("img").each(function(key,obj){
@@ -28,4 +25,6 @@ function onPageLoad(){
 
     	app.onImageClick(src, urls);
     });
+
+    // 解析当前页面，是否为查看博文
 }

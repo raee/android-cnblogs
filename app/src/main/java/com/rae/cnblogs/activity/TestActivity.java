@@ -7,16 +7,11 @@ import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.adapter.BlogCommentItemAdapter;
 import com.rae.cnblogs.dialog.impl.MenuDialog;
-import com.rae.cnblogs.sdk.bean.BlogCommentBean;
+import com.rae.cnblogs.fragment.CategoriesFragment;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,17 +39,22 @@ public class TestActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        BlogCommentItemAdapter adapter = new BlogCommentItemAdapter();
-        List<BlogCommentBean> data = new ArrayList<>();
-        DecimalFormat df = new DecimalFormat("00.##");
-        for (int i = 1; i <= 60; i++) {
-            BlogCommentBean m = new BlogCommentBean();
-            m.setBody("I AM CONTENT " + df.format(i));
-            m.setAuthorName("ITEM " + df.format(i));
-            data.add(m);
-        }
-        adapter.invalidate(data);
-        mRecyclerView.setAdapter(adapter);
+
+
+        getSupportFragmentManager().beginTransaction().add(R.id.content, new CategoriesFragment()).commit();
+
+
+//        BlogCommentItemAdapter adapter = new BlogCommentItemAdapter();
+//        List<BlogCommentBean> data = new ArrayList<>();
+//        DecimalFormat df = new DecimalFormat("00.##");
+//        for (int i = 1; i <= 60; i++) {
+//            BlogCommentBean m = new BlogCommentBean();
+//            m.setBody("I AM CONTENT " + df.format(i));
+//            m.setAuthorName("ITEM " + df.format(i));
+//            data.add(m);
+//        }
+//        adapter.invalidate(data);
+//        mRecyclerView.setAdapter(adapter);
 //        mRaeDrawerLayout.setDragDownHandler(new RaeDragDownCompat.DragDownHandler() {
 //            @Override
 //            public boolean checkCanDrag(float dy, MotionEvent ev) {
@@ -68,7 +68,7 @@ public class TestActivity extends BaseActivity {
 //            }
 //        });
 
-        AppRoute.jumpToBlogger(this, "sloane");
+//        AppRoute.jumpToBlogger(this, "sloane");
     }
 
     private void log(String msg) {
@@ -82,15 +82,15 @@ public class TestActivity extends BaseActivity {
 //        mLoadingView.loading();
 
 
-        AppRoute.jumpToBlogger(this, "sloane");
-
-        mLoadingView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mLoadingView.setSelected(!mLoadingView.isSelected());
-                mLoadingView.dismiss();
-            }
-        }, 300);
+//        AppRoute.jumpToBlogger(this, "sloane");
+//
+//        mLoadingView.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                mLoadingView.setSelected(!mLoadingView.isSelected());
+//                mLoadingView.dismiss();
+//            }
+//        }, 300);
 
     }
 

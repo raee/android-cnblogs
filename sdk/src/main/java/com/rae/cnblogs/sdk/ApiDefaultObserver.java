@@ -35,12 +35,12 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
         }
         if (e instanceof HttpException) {
             HttpException ex = (HttpException) e;
-            if (ex.code() == 401) {
-                // 登录失效
-                clearLoginToken();
-                onLoginExpired();
-                return;
-            }
+//            if (ex.code() == 401) {
+//                // 登录失效
+//                clearLoginToken();
+//                onLoginExpired();
+//                return;
+//            }
         }
         String message = e.getMessage();
         if (message != null && message.contains("登录过期")) {

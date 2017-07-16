@@ -134,19 +134,20 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_issue"
             style="@style/ItemStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:layout_height="wrap_content">
 
             <TextView
                 style="@style/ItemTitleStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/setting"
+                android:text="@string/issue"
                 android:textSize="@dimen/h2"/>
 
         </LinearLayout>
+
 
         <Button
             android:id="@+id/btn_logout"

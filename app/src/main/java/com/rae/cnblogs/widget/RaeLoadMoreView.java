@@ -1,6 +1,7 @@
 package com.rae.cnblogs.widget;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class RaeLoadMoreView extends LoadingMoreFooter {
         super.initView();
         mProgressBar = getChildAt(0);
         mTextView = (TextView) getChildAt(1);
+        mTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.ph3));
         mNoMoreText = getResources().getString(R.string.no_more_tips);
     }
 

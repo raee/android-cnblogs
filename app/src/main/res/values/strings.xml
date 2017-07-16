@@ -59,4 +59,8 @@
     <string name="new_version_title">发现新版本</string>
     <string name="login_expired">登录过期，请重新登录</string>
     <string name="please_login">请登录</string>
+    <string name="issue">问题反馈</string>
+    <string name="github_issue_url">http://www.raeblog.com/cnblogs/issues</string>
+    <string name="delete">删除</string>
+    <string name="deleting">正在删除..</string>
 </resources>

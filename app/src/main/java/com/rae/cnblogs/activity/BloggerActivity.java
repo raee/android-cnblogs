@@ -3,7 +3,6 @@ package com.rae.cnblogs.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -111,18 +110,18 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
             @Override
             public void onScrollPercentChange(float percent) {
                 mBloggerBackgroundView.setAlpha(percent);
-                mFollowView.setAlpha(percent > 0 ? percent : 1);
+//                mFollowView.setAlpha(percent > 0 ? percent : 1);
                 mTitleView.setAlpha(percent);
 
-                if (percent > 0.5) {
+//                if (percent > 0.5) {
 //                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
-                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow_drak);
-                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.ph2));
-                } else {
+//                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow_drak);
+//                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.ph2));
+//                } else {
 //                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
-                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow);
-                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-                }
+//                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow);
+//                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+//                }
             }
         });
 

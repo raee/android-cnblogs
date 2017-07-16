@@ -64,7 +64,6 @@ public class MineFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 模拟登录
-//        UserProvider.getInstance().debugLogin();
     }
 
     @Override
@@ -74,6 +73,9 @@ public class MineFragment extends BaseFragment {
     }
 
     private boolean isNotLogin() {
+        // TODO:调试登录
+//        UserProvider.getInstance().debugLogin();
+
         return !UserProvider.getInstance().isLogin();
     }
 
@@ -189,6 +191,14 @@ public class MineFragment extends BaseFragment {
 //            return;
 //        }
         AppRoute.jumpToFavorites(this.getContext());
+    }
+
+    /**
+     * 问题反馈
+     */
+    @OnClick(R.id.ll_issue)
+    public void onIssueClick() {
+        AppRoute.jumpToWeb(this.getContext(), getString(R.string.github_issue_url));
     }
 
     @OnClick(R.id.btn_logout)

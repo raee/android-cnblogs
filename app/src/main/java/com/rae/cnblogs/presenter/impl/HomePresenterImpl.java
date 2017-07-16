@@ -2,7 +2,6 @@ package com.rae.cnblogs.presenter.impl;
 
 import android.content.Context;
 
-import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.IHomePresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.UserProvider;
@@ -54,6 +53,8 @@ public class HomePresenterImpl extends BasePresenter<IHomePresenter.IHomeView> i
 
                 data.add(home);
                 data.add(recommend);
+
+                mView.onLoadCategory(data);
             }
 
             @Override
