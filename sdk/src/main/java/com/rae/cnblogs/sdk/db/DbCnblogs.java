@@ -18,6 +18,7 @@ public abstract class DbCnblogs {
     DbCnblogs() {
     }
 
+    // 注册数据库
     public static void init(Context applicationContext) {
         Configuration config = new Configuration
                 .Builder(applicationContext)

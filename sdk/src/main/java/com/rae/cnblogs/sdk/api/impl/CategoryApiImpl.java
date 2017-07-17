@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.api.ICategoryApi;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.db.DbCategory;
@@ -97,5 +98,12 @@ public class CategoryApiImpl implements ICategoryApi {
                 e.onComplete();
             }
         });
+    }
+
+    @Override
+    public Observable<Empty> updateCategories(List<CategoryBean> categoryList) {
+        DbCategory db = DbFactory.getInstance().getCategory();
+        db.reset(categoryList); //重置数据
+        return Observable.just(Empty.value());
     }
 }

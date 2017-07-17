@@ -1,5 +1,6 @@
 package com.rae.cnblogs.model;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,6 +24,10 @@ public class CategoriesOverallItem extends AbstractFlexibleItem<CategoriesOveral
         mCategory = category;
     }
 
+    public CategoryBean getCategory() {
+        return mCategory;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (mCategory == o) return true;
@@ -44,6 +49,14 @@ public class CategoriesOverallItem extends AbstractFlexibleItem<CategoriesOveral
     @Override
     public void bindViewHolder(FlexibleAdapter flexibleAdapter, CategoriesViewHolder holder, int i, List list) {
         holder.setTitle(mCategory.getName());
+        holder.itemView.setBackgroundResource(isDraggable() ? R.drawable.bg_category : R.drawable.bg_category_lock);
+        holder.setTitleColor(isDraggable() ? R.color.ph2 : R.color.ph4);
+    }
+
+    @Override
+    public boolean isDraggable() {
+        // 首页、推荐不能拖动
+        return !"SiteHome".equalsIgnoreCase(mCategory.getType()) && !"Picked".equalsIgnoreCase(mCategory.getType());
     }
 
     static class CategoriesViewHolder extends FlexibleViewHolder {
@@ -57,6 +70,10 @@ public class CategoriesOverallItem extends AbstractFlexibleItem<CategoriesOveral
 
         public void setTitle(String text) {
             mTitleView.setText(text);
+        }
+
+        public void setTitleColor(int color) {
+            mTitleView.setTextColor(ContextCompat.getColor(itemView.getContext(), color));
         }
     }
 }

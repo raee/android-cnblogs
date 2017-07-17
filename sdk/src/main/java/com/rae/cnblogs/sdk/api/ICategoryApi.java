@@ -1,5 +1,6 @@
 package com.rae.cnblogs.sdk.api;
 
+import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 
 import java.util.List;
@@ -17,4 +18,8 @@ public interface ICategoryApi {
      */
     Observable<List<CategoryBean>> getCategories();
 
+    /**
+     * 更新分类
+     */
+    Observable<Empty> updateCategories(List<CategoryBean> categoryList);
 }

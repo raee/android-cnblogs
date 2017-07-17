@@ -31,6 +31,8 @@ public class DbCategory extends DbCnblogs {
             @Override
             public void run() {
 
+                clear();
+
                 for (CategoryBean category : list) {
                     category.save();
                 }
@@ -40,11 +42,7 @@ public class DbCategory extends DbCnblogs {
     }
 
     public List<CategoryBean> list() {
-        return new Select().from(CategoryBean.class).execute();
+        return new Select().from(CategoryBean.class).orderBy("orderNo").execute();
     }
 
-
-    public List<CategoryBean> getUserList() {
-        return new Select().from(CategoryBean.class).where("isHide=?", 0).orderBy("orderNo DESC").execute();
-    }
 }
