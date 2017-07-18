@@ -1,16 +1,22 @@
 package com.rae.cnblogs.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.adapter.CategoriesOverallAdapter;
+import com.rae.cnblogs.dialog.CategoryDialog;
 import com.rae.cnblogs.model.CategoriesOverallItem;
-import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.api.ICategoryApi;
@@ -19,6 +25,10 @@ import com.rae.cnblogs.sdk.bean.CategoryBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager;
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
 import io.reactivex.annotations.NonNull;
@@ -28,9 +38,18 @@ import io.reactivex.functions.Consumer;
  * 分类管理
  * Created by ChenRui on 2017/7/16 0016 22:58.
  */
-public class CategoriesFragment extends BaseFragment implements CategoriesOverallAdapter.CategoryDragListener {
-    private final List<AbstractFlexibleItem> mCategoryItems = new ArrayList<>();
-    private final List<AbstractFlexibleItem> mUnusedItems = new ArrayList<>();
+public class CategoriesFragment extends DialogFragment implements CategoriesOverallAdapter.CategoryDragListener {
+
+    public static CategoriesFragment newInstance(List<CategoryBean> data) {
+        Bundle args = new Bundle();
+        args.putParcelableArrayList("data", (ArrayList<CategoryBean>) data);
+        CategoriesFragment fragment = new CategoriesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private List<AbstractFlexibleItem> mCategoryItems = new ArrayList<>();
+    private List<AbstractFlexibleItem> mUnusedItems = new ArrayList<>();
 
     private RecyclerView mCategoryRecyclerView;
     private CategoriesOverallAdapter mCategoryAdapter;
@@ -40,65 +59,58 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
     private CategoriesOverallAdapter mUnusedAdapter;
     private ICategoryApi mCategoryApi;
 
+    @BindView(R.id.ll_category_unused)
+    View mUnusedLayout;
 
-    @Override
+    @BindView(R.id.tv_remove_category)
+    TextView mEditView;
+
     protected int getLayoutId() {
         return R.layout.fm_categories;
     }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(getLayoutId(), container, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCategoryApi = CnblogsApiFactory.getInstance(getContext()).getCategoriesApi();
+
+
+    }
+
+    @OnClick(R.id.tv_remove_category)
+    public void onRemoveClick() {
+        mCategoryAdapter.switchMode();
+        mEditView.setText(mCategoryAdapter.isRemoveMode() ? R.string.finish : R.string.edit);
+        mCategoryAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // 加载分类
-        RxObservable.create(mCategoryApi.getCategories(), "categories").subscribe(new ApiDefaultObserver<List<CategoryBean>>() {
-            @Override
-            protected void onError(String message) {
-                // 发生错误至少加载首页这个分类
-                List<CategoryBean> data = new ArrayList<>();
 
-                CategoryBean home = new CategoryBean();
-                home.setCategoryId("808");
-                home.setParentId("0");
-                home.setName("首页");
-                home.setType("SiteHome");
-
-                CategoryBean recommend = new CategoryBean();
-                recommend.setCategoryId("-2");
-                recommend.setParentId("0");
-                recommend.setName("推荐");
-                recommend.setType("Picked");
-
-                data.add(home);
-                data.add(recommend);
-
-                accept(data);
-            }
-
-            @Override
-            protected void accept(List<CategoryBean> data) {
-
-                int i = 0;
-                for (CategoryBean item : data) {
-                    CategoriesOverallItem overallItem = new CategoriesOverallItem(item);
-                    if (item.isHide()) {
-                        mUnusedItems.add(overallItem);
-                    } else {
-                        mCategoryItems.add(overallItem);
-                    }
-                    i++;
+        List<CategoryBean> data = getArguments().getParcelableArrayList("data");
+        if (data != null) {
+            for (CategoryBean item : data) {
+                CategoriesOverallItem overallItem = new CategoriesOverallItem(item);
+                if (item.isHide()) {
+                    mUnusedItems.add(overallItem);
+                } else {
+                    mCategoryItems.add(overallItem);
                 }
-
-                initializeRecyclerView();
-                initializeUnusedRecyclerView();
             }
-        });
-
+            mUnusedLayout.setVisibility(mUnusedItems.size() > 0 ? View.VISIBLE : View.INVISIBLE);
+            initializeRecyclerView();
+            initializeUnusedRecyclerView();
+        }
     }
 
     private void initializeRecyclerView() {
@@ -120,6 +132,35 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
                 .setSwipeEnabled(true); //Enable swipe items
 
         mCategoryAdapter.setCategoryDragListener(this);
+
+        mCategoryAdapter.addListener(new FlexibleAdapter.OnItemClickListener() {
+            @Override
+            public boolean onItemClick(int position) {
+
+
+                if (mCategoryAdapter.isRemoveMode()) {
+
+                    AbstractFlexibleItem item = mCategoryAdapter.getItem(position);
+                    if (item == null) {
+
+                        return false;
+                    }
+
+                    // 添加到隐藏的分类中
+                    mUnusedAdapter.addItem(0, item);
+
+                    // 删除显示的分类
+                    mCategoryAdapter.removeItem(position);
+
+                    saveSort();
+                    notifyDataSetChanged();
+                } else {
+
+                }
+
+                return false;
+            }
+        });
     }
 
 
@@ -137,10 +178,38 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
         mUnusedRecyclerView.setAdapter(mUnusedAdapter);
         mUnusedRecyclerView.setHasFixedSize(true); //Size of RV will not change
         mUnusedAdapter.setCategoryDragListener(this);
+
+        mUnusedAdapter.addListener(new FlexibleAdapter.OnItemClickListener() {
+            @Override
+            public boolean onItemClick(int i) {
+                // 添加到显示的分类中
+                AbstractFlexibleItem item = mUnusedAdapter.getItem(i);
+                if (item == null) return false;
+
+                mCategoryAdapter.addItem(item);
+
+                // 从隐藏的分类中删除
+                mUnusedAdapter.removeItem(i);
+
+                saveSort();
+                notifyDataSetChanged();
+                return true;
+            }
+        });
+    }
+
+    /**
+     * 通知分类数据改变
+     */
+    private void notifyDataSetChanged() {
+        mCategoryAdapter.updateDataSet(mCategoryItems);
+        mUnusedAdapter.updateDataSet(mUnusedItems);
     }
 
     @Override
     public void onItemDrag() {
+        // 当前的集合替换
+        mCategoryItems = mCategoryAdapter.getCurrentItems();
         saveSort();
     }
 
@@ -156,7 +225,11 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
     private void saveSort() {
         int index = 0;
         List<CategoryBean> result = new ArrayList<>();
-        for (AbstractFlexibleItem item : mCategoryAdapter.getCurrentItems()) {
+
+        mCategoryItems = new ArrayList<>(mCategoryAdapter.getCurrentItems());
+        mUnusedItems = new ArrayList<>(mUnusedAdapter.getCurrentItems());
+
+        for (AbstractFlexibleItem item : mCategoryItems) {
             CategoryBean category = ((CategoriesOverallItem) item).getCategory();
             category.setHide(false);
             category.setOrderNo(index);
@@ -169,7 +242,7 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
         }
 
         index = 0;
-        for (AbstractFlexibleItem item : mUnusedAdapter.getCurrentItems()) {
+        for (AbstractFlexibleItem item : mUnusedItems) {
             CategoryBean category = ((CategoriesOverallItem) item).getCategory();
             category.setHide(true);
             category.setOrderNo(index);
@@ -184,5 +257,14 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
 
             }
         });
+
+    }
+
+    @android.support.annotation.NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        CategoryDialog dialog = new CategoryDialog(getContext());
+        dialog.setTopMargin(getArguments().getInt("margin"));
+        return dialog;
     }
 }

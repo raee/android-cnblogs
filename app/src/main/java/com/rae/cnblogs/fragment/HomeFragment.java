@@ -5,7 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogListAdapter;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
@@ -27,6 +29,8 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
 
     private BlogListAdapter mAdapter;
     private IHomePresenter mHomePresenter;
+    private CategoriesFragment mCategoriesFragment;
+    private List<CategoryBean> mCategoryBeanList;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -63,8 +67,28 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
         mHomePresenter = CnblogsPresenterFactory.getHomePresenter(getContext(), this);
     }
 
+    @OnClick(R.id.img_edit_category)
+    public void onCategoryClick(View view) {
+        if (mCategoryBeanList == null || mCategoryBeanList.size() <= 0) {
+            AppUI.failed(getContext(), "请等待分类加载完成");
+            return;
+        }
+
+        if (mCategoriesFragment == null) {
+            mCategoriesFragment = CategoriesFragment.newInstance(mCategoryBeanList);
+        }
+
+        int[] location = new int[2];
+        view.getLocationInWindow(location);
+
+        mCategoriesFragment.getArguments().putInt("margin", location[1] + view.getBottom());
+        mCategoriesFragment.show(getChildFragmentManager(), "CategoriesFragment");
+    }
+
     @Override
     public void onLoadCategory(List<CategoryBean> data) {
+
+        mCategoryBeanList = data;
 
         if (mAdapter == null) {
             mAdapter = new BlogListAdapter(getChildFragmentManager(), data);

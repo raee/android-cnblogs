@@ -63,4 +63,6 @@
     <string name="github_issue_url">http://www.raeblog.com/cnblogs/issues</string>
     <string name="delete">删除</string>
     <string name="deleting">正在删除..</string>
+    <string name="edit">编辑</string>
+    <string name="finish">完成</string>
 </resources>

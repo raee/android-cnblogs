@@ -1,6 +1,5 @@
 package com.rae.cnblogs.sdk.db;
 
-import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 
@@ -16,9 +15,9 @@ public class DbCategory extends DbCnblogs {
     DbCategory() {
     }
 
-    public void clear() {
-        new Delete().from(CategoryBean.class).execute();
-    }
+//    public void clear() {
+//        new Delete().from(CategoryBean.class).execute();
+//    }
 
     /**
      * 重置分类
@@ -30,9 +29,6 @@ public class DbCategory extends DbCnblogs {
         executeTransaction(new Runnable() {
             @Override
             public void run() {
-
-                clear();
-
                 for (CategoryBean category : list) {
                     category.save();
                 }

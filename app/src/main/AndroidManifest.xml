@@ -36,13 +36,14 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-        <!--    <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
+            </intent-filter>
         </activity>
 
+<!--
         <activity
             android:name=".activity.TestActivity"
             android:label="测试入口"
@@ -53,6 +54,7 @@
                         <category android:name="android.intent.category.LAUNCHER"/>
                     </intent-filter>
         </activity>
+-->
 
         <activity
             android:name=".activity.BlogContentActivity"

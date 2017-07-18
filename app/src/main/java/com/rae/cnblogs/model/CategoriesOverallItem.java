@@ -1,7 +1,9 @@
 package com.rae.cnblogs.model;
 
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rae.cnblogs.R;
@@ -49,8 +51,10 @@ public class CategoriesOverallItem extends AbstractFlexibleItem<CategoriesOveral
     @Override
     public void bindViewHolder(FlexibleAdapter flexibleAdapter, CategoriesViewHolder holder, int i, List list) {
         holder.setTitle(mCategory.getName());
-        holder.itemView.setBackgroundResource(isDraggable() ? R.drawable.bg_category : R.drawable.bg_category_lock);
+        holder.setBackgroundResource(isDraggable() ? R.drawable.bg_category : R.drawable.bg_category_lock);
         holder.setTitleColor(isDraggable() ? R.color.ph2 : R.color.ph4);
+        Log.i("rae", "bindViewHolder -->  " + i);
+
     }
 
     @Override
@@ -59,21 +63,32 @@ public class CategoriesOverallItem extends AbstractFlexibleItem<CategoriesOveral
         return !"SiteHome".equalsIgnoreCase(mCategory.getType()) && !"Picked".equalsIgnoreCase(mCategory.getType());
     }
 
-    static class CategoriesViewHolder extends FlexibleViewHolder {
+    public static class CategoriesViewHolder extends FlexibleViewHolder {
 
         TextView mTitleView;
+
+        ImageView mRemoveView;
 
         CategoriesViewHolder(View view, FlexibleAdapter adapter) {
             super(view, adapter);
             mTitleView = (TextView) view.findViewById(R.id.tv_name);
+            mRemoveView = (ImageView) view.findViewById(R.id.img_remove);
         }
 
         public void setTitle(String text) {
             mTitleView.setText(text);
         }
 
-        public void setTitleColor(int color) {
+        void setTitleColor(int color) {
             mTitleView.setTextColor(ContextCompat.getColor(itemView.getContext(), color));
+        }
+
+        public void onRemoveMode(boolean isRemoveMode, boolean isDraggable) {
+            mRemoveView.setVisibility(isRemoveMode && isDraggable ? View.VISIBLE : View.GONE);
+        }
+
+        void setBackgroundResource(int backgroundResource) {
+            mTitleView.setBackgroundResource(backgroundResource);
         }
     }
 }

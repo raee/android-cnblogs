@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.dialog.impl.MenuDialog;
-import com.rae.cnblogs.fragment.CategoriesFragment;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
@@ -41,7 +40,7 @@ public class TestActivity extends BaseActivity {
         setContentView(R.layout.activity_test);
 
 
-        getSupportFragmentManager().beginTransaction().add(R.id.content, new CategoriesFragment()).commit();
+//        getSupportFragmentManager().beginTransaction().add(R.id.content, new CategoriesFragment()).commit();
 
 
 //        BlogCommentItemAdapter adapter = new BlogCommentItemAdapter();
