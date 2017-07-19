@@ -65,4 +65,5 @@
     <string name="deleting">正在删除..</string>
     <string name="edit">编辑</string>
     <string name="finish">完成</string>
+    <string name="title_category">分类</string>
 </resources>

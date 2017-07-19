@@ -3,6 +3,7 @@ package com.rae.cnblogs.activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.LayoutRes;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +14,10 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
+import com.rae.swift.Rx;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -118,6 +122,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 721 && resultCode == RESULT_OK) {
             onLoginCallBack();
+        }
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (!Rx.isEmpty(fragments)) {
+            for (Fragment fragment : fragments) {
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 

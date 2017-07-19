@@ -43,18 +43,18 @@
             </intent-filter>
         </activity>
 
-<!--
-        <activity
-            android:name=".activity.TestActivity"
-            android:label="测试入口"
-            android:screenOrientation="portrait">
-                    <intent-filter>
-                        <action android:name="android.intent.action.MAIN"/>
+        <!--
+                <activity
+                    android:name=".activity.TestActivity"
+                    android:label="测试入口"
+                    android:screenOrientation="portrait">
+                            <intent-filter>
+                                <action android:name="android.intent.action.MAIN"/>
 
-                        <category android:name="android.intent.category.LAUNCHER"/>
-                    </intent-filter>
-        </activity>
--->
+                                <category android:name="android.intent.category.LAUNCHER"/>
+                            </intent-filter>
+                </activity>
+        -->
 
         <activity
             android:name=".activity.BlogContentActivity"
@@ -143,6 +143,10 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".activity.CategoryActivity"
+            android:label="@string/title_category"
+            android:launchMode="singleTop"/>
 
         <meta-data
             android:name="UMENG_APPKEY"

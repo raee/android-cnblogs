@@ -1,22 +1,20 @@
 package com.rae.cnblogs.fragment;
 
-import android.app.Dialog;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.adapter.CategoriesOverallAdapter;
-import com.rae.cnblogs.dialog.CategoryDialog;
 import com.rae.cnblogs.model.CategoriesOverallItem;
+import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.api.ICategoryApi;
@@ -26,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager;
@@ -38,7 +35,7 @@ import io.reactivex.functions.Consumer;
  * 分类管理
  * Created by ChenRui on 2017/7/16 0016 22:58.
  */
-public class CategoriesFragment extends DialogFragment implements CategoriesOverallAdapter.CategoryDragListener {
+public class CategoriesFragment extends BaseFragment implements CategoriesOverallAdapter.CategoryDragListener {
 
     public static CategoriesFragment newInstance(List<CategoryBean> data) {
         Bundle args = new Bundle();
@@ -69,13 +66,13 @@ public class CategoriesFragment extends DialogFragment implements CategoriesOver
         return R.layout.fm_categories;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutId(), container, false);
-        ButterKnife.bind(this, view);
-        return view;
-    }
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        View view = inflater.inflate(getLayoutId(), container, false);
+//        ButterKnife.bind(this, view);
+//        return view;
+//    }
 
 
     @Override
@@ -96,21 +93,29 @@ public class CategoriesFragment extends DialogFragment implements CategoriesOver
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        List<CategoryBean> data = getArguments().getParcelableArrayList("data");
-        if (data != null) {
-            for (CategoryBean item : data) {
-                CategoriesOverallItem overallItem = new CategoriesOverallItem(item);
-                if (item.isHide()) {
-                    mUnusedItems.add(overallItem);
-                } else {
-                    mCategoryItems.add(overallItem);
-                }
+        // 加载分类
+        RxObservable.create(CnblogsApiFactory.getInstance(getContext()).getCategoriesApi().getCategories(), "Category").subscribe(new ApiDefaultObserver<List<CategoryBean>>() {
+            @Override
+            protected void onError(String message) {
+                AppUI.failed(getContext(), "分类加载错误！");
+                getActivity().finish();
             }
-            mUnusedLayout.setVisibility(mUnusedItems.size() > 0 ? View.VISIBLE : View.INVISIBLE);
-            initializeRecyclerView();
-            initializeUnusedRecyclerView();
-        }
+
+            @Override
+            protected void accept(List<CategoryBean> data) {
+                for (CategoryBean item : data) {
+                    CategoriesOverallItem overallItem = new CategoriesOverallItem(item);
+                    if (item.isHide()) {
+                        mUnusedItems.add(overallItem);
+                    } else {
+                        mCategoryItems.add(overallItem);
+                    }
+                }
+                mUnusedLayout.setVisibility(mUnusedItems.size() > 0 ? View.VISIBLE : View.INVISIBLE);
+                initializeRecyclerView();
+                initializeUnusedRecyclerView();
+            }
+        });
     }
 
     private void initializeRecyclerView() {
@@ -142,7 +147,6 @@ public class CategoriesFragment extends DialogFragment implements CategoriesOver
 
                     AbstractFlexibleItem item = mCategoryAdapter.getItem(position);
                     if (item == null) {
-
                         return false;
                     }
 
@@ -155,7 +159,9 @@ public class CategoriesFragment extends DialogFragment implements CategoriesOver
                     saveSort();
                     notifyDataSetChanged();
                 } else {
-
+                    getActivity().getIntent().putExtra("position", position);
+                    getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
+                    getActivity().finish();
                 }
 
                 return false;
@@ -223,6 +229,8 @@ public class CategoriesFragment extends DialogFragment implements CategoriesOver
      * 保存分类
      */
     private void saveSort() {
+        if (mCategoryAdapter == null || mUnusedAdapter == null) return;
+
         int index = 0;
         List<CategoryBean> result = new ArrayList<>();
 
@@ -258,13 +266,15 @@ public class CategoriesFragment extends DialogFragment implements CategoriesOver
             }
         });
 
+        getActivity().setResult(Activity.RESULT_OK);
+
     }
 
-    @android.support.annotation.NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        CategoryDialog dialog = new CategoryDialog(getContext());
-        dialog.setTopMargin(getArguments().getInt("margin"));
-        return dialog;
-    }
+//    @android.support.annotation.NonNull
+//    @Override
+//    public Dialog onCreateDialog(Bundle savedInstanceState) {
+//        CategoryDialog dialog = new CategoryDialog(getContext());
+//        dialog.setTopMargin(getArguments().getInt("margin"));
+//        return dialog;
+//    }
 }

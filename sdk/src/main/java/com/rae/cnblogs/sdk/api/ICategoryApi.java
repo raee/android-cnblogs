@@ -19,6 +19,11 @@ public interface ICategoryApi {
     Observable<List<CategoryBean>> getCategories();
 
     /**
+     * 获取分类
+     */
+    Observable<List<CategoryBean>> getHomeCategories();
+
+    /**
      * 更新分类
      */
     Observable<Empty> updateCategories(List<CategoryBean> categoryList);

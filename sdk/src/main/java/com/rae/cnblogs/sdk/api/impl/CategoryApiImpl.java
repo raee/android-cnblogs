@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.functions.Function;
 
 /**
  * 博客分类
@@ -90,12 +89,23 @@ public class CategoryApiImpl implements ICategoryApi {
             list = new ArrayList<>();
         }
 
-        final List<CategoryBean> finalList = list;
-        return Observable.create(new ObservableOnSubscribe<List<CategoryBean>>() {
+        return Observable.just(list);
+    }
+
+    @Override
+    public Observable<List<CategoryBean>> getHomeCategories() {
+        return getCategories().map(new Function<List<CategoryBean>, List<CategoryBean>>() {
             @Override
-            public void subscribe(ObservableEmitter<List<CategoryBean>> e) throws Exception {
-                e.onNext(finalList);
-                e.onComplete();
+            public List<CategoryBean> apply(List<CategoryBean> categoryBeans) throws Exception {
+                List<CategoryBean> result = new ArrayList<>();
+                for (CategoryBean item : categoryBeans) {
+                    if (!item.isHide()) {
+                        result.add(item);
+                    }
+                }
+
+                categoryBeans.clear();
+                return result;
             }
         });
     }

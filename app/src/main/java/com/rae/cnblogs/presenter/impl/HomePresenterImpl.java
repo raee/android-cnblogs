@@ -33,7 +33,7 @@ public class HomePresenterImpl extends BasePresenter<IHomePresenter.IHomeView> i
         }
 
         // 加载分类
-        createObservable(getApiProvider().getCategoriesApi().getCategories()).subscribe(new ApiDefaultObserver<List<CategoryBean>>() {
+        createObservable(getApiProvider().getCategoriesApi().getHomeCategories()).subscribe(new ApiDefaultObserver<List<CategoryBean>>() {
             @Override
             protected void onError(String message) {
                 // 发生错误至少加载首页这个分类
@@ -60,10 +60,10 @@ public class HomePresenterImpl extends BasePresenter<IHomePresenter.IHomeView> i
             @Override
             protected void accept(List<CategoryBean> data) {
                 // 集合发生改变才回调
-                if (mCategoryData == null || mCategoryData.size() != data.size()) {
+//                if (mCategoryData == null || mCategoryData.size() != data.size()) {
                     mView.onLoadCategory(data);
                     mCategoryData = data;
-                }
+//                }
             }
         });
     }

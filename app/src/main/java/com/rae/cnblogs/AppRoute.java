@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.rae.cnblogs.activity.BlogContentActivity;
 import com.rae.cnblogs.activity.BloggerActivity;
+import com.rae.cnblogs.activity.CategoryActivity;
 import com.rae.cnblogs.activity.FavoritesActivity;
 import com.rae.cnblogs.activity.FriendsActivity;
 import com.rae.cnblogs.activity.ImagePreviewActivity;
@@ -30,6 +31,7 @@ public final class AppRoute {
     public static final int ACTIVITY_FRIENDS_TYPE_FANS = 1;
     /*朋友界面 - 来自关注*/
     public static final int ACTIVITY_FRIENDS_TYPE_FOLLOW = 2;
+    public static final int REQ_CODE_CATEGORY = 102;
 
     private static void startActivity(Context context, Intent intent) {
         context.startActivity(intent);
@@ -71,15 +73,15 @@ public final class AppRoute {
         startActivity(context, MainActivity.class);
     }
 
-    public static void jumpToDownload(Context context, String url) {
-        try {
-            Intent intent = new Intent();
-            intent.setData(Uri.parse(url));
-            startActivity(context, intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void jumpToDownload(Context context, String url) {
+//        try {
+//            Intent intent = new Intent();
+//            intent.setData(Uri.parse(url));
+//            startActivity(context, intent);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * 登录
@@ -95,13 +97,6 @@ public final class AppRoute {
         startActivityForResult(context, WebLoginActivity.class, REQ_CODE_WEB_LOGIN);
     }
 
-    /**
-     * 个人中心
-     */
-    public static void jumpToUserCenter(Context context) {
-
-    }
-
     public static void jumpToFans(Context context, String bloggerName, String userId) {
         jumpToFriends(context, ACTIVITY_FRIENDS_TYPE_FANS, bloggerName, userId);
     }
@@ -113,7 +108,6 @@ public final class AppRoute {
     /**
      * 跳转到朋友界面
      *
-     * @param context
      * @param type        来源类型，参考该类{@link #ACTIVITY_FRIENDS_TYPE_FANS}
      * @param bloggerName 博主昵称
      * @param userId      博主ID
@@ -138,6 +132,12 @@ public final class AppRoute {
         Intent intent = new Intent(context, BloggerActivity.class);
         intent.putExtra("blogApp", blogApp);
         startActivity(context, intent);
+    }
+
+
+    public static void jumpToCategoryForResult(Activity context) {
+        Intent intent = new Intent(context, CategoryActivity.class);
+        startActivityForResult(context, intent, REQ_CODE_CATEGORY);
     }
 
     /**

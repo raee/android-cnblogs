@@ -1,12 +1,16 @@
 package com.rae.cnblogs.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogListAdapter;
@@ -29,8 +33,8 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
 
     private BlogListAdapter mAdapter;
     private IHomePresenter mHomePresenter;
-    private CategoriesFragment mCategoriesFragment;
     private List<CategoryBean> mCategoryBeanList;
+    private int mPosition;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -56,15 +60,18 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mHomePresenter.start();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            mPosition = savedInstanceState.getInt("position");
+        }
+        mHomePresenter = CnblogsPresenterFactory.getHomePresenter(getContext(), this);
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mHomePresenter = CnblogsPresenterFactory.getHomePresenter(getContext(), this);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mHomePresenter.start();
     }
 
     @OnClick(R.id.img_edit_category)
@@ -73,16 +80,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
             AppUI.failed(getContext(), "请等待分类加载完成");
             return;
         }
-
-        if (mCategoriesFragment == null) {
-            mCategoriesFragment = CategoriesFragment.newInstance(mCategoryBeanList);
-        }
-
-        int[] location = new int[2];
-        view.getLocationInWindow(location);
-
-        mCategoriesFragment.getArguments().putInt("margin", location[1] + view.getBottom());
-        mCategoriesFragment.show(getChildFragmentManager(), "CategoriesFragment");
+        AppRoute.jumpToCategoryForResult(getActivity());
     }
 
     @Override
@@ -94,22 +92,36 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
             mAdapter = new BlogListAdapter(getChildFragmentManager(), data);
             mViewPager.setAdapter(mAdapter);
             mTabLayout.setupWithViewPager(mViewPager);
-        }
+        } else {
 
-        mAdapter.notifyDataSetChanged();
+
+            mAdapter.updateDataSet(data);
+        }
+        if (mPosition > 1 && mPosition == mViewPager.getCurrentItem()) {
+            // TODO:非首页、推荐，排序后还在当前页，需要重新刷新
+            BlogListFragment fragment = mAdapter.getFragment(mPosition);
+            if (fragment != null) {
+                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                transaction.detach(fragment);
+                fragment.getArguments().putParcelable("category", data.get(mPosition));
+                transaction.attach(fragment);
+                transaction.commit();
+            }
+        } else {
+            mViewPager.setCurrentItem(mPosition);
+        }
     }
 
-//    @OnClick(R.id.img_actionbar_avatar_not_login)
-//    public void onNotLoginAvatarClick() {
-//        // 登录
-//        AppRoute.jumpToLogin(getContext());
-//    }
-//
-//    @OnClick(R.id.img_actionbar_avatar)
-//    public void onAvatarClick() {
-//        // 跳到个人中心
-//        AppRoute.jumpToUserCenter(getContext());
-//    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // 分类编辑返回
+        if (requestCode == AppRoute.REQ_CODE_CATEGORY && resultCode == Activity.RESULT_OK) {
+            mPosition = data != null ? data.getIntExtra("position", 0) : mViewPager.getCurrentItem();
+            mHomePresenter.start();
+        }
+    }
 
     @OnClick(R.id.img_actionbar_logo)
     public void onLogoClick() {
@@ -132,5 +144,17 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     public void onLoadNormal() {
 //        mAvatarView.setVisibility(View.GONE);
 //        mNotLoginAvatarView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mPosition = mViewPager.getCurrentItem();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("position", mPosition);
     }
 }
