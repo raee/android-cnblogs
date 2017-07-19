@@ -107,11 +107,15 @@
             android:textColor="@color/text_color_login_button"
             android:textSize="16sp"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
         <LinearLayout
             android:id="@+id/ll_login_contract"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="bottom">
 
             <TextView
@@ -124,7 +128,6 @@
                 android:visibility="gone"/>
 
             <TextView
-
                 android:id="@+id/tv_login_contract"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

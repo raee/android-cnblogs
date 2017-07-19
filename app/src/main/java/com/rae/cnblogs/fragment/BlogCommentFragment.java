@@ -1,5 +1,6 @@
 package com.rae.cnblogs.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogCommentItemAdapter;
 import com.rae.cnblogs.dialog.impl.CommentMenuDialog;
 import com.rae.cnblogs.dialog.impl.EditCommentDialog;
+import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.dialog.impl.MenuDialog;
 import com.rae.cnblogs.message.EditCommentEvent;
 import com.rae.cnblogs.model.MenuDialogItem;
@@ -225,9 +227,28 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     @Override
     public void onPostCommentSuccess() {
         AppUI.dismiss();
-        AppUI.toastInCenter(getContext(), "发表成功！");
         mEditCommentDialog.dismiss();
-        mCommentPresenter.start(); // 重新加载评论列表
+        mPlaceholderView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mCommentPresenter.start(); // 重新加载评论列表
+            }
+        }, 1000);
+
+
+        if (config().hasCommentGuide()) {
+            AppUI.toastInCenter(getContext(), "您伟大的讲话发表成功");
+        } else {
+            HintCardDialog dialog = new HintCardDialog(getContext());
+            dialog.setMessage(getString(R.string.dialog_tips_post_comment));
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    config().commentGuide();
+                }
+            });
+            dialog.show();
+        }
     }
 
     @Override

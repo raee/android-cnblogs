@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
+
 import butterknife.ButterKnife;
 
 /**
@@ -32,10 +34,14 @@ public abstract class BaseFragment extends Fragment {
     protected void onCreateView(View view) {
     }
 
-    protected void onLoadData(){
+    protected void onLoadData() {
 
     }
 
     protected abstract int getLayoutId();
+
+    protected CnblogSdkConfig config() {
+        return CnblogSdkConfig.getsInstance(getContext().getApplicationContext());
+    }
 
 }

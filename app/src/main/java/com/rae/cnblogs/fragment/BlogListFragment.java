@@ -9,6 +9,7 @@ import android.view.View;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogListItemAdapter;
+import com.rae.cnblogs.message.TabEvent;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.sdk.bean.BlogBean;
@@ -16,6 +17,9 @@ import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -30,10 +34,11 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 public class BlogListFragment extends BaseFragment implements IBlogListPresenter.IBlogListView {
 
 
-    public static BlogListFragment newInstance(CategoryBean category, BlogType type) {
+    public static BlogListFragment newInstance(int position, CategoryBean category, BlogType type) {
         Bundle args = new Bundle();
         args.putParcelable("category", category);
         args.putString("type", type.getTypeName());
+        args.putInt("position", position);
         BlogListFragment fragment = new BlogListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -64,7 +69,15 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         mBlogType = BlogType.typeOf(getArguments().getString("type"));
         mItemAdapter = new BlogListItemAdapter(mBlogType);
         mBlogListPresenter = CnblogsPresenterFactory.getBlogListPresenter(getContext(), mBlogType, this);
+        EventBus.getDefault().register(this);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
 
     protected String getTitle() {
         return mCategory.getName();
@@ -141,12 +154,37 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
      */
     public void scrollToTop() {
         if (mRecyclerView == null) return;
-        LinearLayoutManager manager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-        if (manager.findFirstVisibleItemPosition() <= 1) {
+
+        //先从RecyclerView的LayoutManager中获取第一项和最后一项的Position
+        LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+        int firstItem = layoutManager.findFirstVisibleItemPosition();
+        int lastItem = layoutManager.findLastVisibleItemPosition();
+        int visibleCount = lastItem - firstItem;
+
+        // 已经在顶部
+        if (firstItem <= 1) {
             mAppLayout.autoRefresh();
-            return;
+        } else if (lastItem > visibleCount) {
+            layoutManager.scrollToPosition(visibleCount + 1);
         }
         mRecyclerView.smoothScrollToPosition(0);
     }
 
+    public void refreshCategory(CategoryBean category) {
+        mCategory = category;
+        getArguments().putParcelable("category", category);
+    }
+
+    @Subscribe
+    public void onTabEvent(TabEvent event) {
+        if (event.getPosition() == getArguments().getInt("position")) {
+            mRecyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollToTop();
+
+                }
+            });
+        }
+    }
 }

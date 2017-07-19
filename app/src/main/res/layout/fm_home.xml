@@ -7,18 +7,19 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:paddingTop="@dimen/default_padding_top">
+    <!--
+     <android.support.v7.widget.Toolbar
+         android:id="@+id/tool_bar"
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/action_bar_height"
+         android:paddingLeft="@dimen/default_margin"
+         android:visibility="gone">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_height"
-        android:paddingLeft="@dimen/default_margin">
-
-        <RelativeLayout
+   <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!--     <com.makeramen.roundedimageview.RoundedImageView
+            &lt;!&ndash;     <com.makeramen.roundedimageview.RoundedImageView
                      android:id="@+id/img_actionbar_avatar"
                      android:layout_width="26dp"
                      android:layout_height="26dp"
@@ -34,7 +35,7 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_centerVertical="true"
-                     android:src="@drawable/ic_action_bar_avatar"/>-->
+                     android:src="@drawable/ic_action_bar_avatar"/>&ndash;&gt;
 
             <ImageView
                 android:id="@+id/img_actionbar_logo"
@@ -53,7 +54,7 @@
                 android:visibility="gone"/>
         </RelativeLayout>
 
-    </android.support.v7.widget.Toolbar>
+    </android.support.v7.widget.Toolbar>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -75,12 +76,14 @@
             android:orientation="horizontal"
             android:paddingLeft="6dp">
 
-            <!--            <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/default_margin"
-                            android:layout_marginRight="12dp"
-                            android:src="@drawable/ic_action_bar_logo"/>-->
+            <ImageView
+                android:id="@+id/img_actionbar_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_bar_logo"/>
 
             <com.rae.cnblogs.widget.RaeTabLayout
                 android:id="@+id/tab_category"

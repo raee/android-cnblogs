@@ -17,12 +17,15 @@ import com.rae.cnblogs.dialog.impl.VersionUpdateDialog;
 import com.rae.cnblogs.fragment.BlogTypeListFragment;
 import com.rae.cnblogs.fragment.HomeFragment;
 import com.rae.cnblogs.fragment.MineFragment;
+import com.rae.cnblogs.message.TabEvent;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.VersionInfo;
 import com.rae.swift.app.RaeFragmentAdapter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 
@@ -55,8 +58,8 @@ public class MainActivity extends BaseActivity {
 
         // 初始化TAB
         addTab(R.string.tab_home, R.drawable.tab_home, HomeFragment.newInstance());
-        addTab(R.string.tab_news, R.drawable.tab_news, BlogTypeListFragment.newInstance(news, BlogType.NEWS));
-        addTab(R.string.tab_library, R.drawable.tab_library, BlogTypeListFragment.newInstance(kb, BlogType.KB));
+        addTab(R.string.tab_news, R.drawable.tab_news, BlogTypeListFragment.newInstance(1, news, BlogType.NEWS));
+        addTab(R.string.tab_library, R.drawable.tab_library, BlogTypeListFragment.newInstance(2, kb, BlogType.KB));
         addTab(R.string.tab_mine, R.drawable.tab_mine, MineFragment.newInstance());
 
         mViewPager.setOffscreenPageLimit(4);
@@ -78,17 +81,20 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+                EventBus.getDefault().post(new TabEvent(tab.getPosition()));
+
                 // 首页
-                if (tab.getPosition() == 0) {
-                    HomeFragment fragment = (HomeFragment) mFragmentAdapter.getItem(0);
-                    fragment.onLogoClick();
-                }
+//                if (tab.getPosition() == 0) {
+//                    HomeFragment fragment = (HomeFragment) mFragmentAdapter.getItem(0);
+//                    fragment.onLogoClick();
+//                    EventBus.getDefault().post(new TabEvent(tab.getPosition()));
+//                }
 
                 // 新闻
-                if (tab.getPosition() == 1 || tab.getPosition() == 2) {
-                    BlogTypeListFragment fragment = (BlogTypeListFragment) mFragmentAdapter.getItem(tab.getPosition());
-                    fragment.scrollToTop();
-                }
+//                if (tab.getPosition() == 1 || tab.getPosition() == 2) {
+//                    BlogTypeListFragment fragment = (BlogTypeListFragment) mFragmentAdapter.getItem(tab.getPosition());
+//                    fragment.scrollToTop();
+//                }
 
             }
         });
@@ -116,6 +122,7 @@ public class MainActivity extends BaseActivity {
                         dialog.show();
                     }
                 });
+
 
     }
 

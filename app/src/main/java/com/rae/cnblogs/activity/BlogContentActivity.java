@@ -67,6 +67,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
 
     private BlogShareDialog mShareDialog;
     private BlogBean mBlog;
+    private BlogType mBlogType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         showHomeAsUp(mToolbar);
 
         mBlog = getIntent().getParcelableExtra("blog");
-        BlogType blogType = BlogType.typeOf(getIntent().getStringExtra("type"));
+        mBlogType = BlogType.typeOf(getIntent().getStringExtra("type"));
 
         if (mBlog == null) {
             AppUI.toast(this, "博客为空！");
@@ -108,7 +109,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         }
 
         // 知识库没有评论处理
-        if (blogType == BlogType.KB) {
+        if (mBlogType == BlogType.KB) {
             mPostCommentView.setVisibility(View.GONE);
             mViewCommentView.setVisibility(View.GONE);
             mAuthorView.setVisibility(View.GONE);
@@ -121,8 +122,8 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
 
         // 加载Fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_comment, BlogCommentFragment.newInstance(mBlog, blogType));
-        transaction.add(R.id.fl_content, BlogContentFragment.newInstance(mBlog, blogType));
+        transaction.add(R.id.fl_comment, BlogCommentFragment.newInstance(mBlog, mBlogType));
+        transaction.add(R.id.fl_content, BlogContentFragment.newInstance(mBlog, mBlogType));
         transaction.commit();
 
     }
@@ -150,6 +151,10 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     @OnClick({R.id.img_blog_avatar, R.id.tv_blog_author})
     public void onBloggerClick() {
         if (mBlog == null) return;
+        if (mBlogType != BlogType.BLOG) {
+            return;
+        }
+
         AppRoute.jumpToBlogger(this, mBlog.getBlogApp());
     }
 

@@ -20,20 +20,18 @@ import java.util.List;
  */
 public class BlogListAdapter extends FragmentStatePagerAdapter {
 
-    private final FragmentManager mFragmentManager;
     private List<CategoryBean> mDataList;
     private SparseArray<Fragment> mFragmentTags = new SparseArray<>();
 
     public BlogListAdapter(FragmentManager fm, List<CategoryBean> dataList) {
         super(fm);
-        mFragmentManager = fm;
         mDataList = dataList;
     }
 
     @Override
     public Fragment getItem(int position) {
         CategoryBean m = mDataList.get(position);
-        Fragment fragment = BlogListFragment.newInstance(m, BlogType.BLOG);
+        Fragment fragment = BlogListFragment.newInstance(0, m, BlogType.BLOG);
         return fragment;
     }
 

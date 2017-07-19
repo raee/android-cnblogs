@@ -7,17 +7,20 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogListAdapter;
+import com.rae.cnblogs.message.TabEvent;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IHomePresenter;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -39,9 +42,6 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
-
-    @BindView(R.id.tool_bar)
-    Toolbar mToolbar;
 
     @BindView(R.id.tab_category)
     TabLayout mTabLayout;
@@ -66,6 +66,13 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
             mPosition = savedInstanceState.getInt("position");
         }
         mHomePresenter = CnblogsPresenterFactory.getHomePresenter(getContext(), this);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -98,12 +105,12 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
             mAdapter.updateDataSet(data);
         }
         if (mPosition > 1 && mPosition == mViewPager.getCurrentItem()) {
-            // TODO:非首页、推荐，排序后还在当前页，需要重新刷新
+            // 非首页、推荐，排序后还在当前页，需要重新刷新
             BlogListFragment fragment = mAdapter.getFragment(mPosition);
             if (fragment != null) {
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 transaction.detach(fragment);
-                fragment.getArguments().putParcelable("category", data.get(mPosition));
+                fragment.refreshCategory(data.get(mPosition));
                 transaction.attach(fragment);
                 transaction.commit();
             }
@@ -127,8 +134,9 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     public void onLogoClick() {
         // 返回顶部
         int currentItem = mViewPager.getCurrentItem();
-        BlogListFragment fragment = (BlogListFragment) mAdapter.getItem(currentItem);
-        fragment.scrollToTop();
+        BlogListFragment fragment = mAdapter.getFragment(currentItem);
+        if (fragment != null)
+            fragment.scrollToTop();
     }
 
 
@@ -156,5 +164,17 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("position", mPosition);
+    }
+
+    @Subscribe
+    public void onTabEvent(TabEvent event) {
+        if (event.getPosition() == 0) {
+            mViewPager.post(new Runnable() {
+                @Override
+                public void run() {
+                    onLogoClick();
+                }
+            });
+        }
     }
 }

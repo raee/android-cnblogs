@@ -18,6 +18,7 @@ import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.dialog.DialogProvider;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
+import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILoginPresenter;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
@@ -60,6 +61,8 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
     private IAppDialog mErrorTipsDialog;
 
+    protected HintCardDialog mLoginContractDialog;
+
     private int mErrorTime; // 登录错误次数，达到3次以上提示用户是否跳转网页登录
 
     @Override
@@ -93,8 +96,10 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
             }
         });
 
-        mUserNameView.setText("chenrui7");
-        mPasswordView.setText("chenrui123456789");
+
+        mLoginContractDialog = new HintCardDialog(this);
+        mLoginContractDialog.setMessage(getString(R.string.login_contract_content));
+        mLoginContractDialog.setEnSureText(getString(R.string.agree));
     }
 
     private void addAccountTextListener(AccountTextWatcher watcher) {
@@ -120,12 +125,33 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
      */
     @OnClick(R.id.btn_login)
     public void onLoginClick() {
+        if (config().hasLoginGuide()) {
+            preformLogin();
+        } else {
+            mLoginContractDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    config().loginGuide();
+                    preformLogin();
+                }
+            });
+            mLoginContractDialog.show();
+        }
+    }
+
+    private void preformLogin() {
         showLoading();
         mLoginPresenter.login();
-//        mLoginPresenter.loadUserInfo();
         removeAccountTextListener(mAccountTextWatcher);
         mLoginButton.setEnabled(false);
     }
+
+    @OnClick(R.id.ll_login_contract)
+    public void onLoginContractClick() {
+        mLoginContractDialog.setOnDismissListener(null);
+        mLoginContractDialog.show();
+    }
+
 
     @Override
     public String getUserName() {

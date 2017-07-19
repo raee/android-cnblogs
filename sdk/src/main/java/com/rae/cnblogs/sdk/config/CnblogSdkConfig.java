@@ -70,28 +70,6 @@ public class CnblogSdkConfig {
         mConfig.edit().clear().apply();
     }
 
-
-    /**
-     * 获取离线配置
-     *
-     * @return
-     */
-    public OfflineConfig getOfflineConfig() {
-        String config = mConfig.getString("OfflineConfig", null);
-        return config == null ? new OfflineConfig() : mGson.fromJson(config, OfflineConfig.class);// JSON.parseObject(config, OfflineConfig.class);
-    }
-
-    /**
-     * 保存离线配置
-     *
-     * @param config
-     */
-    public void setOfflineConfig(OfflineConfig config) {
-        if (config != null) {
-            mConfig.edit().putString("OfflineConfig", mGson.toJson(config)).apply(); // JSON.toJSONString(config)
-        }
-    }
-
     /**
      * 保存用户信息
      *
@@ -113,5 +91,48 @@ public class CnblogSdkConfig {
             return null;
         }
         return mGson.fromJson(json, UserInfoBean.class);
+    }
+
+
+    /**
+     * 指引-评论缓存提示
+     */
+    public boolean hasCommentGuide() {
+        return mConfig.getBoolean("hasCommentGuide", false);
+    }
+
+    /**
+     * 指引-评论缓存提示
+     */
+    public void commentGuide() {
+        mConfig.edit().putBoolean("hasCommentGuide", true).apply();
+    }
+
+    /**
+     * 指引-点赞缓存提示
+     */
+    public boolean hasLikeGuide() {
+        return mConfig.getBoolean("hasLikeGuide", false);
+    }
+
+    /**
+     * 指引-点赞缓存提示
+     */
+    public void likeGuide() {
+        mConfig.edit().putBoolean("hasLikeGuide", true).apply();
+    }
+
+    /**
+     * 指引-登录提示
+     */
+    public boolean hasLoginGuide() {
+        return mConfig.getBoolean("hasLoginGuide", false);
+    }
+
+    /**
+     * 指引-登录提示
+     */
+    public void loginGuide() {
+        mConfig.edit().putBoolean("hasLoginGuide", true).apply();
     }
 }

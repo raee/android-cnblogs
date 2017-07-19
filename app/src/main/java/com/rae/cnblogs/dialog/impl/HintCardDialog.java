@@ -1,13 +1,12 @@
 package com.rae.cnblogs.dialog.impl;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.widget.HintCardLayout;
@@ -35,8 +33,8 @@ public class HintCardDialog extends SlideDialog {
     @BindView(R.id.tv_message)
     TextView mMessageView;
 
-    @BindView(R.id.btn_cancel)
-    ImageView mCancelView;
+//    @BindView(R.id.btn_cancel)
+//    ImageView mCancelView;
 
     @BindView(R.id.layout_hint_card)
     HintCardLayout mContentLayout;
@@ -51,6 +49,7 @@ public class HintCardDialog extends SlideDialog {
         super(context);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initDialog() {
         if (getWindow() != null) {
@@ -60,27 +59,27 @@ public class HintCardDialog extends SlideDialog {
         ButterKnife.bind(this);
         super.initDialog();
 
-        mContentLayout.setOnTouchListener(new View.OnTouchListener() {
-
-            private float mStartY;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mStartY = event.getRawY();
-                }
-                if (event.getAction() == MotionEvent.ACTION_MOVE && Math.abs(mStartY - event.getRawY()) > 80) {
-                    if (mCancelView.getVisibility() == View.VISIBLE) {
-                        RaeAnim.fadeOut(mCancelView);
-                    }
-                    mCancelView.setVisibility(View.INVISIBLE);
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
-                    mCancelView.setVisibility(View.VISIBLE);
-                }
-                return false;
-            }
-        });
+//        mContentLayout.setOnTouchListener(new View.OnTouchListener() {
+//
+//            private float mStartY;
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    mStartY = event.getRawY();
+//                }
+//                if (event.getAction() == MotionEvent.ACTION_MOVE && Math.abs(mStartY - event.getRawY()) > 80) {
+//                    if (mCancelView.getVisibility() == View.VISIBLE) {
+//                        RaeAnim.fadeOut(mCancelView);
+//                    }
+//                    mCancelView.setVisibility(View.INVISIBLE);
+//                }
+//                if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+//                    mCancelView.setVisibility(View.VISIBLE);
+//                }
+//                return false;
+//            }
+//        });
 
         mContentLayout.setOnDismissListener(new OnDismissListener() {
             @Override
@@ -105,10 +104,10 @@ public class HintCardDialog extends SlideDialog {
         window.setBackgroundDrawable(drawable);
     }
 
-    @Override
-    public void setOnCancelListener(IAppDialogClickListener listener) {
-        mCancelView.setOnClickListener(newClickListener(IAppDialog.BUTTON_NEGATIVE, listener));
-    }
+//    @Override
+//    public void setOnCancelListener(IAppDialogClickListener listener) {
+//        mCancelView.setOnClickListener(newClickListener(IAppDialog.BUTTON_NEGATIVE, listener));
+//    }
 
     @Override
     public void setOnEnSureListener(IAppDialogClickListener listener) {
@@ -140,8 +139,8 @@ public class HintCardDialog extends SlideDialog {
         mEnSureView.setVisibility(visibility);
     }
 
-    @Override
-    public void setCancelButtonVisibility(int visibility) {
-        mCancelView.setVisibility(visibility);
-    }
+//    @Override
+//    public void setCancelButtonVisibility(int visibility) {
+//        mCancelView.setVisibility(visibility);
+//    }
 }

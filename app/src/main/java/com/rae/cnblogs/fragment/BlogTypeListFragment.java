@@ -20,10 +20,11 @@ public class BlogTypeListFragment extends BlogListFragment {
     @BindView(R.id.tv_title)
     TextView mTitleView;
 
-    public static BlogTypeListFragment newInstance(CategoryBean category, BlogType type) {
+    public static BlogTypeListFragment newInstance(int position, CategoryBean category, BlogType type) {
         Bundle args = new Bundle();
         args.putParcelable("category", category);
         args.putString("type", type.getTypeName());
+        args.putInt("position", position);
         BlogTypeListFragment fragment = new BlogTypeListFragment();
         fragment.setArguments(args);
         return fragment;

@@ -1,5 +1,6 @@
 package com.rae.cnblogs.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeAnim;
+import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.sdk.AppGson;
@@ -128,6 +130,19 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 //        mLikeView.dismiss();
         mLikeView.setSelected(!isCancel);
         RaeAnim.scaleIn(mLikeView);
+
+
+        if (!config().hasLikeGuide()) {
+            HintCardDialog dialog = new HintCardDialog(getContext());
+            dialog.setMessage(getString(R.string.dialog_tips_post_like));
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    config().likeGuide();
+                }
+            });
+            dialog.show();
+        }
     }
 
     @Override

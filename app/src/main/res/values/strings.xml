@@ -17,7 +17,7 @@
     <string name="tips_loading">正在加载...</string>
     <string name="copy_link_success">复制链接成功!</string>
     <string name="open_browser">浏览器打开</string>
-    <string name="copyright">Copyright © 2004-2016 Cnblogs.com All Rights Reserved</string>
+    <string name="copyright">Copyright © 2004-2017 Cnblogs.com All Rights Reserved</string>
     <string name="loading">正在加载...</string>
     <string name="signing">正在登录...</string>
     <string name="loading_user_info">正在获取用户信息...</string>
@@ -30,7 +30,8 @@
     <string name="no_more_tips">全部加载完毕</string>
     <string name="register">注册</string>
     <string name="login_tips">登录即表示同意</string>
-    <string name="login_contract">博客园APP的隐私条款</string>
+    <string name="login_contract">博客园APP隐私协议</string>
+    <string name="login_contract_content">博客园APP已经开源，我们不会收集您的帐号信息，请放心登录。\n\nAPP基于官方网站的Cookie登录状态保持，开源项目地址请到我的页面->开源项目\n\n您在登录过程如有任何问题请联系博客园官方团队\n或者您在使用过程有任何问题可以直接联系作者raedev@qq.com</string>
     <string name="login_user_name_hint">用户名</string>
     <string name="login_password_hint">密码</string>
     <string name="login">登录</string>
@@ -61,9 +62,15 @@
     <string name="please_login">请登录</string>
     <string name="issue">问题反馈</string>
     <string name="github_issue_url">http://www.raeblog.com/cnblogs/issues</string>
+    <string name="github_url">https://github.com/raee/android-cnblogs</string>
     <string name="delete">删除</string>
     <string name="deleting">正在删除..</string>
     <string name="edit">编辑</string>
     <string name="finish">完成</string>
     <string name="title_category">分类</string>
+    <string name="i_get_it">我知道了</string>
+    <string name="dialog_tips_post_comment">您伟大的讲话发表成功\n由于博客园缓存更新较慢\n请稍候再到评论区查看您已经发布的评论。</string>
+    <string name="dialog_tips_post_like">点赞是一种态度\n由于博客园缓存点赞数量可能更新较慢</string>
+    <string name="github">开源项目</string>
+    <string name="agree">我同意</string>
 </resources>

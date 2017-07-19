@@ -48,12 +48,24 @@
                     android:layout_height="wrap_content"
                     android:text="@string/please_login"
                     android:textColor="@color/ph1"
+                    android:textSize="18sp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/tv_no_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/please_login"
+                    android:textColor="@color/ph1"
                     android:textSize="18sp"/>
 
                 <LinearLayout
+                    android:id="@+id/ll_follow_fans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp">
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/layout_account_follow"
@@ -108,6 +120,7 @@
 
 
                     </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -144,6 +157,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/issue"
+                android:textSize="@dimen/h2"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_github"
+            style="@style/ItemStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/ItemTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/github"
                 android:textSize="@dimen/h2"/>
 
         </LinearLayout>

@@ -47,6 +47,12 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.tv_fans_count)
     TextView mFansCountView;
 
+    @BindView(R.id.tv_no_login)
+    View mNoLoginTextView;
+
+    @BindView(R.id.ll_follow_fans)
+    View mFansAndFollowLayout;
+
     @BindView(R.id.btn_logout)
     Button mLogoutButton;
 
@@ -85,13 +91,18 @@ public class MineFragment extends BaseFragment {
     private void loadUserInfo() {
         if (isNotLogin()) {
             mAvatarView.setImageResource(R.drawable.ic_default_user_avatar);
-            mDisplayNameView.setText(R.string.please_login);
+            mDisplayNameView.setVisibility(View.GONE);
+            mNoLoginTextView.setVisibility(View.VISIBLE);
+            mFansAndFollowLayout.setVisibility(View.GONE);
             mFansCountView.setText("0");
             mFollowCountView.setText("0");
             mLogoutButton.setVisibility(View.GONE);
             return;
         }
 
+        mDisplayNameView.setVisibility(View.VISIBLE);
+        mNoLoginTextView.setVisibility(View.GONE);
+        mFansAndFollowLayout.setVisibility(View.VISIBLE);
         // 打印 登录信息
 
         Log.i("rae", "登录信息：" + android.webkit.CookieManager.getInstance().getCookie("www.cnblogs.com"));
@@ -169,7 +180,7 @@ public class MineFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.img_blog_avatar, R.id.tv_mine_name})
+    @OnClick({R.id.img_blog_avatar, R.id.tv_mine_name, R.id.tv_no_login})
     public void onLoginClick() {
         // 没有登录跳登录
         if (isNotLogin()) {
@@ -186,10 +197,10 @@ public class MineFragment extends BaseFragment {
     @OnClick(R.id.ll_favorites)
     public void onFavoritesClick() {
         // 没有登录跳登录
-//        if (isNotLogin()) {
-//            AppRoute.jumpToLogin(getActivity());
-//            return;
-//        }
+        if (isNotLogin()) {
+            AppRoute.jumpToLogin(getActivity());
+            return;
+        }
         AppRoute.jumpToFavorites(this.getContext());
     }
 
@@ -199,6 +210,14 @@ public class MineFragment extends BaseFragment {
     @OnClick(R.id.ll_issue)
     public void onIssueClick() {
         AppRoute.jumpToWeb(this.getContext(), getString(R.string.github_issue_url));
+    }
+
+    /**
+     * 开源项目
+     */
+    @OnClick(R.id.ll_github)
+    public void onOpenSourceClick() {
+        AppRoute.jumpToWeb(this.getContext(), getString(R.string.github_url));
     }
 
     @OnClick(R.id.btn_logout)

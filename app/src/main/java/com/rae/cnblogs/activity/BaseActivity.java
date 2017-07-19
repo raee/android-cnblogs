@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
+import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
 import com.rae.swift.Rx;
 import com.umeng.analytics.MobclickAgent;
 
@@ -159,4 +160,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return 1;
     }
+
+    protected CnblogSdkConfig config() {
+        return CnblogSdkConfig.getsInstance(getContext().getApplicationContext());
+    }
+
 }

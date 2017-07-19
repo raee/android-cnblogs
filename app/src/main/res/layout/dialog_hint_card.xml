@@ -24,9 +24,10 @@
             <ImageView
                 android:id="@+id/img_dialog_hint"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@drawable/hint_card_1"/>
+                android:src="@drawable/ic_default_placeholder"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tv_title"
@@ -50,29 +51,32 @@
                 android:layout_marginRight="12dp"
                 android:gravity="center"
                 android:lineSpacingMultiplier="1.3"
-                android:text=""
-                android:textColor="@color/ph3"
+                android:text="@string/app_name"
+                android:textColor="@color/ph2"
                 android:textSize="@dimen/h2"/>
 
-            <TextView
+            <Button
                 android:id="@+id/btn_ensure"
+                style="?attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginBottom="@dimen/default_margin"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
+                android:background="@drawable/bg_btn_default"
                 android:gravity="center"
-                android:text=""
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/h1"/>
+                android:text="@string/i_get_it"
+                android:textColor="@color/ph1"
+                android:textSize="@dimen/h2"/>
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/hint_card_close"/>
+        <!--    <ImageView
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/hint_card_close"
+                android:visibility="gone"/>-->
     </RelativeLayout>
 </com.rae.cnblogs.widget.HintCardLayout>
