@@ -41,9 +41,14 @@ public class BlogCommentParser implements IJsonParser<List<BlogCommentBean>> {
 
         // 解析XML
         Document document = Jsoup.parse(html);
-
-        Elements feeds = document.select(".feedbackItem");
         List<BlogCommentBean> result = new ArrayList<>();
+
+        Elements posts = document.select(".post");
+        Elements feeds = document.select(".feedbackItem");
+        if (feeds.size() <= 0 && posts.size() > 0) {
+            feeds = posts;
+        }
+
         for (Element feed : feeds) {
             String id = ApiUtils.getNumber(feed.select(".layer").attr("href"));
             String authorName = feed.select("#a_comment_author_" + id).text();

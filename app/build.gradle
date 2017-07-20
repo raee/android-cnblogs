@@ -1,20 +1,31 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
+// 加载配置文件
+Properties properties = new Properties()
+InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+properties.load(inputStream)
+
+def signKeyStorePassword = properties.getProperty("keystore.keyPassword")
+def signStorePassword = properties.getProperty("keystore.storePassword")
+def signStoreFile = properties.getProperty("keystore.file")
+def umengAppKey = properties.getProperty("umengAppKey")
+
+
 android {
     compileSdkVersion 24
     buildToolsVersion '26.0.0'
 
-    dexOptions{
+    dexOptions {
         javaMaxHeapSize '2g'
     }
 
     signingConfigs {
         release {
             keyAlias 'com.rae.cnblogs'
-            keyPassword 'lovecr1992721'
-            storeFile file('rae.keystore')
-            storePassword 'lovecr1992721'
+            storeFile file(signStoreFile)
+            keyPassword signKeyStorePassword
+            storePassword signStorePassword
         }
     }
 
@@ -23,11 +34,11 @@ android {
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
-                UMENG_APPKEY : '583d96522ae85b6d310011fb',
+                UMENG_APPKEY : umengAppKey,
                 UMENG_CHANNEL: 'DEV'
         ]
     }
@@ -38,7 +49,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            applicationIdSuffix '.debug'
+//            applicationIdSuffix '.debug'
             minifyEnabled false
             debuggable true
             signingConfig signingConfigs.release

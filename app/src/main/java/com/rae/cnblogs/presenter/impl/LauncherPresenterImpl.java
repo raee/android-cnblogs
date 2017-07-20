@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.CountDownTimer;
 
 import com.rae.cnblogs.AppMobclickAgent;
-import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.ILauncherPresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.api.IRaeServerApi;
@@ -43,7 +42,10 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
 
     @Override
     public void advertClick() {
+        if (mAdvertBean == null) return;
+
         mCountDownTimer.cancel();
+
 
         // 统计
         AppMobclickAgent.onLaunchAdClickEvent(mContext, mAdvertBean.getAd_id(), mAdvertBean.getAd_name());

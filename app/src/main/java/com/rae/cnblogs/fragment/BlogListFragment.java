@@ -86,6 +86,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @Override
     protected void onLoadData() {
         mRecyclerView.setAdapter(mItemAdapter);
+        mRecyclerView.setLoadingMoreEnabled(false);
         mAppLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -97,7 +98,6 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
                 return mRecyclerView.isOnTop();
             }
         });
-        mRecyclerView.setLoadingMoreEnabled(true);
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -120,6 +120,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @Override
     public void onLoadBlogList(int page, List<BlogBean> data) {
         mRecyclerView.setNoMore(false);
+        mRecyclerView.setLoadingMoreEnabled(true);
         if (page <= 1)
             mAppLayout.refreshComplete();
         else

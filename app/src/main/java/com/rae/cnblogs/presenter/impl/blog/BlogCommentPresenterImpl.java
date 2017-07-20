@@ -1,10 +1,7 @@
 package com.rae.cnblogs.presenter.impl.blog;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 
-import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.IBlogCommentPresenter;
 import com.rae.cnblogs.presenter.impl.BasePresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
@@ -30,27 +27,6 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
     private IBlogApi mBlogApi;
     protected int mPage = 1;
     private final List<BlogCommentBean> mCommentList = new ArrayList<>();
-    private final Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            mPage++;
-            return false;
-        }
-    });
-
-//    private final ApiUiListener<Void> mCommentListener = new ApiUiListener<Void>() {
-//        @Override
-//        public void onApiFailed(ApiException ex, String msg) {
-//            mView.onPostCommentFailed(msg);
-//        }
-//
-//        @Override
-//        public void onApiSuccess(Void data) {
-//            mView.onPostCommentSuccess();
-//        }
-//    };
-
-//    protected final BlogCommentListener mDelCommentListener = new BlogCommentListener();
 
     public BlogCommentPresenterImpl(Context context, IBlogCommentView view) {
         super(context, view);
@@ -124,7 +100,11 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
         createObservable(mBlogApi.getBlogComments(page, blog.getBlogId(), blog.getBlogApp())).subscribe(new ApiDefaultObserver<List<BlogCommentBean>>() {
             @Override
             protected void onError(String message) {
-                mView.onLoadCommentEmpty();
+                if (mPage <= 1) {
+                    mView.onLoadCommentEmpty();
+                } else {
+                    mView.onLoadMoreCommentEmpty();
+                }
                 mPage--;
             }
 
@@ -154,11 +134,6 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
         }
 
         mView.onLoadCommentSuccess(mCommentList);
-
-        // 由于第一次会加载缓存，所以要等待一段时间才处理
-        if (mPage <= 1) {
-            mHandler.removeMessages(0);
-            mHandler.sendEmptyMessageDelayed(0, 1500);
-        }
+        mPage++;
     }
 }

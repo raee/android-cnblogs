@@ -124,6 +124,7 @@
                     android:background="@drawable/ic_comment_toolbar"
                     android:textColor="@color/badge_color"
                     android:textSize="9sp"
+                    android:gravity="center"
                     android:textStyle="bold"
                     android:visibility="visible"/>
 
@@ -131,7 +132,9 @@
 
 
             <RelativeLayout
+                android:id="@+id/ll_like"
                 android:layout_width="0dp"
+                android:gravity="center"
                 android:layout_height="32dp"
                 android:layout_weight="1">
 
@@ -160,6 +163,7 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_content_bookmarks"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
                 android:layout_weight="1"

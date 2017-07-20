@@ -97,8 +97,8 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         mLikeView = (TextView) getActivity().findViewById(R.id.tv_like_badge);
         mBookmarksView = (ImageLoadingView) getActivity().findViewById(R.id.img_content_bookmarks);
         mLikeAnimView = (ImageLoadingView) getActivity().findViewById(R.id.img_content_like);
-        mLikeView.setOnClickListener(this);
-        mBookmarksView.setOnClickListener(this);
+        getActivity().findViewById(R.id.ll_like).setOnClickListener(this); // 点赞布局
+        getActivity().findViewById(R.id.ll_content_bookmarks).setOnClickListener(this); // 收藏布局
         mContentPresenter.loadContent();
     }
 
@@ -180,8 +180,10 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     public void onNeedLogin() {
         mLikeView.setEnabled(true);
         mBookmarksView.setEnabled(true);
-//        mLikeView.dismiss();
         mBookmarksView.stop();
+        mLikeAnimView.stop();
+        mLikeAnimView.setVisibility(View.GONE);
+        mLikeView.setVisibility(View.VISIBLE);
         AppRoute.jumpToLogin(getContext());
     }
 
@@ -214,19 +216,17 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_like_badge:  // 点赞
-                v.setEnabled(false);
-
+            case R.id.ll_like:  // 点赞
+                mLikeView.setEnabled(false);
                 mLikeView.setVisibility(View.GONE);
                 mLikeAnimView.setVisibility(View.VISIBLE);
                 mLikeAnimView.loading();
-
                 mContentPresenter.doLike(v.isSelected());
                 break;
 
-            case R.id.img_content_bookmarks:  // 收藏
-                v.setEnabled(false);
-                ((ImageLoadingView) v).loading();
+            case R.id.ll_content_bookmarks:  // 收藏
+                mBookmarksView.setEnabled(false);
+                mBookmarksView.loading();
                 mContentPresenter.doBookmarks(v.isSelected());
                 break;
         }

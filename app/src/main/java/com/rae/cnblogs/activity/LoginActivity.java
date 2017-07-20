@@ -1,5 +1,6 @@
 package com.rae.cnblogs.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -128,6 +130,10 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
         if (config().hasLoginGuide()) {
             preformLogin();
         } else {
+            // 先弹键盘下去
+            InputMethodManager service = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            service.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
+
             mLoginContractDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {

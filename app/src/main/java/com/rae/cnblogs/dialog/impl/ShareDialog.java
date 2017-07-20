@@ -93,7 +93,7 @@ public class ShareDialog extends SlideDialog {
     public void setShareWeb(@NonNull String url, @NonNull String title, @Nullable String desc, String thumb) {
         UMWeb web = new UMWeb(url);
         web.setTitle(title);
-        if (TextUtils.isEmpty(desc)) {
+        if (!TextUtils.isEmpty(desc)) {
             web.setDescription(desc);
         }
         if (!TextUtils.isEmpty(thumb)) {
