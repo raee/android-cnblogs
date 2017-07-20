@@ -6,7 +6,6 @@ import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -38,9 +37,8 @@ public class KBListParser implements IHtmlParser<List<BlogBean>> {
     }
 
     @Override
-    public List<BlogBean> parse(String html) {
+    public List<BlogBean> parse(Document document, String html) {
         // 解析HTML
-        Document document = Jsoup.parse(html);
         List<BlogBean> result = new ArrayList<>();
         Elements elements = document.select(".kb_item");
         for (Element element : elements) {

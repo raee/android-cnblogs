@@ -13,7 +13,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class BlogContentParser implements IHtmlParser<String> {
 
     @Override
-    public String parse(String html) {
+    public String parse(org.jsoup.nodes.Document document, String html) {
         // 解析XML
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(html.getBytes("UTF-8"));

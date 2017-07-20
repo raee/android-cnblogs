@@ -113,7 +113,7 @@
             <RelativeLayout
                 android:id="@+id/layout_content_comment"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="32dp"
                 android:layout_weight="1"
                 android:gravity="center">
 
@@ -122,7 +122,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_comment_toolbar"
-                    android:gravity="center"
                     android:textColor="@color/badge_color"
                     android:textSize="9sp"
                     android:textStyle="bold"
@@ -133,7 +132,7 @@
 
             <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="32dp"
                 android:layout_weight="1">
 
                 <TextView
@@ -148,30 +147,33 @@
                     android:textStyle="bold"
                     android:visibility="visible"/>
 
-                <!--     <com.rae.cnblogs.widget.ImageLoadingView
-                         android:id="@+id/img_content_like"
-                         android:layout_width="match_parent"
-                         android:layout_height="match_parent"
-                         android:scaleType="center"
-                         android:src="@drawable/ic_like_content"
-                         android:visibility="gone"/>
- -->
+                <com.rae.cnblogs.widget.ImageLoadingView
+                    android:id="@+id/img_content_like"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_like_content_selected"
+                    android:visibility="gone"/>
 
             </RelativeLayout>
 
-            <RelativeLayout
+
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_weight="1"
                 android:gravity="center">
 
                 <com.rae.cnblogs.widget.ImageLoadingView
                     android:id="@+id/img_content_bookmarks"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:scaleType="center"
                     android:src="@drawable/ic_favorite"/>
-            </RelativeLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

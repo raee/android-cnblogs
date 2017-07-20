@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -33,8 +34,8 @@ public class HintCardDialog extends SlideDialog {
     @BindView(R.id.tv_message)
     TextView mMessageView;
 
-//    @BindView(R.id.btn_cancel)
-//    ImageView mCancelView;
+    @BindView(R.id.btn_cancel)
+    ImageView mCancelView;
 
     @BindView(R.id.layout_hint_card)
     HintCardLayout mContentLayout;
@@ -137,6 +138,10 @@ public class HintCardDialog extends SlideDialog {
     @Override
     public void setEnsureButtonVisibility(int visibility) {
         mEnSureView.setVisibility(visibility);
+    }
+
+    public void showCloseButton() {
+        mCancelView.setVisibility(View.VISIBLE);
     }
 
 //    @Override

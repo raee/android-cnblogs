@@ -2,7 +2,7 @@ package com.rae.cnblogs.sdk.parser;
 
 import android.text.Html;
 
-import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 /**
@@ -12,8 +12,8 @@ import org.jsoup.select.Elements;
 public class NewsContentParser implements IHtmlParser<String> {
 
     @Override
-    public String parse(String html) {
-        Elements elements = Jsoup.parse(html).select("Content");
+    public String parse(Document document, String html) {
+        Elements elements = document.select("Content");
         String text = Html.fromHtml(elements.html()).toString().replace("src=\"//", "src=\"http://");
         return text;
     }

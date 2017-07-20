@@ -6,6 +6,7 @@ import com.rae.cnblogs.sdk.JsonParser;
 import com.rae.cnblogs.sdk.Parser;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
+import com.rae.cnblogs.sdk.parser.LoginParser;
 import com.rae.cnblogs.sdk.parser.SimpleUserInfoParser;
 import com.rae.cnblogs.sdk.parser.UserInfoParser;
 
@@ -34,6 +35,7 @@ public interface IUserApi {
             JsonBody.XHR,
             "Cookie:AspxAutoDetectCookieSupport=1"
     })
+    @Parser(LoginParser.class)
     Observable<Empty> login(@Field("input1") String userName, @Field("input2") String password);
 
 

@@ -3,7 +3,6 @@ package com.rae.cnblogs.sdk.parser;
 import com.rae.cnblogs.sdk.bean.UserFeedBean;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -20,8 +19,7 @@ import java.util.regex.Pattern;
 public class UserTimelineParser implements IHtmlParser<List<UserFeedBean>> {
 
     @Override
-    public List<UserFeedBean> parse(String html) {
-        Document document = Jsoup.parse(html);
+    public List<UserFeedBean> parse(Document document, String html) {
         List<UserFeedBean> result = new ArrayList<>();
         Elements elements = document.select(".feed_item");
         for (Element element : elements) {

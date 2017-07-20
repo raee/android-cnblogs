@@ -44,7 +44,7 @@ public class RequestInterceptor implements Interceptor {
         Request.Builder newBuilder = request.newBuilder();
         String cookie = CookieManager.getInstance().getCookie("http://www.cnblogs.com");
         if (!TextUtils.isEmpty(cookie)) {
-            newBuilder.header("Cookie", cookie);
+            newBuilder.addHeader("Cookie", cookie);
         }
         if ("post".equalsIgnoreCase(request.method())) {
             // 将URL的参数转换到body里面去

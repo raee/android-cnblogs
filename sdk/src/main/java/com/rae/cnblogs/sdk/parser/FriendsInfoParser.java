@@ -2,7 +2,6 @@ package com.rae.cnblogs.sdk.parser;
 
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 /**
@@ -12,8 +11,7 @@ import org.jsoup.nodes.Document;
 public class FriendsInfoParser extends AbsUserInfoParser<FriendsInfoBean> {
 
     @Override
-    public FriendsInfoBean parse(String html) {
-        Document document = Jsoup.parse(html);
+    public FriendsInfoBean parse(Document document, String html) {
         FriendsInfoBean result = new FriendsInfoBean();
         onParseUserInfo(result, document);
         result.setFollows(document.select("#following_count").text());

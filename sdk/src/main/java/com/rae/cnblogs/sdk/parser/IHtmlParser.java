@@ -1,5 +1,7 @@
 package com.rae.cnblogs.sdk.parser;
 
+import org.jsoup.nodes.Document;
+
 import java.io.IOException;
 
 /**
@@ -7,5 +9,5 @@ import java.io.IOException;
  * Created by ChenRui on 2017/5/22 0022 0:07.
  */
 public interface IHtmlParser<T> {
-    T parse(String html) throws IOException;
+    T parse(Document document, String html) throws IOException;
 }

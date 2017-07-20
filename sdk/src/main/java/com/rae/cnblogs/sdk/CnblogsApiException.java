@@ -8,8 +8,20 @@ import java.io.IOException;
  */
 public class CnblogsApiException extends IOException {
 
+    private int code;
+
     public CnblogsApiException() {
     }
+
+    public int getCode() {
+        return code;
+    }
+
+    public CnblogsApiException(int code, String message) {
+        super(message);
+        this.code = code;
+    }
+
 
     public CnblogsApiException(String message) {
         super(message);

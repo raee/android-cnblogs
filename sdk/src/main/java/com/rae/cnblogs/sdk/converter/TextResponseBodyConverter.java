@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
+import com.rae.cnblogs.sdk.ApiErrorCode;
 import com.rae.cnblogs.sdk.CnblogsApiException;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.JsonParser;
@@ -15,6 +16,7 @@ import com.rae.cnblogs.sdk.parser.IJsonParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -91,12 +93,17 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
             return (T) Empty.value();
         }
 
+        Document document = Jsoup.parse(text);
+
+        if (document.title().contains("用户登录")) {
+            throw new CnblogsApiException(ApiErrorCode.LOGIN_EXPIRED, "登录失效，请重新登录");
+        }
 
         if (mHtmlParser == null) {
             throw new IOException("HTML 解析器为空！");
         }
 
-        return mHtmlParser.parse(text);
+        return mHtmlParser.parse(document, text);
     }
 
     /**
@@ -121,7 +128,7 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
         }
 
         if (text.contains("用户登录")) {
-            throw new IOException("用户尚未登录");
+            throw new CnblogsApiException(ApiErrorCode.LOGIN_EXPIRED, "登录失效，请重新登录");
         }
 
         try {

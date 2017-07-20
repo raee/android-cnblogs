@@ -177,14 +177,24 @@
         </LinearLayout>
 
 
-        <Button
-            android:id="@+id/btn_logout"
+        <LinearLayout
+            android:id="@+id/ll_logout"
+            style="@style/ItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:background="@android:color/transparent"
-            android:text="@string/logout"
-            android:textColor="@color/ph1"
-            android:textSize="@dimen/h2"/>
+            android:padding="2dp">
+
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="start|center_vertical"
+                android:text="@string/logout"
+                android:textColor="@color/ph1"
+                android:textSize="@dimen/h2"/>
+        </LinearLayout>
+
+
     </LinearLayout>
 </ScrollView>

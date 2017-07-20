@@ -6,7 +6,6 @@ import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -21,8 +20,7 @@ import java.util.List;
 public class FriendsBlogListParser extends BlogListParser {
 
     @Override
-    public List<BlogBean> parse(String html) {
-        Document document = Jsoup.parse(html);
+    public List<BlogBean> parse(Document document, String html) {
 
         // 解析HTML
         List<BlogBean> result = new ArrayList<>();

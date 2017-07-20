@@ -77,8 +77,14 @@ public class EditCommentDialog extends SlideDialog {
         mReferenceView.setChecked(true);
         if (comment != null) {
             mReferenceView.setText("引用@" + comment.getAuthorName() + "的评论");
-            mBodyView.setHint("回复：“" + TextUtils.substring(comment.getBody(), 0, 100) + "”");
+            mBodyView.setHint("回复：“" + subString(comment.getBody()) + "”");
         }
+    }
+
+    private String subString(String text) {
+        if (TextUtils.isEmpty(text)) return text;
+        if (text.length() < 20) return text;
+        return text.substring(0, 20) + "...";
     }
 
     @Override

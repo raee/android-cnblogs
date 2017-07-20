@@ -41,6 +41,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
     private TextView mLikeView;
     private ImageLoadingView mBookmarksView;
+    private ImageLoadingView mLikeAnimView; // 点赞做动画的视图
     private BlogType mBlogType;
 
     public static BlogContentFragment newInstance(BlogBean blog, BlogType type) {
@@ -95,6 +96,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         if (mBlog == null) return;
         mLikeView = (TextView) getActivity().findViewById(R.id.tv_like_badge);
         mBookmarksView = (ImageLoadingView) getActivity().findViewById(R.id.img_content_bookmarks);
+        mLikeAnimView = (ImageLoadingView) getActivity().findViewById(R.id.img_content_like);
         mLikeView.setOnClickListener(this);
         mBookmarksView.setOnClickListener(this);
         mContentPresenter.loadContent();
@@ -119,7 +121,10 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onLikeError(boolean isCancel, String msg) {
         mLikeView.setEnabled(true);
-//        mLikeView.dismiss();
+        mLikeAnimView.stop();
+        mLikeView.setVisibility(View.VISIBLE);
+        mLikeAnimView.setVisibility(View.GONE);
+
         RaeAnim.scaleIn(mLikeView);
         AppUI.toastInCenter(getContext(), msg);
     }
@@ -127,9 +132,19 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onLikeSuccess(boolean isCancel) {
         mLikeView.setEnabled(true);
-//        mLikeView.dismiss();
         mLikeView.setSelected(!isCancel);
-        RaeAnim.scaleIn(mLikeView);
+        if (mLikeView.isSelected()) {
+            mLikeAnimView.anim(new Runnable() {
+                @Override
+                public void run() {
+                    mLikeAnimView.setVisibility(View.GONE);
+                    mLikeView.setVisibility(View.VISIBLE);
+                }
+            });
+        } else {
+            mLikeView.setVisibility(View.VISIBLE);
+            mLikeAnimView.setVisibility(View.GONE);
+        }
 
 
         if (!config().hasLikeGuide()) {
@@ -148,7 +163,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onBookmarksError(boolean isCancel, String msg) {
         mBookmarksView.setEnabled(true);
-        mBookmarksView.dismiss();
+        mBookmarksView.stop();
         RaeAnim.scaleIn(mBookmarksView);
         AppUI.toastInCenter(getContext(), msg);
     }
@@ -156,9 +171,9 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onBookmarksSuccess(boolean isCancel) {
         mBookmarksView.setEnabled(true);
-        mBookmarksView.dismiss();
-        RaeAnim.scaleIn(mBookmarksView);
         mBookmarksView.setSelected(!isCancel);
+        mBookmarksView.anim();
+//        RaeAnim.scaleIn(mBookmarksView);
     }
 
     @Override
@@ -166,7 +181,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         mLikeView.setEnabled(true);
         mBookmarksView.setEnabled(true);
 //        mLikeView.dismiss();
-        mBookmarksView.dismiss();
+        mBookmarksView.stop();
         AppRoute.jumpToLogin(getContext());
     }
 
@@ -201,7 +216,11 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         switch (v.getId()) {
             case R.id.tv_like_badge:  // 点赞
                 v.setEnabled(false);
-//                ((ImageLoadingView) v).loading();
+
+                mLikeView.setVisibility(View.GONE);
+                mLikeAnimView.setVisibility(View.VISIBLE);
+                mLikeAnimView.loading();
+
                 mContentPresenter.doLike(v.isSelected());
                 break;
 

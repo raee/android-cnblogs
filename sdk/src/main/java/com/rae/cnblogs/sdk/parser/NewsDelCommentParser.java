@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import com.rae.cnblogs.sdk.Empty;
 
+import org.jsoup.nodes.Document;
+
 import java.io.IOException;
 
 /**
@@ -13,7 +15,7 @@ import java.io.IOException;
 public class NewsDelCommentParser implements IHtmlParser<Empty> {
 
     @Override
-    public Empty parse(String json) throws IOException {
+    public Empty parse(Document document, String json) throws IOException {
         if (!TextUtils.isEmpty(json) && json.startsWith("0")) {
             return null;
         }

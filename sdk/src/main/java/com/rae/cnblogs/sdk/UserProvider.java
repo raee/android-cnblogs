@@ -3,10 +3,13 @@ package com.rae.cnblogs.sdk;
 import android.content.Context;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
 import com.rae.swift.session.SessionManager;
+
+import java.net.CookieHandler;
 
 import io.reactivex.annotations.Nullable;
 
@@ -20,6 +23,7 @@ import io.reactivex.annotations.Nullable;
 public final class UserProvider {
 
     private static UserProvider sUserProvider;
+    private final Context mContext;
     private UserInfoBean mUserInfo;
     private CnblogSdkConfig mConfig;
 
@@ -37,6 +41,7 @@ public final class UserProvider {
     }
 
     public UserProvider(Context context) {
+        mContext = context;
         mConfig = CnblogSdkConfig.getsInstance(context);
     }
 
@@ -85,28 +90,18 @@ public final class UserProvider {
         SessionManager.getDefault().clear(); // 清除用户信息
 
         // 移除所有的cookie
-        CookieManager.getInstance().removeAllCookie();
+        CookieSyncManager.createInstance(mContext);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
+        CookieSyncManager.getInstance().sync();
+
+        CookieHandler cookieHandler = java.net.CookieManager.getDefault();
+        if (cookieHandler instanceof java.net.CookieManager) {
+            ((java.net.CookieManager) cookieHandler).getCookieStore().removeAll();
+        }
 
         // 清除保存的登录信息
         mConfig.clearUserInfo();
 
-    }
-
-    // TODO:调试登录
-    public void debugLogin() {
-        UserInfoBean userInfo = new UserInfoBean();
-        userInfo.setAvatar("http://pic.cnblogs.com/avatar/446312/20170124105915.png");
-        userInfo.setBlogApp("chenrui7");
-        userInfo.setDisplayName("RAE");
-        userInfo.setUserId("fdeed5f3-11fb-e111-aa3f-842b2b196315");
-        String url = "www.cnblogs.com";
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.removeAllCookie();
-        cookieManager.setCookie(url, ".CNBlogsCookie=C306D7D18BD1D816E4B20C87DD46D505A31D4B6783A89222D18774BDDCD934BEBE2994CAC5C3DB9BE9CB12B654CD9598417DAF4D5A7512425762DE872974EE0A80916EDAD8D45C7D9C44E2834773DBC87700B8A2; domain=.cnblogs.com; path=/; HttpOnly");
-        cookieManager.setCookie(url, ".Cnblogs.AspNetCore.Cookies=CfDJ8PhlBN8IFxtHhqIV3s0LCDkQKg5ot40UkHy5gGP_E6YuYQit2qSrbqu2_cNJqMFW2F2XbFgCUxnHBGKE_mpb-YZYETu5VFEU0CaBIzqrgmzgC_o9bvgtInaBXnsMTY-wkmQqW1Jp9pazhzDlsFXmYgPwDIueh8aiEkWbTFiK2DX9tHUdmfW89aezOAL6bSpE7DEfxb09zspl6xEYhlDZBiuVqu1pwj8nwg1JyxNLXBEeF2BVtbRjYDQfWviZfSWME6gUSw39OwULDJVLxSAHgTQDXJa6_qUlA9CNeOp4vAD3; domain=.cnblogs.com; path=/; HttpOnly");
-        cookieManager.setCookie(url, "_ga=GA1.2.1156272232.1485224862; domain=.cnblogs.com; path=/; HttpOnly");
-        cookieManager.setCookie(url, "_gid=GA1.2.1870524709.1500184527; domain=.cnblogs.com; path=/; HttpOnly");
-        cookieManager.flush();
-        UserProvider.getInstance().setLoginUserInfo(userInfo);
     }
 }

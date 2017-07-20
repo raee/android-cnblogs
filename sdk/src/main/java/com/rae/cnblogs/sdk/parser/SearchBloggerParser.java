@@ -3,7 +3,7 @@ package com.rae.cnblogs.sdk.parser;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
-import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -18,9 +18,9 @@ import java.util.List;
 public class SearchBloggerParser implements IHtmlParser<List<UserInfoBean>> {
 
     @Override
-    public List<UserInfoBean> parse(String html) throws IOException {
+    public List<UserInfoBean> parse(Document document, String html) throws IOException {
         List<UserInfoBean> result = new ArrayList<>();
-        Elements elements = Jsoup.parse(html).select("entry");
+        Elements elements = document.select("entry");
         for (Element element : elements) {
             UserInfoBean m = new UserInfoBean();
             m.setBlogApp(element.select("blogapp").text());

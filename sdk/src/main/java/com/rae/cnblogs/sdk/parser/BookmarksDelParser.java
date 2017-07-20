@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.rae.cnblogs.sdk.CnblogsApiException;
 import com.rae.cnblogs.sdk.Empty;
 
+import org.jsoup.nodes.Document;
+
 import java.io.IOException;
 
 /**
@@ -14,7 +16,7 @@ import java.io.IOException;
 public class BookmarksDelParser implements IHtmlParser<Empty> {
 
     @Override
-    public Empty parse(String html) throws IOException {
+    public Empty parse(Document document, String html) throws IOException {
         if (TextUtils.equals(html, "1")) {
             // 成功
             return Empty.value();

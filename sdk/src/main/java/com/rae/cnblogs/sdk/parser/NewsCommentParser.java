@@ -3,7 +3,6 @@ package com.rae.cnblogs.sdk.parser;
 import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -18,10 +17,9 @@ import java.util.List;
 public class NewsCommentParser implements IHtmlParser<List<BlogCommentBean>> {
 
     @Override
-    public List<BlogCommentBean> parse(String json) {
+    public List<BlogCommentBean> parse(Document document, String json) {
         // 解析HTML
         List<BlogCommentBean> result = new ArrayList<>();
-        Document document = Jsoup.parse(json);
         Elements elements = document.select(".user_comment");
         for (Element element : elements) {
             BlogCommentBean m = new BlogCommentBean();

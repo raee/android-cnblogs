@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 /**
@@ -15,8 +14,7 @@ import org.jsoup.nodes.Document;
 public class UserInfoParser extends AbsUserInfoParser<UserInfoBean> {
 
     @Override
-    public UserInfoBean parse(String html) {
-        Document document = Jsoup.parse(html);
+    public UserInfoBean parse(Document document, String html) {
         UserInfoBean result = new UserInfoBean();
         onParseUserInfo(result, document);
         if (TextUtils.isEmpty(result.getBlogApp())) {

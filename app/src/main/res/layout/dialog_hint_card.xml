@@ -71,12 +71,12 @@
 
         </LinearLayout>
 
-        <!--    <ImageView
-                android:id="@+id/btn_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/hint_card_close"
-                android:visibility="gone"/>-->
+        <ImageView
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/hint_card_close"
+            android:visibility="gone"/>
     </RelativeLayout>
 </com.rae.cnblogs.widget.HintCardLayout>

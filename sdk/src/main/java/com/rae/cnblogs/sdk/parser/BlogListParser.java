@@ -92,9 +92,7 @@ public class BlogListParser implements IHtmlParser<List<BlogBean>> {
     }
 
     @Override
-    public List<BlogBean> parse(String html) {
-
-        Document document = Jsoup.parse(html);
+    public List<BlogBean> parse(Document document, String html) {
 
         // 解析HTML
         List<BlogBean> result = new ArrayList<>();
@@ -121,7 +119,7 @@ public class BlogListParser implements IHtmlParser<List<BlogBean>> {
             m.setComment(ApiUtils.getCount(ApiUtils.getNumber(element.select(".article_comment .gray").text()))); // 评论
             m.setViews(ApiUtils.getCount(ApiUtils.getNumber(element.select(".article_view .gray").text())));  // 阅读
             m.setPostDate(ApiUtils.getDate(element.select(".post_item_foot").text())); // 发布时间
-            m.setLikes(ApiUtils.getCount(element.select(".diggnum").text()));  // 点赞或者是推荐
+            m.setLikes(ApiUtils.getCount(item.select(".diggnum").text()));  // 点赞或者是推荐
             m.setBlogType(BlogType.BLOG.getTypeName());
             cacheThumbUrls(m);
             result.add(m);

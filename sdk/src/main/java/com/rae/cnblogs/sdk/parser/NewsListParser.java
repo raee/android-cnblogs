@@ -4,7 +4,7 @@ import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
-import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -18,10 +18,10 @@ import java.util.List;
 public class NewsListParser implements IHtmlParser<List<BlogBean>> {
 
     @Override
-    public List<BlogBean> parse(String html) {
+    public List<BlogBean> parse(Document document, String html) {
         // 解析HTML
         List<BlogBean> result = new ArrayList<>();
-        Elements elements = Jsoup.parse(html).select("entry");
+        Elements elements = document.select("entry");
         for (Element element : elements) {
             BlogBean m = new BlogBean();
             m.setBlogId(element.select("id").text());

@@ -33,7 +33,7 @@ public abstract class CnblogsApiProvider {
     protected CnblogsApiProvider(Context context) {
         mContext = context;
         OkHttpClient client = new OkHttpExtBuilder()
-                .cache(context)
+                .cache(context, 5)
                 .debug("CNBLOGS-API")
                 .https()
                 .cookie()

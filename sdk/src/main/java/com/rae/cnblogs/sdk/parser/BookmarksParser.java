@@ -3,7 +3,7 @@ package com.rae.cnblogs.sdk.parser;
 import com.rae.cnblogs.sdk.bean.BookmarksBean;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
-import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -20,8 +20,8 @@ public class BookmarksParser implements IHtmlParser<List<BookmarksBean>> {
 
 
     @Override
-    public List<BookmarksBean> parse(String html) throws IOException {
-        Elements elements = Jsoup.parse(html).select(".wz_item_content");
+    public List<BookmarksBean> parse(Document document, String html) throws IOException {
+        Elements elements = document.select(".wz_item_content");
         List<BookmarksBean> result = new ArrayList<>();
         for (Element element : elements) {
             String id = ApiUtils.getNumber(element.select(".list_block").attr("id"));

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +14,9 @@ import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.RxObservable;
+import com.rae.cnblogs.dialog.IAppDialog;
+import com.rae.cnblogs.dialog.IAppDialogClickListener;
+import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.UserProvider;
@@ -53,8 +55,8 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.ll_follow_fans)
     View mFansAndFollowLayout;
 
-    @BindView(R.id.btn_logout)
-    Button mLogoutButton;
+    @BindView(R.id.ll_logout)
+    View mLogoutButton;
 
     @Override
     protected int getLayoutId() {
@@ -220,10 +222,26 @@ public class MineFragment extends BaseFragment {
         AppRoute.jumpToWeb(this.getContext(), getString(R.string.github_url));
     }
 
+    /**
+     * 退出登录
+     */
     @OnClick(R.id.btn_logout)
     public void onLogoutClick() {
-        MobclickAgent.onProfileSignOff();
-        UserProvider.getInstance().logout();
-        loadUserInfo();
+
+        HintCardDialog dialog = new HintCardDialog(getContext());
+        dialog.setMessage(getString(R.string.tips_logout));
+        dialog.setOnEnSureListener(new IAppDialogClickListener() {
+            @Override
+            public void onClick(IAppDialog dialog, int buttonType) {
+                dialog.dismiss();
+                MobclickAgent.onProfileSignOff();
+                UserProvider.getInstance().logout();
+                loadUserInfo();
+            }
+        });
+        dialog.showCloseButton();
+        dialog.setEnSureText(getString(R.string.logout));
+        dialog.show();
+
     }
 }

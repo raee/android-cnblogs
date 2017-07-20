@@ -4,6 +4,7 @@ package com.rae.cnblogs.sdk.parser;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class BaiduSuggestionParser implements IHtmlParser<List<String>> {
 
 
     @Override
-    public List<String> parse(String json) throws IOException {
+    public List<String> parse(Document document, String json) throws IOException {
         try {
             json = json.replace("cnblogs(", "").replace(");", "");
             JSONObject object = new JSONObject(json);

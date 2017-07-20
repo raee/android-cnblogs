@@ -2,7 +2,6 @@ package com.rae.cnblogs.presenter.impl.news;
 
 import android.content.Context;
 
-import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.impl.blog.BlogCommentPresenterImpl;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.Empty;
@@ -61,7 +60,7 @@ public class NewsCommentPresenterImpl extends BlogCommentPresenterImpl {
         };
 
         if (parent == null) {
-            createObservable(mNewsApi.addNewsComment(blog.getBlogId(), "", mView.getCommentContent())).subscribe(subscriber);
+            createObservable(mNewsApi.addNewsComment(blog.getBlogId(), "0", mView.getCommentContent())).subscribe(subscriber);
             return;
         }
 

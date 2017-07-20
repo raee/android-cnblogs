@@ -97,7 +97,6 @@ public class FriendsActivity extends SwipeBackBaseActivity {
                 start();
             }
         });
-
         start();
 
     }

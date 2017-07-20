@@ -30,17 +30,22 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
         e.printStackTrace();
 
         if (e instanceof CnblogsApiException) {
+            if (((CnblogsApiException) e).getCode() == ApiErrorCode.LOGIN_EXPIRED) {
+                clearLoginToken();
+                onLoginExpired();
+                return;
+            }
             onError((CnblogsApiException) e);
             return;
         }
         if (e instanceof HttpException) {
             HttpException ex = (HttpException) e;
-//            if (ex.code() == 401) {
-//                // 登录失效
-//                clearLoginToken();
-//                onLoginExpired();
-//                return;
-//            }
+            if (ex.code() == 401) {
+                // 登录失效
+                clearLoginToken();
+                onLoginExpired();
+                return;
+            }
         }
         String message = e.getMessage();
         if (message != null && message.contains("登录过期")) {
@@ -66,7 +71,7 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
      * 登录过期
      */
     protected void onLoginExpired() {
-        onError("登录过期，请重新登录");
+        onError("登录失效，请重新登录");
     }
 
     protected abstract void onError(String message);
