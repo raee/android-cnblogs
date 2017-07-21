@@ -1,12 +1,13 @@
 package com.rae.cnblogs.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -21,8 +22,12 @@ import com.rae.cnblogs.widget.webclient.RaeWebChromeClient;
 import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
 
 import java.io.File;
+import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.Cookie;
+import okhttp3.HttpUrl;
+import okhttp3.JavaNetCookieJar;
 
 /**
  * 网页查看
@@ -34,6 +39,7 @@ public class WebViewFragment extends BaseFragment {
     private String mRawUrl;
     private RaeJavaScriptBridge mJavaScriptApi;
     private WebViewClient mRaeWebViewClient;
+    private JavaNetCookieJar mJavaNetCookieJar;
 
     public static WebViewFragment newInstance(String url) {
 
@@ -88,6 +94,7 @@ public class WebViewFragment extends BaseFragment {
         settings.setAllowContentAccess(true);
         settings.setAllowFileAccess(true);
 
+
         File cacheDir = getContext().getExternalCacheDir();
 
         if (cacheDir != null && cacheDir.canRead() && cacheDir.canWrite()) {
@@ -114,7 +121,22 @@ public class WebViewFragment extends BaseFragment {
             mRawUrl = getArguments().getString("url");
             mUrl = mRawUrl;
         }
+
+        String url = getString(R.string.cnblogs_cookie_url);
+        mJavaNetCookieJar = new JavaNetCookieJar(java.net.CookieManager.getDefault());
+        List<Cookie> cookies = mJavaNetCookieJar.loadForRequest(HttpUrl.parse(url));
+        if (cookies != null) {
+            // 同步接口的cookie达到同步web登陆
+            CookieSyncManager.createInstance(getContext());
+            CookieManager cookieManager = CookieManager.getInstance();
+            for (Cookie cookie : cookies) {
+                cookieManager.setCookie(url, cookie.toString());
+            }
+            CookieSyncManager.getInstance().sync();
+        }
+
     }
+
 
     @Override
     public void onStart() {
@@ -133,9 +155,8 @@ public class WebViewFragment extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     public String getUrl() {

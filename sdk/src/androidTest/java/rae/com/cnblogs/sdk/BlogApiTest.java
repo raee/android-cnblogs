@@ -54,7 +54,7 @@ public class BlogApiTest extends BaseTest {
      */
     @Test
     public void testComment() throws InterruptedException {
-        runTest("testComment", mApi.getBlogComments(1, "6134506", "pengze0902"));
+        runTest("testComment", mApi.getBlogComments(1, "574285", "pengze0902"));
     }
 
     /**

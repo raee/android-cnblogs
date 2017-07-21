@@ -30,7 +30,7 @@
     </style>
 
 
-    <style name="AppButton" parent="@style/Widget.AppCompat.Button">
+    <style name="AppButton" parent="@style/Widget.AppCompat.Button.Borderless">
     </style>
 
     <style name="AppActionBar" parent="Base.Widget.AppCompat.ActionBar.Solid">

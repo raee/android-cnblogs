@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/android-cnblogs.iml" filepath="$PROJECT_DIR$/android-cnblogs.iml" />
+      <module fileurl="file://F:\android\rae\android-cnblogs\android-cnblogs.iml" filepath="F:\android\rae\android-cnblogs\android-cnblogs.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://F:\android\rae\android-cnblogs\app\app.iml" filepath="F:\android\rae\android-cnblogs\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/sdk/sdk.iml" filepath="$PROJECT_DIR$/sdk/sdk.iml" />
+      <module fileurl="file://F:\android\rae\android-cnblogs\sdk\sdk.iml" filepath="F:\android\rae\android-cnblogs\sdk\sdk.iml" />
     </modules>
   </component>
 </project>

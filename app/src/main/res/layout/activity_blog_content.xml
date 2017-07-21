@@ -143,7 +143,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/ic_like_content"
+                    android:background="@drawable/ic_like_content_badge"
                     android:gravity="center"
                     android:textColor="@color/badge_color"
                     android:textSize="9sp"

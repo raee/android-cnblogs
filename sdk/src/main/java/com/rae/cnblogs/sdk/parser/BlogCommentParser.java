@@ -10,6 +10,7 @@ import com.rae.cnblogs.sdk.utils.ApiUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
@@ -50,22 +51,39 @@ public class BlogCommentParser implements IJsonParser<List<BlogCommentBean>> {
         }
 
         for (Element feed : feeds) {
+            BlogCommentBean m = new BlogCommentBean();
             String id = ApiUtils.getNumber(feed.select(".layer").attr("href"));
             String authorName = feed.select("#a_comment_author_" + id).text();
             String blogApp = ApiUtils.getBlogApp(feed.select("#a_comment_author_" + id).attr("href"));
             String date = ApiUtils.getDate(feed.select(".comment_date").text());
-            String body = feed.select(".blog_comment_body").text();
+
+            m.setQuote(feed.select(".comment_quote").text().replace("引用", ""));
+
+
+            Elements bodyElement = feed.select(".blog_comment_body");
+            if (!TextUtils.isEmpty(m.getQuote()) && bodyElement.size() > 0 && bodyElement.get(0).childNodes().size() > 1) {
+                List<Node> nodes = bodyElement.get(0).childNodes();
+                m.setQuoteBlogApp(nodes.get(1).outerHtml());
+                nodes.get(0).remove();
+                nodes.get(0).remove();
+                nodes.get(0).remove();
+            }
+            // 内容移掉引用
+            bodyElement.select("fieldset").remove();
+            m.setBody(bodyElement.text());
+
+//            String body = feed.select(".blog_comment_body").text();
             String like = ApiUtils.getNumber(feed.select(".comment_digg").text());
             String unlike = ApiUtils.getNumber(feed.select(".comment_bury").text());
             String avatar = feed.select(".comment_" + id + "_avatar").text();
 
-            BlogCommentBean m = new BlogCommentBean();
+
             m.setId(id);
             m.setAuthorName(authorName);
             m.setAvatar(avatar);
             m.setBlogApp(blogApp);
             m.setDate(date);
-            m.setBody(body);
+//            m.setBody(body);
             m.setLike(like);
             m.setUnlike(unlike);
 

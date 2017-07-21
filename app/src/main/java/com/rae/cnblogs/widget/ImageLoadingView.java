@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.OvershootInterpolator;
 
@@ -160,7 +159,7 @@ public class ImageLoadingView extends AppCompatImageView {
             float scale = Math.min(1, (mRadius[1] * 3 * 0.1f) / (canvas.getHeight() * 0.1f));
             if (scale >= 0.9) scale = 1;
             canvas.scale(scale, scale, r, r);
-            Log.i("rae", "s = " + scale);
+//            Log.i("rae", "s = " + scale);
         }
         if (isLoading()) {
             canvas.save();

@@ -15,6 +15,7 @@ import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.api.IBookmarksApi;
 import com.rae.cnblogs.sdk.bean.BookmarksBean;
+import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 import com.rae.swift.Rx;
@@ -92,6 +93,12 @@ public class FavoritesActivity extends SwipeBackBaseActivity {
                             public void accept(Empty empty) throws Exception {
                                 mAdapter.remove(item);
                                 mAdapter.notifyDataSetChanged();
+
+                                // 更新数据库
+                                DbFactory.getInstance().getBlog().removeBookmarks(item.getLinkUrl());
+
+                                setResult(RESULT_OK);
+
                             }
                         });
             }

@@ -46,7 +46,7 @@
             android:background="@drawable/bg_btn_send"
             android:gravity="center"
             android:text="@string/send"
-            android:textColor="@color/white"
+            android:textColor="@color/ph1"
             android:textSize="@dimen/h3"/>
     </RelativeLayout>
 </LinearLayout>

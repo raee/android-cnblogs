@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppButton" parent="@style/Widget.AppCompat.Button">
+    <style name="AppButton" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:stateListAnimator">@null</item>
     </style>
 

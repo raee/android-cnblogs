@@ -64,6 +64,10 @@ public class BlogCommentItemAdapter extends BaseItemAdapter<BlogCommentBean, Blo
         holder.itemView.setOnClickListener(this);
         holder.itemView.setOnLongClickListener(this);
 
+        holder.quoteLayout.setVisibility(TextUtils.isEmpty(m.getQuote()) ? View.GONE : View.VISIBLE);
+        holder.quoteBlogAppView.setText(String.format("回复%s：", m.getQuoteBlogApp()));
+        holder.quoteContentView.setText(m.getQuote());
+
         if (!TextUtils.isEmpty(m.getAvatar())) {
             ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, RaeImageLoader.headerOption());
         }

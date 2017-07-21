@@ -78,9 +78,9 @@
                 android:drawableRight="@drawable/ic_like_content"
                 android:gravity="bottom"
                 android:text="200"
-                android:visibility="gone"
                 android:textColor="@color/ph4"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:visibility="gone"/>
 
 
         </RelativeLayout>
@@ -99,6 +99,35 @@
         android:text="每一个系统下都有对文件操作的应用，但是都大致相同，同样在Linux系统中也同样拥有对文件的操作。如：文件描述符、open()函数、close()函数、read()函数、write()函数、文件偏移lseek()函数、获取文件状态fstat()函数、文件空间映射mmap()函数、取消mmap()映射的"
         android:textColor="@color/ph1"
         android:textSize="@dimen/summary"/>
+
+
+    <LinearLayout
+        android:id="@+id/ll_quote_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_quote_comment"
+        android:orientation="vertical"
+        android:paddingLeft="12dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_quote_blog_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ph3"
+            android:textSize="@dimen/h2"/>
+
+        <com.rae.cnblogs.widget.RaeTextView
+            android:id="@+id/tv_quote_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:lineSpacingExtra="6sp"
+            android:textColor="@color/ph1"
+            android:textSize="@dimen/summary"/>
+    </LinearLayout>
 
 
     <!--    <View

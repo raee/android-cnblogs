@@ -13,7 +13,7 @@ import java.util.List;
  * 博客数据库
  * Created by ChenRui on 2017/1/25 0025 16:56.
  */
-public class DbBlog extends DbCnblogs{
+public class DbBlog extends DbCnblogs {
 
     DbBlog() {
     }
@@ -72,6 +72,33 @@ public class DbBlog extends DbCnblogs{
      */
     public List<BlogBean> findAllWithoutBlogContnet() {
         return new Select().from(BlogBean.class).as("blog").leftJoin(UserBlogInfo.class).as("info").on("blog.blogId=info.blogId").where("info.content is NULL").execute();
+    }
+
+    /**
+     * 删除收藏
+     *
+     * @param url 路径
+     */
+    public void removeBookmarks(final String url) {
+        // 找到已经收藏的
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                UserBlogInfo model = new Select()
+                        .from(UserBlogInfo.class).as("a")
+                        .leftJoin(BlogBean.class).as("b")
+                        .on("a.blogId=b.blogId")
+                        .where("a.isBookmarks=?", 1)
+                        .and("b.url=?", url)
+                        .executeSingle();
+
+
+                if (model == null || TextUtils.isEmpty(model.getBlogId())) return;
+                model.setBookmarks(false);
+                model.save();
+            }
+        }).start();
     }
 
 

@@ -3,9 +3,11 @@ package com.rae.cnblogs.widget.webclient;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -36,6 +38,11 @@ public class RaeWebViewClient extends WebViewClient {
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         super.onPageStarted(view, url, favicon);
         mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        handler.proceed(); // 忽略证书错误
     }
 
     @Override

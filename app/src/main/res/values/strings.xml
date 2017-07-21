@@ -69,10 +69,13 @@
     <string name="finish">完成</string>
     <string name="title_category">分类</string>
     <string name="i_get_it">我知道了</string>
-    <string name="dialog_tips_post_comment">您伟大的讲话发表成功\n由于缓存更新较慢\n请稍候再到评论区查看您已经发布的评论。</string>
+    <string name="dialog_tips_post_comment">您伟大的讲话发表成功\n由于缓存更新较慢，请稍候再到评论区查看您已经发布的评论。\n您发表的评论长按可以进行删除。</string>
     <string name="dialog_tips_post_like">由于缓存问题，点赞数量可能更新较慢哦。</string>
     <string name="github">开源项目</string>
     <string name="agree">我同意</string>
     <string name="tips_logout">是否真的退出登录？</string>
     <string name="update_now">立即更新</string>
+    <string name="cancel_bookmarks_title">收藏接口限制</string>
+    <string name="go_now">立即前往</string>
+    <string name="cnblogs_cookie_url">http://cnblogs.com</string>
 </resources>

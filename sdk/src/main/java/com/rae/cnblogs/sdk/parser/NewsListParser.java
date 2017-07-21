@@ -2,6 +2,9 @@ package com.rae.cnblogs.sdk.parser;
 
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
+import com.rae.cnblogs.sdk.db.DbBlog;
+import com.rae.cnblogs.sdk.db.DbFactory;
+import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
 import org.jsoup.nodes.Document;
@@ -16,6 +19,12 @@ import java.util.List;
  * Created by ChenRui on 2017/1/18 0018 18:27.
  */
 public class NewsListParser implements IHtmlParser<List<BlogBean>> {
+
+    private DbBlog mDbBlog;
+
+    public NewsListParser() {
+        mDbBlog = DbFactory.getInstance().getBlog();
+    }
 
     @Override
     public List<BlogBean> parse(Document document, String html) {
@@ -35,6 +44,12 @@ public class NewsListParser implements IHtmlParser<List<BlogBean>> {
             m.setAuthor(element.select("sourceName").text());
             m.setAvatar(element.select("topicIcon").text().replace("images0.cnblogs.com/news_topic///", ""));
             m.setBlogType(BlogType.NEWS.getTypeName());
+
+            UserBlogInfo blogInfo = mDbBlog.get(m.getBlogId());
+            if (blogInfo != null) {
+                m.setReaded(blogInfo.isRead());
+            }
+
             result.add(m);
         }
 

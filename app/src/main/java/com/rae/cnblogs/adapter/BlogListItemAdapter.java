@@ -1,5 +1,6 @@
 package com.rae.cnblogs.adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -32,7 +33,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
     private DisplayImageOptions mAvatarOptions;
 
     public BlogListItemAdapter(BlogType type) {
-        mAvatarOptions = RaeImageLoader.headerOption();
+        mAvatarOptions = RaeImageLoader.headerWithoutFadeInOption();
         mBlogType = type;
         int size = 5;
         List<BlogBean> data = new ArrayList<>();
@@ -102,6 +103,12 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         holder.likeView.setText(m.getLikes());
         holder.commentView.setText(m.getComment());
 
+        int titleColor = m.isReaded() ? R.color.ph4 : R.color.ph1;
+        int summaryColor = m.isReaded() ? R.color.ph4 : R.color.ph2;
+
+        holder.titleView.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), titleColor));
+        holder.summaryView.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), summaryColor));
+
         holder.itemView.setTag(m);
         holder.itemView.setOnClickListener(this);
 
@@ -143,6 +150,14 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
     @Override
     public void onClick(View view) {
         BlogBean blog = (BlogBean) view.getTag();
+        // 设置为已读
+        blog.setReaded(true);
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                notifyDataSetChanged();
+            }
+        }, 1000);
         AppRoute.jumpToBlogContent(view.getContext(), blog, mBlogType);
     }
 

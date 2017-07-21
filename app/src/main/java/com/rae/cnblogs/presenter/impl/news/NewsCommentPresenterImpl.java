@@ -68,9 +68,9 @@ public class NewsCommentPresenterImpl extends BlogCommentPresenterImpl {
 
         // 引用评论
         if (mView.enableReferenceComment()) {
-            createObservable(mNewsApi.addNewsComment(blog.getBlogId(), ApiUtils.getCommentContent(parent, mView.getCommentContent()), mView.getCommentContent())).subscribe(subscriber);
+            createObservable(mNewsApi.addNewsComment(blog.getBlogId(), parent.getId(), ApiUtils.getCommentContent(parent, mView.getCommentContent()))).subscribe(subscriber);
         } else {
-            createObservable(mNewsApi.addNewsComment(blog.getBlogId(), parent.getId(), mView.getCommentContent())).subscribe(subscriber);
+            createObservable(mNewsApi.addNewsComment(blog.getBlogId(), parent.getId(), ApiUtils.getAtCommentContent(parent, mView.getCommentContent()))).subscribe(subscriber);
         }
     }
 

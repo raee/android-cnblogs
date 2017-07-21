@@ -104,4 +104,29 @@ public final class UserProvider {
         mConfig.clearUserInfo();
 
     }
+
+
+//    // TODO:调试登录
+//    public void debugLogin() {
+//        UserInfoBean userInfo = new UserInfoBean();
+//        userInfo.setAvatar("http://pic.cnblogs.com/avatar/446312/20170124105915.png");
+//        userInfo.setBlogApp("chenrui7");
+//        userInfo.setDisplayName("RAE");
+//        userInfo.setUserId("fdeed5f3-11fb-e111-aa3f-842b2b196315");
+//        URI url = URI.create("http://www.cnblogs.com");
+//        List<String> cookieStrings = new ArrayList<>();
+//        cookieStrings.add(".CNBlogsCookie=A6D444EE9778C74F6AA5CEAC14D066BBE664E14112B3CDC72E293E3DF655EDC5D1603941C7A6E05110E4CB740A199738060238CAB3352A36093C234E856EBBBED3355479F26DDB2979995C1F5E78B0F24FE7D53E4; domain=.cnblogs.com; path=/; HttpOnly");
+//        cookieStrings.add(".Cnblogs.AspNetCore.Cookies=ACfDJ8PhlBN8IFxtHhqIV3s0LCDkWF14xMqaw7HoJdr52uJMVeiBBOToAnOhpBLr2zDHJflPhXpcTrPY0PKSuCJPTpwIElSqNHmY_pffF-jZRP1YIHwseg2-4sRqXo123HL7BO5ZaNmUc9gl4iKD457TENHN00yZ-Ysue7bBsZ9QhYWe32unM8N3U3KENIVoYbCgLqJUQMauRuyjaPPZkU3BRkdT5x03JaDhjOUuXrHsGA6PFv7ovsxw0ktuYRuBztxgWQXBthK8jsZFR7ONdumCmvGyNehgGr1W_yerajtCqCWd9jjRO4ajllcwU1A7M74tNnw; domain=.cnblogs.com; path=/; HttpOnly");
+//
+//
+//        Map<String, List<String>> map = Collections.singletonMap("Set-Cookie", cookieStrings);
+//        CookieHandler cookieManager = java.net.CookieManager.getDefault();
+//        try {
+//            cookieManager.put(url, map);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        UserProvider.getInstance().setLoginUserInfo(userInfo);
+//    }
 }

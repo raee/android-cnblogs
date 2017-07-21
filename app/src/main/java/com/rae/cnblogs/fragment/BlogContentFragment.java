@@ -1,6 +1,8 @@
 package com.rae.cnblogs.fragment;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -14,6 +16,8 @@ import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeAnim;
+import com.rae.cnblogs.dialog.IAppDialog;
+import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
@@ -134,6 +138,10 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         mLikeView.setEnabled(true);
         mLikeView.setSelected(!isCancel);
         if (mLikeView.isSelected()) {
+            // 点赞数量加1
+            int like = parseInt(mBlog.getLikes()) + 1;
+            mLikeView.setText(String.valueOf(like));
+
             mLikeAnimView.anim(new Runnable() {
                 @Override
                 public void run() {
@@ -142,6 +150,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
                 }
             });
         } else {
+            mLikeView.setText(mBlog.getLikes());
             mLikeView.setVisibility(View.VISIBLE);
             mLikeAnimView.setVisibility(View.GONE);
         }
@@ -165,6 +174,25 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         mBookmarksView.setEnabled(true);
         mBookmarksView.stop();
         RaeAnim.scaleIn(mBookmarksView);
+
+        // 不能取消收藏
+        if (isCancel) {
+            HintCardDialog dialog = new HintCardDialog(getContext());
+            dialog.setTitle(getString(R.string.cancel_bookmarks_title));
+            dialog.setMessage(msg);
+            dialog.setEnSureText(getString(R.string.go_now));
+            dialog.setOnEnSureListener(new IAppDialogClickListener() {
+                @Override
+                public void onClick(IAppDialog dialog, int buttonType) {
+                    dialog.dismiss();
+                    AppRoute.jumpToFavorites(getActivity());
+                }
+            });
+            dialog.showCloseButton();
+            dialog.show();
+            return;
+        }
+
         AppUI.toastInCenter(getContext(), msg);
     }
 
@@ -221,17 +249,26 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
                 mLikeView.setVisibility(View.GONE);
                 mLikeAnimView.setVisibility(View.VISIBLE);
                 mLikeAnimView.loading();
-                mContentPresenter.doLike(v.isSelected());
+                mContentPresenter.doLike(mLikeView.isSelected());
                 break;
 
             case R.id.ll_content_bookmarks:  // 收藏
                 mBookmarksView.setEnabled(false);
                 mBookmarksView.loading();
-                mContentPresenter.doBookmarks(v.isSelected());
+                mContentPresenter.doBookmarks(mBookmarksView.isSelected());
                 break;
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // 删除收藏回来要刷新
+        if (resultCode == Activity.RESULT_OK && requestCode == AppRoute.REQ_CODE_FAVORITES) {
+            mContentPresenter.reloadBookmarkStatus();
+        }
+    }
 
     /**
      * 滚动到顶部

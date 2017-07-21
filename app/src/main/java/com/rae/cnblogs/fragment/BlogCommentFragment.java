@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.AppUI;
@@ -58,6 +59,9 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     @BindView(R.id.placeholder)
     PlaceholderView mPlaceholderView;
 
+
+    TextView mCommentBadgeView;
+
     private BlogCommentItemAdapter mItemAdapter;
     private IBlogCommentPresenter mCommentPresenter;
 
@@ -86,6 +90,12 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
         mEditCommentDialog = new EditCommentDialog(getContext());
         mEditCommentDialog.setOnEditCommentListener(this);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mCommentBadgeView = (TextView) getActivity().findViewById(R.id.tv_comment_badge);
     }
 
     @Override
@@ -157,6 +167,8 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
                 if (instance.isLogin() && instance.getLoginUserInfo().getDisplayName().equalsIgnoreCase(comment.getAuthorName().trim())) {
                     mCommentMenuDialog.setBlogComment(comment);
                     mCommentMenuDialog.show();
+                } else {
+                    mEditCommentDialog.show(comment);
                 }
             }
         });
@@ -185,6 +197,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     @Subscribe
     public void onEditCommentOpenEvent(EditCommentEvent event) {
+        mEditCommentDialog.setBlogComment(null);
         mEditCommentDialog.show();
     }
 
@@ -235,6 +248,10 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
             }
         }, 1000);
 
+
+        // 评论数量加1
+        int comment = parseInt(mBlog.getComment()) + 1;
+        mCommentBadgeView.setText(String.valueOf(comment));
 
         if (config().hasCommentGuide()) {
             AppUI.toastInCenter(getContext(), "您伟大的讲话发表成功");

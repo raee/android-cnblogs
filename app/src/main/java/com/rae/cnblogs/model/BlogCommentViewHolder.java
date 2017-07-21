@@ -28,9 +28,16 @@ public class BlogCommentViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tv_blog_summary)
     public TextView contentView;
 
+    // 下面的要复用，不能用BindView
+    public View quoteLayout;
+    public TextView quoteBlogAppView;
+    public TextView quoteContentView;
 
     public BlogCommentViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        quoteLayout = itemView.findViewById(R.id.ll_quote_comment);
+        quoteBlogAppView = (TextView) itemView.findViewById(R.id.tv_quote_blog_app);
+        quoteContentView = (TextView) itemView.findViewById(R.id.tv_quote_content);
     }
 }

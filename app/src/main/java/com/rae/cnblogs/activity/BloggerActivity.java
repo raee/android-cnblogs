@@ -3,6 +3,7 @@ package com.rae.cnblogs.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
@@ -35,6 +37,9 @@ import butterknife.OnClick;
  * Created by ChenRui on 2017/2/9 0009 10:02.
  */
 public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPresenter.IBloggerView {
+
+    @BindView(R.id.img_background)
+    ImageView mBackgroundView;
 
     @BindView(R.id.img_blog_avatar)
     ImageView mAvatarView;
@@ -113,15 +118,15 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 //                mFollowView.setAlpha(percent > 0 ? percent : 1);
                 mTitleView.setAlpha(percent);
 
-//                if (percent > 0.5) {
-//                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
-//                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow_drak);
-//                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.ph2));
-//                } else {
-//                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
-//                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow);
-//                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-//                }
+                if (percent > 0.5) {
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow_drak);
+                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.ph2));
+                } else {
+                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
+                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow);
+                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                }
             }
         });
 
@@ -157,6 +162,11 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         mFollowView.setEnabled(true);
 
         RaeImageLoader.displayHeaderView(userInfo.getAvatar(), mAvatarView);
+        if (!TextUtils.isEmpty(userInfo.getAvatar())) {
+//            mBackgroundView.setBackgroundColor(ContextCompat.getColor(this, R.color.dividerColor));
+            ImageLoader.getInstance().displayImage(userInfo.getAvatar(), mBackgroundView);
+        }
+
         mBloggerNameView.setText(userInfo.getDisplayName());
         mTitleView.setText(userInfo.getDisplayName());
         mFansCountView.setText(userInfo.getFans());

@@ -4,6 +4,9 @@ import android.text.TextUtils;
 
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
+import com.rae.cnblogs.sdk.db.DbBlog;
+import com.rae.cnblogs.sdk.db.DbFactory;
+import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
 import org.jsoup.nodes.Document;
@@ -20,6 +23,12 @@ import java.util.regex.Pattern;
  * Created by ChenRui on 2017/1/18 0018 18:27.
  */
 public class KBListParser implements IHtmlParser<List<BlogBean>> {
+
+    private DbBlog mDbBlog;
+
+    public KBListParser() {
+        mDbBlog = DbFactory.getInstance().getBlog();
+    }
 
     /**
      * 获取点赞数量
@@ -52,6 +61,13 @@ public class KBListParser implements IHtmlParser<List<BlogBean>> {
             m.setViews(ApiUtils.getNumber(element.select(".kb_footer .view").text()));
             m.setLikes(getLikeCount(element.select(".kb_footer").text()));
             m.setBlogType(BlogType.KB.getTypeName());
+
+
+            UserBlogInfo blogInfo = mDbBlog.get(m.getBlogId());
+            if (blogInfo != null) {
+                m.setReaded(blogInfo.isRead());
+            }
+
             result.add(m);
         }
         return result;

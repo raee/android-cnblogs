@@ -47,6 +47,9 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        CnblogsApiFactory.getInstance(this);
+//        UserProvider.getInstance().debugLogin();
+
         mFragmentAdapter = new RaeFragmentAdapter(getSupportFragmentManager());
         CategoryBean kb = new CategoryBean();
         kb.setType("kb");

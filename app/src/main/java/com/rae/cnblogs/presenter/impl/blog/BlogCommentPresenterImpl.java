@@ -61,10 +61,10 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
 
         // 引用评论
         if (mView.enableReferenceComment()) {
-            createObservable(mBlogApi.addBlogComment(blog.getBlogId(), blog.getBlogApp(), ApiUtils.getCommentContent(parent, mView.getCommentContent()), mView.getCommentContent()))
+            createObservable(mBlogApi.addBlogComment(blog.getBlogId(), blog.getBlogApp(), parent.getId(), ApiUtils.getCommentContent(parent, mView.getCommentContent())))
                     .subscribe(subscriber);
         } else {
-            createObservable(mBlogApi.addBlogComment(blog.getBlogId(), blog.getBlogApp(), parent.getId(), mView.getCommentContent())).subscribe(subscriber);
+            createObservable(mBlogApi.addBlogComment(blog.getBlogId(), blog.getBlogApp(), parent.getId(), ApiUtils.getAtCommentContent(parent, mView.getCommentContent()))).subscribe(subscriber);
         }
     }
 

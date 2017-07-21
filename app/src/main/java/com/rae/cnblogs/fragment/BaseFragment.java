@@ -3,6 +3,7 @@ package com.rae.cnblogs.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,16 @@ public abstract class BaseFragment extends Fragment {
 
     protected CnblogSdkConfig config() {
         return CnblogSdkConfig.getsInstance(getContext().getApplicationContext());
+    }
+
+    protected int parseInt(String text) {
+        if (TextUtils.isEmpty(text)) return 0;
+        try {
+            return Integer.valueOf(text);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 }

@@ -38,7 +38,20 @@ public final class RaeImageLoader {
      */
     public static DisplayImageOptions headerOption() {
         return defaultOptions()
-                .displayer(new FadeInBitmapDisplayer(800))
+                .displayer(new FadeInBitmapDisplayer(300))
+                .showImageForEmptyUri(R.drawable.ic_default_user_avatar)
+                .showImageOnLoading(R.drawable.ic_default_user_avatar)
+                .showImageOnFail(R.drawable.ic_default_user_avatar)
+                .build();
+    }
+
+    /**
+     * 头像的默认配置
+     *
+     * @return
+     */
+    public static DisplayImageOptions headerWithoutFadeInOption() {
+        return defaultOptions()
                 .showImageForEmptyUri(R.drawable.ic_default_user_avatar)
                 .showImageOnLoading(R.drawable.ic_default_user_avatar)
                 .showImageOnFail(R.drawable.ic_default_user_avatar)

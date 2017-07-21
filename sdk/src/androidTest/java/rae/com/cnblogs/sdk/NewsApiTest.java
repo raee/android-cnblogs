@@ -34,7 +34,7 @@ public class NewsApiTest extends BaseTest {
 
     @Test
     public void testCommentList() throws InterruptedException {
-        runTest("testCommentList", mApi.getNewsComment("561600", 1));
+        runTest("testCommentList", mApi.getNewsComment("574285", 1));
     }
 
     @Test

@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
@@ -153,7 +152,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void onLoadUserInfo(UserInfoBean user) {
-        ImageLoader.getInstance().displayImage(user.getAvatar(), mAvatarView, RaeImageLoader.defaultOptions().displayer(new SimpleBitmapDisplayer()).build());
+        ImageLoader.getInstance().displayImage(user.getAvatar(), mAvatarView, RaeImageLoader.headerWithoutFadeInOption());
         mDisplayNameView.setText(user.getDisplayName());
     }
 
@@ -203,7 +202,7 @@ public class MineFragment extends BaseFragment {
             AppRoute.jumpToLogin(getActivity());
             return;
         }
-        AppRoute.jumpToFavorites(this.getContext());
+        AppRoute.jumpToFavorites(this.getActivity());
     }
 
     /**

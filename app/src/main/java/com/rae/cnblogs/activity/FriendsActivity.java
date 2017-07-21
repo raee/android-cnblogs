@@ -135,21 +135,24 @@ public class FriendsActivity extends SwipeBackBaseActivity {
     public void onLoadFriends(List<UserInfoBean> data) {
         mPlaceholderView.dismiss();
 
-        if (mPage <= 1) {
-            mDataList.clear();
-            mDataList.addAll(data);
-        } else {
-            mDataList.removeAll(data);
-            mDataList.addAll(data);
+        if (Rx.isEmpty(data)) {
+            if (mPage <= 1) {
+                mPlaceholderView.empty();
+            } else {
+                mRecyclerView.loadMoreComplete();
+                mRecyclerView.setNoMore(true);
+            }
+            return;
         }
 
-        if (mDataList.size() <= 0 && mPage <= 1) {
-            mPlaceholderView.empty(getString(R.string.empty_message));
-            return;
-        } else if (Rx.isEmpty(mDataList) && mPage > 1) {
-            mRecyclerView.setNoMore(true);
-            return;
+        if (mPage <= 1) {
+            mDataList.clear();
+//            mDataList.addAll(data);
         }
+//        else {
+//            mDataList.removeAll(data);
+        mDataList.addAll(data);
+//        }
 
         mAdapter.invalidate(mDataList);
         mAdapter.notifyDataSetChanged();

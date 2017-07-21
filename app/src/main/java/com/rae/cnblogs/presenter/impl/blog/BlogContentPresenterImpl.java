@@ -109,7 +109,6 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
         BookmarksBean m = new BookmarksBean(blog.getTitle(), blog.getSummary(), blog.getUrl());
         Observable<Empty> observable;
         if (isCancel) {
-
             mView.onBookmarksError(true, "请到我的收藏里面取消收藏");
             return;
 //            observable = mBookmarksApi.delBookmarks(blog.getUrl());
@@ -117,6 +116,19 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
 
         observable = mBookmarksApi.addBookmarks(m.getTitle(), m.getSummary(), m.getLinkUrl());
         createObservable(false, observable, false);
+    }
+
+    @Override
+    public void reloadBookmarkStatus() {
+
+        BlogBean blog = mView.getBlog();
+        if (blog == null) return;
+
+        // 获取用户的博客信息
+        mBlogInfo = mDbBlog.get(blog.getBlogId());
+        if (mBlogInfo != null) {
+            mView.onLoadBlogInfoSuccess(mBlogInfo);
+        }
     }
 
     protected void createObservable(final boolean isCancel, Observable<Empty> observable, final boolean isLike) {
@@ -131,6 +143,16 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
                 // 新闻推荐过了
                 if (msg.contains("您已经推荐过")) {
                     mView.onLikeSuccess(isCancel);
+                    return;
+                }
+
+                if (msg.contains("网摘")) {
+                    // 保存到数据库
+                    if (mBlogInfo != null) {
+                        mBlogInfo.setBookmarks(true);
+                        mDbBlog.saveBlogInfo(mBlogInfo);
+                    }
+                    mView.onBookmarksSuccess(false);
                     return;
                 }
 

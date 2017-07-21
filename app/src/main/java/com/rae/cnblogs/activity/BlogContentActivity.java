@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -104,7 +105,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         // 点赞角标
         if (!TextUtils.equals(mBlog.getLikes(), "0")) {
             mLikeBadgeView.setText(mBlog.getLikes());
-            mLikeBadgeView.setBackgroundResource(R.drawable.ic_like_content_badge);
+//            mLikeBadgeView.setBackgroundResource(R.drawable.ic_like_content_badge);
             mLikeBadgeView.setVisibility(View.VISIBLE);
         }
 
@@ -137,6 +138,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     // 查看评论
     @OnClick(R.id.layout_content_comment)
     public void onCommentClick() {
+        Log.i("rae", "点击评论");
         mCommentLayout.toggleSmoothScroll();
     }
 

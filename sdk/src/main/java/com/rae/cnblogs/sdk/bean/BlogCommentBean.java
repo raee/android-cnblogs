@@ -13,6 +13,8 @@ public class BlogCommentBean {
     private String blogApp;
     private String date;
     private String body;
+    private String quote; // 引用
+    private String quoteBlogApp; // 引用者
     private String like;
     private String unlike;
     private String mAvatar;
@@ -55,6 +57,22 @@ public class BlogCommentBean {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getQuote() {
+        return quote;
+    }
+
+    public void setQuote(String quote) {
+        this.quote = quote;
+    }
+
+    public String getQuoteBlogApp() {
+        return quoteBlogApp;
+    }
+
+    public void setQuoteBlogApp(String quoteBlogApp) {
+        this.quoteBlogApp = quoteBlogApp;
     }
 
     public String getLike() {

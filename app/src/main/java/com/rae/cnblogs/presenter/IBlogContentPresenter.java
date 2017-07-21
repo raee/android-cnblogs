@@ -29,6 +29,11 @@ public interface IBlogContentPresenter {
      */
     void doBookmarks(boolean isCancel);
 
+    /**
+     * 重新加载收藏状态
+     */
+    void reloadBookmarkStatus();
+
     interface IBlogContentView {
 
         BlogBean getBlog();

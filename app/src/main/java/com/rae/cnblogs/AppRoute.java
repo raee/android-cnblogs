@@ -32,6 +32,7 @@ public final class AppRoute {
     /*朋友界面 - 来自关注*/
     public static final int ACTIVITY_FRIENDS_TYPE_FOLLOW = 2;
     public static final int REQ_CODE_CATEGORY = 102;
+    public static final int REQ_CODE_FAVORITES = 103;
 
     private static void startActivity(Context context, Intent intent) {
         context.startActivity(intent);
@@ -143,7 +144,7 @@ public final class AppRoute {
     /**
      * 我的收藏
      */
-    public static void jumpToFavorites(Context context) {
-        startActivity(context, FavoritesActivity.class);
+    public static void jumpToFavorites(Activity context) {
+        startActivityForResult(context, FavoritesActivity.class, REQ_CODE_FAVORITES);
     }
 }

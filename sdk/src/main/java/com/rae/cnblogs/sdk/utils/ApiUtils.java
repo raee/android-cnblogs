@@ -106,7 +106,7 @@ public final class ApiUtils {
 
     public static String getCount(String text) {
         if (TextUtils.isEmpty(text)) return "0";
-        return text.trim();
+        return getNumber(text.trim());
     }
 
     public static String getBlogApp(String authorUrl) {
@@ -130,6 +130,21 @@ public final class ApiUtils {
         sb.append("[quote]");
         sb.append(comment.getBody());
         sb.append("[/quote]");
+        sb.append("\n");
+        sb.append(content);
+        return sb.toString();
+    }
+
+    /**
+     * 获取回复评论内容
+     *
+     * @param comment 要回复的评论
+     * @param content 你要回复的内容
+     */
+    public static String getAtCommentContent(BlogCommentBean comment, String content) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("@");
+        sb.append(comment.getBlogApp());
         sb.append("\n");
         sb.append(content);
         return sb.toString();

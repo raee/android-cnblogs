@@ -47,6 +47,8 @@ public class BlogBean extends Model implements Parcelable {
     @Column
     private String thumbUrls; // 预览小图,JSON 格式，比如：["http://img.cnblogs.com/a.jpg","http://img.cnblogs.com/b.jpg"]
 
+    protected boolean isReaded;
+
     /**
      * 博客类型，参考取值{@link BlogType#getTypeName()}
      */
@@ -190,6 +192,14 @@ public class BlogBean extends Model implements Parcelable {
         return blogId;
     }
 
+    public boolean isReaded() {
+        return isReaded;
+    }
+
+    public void setReaded(boolean readed) {
+        isReaded = readed;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof BlogBean && !TextUtils.isEmpty(blogId)) {
@@ -197,62 +207,6 @@ public class BlogBean extends Model implements Parcelable {
         }
         return super.equals(obj);
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.title);
-        dest.writeString(this.url);
-        dest.writeString(this.avatar);
-        dest.writeString(this.summary);
-        dest.writeString(this.author);
-        dest.writeString(this.authorUrl);
-        dest.writeString(this.comment);
-        dest.writeString(this.views);
-        dest.writeString(this.postDate);
-        dest.writeString(this.blogId);
-        dest.writeString(this.blogApp);
-        dest.writeString(this.tag);
-        dest.writeString(this.thumbUrls);
-        dest.writeString(this.blogType);
-        dest.writeString(this.content);
-        dest.writeString(this.likes);
-    }
-
-    protected BlogBean(Parcel in) {
-        this.title = in.readString();
-        this.url = in.readString();
-        this.avatar = in.readString();
-        this.summary = in.readString();
-        this.author = in.readString();
-        this.authorUrl = in.readString();
-        this.comment = in.readString();
-        this.views = in.readString();
-        this.postDate = in.readString();
-        this.blogId = in.readString();
-        this.blogApp = in.readString();
-        this.tag = in.readString();
-        this.thumbUrls = in.readString();
-        this.blogType = in.readString();
-        this.content = in.readString();
-        this.likes = in.readString();
-    }
-
-    public static final Creator<BlogBean> CREATOR = new Creator<BlogBean>() {
-        @Override
-        public BlogBean createFromParcel(Parcel source) {
-            return new BlogBean(source);
-        }
-
-        @Override
-        public BlogBean[] newArray(int size) {
-            return new BlogBean[size];
-        }
-    };
 
 
     /**
@@ -277,4 +231,64 @@ public class BlogBean extends Model implements Parcelable {
     public String toString() {
         return super.toString() + "@" + title;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.title);
+        dest.writeString(this.url);
+        dest.writeString(this.avatar);
+        dest.writeString(this.summary);
+        dest.writeString(this.author);
+        dest.writeString(this.authorUrl);
+        dest.writeString(this.comment);
+        dest.writeString(this.views);
+        dest.writeString(this.postDate);
+        dest.writeString(this.blogId);
+        dest.writeString(this.blogApp);
+        dest.writeString(this.tag);
+        dest.writeString(this.thumbUrls);
+        dest.writeByte(this.isReaded ? (byte) 1 : (byte) 0);
+        dest.writeString(this.blogType);
+        dest.writeStringList(this.mThumbList);
+        dest.writeString(this.content);
+        dest.writeString(this.likes);
+    }
+
+    protected BlogBean(Parcel in) {
+        this.title = in.readString();
+        this.url = in.readString();
+        this.avatar = in.readString();
+        this.summary = in.readString();
+        this.author = in.readString();
+        this.authorUrl = in.readString();
+        this.comment = in.readString();
+        this.views = in.readString();
+        this.postDate = in.readString();
+        this.blogId = in.readString();
+        this.blogApp = in.readString();
+        this.tag = in.readString();
+        this.thumbUrls = in.readString();
+        this.isReaded = in.readByte() != 0;
+        this.blogType = in.readString();
+        this.mThumbList = in.createStringArrayList();
+        this.content = in.readString();
+        this.likes = in.readString();
+    }
+
+    public static final Creator<BlogBean> CREATOR = new Creator<BlogBean>() {
+        @Override
+        public BlogBean createFromParcel(Parcel source) {
+            return new BlogBean(source);
+        }
+
+        @Override
+        public BlogBean[] newArray(int size) {
+            return new BlogBean[size];
+        }
+    };
 }
