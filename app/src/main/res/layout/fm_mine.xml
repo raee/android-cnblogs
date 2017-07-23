@@ -176,23 +176,19 @@
 
         </LinearLayout>
 
-
         <LinearLayout
-            android:id="@+id/ll_logout"
+            android:id="@+id/ll_setting"
             style="@style/ItemStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp">
+            android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/btn_logout"
+            <TextView
+                style="@style/ItemTitleStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:gravity="start|center_vertical"
-                android:text="@string/logout"
-                android:textColor="@color/ph1"
+                android:text="@string/setting"
                 android:textSize="@dimen/h2"/>
+
         </LinearLayout>
 
 

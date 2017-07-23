@@ -38,4 +38,16 @@ public class DbAdvert extends DbCnblogs {
         });
     }
 
+    /**
+     * 清除缓存
+     */
+    void clearCache() {
+        executeTransaction(new Runnable() {
+            @Override
+            public void run() {
+
+                new Delete().from(AdvertBean.class).execute();
+            }
+        });
+    }
 }

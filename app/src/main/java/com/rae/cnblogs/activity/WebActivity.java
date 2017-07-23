@@ -50,7 +50,16 @@ public class WebActivity extends SwipeBackBaseActivity {
         mShareDialog.setOnShareClickListener(new ShareDialog.OnShareClickListener() {
             @Override
             public void onShare(ShareDialog dialog) {
-                dialog.setShareWeb(mWebViewFragment.getUrl(), getTitle().toString(), null, null);
+
+                String url = mWebViewFragment.getUrl();
+                if (!url.contains("?")) {
+                    url += "?share_from=rae_cnblogs";
+                }
+                if (url.contains("&")) {
+                    url += "&share_from=rae_cnblogs";
+                }
+
+                dialog.setShareWeb(url, getTitle().toString(), String.format("%s - 来自博客园APP", getTitle()), null);
             }
         });
         mShareDialog.setExtLayoutVisibility(View.GONE);

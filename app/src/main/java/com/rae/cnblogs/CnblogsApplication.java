@@ -4,13 +4,17 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
+import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.swift.session.SessionManager;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+
+import java.io.File;
 
 /**
  * 应用程序
@@ -55,5 +59,45 @@ public class CnblogsApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(base);
+    }
+
+
+    /**
+     * 清除应用
+     */
+    public void clearCache() {
+        // 清除图片缓存
+        ImageLoader.getInstance().clearDiskCache();
+        ImageLoader.getInstance().clearMemoryCache();
+
+        // 清除文件缓存
+        deleteDir(getExternalCacheDir());
+        deleteDir(getCacheDir());
+
+        // 清除数据库
+        DbFactory.getInstance().clearCache();
+
+    }
+
+
+    private boolean deleteDir(File file) {
+        if (file != null && file.exists()) {
+            try {
+                if (file.isDirectory()) {
+                    // 删除文件夹
+                    File[] files = file.listFiles();
+                    if (files.length <= 0) return false;
+                    for (File item : files) {
+                        deleteDir(item); // 递归删除子文件
+                    }
+                } else {
+                    return file.delete();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
     }
 }

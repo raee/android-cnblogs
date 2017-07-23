@@ -36,7 +36,7 @@ public class WebLoginFragment extends WebViewFragment {
 
     @Override
     public WebViewClient getWebViewClient() {
-        return new RaeWebViewClient(mProgressBar) {
+        return new RaeWebViewClient(mProgressBar, mAppLayout) {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);

@@ -23,7 +23,6 @@ import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILoginPresenter;
-import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 
 import butterknife.BindView;
@@ -225,7 +224,7 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                CnblogsApiFactory.getInstance(getContext()).cancel();
+                mLoginPresenter.cancel();
                 onLoginCallback();
             }
         });

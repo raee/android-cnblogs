@@ -11,6 +11,11 @@ public interface ILoginPresenter extends IRaePresenter {
 
     void loadUserInfo();
 
+    /**
+     * 取消登录
+     */
+    void cancel();
+
     interface ILoginView {
 
         String getUserName();

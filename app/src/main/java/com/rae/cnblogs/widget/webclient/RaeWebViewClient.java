@@ -12,32 +12,43 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import java.io.InputStream;
+import com.rae.cnblogs.widget.AppLayout;
 
-/**
- * Created by ChenRui on 2016/12/27 23:10.
- */
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+
 public class RaeWebViewClient extends WebViewClient {
 
-    private ProgressBar mProgressBar;
+    private final WeakReference<AppLayout> mAppLayout;
+    private WeakReference<ProgressBar> mProgressBar;
     private Context mContext;
 
 
-    public RaeWebViewClient(ProgressBar progressBar) {
+    public RaeWebViewClient(ProgressBar progressBar, AppLayout appLayout) {
         mContext = progressBar.getContext();
-        mProgressBar = progressBar;
+        mProgressBar = new WeakReference<>(progressBar);
+        mAppLayout = new WeakReference<>(appLayout);
     }
 
     private void dismissProgress() {
         Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.fade_out);
-        mProgressBar.startAnimation(animation);
-        mProgressBar.setVisibility(View.GONE);
+        if (mProgressBar.get() != null) {
+            mProgressBar.get().startAnimation(animation);
+            mProgressBar.get().setVisibility(View.GONE);
+        }
+
+        if (mAppLayout.get() != null) {
+            mAppLayout.get().refreshComplete();
+        }
     }
+
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         super.onPageStarted(view, url, favicon);
-        mProgressBar.setVisibility(View.VISIBLE);
+        if (mProgressBar.get() != null) {
+            mProgressBar.get().setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -63,7 +74,7 @@ public class RaeWebViewClient extends WebViewClient {
      * @param view
      * @param scriptContent 脚本内容
      */
-    public void injectJavascript(WebView view, String scriptContent) {
+    private void injectJavascript(WebView view, String scriptContent) {
         String js = "javascript:(function(){" + scriptContent + "})();";
         view.loadUrl(js);
     }
@@ -80,7 +91,7 @@ public class RaeWebViewClient extends WebViewClient {
      * @param view
      * @param filePath 文件在assets 的路径
      */
-    public void injectJavascriptFromAssets(WebView view, String filePath) {
+    private void injectJavascriptFromAssets(WebView view, String filePath) {
         try {
             InputStream in = view.getContext().getResources().getAssets().open(filePath);
             byte[] data = new byte[in.available()];

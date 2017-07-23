@@ -15,10 +15,19 @@ public final class CnblogsApiFactory {
         if (sProvider == null) {
             synchronized (CnblogsApiFactory.class) {
                 if (sProvider == null) {
-                    sProvider = new DefaultCnblogsApiProvider(context.getApplicationContext());
+                    initProvider(new DefaultCnblogsApiProvider(context.getApplicationContext()));
                 }
             }
         }
         return sProvider;
+    }
+
+    /**
+     * 初始化接口提供程序
+     *
+     * @param provider 提供程序
+     */
+    public static void initProvider(CnblogsApiProvider provider) {
+        sProvider = provider;
     }
 }

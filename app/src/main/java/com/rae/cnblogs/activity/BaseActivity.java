@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
 import com.rae.swift.Rx;
 import com.umeng.analytics.MobclickAgent;
@@ -142,15 +141,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        onCancelHttpRequest();
         ImageLoader.getInstance().getMemoryCache().clear();
     }
-
-    protected void onCancelHttpRequest() {
-        // 取消HTTP请求
-        CnblogsApiFactory.getInstance(this).cancel();
-    }
-
 
     public int getVersionCode() {
         try {

@@ -2,7 +2,6 @@ package com.rae.cnblogs.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,16 +12,12 @@ import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.RxObservable;
-import com.rae.cnblogs.dialog.IAppDialog;
-import com.rae.cnblogs.dialog.IAppDialogClickListener;
-import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
-import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -54,8 +49,6 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.ll_follow_fans)
     View mFansAndFollowLayout;
 
-    @BindView(R.id.ll_logout)
-    View mLogoutButton;
 
     @Override
     protected int getLayoutId() {
@@ -97,18 +90,12 @@ public class MineFragment extends BaseFragment {
             mFansAndFollowLayout.setVisibility(View.GONE);
             mFansCountView.setText("0");
             mFollowCountView.setText("0");
-            mLogoutButton.setVisibility(View.GONE);
             return;
         }
 
         mDisplayNameView.setVisibility(View.VISIBLE);
         mNoLoginTextView.setVisibility(View.GONE);
         mFansAndFollowLayout.setVisibility(View.VISIBLE);
-        // 打印 登录信息
-
-        Log.i("rae", "登录信息：" + android.webkit.CookieManager.getInstance().getCookie("www.cnblogs.com"));
-
-        mLogoutButton.setVisibility(View.VISIBLE);
 
         UserInfoBean user = UserProvider.getInstance().getLoginUserInfo();
         onLoadUserInfo(user);
@@ -152,7 +139,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void onLoadUserInfo(UserInfoBean user) {
-        ImageLoader.getInstance().displayImage(user.getAvatar(), mAvatarView, RaeImageLoader.headerWithoutFadeInOption());
+        ImageLoader.getInstance().displayImage(user.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
         mDisplayNameView.setText(user.getDisplayName());
     }
 
@@ -222,25 +209,11 @@ public class MineFragment extends BaseFragment {
     }
 
     /**
-     * 退出登录
+     * 设置
      */
-    @OnClick(R.id.btn_logout)
-    public void onLogoutClick() {
-
-        HintCardDialog dialog = new HintCardDialog(getContext());
-        dialog.setMessage(getString(R.string.tips_logout));
-        dialog.setOnEnSureListener(new IAppDialogClickListener() {
-            @Override
-            public void onClick(IAppDialog dialog, int buttonType) {
-                dialog.dismiss();
-                MobclickAgent.onProfileSignOff();
-                UserProvider.getInstance().logout();
-                loadUserInfo();
-            }
-        });
-        dialog.showCloseButton();
-        dialog.setEnSureText(getString(R.string.logout));
-        dialog.show();
-
+    @OnClick(R.id.ll_setting)
+    public void onSettingClick() {
+        AppRoute.jumpToSetting(this.getContext());
     }
+
 }

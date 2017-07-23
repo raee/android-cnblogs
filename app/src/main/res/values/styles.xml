@@ -86,11 +86,11 @@
     </style>
 
     <style name="ItemStyle">
-        <item name="android:background">@drawable/public_divider_while_primary</item>
+        <item name="android:background">@drawable/setting_divider_while_primary</item>
         <item name="android:layout_marginLeft">24dp</item>
         <item name="android:layout_marginRight">24dp</item>
-        <item name="android:paddingTop">18dp</item>
-        <item name="android:paddingBottom">18dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
     </style>
 
 

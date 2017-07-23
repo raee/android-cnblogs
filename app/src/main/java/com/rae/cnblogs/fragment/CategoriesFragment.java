@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
@@ -103,6 +102,7 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
 
             @Override
             protected void accept(List<CategoryBean> data) {
+                // 初始化分类
                 for (CategoryBean item : data) {
                     CategoriesOverallItem overallItem = new CategoriesOverallItem(item);
                     if (item.isHide()) {
@@ -118,15 +118,15 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
         });
     }
 
+    /**
+     * 初始化
+     */
     private void initializeRecyclerView() {
-
         mCategoryAdapter = new CategoriesOverallAdapter(mCategoryItems);
         mCategoryAdapter.setOnlyEntryAnimation(true)
                 .setAnimationInterpolator(new DecelerateInterpolator())
                 .setAnimationInitialDelay(500L)
                 .setAnimationDelay(70L);
-
-
         mCategoryRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
         mCategoryRecyclerView.setItemViewCacheSize(0); //Setting ViewCache to 0 (default=2) will animate mCategoryItems better while scrolling down+up with LinearLayout
         mCategoryRecyclerView.setLayoutManager(new SmoothScrollStaggeredLayoutManager(getActivity(), 4));
@@ -142,11 +142,12 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
             @Override
             public boolean onItemClick(int position) {
 
-
+                // 删除模式
                 if (mCategoryAdapter.isRemoveMode()) {
 
                     AbstractFlexibleItem item = mCategoryAdapter.getItem(position);
-                    if (item == null) {
+                    // 保留首页跟推荐
+                    if (item == null || position <= 1) {
                         return false;
                     }
 
@@ -237,16 +238,18 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
         mCategoryItems = new ArrayList<>(mCategoryAdapter.getCurrentItems());
         mUnusedItems = new ArrayList<>(mUnusedAdapter.getCurrentItems());
 
+        // 不能没有分类
+        if (mCategoryItems.size() <= 0) {
+            return;
+        }
+
         for (AbstractFlexibleItem item : mCategoryItems) {
             CategoryBean category = ((CategoriesOverallItem) item).getCategory();
             category.setHide(false);
             category.setOrderNo(index);
             result.add(category);
-
-            Log.i("rae", category.getName());
-
+//            Log.i("rae", category.getName());
             index++;
-
         }
 
         index = 0;
@@ -255,7 +258,7 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
             category.setHide(true);
             category.setOrderNo(index);
             result.add(category);
-            Log.i("rae", ((CategoriesOverallItem) item).getCategory().getName());
+//            Log.i("rae", ((CategoriesOverallItem) item).getCategory().getName());
             index++;
         }
 

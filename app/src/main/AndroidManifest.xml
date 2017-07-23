@@ -93,6 +93,10 @@
             android:label="@string/my_collection"
             android:launchMode="singleTop"/>
 
+        <activity
+            android:name=".activity.SettingActivity"
+            android:label="@string/setting"
+            android:launchMode="singleTop"/>
         <!--应用宝 -->
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"

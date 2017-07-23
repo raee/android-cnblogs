@@ -14,6 +14,7 @@ import com.rae.cnblogs.activity.FriendsActivity;
 import com.rae.cnblogs.activity.ImagePreviewActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
+import com.rae.cnblogs.activity.SettingActivity;
 import com.rae.cnblogs.activity.WebActivity;
 import com.rae.cnblogs.activity.WebLoginActivity;
 import com.rae.cnblogs.sdk.bean.BlogBean;
@@ -146,5 +147,12 @@ public final class AppRoute {
      */
     public static void jumpToFavorites(Activity context) {
         startActivityForResult(context, FavoritesActivity.class, REQ_CODE_FAVORITES);
+    }
+
+    /**
+     * 设置
+     */
+    public static void jumpToSetting(Context context) {
+        startActivity(context, SettingActivity.class);
     }
 }

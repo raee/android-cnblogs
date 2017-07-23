@@ -22,11 +22,6 @@ public class WebLoginActivity extends WebActivity {
     }
 
     @Override
-    protected void onCancelHttpRequest() {
-        // 不取消请求，因为回调到上一个ACTIVITY的时候的顺序是：先回调，再finish，所以会导致请求丢失。
-    }
-
-    @Override
     protected WebViewFragment getWebViewFragment(String url) {
         return WebLoginFragment.newInstance(url);
     }

@@ -46,7 +46,14 @@ public abstract class BasePresenter<V> {
     public void destroy() {
         mView = null;
         mContext = null;
-        RxObservable.dispose(mTag); // 释放当前请求
+        cancelRequest();
+    }
+
+    /**
+     * 释放当前请求
+     */
+    public void cancelRequest() {
+        RxObservable.dispose(mTag);
     }
 
     protected boolean isNotLogin() {

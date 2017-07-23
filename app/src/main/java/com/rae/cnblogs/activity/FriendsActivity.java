@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -17,6 +18,7 @@ import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.api.IFriendsApi;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
+import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 import com.rae.swift.Rx;
@@ -25,7 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import io.reactivex.Observable;
+import io.reactivex.functions.Action;
 
 /**
  * 粉丝和关注
@@ -44,6 +49,10 @@ public class FriendsActivity extends SwipeBackBaseActivity {
 
     @BindView(R.id.placeholder)
     PlaceholderView mPlaceholderView;
+
+
+    @BindView(R.id.ptr_content)
+    AppLayout mAppLayout;
 
     private IFriendsApi mFriendApi;
 
@@ -94,11 +103,34 @@ public class FriendsActivity extends SwipeBackBaseActivity {
 
             @Override
             public void onLoadMore() {
-                start();
+                loadData();
             }
         });
-        start();
 
+
+        mAppLayout.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+                start();
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return mRecyclerView.isOnTop();
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        start();
+    }
+
+    private void start() {
+        mPage = 1;
+        loadData();
     }
 
     @Override
@@ -107,23 +139,30 @@ public class FriendsActivity extends SwipeBackBaseActivity {
     }
 
     // 获取数据
-    private void start() {
+    private void loadData() {
         Observable<List<UserInfoBean>> observable = mFriendApi.getFollowAndFansList(mUserId, mPage, !isFansType());
-        RxObservable.create(observable, "FriendsActivity").subscribe(new ApiDefaultObserver<List<UserInfoBean>>() {
-            @Override
-            protected void onError(String message) {
-                if (mPage > 1) {
-                    mRecyclerView.setNoMore(true);
-                } else {
-                    mPlaceholderView.empty(message);
-                }
-            }
+        RxObservable.create(observable, "FriendsActivity")
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mAppLayout.refreshComplete();
+                    }
+                })
+                .subscribe(new ApiDefaultObserver<List<UserInfoBean>>() {
+                    @Override
+                    protected void onError(String message) {
+                        if (mPage > 1) {
+                            mRecyclerView.setNoMore(true);
+                        } else {
+                            mPlaceholderView.empty(message);
+                        }
+                    }
 
-            @Override
-            protected void accept(List<UserInfoBean> data) {
-                onLoadFriends(data);
-            }
-        });
+                    @Override
+                    protected void accept(List<UserInfoBean> data) {
+                        onLoadFriends(data);
+                    }
+                });
     }
 
     @Override

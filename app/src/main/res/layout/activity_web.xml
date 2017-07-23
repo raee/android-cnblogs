@@ -1,56 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="false"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/default_padding_top">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
+        style="@style/AppToolBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="@dimen/action_bar_height"
+        android:background="@drawable/bg_default_action_bar">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/tool_bar"
-            style="@style/AppToolBar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/action_bar_height"
-            android:background="@drawable/bg_default_action_bar">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_web_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@string/loading"
-                    android:textColor="@color/ph1"
-                    android:textSize="@dimen/h1"/>
-
-                <ImageView
-                    android:id="@+id/img_action_bar_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/default_margin"
-                    android:src="@drawable/ic_action_bar_more"/>
-            </LinearLayout>
-        </android.support.v7.widget.Toolbar>
-
-        <!--内容区域-->
-        <FrameLayout
-            android:id="@+id/fl_content"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"/>
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    </LinearLayout>
-</android.support.v4.widget.DrawerLayout>
+            <TextView
+                android:id="@+id/tv_web_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/loading"
+                android:textColor="@color/ph1"
+                android:textSize="@dimen/h1"/>
+
+            <ImageView
+                android:id="@+id/img_action_bar_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_margin"
+                android:src="@drawable/ic_action_bar_more"/>
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <!--内容区域-->
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"/>
+
+</LinearLayout>

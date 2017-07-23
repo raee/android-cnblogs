@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.RaeWebView;
 import com.rae.cnblogs.widget.webclient.RaeJavaScriptBridge;
 import com.rae.cnblogs.widget.webclient.RaeWebChromeClient;
@@ -25,6 +26,8 @@ import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 import okhttp3.JavaNetCookieJar;
@@ -40,6 +43,7 @@ public class WebViewFragment extends BaseFragment {
     private RaeJavaScriptBridge mJavaScriptApi;
     private WebViewClient mRaeWebViewClient;
     private JavaNetCookieJar mJavaNetCookieJar;
+
 
     public static WebViewFragment newInstance(String url) {
 
@@ -59,6 +63,10 @@ public class WebViewFragment extends BaseFragment {
     @BindView(R.id.pb_web_view)
     ProgressBar mProgressBar;
 
+
+    @BindView(R.id.ptr_content)
+    AppLayout mAppLayout;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fm_web;
@@ -73,6 +81,19 @@ public class WebViewFragment extends BaseFragment {
         mWebView = new RaeWebView(getContext().getApplicationContext());
         mWebView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mContentLayout.addView(mWebView);
+
+        mAppLayout.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+                mWebView.reload(); // 刷新WebView
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                // 是否处于顶部
+                return mProgressBar.getVisibility() != View.VISIBLE && !mWebView.canScrollVertically(-1) && super.checkCanDoRefresh(frame, content, header);
+            }
+        });
 
         return view;
     }
@@ -139,14 +160,9 @@ public class WebViewFragment extends BaseFragment {
 
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
+        mAppLayout.removeAllViews();
         mWebView.removeAllViews();
         mWebView.destroy();
         if (mRaeWebViewClient != null && mRaeWebViewClient instanceof RaeWebViewClient) {
@@ -157,6 +173,17 @@ public class WebViewFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // 点击标题返回顶部
+        View titleView = getActivity().findViewById(R.id.tv_web_title);
+        if (titleView != null) {
+            titleView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mWebView.scrollTo(0, 0);
+                }
+            });
+        }
     }
 
     public String getUrl() {
@@ -177,7 +204,7 @@ public class WebViewFragment extends BaseFragment {
     }
 
     public WebViewClient getWebViewClient() {
-        return new RaeWebViewClient(mProgressBar);
+        return new RaeWebViewClient(mProgressBar, mAppLayout);
     }
 
     public Object getJavascriptApi() {

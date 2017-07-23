@@ -16,7 +16,7 @@ import com.rae.cnblogs.sdk.api.impl.CategoryApiImpl;
  * 博客园默认接口实现
  * Created by ChenRui on 2017/1/19 20:45.
  */
-class DefaultCnblogsApiProvider extends CnblogsApiProvider {
+public class DefaultCnblogsApiProvider extends CnblogsApiProvider {
 
     protected DefaultCnblogsApiProvider(Context applicationContext) {
         super(applicationContext);
@@ -69,7 +69,4 @@ class DefaultCnblogsApiProvider extends CnblogsApiProvider {
         return mRetrofit.create(IRaeServerApi.class);
     }
 
-    @Override
-    public void cancel() {
-    }
 }

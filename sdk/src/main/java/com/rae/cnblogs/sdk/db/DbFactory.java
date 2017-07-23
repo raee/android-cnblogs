@@ -1,5 +1,9 @@
 package com.rae.cnblogs.sdk.db;
 
+import com.activeandroid.ActiveAndroid;
+
+import java.io.File;
+
 /**
  * 本地数据库工厂
  * Created by ChenRui on 2017/2/19 01:09.
@@ -48,5 +52,29 @@ public final class DbFactory {
             mAdvert = new DbAdvert();
         }
         return mAdvert;
+    }
+
+    /**
+     * 清除缓存数据
+     */
+    public void clearCache() {
+        // 删除博客数据
+        ActiveAndroid.clearCache();
+        getBlog().clearCache();
+        getAdvert().clearCache();
+    }
+
+    /**
+     * 获取数据库缓存大小
+     *
+     * @return 文件长度
+     */
+    public long getCacheSize() {
+        String path = ActiveAndroid.getDatabase().getPath();
+        File file = new File(path);
+        if (!file.exists() && !file.canRead()) {
+            return 0;
+        }
+        return file.length();
     }
 }

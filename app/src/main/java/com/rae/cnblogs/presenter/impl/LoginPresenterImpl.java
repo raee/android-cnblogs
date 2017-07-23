@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.ILoginPresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.Empty;
@@ -83,6 +82,11 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
     @Override
     public void loadUserInfo() {
 
+    }
+
+    @Override
+    public void cancel() {
+        cancelRequest();
     }
 
     @Override

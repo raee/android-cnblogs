@@ -45,7 +45,7 @@
     <string name="go_web_login">去网页版登录</string>
     <string name="delete_comment">删除评论</string>
     <string name="my_collection">我的收藏</string>
-    <string name="setting">设置</string>
+    <string name="setting">更多设置</string>
     <string name="logout">退出登录</string>
     <string name="following">关注</string>
     <string name="cancel_follow">取消关注</string>
@@ -78,4 +78,5 @@
     <string name="cancel_bookmarks_title">收藏接口限制</string>
     <string name="go_now">立即前往</string>
     <string name="cnblogs_cookie_url">http://cnblogs.com</string>
+    <string name="clear_cache">清除缓存</string>
 </resources>

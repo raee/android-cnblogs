@@ -3,6 +3,8 @@ package com.rae.cnblogs.sdk.db;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
@@ -104,5 +106,25 @@ public class DbBlog extends DbCnblogs {
 
     public void updateBlog(BlogBean m) {
         m.save();
+    }
+
+    /**
+     * 清除缓存
+     * 1、博客数据
+     * 2、用户的博客数据
+     */
+    void clearCache() {
+        // 1、清除blogs表的缓存
+
+        super.executeTransaction(new Runnable() {
+            @Override
+            public void run() {
+                new Delete().from(BlogBean.class).execute();
+                // 2、清除blog_info表的博文内容以及已读状态
+                ActiveAndroid.execSQL("update blog_info set content=null,isRead=0");
+            }
+        });
+
+
     }
 }

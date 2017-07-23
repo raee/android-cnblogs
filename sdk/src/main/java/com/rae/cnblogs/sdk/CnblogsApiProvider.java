@@ -105,8 +105,4 @@ public abstract class CnblogsApiProvider {
      */
     public abstract IRaeServerApi getRaeServerApi();
 
-    /**
-     * 取消所有请求
-     */
-    public abstract void cancel();
 }

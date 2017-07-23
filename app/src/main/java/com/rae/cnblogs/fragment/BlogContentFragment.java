@@ -137,11 +137,11 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     public void onLikeSuccess(boolean isCancel) {
         mLikeView.setEnabled(true);
         mLikeView.setSelected(!isCancel);
+        int like = parseInt(mBlog.getLikes());
+
         if (mLikeView.isSelected()) {
             // 点赞数量加1
-            int like = parseInt(mBlog.getLikes()) + 1;
-            mLikeView.setText(String.valueOf(like));
-
+            mLikeView.setText(String.valueOf(like + 1));
             mLikeAnimView.anim(new Runnable() {
                 @Override
                 public void run() {
@@ -150,7 +150,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
                 }
             });
         } else {
-            mLikeView.setText(mBlog.getLikes());
+            mLikeView.setText(like <= 0 ? "" : String.valueOf(like));
             mLikeView.setVisibility(View.VISIBLE);
             mLikeAnimView.setVisibility(View.GONE);
         }
@@ -231,7 +231,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
     @Override
     public WebViewClient getWebViewClient() {
-        return new RaeWebViewClient(mProgressBar) {
+        return new RaeWebViewClient(mProgressBar, mAppLayout) {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

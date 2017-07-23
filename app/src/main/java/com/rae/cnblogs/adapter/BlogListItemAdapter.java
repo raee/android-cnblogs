@@ -33,7 +33,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
     private DisplayImageOptions mAvatarOptions;
 
     public BlogListItemAdapter(BlogType type) {
-        mAvatarOptions = RaeImageLoader.headerWithoutFadeInOption();
+        mAvatarOptions = RaeImageLoader.headerOption();
         mBlogType = type;
         int size = 5;
         List<BlogBean> data = new ArrayList<>();

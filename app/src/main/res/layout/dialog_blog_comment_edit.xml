@@ -9,7 +9,7 @@
         android:id="@+id/et_edit_comment_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/bg_edit_comment"
         android:gravity="left|top"
         android:hint="@string/edit_comment_hint"

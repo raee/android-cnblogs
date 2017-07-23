@@ -14,21 +14,15 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
  * Created by ChenRui on 2016/12/3 17:01.
  */
 public final class RaeImageLoader {
-    private static DisplayImageOptions.Builder sDisplayImageOptions;
 
-    static {
-        sDisplayImageOptions = new DisplayImageOptions.Builder()
+    public static DisplayImageOptions.Builder defaultOptions() {
+        return new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
                 .cacheInMemory(false);
     }
 
-    public static DisplayImageOptions.Builder defaultOptions() {
-        return sDisplayImageOptions;
-    }
-
-    //
     public static DisplayImageOptions.Builder fadeOptions(int durationMillis) {
-        return defaultOptions().displayer(new FadeInBitmapDisplayer(durationMillis));
+        return defaultOptions().displayer(new FadeInBitmapDisplayer(durationMillis, true, false, false));
     }
 
     /**
@@ -38,20 +32,7 @@ public final class RaeImageLoader {
      */
     public static DisplayImageOptions headerOption() {
         return defaultOptions()
-                .displayer(new FadeInBitmapDisplayer(300))
-                .showImageForEmptyUri(R.drawable.ic_default_user_avatar)
-                .showImageOnLoading(R.drawable.ic_default_user_avatar)
-                .showImageOnFail(R.drawable.ic_default_user_avatar)
-                .build();
-    }
-
-    /**
-     * 头像的默认配置
-     *
-     * @return
-     */
-    public static DisplayImageOptions headerWithoutFadeInOption() {
-        return defaultOptions()
+                .displayer(new FadeInBitmapDisplayer(800, true, false, false))
                 .showImageForEmptyUri(R.drawable.ic_default_user_avatar)
                 .showImageOnLoading(R.drawable.ic_default_user_avatar)
                 .showImageOnFail(R.drawable.ic_default_user_avatar)
