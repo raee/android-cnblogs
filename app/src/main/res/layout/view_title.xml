@@ -5,7 +5,7 @@
     style="@style/AppToolBar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/action_bar_height"
-    android:background="@drawable/public_divider_while_primary"
+    android:background="@drawable/tab_channel_background"
     android:gravity="center">
 
     <TextView

@@ -80,6 +80,15 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
+        mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 重试
+                mPlaceholderView.loading();
+                mContentPresenter.loadContent();
+            }
+        });
     }
 
     @Override
@@ -119,7 +128,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
     @Override
     public void onLoadContentFailed(String msg) {
-        mPlaceholderView.empty();
+        mPlaceholderView.retry(msg);
     }
 
     @Override

@@ -39,7 +39,11 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
     @Override
     public void loadContent() {
         BlogBean blog = mView.getBlog();
-        if (blog == null) return;
+        if (blog == null) {
+            mView.onLoadContentFailed("该博客不存在");
+            return;
+        }
+
 
         // 获取用户的博客信息
         mBlogInfo = mDbBlog.get(blog.getBlogId());

@@ -77,6 +77,7 @@ public class CnblogsApplication extends Application {
         // 清除数据库
         DbFactory.getInstance().clearCache();
 
+
     }
 
 
@@ -86,7 +87,9 @@ public class CnblogsApplication extends Application {
                 if (file.isDirectory()) {
                     // 删除文件夹
                     File[] files = file.listFiles();
-                    if (files.length <= 0) return false;
+                    if (files.length <= 0) {
+                        return file.delete();
+                    }
                     for (File item : files) {
                         deleteDir(item); // 递归删除子文件
                     }

@@ -128,6 +128,11 @@ public class PlaceholderView extends FrameLayout {
         mLoadingView.setVisibility(GONE);
     }
 
+    public void retry(String msg) {
+        empty(msg);
+        mRetryView.setVisibility(View.VISIBLE);
+    }
+
     /**
      * 网络错误
      */
@@ -148,6 +153,7 @@ public class PlaceholderView extends FrameLayout {
         setEmptyMessage(msg);
         empty();
     }
+
 
     /**
      * empty message
@@ -173,6 +179,7 @@ public class PlaceholderView extends FrameLayout {
             }
         });
     }
+
 
     public void dismiss() {
         setVisibility(GONE);

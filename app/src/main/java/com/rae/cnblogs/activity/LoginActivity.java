@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
+import com.rae.cnblogs.BuildConfig;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.dialog.DialogProvider;
@@ -23,6 +24,8 @@ import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILoginPresenter;
+import com.rae.cnblogs.sdk.CnblogsApiFactory;
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 
 import butterknife.BindView;
@@ -126,6 +129,14 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
      */
     @OnClick(R.id.btn_login)
     public void onLoginClick() {
+        if (BuildConfig.DEBUG) {
+            CnblogsApiFactory.getInstance(this).getUserApi();
+            UserProvider.getInstance().debugLogin();
+            finish();
+            return;
+        }
+
+
         if (config().hasLoginGuide()) {
             preformLogin();
         } else {
