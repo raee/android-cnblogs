@@ -46,9 +46,6 @@ public class MainActivity extends BaseActivity {
         AppStatusBar.setStatusbarToDark(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//
-//        CnblogsApiFactory.getInstance(this);
-//        UserProvider.getInstance().debugLogin();
 
         mFragmentAdapter = new RaeFragmentAdapter(getSupportFragmentManager());
         CategoryBean kb = new CategoryBean();
