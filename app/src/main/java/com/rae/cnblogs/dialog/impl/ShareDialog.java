@@ -69,6 +69,9 @@ public class ShareDialog extends SlideDialog {
     @BindView(R.id.hl_ext_action_layout)
     View mExtLayout;
 
+    @BindView(R.id.view_divider)
+    View mDividerView;
+
     ShareAction mShareAction;
 
     private OnShareClickListener mOnShareClickListener;
@@ -135,6 +138,7 @@ public class ShareDialog extends SlideDialog {
      */
     public void setExtLayoutVisibility(int visibility) {
         mExtLayout.setVisibility(visibility);
+        mDividerView.setVisibility(visibility);
     }
 
     // 开始动画

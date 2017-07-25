@@ -1,16 +1,20 @@
 package com.rae.cnblogs.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.CnblogsApplication;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
+import com.rae.cnblogs.dialog.impl.ShareDialog;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.umeng.analytics.MobclickAgent;
@@ -42,6 +46,8 @@ public class SettingActivity extends SwipeBackBaseActivity {
 
     @BindView(R.id.ll_logout)
     View mLogoutLayout;
+
+    private ShareDialog mShareDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -128,4 +134,30 @@ public class SettingActivity extends SwipeBackBaseActivity {
         dialog.show();
 
     }
+
+    /**
+     * 分享
+     */
+    @OnClick(R.id.ll_share)
+    public void onShareClick() {
+        if (mShareDialog == null) {
+            mShareDialog = new ShareDialog(getContext());
+            mShareDialog.setShareWeb(getString(R.string.share_app_url), getString(R.string.share_app_title), getString(R.string.share_app_desc), R.drawable.ic_share_app);
+            mShareDialog.setExtLayoutVisibility(View.GONE);
+        }
+        mShareDialog.show();
+    }
+
+    /**
+     * 好评
+     */
+    @OnClick(R.id.praises)
+    public void onPraisesClick() {
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.market_url))));
+        } catch (Exception e) {
+            AppUI.failed(this, getString(R.string.praises_error));
+        }
+    }
+
 }

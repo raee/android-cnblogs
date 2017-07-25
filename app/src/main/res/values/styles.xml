@@ -14,11 +14,13 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@style/AppAnimation</item>
         <item name="android:windowBackground">@color/default_background</item>
+        <item name="android:textColorPrimary">@color/ph1</item>
     </style>
 
 
     <style name="AppTheme.Dark">
     </style>
+
 
     <style name="AppTheme.NoActionBar">
         <item name="android:windowNoTitle">true</item>
@@ -29,6 +31,10 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="AppTheme.Translucent" parent="AppTheme.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
     <style name="AppButton" parent="@style/Widget.AppCompat.Button.Borderless">
     </style>

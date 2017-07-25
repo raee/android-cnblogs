@@ -33,7 +33,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/account_top_bg"
-                        android:minHeight="100dp"
+                        android:minHeight="240dp"
                         android:scaleType="centerCrop"/>
 
                     <!--添加一层遮罩层-->
@@ -199,11 +199,12 @@
 
     </com.rae.cnblogs.widget.BloggerLayout>
 
+    <!--状态栏底色-->
     <View
         android:id="@+id/view_bg_holder"
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_padding_top"
-        android:background="@color/background_divider"/>
+        android:background="#303135"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"

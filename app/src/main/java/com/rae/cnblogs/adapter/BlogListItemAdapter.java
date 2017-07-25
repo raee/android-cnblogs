@@ -33,7 +33,11 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
     private DisplayImageOptions mAvatarOptions;
 
     public BlogListItemAdapter(BlogType type) {
-        mAvatarOptions = RaeImageLoader.headerOption();
+        if (type == BlogType.NEWS) {
+            mAvatarOptions = RaeImageLoader.defaultOptions().build();
+        } else {
+            mAvatarOptions = RaeImageLoader.headerOption();
+        }
         mBlogType = type;
         int size = 5;
         List<BlogBean> data = new ArrayList<>();
@@ -62,7 +66,14 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
             return new ItemLoadingViewHolder(inflateView(parent, R.layout.item_list_loading));
         }
 
-        return new BlogItemViewHolder(inflateView(parent, R.layout.item_blog_list));
+        int layoutId = R.layout.item_blog_list;
+
+        // 新闻类型
+        if (mBlogType == BlogType.NEWS) {
+            layoutId = R.layout.item_news_list;
+        }
+
+        return new BlogItemViewHolder(inflateView(parent, layoutId));
     }
 
     @Override
@@ -112,8 +123,9 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         holder.itemView.setTag(m);
         holder.itemView.setOnClickListener(this);
 
-        showThumbImages(m, holder);
-
+        if (mBlogType != BlogType.NEWS) {
+            showThumbImages(m, holder);
+        }
     }
 
     /**

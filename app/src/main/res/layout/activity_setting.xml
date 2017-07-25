@@ -36,9 +36,45 @@
                 android:layout_height="20dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_task_finish"
-                android:visibility="invisible"/>
+                android:visibility="gone"/>
 
         </LinearLayout>
+
+        <LinearLayout
+
+            android:id="@+id/praises"
+            style="@style/ItemStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/ItemTitleStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/praises"
+                android:textSize="@dimen/h2"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_share"
+            style="@style/ItemStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/ItemTitleStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/share_app"
+                android:textSize="@dimen/h2"/>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/ll_logout"

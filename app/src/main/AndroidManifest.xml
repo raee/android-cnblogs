@@ -26,11 +26,11 @@
             android:name=".activity.LauncherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            <!--   <intent-filter>
+                   <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+                   <category android:name="android.intent.category.LAUNCHER"/>
+               </intent-filter>-->
         </activity>
 
         <!--主界面-->
@@ -38,25 +38,24 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-            <!--    <intent-filter>
-                    <action android:name="android.intent.action.MAIN"/>
+            <!--   <intent-filter>
+                   <action android:name="android.intent.action.MAIN"/>
 
-                    <category android:name="android.intent.category.LAUNCHER"/>
-                </intent-filter>-->
+                   <category android:name="android.intent.category.LAUNCHER"/>
+               </intent-filter>-->
         </activity>
 
-        <!--
-                <activity
-                    android:name=".activity.TestActivity"
-                    android:label="测试入口"
-                    android:screenOrientation="portrait">
-                            <intent-filter>
-                                <action android:name="android.intent.action.MAIN"/>
+        <activity
+            android:name=".activity.TestActivity"
+            android:label="测试入口"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-                                <category android:name="android.intent.category.LAUNCHER"/>
-                            </intent-filter>
-                </activity>
-        -->
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
         <!--博文-->
         <activity
@@ -77,7 +76,11 @@
         <activity
             android:name=".activity.WebActivity"/>
 
-        <activity android:name=".activity.ImagePreviewActivity"/>
+        <!--全屏图片预览-->
+        <activity
+            android:name=".image.ImagePreviewActivity"
+            android:theme="@style/AppTheme.Translucent"/>
+
         <!--博主-->
         <activity android:name=".activity.BloggerActivity"/>
         <!--关注、粉丝-->

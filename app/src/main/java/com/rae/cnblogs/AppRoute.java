@@ -11,7 +11,7 @@ import com.rae.cnblogs.activity.BloggerActivity;
 import com.rae.cnblogs.activity.CategoryActivity;
 import com.rae.cnblogs.activity.FavoritesActivity;
 import com.rae.cnblogs.activity.FriendsActivity;
-import com.rae.cnblogs.activity.ImagePreviewActivity;
+import com.rae.cnblogs.image.ImagePreviewActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
 import com.rae.cnblogs.activity.SettingActivity;

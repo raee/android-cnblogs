@@ -33,8 +33,8 @@ public class CnblogsApplicationProxy extends TinkerApplicationLike {
         UserProvider.init(getApplication());
         SessionManager.initWithConfig(new SessionManager.ConfigBuilder().context(getApplication()).userClass(UserInfoBean.class).build());
 //        if (!BuildConfig.BUILD_TYPE.equals("debug")) {
-            // 日志上报
-            Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG);
+        // 日志上报
+        Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG);
 //        }
         if (BuildConfig.DEBUG) {
 //            LeakCanary.install(this);
