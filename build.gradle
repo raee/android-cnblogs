@@ -13,6 +13,7 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         maven { url 'http://maven.raeblog.com:8081/repository/maven-public/' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
@@ -24,5 +25,5 @@ task clean(type: Delete) {
 }
 
 ext {
-    supportVersion = '25.2.0'
+    supportVersion = '25.4.0'
 }

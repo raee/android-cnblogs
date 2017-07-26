@@ -1,28 +1,51 @@
 package com.rae.cnblogs.image;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.activity.BaseActivity;
-import com.rae.cnblogs.fragment.ImagePreviewFragment;
-import com.rae.swift.app.RaeFragmentAdapter;
+import com.rae.cnblogs.sdk.ApiDefaultObserver;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 图片预览
  * Created by ChenRui on 2017/2/6 0006 15:48.
  */
-public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
 
     @BindView(R.id.vp_image_preview)
     ViewPager mViewPager;
@@ -30,37 +53,65 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
     @BindView(R.id.tv_image_preview_count)
     TextView mCountView;
 
+    @BindView(R.id.ll_bottom)
+    View mBottomLayout;
+
+    @BindView(R.id.img_back)
+    View mCloseView;
+
+    private final Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg.what == View.VISIBLE) {
+                Animation animation = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
+                mCloseView.startAnimation(animation);
+                mBottomLayout.setVisibility(View.VISIBLE);
+
+                mCloseView.startAnimation(animation);
+                mCloseView.setVisibility(View.VISIBLE);
+            } else {
+                Animation animation = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
+                mCloseView.startAnimation(animation);
+                mBottomLayout.setVisibility(View.GONE);
+
+                mCloseView.startAnimation(animation);
+                mCloseView.setVisibility(View.GONE);
+            }
+
+            return false;
+        }
+    });
+    private long timeout = 3000;
+    ImageAdapter mAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_preview);
-        ButterKnife.bind(this);
 
-        RaeFragmentAdapter adapter = new RaeFragmentAdapter(getSupportFragmentManager());
-
-        List<String> data = new ArrayList<>();
-
-        data.add("http://img05.tooopen.com/images/20150201/sl_109938035874.jpg");
-        data.add("http://img04.tooopen.com/thumbnails/20130712/x_17270713.jpg");
-        data.add("http://img04.tooopen.com/thumbnails/20130701/x_20083555.jpg");
-        data.add("http://img06.tooopen.com/images/20170123/tooopen_sl_197478145926.jpg");
-        data.add("http://img02.tooopen.com/images/20141229/sl_107003776898.jpg");
-        data.add("http://img06.tooopen.com/images/20170123/tooopen_sl_197475962817.jpg");
-
-
-        for (String url : data) {
-            adapter.add(ImagePreviewFragment.newInstance(url));
+        ArrayList<String> images = getIntent().getStringArrayListExtra("images");
+        if (images == null || images.size() <= 0) {
+            finish();
+            return;
         }
 
+        mAdapter = new ImageAdapter(this, images);
+        mAdapter.setOnItemClickListener(this);
+        mViewPager.setAdapter(mAdapter);
 
-        mViewPager.setAdapter(adapter);
+        int position = getIntent().getIntExtra("position", mViewPager.getCurrentItem());
 
-
-        if (adapter.getCount() > 1) {
+        if (mViewPager.getAdapter().getCount() > 1) {
             mViewPager.addOnPageChangeListener(this);
-            onPageSelected(mViewPager.getCurrentItem());
         }
 
+        mViewPager.setCurrentItem(position);
+
+        if (position <= 0)
+            onPageSelected(position);
+
+
+        mHandler.sendEmptyMessageDelayed(View.GONE, timeout);
     }
 
     @OnClick(R.id.img_back)
@@ -82,5 +133,122 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mCloseView.getVisibility() == View.VISIBLE) {
+            this.finish();
+        } else {
+            mHandler.removeMessages(View.GONE);
+            mHandler.sendEmptyMessage(View.VISIBLE);
+            mHandler.sendEmptyMessageDelayed(View.GONE, timeout);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            onDownloadClick();
+        }
+    }
+
+    @OnClick(R.id.img_download)
+    public void onDownloadClick() {
+        // 检查权限
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+            return;
+        }
+
+        int item = mViewPager.getCurrentItem();
+        String url = mAdapter.getItem(item);
+        File file = ImageLoader.getInstance().getDiskCache().get(url);
+        if (file == null || !file.exists()) {
+            AppUI.failed(this, "请稍候图片加载完毕再保存");
+            return;
+        }
+
+        AppUI.loading(getContext(), "正在保存");
+
+        // 保存图片
+        Observable.just(file)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        AppUI.dismiss();
+                    }
+                })
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        AppUI.toastInCenter(getContext(), "保存图片成功");
+                    }
+                })
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        AppUI.failed(getContext(), "保存图片失败");
+                    }
+                })
+                .map(new Function<File, File>() {
+                    @Override
+                    public File apply(File file) throws Exception {
+                        Log.i("rae", "文件路径：" + file.getPath());
+                        MediaStore.Images.Media.insertImage(getContentResolver(), file.getPath(), file.getName(), null);
+                        return copy(file);
+                    }
+                })
+                .subscribe(new ApiDefaultObserver<File>() {
+                    @Override
+                    protected void onError(String message) {
+                    }
+
+                    @Override
+                    protected void accept(File file) {
+                        // 通知图片库刷新
+                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+                        Log.i("rae", "图片库路径：" + file.getPath());
+                    }
+                });
+
+
+    }
+
+    /**
+     * 复制图片到图片库中去
+     *
+     * @param file 源图片
+     */
+    private File copy(File file) {
+        FileOutputStream outputStream = null;
+        FileInputStream stream = null;
+        try {
+            File target = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), file.getName());
+            outputStream = new FileOutputStream(target);
+            stream = new FileInputStream(file);
+            int len = 0;
+            byte[] buffer = new byte[128];
+            while ((len = stream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, len);
+            }
+            return target;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (outputStream != null)
+                    outputStream.close();
+                if (stream != null)
+                    stream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return file;
     }
 }

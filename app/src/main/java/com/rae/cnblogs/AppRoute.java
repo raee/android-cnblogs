@@ -11,14 +11,16 @@ import com.rae.cnblogs.activity.BloggerActivity;
 import com.rae.cnblogs.activity.CategoryActivity;
 import com.rae.cnblogs.activity.FavoritesActivity;
 import com.rae.cnblogs.activity.FriendsActivity;
-import com.rae.cnblogs.image.ImagePreviewActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
 import com.rae.cnblogs.activity.SettingActivity;
 import com.rae.cnblogs.activity.WebActivity;
 import com.rae.cnblogs.activity.WebLoginActivity;
+import com.rae.cnblogs.image.ImagePreviewActivity;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
+
+import java.util.ArrayList;
 
 /**
  * 路由
@@ -122,8 +124,11 @@ public final class AppRoute {
         startActivity(context, intent);
     }
 
-    public static void jumpToImagePreview(Context context) {
-        startActivity(context, ImagePreviewActivity.class);
+    public static void jumpToImagePreview(Context context, ArrayList<String> images, int position) {
+        Intent intent = new Intent(context, ImagePreviewActivity.class);
+        intent.putStringArrayListExtra("images", images);
+        intent.putExtra("position", position);
+        startActivity(context, intent);
     }
 
     public static void jumpToBlogger(Context context, String blogApp) {

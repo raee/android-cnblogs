@@ -93,8 +93,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
     @Override
     public Object getJavascriptApi() {
-        return new RaeJavaScriptBridge() {
-
+        return new RaeJavaScriptBridge(getContext()) {
             @JavascriptInterface
             public String getBlog() {
                 return AppGson.get().toJson(mBlog);
@@ -124,6 +123,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     public void onLoadContentSuccess(BlogBean blog) {
         mPlaceholderView.dismiss();
         mWebView.loadUrl("file:///android_asset/view.html");
+//        mWebView.loadUrl("http://192.168.168.10:8080/test.html");
     }
 
     @Override

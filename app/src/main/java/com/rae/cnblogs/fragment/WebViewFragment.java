@@ -102,7 +102,7 @@ public class WebViewFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mJavaScriptApi = new RaeJavaScriptBridge();
+        mJavaScriptApi = new RaeJavaScriptBridge(getContext());
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDisplayZoomControls(false);

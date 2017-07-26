@@ -14,17 +14,23 @@ if(hasJQuery){
 }
 
 function onPageLoad(){
-    $("img").click(function(){
-    	var src = $(this).attr("src");
-    	var urls = new Array();
-    	$("img").each(function(key,obj){
-    		urls[urls.length] = $(obj).attr("src");
-    	});
 
-    	console.log(JSON.stringify(urls));
+}
 
-    	app.onImageClick(src, urls);
-    });
-
-    // 解析当前页面，是否为查看博文
+// 图片点击
+function initImage(){
+    $("img").click(function(e){
+                   e.stopPropagation(); // 阻止事件冒泡
+                	var src = $(this).attr("src");
+                	var urls = new Array();
+                	$("img").each(function(key,obj){
+                		urls[urls.length] = $(obj).attr("src");
+                	});
+                	var images ="{}"
+                    if(urls.length>0){
+                        images = JSON.stringify(urls);
+                    }
+                	app.onImageClick(src, images);
+                	return false;
+                });
 }
