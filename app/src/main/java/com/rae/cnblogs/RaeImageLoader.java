@@ -18,6 +18,9 @@ public final class RaeImageLoader {
     public static DisplayImageOptions.Builder defaultOptions() {
         return new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
+                .showImageForEmptyUri(R.drawable.picture_viewer_no_pic_icon)
+                .showImageOnLoading(R.drawable.ic_default_placeholder)
+                .showImageOnFail(R.drawable.picture_viewer_no_pic_icon)
                 .cacheInMemory(false);
     }
 

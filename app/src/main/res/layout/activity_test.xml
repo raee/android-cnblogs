@@ -36,6 +36,18 @@
             android:layout_height="wrap_content"
             android:text="对话框"/>
 
+        <Button
+            android:id="@+id/btn_start_service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="启动服务"/>
+
+        <Button
+            android:id="@+id/btn_stop_service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="停止服务"/>
+
         <TextView
             android:id="@+id/tv_console"
             android:layout_width="wrap_content"

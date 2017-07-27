@@ -72,7 +72,7 @@ public class DbBlog extends DbCnblogs {
      *
      * @return
      */
-    public List<BlogBean> findAllWithoutBlogContnet() {
+    public List<BlogBean> findAllWithoutBlogContent() {
         return new Select().from(BlogBean.class).as("blog").leftJoin(UserBlogInfo.class).as("info").on("blog.blogId=info.blogId").where("info.content is NULL").execute();
     }
 
@@ -122,6 +122,30 @@ public class DbBlog extends DbCnblogs {
                 new Delete().from(BlogBean.class).execute();
                 // 2、清除blog_info表的博文内容以及已读状态
                 ActiveAndroid.execSQL("update blog_info set content=null,isRead=0");
+            }
+        });
+
+
+    }
+
+    public void updateBlogContent(final String blogId, final String blogType, final String content) {
+
+        executeTransaction(new Runnable() {
+            @Override
+            public void run() {
+//                UserBlogInfo count = new Select().from(UserBlogInfo.class).where("blogId=?", blogId).executeSingle();
+//                if (count <= 0) {
+//                    UserBlogInfo blogInfo = new UserBlogInfo();
+//                    blogInfo.setBlogId(blogId);
+//                    blogInfo.setBlogType(blogType);
+//                    blogInfo.setContent(content);
+//                    blogInfo.save();
+//                } else {
+//                    // 更新
+//                    ActiveAndroid.execSQL("update blog_info set content=? where blogId=? and blogType=?", new String[]{
+//                            content, blogId, blogType
+//                    });
+//                }
             }
         });
 

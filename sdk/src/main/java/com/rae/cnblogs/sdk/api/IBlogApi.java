@@ -15,6 +15,7 @@ import com.rae.cnblogs.sdk.parser.KBListParser;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -49,6 +50,16 @@ public interface IBlogApi {
     @GET(ApiUrls.API_BLOG_CONTENT)
     @Parser(BlogContentParser.class)
     Observable<String> getBlogContent(@Path("id") String id);
+
+
+    /**
+     * [同步方式]获取博客文章内容
+     *
+     * @param id 博客ID
+     */
+    @GET(ApiUrls.API_BLOG_CONTENT)
+    @Parser(BlogContentParser.class)
+    Call<String> syncGetBlogContent(@Path("id") String id);
 
     /**
      * 获取评论列表

@@ -81,7 +81,7 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
             return false;
         }
     });
-    private long timeout = 3000;
+    private long timeout = 10000;
     ImageAdapter mAdapter;
 
     @Override

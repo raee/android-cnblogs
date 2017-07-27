@@ -26,11 +26,11 @@
             android:name=".activity.LauncherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
-               <intent-filter>
-                   <action android:name="android.intent.action.MAIN"/>
+            <!--       <intent-filter>
+                       <action android:name="android.intent.action.MAIN"/>
 
-                   <category android:name="android.intent.category.LAUNCHER"/>
-               </intent-filter>
+                       <category android:name="android.intent.category.LAUNCHER"/>
+                   </intent-filter>-->
         </activity>
 
         <!--主界面-->
@@ -45,7 +45,7 @@
                </intent-filter>-->
         </activity>
 
-<!--        <activity
+        <activity
             android:name=".activity.TestActivity"
             android:label="测试入口"
             android:screenOrientation="portrait"
@@ -55,7 +55,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>-->
+        </activity>
 
         <!--博文-->
         <activity
@@ -165,6 +165,10 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL}"/>
+
+        <service
+            android:name=".service.CnblogsService"
+            android:label="@string/service_name"/>
 
     </application>
 

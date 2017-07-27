@@ -1,13 +1,16 @@
 package com.rae.cnblogs.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.dialog.impl.MenuDialog;
+import com.rae.cnblogs.service.CnblogsService;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
@@ -15,6 +18,7 @@ import com.rae.cnblogs.widget.RaeRecyclerView;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
@@ -40,6 +44,7 @@ public class TestActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        ButterKnife.bind(this);
 
 
 //        getSupportFragmentManager().beginTransaction().add(R.id.content, new CategoriesFragment()).commit();
@@ -78,6 +83,7 @@ public class TestActivity extends BaseActivity {
 
     @OnClick(R.id.btn_test)
     void onTestClick() {
+
 //        mRaeDrawerLayout.toggleSmoothScroll();
 
 //        mLoadingView.loading();
@@ -109,6 +115,9 @@ public class TestActivity extends BaseActivity {
 //        AppRoute.jumpToWebLogin(this);
 //        AppRoute.jumpToLogin(this);
 
+        ImageLoader.getInstance().getDiskCache().clear();
+        ImageLoader.getInstance().getMemoryCache().clear();
+
         ArrayList<String> images = new ArrayList<>();
         images.add("http://img05.tooopen.com/images/20150201/sl_109938035874.jpg");
         images.add("http://img04.tooopen.com/thumbnails/20130712/x_17270713.jpg");
@@ -117,7 +126,7 @@ public class TestActivity extends BaseActivity {
         images.add("http://img02.tooopen.com/images/20141229/sl_107003776898.jpg");
         images.add("http://img06.tooopen.com/images/20170123/tooopen_sl_197475962817.jpg");
 
-        AppRoute.jumpToImagePreview(this, images, 2);
+        AppRoute.jumpToImagePreview(this, images, 0);
     }
 
     @OnLongClick(R.id.btn_test_dialog)
@@ -140,4 +149,15 @@ public class TestActivity extends BaseActivity {
         return true;
     }
 
+    @OnClick(R.id.btn_start_service)
+    public void onStartServiceClick() {
+        Intent intent = new Intent(this, CnblogsService.class);
+        startService(intent);
+    }
+
+    @OnClick(R.id.btn_stop_service)
+    public void onStopServiceClick() {
+        Intent intent = new Intent(this, CnblogsService.class);
+        stopService(intent);
+    }
 }
