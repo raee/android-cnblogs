@@ -28,7 +28,7 @@ public class CnblogsApplication extends TinkerApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG && LeakCanary.isInAnalyzerProcess(this)) {
             refWatcher = LeakCanary.install(this);
         }
     }
