@@ -31,8 +31,14 @@ public class JobScheduler {
     public void start(int action) {
         IJob job = getJob(action);
         if (job == null) return;
-//        job.cancel();
         job.run();
+    }
+
+    /**
+     * 下载博文任务
+     */
+    public void startDownloadBlogContent() {
+        start(ACTION_BLOG_CONTENT);
     }
 
     private IJob getJob(int action) {
@@ -43,8 +49,6 @@ public class JobScheduler {
                     job = new BlogContentJob(mContext);
                     break;
             }
-
-
             mJobMap.put(action, job);
         }
         return job;

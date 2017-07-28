@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
 import com.rae.swift.Rx;
@@ -135,13 +134,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 跳登录的时候回调
      */
     protected void onLoginCallBack() {
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ImageLoader.getInstance().getMemoryCache().clear();
     }
 
     public int getVersionCode() {

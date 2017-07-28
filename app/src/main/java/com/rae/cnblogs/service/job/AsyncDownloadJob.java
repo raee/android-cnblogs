@@ -21,6 +21,7 @@ public abstract class AsyncDownloadJob implements IJob {
     protected void execute(Runnable runnable) {
         if (mExecutorService == null || mExecutorService.isTerminated()) {
             Log.e("rae", "线程池已经结束！");
+            return;
         }
         mExecutorService.execute(runnable);
     }

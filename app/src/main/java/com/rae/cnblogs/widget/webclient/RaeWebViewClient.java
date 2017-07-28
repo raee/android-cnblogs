@@ -80,6 +80,8 @@ public class RaeWebViewClient extends WebViewClient {
     }
 
     public void destroy() {
+        mProgressBar.clear();
+        mAppLayout.clear();
         mProgressBar = null;
         mContext = null;
     }

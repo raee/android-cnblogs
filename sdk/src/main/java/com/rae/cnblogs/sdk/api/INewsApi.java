@@ -16,6 +16,7 @@ import com.rae.cnblogs.sdk.parser.NewsListParser;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -48,6 +49,15 @@ public interface INewsApi {
     @GET(ApiUrls.API_NEWS_CONTENT)
     @Parser(NewsContentParser.class)
     Observable<String> getNewsContent(@Path("id") String newsId);
+
+    /**
+     * [同步方式]获取新闻内容
+     *
+     * @param newsId 新闻ID
+     */
+    @GET(ApiUrls.API_NEWS_CONTENT)
+    @Parser(NewsContentParser.class)
+    Call<String> syncGetNewsContent(@Path("id") String newsId);
 
 
     /**

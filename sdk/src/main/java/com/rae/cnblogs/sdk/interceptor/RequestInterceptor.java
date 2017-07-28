@@ -40,12 +40,14 @@ public class RequestInterceptor implements Interceptor {
         // 请求处理参数处理
         Request request = chain.request();
 
-        // 带上COOKIE，保持登录需要用到
         Request.Builder newBuilder = request.newBuilder();
+
+        // [重要] 带上COOKIE，保持登录需要用到
         String cookie = CookieManager.getInstance().getCookie("http://www.cnblogs.com");
         if (!TextUtils.isEmpty(cookie)) {
             newBuilder.addHeader("Cookie", cookie);
         }
+
         if ("post".equalsIgnoreCase(request.method())) {
             // 将URL的参数转换到body里面去
             newBuilder = convertParamToBody(request, newBuilder);

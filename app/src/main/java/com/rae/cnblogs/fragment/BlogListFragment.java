@@ -15,6 +15,8 @@ import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
+import com.rae.cnblogs.service.JobScheduler;
+import com.rae.cnblogs.service.job.JobEvent;
 import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 
@@ -67,7 +69,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         super.onCreate(savedInstanceState);
         mCategory = getArguments().getParcelable("category");
         mBlogType = BlogType.typeOf(getArguments().getString("type"));
-        mItemAdapter = new BlogListItemAdapter(mBlogType);
+        mItemAdapter = new BlogListItemAdapter(this.getContext(), mBlogType);
         mBlogListPresenter = CnblogsPresenterFactory.getBlogListPresenter(getContext(), mBlogType, this);
         EventBus.getDefault().register(this);
     }
@@ -128,6 +130,9 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
 
         mItemAdapter.invalidate(data);
         mItemAdapter.notifyDataSetChanged();
+
+        // 异步下载博文内容
+        EventBus.getDefault().post(new JobEvent(JobScheduler.ACTION_BLOG_CONTENT));
 
     }
 

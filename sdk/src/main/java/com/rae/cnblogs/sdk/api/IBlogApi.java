@@ -88,6 +88,15 @@ public interface IBlogApi {
     Observable<String> getKbContent(@Path("id") String id);
 
     /**
+     * [同步方式] 获取知识库内容
+     *
+     * @param id 知识库ID
+     */
+    @GET(ApiUrls.API_KB_CONTENT)
+    @Parser(KBContentParser.class)
+    Call<String> syncGetKbContent(@Path("id") String id);
+
+    /**
      * 推荐/喜欢 博客
      *
      * @param id      博客ID

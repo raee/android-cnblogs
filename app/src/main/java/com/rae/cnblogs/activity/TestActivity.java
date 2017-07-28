@@ -1,7 +1,10 @@
 package com.rae.cnblogs.activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
@@ -11,6 +14,7 @@ import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.dialog.impl.MenuDialog;
 import com.rae.cnblogs.service.CnblogsService;
+import com.rae.cnblogs.service.CnblogsServiceBinder;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
@@ -39,6 +43,18 @@ public class TestActivity extends BaseActivity {
 
     @BindView(R.id.img_test_like)
     ImageLoadingView mLoadingView;
+    private CnblogsServiceBinder mBinder;
+    private ServiceConnection mConn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mBinder = (CnblogsServiceBinder) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -151,13 +167,16 @@ public class TestActivity extends BaseActivity {
 
     @OnClick(R.id.btn_start_service)
     public void onStartServiceClick() {
+        if (mBinder != null) {
+            mBinder.getJobScheduler().startDownloadBlogContent();
+        }
         Intent intent = new Intent(this, CnblogsService.class);
-        startService(intent);
+        bindService(intent, mConn, BIND_AUTO_CREATE);
     }
 
     @OnClick(R.id.btn_stop_service)
     public void onStopServiceClick() {
         Intent intent = new Intent(this, CnblogsService.class);
-        stopService(intent);
+        unbindService(mConn);
     }
 }

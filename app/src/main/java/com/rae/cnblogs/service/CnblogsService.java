@@ -12,20 +12,18 @@ import android.util.Log;
  */
 public class CnblogsService extends Service {
 
-    private JobScheduler mJobScheduler;
+    private CnblogsServiceBinder mBinder;
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return mBinder;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.i("rae", "服务启动了");
-        mJobScheduler = new JobScheduler(this);
-        // 开始任务
-        mJobScheduler.start(JobScheduler.ACTION_BLOG_CONTENT);
+        mBinder = new CnblogsServiceBinder(this);
     }
 }

@@ -1,6 +1,10 @@
 package com.rae.cnblogs.activity;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -8,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
@@ -23,9 +28,13 @@ import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.VersionInfo;
+import com.rae.cnblogs.service.CnblogsService;
+import com.rae.cnblogs.service.CnblogsServiceBinder;
+import com.rae.cnblogs.service.job.JobEvent;
 import com.rae.swift.app.RaeFragmentAdapter;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 
@@ -41,11 +50,29 @@ public class MainActivity extends BaseActivity {
 
     private long mBackKeyDownTime;
 
+    private ServiceConnection mServiceConnection;
+    private CnblogsServiceBinder mCnblogsServiceBinder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AppStatusBar.setStatusbarToDark(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EventBus.getDefault().register(this);
+        mServiceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                mCnblogsServiceBinder = (CnblogsServiceBinder) service;
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+
+        // 绑定服务
+        bindService(new Intent(this, CnblogsService.class), mServiceConnection, BIND_AUTO_CREATE);
 
         mFragmentAdapter = new RaeFragmentAdapter(getSupportFragmentManager());
         CategoryBean kb = new CategoryBean();
@@ -80,22 +107,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
                 EventBus.getDefault().post(new TabEvent(tab.getPosition()));
-
-                // 首页
-//                if (tab.getPosition() == 0) {
-//                    HomeFragment fragment = (HomeFragment) mFragmentAdapter.getItem(0);
-//                    fragment.onLogoClick();
-//                    EventBus.getDefault().post(new TabEvent(tab.getPosition()));
-//                }
-
-                // 新闻
-//                if (tab.getPosition() == 1 || tab.getPosition() == 2) {
-//                    BlogTypeListFragment fragment = (BlogTypeListFragment) mFragmentAdapter.getItem(tab.getPosition());
-//                    fragment.scrollToTop();
-//                }
-
             }
         });
 
@@ -150,7 +162,19 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
+        if (mServiceConnection != null) {
+            unbindService(mServiceConnection);
+            mServiceConnection = null;
+        }
         RxObservable.dispose(); // 释放所有请求
+        ImageLoader.getInstance().getMemoryCache().clear();
+    }
+
+    @Subscribe
+    public void onEvent(JobEvent event) {
+        if (mCnblogsServiceBinder == null) return;
+        mCnblogsServiceBinder.getJobScheduler().start(event.getAction());
     }
 }

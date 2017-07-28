@@ -7,10 +7,24 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.webkit.WebView;
 
+import java.lang.reflect.Field;
+
 /**
  * Created by ChenRui on 2017/1/25 0025 9:48.
  */
 public class RaeWebView extends WebView {
+    private static Field sConfigCallback;
+
+    static {
+        try {
+            sConfigCallback = Class.forName("android.webkit.BrowserFrame")
+                    .getDeclaredField("sConfigCallback");
+            sConfigCallback.setAccessible(true);
+        } catch (Exception e) {
+            // ignored
+        }
+
+    }
 
     public RaeWebView(Context context) {
         super(context);
@@ -41,4 +55,18 @@ public class RaeWebView extends WebView {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    public void destroy() {
+        clearHistory();
+        setTag(null);
+        super.destroy();
+        try {
+            if (sConfigCallback != null)
+                sConfigCallback.set(null, null);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

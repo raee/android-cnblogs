@@ -59,7 +59,7 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
     @BindView(R.id.img_back)
     View mCloseView;
 
-    private final Handler mHandler = new Handler(new Handler.Callback() {
+    private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == View.VISIBLE) {
@@ -250,5 +250,13 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
         }
 
         return file;
+    }
+
+    @Override
+    protected void onDestroy() {
+        mHandler.removeMessages(View.VISIBLE);
+        mHandler.removeMessages(View.GONE);
+        mHandler = null;
+        super.onDestroy();
     }
 }

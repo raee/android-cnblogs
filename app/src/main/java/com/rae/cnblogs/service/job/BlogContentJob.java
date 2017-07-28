@@ -1,7 +1,6 @@
 package com.rae.cnblogs.service.job;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.api.IBlogApi;
@@ -34,11 +33,9 @@ public class BlogContentJob extends AsyncDownloadJob {
     public void run() {
         // 查询没有内容的博客
         List<BlogBean> blogs = mDbBlog.findAllWithoutBlogContent();
-
         for (BlogBean blog : blogs) {
-            Log.d("Rae", "初始化任务：" + blog.getBlogId());
-            execute(new BlogContentTask(mBlogApi, mNewsApi, mDbBlog, blog));
+            execute(new BlogContentTask(mBlogApi, mNewsApi, mDbBlog, blog.getBlogId()));
         }
+        blogs.clear();
     }
-
 }

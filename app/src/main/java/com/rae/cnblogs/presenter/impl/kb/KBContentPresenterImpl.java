@@ -2,12 +2,15 @@ package com.rae.cnblogs.presenter.impl.kb;
 
 import android.content.Context;
 
-import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.impl.blog.BlogContentPresenterImpl;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 /**
  * 知识库
@@ -30,10 +33,17 @@ public class KBContentPresenterImpl extends BlogContentPresenterImpl {
 
         // 不支持取消点赞
         if (isCancel) {
-            mView.onLikeError(isCancel, "您已经推荐过了");
+            Observable.timer(1000, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+                            mView.onLikeSuccess(false);
+                        }
+                    });
             return;
         }
         Observable<Empty> observable = mBlogApi.likeKb(mView.getBlog().getBlogId());
-        createObservable(isCancel, observable, false);
+        createObservable(false, observable, true);
     }
 }

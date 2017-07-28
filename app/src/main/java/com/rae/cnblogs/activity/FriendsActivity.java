@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -129,6 +130,7 @@ public class FriendsActivity extends SwipeBackBaseActivity {
     }
 
     private void start() {
+        Log.i("Rae", "开始假装数量");
         mPage = 1;
         loadData();
     }

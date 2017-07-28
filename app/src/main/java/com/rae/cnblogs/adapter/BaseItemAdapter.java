@@ -63,7 +63,7 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
 
 
     T getDataItem(int position) {
-        return mDataList == null ? null : mDataList.get(position);
+        return mDataList == null ? null : mDataList.get(position % getItemCount());
     }
 
     @Override

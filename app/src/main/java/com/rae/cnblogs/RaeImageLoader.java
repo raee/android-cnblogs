@@ -1,12 +1,14 @@
 package com.rae.cnblogs;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.cache.memory.impl.LargestLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 /**
@@ -18,10 +20,12 @@ public final class RaeImageLoader {
     public static DisplayImageOptions.Builder defaultOptions() {
         return new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
+                .cacheInMemory(true)
+                .bitmapConfig(Bitmap.Config.ARGB_8888)
+                .imageScaleType(ImageScaleType.EXACTLY)
                 .showImageForEmptyUri(R.drawable.picture_viewer_no_pic_icon)
                 .showImageOnLoading(R.drawable.ic_default_placeholder)
-                .showImageOnFail(R.drawable.picture_viewer_no_pic_icon)
-                .cacheInMemory(false);
+                .showImageOnFail(R.drawable.picture_viewer_no_pic_icon);
     }
 
     public static DisplayImageOptions.Builder fadeOptions(int durationMillis) {
@@ -34,8 +38,7 @@ public final class RaeImageLoader {
      * @return
      */
     public static DisplayImageOptions headerOption() {
-        return defaultOptions()
-                .displayer(new FadeInBitmapDisplayer(800, true, false, false))
+        return fadeOptions(800)
                 .showImageForEmptyUri(R.drawable.ic_default_user_avatar)
                 .showImageOnLoading(R.drawable.ic_default_user_avatar)
                 .showImageOnFail(R.drawable.ic_default_user_avatar)

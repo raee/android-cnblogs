@@ -7,6 +7,7 @@ import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.rae.swift.session.SessionManager;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.tinker.TinkerApplicationLike;
 import com.umeng.socialize.PlatformConfig;
@@ -36,9 +37,7 @@ public class CnblogsApplicationProxy extends TinkerApplicationLike {
         // 日志上报
         Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG);
 //        }
-        if (BuildConfig.DEBUG) {
-//            LeakCanary.install(this);
-        }
+
     }
 
     /**

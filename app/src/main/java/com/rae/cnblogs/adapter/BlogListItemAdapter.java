@@ -1,5 +1,7 @@
 package com.rae.cnblogs.adapter;
 
+import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -32,9 +34,12 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
 
     private DisplayImageOptions mAvatarOptions;
 
-    public BlogListItemAdapter(BlogType type) {
+    public BlogListItemAdapter(Context context, BlogType type) {
         if (type == BlogType.NEWS) {
-            mAvatarOptions = RaeImageLoader.defaultOptions().build();
+            mAvatarOptions = RaeImageLoader.fadeOptions(500)
+                    .showImageOnLoading(0)
+                    .showImageOnLoading(new ColorDrawable(ContextCompat.getColor(context, R.color.background_divider)))
+                    .build();
         } else {
             mAvatarOptions = RaeImageLoader.headerOption();
         }
@@ -53,6 +58,9 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
 
     @Override
     public int getItemViewType(int position) {
+        if (position < 0) {
+            return super.getItemViewType(position);
+        }
         BlogBean blog = getDataItem(position);
         if (TextUtils.equals("loading", blog.getTag())) {
             return VIEW_TYPE_LOADING;
@@ -100,6 +108,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
             case KB: // 知识库
                 holder.authorLayout.setVisibility(View.GONE);
                 holder.commentView.setVisibility(View.GONE);
+                holder.summaryView.setTextSize(13);
                 break;
             default:
 

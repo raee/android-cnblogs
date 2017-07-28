@@ -7,6 +7,7 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.presenter.ILoginPresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.Empty;
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.utils.ApiEncrypt;
@@ -69,10 +70,13 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
 
                     @Override
                     protected void accept(UserInfoBean data) {
-                        // 统计用户
+                        // 友盟统计用户
                         if (mFromLogin) {
                             MobclickAgent.onProfileSignIn(data.getBlogApp());
                         }
+
+                        // [重要] 同步Cookie登录信息
+                        UserProvider.getInstance().syncFormCookieJar();
 
                         mView.onLoginSuccess(data);
                     }

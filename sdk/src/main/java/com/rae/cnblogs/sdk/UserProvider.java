@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.annotations.Nullable;
+import okhttp3.Cookie;
+import okhttp3.HttpUrl;
+import okhttp3.JavaNetCookieJar;
 
 /**
  * 用户提供者，保存用户信息，对已登录的用户进行操作。
@@ -108,6 +111,31 @@ public final class UserProvider {
 
         // 清除保存的登录信息
         mConfig.clearUserInfo();
+
+    }
+
+
+    /**
+     * 同步Cookie，方向：webkit -> javaNetCookie
+     */
+    public void syncFormCookieJar() {
+
+        if (java.net.CookieManager.getDefault() == null) {
+            return;
+        }
+
+        String url = "http://cnblogs.com";
+        JavaNetCookieJar cookieJar = new JavaNetCookieJar(java.net.CookieManager.getDefault());
+        List<Cookie> cookies = cookieJar.loadForRequest(HttpUrl.parse(url));
+        if (cookies != null) {
+            // 同步接口的cookie达到同步web登陆
+            CookieSyncManager.createInstance(mContext);
+            CookieManager cookieManager = CookieManager.getInstance();
+            for (Cookie cookie : cookies) {
+                cookieManager.setCookie(url, cookie.toString());
+            }
+            CookieSyncManager.getInstance().sync();
+        }
 
     }
 

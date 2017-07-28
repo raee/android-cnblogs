@@ -32,8 +32,8 @@
 
             <com.rae.cnblogs.widget.ImageLoadingView
                 android:id="@+id/img_clear_cache"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_task_finish"
                 android:visibility="gone"/>

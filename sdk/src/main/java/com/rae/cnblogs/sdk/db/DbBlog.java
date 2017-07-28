@@ -129,26 +129,20 @@ public class DbBlog extends DbCnblogs {
     }
 
     public void updateBlogContent(final String blogId, final String blogType, final String content) {
-
         executeTransaction(new Runnable() {
             @Override
             public void run() {
-//                UserBlogInfo count = new Select().from(UserBlogInfo.class).where("blogId=?", blogId).executeSingle();
-//                if (count <= 0) {
-//                    UserBlogInfo blogInfo = new UserBlogInfo();
-//                    blogInfo.setBlogId(blogId);
-//                    blogInfo.setBlogType(blogType);
-//                    blogInfo.setContent(content);
-//                    blogInfo.save();
-//                } else {
-//                    // 更新
-//                    ActiveAndroid.execSQL("update blog_info set content=? where blogId=? and blogType=?", new String[]{
-//                            content, blogId, blogType
-//                    });
-//                }
+                UserBlogInfo blogInfo = new Select().from(UserBlogInfo.class).where("blogId=?", blogId).executeSingle();
+                if (blogInfo == null) {
+                    blogInfo = new UserBlogInfo();
+                }
+
+                blogInfo.setBlogId(blogId);
+                blogInfo.setBlogType(blogType);
+                blogInfo.setContent(content);
+                blogInfo.save();
             }
         });
-
 
     }
 }

@@ -5,6 +5,8 @@ import android.support.multidex.MultiDex;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.sdk.db.DbFactory;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.tinker.loader.app.TinkerApplication;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
@@ -17,8 +19,22 @@ import java.io.File;
  */
 public class CnblogsApplication extends TinkerApplication {
 
+    private static RefWatcher refWatcher;
+
     public CnblogsApplication() {
         super(ShareConstants.TINKER_ENABLE_ALL, "com.rae.cnblogs.CnblogsApplicationProxy");
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (BuildConfig.DEBUG) {
+            refWatcher = LeakCanary.install(this);
+        }
+    }
+
+    public static RefWatcher getRefWatcher() {
+        return refWatcher;
     }
 
     @Override
@@ -30,6 +46,14 @@ public class CnblogsApplication extends TinkerApplication {
 
         // 安装tinker
         Beta.installTinker(this);
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level == TRIM_MEMORY_RUNNING_LOW || level == TRIM_MEMORY_BACKGROUND) {
+            ImageLoader.getInstance().getMemoryCache().clear();
+        }
     }
 
     /**
