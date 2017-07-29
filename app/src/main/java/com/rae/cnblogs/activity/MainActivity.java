@@ -1,11 +1,15 @@
 package com.rae.cnblogs.activity;
 
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -18,6 +22,9 @@ import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RxObservable;
+import com.rae.cnblogs.dialog.IAppDialog;
+import com.rae.cnblogs.dialog.IAppDialogClickListener;
+import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.dialog.impl.VersionUpdateDialog;
 import com.rae.cnblogs.fragment.BlogTypeListFragment;
 import com.rae.cnblogs.fragment.HomeFragment;
@@ -136,6 +143,17 @@ public class MainActivity extends BaseActivity {
                 });
 
 
+        requestPermissions();
+    }
+
+    /**
+     * 申请权限
+     */
+    private void requestPermissions() {
+        // 检查权限
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+        }
     }
 
     private void addTab(int resId, int iconId, Fragment fragment) {
@@ -167,9 +185,30 @@ public class MainActivity extends BaseActivity {
         if (mServiceConnection != null) {
             unbindService(mServiceConnection);
             mServiceConnection = null;
+            stopService(new Intent(this, CnblogsService.class)); // 停止服务
         }
         RxObservable.dispose(); // 释放所有请求
         ImageLoader.getInstance().getMemoryCache().clear();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // 授权返回
+        if (requestCode == 100 && grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            // 用户拒绝授权
+            HintCardDialog dialog = new HintCardDialog(this);
+            dialog.setMessage("博客园需要读取/写入您的存储卡，禁止后功能受到限制，是否再次开启？");
+            dialog.setEnSureText("同意申请权限");
+            dialog.setOnEnSureListener(new IAppDialogClickListener() {
+                @Override
+                public void onClick(IAppDialog dialog, int buttonType) {
+                    dialog.dismiss();
+                    requestPermissions();
+                }
+            });
+            dialog.show();
+        }
     }
 
     @Subscribe

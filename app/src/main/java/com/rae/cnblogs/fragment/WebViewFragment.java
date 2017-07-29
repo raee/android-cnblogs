@@ -150,7 +150,7 @@ public class WebViewFragment extends BaseFragment {
             ((RaeWebViewClient) mRaeWebViewClient).destroy();
         }
 
-        CnblogsApplication.getRefWatcher().watch(mWebView);
+        CnblogsApplication.watch(mWebView);
     }
 
     @Override

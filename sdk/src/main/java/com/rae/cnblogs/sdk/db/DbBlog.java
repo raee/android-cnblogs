@@ -1,7 +1,6 @@
 package com.rae.cnblogs.sdk.db;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
@@ -49,11 +48,11 @@ public class DbBlog extends DbCnblogs {
                         for (BlogBean blog : blogs) {
                             // 查找是否已经有了，有了就跳过
                             if (exists(blog.getBlogId())) {
-                                Log.w("rae-db", "跳过：" + blog.getBlogId() + " = " + blog.getTitle());
+//                                Log.w("rae-db", "跳过：" + blog.getBlogId() + " = " + blog.getTitle());
                                 continue;
                             }
 
-                            Log.i("rae-db", "插入数据库：" + blog.getBlogId() + " = " + blog.getTitle());
+//                            Log.i("rae-db", "插入数据库：" + blog.getBlogId() + " = " + blog.getTitle());
                             blog.save();
                         }
                     }
@@ -140,9 +139,24 @@ public class DbBlog extends DbCnblogs {
                 blogInfo.setBlogId(blogId);
                 blogInfo.setBlogType(blogType);
                 blogInfo.setContent(content);
-                blogInfo.save();
+                long id = blogInfo.save();
+
+//                Log.e("rae-db", "插入数据库：" + blogType + " -> " + blogId + "; id =" + id + "; 是否为空：" + TextUtils.isEmpty(content));
             }
         });
 
+    }
+
+    /**
+     * 清除数据
+     */
+    public void clearData() {
+        executeTransaction(new Runnable() {
+            @Override
+            public void run() {
+                new Delete().from(UserBlogInfo.class).execute();
+                new Delete().from(BlogBean.class).execute();
+            }
+        });
     }
 }

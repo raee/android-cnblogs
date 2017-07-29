@@ -26,11 +26,11 @@
             android:name=".activity.LauncherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
-                   <intent-filter>
-                       <action android:name="android.intent.action.MAIN"/>
+          <!--  <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-                       <category android:name="android.intent.category.LAUNCHER"/>
-                   </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>-->
         </activity>
 
         <!--主界面-->
@@ -38,23 +38,24 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-         <!--      <intent-filter>
+               <intent-filter>
                    <action android:name="android.intent.action.MAIN"/>
 
                    <category android:name="android.intent.category.LAUNCHER"/>
-               </intent-filter>-->
+               </intent-filter>
         </activity>
- <!--       <activity
-            android:name=".activity.TestActivity"
-            android:label="测试入口"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Dark">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>-->
+        <!--    <activity
+                android:name=".activity.TestActivity"
+                android:label="测试入口"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.Dark">
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN"/>
+
+                    <category android:name="android.intent.category.LAUNCHER"/>
+                </intent-filter>
+            </activity>-->
 
         <!--博文-->
         <activity
@@ -99,6 +100,12 @@
             android:name=".activity.SettingActivity"
             android:label="@string/setting"
             android:launchMode="singleTop"/>
+
+
+        <service
+            android:name=".service.CnblogsService"
+            android:label="@string/service_name"/>
+
         <!--应用宝 -->
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"
@@ -165,9 +172,6 @@
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL}"/>
 
-        <service
-            android:name=".service.CnblogsService"
-            android:label="@string/service_name"/>
 
     </application>
 
