@@ -38,7 +38,7 @@ public interface IBlogContentPresenter {
 
         BlogBean getBlog();
 
-        void onLoadContentSuccess(BlogBean blog);
+        void onLoadContentSuccess(String blog);
 
         void onLoadContentFailed(String msg);
 

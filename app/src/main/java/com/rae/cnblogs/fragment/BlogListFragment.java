@@ -2,7 +2,6 @@ package com.rae.cnblogs.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -77,6 +76,10 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mItemAdapter.destroy();
+        mAppLayout.removeAllViews();
+        mAppLayout.refreshComplete();
+        mRecyclerView.removeAllViews();
         EventBus.getDefault().unregister(this);
     }
 
@@ -112,10 +115,9 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         });
 
         if (mBlogType == BlogType.BLOGGER) {
-            mAppLayout.setEnabled(false);
+            mAppLayout.setEnabled(false); // 博主页面不允许刷新
         }
 
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mBlogListPresenter.start();
     }
 

@@ -4,11 +4,11 @@ import android.content.Context;
 
 import com.rae.cnblogs.presenter.impl.blog.BlogContentPresenterImpl;
 import com.rae.cnblogs.sdk.Empty;
-import com.rae.cnblogs.sdk.bean.BlogBean;
 
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 
@@ -23,10 +23,9 @@ public class KBContentPresenterImpl extends BlogContentPresenterImpl {
     }
 
     @Override
-    protected void onLoadData(BlogBean blog) {
-        createObservable(mBlogApi.getKbContent(blog.getBlogId())).subscribe(getBlogContentObserver());
+    protected ObservableSource<String> createContentObservable(String blogId) {
+        return createObservable(mBlogApi.getKbContent(blogId));
     }
-
 
     @Override
     public void doLike(boolean isCancel) {

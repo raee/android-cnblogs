@@ -94,8 +94,8 @@
                 app:tabIndicatorHeight="0dp"
                 app:tabMinWidth="52dp"
                 app:tabMode="scrollable"
-                app:tabPaddingEnd="3dp"
-                app:tabPaddingStart="3dp"
+                app:tabPaddingEnd="6dp"
+                app:tabPaddingStart="6dp"
                 app:tabSelectedTextColor="@color/ph1"
                 app:tabTextAppearance="@style/TabTextAppearance"
                 app:tabTextColor="#aaaaaa"/>

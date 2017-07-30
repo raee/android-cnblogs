@@ -10,6 +10,8 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.BookmarksAdapter;
+import com.rae.cnblogs.dialog.impl.MenuDialog;
+import com.rae.cnblogs.model.MenuDialogItem;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.Empty;
@@ -43,6 +45,7 @@ public class FavoritesActivity extends SwipeBackBaseActivity {
     private BookmarksAdapter mAdapter;
     private final List<BookmarksBean> mBookmarksDataList = new ArrayList<>();
     private String mTag = "FavoritesActivity";
+    private MenuDialog mMenuDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +68,20 @@ public class FavoritesActivity extends SwipeBackBaseActivity {
             }
         });
 
+        mMenuDialog = new MenuDialog(getContext());
+        mMenuDialog.addDeleteItem(getString(R.string.delete_favorites));
+        mMenuDialog.addItem(getString(R.string.cancel));
+        mMenuDialog.setOnMenuItemClickListener(new MenuDialog.OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(MenuDialog dialog, MenuDialogItem item) {
+                // 执行删除
+                if (getString(R.string.delete_favorites).equalsIgnoreCase(item.getName())) {
+                    AppUI.loading(getContext());
+                    deleteFavorites((BookmarksBean) mMenuDialog.getTag());
+                }
+            }
+        });
+
         mAdapter.setOnItemClickListener(new BaseItemAdapter.onItemClickListener<BookmarksBean>() {
             @Override
             public void onItemClick(BookmarksBean item) {
@@ -75,34 +92,44 @@ public class FavoritesActivity extends SwipeBackBaseActivity {
         mAdapter.setOnItemDeleteClickListener(new BaseItemAdapter.onItemClickListener<BookmarksBean>() {
             @Override
             public void onItemClick(final BookmarksBean item) {
-                RxObservable.create(mBookmarksApi.delBookmarks(String.valueOf(item.getWzLinkId())), mTag)
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(Disposable disposable) throws Exception {
-                                AppUI.loading(getContext(), R.string.deleting);
-                            }
-                        })
-                        .doFinally(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                AppUI.dismiss();
-                            }
-                        })
-                        .subscribe(new Consumer<Empty>() {
-                            @Override
-                            public void accept(Empty empty) throws Exception {
-                                mAdapter.remove(item);
-                                mAdapter.notifyDataSetChanged();
-
-                                // 更新数据库
-                                DbFactory.getInstance().getBlog().removeBookmarks(item.getLinkUrl());
-
-                                setResult(RESULT_OK);
-
-                            }
-                        });
+                mMenuDialog.setTag(item);
+                mMenuDialog.show();
             }
         });
+    }
+
+    /**
+     * 删除收藏
+     *
+     * @param item
+     */
+    private void deleteFavorites(final BookmarksBean item) {
+        RxObservable.create(mBookmarksApi.delBookmarks(String.valueOf(item.getWzLinkId())), mTag)
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        AppUI.loading(getContext(), R.string.deleting);
+                    }
+                })
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        AppUI.dismiss();
+                    }
+                })
+                .subscribe(new Consumer<Empty>() {
+                    @Override
+                    public void accept(Empty empty) throws Exception {
+                        mAdapter.remove(item);
+                        mAdapter.notifyDataSetChanged();
+
+                        // 更新数据库
+                        DbFactory.getInstance().getBlog().removeBookmarks(item.getLinkUrl());
+
+                        setResult(RESULT_OK);
+
+                    }
+                });
     }
 
     @Override

@@ -54,6 +54,7 @@ public abstract class BasePresenter<V> {
      */
     public void cancelRequest() {
         RxObservable.dispose(mTag);
+        RxObservable.dispose("thread");
     }
 
     protected boolean isNotLogin() {

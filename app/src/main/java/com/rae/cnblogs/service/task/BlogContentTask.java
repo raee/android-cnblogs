@@ -1,5 +1,7 @@
 package com.rae.cnblogs.service.task;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -20,25 +22,35 @@ import retrofit2.Response;
 public class BlogContentTask implements Runnable {
 
     private final DbBlog mDbBlog;
+    private final ConnectivityManager mConnectivityManager;
     private IBlogApi mBlogApi;
     private INewsApi mNewsApi;
     private String mBlogId;
 
-    public BlogContentTask(IBlogApi blogApi, INewsApi newsApi, DbBlog dbBlog, String blogId) {
+    public BlogContentTask(ConnectivityManager connectivityManager, IBlogApi blogApi, INewsApi newsApi, DbBlog dbBlog, String blogId) {
         mBlogApi = blogApi;
         mNewsApi = newsApi;
         mDbBlog = dbBlog;
         mBlogId = blogId;
+        mConnectivityManager = connectivityManager;
+    }
+
+    private boolean isWIFI() {
+        NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
+        if (networkInfo == null || !networkInfo.isConnected()) return false;
+        Log.d("rae", "网络类型：" + networkInfo.getType() + "; 网络已连接：" + networkInfo.isConnected() + ";是否活跃：" + networkInfo.isAvailable());
+        return networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
     @Override
     public void run() {
-        if (TextUtils.isEmpty(mBlogId)) {
+        if (!isWIFI() || TextUtils.isEmpty(mBlogId)) {
+            Log.e("rae", "非WIFI环境，或者博客ID为空！缓存不下载");
             return;
         }
 
         BlogBean blogInfo = mDbBlog.getBlog(mBlogId);
-        if (!TextUtils.isEmpty(blogInfo.getContent())) {
+        if (blogInfo == null || !TextUtils.isEmpty(blogInfo.getContent())) {
             return;
         }
 

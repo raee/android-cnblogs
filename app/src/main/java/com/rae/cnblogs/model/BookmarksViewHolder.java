@@ -20,8 +20,6 @@ public class BookmarksViewHolder extends RecyclerView.ViewHolder {
     public RaeTextView mBlogSummary;
     @BindView(R.id.tv_blog_date)
     public RaeTextView mBlogDate;
-    @BindView(R.id.tv_blog_delete)
-    public RaeTextView mBlogDelete;
 
     public BookmarksViewHolder(View itemView) {
         super(itemView);

@@ -139,11 +139,12 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
         mCommentMenuDialog = new CommentMenuDialog(getContext());
         mCommentMenuDialog.addDeleteItem(getString(R.string.delete_comment));
+        mCommentMenuDialog.addItem(getString(R.string.cancel));
         mCommentMenuDialog.setOnMenuItemClickListener(new MenuDialog.OnMenuItemClickListener() {
             @Override
             public void onMenuItemClick(MenuDialog dialog, MenuDialogItem item) {
                 // 执行删除
-                if (mCommentMenuDialog.getBlogComment() != null) {
+                if (mCommentMenuDialog.getBlogComment() != null && getString(R.string.delete_comment).equalsIgnoreCase(item.getName())) {
                     AppUI.loading(getContext());
                     mCommentPresenter.delete(mCommentMenuDialog.getBlogComment());
                 }

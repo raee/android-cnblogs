@@ -134,6 +134,7 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 //        }
 
 
+
         if (config().hasLoginGuide()) {
             preformLogin();
         } else {

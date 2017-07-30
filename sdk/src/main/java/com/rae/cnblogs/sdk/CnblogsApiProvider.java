@@ -39,7 +39,7 @@ public abstract class CnblogsApiProvider {
                 .cookie()
                 .build()
                 .connectTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(RequestInterceptor.create())
+                .addInterceptor(RequestInterceptor.create(context))
                 .retryOnConnectionFailure(true)
                 .build();
 

@@ -127,4 +127,10 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
     public void setOnItemClickListener(onItemClickListener<T> listener) {
         mOnItemClickListener = listener;
     }
+
+    public void destroy() {
+        mDataList.clear();
+        mLayoutInflater = null;
+        mContext = null;
+    }
 }

@@ -29,6 +29,7 @@ public class BookmarksParser implements IHtmlParser<List<BookmarksBean>> {
             String url = element.select(".list_block .link_content .url a").attr("href");
             String summary = element.select(".list_block .link_content .summary").text();
             BookmarksBean m = new BookmarksBean(title, summary, url);
+            m.setDateAdded(element.select(".date").text());
             m.setWzLinkId(parseInt(id));
             result.add(m);
         }

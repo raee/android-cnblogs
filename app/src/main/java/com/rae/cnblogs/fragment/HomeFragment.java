@@ -100,8 +100,6 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
             mViewPager.setAdapter(mAdapter);
             mTabLayout.setupWithViewPager(mViewPager);
         } else {
-
-
             mAdapter.updateDataSet(data);
         }
         if (mPosition > 1 && mPosition == mViewPager.getCurrentItem()) {

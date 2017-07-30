@@ -43,6 +43,9 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
             return;
         }
 
+        // 清除cookie
+        UserProvider.getInstance().logout();
+
         mFromLogin = true;
         createObservable(mUserApi.login(ApiEncrypt.encrypt(userName), ApiEncrypt.encrypt(pwd)))
                 .flatMap(new Function<Empty, ObservableSource<UserInfoBean>>() {

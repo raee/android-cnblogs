@@ -13,7 +13,6 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import com.rae.cnblogs.CnblogsApplication;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.RaeWebView;
@@ -139,18 +138,16 @@ public class WebViewFragment extends BaseFragment {
         }
     }
 
-
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        mContentLayout.removeAllViews();
         mAppLayout.removeAllViews();
         mWebView.removeAllViews();
-        mWebView.destroy();
         if (mRaeWebViewClient != null && mRaeWebViewClient instanceof RaeWebViewClient) {
             ((RaeWebViewClient) mRaeWebViewClient).destroy();
         }
-
-        CnblogsApplication.watch(mWebView);
+        mWebView.destroy();
+        super.onDestroy();
     }
 
     @Override

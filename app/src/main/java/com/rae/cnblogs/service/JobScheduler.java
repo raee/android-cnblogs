@@ -5,6 +5,7 @@ import android.content.Context;
 import com.rae.cnblogs.service.job.BlogContentJob;
 import com.rae.cnblogs.service.job.IJob;
 
+import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
@@ -52,5 +53,12 @@ public class JobScheduler {
             mJobMap.put(action, job);
         }
         return job;
+    }
+
+    public void onDestroy() {
+        for (Map.Entry<Integer, IJob> item : mJobMap.entrySet()) {
+            item.getValue().cancel();
+        }
+        mJobMap.clear();
     }
 }

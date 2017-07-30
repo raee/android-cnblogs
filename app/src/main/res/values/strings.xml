@@ -13,9 +13,10 @@
     <string name="sina">新浪微博</string>
     <string name="view_source">查看原文</string>
     <string name="copy_link">复制链接</string>
+    <string name="my_favorites">我的收藏</string>
     <string name="cancel">取消</string>
     <string name="tips_loading">正在加载…</string>
-    <string name="copy_link_success">复制链接成功!</string>
+    <string name="copy_link_success">复制链接成功</string>
     <string name="open_browser">浏览器打开</string>
     <string name="copyright">Copyright © 2004–2017 Cnblogs.com All Rights Reserved</string>
     <string name="loading">正在加载…</string>
@@ -44,7 +45,7 @@
     <string name="i_try_agin">我再试试</string>
     <string name="go_web_login">去网页版登录</string>
     <string name="delete_comment">删除评论</string>
-    <string name="my_collection">我的收藏</string>
+    <string name="delete_favorites">删除收藏</string>
     <string name="setting">更多设置</string>
     <string name="logout">退出登录</string>
     <string name="following">关注</string>
@@ -87,4 +88,6 @@
     <string name="share_app_desc">听说大牛都在用的博客园APP，一个面向开发者的知识分享社区，一个纯净的技术交流社区。</string>
     <string name="market_url">market://details?id=com.rae.cnblogs</string>
     <string name="service_name">博客园离线服务</string>
+    <string name="permission_tips_message">博客园需要读取/写入您的存储卡，禁止后功能受到限制，是否再次开启？</string>
+    <string name="premission_granted">同意申请权限</string>
 </resources>

@@ -4,11 +4,11 @@ import android.content.Context;
 
 import com.rae.cnblogs.presenter.impl.blog.BlogContentPresenterImpl;
 import com.rae.cnblogs.sdk.api.INewsApi;
-import com.rae.cnblogs.sdk.bean.BlogBean;
 
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 
@@ -25,8 +25,8 @@ public class NewsContentPresenterImpl extends BlogContentPresenterImpl {
     }
 
     @Override
-    protected void onLoadData(BlogBean blog) {
-        createObservable(mNewsApi.getNewsContent(blog.getBlogId())).subscribe(getBlogContentObserver());
+    protected ObservableSource<String> createContentObservable(String blogId) {
+        return createObservable(mNewsApi.getNewsContent(blogId));
     }
 
     @Override

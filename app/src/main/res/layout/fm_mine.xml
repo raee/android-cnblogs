@@ -141,7 +141,7 @@
                 style="@style/ItemTitleStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/my_collection"
+                android:text="@string/my_favorites"
                 android:textSize="@dimen/h2"/>
 
         </LinearLayout>

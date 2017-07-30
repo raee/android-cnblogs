@@ -135,6 +135,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         if (mBlogType != BlogType.NEWS) {
             showThumbImages(m, holder);
         }
+
     }
 
     /**

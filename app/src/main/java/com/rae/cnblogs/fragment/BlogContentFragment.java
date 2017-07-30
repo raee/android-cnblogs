@@ -120,7 +120,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     }
 
     @Override
-    public void onLoadContentSuccess(BlogBean blog) {
+    public void onLoadContentSuccess(String content) {
         mPlaceholderView.dismiss();
         mWebView.loadUrl("file:///android_asset/view.html");
 //        mWebView.loadUrl("http://192.168.168.10:8080/test.html");
@@ -229,8 +229,6 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         // 角标处理
         mLikeView.setSelected(infoModel.isLiked());
         mBookmarksView.setSelected(infoModel.isBookmarks());
-
-        // 判断是否为自己的
     }
 
     @Override

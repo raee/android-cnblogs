@@ -1,5 +1,8 @@
 package com.rae.cnblogs.sdk.interceptor;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
 
@@ -10,6 +13,7 @@ import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.Set;
 
+import okhttp3.CacheControl;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -25,14 +29,19 @@ import okio.Buffer;
  */
 public class RequestInterceptor implements Interceptor {
 
-    public static RequestInterceptor create() {
-        return new RequestInterceptor();
+    private final ConnectivityManager mConnectivityManager;
+
+    public static RequestInterceptor create(Context context) {
+        return new RequestInterceptor(context);
     }
 
-    CookieManager mCookieManager;
+    public RequestInterceptor(Context context) {
+        mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    }
 
-    public RequestInterceptor() {
-        mCookieManager = CookieManager.getInstance();
+    private boolean isConnected() {
+        NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && (networkInfo.isConnected() && networkInfo.isAvailable());
     }
 
     @Override
@@ -46,6 +55,10 @@ public class RequestInterceptor implements Interceptor {
         String cookie = CookieManager.getInstance().getCookie("http://www.cnblogs.com");
         if (!TextUtils.isEmpty(cookie)) {
             newBuilder.addHeader("Cookie", cookie);
+        }
+
+        if (request.url().toString().contains("PostList") && !this.isConnected()) {
+            newBuilder.cacheControl(CacheControl.FORCE_CACHE).build();
         }
 
         if ("post".equalsIgnoreCase(request.method())) {

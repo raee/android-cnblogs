@@ -36,6 +36,8 @@ public class MenuDialog extends SlideDialog {
     @BindView(R.id.rec_dialog_menu)
     RecyclerView mRecyclerView;
 
+    private Object mTag;
+
     public MenuDialog(Context context) {
         super(context);
         setContentView(R.layout.dialog_blog_menu);
@@ -77,6 +79,13 @@ public class MenuDialog extends SlideDialog {
         mAdapter.mOnMenuItemClickListener = onMenuItemClickListener;
     }
 
+    public Object getTag() {
+        return mTag;
+    }
+
+    public void setTag(Object tag) {
+        mTag = tag;
+    }
 
     private class MenuDialogAdapter extends RecyclerView.Adapter<MenuDialogViewHolder> {
 

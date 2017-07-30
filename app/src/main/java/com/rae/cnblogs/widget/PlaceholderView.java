@@ -109,7 +109,7 @@ public class PlaceholderView extends FrameLayout {
     }
 
     /**
-     * show empty view
+     * show newThread view
      */
     public void empty() {
         show();
@@ -145,7 +145,7 @@ public class PlaceholderView extends FrameLayout {
     }
 
     /**
-     * show empty view with text
+     * show newThread view with text
      *
      * @param msg
      */
@@ -156,7 +156,7 @@ public class PlaceholderView extends FrameLayout {
 
 
     /**
-     * empty message
+     * newThread message
      *
      * @param msg
      */

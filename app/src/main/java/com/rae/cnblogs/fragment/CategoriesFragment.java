@@ -27,8 +27,12 @@ import butterknife.OnClick;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager;
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 分类管理
@@ -157,8 +161,7 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
                     // 删除显示的分类
                     mCategoryAdapter.removeItem(position);
 
-                    saveSort();
-                    notifyDataSetChanged();
+                    saveSort(true);
                 } else {
                     getActivity().getIntent().putExtra("position", position);
                     getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent());
@@ -198,9 +201,17 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
                 // 从隐藏的分类中删除
                 mUnusedAdapter.removeItem(i);
 
-                saveSort();
-                notifyDataSetChanged();
+                saveSort(true);
                 return true;
+            }
+        });
+
+        mUnusedAdapter.addListener(new FlexibleAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(int i) {
+                CategoriesOverallItem item = (CategoriesOverallItem) mUnusedAdapter.getItem(i);
+                if (item == null) return;
+                AppUI.toastInCenter(getContext(), item.getCategory().getName());
             }
         });
     }
@@ -217,24 +228,22 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
     public void onItemDrag() {
         // 当前的集合替换
         mCategoryItems = mCategoryAdapter.getCurrentItems();
-        saveSort();
+        saveSort(true);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        saveSort();
+        saveSort(false);
     }
 
     /**
      * 保存分类
      */
-    private void saveSort() {
+    private void saveSort(final boolean enableNotify) {
         if (mCategoryAdapter == null || mUnusedAdapter == null) return;
 
-        int index = 0;
         List<CategoryBean> result = new ArrayList<>();
-
         mCategoryItems = new ArrayList<>(mCategoryAdapter.getCurrentItems());
         mUnusedItems = new ArrayList<>(mUnusedAdapter.getCurrentItems());
 
@@ -243,31 +252,48 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
             return;
         }
 
-        for (AbstractFlexibleItem item : mCategoryItems) {
-            CategoryBean category = ((CategoriesOverallItem) item).getCategory();
-            category.setHide(false);
-            category.setOrderNo(index);
-            result.add(category);
-//            Log.i("rae", category.getName());
-            index++;
-        }
+        final String tag = "updateCategories";
 
-        index = 0;
-        for (AbstractFlexibleItem item : mUnusedItems) {
-            CategoryBean category = ((CategoriesOverallItem) item).getCategory();
-            category.setHide(true);
-            category.setOrderNo(index);
-            result.add(category);
-//            Log.i("rae", ((CategoriesOverallItem) item).getCategory().getName());
-            index++;
-        }
+        Observable.just(result)
+                .subscribeOn(Schedulers.io())
+                .map(new Function<List<CategoryBean>, List<CategoryBean>>() {
+                    @Override
+                    public List<CategoryBean> apply(List<CategoryBean> data) throws Exception {
+                        int index = 0;
+                        for (AbstractFlexibleItem item : mCategoryItems) {
+                            CategoryBean category = ((CategoriesOverallItem) item).getCategory();
+                            category.setHide(false);
+                            category.setOrderNo(index);
+                            data.add(category);
+                            index++;
+                        }
 
-        RxObservable.create(mCategoryApi.updateCategories(result), "updateCategories").subscribe(new Consumer<Empty>() {
-            @Override
-            public void accept(@NonNull Empty empty) throws Exception {
+                        index = 0;
+                        for (AbstractFlexibleItem item : mUnusedItems) {
+                            CategoryBean category = ((CategoriesOverallItem) item).getCategory();
+                            category.setHide(true);
+                            category.setOrderNo(index);
+                            data.add(category);
+                            index++;
+                        }
 
-            }
-        });
+                        return data;
+                    }
+                })
+                .flatMap(new Function<List<CategoryBean>, ObservableSource<Empty>>() {
+                    @Override
+                    public ObservableSource<Empty> apply(List<CategoryBean> categoryBeans) throws Exception {
+                        return RxObservable.create(mCategoryApi.updateCategories(categoryBeans), tag);
+                    }
+                })
+                .subscribe(new Consumer<Empty>() {
+                    @Override
+                    public void accept(@NonNull Empty empty) throws Exception {
+                        if (enableNotify) {
+                            notifyDataSetChanged();
+                        }
+                    }
+                });
 
         getActivity().setResult(Activity.RESULT_OK);
 

@@ -31,10 +31,11 @@ public class BookmarksAdapter extends BaseItemAdapter<BookmarksBean, BookmarksVi
         holder.mBlogSummary.setText(m.getSummary());
         holder.mBlogDate.setText(m.getDateAdded());
         if (mOnItemDeleteClickListener != null) {
-            holder.mBlogDelete.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
+                public boolean onLongClick(View v) {
                     mOnItemDeleteClickListener.onItemClick(m);
+                    return false;
                 }
             });
         }

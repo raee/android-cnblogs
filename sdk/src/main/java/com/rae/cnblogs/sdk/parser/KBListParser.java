@@ -55,7 +55,7 @@ public class KBListParser implements IHtmlParser<List<BlogBean>> {
             m.setBlogId(ApiUtils.getNumber(element.attr("id")));
             m.setTitle(element.select(".kb_entry .kb-title").text());
             m.setTag(element.select(".kb_entry .deepred").text());
-            m.setSummary(element.select(".kb_summary").text());
+            m.setSummary(element.select(".kb_summary").text() + "...");
             m.setPostDate(ApiUtils.getDate(element.select(".kb_footer .green").text()));
             m.setUrl("http:" + element.select(".kb_entry .kb-title").attr("href"));
             m.setViews(ApiUtils.getNumber(element.select(".kb_footer .view").text()));

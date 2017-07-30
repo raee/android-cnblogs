@@ -1,9 +1,9 @@
 package com.rae.cnblogs.presenter.impl.blog;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.presenter.impl.BasePresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
@@ -17,6 +17,9 @@ import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 博客查看实现
@@ -38,57 +41,84 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
 
     @Override
     public void loadContent() {
-        BlogBean blog = mView.getBlog();
-        if (blog == null) {
+        if (mView.getBlog() == null) {
             mView.onLoadContentFailed("该博客不存在");
             return;
         }
 
+        // 1、先从缓存中加载博客信息
+        RxObservable.newThread()
+                .flatMap(new Function<Integer, ObservableSource<UserBlogInfo>>() {
+                    @Override
+                    public ObservableSource<UserBlogInfo> apply(Integer integer) throws Exception {
+                        UserBlogInfo blogInfo = mDbBlog.get(mView.getBlog().getBlogId());
+                        if (blogInfo == null || blogInfo.getBlogId() == null) {
+                            blogInfo = new UserBlogInfo();
+                            blogInfo.setBlogId(mView.getBlog().getBlogId());
+                            blogInfo.setBlogType(mView.getBlog().getBlogType());
+                        }
+                        return createObservable(Observable.just(blogInfo));
+                    }
+                })
+                .flatMap(new Function<UserBlogInfo, ObservableSource<String>>() {
+                    @Override
+                    public ObservableSource<String> apply(UserBlogInfo blogInfo) throws Exception {
+                        mBlogInfo = blogInfo;
 
-        // 获取用户的博客信息
-        mBlogInfo = mDbBlog.get(blog.getBlogId());
+                        // 加载用户博客信息成功
+                        mView.onLoadBlogInfoSuccess(blogInfo);
 
-        if (mBlogInfo == null || mBlogInfo.getBlogId() == null) {
-            mBlogInfo = new UserBlogInfo();
-            mBlogInfo.setBlogId(blog.getBlogId());
-            mBlogInfo.setBlogType(blog.getBlogType());
-            mBlogInfo.setRead(true);
-        }
+                        // 2、缓存没有则去网络下载
+                        if (TextUtils.isEmpty(blogInfo.getContent())) {
+                            return createContentObservable(blogInfo.getBlogId());
+                        }
+                        // 从缓存加载
+                        return Observable.just(blogInfo.getContent());
+                    }
+                })
+                // 3、缓存/网络加载成功后回调到UI
+                .subscribe(new ApiDefaultObserver<String>() {
+                    @Override
+                    protected void onError(String message) {
+                        mView.onLoadContentFailed(message);
+                    }
 
-        mView.onLoadBlogInfoSuccess(mBlogInfo);
+                    @Override
+                    protected void accept(String content) {
+                        mView.getBlog().setContent(content);
+                        mView.onLoadContentSuccess(content);
 
+                        // 4、异步更新用户博客信息
+                        updateUserBlogInfo(content);
+                    }
 
-        if (!TextUtils.isEmpty(mBlogInfo.getContent())) {
-            blog.setContent(mBlogInfo.getContent());
-            mView.onLoadContentSuccess(blog);
-            return;
-        }
-        onLoadData(blog);
+                    /**
+                     * 更新用户博客信息
+                     * @param content 内容
+                     */
+                    private void updateUserBlogInfo(String content) {
+                        mBlogInfo.setContent(content);
+                        mBlogInfo.setRead(true);
+
+                        Observable.just(mBlogInfo)
+                                .subscribeOn(Schedulers.io())
+                                .subscribe(new ApiDefaultObserver<UserBlogInfo>() {
+                                    @Override
+                                    protected void onError(String message) {
+                                        // 更新失败不处理
+                                    }
+
+                                    @Override
+                                    protected void accept(UserBlogInfo content) {
+                                        mBlogInfo.save();
+                                    }
+                                });
+                    }
+                });
     }
 
-    protected void onLoadData(BlogBean blog) {
-        createObservable(mBlogApi.getBlogContent(blog.getBlogId())).subscribe(getBlogContentObserver());
-    }
-
-    @NonNull
-    protected ApiDefaultObserver<String> getBlogContentObserver() {
-        return new ApiDefaultObserver<String>() {
-            @Override
-            protected void onError(String message) {
-                mView.onLoadContentFailed(message);
-            }
-
-            @Override
-            protected void accept(String data) {
-                // 保存博文内容
-                mBlogInfo.setContent(data);
-                mDbBlog.saveBlogInfo(mBlogInfo);
-
-                // 回调
-                mView.getBlog().setContent(data);
-                mView.onLoadContentSuccess(mView.getBlog());
-            }
-        };
+    protected ObservableSource<String> createContentObservable(String blogId) {
+        return createObservable(mBlogApi.getBlogContent(blogId));
     }
 
     @Override

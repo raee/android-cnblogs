@@ -181,14 +181,15 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
-        super.onDestroy();
+        // 停止服务
         if (mServiceConnection != null) {
             unbindService(mServiceConnection);
             mServiceConnection = null;
-            stopService(new Intent(this, CnblogsService.class)); // 停止服务
+            stopService(new Intent(this, CnblogsService.class));
         }
         RxObservable.dispose(); // 释放所有请求
-        ImageLoader.getInstance().getMemoryCache().clear();
+        ImageLoader.getInstance().getMemoryCache().clear(); // 清除图片内存
+        super.onDestroy();
     }
 
     @Override
@@ -198,8 +199,8 @@ public class MainActivity extends BaseActivity {
         if (requestCode == 100 && grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
             // 用户拒绝授权
             HintCardDialog dialog = new HintCardDialog(this);
-            dialog.setMessage("博客园需要读取/写入您的存储卡，禁止后功能受到限制，是否再次开启？");
-            dialog.setEnSureText("同意申请权限");
+            dialog.setMessage(getString(R.string.permission_tips_message));
+            dialog.setEnSureText(getString(R.string.premission_granted));
             dialog.setOnEnSureListener(new IAppDialogClickListener() {
                 @Override
                 public void onClick(IAppDialog dialog, int buttonType) {

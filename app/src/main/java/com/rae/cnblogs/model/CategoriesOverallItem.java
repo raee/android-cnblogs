@@ -52,7 +52,7 @@ public class CategoriesOverallItem extends AbstractFlexibleItem<CategoriesOveral
     public void bindViewHolder(FlexibleAdapter flexibleAdapter, CategoriesViewHolder holder, int i, List list) {
         holder.setTitle(mCategory.getName());
         holder.setBackgroundResource(isDraggable() ? R.drawable.bg_category : R.drawable.bg_category_lock);
-        holder.setTitleColor(isDraggable() ? R.color.ph2 : R.color.ph4);
+        holder.setTitleColor(isDraggable() ? R.color.ph2 : R.color.colorPrimary);
         Log.i("rae", "bindViewHolder -->  " + i);
 
     }

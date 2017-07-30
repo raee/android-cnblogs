@@ -1,107 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:paddingTop="@dimen/default_padding_top">
 
-    <LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingTop="@dimen/default_padding_top">
+
+    <Button
+        android:id="@+id/btn_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="首页"/>
 
-        <Button
-            android:id="@+id/btn_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="首页"/>
-
-
-        <Button
-            android:id="@+id/btn_test_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="登录"/>
-
-        <Button
-            android:id="@+id/btn_test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="测试"/>
-
-
-        <Button
-            android:id="@+id/btn_test_dialog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="对话框"/>
-
-        <Button
-            android:id="@+id/btn_start_service"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="启动服务"/>
-
-        <Button
-            android:id="@+id/btn_stop_service"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="停止服务"/>
-
-        <TextView
-            android:id="@+id/tv_console"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <com.rae.cnblogs.widget.ImageLoadingView
-            android:id="@+id/img_test_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="50dp"
-            android:src="@drawable/ic_like_content"/>
-
-    </LinearLayout>
-
-
-    <com.rae.cnblogs.widget.RaeDrawerLayout
-        android:id="@+id/test"
+    <Button
+        android:id="@+id/btn_test"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:text="测试"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimary">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="I AM TEST DEMO TEXT"
-                android:textColor="@color/dividerColor"
-                android:textSize="32sp"/>
-        </LinearLayout>
-
-
-    </com.rae.cnblogs.widget.RaeDrawerLayout>
-
-    <com.rae.cnblogs.widget.RaeRecyclerView
-        android:id="@+id/rv_test"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_button_while"
-        android:gravity="center"
-        android:visibility="gone"/>
-
-<!--
-
-    <FrameLayout
-        android:id="@+id/content"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
--->
-
-</RelativeLayout>
+</LinearLayout>

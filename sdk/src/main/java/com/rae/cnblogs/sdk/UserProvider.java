@@ -105,7 +105,7 @@ public final class UserProvider {
         CookieSyncManager.getInstance().sync();
 
         CookieHandler cookieHandler = java.net.CookieManager.getDefault();
-        if (cookieHandler instanceof java.net.CookieManager) {
+        if (cookieHandler != null && cookieHandler instanceof java.net.CookieManager) {
             ((java.net.CookieManager) cookieHandler).getCookieStore().removeAll();
         }
 

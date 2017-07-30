@@ -1,15 +1,23 @@
 package com.rae.cnblogs;
 
+import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.rae.cnblogs.sdk.UserProvider;
+import com.rae.cnblogs.sdk.bean.UserInfoBean;
+import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.rae.cnblogs.sdk.db.DbFactory;
+import com.rae.swift.session.SessionManager;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.tinker.loader.app.TinkerApplication;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 /**
  * 集成热更新的应用程序
@@ -33,9 +41,38 @@ public class CnblogsApplication extends TinkerApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.DEBUG && LeakCanary.isInAnalyzerProcess(this)) {
+
+        // 级别较高的初始化操作
+        DbCnblogs.init(getApplication());
+        RaeImageLoader.initImageLoader(getApplication());
+        if (!LeakCanary.isInAnalyzerProcess(this)) {
             refWatcher = LeakCanary.install(this);
         }
+
+        // 一些要求不高的初始化操作放到线程中去操作
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                UserProvider.init(getApplication());
+                SessionManager.initWithConfig(new SessionManager.ConfigBuilder().context(getApplication()).userClass(UserInfoBean.class).build());
+                initUmengShareConfig();
+
+                // 日志上报
+                Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG);
+
+                if (BuildConfig.BUILD_TYPE.equals("debug") || BuildConfig.DEBUG) {
+                    onDebugMode();
+                }
+            }
+        }).start();
+
+    }
+
+    /**
+     * 进入调试模式
+     */
+    private void onDebugMode() {
+
     }
 
     @Override
@@ -70,4 +107,18 @@ public class CnblogsApplication extends TinkerApplication {
     }
 
 
+    /**
+     * 友盟分享
+     */
+    private void initUmengShareConfig() {
+        UMShareAPI.get(getApplication());
+        PlatformConfig.setWeixin(AppConstant.WECHAT_APP_ID, AppConstant.WECHAT_APP_SECRET);
+        PlatformConfig.setSinaWeibo(AppConstant.WEIBO_APP_ID, AppConstant.WEIBO_APP_SECRET, "http://www.raeblog.com/cnblogs/index.php/share/weibo/redirect");
+        PlatformConfig.setQQZone(AppConstant.QQ_APP_ID, AppConstant.QQ_APP_SECRET);
+    }
+
+
+    public Application getApplication() {
+        return this;
+    }
 }

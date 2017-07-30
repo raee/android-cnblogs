@@ -26,8 +26,13 @@ public class CnblogsService extends Service {
     public void onCreate() {
         super.onCreate();
         mBinder = new CnblogsServiceBinder(this);
-
         checkCacheSize();
+    }
+
+    @Override
+    public void onDestroy() {
+        mBinder.getJobScheduler().onDestroy();
+        super.onDestroy();
     }
 
     /**
@@ -39,8 +44,8 @@ public class CnblogsService extends Service {
             boolean isInsufficient = appDataManager.isInsufficient(); // 是否空间不足
             double dbSize = appDataManager.getDatabaseTotalSize();
 //            Log.i("rae-service", "是否空间不够：" + isInsufficient + "; 数据库缓存大小：" + dbSize);
-            // 当数据大于30MB，清空博客缓存数据
-            if (dbSize > 30 || isInsufficient) {
+            // 当数据大于50MB，清空博客缓存数据
+            if (dbSize > 50 || isInsufficient) {
 //                Log.i("rae-service", "清除数据！" + dbSize);
                 DbFactory.getInstance().clearData();
             }

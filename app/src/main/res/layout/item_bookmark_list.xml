@@ -29,41 +29,15 @@
         android:textColor="@color/ph2"
         android:textSize="@dimen/summary"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <com.rae.cnblogs.widget.RaeTextView
+        android:id="@+id/tv_blog_date"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin">
+        android:layout_centerVertical="true"
+        android:text="今天18:30"
+        android:textAlignment="gravity"
+        android:textColor="@color/ph3"
+        android:textSize="@dimen/h2"/>
 
-        <com.rae.cnblogs.widget.RaeTextView
-            android:id="@+id/tv_blog_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="今天18:30"
-            android:textAlignment="gravity"
-            android:textColor="@color/ph3"
-            android:textSize="@dimen/h2"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true">
-
-            <com.rae.cnblogs.widget.RaeTextView
-                android:id="@+id/tv_blog_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_bookmark_delete"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/delete"
-                android:textColor="#8a8a8a"
-                android:textSize="@dimen/h2"/>
-        </LinearLayout>
-
-    </RelativeLayout>
 
 </LinearLayout>

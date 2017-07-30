@@ -29,16 +29,29 @@ public final class RxObservable {
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(@NonNull Disposable disposable) throws Exception {
-                        List<Disposable> disposables = sObservableDisposableList.get(tag);
-                        if (disposables == null) {
-                            disposables = new ArrayList<>();
-                            sObservableDisposableList.put(tag, disposables);
-                        }
-                        sObservableDisposableList.get(tag).add(disposable);
+                        put(disposable, tag);
                     }
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Observable<Integer> newThread() {
+        return Observable.just(0).doOnSubscribe(new Consumer<Disposable>() {
+            @Override
+            public void accept(Disposable disposable) throws Exception {
+                put(disposable, "thread");
+            }
+        }).subscribeOn(Schedulers.io());
+    }
+
+    private static void put(@NonNull Disposable disposable, String tag) {
+        List<Disposable> disposables = sObservableDisposableList.get(tag);
+        if (disposables == null) {
+            disposables = new ArrayList<>();
+            sObservableDisposableList.put(tag, disposables);
+        }
+        sObservableDisposableList.get(tag).add(disposable);
     }
 
     /**

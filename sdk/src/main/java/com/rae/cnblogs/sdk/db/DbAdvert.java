@@ -28,14 +28,20 @@ public class DbAdvert extends DbCnblogs {
 
 
     public void save(final AdvertBean data) {
-        executeTransaction(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                // 删除数据
-                delete(data);
-                data.save();
+
+                executeTransaction(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 删除数据
+                        delete(data);
+                        data.save();
+                    }
+                });
             }
-        });
+        }).start();
     }
 
     /**

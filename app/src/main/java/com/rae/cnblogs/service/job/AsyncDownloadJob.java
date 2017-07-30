@@ -2,8 +2,9 @@ package com.rae.cnblogs.service.job;
 
 import android.util.Log;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 异步下载任务
@@ -11,11 +12,10 @@ import java.util.concurrent.Executors;
  */
 public abstract class AsyncDownloadJob implements IJob {
 
-    private final ExecutorService mExecutorService;
+    protected final ScheduledThreadPoolExecutor mExecutorService;
 
     public AsyncDownloadJob() {
-        mExecutorService = Executors.newFixedThreadPool(3);
-        Log.i("rae", "创建线程池!" + mExecutorService.isTerminated());
+        mExecutorService = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(2);
     }
 
     protected void execute(Runnable runnable) {
@@ -23,7 +23,8 @@ public abstract class AsyncDownloadJob implements IJob {
             Log.e("rae", "线程池已经结束！");
             return;
         }
-        mExecutorService.execute(runnable);
+        // 延迟周期运行，避免过多的CPU消耗
+        mExecutorService.schedule(runnable, 1500, TimeUnit.MILLISECONDS);
     }
 
     @Override

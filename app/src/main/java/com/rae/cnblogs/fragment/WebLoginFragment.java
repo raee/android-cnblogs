@@ -7,6 +7,7 @@ import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
 
 /**
@@ -44,6 +45,9 @@ public class WebLoginFragment extends WebViewFragment {
 
                 // 登录成功
                 if (cookie != null && cookie.contains(".CNBlogsCookie")) {
+                    // 同步COOKIE
+                    UserProvider.getInstance().syncFormCookieJar();
+
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
                 }

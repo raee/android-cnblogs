@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.CountDownTimer;
 
 import com.rae.cnblogs.AppMobclickAgent;
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.ILauncherPresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.api.IRaeServerApi;
@@ -11,6 +12,10 @@ import com.rae.cnblogs.sdk.bean.AdvertBean;
 import com.rae.cnblogs.sdk.db.DbAdvert;
 import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Function;
 
 /**
  * 启动页
@@ -68,33 +73,62 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
     @Override
     public void start() {
         mCountDownTimer.start();
-        mAdvertBean = mDbAdvert.getLauncherAd();
 
-        if (mAdvertBean != null) {
-            long endTime = ApiUtils.parseDefaultDate(mAdvertBean.getAd_end_date()).getTime();
-            if (System.currentTimeMillis() > endTime) {
-                mView.onNormalImage();
-            } else {
-                // 统计
-                AppMobclickAgent.onLaunchAdExposureEvent(mContext, mAdvertBean.getAd_id(), mAdvertBean.getAd_name());
-                mView.onLoadImage(mAdvertBean.getAd_name(), mAdvertBean.getImage_url());
-            }
-        }
+        // 从本地加载
+        RxObservable.newThread()
+                .flatMap(new Function<Integer, ObservableSource<AdvertBean>>() {
+                    @Override
+                    public ObservableSource<AdvertBean> apply(Integer integer) throws Exception {
+                        AdvertBean item = mDbAdvert.getLauncherAd();
+                        if (item == null) {
+                            throw new NullPointerException();
+                        }
+                        return createObservable(Observable.just(item));
+                    }
+                })
+                .subscribe(new ApiDefaultObserver<AdvertBean>() {
+                    @Override
+                    protected void onError(String message) {
+                        onSuccess(null);
+                    }
 
-        createObservable(mRaeServerApi.getLauncherAd()).subscribe(new ApiDefaultObserver<AdvertBean>() {
-            @Override
-            protected void onError(String message) {
-                if (mAdvertBean == null) {
-                    mView.onNormalImage();
-                }
-            }
+                    @Override
+                    protected void accept(AdvertBean advertBean) {
+                        onSuccess(advertBean);
+                    }
 
-            @Override
-            protected void accept(AdvertBean data) {
-                // 保存到数据，下一次加载
-                mDbAdvert.save(data);
-            }
-        });
+
+                    private void onSuccess(AdvertBean data) {
+                        mAdvertBean = data;
+                        if (mAdvertBean == null) {
+                            mView.onNormalImage();
+                            return;
+                        }
+                        long endTime = ApiUtils.parseDefaultDate(mAdvertBean.getAd_end_date()).getTime();
+                        if (System.currentTimeMillis() > endTime) {
+                            mView.onNormalImage();
+                        } else {
+                            // 统计
+                            AppMobclickAgent.onLaunchAdExposureEvent(mContext, mAdvertBean.getAd_id(), mAdvertBean.getAd_name());
+                            mView.onLoadImage(mAdvertBean.getAd_name(), mAdvertBean.getImage_url());
+                        }
+                    }
+                });
+
+        // 异步下载新的
+        createObservable(mRaeServerApi.getLauncherAd())
+                .subscribe(new ApiDefaultObserver<AdvertBean>() {
+                    @Override
+                    protected void onError(String message) {
+                        // 不处理
+                    }
+
+                    @Override
+                    protected void accept(AdvertBean data) {
+                        // 保存到数据，等待下一次加载
+                        mDbAdvert.save(data);
+                    }
+                });
 
     }
 }

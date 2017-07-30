@@ -53,6 +53,12 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
         mLauncherPresenter.stop();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLauncherPresenter.destroy();
+    }
+
     private void showImage(String url) {
         ImageLoader.getInstance().displayImage(url, mDisplayView, RaeImageLoader.defaultOptions().showImageOnLoading(0).showImageForEmptyUri(0).showImageOnFail(0).build());
     }

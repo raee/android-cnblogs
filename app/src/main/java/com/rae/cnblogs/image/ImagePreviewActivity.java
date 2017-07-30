@@ -6,8 +6,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,8 +13,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -59,29 +55,6 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
     @BindView(R.id.img_back)
     View mCloseView;
 
-    private Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            if (msg.what == View.VISIBLE) {
-                Animation animation = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
-                mCloseView.startAnimation(animation);
-                mBottomLayout.setVisibility(View.VISIBLE);
-
-                mCloseView.startAnimation(animation);
-                mCloseView.setVisibility(View.VISIBLE);
-            } else {
-                Animation animation = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
-                mCloseView.startAnimation(animation);
-                mBottomLayout.setVisibility(View.GONE);
-
-                mCloseView.startAnimation(animation);
-                mCloseView.setVisibility(View.GONE);
-            }
-
-            return false;
-        }
-    });
-    private long timeout = 10000;
     ImageAdapter mAdapter;
 
     @Override
@@ -110,8 +83,6 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
         if (position <= 0)
             onPageSelected(position);
 
-
-        mHandler.sendEmptyMessageDelayed(View.GONE, timeout);
     }
 
     @OnClick(R.id.img_back)
@@ -137,13 +108,7 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
 
     @Override
     public void onClick(View v) {
-        if (mCloseView.getVisibility() == View.VISIBLE) {
-            this.finish();
-        } else {
-            mHandler.removeMessages(View.GONE);
-            mHandler.sendEmptyMessage(View.VISIBLE);
-            mHandler.sendEmptyMessageDelayed(View.GONE, timeout);
-        }
+        this.finish();
     }
 
     @Override
@@ -252,11 +217,4 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
         return file;
     }
 
-    @Override
-    protected void onDestroy() {
-        mHandler.removeMessages(View.VISIBLE);
-        mHandler.removeMessages(View.GONE);
-        mHandler = null;
-        super.onDestroy();
-    }
 }
