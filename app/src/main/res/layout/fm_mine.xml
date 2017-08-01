@@ -147,7 +147,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_issue"
+            android:id="@+id/ll_feedback"
             style="@style/ItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -156,7 +156,7 @@
                 style="@style/ItemTitleStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/issue"
+                android:text="@string/feedback"
                 android:textSize="@dimen/h2"/>
 
         </LinearLayout>

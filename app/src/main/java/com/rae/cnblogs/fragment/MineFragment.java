@@ -195,9 +195,9 @@ public class MineFragment extends BaseFragment {
     /**
      * 问题反馈
      */
-    @OnClick(R.id.ll_issue)
-    public void onIssueClick() {
-        AppRoute.jumpToWeb(this.getContext(), getString(R.string.github_issue_url));
+    @OnClick(R.id.ll_feedback)
+    public void onFeedbackClick() {
+        AppRoute.jumpToFeedback(getContext());
     }
 
     /**

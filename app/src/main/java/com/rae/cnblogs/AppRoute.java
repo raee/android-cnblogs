@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.rae.cnblogs.activity.BlogContentActivity;
 import com.rae.cnblogs.activity.BloggerActivity;
 import com.rae.cnblogs.activity.CategoryActivity;
 import com.rae.cnblogs.activity.FavoritesActivity;
+import com.rae.cnblogs.activity.FeedbackActivity;
 import com.rae.cnblogs.activity.FriendsActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
@@ -33,8 +35,10 @@ public final class AppRoute {
     /*朋友界面 - 来自粉丝*/
     public static final int ACTIVITY_FRIENDS_TYPE_FANS = 1;
     /*朋友界面 - 来自关注*/
-    public static final int ACTIVITY_FRIENDS_TYPE_FOLLOW = 2;
+    private static final int ACTIVITY_FRIENDS_TYPE_FOLLOW = 2;
+    // 分类
     public static final int REQ_CODE_CATEGORY = 102;
+    // 收藏
     public static final int REQ_CODE_FAVORITES = 103;
 
     private static void startActivity(Context context, Intent intent) {
@@ -53,6 +57,12 @@ public final class AppRoute {
         startActivityForResult(context, new Intent(context, cls), requestCode);
     }
 
+    /**
+     * 博客正文界面
+     *
+     * @param blog 博客实体
+     * @param type 博客类型
+     */
     public static void jumpToBlogContent(Context context, BlogBean blog, BlogType type) {
         Intent intent = new Intent(context, BlogContentActivity.class);
         intent.putExtra("blog", blog);
@@ -60,12 +70,32 @@ public final class AppRoute {
         startActivity(context, intent);
     }
 
+    /**
+     * 网页
+     *
+     * @param url 路径
+     */
     public static void jumpToWeb(Context context, String url) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.setData(Uri.parse(url));
         startActivity(context, intent);
     }
 
+    /**
+     * 用户反馈
+     */
+    public static void jumpToFeedback(Context context) {
+        Intent intent = new Intent(context, FeedbackActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(context, intent);
+    }
+
+
+    /**
+     * 网页，新线程
+     *
+     * @param url 路径
+     */
     public static void jumpToWebNewTask(Context context, String url) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.setData(Uri.parse(url));
@@ -73,19 +103,13 @@ public final class AppRoute {
         startActivity(context, intent);
     }
 
+    /**
+     * 主界面
+     */
     public static void jumpToMain(Context context) {
         startActivity(context, MainActivity.class);
     }
 
-//    public static void jumpToDownload(Context context, String url) {
-//        try {
-//            Intent intent = new Intent();
-//            intent.setData(Uri.parse(url));
-//            startActivity(context, intent);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     /**
      * 登录
@@ -95,16 +119,28 @@ public final class AppRoute {
     }
 
     /**
-     * 登录
+     * 登录，有回调结果
      */
     public static void jumpToWebLogin(Activity context) {
         startActivityForResult(context, WebLoginActivity.class, REQ_CODE_WEB_LOGIN);
     }
 
+    /**
+     * 粉丝
+     *
+     * @param bloggerName 博主昵称
+     * @param userId      博主ID
+     */
     public static void jumpToFans(Context context, String bloggerName, String userId) {
         jumpToFriends(context, ACTIVITY_FRIENDS_TYPE_FANS, bloggerName, userId);
     }
 
+    /**
+     * 关注
+     *
+     * @param bloggerName 博主昵称
+     * @param userId      博主ID
+     */
     public static void jumpToFollow(Context context, String bloggerName, String userId) {
         jumpToFriends(context, ACTIVITY_FRIENDS_TYPE_FOLLOW, bloggerName, userId);
     }
@@ -116,7 +152,7 @@ public final class AppRoute {
      * @param bloggerName 博主昵称
      * @param userId      博主ID
      */
-    public static void jumpToFriends(Context context, int type, String bloggerName, String userId) {
+    private static void jumpToFriends(Context context, int type, String bloggerName, String userId) {
         Intent intent = new Intent(context, FriendsActivity.class);
         intent.putExtra("userId", userId);
         intent.putExtra("bloggerName", bloggerName);
@@ -124,13 +160,24 @@ public final class AppRoute {
         startActivity(context, intent);
     }
 
-    public static void jumpToImagePreview(Context context, ArrayList<String> images, int position) {
+    /**
+     * 图片大图预览
+     *
+     * @param images   图片数组
+     * @param position 跳转到低几张图片，默认传0
+     */
+    public static void jumpToImagePreview(Context context, @NonNull ArrayList<String> images, int position) {
         Intent intent = new Intent(context, ImagePreviewActivity.class);
         intent.putStringArrayListExtra("images", images);
         intent.putExtra("position", position);
         startActivity(context, intent);
     }
 
+    /**
+     * 博主界面
+     *
+     * @param blogApp 博客APP
+     */
     public static void jumpToBlogger(Context context, String blogApp) {
         if (TextUtils.isEmpty(blogApp)) {
             AppUI.toast(context, "博主信息为空！");
@@ -142,6 +189,9 @@ public final class AppRoute {
     }
 
 
+    /**
+     * 分类管理
+     */
     public static void jumpToCategoryForResult(Activity context) {
         Intent intent = new Intent(context, CategoryActivity.class);
         startActivityForResult(context, intent, REQ_CODE_CATEGORY);

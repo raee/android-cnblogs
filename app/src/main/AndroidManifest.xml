@@ -164,6 +164,22 @@
 
         </activity>
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.rae.cnblogs.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/lc_fileprovider_path" />
+        </provider>
+
+        <activity
+            android:name=".activity.FeedbackActivity"
+            android:label="@string/feedback"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden"/>
+
 
         <meta-data
             android:name="UMENG_APPKEY"

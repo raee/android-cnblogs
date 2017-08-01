@@ -11,6 +11,8 @@ def signStorePassword = properties.getProperty("keystore.storePassword")
 def signStoreFile = properties.getProperty("keystore.file")
 def umengAppKey = properties.getProperty("umengAppKey")
 def buglyAppId = properties.getProperty("buglyAppId")
+def leancloudAppId = properties.getProperty("leancloudAppId")
+def leancloudAppKey = properties.getProperty("leancloudAppKey")
 
 
 android {
@@ -39,6 +41,8 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'BUGLY_APP_ID', '"' + buglyAppId + '"'
+        buildConfigField 'String', 'LEAN_CLOUD_APP_ID', '"' + leancloudAppId + '"'
+        buildConfigField 'String', 'LEAN_CLOUD_APP_KEY', '"' + leancloudAppKey + '"'
         manifestPlaceholders = [
                 UMENG_APPKEY : umengAppKey,
                 UMENG_CHANNEL: 'DEV'
@@ -51,7 +55,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-//            applicationIdSuffix '.debug'
             minifyEnabled false
             debuggable true
             signingConfig signingConfigs.release
@@ -88,6 +91,10 @@ dependencies {
     compile 'com.tencent.bugly:crashreport_upgrade:1.3.1'
     // 非常强悍的RecyclerView
     compile 'eu.davidea:flexible-adapter:5.0.0-rc2'
+    // LeanCloud 基础包
+    compile 'cn.leancloud.android:avoscloud-sdk:v4.4.3'
+    // LeanCloud 用户反馈包
+    compile 'cn.leancloud.android:avoscloud-feedback:v4.4.3@aar'
 }
 
 // 热更新

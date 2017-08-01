@@ -88,6 +88,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
 
     @Override
     public void onNormalImage() {
+        mDisplayView.setImageResource(R.drawable.launcher_background);
         mDisplayView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
     }
 

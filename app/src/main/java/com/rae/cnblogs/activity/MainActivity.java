@@ -16,8 +16,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.feedback.Comment;
+import com.avos.avoscloud.feedback.FeedbackThread;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppMobclickAgent;
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
@@ -42,6 +46,8 @@ import com.rae.swift.app.RaeFragmentAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -142,8 +148,40 @@ public class MainActivity extends BaseActivity {
                     }
                 });
 
-
+        // 意见反馈的回复
+        checkFeedbackMessage();
         requestPermissions();
+    }
+
+    /**
+     * 检查是否有新的意见反馈回复消息
+     */
+    private void checkFeedbackMessage() {
+        final int originalCount = FeedbackThread.getInstance().getCommentsList().size();
+        FeedbackThread.getInstance().sync(new FeedbackThread.SyncCallback() {
+            @Override
+            public void onCommentsSend(List<Comment> list, AVException e) {
+
+            }
+
+            @Override
+            public void onCommentsFetch(List<Comment> list, AVException e) {
+                if (list.size() > originalCount) {
+                    HintCardDialog dialog = new HintCardDialog(getContext());
+                    dialog.setMessage(getString(R.string.feedback_message));
+                    dialog.showCloseButton();
+                    dialog.setEnSureText(getString(R.string.view_now));
+                    dialog.setOnEnSureListener(new IAppDialogClickListener() {
+                        @Override
+                        public void onClick(IAppDialog dialog, int buttonType) {
+                            dialog.dismiss();
+                            AppRoute.jumpToFeedback(getContext());
+                        }
+                    });
+                    dialog.show();
+                }
+            }
+        });
     }
 
     /**

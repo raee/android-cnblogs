@@ -61,7 +61,6 @@
     <string name="login_expired">登录过期，请重新登录</string>
     <string name="blogger_need_login">请先登录</string>
     <string name="please_login">请登录</string>
-    <string name="issue">意见反馈</string>
     <string name="github_issue_url">http://www.raeblog.com/cnblogs/issues</string>
     <string name="github_url">https://github.com/raee/android-cnblogs</string>
     <string name="delete">删除</string>
@@ -90,4 +89,8 @@
     <string name="service_name">博客园离线服务</string>
     <string name="permission_tips_message">博客园需要读取/写入您的存储卡，禁止后功能受到限制，是否再次开启？</string>
     <string name="premission_granted">同意申请权限</string>
+    <string name="feedback">意见反馈</string>
+    <string name="feedback_message">您收到新的意见反馈消息，是否前往查看？</string>
+    <string name="view_now">立即查看</string>
+    <string name="feedback_hint">请填写反馈信息</string>
 </resources>
