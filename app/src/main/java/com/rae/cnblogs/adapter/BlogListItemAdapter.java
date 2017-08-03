@@ -19,6 +19,7 @@ import com.rae.cnblogs.model.ItemLoadingViewHolder;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.swift.Rx;
+import com.rae.swift.session.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
             return super.getItemViewType(position);
         }
         BlogBean blog = getDataItem(position);
-        if (TextUtils.equals("loading", blog.getTag())) {
+        if (blog != null && TextUtils.equals("loading", blog.getTag())) {
             return VIEW_TYPE_LOADING;
         }
         return VIEW_TYPE_NORMAL;
@@ -98,7 +99,12 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
                 holder.authorLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AppRoute.jumpToBlogger(v.getContext(), m.getBlogApp());
+                        // 判断是否已经登录
+                        if (SessionManager.getDefault().isLogin()) {
+                            AppRoute.jumpToBlogger(v.getContext(), m.getBlogApp());
+                        } else {
+                            AppRoute.jumpToLogin(v.getContext());
+                        }
                     }
                 });
                 break;

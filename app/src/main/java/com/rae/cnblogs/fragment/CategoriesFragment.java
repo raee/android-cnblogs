@@ -2,6 +2,8 @@ package com.rae.cnblogs.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -290,7 +292,8 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
                     @Override
                     public void accept(@NonNull Empty empty) throws Exception {
                         if (enableNotify) {
-                            notifyDataSetChanged();
+                            mHandler.removeMessages(0);
+                            mHandler.sendEmptyMessageDelayed(0, 300);
                         }
                     }
                 });
@@ -299,11 +302,18 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
 
     }
 
-//    @android.support.annotation.NonNull
-//    @Override
-//    public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        CategoryDialog dialog = new CategoryDialog(getContext());
-//        dialog.setTopMargin(getArguments().getInt("margin"));
-//        return dialog;
-//    }
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            notifyDataSetChanged();
+            return false;
+        }
+    });
+
+    @Override
+    public void onDestroy() {
+        mHandler.removeMessages(0);
+        mHandler = null;
+        super.onDestroy();
+    }
 }

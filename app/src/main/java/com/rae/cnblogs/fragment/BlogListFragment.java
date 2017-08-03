@@ -22,6 +22,7 @@ import com.rae.cnblogs.widget.RaeRecyclerView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -130,20 +131,20 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         else
             mRecyclerView.loadMoreComplete();
 
-        mItemAdapter.invalidate(data);
+        mItemAdapter.invalidate(new ArrayList<>(data));
         mItemAdapter.notifyDataSetChanged();
 
-        // 异步下载博文内容
+        // 通知异步下载博文内容
         EventBus.getDefault().post(new JobEvent(JobScheduler.ACTION_BLOG_CONTENT));
-
     }
 
     @Override
     public void onLoadFailed(int page, String msg) {
-        if (page <= 1)
+        if (page <= 1) {
             mAppLayout.refreshComplete();
-        else
+        } else {
             mRecyclerView.loadMoreComplete();
+        }
     }
 
     @Override

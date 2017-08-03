@@ -51,7 +51,7 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
     public void onBindViewHolder(VH holder, int position) {
         final T dataItem = getDataItem(position);
         onBindViewHolder(holder, position, dataItem);
-        if (mOnItemClickListener != null) {
+        if (mOnItemClickListener != null && dataItem != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -63,7 +63,7 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
 
 
     T getDataItem(int position) {
-        return mDataList == null ? null : mDataList.get(position % getItemCount());
+        return Rx.isEmpty(mDataList) ? null : mDataList.get(position % getItemCount());
     }
 
     @Override
@@ -83,6 +83,10 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
      * @param data 数据
      */
     public void invalidate(List<T> data) {
+        if (mDataList != null) {
+            mDataList.clear();
+            mDataList = null;
+        }
         mDataList = data;
     }
 

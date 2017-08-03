@@ -73,7 +73,7 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
                             return createContentObservable(blogInfo.getBlogId());
                         }
                         // 从缓存加载
-                        return Observable.just(blogInfo.getContent());
+                        return createObservable(Observable.just(blogInfo.getContent()));
                     }
                 })
                 // 3、缓存/网络加载成功后回调到UI

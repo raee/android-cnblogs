@@ -38,7 +38,6 @@ public class BlogContentTask implements Runnable {
     private boolean isWIFI() {
         NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
         if (networkInfo == null || !networkInfo.isConnected()) return false;
-        Log.d("rae", "网络类型：" + networkInfo.getType() + "; 网络已连接：" + networkInfo.isConnected() + ";是否活跃：" + networkInfo.isAvailable());
         return networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
