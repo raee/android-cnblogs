@@ -2,6 +2,8 @@ package com.rae.cnblogs.service.job;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.os.Handler;
+import android.os.Message;
 
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.api.IBlogApi;
@@ -31,6 +33,13 @@ public class BlogContentJob extends AsyncDownloadJob {
     private final INewsApi mNewsApi;
     private final ConnectivityManager mConnectivityManager;
     private DbBlog mDbBlog;
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            performJob();
+            return false;
+        }
+    });
 
     public BlogContentJob(Context context) {
         mBlogApi = CnblogsApiFactory.getInstance(context).getBlogApi();
@@ -41,6 +50,22 @@ public class BlogContentJob extends AsyncDownloadJob {
 
     @Override
     public void run() {
+        // 延期执行，避免过多的刷新操作
+        mHandler.removeMessages(0);
+        mHandler.sendEmptyMessageDelayed(0, 10000);
+    }
+
+    @Override
+    public void cancel() {
+        super.cancel();
+        mHandler.removeMessages(0);
+        mHandler = null;
+    }
+
+    /**
+     * 执行任务
+     */
+    private void performJob() {
         // 查询没有内容的博客
         Observable.just(mDbBlog.findAllWithoutBlogContent())
                 .subscribeOn(Schedulers.io())

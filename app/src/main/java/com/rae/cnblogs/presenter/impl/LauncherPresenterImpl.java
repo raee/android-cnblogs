@@ -2,6 +2,7 @@ package com.rae.cnblogs.presenter.impl;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.RxObservable;
@@ -14,8 +15,6 @@ import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.functions.Function;
 
 /**
  * 启动页
@@ -67,7 +66,14 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
 
     @Override
     public void stop() {
+        RxObservable.dispose("thread");
         mCountDownTimer.cancel();
+    }
+
+    @Override
+    public void destroy() {
+        stop();
+        super.destroy();
     }
 
     @Override
@@ -75,17 +81,12 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
         mCountDownTimer.start();
 
         // 从本地加载
-        RxObservable.newThread()
-                .flatMap(new Function<Integer, ObservableSource<AdvertBean>>() {
-                    @Override
-                    public ObservableSource<AdvertBean> apply(Integer integer) throws Exception {
-                        AdvertBean item = mDbAdvert.getLauncherAd();
-                        if (item == null) {
-                            throw new NullPointerException();
-                        }
-                        return createObservable(Observable.just(item));
-                    }
-                })
+        AdvertBean item = mDbAdvert.getLauncherAd();
+        if (item == null) {
+            mView.onNormalImage();
+            return;
+        }
+        createObservable(Observable.just(item))
                 .subscribe(new ApiDefaultObserver<AdvertBean>() {
                     @Override
                     protected void onError(String message) {
@@ -100,7 +101,7 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
 
                     private void onSuccess(AdvertBean data) {
                         mAdvertBean = data;
-                        if (mAdvertBean == null) {
+                        if (mAdvertBean == null || TextUtils.isEmpty(data.getImage_url())) {
                             mView.onNormalImage();
                             return;
                         }

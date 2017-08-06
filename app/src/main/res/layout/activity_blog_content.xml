@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"
-                android:text="RAE敲代码"
+                android:text="@string/app_name"
                 android:textColor="@color/ph2"
                 android:textSize="12sp"/>
 
@@ -122,9 +122,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_comment_toolbar"
+                    android:gravity="center"
                     android:textColor="@color/badge_color"
                     android:textSize="9sp"
-                    android:gravity="center"
                     android:textStyle="bold"
                     android:visibility="visible"/>
 
@@ -134,9 +134,9 @@
             <RelativeLayout
                 android:id="@+id/ll_like"
                 android:layout_width="0dp"
-                android:gravity="center"
                 android:layout_height="32dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/tv_like_badge"

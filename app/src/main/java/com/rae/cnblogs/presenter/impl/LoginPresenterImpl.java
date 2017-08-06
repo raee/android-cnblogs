@@ -2,7 +2,9 @@ package com.rae.cnblogs.presenter.impl;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.presenter.ILoginPresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
@@ -62,7 +64,15 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
                 })
                 .subscribe(new ApiDefaultObserver<UserInfoBean>() {
                     @Override
+                    public void onError(Throwable e) {
+                        // 统计错误信息
+                        AppMobclickAgent.onLoginEvent(mApplicationContext, "ERROR", false, e == null ? "没有错误信息" : Log.getStackTraceString(e));
+                        super.onError(e);
+                    }
+
+                    @Override
                     protected void onError(String msg) {
+
                         if (!TextUtils.isEmpty(msg) && msg.contains("验证码")) {
                             // 验证码错误
                             mView.onLoginVerifyCodeError();
@@ -73,6 +83,8 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
 
                     @Override
                     protected void accept(UserInfoBean data) {
+                        // 统计登录事件
+                        AppMobclickAgent.onLoginEvent(mApplicationContext, data.getBlogApp(), true, null);
                         // 友盟统计用户
                         if (mFromLogin) {
                             MobclickAgent.onProfileSignIn(data.getBlogApp());

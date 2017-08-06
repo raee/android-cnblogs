@@ -16,10 +16,10 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.BlogItemViewHolder;
 import com.rae.cnblogs.model.ItemLoadingViewHolder;
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.swift.Rx;
-import com.rae.swift.session.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +100,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
                     @Override
                     public void onClick(View v) {
                         // 判断是否已经登录
-                        if (SessionManager.getDefault().isLogin()) {
+                        if (UserProvider.getInstance().isLogin()) {
                             AppRoute.jumpToBlogger(v.getContext(), m.getBlogApp());
                         } else {
                             AppRoute.jumpToLogin(v.getContext());

@@ -26,7 +26,7 @@ public final class AppMobclickAgent {
     }
 
     private static void onAdEvent(Context context, Map<String, String> map) {
-        MobclickAgent.onEvent(context, " APP_AD_EVENT", map);
+        MobclickAgent.onEvent(context, "APP_AD_EVENT", map);
     }
 
     /**
@@ -56,4 +56,23 @@ public final class AppMobclickAgent {
         map.put("name", name);
         onAdEvent(context, map);
     }
+
+
+    /**
+     * 用户登录事件，为了保护用户的隐私，这里只统计登录的blogApp，不记录帐号信息。
+     * 登录失败只统计错误信息
+     *
+     * @param blogApp   登录成功的blogApp
+     * @param isSuccess 是否成功
+     * @param msg       失败的错误信息
+     */
+    public static void onLoginEvent(Context context, String blogApp, boolean isSuccess, String msg) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("success", String.valueOf(isSuccess));
+        map.put("blogApp", blogApp);
+        map.put("message", msg);
+        MobclickAgent.onEvent(context, "APP_LOGIN_EVENT", map);
+    }
+
 }

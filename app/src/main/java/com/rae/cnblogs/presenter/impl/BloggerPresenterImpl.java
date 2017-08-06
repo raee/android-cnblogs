@@ -80,8 +80,4 @@ public class BloggerPresenterImpl extends BasePresenter<IBloggerPresenter.IBlogg
         return mBloggerInfo != null && mBloggerInfo.isFollowed();
     }
 
-    @Override
-    public void destroy() {
-        super.destroy();
-    }
 }

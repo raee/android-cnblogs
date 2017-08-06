@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.feedback.FeedbackThread;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
@@ -12,7 +13,7 @@ import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.swift.session.SessionManager;
 import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
+import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.tinker.loader.app.TinkerApplication;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
@@ -25,14 +26,14 @@ import com.umeng.socialize.UMShareAPI;
  */
 public class CnblogsApplication extends TinkerApplication {
 
-    private static RefWatcher refWatcher;
-
-
-    public static void watch(Object obj) {
-        if (refWatcher != null) {
-            refWatcher.watch(obj);
-        }
-    }
+//    private static RefWatcher refWatcher;
+//
+//
+//    public static void watch(Object obj) {
+//        if (refWatcher != null) {
+//            refWatcher.watch(obj);
+//        }
+//    }
 
     public CnblogsApplication() {
         super(ShareConstants.TINKER_ENABLE_ALL, "com.rae.cnblogs.CnblogsApplicationProxy");
@@ -45,13 +46,16 @@ public class CnblogsApplication extends TinkerApplication {
         // 级别较高的初始化操作
         DbCnblogs.init(getApplication());
         RaeImageLoader.initImageLoader(getApplication());
+        // 日志上报
+        Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG);
         if (!LeakCanary.isInAnalyzerProcess(this)) {
-            refWatcher = LeakCanary.install(this);
+            LeakCanary.install(this);
         }
 
         // LeanCloud用户反馈初始化
         AVOSCloud.initialize(getApplication(), BuildConfig.LEAN_CLOUD_APP_ID, BuildConfig.LEAN_CLOUD_APP_KEY);
-        AVOSCloud.setDebugLogEnabled(BuildConfig.DEBUG);
+        FeedbackThread.getInstance();
+//        AVOSCloud.setDebugLogEnabled(BuildConfig.DEBUG);
 
 
         // 一些要求不高的初始化操作放到线程中去操作
@@ -62,13 +66,9 @@ public class CnblogsApplication extends TinkerApplication {
                 SessionManager.initWithConfig(new SessionManager.ConfigBuilder().context(getApplication()).userClass(UserInfoBean.class).build());
                 initUmengShareConfig();
 
-
-                // 日志上报
-//                Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG);
-
-                if (BuildConfig.BUILD_TYPE.equals("debug") || BuildConfig.DEBUG) {
-                    onDebugMode();
-                }
+//                if (BuildConfig.BUILD_TYPE.equals("debug") || BuildConfig.DEBUG) {
+//                    onDebugMode();
+//                }
             }
         }).start();
     }

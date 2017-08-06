@@ -16,6 +16,7 @@ import io.reactivex.Observable;
  */
 public abstract class BasePresenter<V> {
     protected Context mContext;
+    protected Context mApplicationContext;
 
     protected V mView;
 
@@ -24,6 +25,7 @@ public abstract class BasePresenter<V> {
     public BasePresenter(Context context, V view) {
         mView = view;
         mContext = context;
+        mApplicationContext = context.getApplicationContext();
         mTag = getClass().getSimpleName();
     }
 
@@ -44,9 +46,9 @@ public abstract class BasePresenter<V> {
     }
 
     public void destroy() {
+        cancelRequest();
         mView = null;
         mContext = null;
-        cancelRequest();
     }
 
     /**
