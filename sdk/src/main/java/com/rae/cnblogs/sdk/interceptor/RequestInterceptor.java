@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
 import com.rae.cnblogs.sdk.JsonBody;
 
@@ -37,6 +38,7 @@ public class RequestInterceptor implements Interceptor {
 
     public RequestInterceptor(Context context) {
         mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        CookieSyncManager.createInstance(context.getApplicationContext());
     }
 
     private boolean isConnected() {
