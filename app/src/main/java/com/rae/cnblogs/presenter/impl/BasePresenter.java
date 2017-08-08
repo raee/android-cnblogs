@@ -1,6 +1,8 @@
 package com.rae.cnblogs.presenter.impl;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
 
 import com.rae.cnblogs.RxObservable;
@@ -66,4 +68,15 @@ public abstract class BasePresenter<V> {
     public <T> Observable<T> createObservable(Observable<T> observable) {
         return RxObservable.create(observable, mTag);
     }
+
+
+    /**
+     * 网络是否可用
+     */
+    protected boolean isNetworkError() {
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo == null || !networkInfo.isConnected() || !networkInfo.isAvailable();
+    }
+
 }

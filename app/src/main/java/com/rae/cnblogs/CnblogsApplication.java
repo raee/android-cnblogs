@@ -1,8 +1,6 @@
 package com.rae.cnblogs;
 
 import android.app.Application;
-import android.content.Context;
-import android.support.multidex.MultiDex;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.feedback.FeedbackThread;
@@ -14,7 +12,6 @@ import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.swift.session.SessionManager;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
-import com.tencent.bugly.beta.Beta;
 import com.tencent.tinker.loader.app.TinkerApplication;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
 import com.umeng.socialize.PlatformConfig;
@@ -80,24 +77,6 @@ public class CnblogsApplication extends TinkerApplication {
 
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-
-        // DEX分包
-        MultiDex.install(base);
-
-        // 安装tinker
-        Beta.installTinker(this);
-    }
-
-    @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-        if (level == TRIM_MEMORY_RUNNING_LOW || level == TRIM_MEMORY_BACKGROUND) {
-            ImageLoader.getInstance().getMemoryCache().clear();
-        }
-    }
 
     /**
      * 清除应用

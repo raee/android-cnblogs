@@ -11,5 +11,4 @@
         android:id="@+id/rec_blog_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 </com.rae.cnblogs.widget.AppLayout>

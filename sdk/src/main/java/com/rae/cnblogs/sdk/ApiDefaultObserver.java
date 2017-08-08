@@ -45,6 +45,9 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
                 clearLoginToken();
                 onLoginExpired();
                 return;
+            } else {
+                onError("网络连接错误");
+                return;
             }
         }
         String message = e.getMessage();

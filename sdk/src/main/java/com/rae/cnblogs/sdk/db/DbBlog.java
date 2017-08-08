@@ -6,6 +6,7 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 
 import java.util.List;
@@ -24,6 +25,10 @@ public class DbBlog extends DbCnblogs {
         return new Select().from(UserBlogInfo.class).where("blogId=?", blogId).executeSingle();
     }
 
+    public List<BlogBean> getList(String category, int page, BlogType type) {
+        return new Select().from(BlogBean.class).where("blogType=? and categoryId=?", type.getTypeName(), category).orderBy("blogId desc").offset(page * 20).limit(20).execute();
+    }
+
     public BlogBean getBlog(String blogId) {
         return new Select().from(BlogBean.class).where("blogId=?", blogId).executeSingle();
     }
@@ -37,7 +42,7 @@ public class DbBlog extends DbCnblogs {
         return new Select().from(BlogBean.class).where("blogId=?", blogId).exists();
     }
 
-    public void addAll(final List<BlogBean> blogs) {
+    public void addAll(final List<BlogBean> blogs, final String categoryId) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -46,6 +51,7 @@ public class DbBlog extends DbCnblogs {
                     @Override
                     public void run() {
                         for (BlogBean blog : blogs) {
+                            blog.setCategoryId(categoryId);
                             // 查找是否已经有了，有了就跳过
                             if (exists(blog.getBlogId())) {
 //                                Log.w("rae-db", "跳过：" + blog.getBlogId() + " = " + blog.getTitle());

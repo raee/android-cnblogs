@@ -42,7 +42,7 @@ public final class RxObservable {
             public void accept(Disposable disposable) throws Exception {
                 put(disposable, "thread");
             }
-        }).subscribeOn(Schedulers.io());
+        }).subscribeOn(Schedulers.newThread());
     }
 
     private static void put(@NonNull Disposable disposable, String tag) {

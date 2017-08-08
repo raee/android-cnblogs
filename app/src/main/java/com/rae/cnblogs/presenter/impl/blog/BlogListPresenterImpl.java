@@ -5,11 +5,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.presenter.impl.BasePresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.api.IBlogApi;
 import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.db.DbBlog;
 import com.rae.cnblogs.sdk.db.DbFactory;
@@ -17,6 +19,9 @@ import com.rae.swift.Rx;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 
 /**
  * 博客列表处理
@@ -53,13 +58,37 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     /**
      * 加数据
      */
-    protected void onLoadData(CategoryBean category, int pageIndex) {
+    protected void onLoadData(final CategoryBean category, final int pageIndex) {
+        // 先从数据缓存中加载
         createObservable(mApi.getBlogList(pageIndex, category.getType(), category.getParentId(), category.getCategoryId())).subscribe(getBlogObserver());
+    }
+
+    private void loadOfflineData(final CategoryBean category, final int pageIndex) {
+        RxObservable.newThread()
+                .map(new Function<Integer, List<BlogBean>>() {
+                    @Override
+                    public List<BlogBean> apply(@io.reactivex.annotations.NonNull Integer integer) throws Exception {
+                        return DbFactory.getInstance().getBlog().getList(category.getCategoryId(), pageIndex - 1, BlogType.BLOG);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getBlogObserver());
     }
 
     @NonNull
     protected ApiDefaultObserver<List<BlogBean>> getBlogObserver() {
         return new ApiDefaultObserver<List<BlogBean>>() {
+
+            @Override
+            public void onError(Throwable e) {
+                if (isNetworkError()) {
+                    loadOfflineData(mView.getCategory(), mPageIndex);
+                    return;
+                }
+                super.onError(e);
+            }
+
+
             @Override
             protected void onError(String message) {
 
@@ -82,7 +111,7 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
 
         // 保存到数据库
         if (!Rx.isEmpty(data)) {
-            mDbBlog.addAll(data);
+            mDbBlog.addAll(data, mView.getCategory().getCategoryId());
         }
 
 

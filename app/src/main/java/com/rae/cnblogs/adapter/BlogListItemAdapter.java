@@ -1,6 +1,7 @@
 package com.rae.cnblogs.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.rae.cnblogs.model.ItemLoadingViewHolder;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
+import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.swift.Rx;
 
 import java.util.ArrayList;
@@ -31,11 +33,13 @@ import java.util.List;
 public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.ViewHolder> implements View.OnClickListener {
 
     private final BlogType mBlogType;
+    private final PlaceholderView mPlaceholderView;
 
 
     private DisplayImageOptions mAvatarOptions;
+    private DisplayImageOptions mThumbImageOption;
 
-    public BlogListItemAdapter(Context context, BlogType type) {
+    public BlogListItemAdapter(Context context, BlogType type, PlaceholderView placeholderView) {
         if (type == BlogType.NEWS) {
             mAvatarOptions = RaeImageLoader.fadeOptions(500)
                     .showImageOnLoading(0)
@@ -44,7 +48,24 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         } else {
             mAvatarOptions = RaeImageLoader.headerOption();
         }
+
+        ColorDrawable drawable = new ColorDrawable(ContextCompat.getColor(context, R.color.background_divider));
+
+        mThumbImageOption = new DisplayImageOptions.Builder()
+                .cacheOnDisk(true)
+                .cacheInMemory(true)
+                .bitmapConfig(Bitmap.Config.ARGB_8888)
+                .showImageForEmptyUri(drawable)
+                .showImageOnLoading(drawable)
+                .showImageOnFail(R.drawable.picture_viewer_no_pic_icon)
+                .build();
+
+        mPlaceholderView = placeholderView;
         mBlogType = type;
+        loading();
+    }
+
+    public void loading() {
         int size = 5;
         List<BlogBean> data = new ArrayList<>();
         for (int i = 0; i < size; i++) {
@@ -52,9 +73,17 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
             m.setTag("loading");
             data.add(m);
         }
-
         invalidate(data);
+    }
 
+    public void empty() {
+        if (mDataList != null) {
+            mDataList.clear();
+        }
+        List<BlogBean> data = new ArrayList<>();
+        BlogBean m = new BlogBean();
+        m.setTag("empty");
+        invalidate(data);
     }
 
     @Override
@@ -66,6 +95,9 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         if (blog != null && TextUtils.equals("loading", blog.getTag())) {
             return VIEW_TYPE_LOADING;
         }
+        if (blog != null && TextUtils.equals("empty", blog.getTag())) {
+            return VIEW_TYPE_EMPTY;
+        }
         return VIEW_TYPE_NORMAL;
     }
 
@@ -73,6 +105,9 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
     public RecyclerView.ViewHolder onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_LOADING) {
             return new ItemLoadingViewHolder(inflateView(parent, R.layout.item_list_loading));
+        }
+        if (viewType == VIEW_TYPE_EMPTY) {
+            return new ItemLoadingViewHolder(mPlaceholderView);
         }
 
         int layoutId = R.layout.item_blog_list;
@@ -88,7 +123,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder vh, int position, final BlogBean m) {
 
-        if (getItemViewType(position) == VIEW_TYPE_LOADING) {
+        if (getItemViewType(position) == VIEW_TYPE_LOADING || getItemViewType(position) == VIEW_TYPE_EMPTY) {
             return;
         }
 
@@ -160,14 +195,14 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
             // 一张预览图
             holder.largeThumbView.setVisibility(View.VISIBLE);
             holder.thumbLayout.setVisibility(View.GONE);
-            ImageLoader.getInstance().displayImage(thumbs.get(0), holder.largeThumbView);
+            ImageLoader.getInstance().displayImage(thumbs.get(0), holder.largeThumbView, mThumbImageOption);
         } else if (thumbs.size() >= 3) {
             holder.largeThumbView.setVisibility(View.GONE);
             holder.thumbLayout.setVisibility(View.VISIBLE);
             // 取三张预览图
-            ImageLoader.getInstance().displayImage(thumbs.get(0), holder.thumbOneView);
-            ImageLoader.getInstance().displayImage(thumbs.get(1), holder.thumbTwoView);
-            ImageLoader.getInstance().displayImage(thumbs.get(2), holder.thumbThreeView);
+            ImageLoader.getInstance().displayImage(thumbs.get(0), holder.thumbOneView, mThumbImageOption);
+            ImageLoader.getInstance().displayImage(thumbs.get(1), holder.thumbTwoView, mThumbImageOption);
+            ImageLoader.getInstance().displayImage(thumbs.get(2), holder.thumbThreeView, mThumbImageOption);
         } else {
             holder.largeThumbView.setVisibility(View.GONE);
             holder.thumbLayout.setVisibility(View.GONE);

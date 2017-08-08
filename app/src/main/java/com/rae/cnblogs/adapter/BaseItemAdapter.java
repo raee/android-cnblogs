@@ -27,7 +27,7 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
         void onItemClick(T item);
     }
 
-    private List<T> mDataList;
+    protected List<T> mDataList;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
 

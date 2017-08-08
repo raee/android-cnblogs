@@ -45,6 +45,9 @@ public class BlogBean extends Model implements Parcelable {
     private String tag; // 标签
 
     @Column
+    private String categoryId; // 所属分类
+
+    @Column
     private String thumbUrls; // 预览小图,JSON 格式，比如：["http://img.cnblogs.com/a.jpg","http://img.cnblogs.com/b.jpg"]
 
     protected boolean isReaded;
@@ -200,6 +203,14 @@ public class BlogBean extends Model implements Parcelable {
         isReaded = readed;
     }
 
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof BlogBean && !TextUtils.isEmpty(blogId)) {
@@ -251,6 +262,7 @@ public class BlogBean extends Model implements Parcelable {
         dest.writeString(this.blogId);
         dest.writeString(this.blogApp);
         dest.writeString(this.tag);
+        dest.writeString(this.categoryId);
         dest.writeString(this.thumbUrls);
         dest.writeByte(this.isReaded ? (byte) 1 : (byte) 0);
         dest.writeString(this.blogType);
@@ -272,6 +284,7 @@ public class BlogBean extends Model implements Parcelable {
         this.blogId = in.readString();
         this.blogApp = in.readString();
         this.tag = in.readString();
+        this.categoryId = in.readString();
         this.thumbUrls = in.readString();
         this.isReaded = in.readByte() != 0;
         this.blogType = in.readString();

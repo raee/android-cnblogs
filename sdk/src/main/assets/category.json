@@ -15,7 +15,8 @@
     "categoryId": 108706,
     "parentId": 108705,
     "name": "Android开发",
-    "type": "SiteCategory"
+    "type": "SiteCategory",
+    "isHide": true
   },
   {
     "categoryId": "108698",

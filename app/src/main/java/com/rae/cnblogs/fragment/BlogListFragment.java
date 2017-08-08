@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.R;
@@ -17,7 +19,9 @@ import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.service.JobScheduler;
 import com.rae.cnblogs.service.job.JobEvent;
 import com.rae.cnblogs.widget.AppLayout;
+import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
+import com.rae.swift.Rx;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,6 +62,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
 
     protected IBlogListPresenter mBlogListPresenter;
     protected BlogListItemAdapter mItemAdapter;
+    private PlaceholderView mPlaceholderView;
 
     @Override
     protected int getLayoutId() {
@@ -67,9 +72,18 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPlaceholderView = new PlaceholderView(getContext());
+        mPlaceholderView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBlogListPresenter.start();
+            }
+        });
+
         mCategory = getArguments().getParcelable("category");
         mBlogType = BlogType.typeOf(getArguments().getString("type"));
-        mItemAdapter = new BlogListItemAdapter(this.getContext(), mBlogType);
+        mItemAdapter = new BlogListItemAdapter(this.getContext(), mBlogType, mPlaceholderView);
         mBlogListPresenter = CnblogsPresenterFactory.getBlogListPresenter(getContext(), mBlogType, this);
         EventBus.getDefault().register(this);
     }
@@ -124,6 +138,10 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
 
     @Override
     public void onLoadBlogList(int page, List<BlogBean> data) {
+        if (Rx.isEmpty(data) && page <= 1) {
+            mAppLayout.refreshComplete();
+            return;
+        }
         mRecyclerView.setNoMore(false);
         mRecyclerView.setLoadingMoreEnabled(true);
         if (page <= 1)
@@ -136,6 +154,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
 
         // 通知异步下载博文内容
         EventBus.getDefault().post(new JobEvent(JobScheduler.ACTION_BLOG_CONTENT));
+
     }
 
     @Override

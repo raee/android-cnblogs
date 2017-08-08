@@ -1,16 +1,16 @@
 package com.rae.cnblogs;
 
+import android.annotation.TargetApi;
 import android.app.Application;
+import android.content.ComponentCallbacks2;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.multidex.MultiDex;
 
-import com.rae.cnblogs.sdk.UserProvider;
-import com.rae.cnblogs.sdk.bean.UserInfoBean;
-import com.rae.cnblogs.sdk.db.DbCnblogs;
-import com.rae.swift.session.SessionManager;
-import com.tencent.bugly.Bugly;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.tinker.TinkerApplicationLike;
-import com.umeng.socialize.PlatformConfig;
-import com.umeng.socialize.UMShareAPI;
 
 /**
  * 应用程序
@@ -23,7 +23,27 @@ public class CnblogsApplicationProxy extends TinkerApplicationLike {
         super(application, tinkerFlags, tinkerLoadVerifyFlag, applicationStartElapsedTime, applicationStartMillisTime, tinkerResultIntent);
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
 
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level == ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW || level == ComponentCallbacks2.TRIM_MEMORY_BACKGROUND) {
+            ImageLoader.getInstance().getMemoryCache().clear();
+        }
+    }
 
-
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    @Override
+    public void onBaseContextAttached(Context base) {
+        super.onBaseContextAttached(base);
+        // you must install multiDex whatever tinker is installed!
+        MultiDex.install(base);
+        // 安装tinker
+        // TinkerManager.installTinker(this); 替换成下面Bugly提供的方法
+        Beta.installTinker(this);
+    }
 }
