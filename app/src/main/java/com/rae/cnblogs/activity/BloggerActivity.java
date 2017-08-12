@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
@@ -161,10 +160,10 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         mFollowLayout.setClickable(true);
         mFollowView.setEnabled(true);
 
-        RaeImageLoader.displayHeaderView(userInfo.getAvatar(), mAvatarView);
+        RaeImageLoader.displayHeaderImage(userInfo.getAvatar(), mAvatarView);
         if (!TextUtils.isEmpty(userInfo.getAvatar())) {
 //            mBackgroundView.setBackgroundColor(ContextCompat.getColor(this, R.color.dividerColor));
-            ImageLoader.getInstance().displayImage(userInfo.getAvatar(), mBackgroundView);
+            RaeImageLoader.displayImage(userInfo.getAvatar(), mBackgroundView);
         }
 
         mBloggerNameView.setText(userInfo.getDisplayName());

@@ -13,8 +13,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.widget.HintCardLayout;
@@ -132,7 +132,7 @@ public class HintCardDialog extends SlideDialog {
 
     @Override
     public void setImage(int type, String url) {
-        ImageLoader.getInstance().displayImage(url, mImageView);
+        RaeImageLoader.displayImage(url, mImageView);
     }
 
     @Override

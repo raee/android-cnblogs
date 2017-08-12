@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
@@ -84,7 +83,7 @@ public class MineFragment extends BaseFragment {
      */
     private void loadUserInfo() {
         if (isNotLogin()) {
-            mAvatarView.setImageResource(R.drawable.ic_default_user_avatar);
+            mAvatarView.setImageResource(R.drawable.boy);
             mDisplayNameView.setVisibility(View.GONE);
             mNoLoginTextView.setVisibility(View.VISIBLE);
             mFansAndFollowLayout.setVisibility(View.GONE);
@@ -139,7 +138,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void onLoadUserInfo(UserInfoBean user) {
-        ImageLoader.getInstance().displayImage(user.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
+        RaeImageLoader.displayHeaderImage(user.getAvatar(), mAvatarView);
         mDisplayNameView.setText(user.getDisplayName());
     }
 

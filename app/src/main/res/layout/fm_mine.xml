@@ -31,7 +31,7 @@
                 android:layout_marginLeft="36dp"
                 android:layout_marginTop="56dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_default_user_avatar"
+                android:src="@drawable/boy"
                 app:riv_corner_radius="64dp"/>
 
             <LinearLayout

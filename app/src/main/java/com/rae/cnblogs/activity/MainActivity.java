@@ -19,12 +19,12 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.feedback.Comment;
 import com.avos.avoscloud.feedback.FeedbackThread;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
@@ -226,7 +226,7 @@ public class MainActivity extends BaseActivity {
             stopService(new Intent(this, CnblogsService.class));
         }
         RxObservable.dispose(); // 释放所有请求
-        ImageLoader.getInstance().getMemoryCache().clear(); // 清除图片内存
+        RaeImageLoader.clearMemoryCache(getApplicationContext()); // 清除图片内存
         super.onDestroy();
     }
 

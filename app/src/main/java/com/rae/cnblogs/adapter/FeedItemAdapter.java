@@ -4,7 +4,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.FeedViewHolder;
@@ -31,7 +30,7 @@ public class FeedItemAdapter extends BaseItemAdapter<UserFeedBean, FeedViewHolde
         holder.itemView.setTag(m);
 
         if (!TextUtils.isEmpty(m.getAvatar())) {
-            ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, RaeImageLoader.headerOption());
+            RaeImageLoader.displayImage(m.getAvatar(), holder.avatarView);
         }
     }
 }

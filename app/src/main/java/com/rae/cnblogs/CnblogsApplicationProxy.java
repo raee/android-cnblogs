@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.multidex.MultiDex;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.tinker.TinkerApplicationLike;
 
@@ -32,7 +31,7 @@ public class CnblogsApplicationProxy extends TinkerApplicationLike {
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
         if (level == ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW || level == ComponentCallbacks2.TRIM_MEMORY_BACKGROUND) {
-            ImageLoader.getInstance().getMemoryCache().clear();
+            RaeImageLoader.clearCache(getApplication());
         }
     }
 

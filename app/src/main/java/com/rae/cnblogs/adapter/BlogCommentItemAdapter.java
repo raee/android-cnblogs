@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.BlogCommentViewHolder;
@@ -69,7 +68,7 @@ public class BlogCommentItemAdapter extends BaseItemAdapter<BlogCommentBean, Blo
         holder.quoteContentView.setText(m.getQuote());
 
         if (!TextUtils.isEmpty(m.getAvatar())) {
-            ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, RaeImageLoader.headerOption());
+            RaeImageLoader.displayHeaderImage(m.getAvatar(), holder.avatarView);
         }
     }
 }

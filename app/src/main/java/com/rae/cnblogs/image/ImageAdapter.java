@@ -6,12 +6,8 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.widget.ImagePreviewLayout;
 import com.rae.swift.Rx;
 
@@ -27,16 +23,11 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
     private final Context mContext;
     private List<String> mUrls;
     private View.OnClickListener mOnItemClickListener;
-    private DisplayImageOptions mDisplayImageOptions;
 
     public ImageAdapter(Context context, List<String> urls) {
         mUrls = urls;
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
-        mDisplayImageOptions = RaeImageLoader
-                .fadeOptions(800)
-                .showImageOnLoading(0)
-                .build();
     }
 
     public void setOnItemClickListener(View.OnClickListener onItemClickListener) {
@@ -56,12 +47,11 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
     @Override
     public Object instantiateItem(View container, int position) {
         ImagePreviewLayout view = (ImagePreviewLayout) mLayoutInflater.inflate(R.layout.item_image_preview, (ViewGroup) container, false);
-        ((ViewGroup) container).addView(view);
-        ImageView imageView = (ImageView) view.findViewById(R.id.img_preview);
-        ImageLoader.getInstance().displayImage(mUrls.get(position), imageView, mDisplayImageOptions, view, view);
-
+        String url = mUrls.get(position);
+        view.display(url);
         view.setOnClickListener(this);
-        imageView.setOnClickListener(this);
+
+        ((ViewGroup) container).addView(view);
         return view;
     }
 

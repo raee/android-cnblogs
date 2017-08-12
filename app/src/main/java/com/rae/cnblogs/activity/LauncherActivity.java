@@ -7,7 +7,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
@@ -60,7 +59,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     }
 
     private void showImage(String url) {
-        ImageLoader.getInstance().displayImage(url, mDisplayView, RaeImageLoader.defaultOptions().showImageOnLoading(0).showImageForEmptyUri(0).showImageOnFail(0).build());
+        RaeImageLoader.displayImage(url, mDisplayView);
     }
 
     @Override

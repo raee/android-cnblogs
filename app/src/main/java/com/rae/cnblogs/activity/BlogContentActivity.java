@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
@@ -116,7 +115,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
             mAuthorView.setVisibility(View.GONE);
             mAvatarView.setVisibility(View.GONE);
         } else {
-            ImageLoader.getInstance().displayImage(mBlog.getAvatar(), mAvatarView, RaeImageLoader.headerOption());
+            RaeImageLoader.displayHeaderImage(mBlog.getAvatar(), mAvatarView);
             mAuthorView.setText(mBlog.getAuthor());
         }
 

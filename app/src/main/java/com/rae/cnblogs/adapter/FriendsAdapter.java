@@ -4,8 +4,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.FriendsViewHolder;
@@ -17,11 +15,6 @@ import com.rae.cnblogs.sdk.bean.UserInfoBean;
  */
 public class FriendsAdapter extends BaseItemAdapter<UserInfoBean, FriendsViewHolder> {
 
-    private DisplayImageOptions mDisplayImageOptions;
-
-    public FriendsAdapter() {
-        mDisplayImageOptions = RaeImageLoader.headerOption();
-    }
 
     @Override
     public FriendsViewHolder onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
@@ -30,7 +23,7 @@ public class FriendsAdapter extends BaseItemAdapter<UserInfoBean, FriendsViewHol
 
     @Override
     public void onBindViewHolder(FriendsViewHolder holder, int position, UserInfoBean m) {
-        ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, mDisplayImageOptions);
+        RaeImageLoader.displayHeaderImage(m.getAvatar(), holder.avatarView);
         holder.nameView.setText(TextUtils.isEmpty(m.getRemarkName()) ? m.getDisplayName() : m.getRemarkName());
     }
 }

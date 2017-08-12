@@ -83,7 +83,7 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
      * @param data 数据
      */
     public void invalidate(List<T> data) {
-        if (mDataList != null) {
+        if (mDataList != null && mDataList != data) {
             mDataList.clear();
             mDataList = null;
         }

@@ -1,8 +1,6 @@
 package com.rae.cnblogs.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -10,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
@@ -36,30 +32,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
     private final PlaceholderView mPlaceholderView;
 
 
-    private DisplayImageOptions mAvatarOptions;
-    private DisplayImageOptions mThumbImageOption;
-
     public BlogListItemAdapter(Context context, BlogType type, PlaceholderView placeholderView) {
-        if (type == BlogType.NEWS) {
-            mAvatarOptions = RaeImageLoader.fadeOptions(500)
-                    .showImageOnLoading(0)
-                    .showImageOnLoading(new ColorDrawable(ContextCompat.getColor(context, R.color.background_divider)))
-                    .build();
-        } else {
-            mAvatarOptions = RaeImageLoader.headerOption();
-        }
-
-        ColorDrawable drawable = new ColorDrawable(ContextCompat.getColor(context, R.color.background_divider));
-
-        mThumbImageOption = new DisplayImageOptions.Builder()
-                .cacheOnDisk(true)
-                .cacheInMemory(true)
-                .bitmapConfig(Bitmap.Config.ARGB_8888)
-                .showImageForEmptyUri(drawable)
-                .showImageOnLoading(drawable)
-                .showImageOnFail(R.drawable.picture_viewer_no_pic_icon)
-                .build();
-
         mPlaceholderView = placeholderView;
         mBlogType = type;
         loading();
@@ -155,7 +128,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
 
                 break;
         }
-        ImageLoader.getInstance().displayImage(m.getAvatar(), holder.avatarView, mAvatarOptions);
+        RaeImageLoader.displayHeaderImage(m.getAvatar(), holder.avatarView);
         holder.authorView.setText(m.getAuthor());
         holder.titleView.setText(m.getTitle());
         holder.summaryView.setText(m.getSummary());
@@ -195,14 +168,14 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
             // 一张预览图
             holder.largeThumbView.setVisibility(View.VISIBLE);
             holder.thumbLayout.setVisibility(View.GONE);
-            ImageLoader.getInstance().displayImage(thumbs.get(0), holder.largeThumbView, mThumbImageOption);
+            RaeImageLoader.displayImage(thumbs.get(0), holder.largeThumbView);
         } else if (thumbs.size() >= 3) {
             holder.largeThumbView.setVisibility(View.GONE);
             holder.thumbLayout.setVisibility(View.VISIBLE);
             // 取三张预览图
-            ImageLoader.getInstance().displayImage(thumbs.get(0), holder.thumbOneView, mThumbImageOption);
-            ImageLoader.getInstance().displayImage(thumbs.get(1), holder.thumbTwoView, mThumbImageOption);
-            ImageLoader.getInstance().displayImage(thumbs.get(2), holder.thumbThreeView, mThumbImageOption);
+             RaeImageLoader.displayImage(thumbs.get(0), holder.thumbOneView);
+             RaeImageLoader.displayImage(thumbs.get(1), holder.thumbTwoView);
+             RaeImageLoader.displayImage(thumbs.get(2), holder.thumbThreeView);
         } else {
             holder.largeThumbView.setVisibility(View.GONE);
             holder.thumbLayout.setVisibility(View.GONE);

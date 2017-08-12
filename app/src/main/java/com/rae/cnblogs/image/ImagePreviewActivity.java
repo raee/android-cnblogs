@@ -11,15 +11,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.rae.cnblogs.AppUI;
+import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.activity.BaseActivity;
-import com.rae.cnblogs.sdk.ApiDefaultObserver;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,8 +35,8 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.observers.DefaultObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -126,60 +128,61 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
             return;
         }
-
         int item = mViewPager.getCurrentItem();
         String url = mAdapter.getItem(item);
-        File file = ImageLoader.getInstance().getDiskCache().get(url);
-        if (file == null || !file.exists()) {
-            AppUI.failed(this, "请稍候图片加载完毕再保存");
-            return;
-        }
-
-        AppUI.loading(getContext(), "正在保存");
-
-        // 保存图片
-        Observable.just(file)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doFinally(new Action() {
+        AppUI.loading(this, "正在保存图片，请稍候..");
+        GlideApp.with(this)
+                .downloadOnly()
+                .load(url)
+                .listener(new RequestListener<File>() {
                     @Override
-                    public void run() throws Exception {
+                    public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<File> target, boolean b) {
                         AppUI.dismiss();
-                    }
-                })
-                .doOnComplete(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        AppUI.toastInCenter(getContext(), "保存图片成功");
-                    }
-                })
-                .doOnError(new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
                         AppUI.failed(getContext(), "保存图片失败");
-                    }
-                })
-                .map(new Function<File, File>() {
-                    @Override
-                    public File apply(File file) throws Exception {
-                        Log.i("rae", "文件路径：" + file.getPath());
-                        MediaStore.Images.Media.insertImage(getContentResolver(), file.getPath(), file.getName(), null);
-                        return copy(file);
-                    }
-                })
-                .subscribe(new ApiDefaultObserver<File>() {
-                    @Override
-                    protected void onError(String message) {
+                        return false;
                     }
 
                     @Override
-                    protected void accept(File file) {
-                        // 通知图片库刷新
-                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-                        Log.i("rae", "图片库路径：" + file.getPath());
-                    }
-                });
+                    public boolean onResourceReady(File file, Object o, Target<File> target, DataSource dataSource, boolean b) {
+                        Observable.just(file)
+                                .subscribeOn(Schedulers.io())
+                                .map(new Function<File, File>() {
+                                    @Override
+                                    public File apply(File file) throws Exception {
+                                        //  插入系统图库
+                                        MediaStore.Images.Media.insertImage(getContentResolver(), file.getPath(), file.getName(), null);
+                                        return copy(file);
+                                    }
+                                })
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .doFinally(new Action() {
+                                    @Override
+                                    public void run() throws Exception {
+                                        AppUI.dismiss();
+                                        AppUI.toastInCenter(getContext(), "图片保存成功，请前往相册查看");
+                                    }
+                                })
+                                .subscribe(new DefaultObserver<File>() {
+                                    @Override
+                                    public void onNext(@io.reactivex.annotations.NonNull File file) {
+                                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file))); // 通知列表刷新
+                                    }
 
+                                    @Override
+                                    public void onError(@io.reactivex.annotations.NonNull Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+                                    }
+                                });
+
+
+                        return false;
+                    }
+                })
+                .preload();
 
     }
 

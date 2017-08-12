@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.feedback.FeedbackThread;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
@@ -42,12 +41,11 @@ public class CnblogsApplication extends TinkerApplication {
 
         // 级别较高的初始化操作
         DbCnblogs.init(getApplication());
-        RaeImageLoader.initImageLoader(getApplication());
         // 日志上报
         Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG);
-        if (!LeakCanary.isInAnalyzerProcess(this)) {
-            LeakCanary.install(this);
-        }
+//        if (!LeakCanary.isInAnalyzerProcess(this)) {
+//            LeakCanary.install(this);
+//        }
 
         // LeanCloud用户反馈初始化
         AVOSCloud.initialize(getApplication(), BuildConfig.LEAN_CLOUD_APP_ID, BuildConfig.LEAN_CLOUD_APP_KEY);
@@ -83,8 +81,7 @@ public class CnblogsApplication extends TinkerApplication {
      */
     public void clearCache() {
         // 清除图片缓存
-        ImageLoader.getInstance().clearDiskCache();
-        ImageLoader.getInstance().clearMemoryCache();
+        RaeImageLoader.clearCache(getApplicationContext());
         // 清除数据库
         DbFactory.getInstance().clearCache();
         new AppDataManager(this).clearCache();
