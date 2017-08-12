@@ -47,12 +47,9 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
     @Override
     public void advertClick() {
         if (mAdvertBean == null) return;
-
-        mCountDownTimer.cancel();
-
-
         // 统计
         AppMobclickAgent.onLaunchAdClickEvent(mContext, mAdvertBean.getAd_id(), mAdvertBean.getAd_name());
+        mCountDownTimer.cancel();
 
         if ("URL".equalsIgnoreCase(mAdvertBean.getJump_type())) {
             mView.onJumpToWeb(mAdvertBean.getAd_url());
@@ -80,42 +77,6 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
     public void start() {
         mCountDownTimer.start();
 
-        // 从本地加载
-        AdvertBean item = mDbAdvert.getLauncherAd();
-        if (item == null) {
-            mView.onNormalImage();
-            return;
-        }
-        createObservable(Observable.just(item))
-                .subscribe(new ApiDefaultObserver<AdvertBean>() {
-                    @Override
-                    protected void onError(String message) {
-                        onSuccess(null);
-                    }
-
-                    @Override
-                    protected void accept(AdvertBean advertBean) {
-                        onSuccess(advertBean);
-                    }
-
-
-                    private void onSuccess(AdvertBean data) {
-                        mAdvertBean = data;
-                        if (mAdvertBean == null || TextUtils.isEmpty(data.getImage_url())) {
-                            mView.onNormalImage();
-                            return;
-                        }
-                        long endTime = ApiUtils.parseDefaultDate(mAdvertBean.getAd_end_date()).getTime();
-                        if (System.currentTimeMillis() > endTime) {
-                            mView.onNormalImage();
-                        } else {
-                            // 统计
-                            AppMobclickAgent.onLaunchAdExposureEvent(mContext, mAdvertBean.getAd_id(), mAdvertBean.getAd_name());
-                            mView.onLoadImage(mAdvertBean.getAd_name(), mAdvertBean.getImage_url());
-                        }
-                    }
-                });
-
         // 异步下载新的
         createObservable(mRaeServerApi.getLauncherAd())
                 .subscribe(new ApiDefaultObserver<AdvertBean>() {
@@ -130,6 +91,42 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
                         mDbAdvert.save(data);
                     }
                 });
+
+        // 从本地加载
+        AdvertBean item = mDbAdvert.getLauncherAd();
+        if (item == null) {
+            mView.onNormalImage();
+        } else {
+            createObservable(Observable.just(item))
+                    .subscribe(new ApiDefaultObserver<AdvertBean>() {
+                        @Override
+                        protected void onError(String message) {
+                            onSuccess(null);
+                        }
+
+                        @Override
+                        protected void accept(AdvertBean advertBean) {
+                            onSuccess(advertBean);
+                        }
+
+
+                        private void onSuccess(AdvertBean data) {
+                            mAdvertBean = data;
+                            if (mAdvertBean == null || TextUtils.isEmpty(data.getImage_url())) {
+                                mView.onNormalImage();
+                                return;
+                            }
+                            long endTime = ApiUtils.parseDefaultDate(mAdvertBean.getAd_end_date()).getTime();
+                            if (System.currentTimeMillis() > endTime) {
+                                mView.onNormalImage();
+                            } else {
+                                // 统计
+                                AppMobclickAgent.onLaunchAdExposureEvent(mContext, mAdvertBean.getAd_id(), mAdvertBean.getAd_name());
+                                mView.onLoadImage(mAdvertBean.getAd_name(), mAdvertBean.getImage_url());
+                            }
+                        }
+                    });
+        }
 
     }
 }

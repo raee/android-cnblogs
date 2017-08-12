@@ -27,9 +27,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +47,6 @@ import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.avos.avoscloud.feedback.FeedbackThread;
 import com.avos.avoscloud.feedback.FeedbackThread.SyncCallback;
 import com.avos.avoscloud.feedback.Resources;
-import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 
@@ -60,7 +57,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class FeedbackActivity extends BaseActivity {
 
@@ -77,6 +81,7 @@ public class FeedbackActivity extends BaseActivity {
     private static final int IMAGE_REQUEST = 6543;
 
     public static final ImageCache cache = new ImageCache(AVOSCloud.applicationContext);
+    private Disposable mSubscribe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -300,32 +305,33 @@ public class FeedbackActivity extends BaseActivity {
             }
         });
 
-        findViewById(R.id.avoscloud_feedback_btn_contact).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (contact.getVisibility() != View.VISIBLE) {
-                    contact.startAnimation(AnimationUtils.loadAnimation(v.getContext(), android.R.anim.fade_in));
-                    contact.setVisibility(View.VISIBLE);
-                    contact.setSelection(contact.length());
-                    contact.requestFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(contact, 0);
-                } else {
-                    contact.startAnimation(AnimationUtils.loadAnimation(v.getContext(), android.R.anim.fade_out));
-                    contact.setVisibility(View.GONE);
-                }
-            }
-        });
+//        findViewById(R.id.avoscloud_feedback_btn_contact).setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (contact.getVisibility() != View.VISIBLE) {
+//                    contact.startAnimation(AnimationUtils.loadAnimation(v.getContext(), android.R.anim.fade_in));
+//                    contact.setVisibility(View.VISIBLE);
+//                    contact.setSelection(contact.length());
+//                    contact.requestFocus();
+//                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+//                    imm.showSoftInput(contact, 0);
+//                } else {
+//                    contact.startAnimation(AnimationUtils.loadAnimation(v.getContext(), android.R.anim.fade_out));
+//                    contact.setVisibility(View.GONE);
+//                }
+//            }
+//        });
 
         contact = (EditText) findViewById(Resources.id.avoscloud_feedback_contact(this));
 
         if (agent.isContactEnabled()) {
 
+            // 设置默认的联系方式
             if (TextUtils.isEmpty(thread.getContact()) && UserProvider.getInstance().isLogin()) {
                 UserInfoBean info = UserProvider.getInstance().getLoginUserInfo();
                 thread.setContact(info.getBlogApp() + "_" + info.getDisplayName());
             }
-            contact.setVisibility(TextUtils.isEmpty(thread.getContact()) ? View.VISIBLE : View.GONE);
+//            contact.setVisibility(TextUtils.isEmpty(thread.getContact()) ? View.VISIBLE : View.GONE);
             contact.setText(thread.getContact());
             contact.addTextChangedListener(new TextWatcher() {
 
@@ -352,6 +358,27 @@ public class FeedbackActivity extends BaseActivity {
         }
 
         thread.sync(syncCallback);
+
+        // 定时刷新
+        mSubscribe = Observable.interval(5000, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        thread.sync(syncCallback);
+                    }
+                });
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mSubscribe != null) {
+            mSubscribe.dispose();
+            mSubscribe = null;
+        }
+        super.onDestroy();
+
     }
 
     /**

@@ -62,5 +62,11 @@ public interface IBlogCommentPresenter extends IRaePresenter {
         void onDeleteCommentSuccess(BlogCommentBean item);
 
         void onDeleteCommentFailed(String msg);
+
+        /**
+         * 加载评论失败
+         * @param message 错误时信息
+         */
+        void onLoadCommentFailed(String message);
     }
 }

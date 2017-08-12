@@ -2,6 +2,8 @@ package com.rae.cnblogs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -21,8 +23,13 @@ public final class AppMobclickAgent {
      */
     public static void onAppOpenEvent(Context context) {
         @SuppressLint("SimpleDateFormat")
-        String openDate = new SimpleDateFormat("HH:mm").format(new Date());
+        String openDate = new SimpleDateFormat("HH").format(new Date()) + ":00";
         MobclickAgent.onEvent(context, "APP_OPEN_EVENT", openDate);
+    }
+
+    public static void onCategoryEvent(Context context, String category) {
+        MobclickAgent.onEvent(context, "APP_CATEGORY", category);
+        Log.i("Rae", "统计分类：" + category);
     }
 
     private static void onAdEvent(Context context, Map<String, String> map) {
@@ -38,8 +45,8 @@ public final class AppMobclickAgent {
     public static void onLaunchAdExposureEvent(Context context, String id, String name) {
         Map<String, String> map = new HashMap<>();
         map.put("type", "Exposure");
-        map.put("id", id);
-        map.put("name", name);
+        map.put("ad", id);
+        map.put("title", name);
         onAdEvent(context, map);
     }
 
@@ -71,7 +78,9 @@ public final class AppMobclickAgent {
         Map<String, String> map = new HashMap<>();
         map.put("success", String.valueOf(isSuccess));
         map.put("blogApp", blogApp);
-        map.put("message", msg);
+        if (!TextUtils.isEmpty(msg)) {
+            map.put("message", msg);
+        }
         MobclickAgent.onEvent(context, "APP_LOGIN_EVENT", map);
     }
 

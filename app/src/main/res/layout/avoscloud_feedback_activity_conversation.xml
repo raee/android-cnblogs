@@ -8,54 +8,40 @@
     android:orientation="vertical"
     android:paddingTop="@dimen/default_padding_top">
 
-
-    <RelativeLayout
-        android:id="@+id/ll_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <include layout="@layout/view_title"/>
-
-        <Button
-            android:id="@+id/avoscloud_feedback_btn_contact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:background="@android:color/transparent"
-            android:text="联系方式"
-            android:textColor="@color/ph2"
-            android:textSize="@dimen/h2"/>
-
-    </RelativeLayout>
-
-    <ListView
-        android:id="@+id/avoscloud_feedback_thread_list"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/avoscloud_feedback_input_wrapper"
-        android:layout_below="@+id/ll_toolbar"
-        android:layout_weight="1"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:transcriptMode="normal"/>
+        android:orientation="vertical">
+
+        <include layout="@layout/view_title"/>
 
 
-    <EditText
-        android:id="@+id/avoscloud_feedback_contact"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_toolbar"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/avoscloud_feedback_contact_background"
-        android:hint="@string/avoscloud_feedback_contact_hint"
-        android:padding="10dp"
-        android:textColor="@color/ph2"
-        android:textColorHint="@color/ph3"
-        android:textCursorDrawable="@null"/>
+        <EditText
+            android:id="@+id/avoscloud_feedback_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/avoscloud_feedback_contact_background"
+            android:hint="@string/avoscloud_feedback_contact_hint"
+            android:padding="10dp"
+            android:textColor="@color/ph2"
+            android:textColorHint="@color/ph3"
+            android:textCursorDrawable="@null"/>
+
+        <ListView
+            android:id="@+id/avoscloud_feedback_thread_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/avoscloud_feedback_input_wrapper"
+            android:layout_weight="1"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:transcriptMode="normal"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/avoscloud_feedback_input_wrapper"

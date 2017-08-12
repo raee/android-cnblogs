@@ -32,7 +32,7 @@
     <string name="register">注册</string>
     <string name="login_tips">登录即表示同意</string>
     <string name="login_contract">博客园APP隐私协议</string>
-    <string name="login_contract_content">博客园APP已经开源，我们不会收集您的帐号信息，请放心登录。\n\nAPP基于官方网站的Cookie登录状态保持，开源项目地址请到我的页面->开源项目\n\n您在登录过程如有任何问题请联系博客园官方团队\n或者您在使用过程有任何问题可以直接联系作者raedev@qq.com</string>
+    <string name="login_contract_content">博客园APP已经开源，我们不会收集您的帐号信息，请放心登录。\n您在登录过程如有任何问题请联系博客园官方团\n对于博客园APP您有任何意见或者想法都可以随时联系作者raedev@qq.com</string>
     <string name="login_user_name_hint">用户名</string>
     <string name="login_password_hint">密码</string>
     <string name="login">登录</string>

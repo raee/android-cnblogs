@@ -2,22 +2,23 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
 // 加载配置文件
-Properties properties = new Properties()
+final Properties properties = new Properties()
 InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
 properties.load(inputStream)
 
-def signKeyStorePassword = properties.getProperty("keystore.keyPassword")
-def signStorePassword = properties.getProperty("keystore.storePassword")
-def signStoreFile = properties.getProperty("keystore.file")
-def umengAppKey = properties.getProperty("umengAppKey")
-def buglyAppId = properties.getProperty("buglyAppId")
-def leancloudAppId = properties.getProperty("leancloudAppId")
-def leancloudAppKey = properties.getProperty("leancloudAppKey")
+// 基本配置信息，签名请替换您自己的签名文件，建议在local.properties里面配置。
+def signKeyStorePassword = properties.getProperty("keystore.keyPassword", "cnblogs")
+def signStorePassword = properties.getProperty("keystore.storePassword", "cnblogs")
+def signStoreFile = properties.getProperty("keystore.file", "debug.keystore")
+def umengAppKey = properties.getProperty("umengAppKey", "replace_your_umeng_key")
+def buglyAppId = properties.getProperty("buglyAppId", "replace_your_bugly_appid")
+def leancloudAppId = properties.getProperty("leancloudAppId", "replace_your_leancloud_appid")
+def leancloudAppKey = properties.getProperty("leancloudAppKey", "replace_your_leancloud_appeky")
 
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.1'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     dexOptions {
         javaMaxHeapSize '2g'
@@ -34,8 +35,8 @@ android {
 
     defaultConfig {
         applicationId "com.rae.cnblogs"
-        minSdkVersion 15
-        targetSdkVersion 26
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
         multiDexEnabled true
@@ -44,8 +45,7 @@ android {
         buildConfigField 'String', 'LEAN_CLOUD_APP_ID', '"' + leancloudAppId + '"'
         buildConfigField 'String', 'LEAN_CLOUD_APP_KEY', '"' + leancloudAppKey + '"'
         manifestPlaceholders = [
-                UMENG_APPKEY : umengAppKey,
-                UMENG_CHANNEL: 'DEV'
+                UMENG_APPKEY: umengAppKey
         ]
     }
     buildTypes {
@@ -57,10 +57,30 @@ android {
         debug {
             minifyEnabled false
             debuggable true
+            manifestPlaceholders = [
+                    UMENG_CHANNEL: 'DEV'
+            ]
             signingConfig signingConfigs.release
         }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+
+    // 渠道包定义，默认定义的名称就是渠道名称
+    productFlavors {
+        DEV {}          // 测试
+        baidu {}        // 百度手机助手
+        yinyongbao {}   // 应用宝
+        m360 {}         // 360手机助手
+        pp {}           // PP助手
+        xiaomi {}       // 小米商店
+        huawei {}       // 华为商店
+        official {}      // 官方版本
+    }
+
+    // 批量渠道包值替换
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL: name]
+    }
 }
 
 dependencies {
@@ -74,6 +94,7 @@ dependencies {
     compile "com.android.support:cardview-v7:${rootProject.ext.supportVersion}"
     compile 'com.android.support:multidex:1.0.1'
     compile project(':sdk')
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile 'com.jakewharton:butterknife:8.7.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
     compile 'in.srain.cube:ultra-ptr:1.0.11'
@@ -84,7 +105,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
 
-    compile 'com.umeng.analytics:analytics:6.1.1'
+    compile 'com.umeng.analytics:analytics:6.1.2'
     // 事件通知
     compile 'org.greenrobot:eventbus:3.0.0'
     // 滑动返回

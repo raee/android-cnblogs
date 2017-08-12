@@ -37,25 +37,19 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark"/>
+
+<!--        <activity
+            android:name=".activity.TestActivity"
+            android:label="博客园测试"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-            <!--        <intent-filter>
-                        <action android:name="android.intent.action.MAIN"/>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-                        <category android:name="android.intent.category.LAUNCHER"/>
-                    </intent-filter>-->
-        </activity>
-
-        <!--        <activity
-                    android:name=".activity.TestActivity"
-                    android:label="测试入口"
-                    android:screenOrientation="portrait"
-                    android:theme="@style/AppTheme.Dark">
-                    <intent-filter>
-                        <action android:name="android.intent.action.MAIN"/>
-
-                        <category android:name="android.intent.category.LAUNCHER"/>
-                    </intent-filter>
-                </activity>-->
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>-->
 
         <!--博文-->
         <activity
@@ -171,7 +165,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/lc_fileprovider_path" />
+                android:resource="@xml/lc_fileprovider_path"/>
         </provider>
 
         <activity

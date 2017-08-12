@@ -29,7 +29,6 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     @BindView(R.id.tv_launcher_name)
     TextView mNameView;
 
-
     ILauncherPresenter mLauncherPresenter;
 
 
@@ -42,20 +41,20 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
 
     @Override
     protected void onResume() {
-        super.onResume();
         mLauncherPresenter.start();
+        super.onResume();
     }
 
     @Override
     protected void onStop() {
-        super.onStop();
         mLauncherPresenter.stop();
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mLauncherPresenter.destroy();
+        super.onDestroy();
     }
 
     private void showImage(String url) {

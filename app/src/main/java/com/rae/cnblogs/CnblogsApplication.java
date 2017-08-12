@@ -9,10 +9,10 @@ import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.swift.session.SessionManager;
-import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 import com.tencent.tinker.loader.app.TinkerApplication;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -38,6 +38,9 @@ public class CnblogsApplication extends TinkerApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // 启动调试
+        MobclickAgent.setDebugMode(true);
 
         // 级别较高的初始化操作
         DbCnblogs.init(getApplication());

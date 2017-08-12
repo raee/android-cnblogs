@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -55,36 +56,22 @@ public class HintCardDialog extends SlideDialog {
     protected void initDialog() {
         if (getWindow() != null) {
             getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            }
         }
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         super.initDialog();
-
-//        mContentLayout.setOnTouchListener(new View.OnTouchListener() {
-//
-//            private float mStartY;
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    mStartY = event.getRawY();
-//                }
-//                if (event.getAction() == MotionEvent.ACTION_MOVE && Math.abs(mStartY - event.getRawY()) > 80) {
-//                    if (mCancelView.getVisibility() == View.VISIBLE) {
-//                        RaeAnim.fadeOut(mCancelView);
-//                    }
-//                    mCancelView.setVisibility(View.INVISIBLE);
-//                }
-//                if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
-//                    mCancelView.setVisibility(View.VISIBLE);
-//                }
-//                return false;
-//            }
-//        });
-
         mContentLayout.setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
+                dismiss();
+            }
+        });
+        mCancelView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 dismiss();
             }
         });
@@ -104,11 +91,6 @@ public class HintCardDialog extends SlideDialog {
         InsetDrawable drawable = new InsetDrawable(new ColorDrawable(Color.TRANSPARENT), margin, 0, margin, 0);
         window.setBackgroundDrawable(drawable);
     }
-
-//    @Override
-//    public void setOnCancelListener(IAppDialogClickListener listener) {
-//        mCancelView.setOnClickListener(newClickListener(IAppDialog.BUTTON_NEGATIVE, listener));
-//    }
 
     @Override
     public void setOnEnSureListener(IAppDialogClickListener listener) {
@@ -144,8 +126,4 @@ public class HintCardDialog extends SlideDialog {
         mCancelView.setVisibility(View.VISIBLE);
     }
 
-//    @Override
-//    public void setCancelButtonVisibility(int visibility) {
-//        mCancelView.setVisibility(visibility);
-//    }
 }

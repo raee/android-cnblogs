@@ -31,9 +31,15 @@ public final class RaeImageLoader {
     /**
      * 清除缓存
      */
-    public static void clearCache(Context applicationContext) {
-        clearMemoryCache(applicationContext);
-        GlideApp.get(applicationContext).clearDiskCache();
+    public static void clearCache(final Context applicationContext) {
+        clearMemoryCache(applicationContext); // 在主线程
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 在线程中
+                GlideApp.get(applicationContext).clearDiskCache();
+            }
+        }).start();
     }
 
     /**

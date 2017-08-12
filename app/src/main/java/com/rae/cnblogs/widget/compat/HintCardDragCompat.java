@@ -37,15 +37,17 @@ public class HintCardDragCompat extends ViewDragHelper.Callback {
     public void setDragView(View dragView) {
         if (dragView == null)
             throw new NullPointerException("drag view can't be null!");
+        if (mDragView == null) {
+            dragView.post(new Runnable() {
+                @Override
+                public void run() {
+                    int[] location = new int[2];
+                    mDragView.getLocationOnScreen(location);
+                    mSrcTop = location[1];
+                }
+            });
+        }
         mDragView = dragView;
-        mDragView.post(new Runnable() {
-            @Override
-            public void run() {
-                int[] location = new int[2];
-                mDragView.getLocationOnScreen(location);
-                mSrcTop = location[1];
-            }
-        });
     }
 
 
@@ -122,7 +124,7 @@ public class HintCardDragCompat extends ViewDragHelper.Callback {
 
 
                 if (diff > mMinFlingVelocity || yVelocity > mMinFlingVelocitySpeed) {
-                    // 判断是在上面还是下面
+                    // 判断是滚动方向在上面还是下面
 
                     // 在上面
                     if (y < height) {
@@ -131,10 +133,15 @@ public class HintCardDragCompat extends ViewDragHelper.Callback {
                         // 在下面
                         dy = getParentHeight();
                     }
+                    smoothScrollBy(dy);
                 }
-                smoothScrollBy(dy);
-
-
+                // 点击事件
+                else if (Math.abs(mStartY - y) == 0 || dy <= 0) {
+                    break;
+                } else {
+                    reset();
+                    smoothScrollBy(dy);
+                }
                 break;
         }
     }
@@ -147,4 +154,7 @@ public class HintCardDragCompat extends ViewDragHelper.Callback {
         mOnDismissListener = listener;
     }
 
+    public void reset() {
+        mCurrentAction = 0;
+    }
 }

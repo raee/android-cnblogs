@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogListItemAdapter;
 import com.rae.cnblogs.message.TabEvent;
@@ -86,6 +87,18 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         mItemAdapter = new BlogListItemAdapter(this.getContext(), mBlogType, mPlaceholderView);
         mBlogListPresenter = CnblogsPresenterFactory.getBlogListPresenter(getContext(), mBlogType, this);
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 统计分类
+        if (mCategory != null
+                && "news".equalsIgnoreCase(mCategory.getType())
+                && "kb".equalsIgnoreCase(mCategory.getType())
+                ) {
+            AppMobclickAgent.onCategoryEvent(getContext(), mCategory.getName());
+        }
     }
 
     @Override

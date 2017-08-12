@@ -112,6 +112,10 @@ public class MainActivity extends BaseActivity {
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                // 统计分类点击
+                int position = tab.getPosition();
+                CharSequence title = mFragmentAdapter.getPageTitle(position);
+                AppMobclickAgent.onCategoryEvent(getContext(), title.toString());
             }
 
             @Override

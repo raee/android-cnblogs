@@ -53,6 +53,7 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
             }
         };
 
+        // 不引用评论
         if (parent == null) {
             Observable<Empty> observable = mBlogApi.addBlogComment(blog.getBlogId(), blog.getBlogApp(), "0", mView.getCommentContent());
             createObservable(observable).subscribe(subscriber);
@@ -101,7 +102,7 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
             @Override
             protected void onError(String message) {
                 if (mPage <= 1) {
-                    mView.onLoadCommentEmpty();
+                    mView.onLoadCommentFailed(message);
                 } else {
                     mView.onLoadMoreCommentEmpty();
                 }

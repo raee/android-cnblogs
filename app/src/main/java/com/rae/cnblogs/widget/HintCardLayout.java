@@ -49,8 +49,6 @@ public class HintCardLayout extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         mCardDragCompat = new HintCardDragCompat((ViewGroup) getRootView());
-        mCardDragCompat.setDragView(getChildAt(0));
-
     }
 
     @Override
@@ -75,4 +73,10 @@ public class HintCardLayout extends FrameLayout {
         mCardDragCompat.setOnDismissListener(listener);
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mCardDragCompat.setDragView(getChildAt(0));
+        mCardDragCompat.reset();
+    }
 }

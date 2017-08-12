@@ -136,6 +136,12 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
             }
         });
 
+        mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCommentPresenter.start();
+            }
+        });
 
         mCommentMenuDialog = new CommentMenuDialog(getContext());
         mCommentMenuDialog.addDeleteItem(getString(R.string.delete_comment));
@@ -286,6 +292,11 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     public void onDeleteCommentFailed(String msg) {
         AppUI.dismiss();
         AppUI.toast(getContext(), msg);
+    }
+
+    @Override
+    public void onLoadCommentFailed(String message) {
+        mPlaceholderView.retry(message);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.rae.cnblogs.presenter.impl;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.R;
@@ -66,8 +65,15 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
                     @Override
                     public void onError(Throwable e) {
                         // 统计错误信息
-                        AppMobclickAgent.onLoginEvent(mApplicationContext, "ERROR", false, e == null ? "没有错误信息" : Log.getStackTraceString(e));
+                        AppMobclickAgent.onLoginEvent(mApplicationContext, "ERROR", false, getLog(e));
+                        // 报告错误信息
+                        MobclickAgent.reportError(mApplicationContext, e);
                         super.onError(e);
+                    }
+
+                    private String getLog(Throwable e) {
+                        if (e == null || e.getMessage() == null) return "没有错误信息";
+                        return e.getMessage();
                     }
 
                     @Override
