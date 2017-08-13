@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -68,6 +67,8 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     private BlogShareDialog mShareDialog;
     private BlogBean mBlog;
     private BlogType mBlogType;
+    private BlogCommentFragment mBlogCommentFragment;
+    private BlogContentFragment mBlogContentFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,12 +119,16 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
             RaeImageLoader.displayHeaderImage(mBlog.getAvatar(), mAvatarView);
             mAuthorView.setText(mBlog.getAuthor());
         }
+        // 评论
+        mBlogCommentFragment = BlogCommentFragment.newInstance(mBlog, mBlogType);
+        // 内容
+        mBlogContentFragment = BlogContentFragment.newInstance(mBlog, mBlogType);
 
 
         // 加载Fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_comment, BlogCommentFragment.newInstance(mBlog, mBlogType));
-        transaction.add(R.id.fl_content, BlogContentFragment.newInstance(mBlog, mBlogType));
+        transaction.add(R.id.fl_comment, mBlogCommentFragment);
+        transaction.add(R.id.fl_content, mBlogContentFragment);
         transaction.commit();
 
     }
@@ -166,13 +171,10 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         }
 
         if (mCommentLayout.getVisibility() == View.VISIBLE) {
-            BlogCommentFragment fragment = (BlogCommentFragment) fragments.get(0);
-            fragment.scrollToTop();
+            mBlogCommentFragment.scrollToTop();
         } else {
-            BlogContentFragment fragment = (BlogContentFragment) fragments.get(1);
-            fragment.scrollToTop();
+            mBlogContentFragment.scrollToTop();
         }
-
     }
 
 
