@@ -132,7 +132,6 @@ public class BloggerLayout extends ScrollView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        Log.w("rae", "onInterceptTouchEvent");
         if (measureScrollPercent() < 1 && ev.getAction() == MotionEvent.ACTION_MOVE) {
             return true;
         }

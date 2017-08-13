@@ -130,7 +130,6 @@ public class FriendsActivity extends SwipeBackBaseActivity {
     }
 
     private void start() {
-        Log.i("Rae", "开始假装数量");
         mPage = 1;
         loadData();
     }

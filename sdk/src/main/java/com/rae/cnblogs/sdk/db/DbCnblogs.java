@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
+import com.rae.cnblogs.sdk.BuildConfig;
 import com.rae.cnblogs.sdk.bean.AdvertBean;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
@@ -29,7 +30,7 @@ public abstract class DbCnblogs {
                 .addModelClass(AdvertBean.class)
                 .addModelClass(BlogBean.class)
                 .create();
-        ActiveAndroid.initialize(config, true);
+        ActiveAndroid.initialize(config, BuildConfig.LOG_DEBUG);
     }
 
     protected void executeTransaction(Runnable runnable) {

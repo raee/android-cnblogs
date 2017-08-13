@@ -21,7 +21,6 @@ public class RaeTest {
     public void testString() {
 
         long memory = Runtime.getRuntime().freeMemory();
-        Log.w("rae", "开始内存：" + memory);
         String id;
         int size = 10;
         List<BlogBean> data = new ArrayList<>();

@@ -48,7 +48,6 @@ public abstract class SwipeBackBaseActivity extends BaseActivity implements Swip
 
             @Override
             public void onScrollOverThreshold() {
-                Log.w("rae", "onScrollOverThreshold");
             }
         });
     }

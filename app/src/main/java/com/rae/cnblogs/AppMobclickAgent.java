@@ -29,7 +29,6 @@ public final class AppMobclickAgent {
 
     public static void onCategoryEvent(Context context, String category) {
         MobclickAgent.onEvent(context, "APP_CATEGORY", category);
-        Log.i("Rae", "统计分类：" + category);
     }
 
     private static void onAdEvent(Context context, Map<String, String> map) {

@@ -34,7 +34,7 @@ public abstract class CnblogsApiProvider {
         mContext = context;
         OkHttpExtBuilder builder = new OkHttpExtBuilder();
 
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.LOG_DEBUG) {
             builder.debug("CNBLOGS-API");
         }
 

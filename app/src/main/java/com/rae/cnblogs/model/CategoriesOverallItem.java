@@ -53,7 +53,7 @@ public class CategoriesOverallItem extends AbstractFlexibleItem<CategoriesOveral
         holder.setTitle(mCategory.getName());
         holder.setBackgroundResource(isDraggable() ? R.drawable.bg_category : R.drawable.bg_category_lock);
         holder.setTitleColor(isDraggable() ? R.color.ph2 : R.color.ph3); // 拖动颜色
-        Log.i("rae", "bindViewHolder -->  " + i);
+//        Log.i("rae", "bindViewHolder -->  " + i);
 
     }
 

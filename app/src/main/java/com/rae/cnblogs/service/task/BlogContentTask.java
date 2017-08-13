@@ -44,7 +44,7 @@ public class BlogContentTask implements Runnable {
     @Override
     public void run() {
         if (!isWIFI() || TextUtils.isEmpty(mBlogId)) {
-            Log.e("rae", "非WIFI环境，或者博客ID为空！缓存不下载");
+//            Log.e("rae", "非WIFI环境，或者博客ID为空！缓存不下载");
             return;
         }
 
@@ -56,11 +56,11 @@ public class BlogContentTask implements Runnable {
         BlogType type = BlogType.typeOf(blogInfo.getBlogType());
 
         try {
-            Log.i("rae", "正在执行任务：[" + blogInfo.getBlogType() + "] --> " + mBlogId);
+//            Log.i("rae", "正在执行任务：[" + blogInfo.getBlogType() + "] --> " + mBlogId);
             Response<String> response = createBlogTask(type, mBlogId);
             String content = response.body();
             mDbBlog.updateBlogContent(mBlogId, blogInfo.getBlogType(), content);
-            Log.i("rae", "执行任务成功：[" + blogInfo.getBlogType() + "] --> " + mBlogId);
+//            Log.i("rae", "执行任务成功：[" + blogInfo.getBlogType() + "] --> " + mBlogId);
         } catch (Exception e) {
             e.printStackTrace();
         }

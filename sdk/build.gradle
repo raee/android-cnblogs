@@ -4,17 +4,17 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
-    defaultPublishConfig "debug"
-
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         testApplicationId "com.rae.cnblogs.sdk.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField "boolean", "LOG_DEBUG", "true"
     }
     buildTypes {
         release {
             minifyEnabled false
+            buildConfigField "boolean", "LOG_DEBUG", "false"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

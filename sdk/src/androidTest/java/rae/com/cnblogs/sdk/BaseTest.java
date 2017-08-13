@@ -47,10 +47,6 @@ public class BaseTest {
         cookieManager.setCookie(url, ".CNBlogsCookie=0922AD7D418324B66C0A8A363EB224DA99247FA6A4C6CC60BC6FAB2487D35CE07224CA0CFC44A98B4691A9474AFB12559B3A8B881EABBCF76F9C3BE44295739B4F38D9F382ECE1B8FD2217CF4D731C81977DD9B0; domain=.cnblogs.com; expires=Fri, 07-Jul-2017 11:01:57 GMT; path=/; HttpOnly");
         cookieManager.setCookie(url, ".Cnblogs.AspNetCore.Cookies=CfDJ8PhlBN8IFxtHhqIV3s0LCDlIlVzo-JtdoAJZpM5efI0M21VjySKRmE_LqL1kpnDotIQHtbrxOzGSkWWDRHathr9hmjPlV7M-FwiXaUJbXp9UU2jTEk3iMLmCL3gzIHHbKQ24nFj3SxD4JyIPfjuGnTo8ZzPJoLACtNEat1UDOQet8M3rdkMogzJNxtnr8ZhsikiMisKIdb1YzZ3jNX2lw2KD9GQxG2oFDtsIv-w0Y5JlJCZ_2G2Y9YRS1OcI5OKhN_RNLmY3c8aVe9Q0ajrmGLqmDBP4HaQk_u3r5Uk-SQpWvddw262cAo9l85rlQ8b1Aw; domain=.cnblogs.com; expires=Fri, 07-Jul-2017 11:01:57 GMT; path=/; HttpOnly");
         cookieManager.flush();
-
-        String cookie = cookieManager.getCookie(url);
-
-        Log.i("rae", cookie == null ? "empty" : cookie);
     }
 
     protected CnblogsApiProvider getApiProvider() {
