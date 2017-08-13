@@ -51,7 +51,7 @@ public final class RxObservable {
             disposables = new ArrayList<>();
             sObservableDisposableList.put(tag, disposables);
         }
-        Log.d("rae-rx", "添加标签：" + tag + "; 大小：" + sObservableDisposableList.get(tag).size());
+//        Log.d("rae-rx", "添加标签：" + tag + "; 大小：" + sObservableDisposableList.get(tag).size());
         sObservableDisposableList.get(tag).add(disposable);
     }
 
@@ -81,7 +81,7 @@ public final class RxObservable {
      */
     public static void dispose(String tag) {
         try {
-            Log.w("rae-rx", "释放标签：" + tag);
+//            Log.w("rae-rx", "释放标签：" + tag);
             if (TextUtils.isEmpty(tag) || !sObservableDisposableList.containsKey(tag)) {
                 return;
             }

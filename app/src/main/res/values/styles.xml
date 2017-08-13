@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="actionBarDivider">@color/transparent</item>
         <item name="actionBarStyle">@style/AppActionBar</item>
+        <item name="toolbarNavigationButtonStyle">@style/AppToolbarNavigationButtonStyle</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="buttonStyle">@style/AppButton</item>
@@ -41,6 +42,11 @@
 
     <style name="AppActionBar" parent="Base.Widget.AppCompat.ActionBar.Solid">
 
+    </style>
+
+    <style name="AppToolbarNavigationButtonStyle" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="background">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="TabTextAppearance" parent="TextAppearance.AppCompat.Medium.Inverse">

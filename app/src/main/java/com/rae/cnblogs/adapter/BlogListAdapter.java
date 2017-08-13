@@ -3,6 +3,7 @@ package com.rae.cnblogs.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,10 @@ public class BlogListAdapter extends FragmentStatePagerAdapter {
         return fragment;
     }
 
+    @Override
+    public int getItemPosition(Object object) {
+        return PagerAdapter.POSITION_NONE;
+    }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {

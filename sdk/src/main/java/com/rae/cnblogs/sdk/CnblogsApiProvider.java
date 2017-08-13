@@ -32,9 +32,14 @@ public abstract class CnblogsApiProvider {
 
     protected CnblogsApiProvider(Context context) {
         mContext = context;
-        OkHttpClient client = new OkHttpExtBuilder()
+        OkHttpExtBuilder builder = new OkHttpExtBuilder();
+
+        if (BuildConfig.DEBUG) {
+            builder.debug("CNBLOGS-API");
+        }
+
+        OkHttpClient client = builder
                 .cache(context, 5)
-                .debug("CNBLOGS-API")
                 .https()
                 .cookie()
                 .build()

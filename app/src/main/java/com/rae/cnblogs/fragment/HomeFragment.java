@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -94,6 +93,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     public void onLoadCategory(List<CategoryBean> data) {
 
         mCategoryBeanList = data;
+        int count = mAdapter == null ? 0 : mAdapter.getCount();
 
         if (mAdapter == null) {
             mAdapter = new BlogListAdapter(getChildFragmentManager(), data);
@@ -102,17 +102,29 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
         } else {
             mAdapter.updateDataSet(data);
         }
-        if (mPosition > 1 && mPosition == mViewPager.getCurrentItem()) {
-            // 非首页、推荐，排序后还在当前页，需要重新刷新
-            BlogListFragment fragment = mAdapter.getFragment(mPosition);
-            if (fragment != null) {
-                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                transaction.detach(fragment);
-                fragment.refreshCategory(data.get(mPosition));
-                transaction.attach(fragment);
-                transaction.commit();
-            }
-        } else {
+        if (data.size() < count) {
+            mViewPager.setCurrentItem(0);
+        }
+//        else if (mPosition > 1 && mPosition == mViewPager.getCurrentItem()) {
+//            // 非首页、推荐，排序后还在当前页，需要重新刷新
+//            BlogListFragment fragment = mAdapter.getFragment(mPosition);
+//            if (fragment != null) {
+//                m
+//
+//                // 先移除
+//                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//                transaction.detach(fragment);
+//                transaction.remove(fragment);
+//                transaction.commit();
+//
+//                transaction = getChildFragmentManager().beginTransaction();
+//
+////                fragment.refreshCategory(data.get(mPosition));
+//                transaction.re(fragment);
+//                transaction.commit();
+//            }
+//        }
+        else {
             mViewPager.setCurrentItem(mPosition);
         }
     }

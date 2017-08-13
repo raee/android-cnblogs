@@ -83,7 +83,6 @@ public class MainActivity extends BaseActivity {
 
             }
         };
-
         // 绑定服务
         bindService(new Intent(this, CnblogsService.class), mServiceConnection, BIND_AUTO_CREATE);
 

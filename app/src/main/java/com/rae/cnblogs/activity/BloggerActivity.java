@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
+import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.fragment.BlogListFragment;
@@ -140,18 +141,13 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         mBloggerPresenter = CnblogsPresenterFactory.getBloggerPresenter(this, this);
         mBloggerPresenter.start();
 
-
-        // 如果是自己，则隐藏关注按钮
-        if (UserProvider.getInstance().isLogin() && TextUtils.equals(mBlogApp, UserProvider.getInstance().getLoginUserInfo().getBlogApp())) {
-            mFollowView.setVisibility(View.INVISIBLE);
-        }
     }
 
-
-//    @Override
-//    protected int getHomeAsUpIndicator() {
-//        return R.drawable.ic_back_white;
-//    }
+    @Override
+    protected void onDestroy() {
+        mBloggerPresenter.destroy();
+        super.onDestroy();
+    }
 
     @Override
     public void onLoadBloggerInfo(FriendsInfoBean userInfo) {
@@ -160,9 +156,26 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         mFollowLayout.setClickable(true);
         mFollowView.setEnabled(true);
 
-        RaeImageLoader.displayHeaderImage(userInfo.getAvatar(), mAvatarView);
+
+        // 如果是自己，则隐藏关注按钮
+        if (UserProvider.getInstance().isLogin() && TextUtils.equals(mBlogApp, UserProvider.getInstance().getLoginUserInfo().getBlogApp())) {
+            mFollowView.setVisibility(View.INVISIBLE);
+        } else {
+            mFollowView.setVisibility(View.VISIBLE);
+        }
+
+        GlideApp.with(this)
+                .load(userInfo.getAvatar())
+                .placeholder(R.drawable.boy)
+                .into(mAvatarView);
+
         if (!TextUtils.isEmpty(userInfo.getAvatar())) {
-//            mBackgroundView.setBackgroundColor(ContextCompat.getColor(this, R.color.dividerColor));
+
+            GlideApp.with(this)
+                    .load(userInfo.getAvatar())
+                    .placeholder(R.drawable.account_top_bg)
+                    .into(mBackgroundView);
+
             RaeImageLoader.displayImage(userInfo.getAvatar(), mBackgroundView);
         }
 
@@ -208,6 +221,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
      */
     @OnClick(R.id.layout_account_fans)
     public void onFansClick() {
+        if (mUserInfo == null) return;
         AppRoute.jumpToFans(this.getContext(), mUserInfo.getDisplayName(), mUserInfo.getUserId());
     }
 
@@ -217,11 +231,14 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
      */
     @OnClick(R.id.layout_account_follow)
     public void onFollowClick() {
+        if (mUserInfo == null) return;
         AppRoute.jumpToFollow(this.getContext(), mUserInfo.getDisplayName(), mUserInfo.getUserId());
     }
 
     @OnClick(R.id.btn_blogger_follow)
     public void onFollowButtonClick() {
+        if (mUserInfo == null) return;
+
         AppUI.loading(this);
         mBloggerPresenter.doFollow();
     }

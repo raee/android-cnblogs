@@ -72,7 +72,7 @@
                             android:layout_height="70dp"
                             android:layout_centerInParent="true"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_default_user_avatar"
+                            android:src="@drawable/boy"
                             app:riv_corner_radius="70dp"/>
 
                     </RelativeLayout>
@@ -239,6 +239,7 @@
                 android:layout_marginRight="12dp"
                 android:background="@drawable/bg_btn_follow_drak"
                 android:text="@string/following"
+                android:visibility="gone"
                 android:textColor="@color/ph1"
                 android:textSize="@dimen/h3"/>
 

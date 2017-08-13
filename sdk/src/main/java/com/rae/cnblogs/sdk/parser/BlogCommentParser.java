@@ -14,6 +14,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 //import com.alibaba.fastjson.JSON;
@@ -28,21 +29,23 @@ public class BlogCommentParser implements IJsonParser<List<BlogCommentBean>> {
 
     @Override
     public List<BlogCommentBean> parse(String json) {
+
+        List<BlogCommentBean> result = Collections.emptyList();
         if (TextUtils.isEmpty(json)) {
-            return null;
+            return result;
         }
         BlogCommentModel model = mGson.fromJson(json, BlogCommentModel.class);
         if (model == null) {
-            return null;
+            return result;
         }
         String html = model.getCommentsHtml();
         if (TextUtils.isEmpty(html)) {
-            return null;
+            return result;
         }
 
+        result = new ArrayList<>();
         // 解析XML
         Document document = Jsoup.parse(html);
-        List<BlogCommentBean> result = new ArrayList<>();
 
         Elements posts = document.select(".post");
         Elements feeds = document.select(".feedbackItem");
