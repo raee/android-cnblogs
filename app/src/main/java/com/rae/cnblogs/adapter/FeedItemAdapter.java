@@ -2,6 +2,7 @@ package com.rae.cnblogs.adapter;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.rae.cnblogs.R;
@@ -28,6 +29,12 @@ public class FeedItemAdapter extends BaseItemAdapter<UserFeedBean, FeedViewHolde
 //        holder.feedActionView.setText(m.getAction());
         holder.feedActionTitleView.setText(String.format("#%s# %s", m.getAction(), m.getTitle()));
         holder.itemView.setTag(m);
+        if ("发表评论".equals(m.getAction())) {
+            holder.feedLayout.setVisibility(View.GONE);
+            holder.contentView.setText(String.format("#%s# %s", m.getAction(), m.getContent()));
+        } else {
+            holder.feedLayout.setVisibility(View.VISIBLE);
+        }
 
         if (!TextUtils.isEmpty(m.getAvatar())) {
             RaeImageLoader.displayImage(m.getAvatar(), holder.avatarView);

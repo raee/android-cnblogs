@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 
 /**
+ * 下拉刷新
  * Created by ChenRui on 2016/12/2 01:03.
  */
 public class AppLayout extends PtrClassicFrameLayout {

@@ -27,6 +27,12 @@ public class VersionUpdateDialog extends HintCardDialog {
         return R.layout.dialog_version_card;
     }
 
+    @Override
+    public void show() {
+        super.show();
+        mContentLayout.setEnabled(false);
+    }
+
     public void setVersionInfo(final VersionInfo versionInfo) {
         setTitle(versionInfo.getVersionName());
         setMessage(Html.fromHtml(versionInfo.getAppDesc()).toString());

@@ -79,7 +79,7 @@ android {
 
     // 批量渠道包值替换
     productFlavors.all { flavor ->
-        flavor.manifestPlaceholders = [UMENG_CHANNEL: name]
+        flavor.manifestPlaceholders = [UMENG_CHANNEL: name,BUGLY_CHANNEL:name]
     }
 }
 

@@ -36,7 +36,7 @@ tinkerSupport {
 
     // 构建基准包和补丁包都要指定不同的tinkerId，并且必须保证唯一性
     // 补丁版本1.0.1
-    tinkerId = "${apkName}-patch-1.0.0"
+    tinkerId = "cnblogs-basic-1.0.0"
 
     // 构建多渠道补丁时使用
     // buildAllFlavorsDir = "${bakPath}/${baseApkDir}"

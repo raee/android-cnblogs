@@ -17,6 +17,9 @@ public class FeedViewHolder extends BlogCommentViewHolder {
     @BindView(R.id.img_blog_action)
     public ImageView feedActionView;
 
+    @BindView(R.id.ll_feed)
+    public View feedLayout;
+
     @BindView(R.id.tv_blog_action_title)
     public TextView feedActionTitleView;
 

@@ -59,6 +59,7 @@ public class BlogContentJob extends AsyncDownloadJob {
     public void cancel() {
         super.cancel();
         mHandler.removeMessages(0);
+        mHandler.removeCallbacksAndMessages(null);
         mHandler = null;
     }
 

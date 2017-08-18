@@ -70,6 +70,9 @@ public class FeedListFragment extends BaseFragment implements IFeedPresenter.IFe
         mAdapter.setOnItemClickListener(new BaseItemAdapter.onItemClickListener<UserFeedBean>() {
             @Override
             public void onItemClick(UserFeedBean item) {
+                if ("发表评论".equals(item.getAction())) {
+                    return;
+                }
                 AppRoute.jumpToWeb(getContext(), item.getUrl());
             }
         });

@@ -1,5 +1,7 @@
 package com.rae.cnblogs.sdk.parser;
 
+import android.text.TextUtils;
+
 import com.rae.cnblogs.sdk.bean.UserFeedBean;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
@@ -32,6 +34,13 @@ public class UserTimelineParser implements IHtmlParser<List<UserFeedBean>> {
             m.setUrl(element.select(".feed_title a").eq(1).attr("href"));
             m.setFeedDate(ApiUtils.getDate(element.select(".feed_date").text()));
             m.setContent(element.select(".feed_desc").text());
+            // 内容为空
+            if (TextUtils.isEmpty(m.getContent())) {
+                // 只读取标题内容
+                Elements titleElement = element.select(".feed_title").clone();
+                titleElement.select("a").remove();
+                m.setContent(titleElement.text());
+            }
             result.add(m);
         }
         return result;
@@ -42,6 +51,9 @@ public class UserTimelineParser implements IHtmlParser<List<UserFeedBean>> {
         Matcher matcher = regx.matcher(text);
         if (matcher.find()) {
             return matcher.group().replace(">", "").replace("：", "").trim();
+        }
+        if (text.contains("ing_reply")) {
+            return "发表评论";
         }
         return "未知类型";
     }

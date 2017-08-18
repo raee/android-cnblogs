@@ -53,20 +53,26 @@ public class HintCardLayout extends FrameLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        mCardDragCompat.dispatchTouchEvent(ev);
+        if (isEnabled())
+            mCardDragCompat.dispatchTouchEvent(ev);
 
         return this.dispatchTouchEventSupport(ev);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return mCardDragCompat.shouldInterceptTouchEvent(ev);
+        if (isEnabled())
+            return mCardDragCompat.shouldInterceptTouchEvent(ev);
+        return super.onInterceptTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        mCardDragCompat.processTouchEvent(event);
-        return true;
+        if (isEnabled()) {
+            mCardDragCompat.processTouchEvent(event);
+            return true;
+        }
+        return super.onTouchEvent(event);
     }
 
     public void setOnDismissListener(DialogInterface.OnDismissListener listener) {
