@@ -39,6 +39,7 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
         mDbBlog = DbFactory.getInstance().getBlog();
     }
 
+
     @Override
     public void loadContent() {
         if (mView.getBlog() == null) {

@@ -2,6 +2,7 @@ package com.rae.cnblogs.sdk;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
@@ -116,7 +117,7 @@ public final class UserProvider {
 
 
     /**
-     * 同步Cookie，方向：webkit -> javaNetCookie
+     * 同步Cookie，方向：javaNetCookie-> webkit
      */
     public void syncFormCookieJar() {
 
@@ -139,6 +140,41 @@ public final class UserProvider {
 
     }
 
+    /**
+     * 同步Cookie，方向：webkit -> javaNetCookie
+     */
+    public void syncFormWebview() {
+
+        if (java.net.CookieManager.getDefault() == null) {
+            return;
+        }
+
+        String url = "http://cnblogs.com";
+        JavaNetCookieJar cookieJar = new JavaNetCookieJar(java.net.CookieManager.getDefault());
+        // 同步接口的cookie达到同步web登陆
+        CookieManager cookieManager = CookieManager.getInstance();
+        String webCookies = cookieManager.getCookie(url);
+        webCookies = ".CNBlogsCookie=F3D2647C067C217A5A21C151F23D012923C97065CB7022A58690E6067EEFC0669803E0170D3338263766E93CFE28E2F5CA9C471EFF223F77726F7010A43F4F125E47FC3BB434155D2E9E261F5F0812D5EDAD4BBD; .Cnblogs.AspNetCore.Cookies=CfDJ8PhlBN8IFxtHhqIV3s0LCDn1Jsrc2qHs7X4IMRbfJTLzGMlZRyrMihjF4VHG2nwL9Zonm2EZBX9c3HbgEb4Rt7l2JJ3jsETCux7JygkxQ09bqGrxzWu_fpMPDG8Z9aIIKghZhVbB_SZ5S-4nUnOW2im1m6xNjRXOz7BZxJQEQtCxdzZYq0AaVdl249PpcC0_u_XD_qxcs-7ojrbMhKnGfTu1lnoq65eJTZ8b2qHFY4PA5LGZRKnHA8aj0fSBp7Q-YwA6tYTBD6mFInPTA8vQCKvQhr2YJwonhXt_piu3T0UW; _ga=GA1.2.1303711453.1503216792; _gid=GA1.2.1894885332.1503216792; _gat=1";
+        if (TextUtils.isEmpty(webCookies)) return;
+        List<Cookie> cookies = new ArrayList<>();
+        String[] texts = webCookies.split(";");
+        HttpUrl httpUrl = HttpUrl.parse(url);
+        // 解析字符串
+        for (String text : texts) {
+            if (!text.endsWith(";")) {
+                text += ";";
+            }
+            text += " domain=.cnblogs.com; path=/; HttpOnly";
+            Cookie cookie = Cookie.parse(httpUrl, text);
+            cookies.add(cookie);
+        }
+
+        cookieJar.saveFromResponse(httpUrl, cookies);
+
+        List<Cookie> list = cookieJar.loadForRequest(httpUrl);
+
+        Log.i("rae", "cookie:" + list.size());
+    }
 
     // TODO:调试登录
     public void debugLogin() {

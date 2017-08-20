@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -28,6 +29,8 @@ public class PlaceholderView extends FrameLayout {
     private TextView mEmptyMessageView;
     private Drawable mDefaultEmptyIcon;
     private View mRetryView;
+    private View mContentView;
+    private TextView mLoadingTextView;
 
     public PlaceholderView(Context context) {
         super(context);
@@ -53,12 +56,14 @@ public class PlaceholderView extends FrameLayout {
 
 
     private void initView() {
-        LayoutInflater.from(getContext()).inflate(R.layout.view_placeholder, this);
-        mEmptyView = findViewById(R.id.ll_placeholder_empty);
-        mLoadingView = findViewById(R.id.ll_placeholder_loading);
-        mEmptyImageView = (ImageView) findViewById(R.id.img_placeholder_empty);
-        mEmptyMessageView = (TextView) findViewById(R.id.tv_placeholder_empty_message);
-        mRetryView = findViewById(R.id.btn_placeholder_retry);
+        mContentView = LayoutInflater.from(getContext()).inflate(R.layout.view_placeholder, this, false);
+        mEmptyView = mContentView.findViewById(R.id.ll_placeholder_empty);
+        mLoadingView = mContentView.findViewById(R.id.ll_placeholder_loading);
+        mLoadingTextView = (TextView) mContentView.findViewById(R.id.tv_loading);
+        mEmptyImageView = (ImageView) mContentView.findViewById(R.id.img_placeholder_empty);
+        mEmptyMessageView = (TextView) mContentView.findViewById(R.id.tv_placeholder_empty_message);
+        mRetryView = mContentView.findViewById(R.id.btn_placeholder_retry);
+        setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
     }
 
     private void initAttr(AttributeSet attrs) {
@@ -104,8 +109,14 @@ public class PlaceholderView extends FrameLayout {
      */
     public void loading() {
         show();
+        mLoadingTextView.setText(R.string.loading);
         mEmptyView.setVisibility(GONE);
         mLoadingView.setVisibility(VISIBLE);
+    }
+
+    public void loading(String text) {
+        loading();
+        mLoadingTextView.setText(text);
     }
 
     /**
@@ -182,11 +193,11 @@ public class PlaceholderView extends FrameLayout {
 
 
     public void dismiss() {
-        setVisibility(GONE);
+        mContentView.setVisibility(GONE);
     }
 
     public void show() {
-        setVisibility(VISIBLE);
+        mContentView.setVisibility(VISIBLE);
     }
 
     public void setEmptyIcon(Drawable icon) {
@@ -199,6 +210,18 @@ public class PlaceholderView extends FrameLayout {
         if (resId > 0) {
             mEmptyImageView.setImageResource(resId);
         }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        addView(mContentView);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        removeView(mContentView);
     }
 
     /**

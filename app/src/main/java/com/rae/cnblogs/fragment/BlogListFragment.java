@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.AppMobclickAgent;
@@ -63,7 +61,8 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
 
     protected IBlogListPresenter mBlogListPresenter;
     protected BlogListItemAdapter mItemAdapter;
-    private PlaceholderView mPlaceholderView;
+    @BindView(R.id.blog_list_placeholder)
+    PlaceholderView mPlaceholderView;
 
     @Override
     protected int getLayoutId() {
@@ -73,14 +72,6 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPlaceholderView = new PlaceholderView(getContext());
-        mPlaceholderView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mBlogListPresenter.start();
-            }
-        });
 
         mCategory = getArguments().getParcelable("category");
         mBlogType = BlogType.typeOf(getArguments().getString("type"));
@@ -117,6 +108,15 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
 
     @Override
     protected void onLoadData() {
+
+        mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItemAdapter.empty();
+                mBlogListPresenter.start();
+            }
+        });
+
         mRecyclerView.setAdapter(mItemAdapter);
         mRecyclerView.setLoadingMoreEnabled(false);
         mAppLayout.setPtrHandler(new PtrDefaultHandler() {
@@ -146,10 +146,12 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         }
 
         mBlogListPresenter.start();
+        mPlaceholderView.dismiss();
     }
 
     @Override
     public void onLoadBlogList(int page, List<BlogBean> data) {
+        mPlaceholderView.dismiss();
         if (Rx.isEmpty(data) && page <= 1) {
             mAppLayout.refreshComplete();
             return;
@@ -172,8 +174,10 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @Override
     public void onLoadFailed(int page, String msg) {
         if (page <= 1) {
+            mPlaceholderView.retry(msg);
             mAppLayout.refreshComplete();
         } else {
+            mPlaceholderView.dismiss();
             mRecyclerView.loadMoreComplete();
         }
     }

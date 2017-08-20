@@ -40,6 +40,8 @@ public final class AppRoute {
     public static final int REQ_CODE_CATEGORY = 102;
     // 收藏
     public static final int REQ_CODE_FAVORITES = 103;
+    // 博主
+    public static final int REQ_CODE_BLOGGER = 104;
 
     private static void startActivity(Context context, Intent intent) {
         context.startActivity(intent);
@@ -186,6 +188,21 @@ public final class AppRoute {
         Intent intent = new Intent(context, BloggerActivity.class);
         intent.putExtra("blogApp", blogApp);
         startActivity(context, intent);
+    }
+
+    /**
+     * 博主界面
+     *
+     * @param blogApp 博客APP
+     */
+    public static void jumpToBlogger(Activity context, String blogApp) {
+        if (TextUtils.isEmpty(blogApp)) {
+            AppUI.toast(context, "博主信息为空！");
+            return;
+        }
+        Intent intent = new Intent(context, BloggerActivity.class);
+        intent.putExtra("blogApp", blogApp);
+        startActivityForResult(context, intent, REQ_CODE_BLOGGER);
     }
 
 

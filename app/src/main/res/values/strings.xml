@@ -21,7 +21,7 @@
     <string name="copyright">Copyright © 2004–2017 Cnblogs.com All Rights Reserved</string>
     <string name="loading">正在加载…</string>
     <string name="signing">正在登录…</string>
-    <string name="loading_user_info">正在获取用户信息…</string>
+    <string name="loading_user_info">正在获取用户信息，请稍候…</string>
     <string name="login_retry_error">多次登录失败？试试官方网页登录吧！</string>
     <string name="login_verify_code_error">登录需要校验验证码，请前往官方网页登录。</string>
     <string name="empty_message">这里什么都没有</string>
@@ -36,6 +36,7 @@
     <string name="login_user_name_hint">用户名</string>
     <string name="login_password_hint">密码</string>
     <string name="login">登录</string>
+    <string name="login_success">登录成功</string>
     <string name="error_username_empty">请输入用户名</string>
     <string name="error_password_empty">请输入密码</string>
     <string name="no_more_comment">已显示全部评论</string>
@@ -87,10 +88,13 @@
     <string name="share_app_desc">听说大牛都在用的博客园APP，一个面向开发者的知识分享社区，一个纯净的技术交流社区。</string>
     <string name="market_url">market://details?id=com.rae.cnblogs</string>
     <string name="service_name">博客园离线服务</string>
-    <string name="permission_tips_message">博客园需要读取/写入您的存储卡，禁止后功能受到限制，是否再次开启？</string>
-    <string name="premission_granted">同意申请权限</string>
+    <string name="permission_tips_message">博客园需要读取/写入您的存储卡，禁止后部分功能受到限制，是否再次开启？</string>
+    <string name="permission_granted">同意申请权限</string>
     <string name="feedback">意见反馈</string>
     <string name="feedback_message">您收到新的意见反馈消息，是否前往查看？</string>
     <string name="view_now">立即查看</string>
     <string name="feedback_hint">请填写反馈信息</string>
+    <string name="permission_request_message">博客园准备申请读取/写入您的内存卡权限，用于博客缓存以及图片缓存。</string>
+    <string name="allow">允许</string>
+    <string name="title_request_permissions">权限申请</string>
 </resources>

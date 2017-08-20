@@ -125,11 +125,11 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
         }
 
         mView.onLoadBlogList(mPageIndex, mBlogList);
-
         // 由于第一次会加载缓存，所以要等待一段时间才处理
         mHandler.removeMessages(0);
-        mHandler.sendEmptyMessageDelayed(0, 1000);
+        mHandler.sendEmptyMessageDelayed(0, 500);
     }
+
 
     @Override
     public void loadMore() {

@@ -25,6 +25,33 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+// 清除缓存的maven库
+task cleanCache(type: Delete) {
+    doLast {
+        def dir = rootProject.gradle.gradleUserHomeDir.path
+        def cache = dir + '\\caches\\modules-2\\files-2.1\\'
+        def meta = dir + '\\caches\\modules-2\\metadata-2.23\\descriptors\\'
+
+        def list = [
+                'com.rae.core',
+                'com.rae.swift',
+                'com.rae.widget',
+                'com.squareup.okhttp3',
+                'com.github.raee'
+        ]
+
+        list.forEach { item ->
+            println '-------------> delete cache <----------------'
+            def itemCache = cache + item
+            def itemMeta = meta + item
+            delete itemCache
+            println itemCache
+            delete itemMeta
+            println itemMeta
+        }
+        println '-------------> end clean cache task <----------------'
+    }
+}
 ext {
     compileSdkVersion=26
     buildToolsVersion='26.0.1'

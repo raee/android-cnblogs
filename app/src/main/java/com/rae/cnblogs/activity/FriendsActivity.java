@@ -1,10 +1,10 @@
 package com.rae.cnblogs.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -92,7 +92,7 @@ public class FriendsActivity extends SwipeBackBaseActivity {
         mAdapter.setOnItemClickListener(new BaseItemAdapter.onItemClickListener<UserInfoBean>() {
             @Override
             public void onItemClick(UserInfoBean item) {
-                AppRoute.jumpToBlogger(getContext(), item.getBlogApp());
+                AppRoute.jumpToBlogger(FriendsActivity.this, item.getBlogApp());
             }
         });
         mRecyclerView.setLoadingMoreEnabled(true);
@@ -121,11 +121,6 @@ public class FriendsActivity extends SwipeBackBaseActivity {
             }
         });
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         start();
     }
 
@@ -184,20 +179,32 @@ public class FriendsActivity extends SwipeBackBaseActivity {
             }
             return;
         }
-
         if (mPage <= 1) {
             mDataList.clear();
-//            mDataList.addAll(data);
         }
-//        else {
-//            mDataList.removeAll(data);
         mDataList.addAll(data);
-//        }
 
         mAdapter.invalidate(mDataList);
         mAdapter.notifyDataSetChanged();
         mRecyclerView.loadMoreComplete();
         mPage++;
+
+        if (mPage <= 1) {
+            mRecyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mRecyclerView.scrollToPosition(0);
+                }
+            }, 1000);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == AppRoute.REQ_CODE_BLOGGER) {
+            start();
+        }
     }
 
     /**

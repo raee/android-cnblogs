@@ -2,10 +2,10 @@ package com.rae.cnblogs.model;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.AppRoute;
-import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.FeedItemAdapter;
@@ -14,6 +14,7 @@ import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IFeedPresenter;
 import com.rae.cnblogs.sdk.bean.UserFeedBean;
 import com.rae.cnblogs.widget.AppLayout;
+import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 
 import java.util.List;
@@ -47,6 +48,9 @@ public class FeedListFragment extends BaseFragment implements IFeedPresenter.IFe
     @BindView(R.id.rec_blog_list)
     RaeRecyclerView mRecyclerView;
 
+    @BindView(R.id.blog_list_placeholder)
+    PlaceholderView mPlaceholderView;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +67,13 @@ public class FeedListFragment extends BaseFragment implements IFeedPresenter.IFe
 
     @Override
     protected void onLoadData() {
+        mPlaceholderView.dismiss();
+        mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mFeedPresenter.start();
+            }
+        });
         mAppLayout.setEnabled(false);
         mRecyclerView.setPullRefreshEnabled(false);
         mAdapter = new FeedItemAdapter();
@@ -97,16 +108,18 @@ public class FeedListFragment extends BaseFragment implements IFeedPresenter.IFe
 
     @Override
     public void onLoadFeedFailed(String msg) {
-        AppUI.toast(getContext(), msg);
+        mPlaceholderView.retry(msg);
     }
 
     @Override
     public void onLoadMoreFeedFailed(String msg) {
+        mPlaceholderView.dismiss();
         mRecyclerView.loadMoreComplete();
     }
 
     @Override
     public void onLoadFeedSuccess(List<UserFeedBean> dataList) {
+        mPlaceholderView.dismiss();
         mAdapter.invalidate(dataList);
         mAdapter.notifyDataSetChanged();
         mRecyclerView.loadMoreComplete();

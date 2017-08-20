@@ -36,6 +36,7 @@ import com.rae.cnblogs.fragment.MineFragment;
 import com.rae.cnblogs.message.TabEvent;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.VersionInfo;
@@ -85,7 +86,6 @@ public class MainActivity extends BaseActivity {
         };
         // 绑定服务
         bindService(new Intent(this, CnblogsService.class), mServiceConnection, BIND_AUTO_CREATE);
-
         mFragmentAdapter = new RaeFragmentAdapter(getSupportFragmentManager());
         CategoryBean kb = new CategoryBean();
         kb.setType("kb");
@@ -153,6 +153,8 @@ public class MainActivity extends BaseActivity {
 
         // 意见反馈的回复
         checkFeedbackMessage();
+
+        // 请求权限
         requestPermissions();
     }
 
@@ -193,7 +195,20 @@ public class MainActivity extends BaseActivity {
     private void requestPermissions() {
         // 检查权限
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+            final HintCardDialog dialog = new HintCardDialog(this);
+            dialog.setTitle(getString(R.string.title_request_permissions));
+            dialog.setMessage(getString(R.string.permission_request_message));
+            dialog.setEnSureText(getString(R.string.allow));
+            dialog.showCloseButton();
+            dialog.setOnEnSureListener(new IAppDialogClickListener() {
+                @Override
+                public void onClick(IAppDialog dialog, int buttonType) {
+                    dialog.dismiss();
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+                }
+            });
+
+            dialog.show();
         }
     }
 
@@ -240,8 +255,9 @@ public class MainActivity extends BaseActivity {
         if (requestCode == 100 && grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
             // 用户拒绝授权
             HintCardDialog dialog = new HintCardDialog(this);
+            dialog.setTitle(getString(R.string.title_request_permissions));
             dialog.setMessage(getString(R.string.permission_tips_message));
-            dialog.setEnSureText(getString(R.string.premission_granted));
+            dialog.setEnSureText(getString(R.string.permission_granted));
             dialog.setOnEnSureListener(new IAppDialogClickListener() {
                 @Override
                 public void onClick(IAppDialog dialog, int buttonType) {

@@ -75,6 +75,7 @@ public abstract class BasePresenter<V> {
      */
     protected boolean isNetworkError() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         return networkInfo == null || !networkInfo.isConnected() || !networkInfo.isAvailable();
     }

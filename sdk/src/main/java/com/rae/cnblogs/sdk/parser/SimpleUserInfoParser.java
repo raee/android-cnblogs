@@ -27,8 +27,6 @@ public class SimpleUserInfoParser implements IJsonParser<UserInfoBean> {
             u.setBlogApp(userName.attr("href").replace("/u/", "").replace("/", ""));
             u.setDisplayName(userName.text());
 
-            // 保存登录信息
-            UserProvider.getInstance().setLoginUserInfo(u);
         } catch (JSONException e) {
             e.printStackTrace();
         }

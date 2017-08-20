@@ -89,6 +89,9 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
 
                     @Override
                     protected void accept(UserInfoBean data) {
+                        // 保存登录信息
+                        UserProvider.getInstance().setLoginUserInfo(data);
+
                         // 统计登录事件
                         AppMobclickAgent.onLoginEvent(mApplicationContext, data.getBlogApp(), true, null);
                         // 友盟统计用户

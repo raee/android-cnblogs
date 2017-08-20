@@ -3,7 +3,6 @@ package com.rae.cnblogs.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,6 +63,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     @Override
     public void onLoadImage(String name, String url) {
         if (TextUtils.isEmpty(url)) {
+            onNormalImage();
             return;
         }
         mNameView.setText(name);
@@ -87,7 +87,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     @Override
     public void onNormalImage() {
         mDisplayView.setImageResource(R.drawable.launcher_background);
-        mDisplayView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+//        mDisplayView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
     }
 
     @OnClick(R.id.img_launcher_display)

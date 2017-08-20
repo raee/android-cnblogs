@@ -206,6 +206,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     public void onFollowSuccess() {
         AppUI.dismiss();
         mFollowView.setText(mBloggerPresenter.isFollowed() ? R.string.cancel_follow : R.string.following);
+        setResult(RESULT_OK);
     }
 
     @Override

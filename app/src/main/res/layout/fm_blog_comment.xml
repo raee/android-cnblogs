@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <com.rae.cnblogs.widget.RaeRecyclerView
-        android:id="@+id/rec_blog_comment_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
     <com.rae.cnblogs.widget.PlaceholderView
         android:id="@+id/placeholder"
@@ -17,7 +13,13 @@
         android:layout_height="match_parent"
         app:empty_icon="@drawable/comment_empty"
         app:empty_message="@string/empty_comment"
-        app:mode="loading"/>
+        app:mode="loading">
+
+        <com.rae.cnblogs.widget.RaeRecyclerView
+            android:id="@+id/rec_blog_comment_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>s
+    </com.rae.cnblogs.widget.PlaceholderView>
 
 
 </RelativeLayout>

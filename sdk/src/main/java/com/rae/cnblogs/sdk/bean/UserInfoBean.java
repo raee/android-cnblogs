@@ -2,6 +2,7 @@ package com.rae.cnblogs.sdk.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 /**
  * 用户信息
@@ -123,4 +124,12 @@ public class UserInfoBean implements Parcelable {
             return new UserInfoBean[size];
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof UserInfoBean) {
+            return TextUtils.equals(this.blogApp, ((UserInfoBean) obj).getBlogApp());
+        }
+        return super.equals(obj);
+    }
 }
