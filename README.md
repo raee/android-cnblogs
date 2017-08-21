@@ -14,6 +14,9 @@
 - 你要的登录！登录！登录！来啦~~~~
 - WIFI自动离线下载，无需配置。
 
-<img src="http://dev.timeplay.cn/cnblogs/app/guide.jpg" alt="博客园APP介绍">
+
+**下面图片较大，客官请稍等...**
+
+<img src="https://github.com/raee/android-cnblogs/blob/master/guide.jpg" alt="博客园APP介绍" />
 
 
