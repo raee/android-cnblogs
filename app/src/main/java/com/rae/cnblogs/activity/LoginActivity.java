@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -50,6 +53,12 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
     @BindView(R.id.img_login_logo)
     ImageView mLogoView;
+
+    @BindView(R.id.cb_eyes)
+    CheckBox mEyesView;
+
+    @BindView(R.id.img_edit_delete)
+    ImageView mPwdDelView;
 
 //    @BindView(R.id.ll_login_tips_layout)
 //    View mTipsLayout;
@@ -97,6 +106,38 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
             }
         });
 
+        mPasswordView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mPwdDelView.setVisibility(mPasswordView.length() > 0 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        mEyesView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    //选择状态 显示明文--设置为可见的密码
+                    mPasswordView.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                } else {
+                    //默认状态显示密码--设置文本 要一起写才能起作用  InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
+                    mPasswordView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+
+                mPasswordView.setSelection(mPasswordView.length());
+            }
+        });
+
 
         mLoginContractDialog = new HintCardDialog(this);
         mLoginContractDialog.setMessage(getString(R.string.login_contract_content));
@@ -121,6 +162,19 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
         overridePendingTransition(0, com.rae.cnblogs.R.anim.slide_out_bottom);
     }
 
+    @OnClick(R.id.img_edit_delete)
+    public void onPasswordDeleteClick() {
+        mPasswordView.setText("");
+    }
+
+    /**
+     * 忘记密码
+     */
+    @OnClick(R.id.tv_forget_password)
+    public void onForgetPassword() {
+        AppRoute.jumpToWeb(this, getString(R.string.forget_password_url));
+    }
+
     /**
      * 登录点击
      */
@@ -132,7 +186,6 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 //            finish();
 //            return;
 //        }
-
 
 
         if (config().hasLoginGuide()) {

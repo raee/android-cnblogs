@@ -17,13 +17,10 @@ public class UserInfoParser extends AbsUserInfoParser<UserInfoBean> {
     public UserInfoBean parse(Document document, String html) {
         UserInfoBean result = new UserInfoBean();
         onParseUserInfo(result, document);
-        if (TextUtils.isEmpty(result.getBlogApp())) {
-            return null;
-        }
-
         // 保存登录信息
-        UserProvider.getInstance().setLoginUserInfo(result);
-
+        if (!TextUtils.isEmpty(result.getUserId())) {
+            UserProvider.getInstance().setLoginUserInfo(result);
+        }
         return result;
     }
 }

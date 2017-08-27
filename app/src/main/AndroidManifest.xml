@@ -39,17 +39,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark"/>
 
-        <!--       <activity
-                   android:name=".activity.TestActivity"
-                   android:label="博客园测试"
-                   android:screenOrientation="portrait"
-                   android:theme="@style/AppTheme.Dark">
-                   <intent-filter>
-                       <action android:name="android.intent.action.MAIN"/>
+       <!-- <activity
+            android:name=".activity.TestActivity"
+            android:label="博客园测试"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-                       <category android:name="android.intent.category.LAUNCHER"/>
-                   </intent-filter>
-               </activity>-->
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>-->
 
         <!--博文-->
         <activity
@@ -60,7 +60,7 @@
         <activity
             android:name=".activity.LoginActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateVisible"/>
+            android:windowSoftInputMode="stateVisible" />
 
 
         <!--网页登录-->

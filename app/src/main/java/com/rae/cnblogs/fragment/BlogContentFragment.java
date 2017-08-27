@@ -101,6 +101,11 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         };
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mContentPresenter.destroy();
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

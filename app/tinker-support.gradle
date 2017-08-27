@@ -1,12 +1,12 @@
 apply plugin: 'com.tencent.bugly.tinker-support'
 
-def bakPath = file("${buildDir}/bakApk/")
+def bakPath = file("${buildDir}")
 
 /**
  * 此处填写每次构建生成的基准包目录
  */
-def baseApkDir = "app-0809-00-50-40"
-def apkName = "app-debug"
+def baseApkDir = "basic"
+def apkName = "app-v1.0.0.apk"
 
 /**
  * 对于插件各参数的详细解析请参考
@@ -35,8 +35,9 @@ tinkerSupport {
     baseApkResourceMapping = "${bakPath}/${baseApkDir}/${apkName}-R.txt"
 
     // 构建基准包和补丁包都要指定不同的tinkerId，并且必须保证唯一性
-    // 补丁版本1.0.1
-    tinkerId = "cnblogs-basic-1.0.0"
+    // 基类版本：cnblogs-basic-1.0.0
+    // 补丁版本：cnblogs-path-1.0.0-001
+    tinkerId = "cnblogs-path-1.0.0-001"
 
     // 构建多渠道补丁时使用
     // buildAllFlavorsDir = "${bakPath}/${baseApkDir}"

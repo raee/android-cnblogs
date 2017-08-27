@@ -84,7 +84,7 @@ public class RaeDrawerLayout extends FrameLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mDragDownCompat.processTouchEvent(event);
-        return true;
+        return super.onTouchEvent(event);
     }
 
 

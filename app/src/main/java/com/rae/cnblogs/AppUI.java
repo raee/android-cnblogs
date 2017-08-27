@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,9 +46,13 @@ public final class AppUI {
     @SuppressLint("ShowToast")
     private static Toast makeToast(Context context, String msg) {
         Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+        if (context == null) {
+            return toast;
+        }
         toast.getView().setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_toast));
         TextView msgView = (TextView) toast.getView().findViewById(android.R.id.message);
         msgView.setTextSize(14);
+        msgView.setTextColor(ContextCompat.getColor(context, android.R.color.white));
         return toast;
     }
 

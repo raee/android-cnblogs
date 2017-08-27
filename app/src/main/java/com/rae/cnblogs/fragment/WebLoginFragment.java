@@ -23,7 +23,7 @@ import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
-import com.umeng.analytics.MobclickAgent;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
@@ -33,6 +33,8 @@ import io.reactivex.functions.Function;
  * Created by ChenRui on 2017/2/3 0003 12:01.
  */
 public class WebLoginFragment extends WebViewFragment {
+
+    private String mBlogApp;
 
     public static WebLoginFragment newInstance(String url) {
         Bundle args = new Bundle();
@@ -97,6 +99,7 @@ public class WebLoginFragment extends WebViewFragment {
                 .flatMap(new Function<UserInfoBean, ObservableSource<UserInfoBean>>() {
                     @Override
                     public ObservableSource<UserInfoBean> apply(UserInfoBean userInfoBean) throws Exception {
+                        mBlogApp = userInfoBean.getBlogApp();
                         return RxObservable.create((mUserApi.getUserInfo(userInfoBean.getBlogApp())), "user"); // 获取用户信息
                     }
                 })
@@ -104,11 +107,10 @@ public class WebLoginFragment extends WebViewFragment {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-
                         // 统计错误信息
                         AppMobclickAgent.onLoginEvent(getContext(), "WEB-ERROR", false, getLog(e));
                         // 报告错误信息
-                        MobclickAgent.reportError(getContext(), e);
+                        CrashReport.postCatchedException(e);
                     }
 
                     private String getLog(Throwable e) {
@@ -122,9 +124,20 @@ public class WebLoginFragment extends WebViewFragment {
                     }
 
                     @Override
-                    protected void accept(UserInfoBean userInfoBean) {
+                    protected void accept(UserInfoBean data) {
                         mPlaceholderView.dismiss();
-                        UserProvider.getInstance().setLoginUserInfo(userInfoBean);
+                        if (TextUtils.isEmpty(data.getUserId())) {
+                            mPlaceholderView.retry("获取用户信息失败");
+                            AppMobclickAgent.onLoginEvent(getContext(), "ERROR", false, "没有获取到用户ID");
+                            return;
+                        }
+
+                        // 如果blogApp为空则重新设置，这里的blogApp一定不为空了
+                        if (TextUtils.isEmpty(data.getBlogApp())) {
+                            data.setBlogApp(mBlogApp);
+                        }
+
+                        UserProvider.getInstance().setLoginUserInfo(data);
                         AppUI.success(getContext(), R.string.login_success);
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();

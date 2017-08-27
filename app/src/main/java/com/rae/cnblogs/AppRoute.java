@@ -62,12 +62,30 @@ public final class AppRoute {
     /**
      * 博客正文界面
      *
+     * @param blogId 博客ID
+     * @param type   博客类型
+     */
+    public static void jumpToBlogContent(Context context, String blogId, BlogType type) {
+        Intent intent = new Intent(context, BlogContentActivity.class);
+        intent.putExtra("blogId", blogId);
+        intent.putExtra("type", type.getTypeName());
+        startActivity(context, intent);
+    }
+
+    /**
+     * 博客正文界面
+     *
      * @param blog 博客实体
      * @param type 博客类型
      */
     public static void jumpToBlogContent(Context context, BlogBean blog, BlogType type) {
         Intent intent = new Intent(context, BlogContentActivity.class);
+        // 不传递摘要和正文这些过大的数据。进去博文正文之后再从数据库拉取。
+        blog.setSummary(null);
+        blog.setContent(null);
+
         intent.putExtra("blog", blog);
+        intent.putExtra("blogId", blog.getId());
         intent.putExtra("type", type.getTypeName());
         startActivity(context, intent);
     }

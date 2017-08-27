@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.text.TextUtils;
 
 import com.rae.cnblogs.RxObservable;
+import com.rae.cnblogs.presenter.IAppPresenter;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.CnblogsApiProvider;
 import com.rae.cnblogs.sdk.UserProvider;
@@ -16,7 +17,7 @@ import io.reactivex.Observable;
  * 基类
  * Created by ChenRui on 2016/12/2 00:23.
  */
-public abstract class BasePresenter<V> {
+public abstract class BasePresenter<V> implements IAppPresenter {
     protected Context mContext;
     protected Context mApplicationContext;
 
@@ -45,6 +46,12 @@ public abstract class BasePresenter<V> {
 
     public String getString(int resId) {
         return mContext.getString(resId);
+    }
+
+
+    @Override
+    public void start() {
+
     }
 
     public void destroy() {

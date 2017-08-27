@@ -63,10 +63,12 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <RelativeLayout
+    <com.rae.cnblogs.widget.PlaceholderView
+        android:id="@+id/placeholder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+
         <!--内容区域-->
         <FrameLayout
             android:id="@+id/fl_content"
@@ -81,7 +83,7 @@
             android:layout_height="match_parent"
             android:visibility="gone"/>
 
-    </RelativeLayout>
+    </com.rae.cnblogs.widget.PlaceholderView>
 
     <LinearLayout
         android:layout_width="match_parent"

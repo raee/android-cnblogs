@@ -2,6 +2,7 @@ package com.rae.cnblogs.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -102,7 +103,9 @@ public class MineFragment extends BaseFragment {
         RxObservable.create(observable, "MineFragment").subscribe(new ApiDefaultObserver<FriendsInfoBean>() {
             @Override
             protected void onError(String message) {
-                AppUI.toastInCenter(getContext(), message);
+                // AppUI.toastInCenter(getContext(), message);
+                mFollowCountView.setText("--");
+                mFansCountView.setText("--");
             }
 
             @Override
@@ -131,8 +134,9 @@ public class MineFragment extends BaseFragment {
                     @Override
                     protected void accept(UserInfoBean userInfoBean) {
                         // 更新用户信息
-                        UserProvider.getInstance().setLoginUserInfo(userInfoBean);
-                        // onLoadUserInfo(userInfoBean);
+                        if (!TextUtils.isEmpty(userInfoBean.getUserId())) {
+                            UserProvider.getInstance().setLoginUserInfo(userInfoBean);
+                        }
                     }
                 });
     }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rae.cnblogs.AppRoute;
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.BlogItemViewHolder;
@@ -173,9 +174,9 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
             holder.largeThumbView.setVisibility(View.GONE);
             holder.thumbLayout.setVisibility(View.VISIBLE);
             // 取三张预览图
-             RaeImageLoader.displayImage(thumbs.get(0), holder.thumbOneView);
-             RaeImageLoader.displayImage(thumbs.get(1), holder.thumbTwoView);
-             RaeImageLoader.displayImage(thumbs.get(2), holder.thumbThreeView);
+            RaeImageLoader.displayImage(thumbs.get(0), holder.thumbOneView);
+            RaeImageLoader.displayImage(thumbs.get(1), holder.thumbTwoView);
+            RaeImageLoader.displayImage(thumbs.get(2), holder.thumbThreeView);
         } else {
             holder.largeThumbView.setVisibility(View.GONE);
             holder.thumbLayout.setVisibility(View.GONE);
@@ -186,6 +187,10 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
     @Override
     public void onClick(View view) {
         BlogBean blog = (BlogBean) view.getTag();
+        if (blog == null) {
+            AppUI.failed(view.getContext(), "博客信息为空");
+            return;
+        }
         // 设置为已读
         blog.setReaded(true);
         view.postDelayed(new Runnable() {

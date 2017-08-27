@@ -71,7 +71,9 @@ public class WebActivity extends SwipeBackBaseActivity {
         return WebViewFragment.newInstance(url);
     }
 
+    @Nullable
     protected String getUrl() {
+        if (getIntent().getData() == null) return null;
         return getIntent().getData().toString();
     }
 

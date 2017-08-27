@@ -17,17 +17,10 @@ import com.rae.cnblogs.sdk.bean.BlogBean;
  */
 public class BlogShareDialog extends ShareDialog {
 
-    private final BlogBean mBlog;
+    private BlogBean mBlog;
 
-    public BlogShareDialog(Context context, BlogBean blog) {
+    public BlogShareDialog(Context context) {
         super(context);
-        mBlog = blog;
-
-        if (TextUtils.isEmpty(blog.getAvatar())) {
-            setShareWeb(blog.getUrl(), blog.getTitle(), blog.getSummary(), R.drawable.ic_share);
-        } else {
-            setShareWeb(blog.getUrl(), blog.getTitle(), blog.getSummary(), blog.getAvatar());
-        }
     }
 
 
@@ -44,6 +37,20 @@ public class BlogShareDialog extends ShareDialog {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void show(BlogBean blog) {
+        if (blog == null) return;
+        mBlog = blog;
+
+        if (TextUtils.isEmpty(blog.getAvatar())) {
+            setShareWeb(blog.getUrl(), blog.getTitle(), blog.getSummary(), R.drawable.ic_share);
+        } else {
+            setShareWeb(blog.getUrl(), blog.getTitle(), blog.getSummary(), blog.getAvatar());
+        }
+
+        show();
     }
 
     // 复制链接

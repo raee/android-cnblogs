@@ -80,7 +80,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     @Override
     public void onJumpToBlog(String id) {
         AppRoute.jumpToMain(this);
-        AppRoute.jumpToBlogContent(this, null, BlogType.BLOG);
+        AppRoute.jumpToBlogContent(this, id, BlogType.BLOG);
         finish();
     }
 

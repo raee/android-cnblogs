@@ -45,6 +45,9 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
                 clearLoginToken();
                 onLoginExpired();
                 return;
+            } else if (ex.code() == 503) {
+                onError("[503]服务器拒绝连接");
+                return;
             } else {
                 onError("网络连接错误");
                 return;

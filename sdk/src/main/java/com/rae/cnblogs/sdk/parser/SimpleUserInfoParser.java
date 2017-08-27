@@ -1,6 +1,5 @@
 package com.rae.cnblogs.sdk.parser;
 
-import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 

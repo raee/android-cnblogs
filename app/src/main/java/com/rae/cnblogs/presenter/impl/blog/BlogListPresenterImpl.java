@@ -59,10 +59,12 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
      * 加数据
      */
     protected void onLoadData(final CategoryBean category, final int pageIndex) {
-        // 先从数据缓存中加载
         createObservable(mApi.getBlogList(pageIndex, category.getType(), category.getParentId(), category.getCategoryId())).subscribe(getBlogObserver());
     }
 
+    /**
+     * 加载离线数据
+     */
     private void loadOfflineData(final CategoryBean category, final int pageIndex) {
         RxObservable.newThread()
                 .map(new Function<Integer, List<BlogBean>>() {

@@ -15,12 +15,19 @@ import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
+import com.rae.cnblogs.RxObservable;
+import com.rae.cnblogs.dialog.DialogProvider;
+import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.impl.BlogShareDialog;
 import com.rae.cnblogs.fragment.BlogCommentFragment;
 import com.rae.cnblogs.fragment.BlogContentFragment;
 import com.rae.cnblogs.message.EditCommentEvent;
+import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
+import com.rae.cnblogs.sdk.db.DbBlog;
+import com.rae.cnblogs.sdk.db.DbFactory;
+import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -29,6 +36,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -64,6 +77,9 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     @BindView(R.id.fl_comment)
     RaeDrawerLayout mCommentLayout;
 
+    @BindView(R.id.placeholder)
+    PlaceholderView mPlaceholderView;
+
     private BlogShareDialog mShareDialog;
     private BlogBean mBlog;
     private BlogType mBlogType;
@@ -78,22 +94,101 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         setSupportActionBar(mToolbar);
         showHomeAsUp(mToolbar);
 
+        final String blogId = getIntent().getStringExtra("blogId");
         mBlog = getIntent().getParcelableExtra("blog");
         mBlogType = BlogType.typeOf(getIntent().getStringExtra("type"));
 
-        if (mBlog == null) {
+        if (TextUtils.isEmpty(blogId) && mBlog == null) {
             AppUI.toast(this, "博客为空！");
             finish();
             return;
         }
 
-        mShareDialog = new BlogShareDialog(this, mBlog) {
+        mShareDialog = new BlogShareDialog(this) {
             @Override
             protected void onViewSourceClick() {
                 AppRoute.jumpToWeb(getContext(), mBlog.getUrl());
             }
         };
 
+        // 根据blogId 获取博客信息
+        if (!TextUtils.isEmpty(blogId)) {
+            loadBlogFromDatabase(blogId);
+        } else if (mBlog != null) {
+            mPlaceholderView.dismiss();
+            onLoadData(mBlog);
+            // 加载博客摘要
+            createBlogObservable(mBlog.getBlogId())
+                    .subscribe(new ApiDefaultObserver<BlogBean>() {
+                        @Override
+                        protected void onError(String message) {
+                            mBlog.setSummary(mBlog.getTitle());
+                        }
+
+                        @Override
+                        protected void accept(BlogBean blogBean) {
+                            mBlog.setSummary(blogBean.getSummary());
+                        }
+                    });
+        } else {
+            mPlaceholderView.empty("博客不存在");
+        }
+
+    }
+
+    /**
+     * 从数据库加载博文
+     *
+     * @param blogId 博客ID
+     */
+    private void loadBlogFromDatabase(final String blogId) {
+        createBlogObservable(blogId)
+                .subscribe(new ApiDefaultObserver<BlogBean>() {
+                    @Override
+                    protected void onError(String message) {
+                        IAppDialog dialog = DialogProvider.create(getContext());
+                        dialog.setMessage("博客加载失败，请退出后刷新列表重试。");
+                        dialog.show();
+                        mPlaceholderView.empty(message);
+                        finish();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof NullPointerException) {
+                            mPlaceholderView.empty("博客不存在，可能由于缓存已经被清除，请返回首页列表刷新后再重新进入吧。");
+                            return;
+                        }
+                        super.onError(e);
+                    }
+
+                    @Override
+                    protected void accept(BlogBean blog) {
+                        mPlaceholderView.dismiss();
+                        onLoadData(blog);
+                    }
+                });
+    }
+
+    private Observable<BlogBean> createBlogObservable(final String blogId) {
+        return RxObservable.newThread()
+                .flatMap(new Function<Integer, ObservableSource<BlogBean>>() {
+                    @Override
+                    public ObservableSource<BlogBean> apply(@NonNull Integer integer) throws Exception {
+                        // 从数据库加载
+                        DbBlog db = DbFactory.getInstance().getBlog();
+                        BlogBean blog = db.getBlog(blogId);
+                        if (blog == null) {
+                            throw new NullPointerException();
+                        }
+                        return RxObservable.create(Observable.just(blog), "blogContent").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    private void onLoadData(BlogBean blog) {
+        mBlog = blog;
 
         // 评论角标
         if (!TextUtils.equals(mBlog.getComment(), "0")) {
@@ -119,6 +214,8 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
             RaeImageLoader.displayHeaderImage(mBlog.getAvatar(), mAvatarView);
             mAuthorView.setText(mBlog.getAuthor());
         }
+
+
         // 评论
         mBlogCommentFragment = BlogCommentFragment.newInstance(mBlog, mBlogType);
         // 内容
@@ -130,13 +227,12 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         transaction.add(R.id.fl_comment, mBlogCommentFragment);
         transaction.add(R.id.fl_content, mBlogContentFragment);
         transaction.commit();
-
     }
 
     // 分享
     @OnClick(R.id.img_action_bar_more)
     public void onActionMenuMoreClick() {
-        mShareDialog.show();
+        mShareDialog.show(mBlog);
     }
 
     // 查看评论

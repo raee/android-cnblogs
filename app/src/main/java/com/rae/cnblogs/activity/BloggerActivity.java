@@ -145,7 +145,8 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
     @Override
     protected void onDestroy() {
-        mBloggerPresenter.destroy();
+        if (mBloggerPresenter != null)
+            mBloggerPresenter.destroy();
         super.onDestroy();
     }
 

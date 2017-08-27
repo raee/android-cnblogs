@@ -225,6 +225,13 @@ public class PlaceholderView extends FrameLayout {
     }
 
     /**
+     * 是否已经消失
+     */
+    public boolean isDismiss() {
+        return mContentView.getVisibility() != View.VISIBLE;
+    }
+
+    /**
      * 注册adapter监听
      *
      * @param adapter

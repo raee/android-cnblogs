@@ -8,7 +8,7 @@ import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
  * 博客查看
  * Created by ChenRui on 2016/12/7 22:02.
  */
-public interface IBlogContentPresenter {
+public interface IBlogContentPresenter extends IAppPresenter {
 
     /**
      * 加载博客内容

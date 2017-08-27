@@ -59,7 +59,6 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     @BindView(R.id.placeholder)
     PlaceholderView mPlaceholderView;
 
-
     TextView mCommentBadgeView;
 
     private BlogCommentItemAdapter mItemAdapter;
@@ -105,13 +104,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
         mParentView.setDragDownHandler(new RaeDragDownCompat.DragDownHandler() {
             @Override
             public boolean checkCanDrag(float dy, MotionEvent ev) {
-                if (mPlaceholderView.getVisibility() == View.VISIBLE) {
-                    return true;
-                }
-                if (dy < 0 && mRecyclerView.isOnTop()) {
-                    return true;
-                }
-                return false;
+                return !mPlaceholderView.isDismiss() || dy < 0 && mRecyclerView.isOnTop();
             }
         });
         initView();
@@ -307,16 +300,22 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
         mEditCommentDialog.dismiss();
     }
 
-
     /**
      * 滚动到顶部
      */
     public void scrollToTop() {
         if (mRecyclerView == null) return;
-        LinearLayoutManager manager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-        if (manager.findFirstVisibleItemPosition() <= 1) {
-            return;
+
+        //先从RecyclerView的LayoutManager中获取第一项和最后一项的Position
+        LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+        int firstItem = layoutManager.findFirstVisibleItemPosition();
+        int lastItem = layoutManager.findLastVisibleItemPosition();
+        int visibleCount = lastItem - firstItem;
+
+        if (lastItem > visibleCount) {
+            layoutManager.scrollToPosition(visibleCount + 1);
         }
         mRecyclerView.smoothScrollToPosition(0);
     }
+
 }

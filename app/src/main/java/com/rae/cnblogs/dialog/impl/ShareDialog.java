@@ -16,6 +16,8 @@ import android.widget.Button;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
+import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -184,6 +186,7 @@ public class ShareDialog extends SlideDialog {
         }
     }
 
+
     @Override
     public void show() {
         super.show();
@@ -198,8 +201,12 @@ public class ShareDialog extends SlideDialog {
             mOnShareClickListener.onShare(this);
         }
 
-        mShareAction.setPlatform(type);
-        mShareAction.share();
+        try {
+            mShareAction.setPlatform(type);
+            mShareAction.share();
+        } catch (Exception e) {
+            CrashReport.postCatchedException(e);
+        }
     }
 
     @OnClick({R.id.tv_share_wechat, R.id.tv_share_wechat_sns, R.id.tv_share_qq, R.id.tv_share_qzone, R.id.tv_share_sina, R.id.tv_share_source, R.id.tv_share_browser, R.id.tv_share_link})
