@@ -1,16 +1,22 @@
-#博客园APP
+# 博客园 Android客户端
 
-非官方客户端，目前版本尚未发布。有兴趣的可以fork提交你的代码哦，有任何提议或者想法也可以提提issue。
+`非官方客户端` 有兴趣的可以fork提交你的代码哦，有任何提议或者想法也可以提提issue。
+
+> 主要功能
+
+- 界面净白风格，专注阅读，给你极简体验。
+- 首页分类阅读，定制你喜欢的栏目。
+- 首页列表图文结合，让阅读不在单调。
+- 博文阅读代码高亮，大图查看。
+- 博文支持评论、点赞、收藏。
+- 博主界面更加清爽，博主动态显示，博客列表，一起来关注大牛吧。
+- 新闻阅读、知识库该有的都有了
+- 你要的登录！登录！登录！来啦~~~~
+- WIFI自动离线下载，无需配置。
 
 
-<img src="http://dev.timeplay.cn/cnblogs/app/screenshots/img_login.jpg" width="720" height="1280" alt="登录">
-<img src="http://dev.timeplay.cn/cnblogs/app/screenshots/img_01.jpg" width="720" height="1280" alt="首页">
-<img src="http://dev.timeplay.cn/cnblogs/app/screenshots/img_02.jpg" width="720" height="1280" alt="新闻">
-<img src="http://dev.timeplay.cn/cnblogs/app/screenshots/img_03.jpg" width="720" height="1280" alt="知识库">
-<img src="http://dev.timeplay.cn/cnblogs/app/screenshots/img_04.jpg" width="720" height="1280" alt="我">
-<img src="http://dev.timeplay.cn/cnblogs/app/screenshots/img_content_05.jpg" width="720" height="1280" alt="内容">
-<img src="http://dev.timeplay.cn/cnblogs/app/screenshots/img_share_01.jpg" width="720" height="1280" alt="分享">
-<img src="http://dev.timeplay.cn/cnblogs/app/screenshots/img_comment_01.jpg" width="720" height="1280" alt="评论">
-<img src="http://dev.timeplay.cn/cnblogs/app/screenshots/img_blogger.jpg" width="720" height="1280" alt="我">
+**下面图片较大，客官请稍等...**
+
+<img src="https://github.com/raee/android-cnblogs/blob/master/guide.jpg" alt="博客园APP介绍" />
 
 
