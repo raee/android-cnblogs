@@ -1,12 +1,12 @@
 apply plugin: 'com.tencent.bugly.tinker-support'
 
-def bakPath = file("${buildDir}")
+def bakPath = file("C:\\rae\\android-cnblogs-v1.0.0\\app\\build\\bakApk\\")
 
 /**
  * 此处填写每次构建生成的基准包目录
  */
-def baseApkDir = "basic"
-def apkName = "app-v1.0.0.apk"
+def baseApkDir = "app-0820-22-37-32"
+def apkName = "app-huawei-release.apk"
 
 /**
  * 对于插件各参数的详细解析请参考
@@ -37,10 +37,11 @@ tinkerSupport {
     // 构建基准包和补丁包都要指定不同的tinkerId，并且必须保证唯一性
     // 基类版本：cnblogs-basic-1.0.0
     // 补丁版本：cnblogs-path-1.0.0-001
+//    tinkerId = "cnblogs-basic-1.0.0"
     tinkerId = "cnblogs-path-1.0.0-001"
 
     // 构建多渠道补丁时使用
-    // buildAllFlavorsDir = "${bakPath}/${baseApkDir}"
+     buildAllFlavorsDir = "${bakPath}/${baseApkDir}"
 
     // 是否启用加固模式，默认为false.(tinker-spport 1.0.7起支持）
     // isProtectedApp = true

@@ -13,7 +13,6 @@ import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 import com.tencent.tinker.loader.app.TinkerApplication;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
-import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -36,14 +35,12 @@ public class CnblogsApplication extends TinkerApplication {
         // 日志上报
         Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG);
         if (!LeakCanary.isInAnalyzerProcess(this)) {
-//            LeakCanary.install(this);
+            LeakCanary.install(this);
         }
 
         // LeanCloud用户反馈初始化，要在主线程总
         AVOSCloud.initialize(getApplication(), BuildConfig.LEAN_CLOUD_APP_ID, BuildConfig.LEAN_CLOUD_APP_KEY);
         FeedbackThread.getInstance();
-        MobclickAgent.setDebugMode(BuildConfig.DEBUG);
-//        SkinCompatManager.withoutActivity(getApplication()).loadSkin("night", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
 
         // 一些要求不高的初始化操作放到线程中去操作
         new Thread(new Runnable() {
