@@ -99,32 +99,28 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
             mAdapter = new BlogListAdapter(getChildFragmentManager(), data);
             mViewPager.setAdapter(mAdapter);
             mTabLayout.setupWithViewPager(mViewPager);
+            mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+                    onLogoClick();
+                }
+            });
         } else {
             mAdapter.updateDataSet(data);
         }
         if (data.size() < count) {
             mViewPager.setCurrentItem(0);
-        }
-//        else if (mPosition > 1 && mPosition == mViewPager.getCurrentItem()) {
-//            // 非首页、推荐，排序后还在当前页，需要重新刷新
-//            BlogListFragment fragment = mAdapter.getFragment(mPosition);
-//            if (fragment != null) {
-//                m
-//
-//                // 先移除
-//                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//                transaction.detach(fragment);
-//                transaction.remove(fragment);
-//                transaction.commit();
-//
-//                transaction = getChildFragmentManager().beginTransaction();
-//
-////                fragment.refreshCategory(data.get(mPosition));
-//                transaction.re(fragment);
-//                transaction.commit();
-//            }
-//        }
-        else {
+        } else {
             mViewPager.setCurrentItem(mPosition);
         }
     }

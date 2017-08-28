@@ -6,6 +6,7 @@ import com.rae.cnblogs.sdk.bean.VersionInfo;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * 个人接口
@@ -17,6 +18,10 @@ public interface IRaeServerApi {
     Observable<AdvertBean> getLauncherAd();
 
 
+    /**
+     * @param versionCode 版本代码
+     * @param channel     渠道
+     */
     @GET(ApiUrls.RAE_API_CHECK_VERSION)
-    Observable<VersionInfo> versionInfo(@Path("versionCode") int versionCode);
+    Observable<VersionInfo> versionInfo(@Path("versionCode") int versionCode, @Query("channel") String channel);
 }

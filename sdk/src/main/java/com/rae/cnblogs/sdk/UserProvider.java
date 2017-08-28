@@ -10,13 +10,9 @@ import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
 import com.rae.swift.session.SessionManager;
 
-import java.io.IOException;
 import java.net.CookieHandler;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.annotations.Nullable;
 import okhttp3.Cookie;
@@ -176,27 +172,27 @@ public final class UserProvider {
         Log.i("rae", "cookie:" + list.size());
     }
 
-    // TODO:调试登录
-    public void debugLogin() {
-        UserInfoBean userInfo = new UserInfoBean();
-        userInfo.setAvatar("http://pic.cnblogs.com/avatar/446312/20170124105915.png");
-        userInfo.setBlogApp("chenrui7");
-        userInfo.setDisplayName("RAE");
-        userInfo.setUserId("fdeed5f3-11fb-e111-aa3f-842b2b196315");
-        URI url = URI.create("http://www.cnblogs.com");
-        List<String> cookieStrings = new ArrayList<>();
-        cookieStrings.add(".CNBlogsCookie=3479CA4E4D0D34A70D41CA7F641FF395B033357076EB7D40B6E885781771F4424EAD83FFC60C1FC60AE7C4C8265F873A3FE0F67FF068D9607DFA23C8B9A586082F6F524218CCCA684051FE18989643BF8D591927; domain=.cnblogs.com; path=/; HttpOnly");
-        cookieStrings.add(".Cnblogs.AspNetCore.Cookies=CfDJ8PhlBN8IFxtHhqIV3s0LCDnwRFoSQTC7lIE6RZakFxsC4zQjlWxND689FLk6p708fPrjiF36MbSGlbg2IoFc-C4_jVIXfWqyOHigX8-o6v2LmAzDpaos_027aT5ufroTJ3fLnL6TEadGIMlU27eT537As8KTgZ-g06478rwL0N99IJMOsuPsO-4eji0DX5zCoKugWJDlHiZbLCcKpyP-OEEzFpOgUjrmOVXW70phIpQJjlb0DSDPoRrjF6_2lL0_EHkCmRFqPsW1bsgWRUWVHUC-AD65TNvckNj4w8YDbDBf; domain=.cnblogs.com; path=/; HttpOnly");
-
-
-        Map<String, List<String>> map = Collections.singletonMap("Set-Cookie", cookieStrings);
-        CookieHandler cookieManager = java.net.CookieManager.getDefault();
-        try {
-            cookieManager.put(url, map);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        UserProvider.getInstance().setLoginUserInfo(userInfo);
-    }
+//    // TODO:调试登录
+//    public void debugLogin() {
+//        UserInfoBean userInfo = new UserInfoBean();
+//        userInfo.setAvatar("http://pic.cnblogs.com/avatar/446312/20170124105915.png");
+//        userInfo.setBlogApp("chenrui7");
+//        userInfo.setDisplayName("RAE");
+//        userInfo.setUserId("fdeed5f3-11fb-e111-aa3f-842b2b196315");
+//        URI url = URI.create("http://www.cnblogs.com");
+//        List<String> cookieStrings = new ArrayList<>();
+//        cookieStrings.add(".CNBlogsCookie=3479CA4E4D0D34A70D41CA7F641FF395B033357076EB7D40B6E885781771F4424EAD83FFC60C1FC60AE7C4C8265F873A3FE0F67FF068D9607DFA23C8B9A586082F6F524218CCCA684051FE18989643BF8D591927; domain=.cnblogs.com; path=/; HttpOnly");
+//        cookieStrings.add(".Cnblogs.AspNetCore.Cookies=CfDJ8PhlBN8IFxtHhqIV3s0LCDnwRFoSQTC7lIE6RZakFxsC4zQjlWxND689FLk6p708fPrjiF36MbSGlbg2IoFc-C4_jVIXfWqyOHigX8-o6v2LmAzDpaos_027aT5ufroTJ3fLnL6TEadGIMlU27eT537As8KTgZ-g06478rwL0N99IJMOsuPsO-4eji0DX5zCoKugWJDlHiZbLCcKpyP-OEEzFpOgUjrmOVXW70phIpQJjlb0DSDPoRrjF6_2lL0_EHkCmRFqPsW1bsgWRUWVHUC-AD65TNvckNj4w8YDbDBf; domain=.cnblogs.com; path=/; HttpOnly");
+//
+//
+//        Map<String, List<String>> map = Collections.singletonMap("Set-Cookie", cookieStrings);
+//        CookieHandler cookieManager = java.net.CookieManager.getDefault();
+//        try {
+//            cookieManager.put(url, map);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        UserProvider.getInstance().setLoginUserInfo(userInfo);
+//    }
 }

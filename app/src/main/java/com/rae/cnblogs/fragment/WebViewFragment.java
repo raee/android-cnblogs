@@ -1,11 +1,14 @@
 package com.rae.cnblogs.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -13,6 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.RaeWebView;
@@ -75,6 +79,21 @@ public class WebViewFragment extends BaseFragment {
         mWebView = new RaeWebView(getContext().getApplicationContext());
         mWebView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mContentLayout.addView(mWebView);
+
+        // 下载监听
+        mWebView.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
+                try {
+                    Uri uri = Uri.parse(url);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    AppUI.failed(getContext(), "下载文件错误");
+                }
+            }
+        });
 
         mAppLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override

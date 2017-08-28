@@ -71,8 +71,8 @@ android {
         DEV {}          // 测试
         baidu {}        // 百度手机助手
         yinyongbao {}   // 应用宝
-        m360 {}         // 360手机助手
-        pp {}           // PP助手
+//        m360 {}         // 360手机助手
+//        pp {}           // PP助手
         xiaomi {}       // 小米商店
         huawei {}       // 华为商店
         official {}      // 官方版本

@@ -40,6 +40,6 @@ public class RaeApiTest extends BaseTest {
             e.printStackTrace();
         }
 
-        runTest("testVersionUpdate", mApi.versionInfo(1));
+        runTest("testVersionUpdate", mApi.versionInfo(1,"dev"));
     }
 }

@@ -36,7 +36,6 @@ import com.rae.cnblogs.fragment.MineFragment;
 import com.rae.cnblogs.message.TabEvent;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
-import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.VersionInfo;
@@ -135,7 +134,7 @@ public class MainActivity extends BaseActivity {
         RxObservable.create(CnblogsApiFactory
                 .getInstance(getContext())
                 .getRaeServerApi()
-                .versionInfo(getVersionCode()), "MainActivity")
+                .versionInfo(getVersionCode(), getChannel()), "MainActivity")
                 .subscribe(new ApiDefaultObserver<VersionInfo>() {
                     @Override
                     protected void onError(String message) {
@@ -273,5 +272,20 @@ public class MainActivity extends BaseActivity {
     public void onEvent(JobEvent event) {
         if (mCnblogsServiceBinder == null) return;
         mCnblogsServiceBinder.getJobScheduler().start(event.getAction());
+    }
+
+    /**
+     * 获取渠道包
+     */
+    public String getChannel() {
+        try {
+            return getPackageManager()
+                    .getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA)
+                    .metaData
+                    .getString("UMENG_CHANNEL", "official");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "official";
     }
 }

@@ -3,7 +3,6 @@ package com.rae.cnblogs;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -27,10 +26,18 @@ public final class AppMobclickAgent {
         MobclickAgent.onEvent(context, "APP_OPEN_EVENT", openDate);
     }
 
+    /**
+     * 统计栏目点击
+     *
+     * @param category 栏目
+     */
     public static void onCategoryEvent(Context context, String category) {
         MobclickAgent.onEvent(context, "APP_CATEGORY", category);
     }
 
+    /**
+     * 广告统计
+     */
     private static void onAdEvent(Context context, Map<String, String> map) {
         MobclickAgent.onEvent(context, "APP_AD_EVENT", map);
     }
@@ -38,7 +45,6 @@ public final class AppMobclickAgent {
     /**
      * 启动页广告曝光次数
      *
-     * @param context
      * @param id      广告ID
      */
     public static void onLaunchAdExposureEvent(Context context, String id, String name) {
@@ -52,7 +58,6 @@ public final class AppMobclickAgent {
     /**
      * 启动页广告点击次数
      *
-     * @param context
      * @param id      广告ID
      */
     public static void onLaunchAdClickEvent(Context context, String id, String name) {

@@ -21,6 +21,7 @@ import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 import com.rae.swift.Rx;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -81,13 +82,17 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("博客列表");
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart("博客列表");
         // 统计分类
-        if (mCategory != null
-                && "news".equalsIgnoreCase(mCategory.getType())
-                && "kb".equalsIgnoreCase(mCategory.getType())
-                ) {
+        if (mCategory != null) {
             AppMobclickAgent.onCategoryEvent(getContext(), mCategory.getName());
         }
     }

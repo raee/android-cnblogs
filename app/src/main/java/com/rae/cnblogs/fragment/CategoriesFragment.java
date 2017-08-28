@@ -173,6 +173,15 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
                 return false;
             }
         });
+
+        mCategoryAdapter.addListener(new FlexibleAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(int i) {
+                CategoriesOverallItem item = (CategoriesOverallItem) mCategoryAdapter.getItem(i);
+                if (item == null) return;
+                AppUI.toastInCenter(getContext(), item.getCategory().getName());
+            }
+        });
     }
 
 
