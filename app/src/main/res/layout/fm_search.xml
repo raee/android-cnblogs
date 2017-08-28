@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical"
+              android:paddingTop="@dimen/default_padding_top">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:background="@drawable/public_divider_while_primary"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp">
+
+        <EditText
+            android:id="@+id/et_search_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="10dp"
+            android:hint="搜索博客/博主/新闻/知识库"
+            android:textColor="@color/ph1"
+            android:textColorHint="@color/ph4"
+            android:textSize="14sp"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_edit_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <ImageView
+                android:id="@+id/img_edit_delete"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_centerInParent="true"
+                android:scaleType="center"
+                android:src="@drawable/ic_search_del"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="12dp"
+            android:text="@string/cancel"
+            android:textColor="@color/text_color_search_button"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+</LinearLayout>

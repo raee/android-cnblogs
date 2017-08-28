@@ -41,6 +41,7 @@ public class CnblogsApplication extends TinkerApplication {
         // LeanCloud用户反馈初始化，要在主线程总
         AVOSCloud.initialize(getApplication(), BuildConfig.LEAN_CLOUD_APP_ID, BuildConfig.LEAN_CLOUD_APP_KEY);
         FeedbackThread.getInstance();
+//        SkinCompatManager.withoutActivity(getApplication()).loadSkin("night", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
 
         // 一些要求不高的初始化操作放到线程中去操作
         new Thread(new Runnable() {

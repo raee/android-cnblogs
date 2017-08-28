@@ -1,0 +1,17 @@
+body,div,p{
+    background:#121413;
+    color:#4C4E4D;
+}
+div{
+    opacity: 0.8;
+    filter: alpha(opacity=80); /* For IE8 and earlier */
+}
+.cnblogs_code pre{
+    opacity: 0.6;
+    filter: alpha(opacity=60); /* For IE8 and earlier */
+    border: 1px solid #4C4E4D;
+}
+img{
+    opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}

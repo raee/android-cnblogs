@@ -122,6 +122,8 @@ dependencies {
     // LeanCloud 用户反馈包
     compile 'cn.leancloud.android:avoscloud-feedback:v4.4.3@aar'
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    // 主题切换
+    compile 'skin.support:skin-support:2.1.2'
 }
 
 // 热更新

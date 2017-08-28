@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.CnblogsApplication;
 import com.rae.cnblogs.R;
@@ -21,6 +22,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
 
 /**
  * 设置
@@ -117,6 +119,22 @@ public class SettingActivity extends SwipeBackBaseActivity {
             mShareDialog.setExtLayoutVisibility(View.GONE);
         }
         mShareDialog.show();
+    }
+
+    /**
+     * 开源项目
+     */
+    @OnClick(R.id.ll_github)
+    public void onOpenSourceClick() {
+        AppRoute.jumpToWeb(this.getContext(), getString(R.string.github_url));
+    }
+
+    /**
+     * 开源许可
+     */
+    @OnClick(R.id.ll_open_source)
+    public void onOpenSourceLicenseClick() {
+        AppRoute.jumpToWeb(this.getContext(), getString(R.string.github_url));
     }
 
     /**

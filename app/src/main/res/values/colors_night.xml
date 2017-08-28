@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--夜间模式-->
+    <color name="colorPrimary_night">#293134</color>
+    <color name="colorPrimaryDark_night">#293134</color>
+    <color name="colorPrimaryBlack_night">#293134</color>
+    <color name="colorAccent_night">#293134</color>
+    <color name="transparent_night">#00000000</color>
+    <color name="navBar_night">#293134</color>
+    <color name="dividerPrimary_night">#b2b2b2</color>
+    <color name="dividerColor_night">#293134</color>
+    <color name="ph1_night">#2d2d2d</color>
+    <color name="ph2_night">#595959</color>
+    <color name="ph3_night">#929292</color>
+    <color name="ph4_night">#999999</color>
+    <color name="default_background_night">#293134</color>
+    <color name="background_divider_night">#293134</color>
+    <color name="colorToastPrimary_night">#293134</color>
+    <color name="commentAvatarColor_night">#293134</color>
+    <color name="blog_item_pressed_night">#293134</color>
+    <color name="white_night">#293134</color>
+    <color name="statusBarColor_night">#293134</color>
+    <color name="red_night">#F00000</color>
+    <color name="badge_color_night">#fec63d</color>
+</resources>
