@@ -161,20 +161,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_github"
-            style="@style/ItemStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                style="@style/ItemTitleStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/github"
-                android:textSize="@dimen/h2"/>
-
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_setting"

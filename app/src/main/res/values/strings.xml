@@ -99,4 +99,6 @@
     <string name="title_request_permissions">权限申请</string>
     <string name="forget_password">忘记密码？</string>
     <string name="forget_password_url">https://passport.cnblogs.com/GetMyPassword.aspx</string>
+    <string name="search">搜索</string>
+    <string name="open_source">开源许可</string>
 </resources>

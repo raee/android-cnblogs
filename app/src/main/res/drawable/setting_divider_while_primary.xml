@@ -11,7 +11,7 @@
             </item>
 
             <item android:bottom="0.5dp">
-                <color android:color="@color/white"/>
+                <color android:color="@color/background_divider"/>
             </item>
 
 

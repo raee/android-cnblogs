@@ -200,13 +200,6 @@ public class MineFragment extends BaseFragment {
         AppRoute.jumpToFeedback(getContext());
     }
 
-    /**
-     * 开源项目
-     */
-    @OnClick(R.id.ll_github)
-    public void onOpenSourceClick() {
-        AppRoute.jumpToWeb(this.getContext(), getString(R.string.github_url));
-    }
 
     /**
      * 设置

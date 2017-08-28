@@ -43,6 +43,7 @@ public class CnblogsApplication extends TinkerApplication {
         AVOSCloud.initialize(getApplication(), BuildConfig.LEAN_CLOUD_APP_ID, BuildConfig.LEAN_CLOUD_APP_KEY);
         FeedbackThread.getInstance();
         MobclickAgent.setDebugMode(BuildConfig.DEBUG);
+//        SkinCompatManager.withoutActivity(getApplication()).loadSkin("night", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
 
         // 一些要求不高的初始化操作放到线程中去操作
         new Thread(new Runnable() {
