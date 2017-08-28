@@ -172,7 +172,6 @@ public final class UserProvider {
         Log.i("rae", "cookie:" + list.size());
     }
 
-//    // TODO:调试登录
 //    public void debugLogin() {
 //        UserInfoBean userInfo = new UserInfoBean();
 //        userInfo.setAvatar("http://pic.cnblogs.com/avatar/446312/20170124105915.png");

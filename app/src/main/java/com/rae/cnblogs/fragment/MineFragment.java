@@ -73,9 +73,6 @@ public class MineFragment extends BaseFragment {
     }
 
     private boolean isNotLogin() {
-        // TODO:调试登录
-//        UserProvider.getInstance().debugLogin();
-
         return !UserProvider.getInstance().isLogin();
     }
 
