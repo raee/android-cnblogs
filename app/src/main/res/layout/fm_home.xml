@@ -7,68 +7,28 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:paddingTop="@dimen/default_padding_top">
-    <!--
-     <android.support.v7.widget.Toolbar
-         android:id="@+id/tool_bar"
-         android:layout_width="match_parent"
-         android:layout_height="@dimen/action_bar_height"
-         android:paddingLeft="@dimen/default_margin"
-         android:visibility="gone">
 
-   <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            &lt;!&ndash;     <com.makeramen.roundedimageview.RoundedImageView
-                     android:id="@+id/img_actionbar_avatar"
-                     android:layout_width="26dp"
-                     android:layout_height="26dp"
-                     android:layout_centerVertical="true"
-                     android:background="@drawable/bg_user_avatar"
-                     android:scaleType="centerCrop"
-                     android:src="@drawable/ic_default_user_avatar"
-                     android:visibility="gone"
-                     app:riv_corner_radius="32dp"/>
-
-                 <ImageView
-                     android:id="@+id/img_actionbar_avatar_not_login"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_centerVertical="true"
-                     android:src="@drawable/ic_action_bar_avatar"/>&ndash;&gt;
-
-            <ImageView
-                android:id="@+id/img_actionbar_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_action_bar_logo"
-                android:visibility="visible"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_action_bar_search"
-                android:visibility="gone"/>
-        </RelativeLayout>
-
-    </android.support.v7.widget.Toolbar>-->
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_blog_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="42dp"/>
+        <!--
+                <RelativeLayout
+                    android:id="@+id/ll_action_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp">
 
+
+                </RelativeLayout>
+        -->
 
         <LinearLayout
+            android:id="@+id/ll_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tab_home_height"
             android:background="@drawable/bg_tab_home"
@@ -80,6 +40,7 @@
                 android:id="@+id/img_actionbar_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
                 android:scaleType="fitCenter"
@@ -106,8 +67,22 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/channel_manager_icon"/>
 
+            <ImageView
+                android:id="@+id/img_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/ic_action_bar_search"/>
+
         </LinearLayout>
 
-    </RelativeLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_blog_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
 </android.support.design.widget.AppBarLayout>

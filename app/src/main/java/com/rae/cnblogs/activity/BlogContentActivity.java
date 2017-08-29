@@ -205,7 +205,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         }
 
         // 知识库没有评论处理
-        if (mBlogType == BlogType.KB) {
+        if (mBlogType == BlogType.KB || (mBlogType == BlogType.NEWS && TextUtils.isEmpty(mBlog.getAuthor()))) {
             mPostCommentView.setVisibility(View.GONE);
             mViewCommentView.setVisibility(View.GONE);
             mAuthorView.setVisibility(View.GONE);

@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="HashMap源码"
+            android:text="标题"
             android:textColor="@color/ph1"
             android:textSize="@dimen/h1"
             android:textStyle="bold"/>
@@ -34,8 +34,9 @@
             android:layout_marginRight="6dp"
             android:layout_toLeftOf="@+id/img_blog_avatar"
             android:ellipsize="end"
+            android:text="摘要"
+            android:layout_alignParentLeft="true"
             android:lineSpacingExtra="5sp"
-            android:text="7 月 25 日消息，在昨晚两轮口水战之后，今日苏宁云商集团副董事长孙为民再次在微博发声，称京东可以对苏宁和天天快递等可以泄私愤，但不可以对桐庐系快递企业犯众怒。此前刘强东曾说，未来中国民营物流就剩两家。孙为民称，京东物流跻身中国前 100 位没问题，但进入前十位还是有距离的。以下是..."
             android:textColor="@color/ph2"
             android:textSize="13sp"/>
 

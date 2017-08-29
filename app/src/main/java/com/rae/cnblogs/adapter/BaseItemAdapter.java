@@ -18,10 +18,13 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
 
     /* 正常类型 */
     static final int VIEW_TYPE_NORMAL = 0;
+    /*新闻类型*/
+    static final int VIEW_TYPE_NEWS = 1;
     /* 正在加载中 */
     static final int VIEW_TYPE_LOADING = 2;
     /* 内容为空的时候显示 */
     static final int VIEW_TYPE_EMPTY = 3;
+
 
     public interface onItemClickListener<T> {
         void onItemClick(T item);
@@ -113,6 +116,11 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
      */
     public void remove(T item) {
         mDataList.remove(item);
+    }
+
+    public void clear() {
+        if (mDataList != null)
+            mDataList.clear();
     }
 
     /**

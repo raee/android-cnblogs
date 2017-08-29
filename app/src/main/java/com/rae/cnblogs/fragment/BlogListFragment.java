@@ -73,12 +73,15 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mCategory = getArguments().getParcelable("category");
         mBlogType = BlogType.typeOf(getArguments().getString("type"));
         mItemAdapter = new BlogListItemAdapter(this.getContext(), mBlogType, mPlaceholderView);
-        mBlogListPresenter = CnblogsPresenterFactory.getBlogListPresenter(getContext(), mBlogType, this);
+        mBlogListPresenter = getBlogListPresenter();
         EventBus.getDefault().register(this);
+    }
+
+    protected IBlogListPresenter getBlogListPresenter() {
+        return CnblogsPresenterFactory.getBlogListPresenter(getContext(), mBlogType, this);
     }
 
     @Override
@@ -112,7 +115,8 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     }
 
     @Override
-    protected void onLoadData() {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +153,10 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         if (mBlogType == BlogType.BLOGGER) {
             mAppLayout.setEnabled(false); // 博主页面不允许刷新
         }
+    }
 
+    @Override
+    protected void onLoadData() {
         mBlogListPresenter.start();
         mPlaceholderView.dismiss();
     }

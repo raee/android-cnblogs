@@ -65,7 +65,7 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     /**
      * 加载离线数据
      */
-    private void loadOfflineData(final CategoryBean category, final int pageIndex) {
+    protected void loadOfflineData(final CategoryBean category, final int pageIndex) {
         RxObservable.newThread()
                 .map(new Function<Integer, List<BlogBean>>() {
                     @Override
@@ -99,9 +99,12 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
 
             @Override
             protected void accept(List<BlogBean> blogBeans) {
-                if (Rx.isEmpty(blogBeans) && mPageIndex > 1) {
+                if (Rx.isEmpty(blogBeans)) {
                     // 没有更多
-                    mView.onLoadMoreEmpty();
+                    if (mPageIndex > 1)
+                        mView.onLoadMoreEmpty();
+                    else
+                        mView.onLoadFailed(mPageIndex, "哎呀，没有数据哦");
                     return;
                 }
                 onApiSuccess(blogBeans);

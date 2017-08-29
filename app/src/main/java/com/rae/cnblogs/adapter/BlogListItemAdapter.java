@@ -3,6 +3,7 @@ package com.rae.cnblogs.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +73,9 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         if (blog != null && TextUtils.equals("empty", blog.getTag())) {
             return VIEW_TYPE_EMPTY;
         }
+        if (mBlogType == BlogType.NEWS) {
+            return VIEW_TYPE_NEWS;
+        }
         return VIEW_TYPE_NORMAL;
     }
 
@@ -83,15 +87,11 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         if (viewType == VIEW_TYPE_EMPTY) {
             return new ItemLoadingViewHolder(mPlaceholderView);
         }
-
-        int layoutId = R.layout.item_blog_list;
-
-        // 新闻类型
-        if (mBlogType == BlogType.NEWS) {
-            layoutId = R.layout.item_news_list;
+        if (viewType == VIEW_TYPE_NEWS) {
+            return new BlogItemViewHolder(inflateView(parent, R.layout.item_news_list));
         }
 
-        return new BlogItemViewHolder(inflateView(parent, layoutId));
+        return new BlogItemViewHolder(inflateView(parent, R.layout.item_blog_list));
     }
 
     @Override
@@ -116,6 +116,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
                         }
                     }
                 });
+                RaeImageLoader.displayHeaderImage(m.getAvatar(), holder.avatarView);
                 break;
             case BLOGGER: // 作者
                 holder.authorLayout.setVisibility(View.GONE);
@@ -125,14 +126,21 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
                 holder.commentView.setVisibility(View.GONE);
                 holder.summaryView.setTextSize(13);
                 break;
+            case NEWS:
+                if (!TextUtils.isEmpty(m.getAvatar())) {
+                    RaeImageLoader.displayImage(m.getAvatar(), holder.avatarView);
+                    holder.avatarView.setVisibility(View.VISIBLE);
+                } else {
+                    holder.avatarView.setVisibility(View.GONE);
+                }
+                break;
             default:
-
+                RaeImageLoader.displayHeaderImage(m.getAvatar(), holder.avatarView);
                 break;
         }
-        RaeImageLoader.displayHeaderImage(m.getAvatar(), holder.avatarView);
         holder.authorView.setText(m.getAuthor());
-        holder.titleView.setText(m.getTitle());
-        holder.summaryView.setText(m.getSummary());
+        holder.titleView.setText(formatHtml(m.getTitle()));
+        holder.summaryView.setText(formatHtml(m.getSummary()));
         holder.dateView.setText(m.getPostDate());
         holder.readerView.setText(m.getViews());
         holder.likeView.setText(m.getLikes());
@@ -151,6 +159,13 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
             showThumbImages(m, holder);
         }
 
+    }
+
+    private CharSequence formatHtml(String text) {
+        if (TextUtils.isEmpty(text)) return text;
+        // <strong>android</strong>
+        text = text.replace("<strong>", "<strong><font color='red'>").replace("</strong>", "</font></strong>");
+        return Html.fromHtml(text);
     }
 
     /**

@@ -9,20 +9,8 @@
     <include layout="@layout/view_title"/>
 
 
-    <com.rae.cnblogs.widget.AppLayout
-        android:id="@+id/ptr_content"
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.rae.cnblogs.widget.PlaceholderView
-            android:id="@+id/placeholder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.rae.cnblogs.widget.RaeRecyclerView
-                android:id="@+id/rec_friends_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.rae.cnblogs.widget.PlaceholderView>
-    </com.rae.cnblogs.widget.AppLayout>
+        android:layout_height="match_parent"/>
 </LinearLayout>

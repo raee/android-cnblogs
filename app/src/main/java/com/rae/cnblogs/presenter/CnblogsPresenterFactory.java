@@ -7,10 +7,12 @@ import com.rae.cnblogs.presenter.impl.FeedPresenterImpl;
 import com.rae.cnblogs.presenter.impl.HomePresenterImpl;
 import com.rae.cnblogs.presenter.impl.LauncherPresenterImpl;
 import com.rae.cnblogs.presenter.impl.LoginPresenterImpl;
+import com.rae.cnblogs.presenter.impl.SearchPresenterImpl;
 import com.rae.cnblogs.presenter.impl.blog.BlogCommentPresenterImpl;
 import com.rae.cnblogs.presenter.impl.blog.BlogContentPresenterImpl;
 import com.rae.cnblogs.presenter.impl.blog.BlogListPresenterImpl;
 import com.rae.cnblogs.presenter.impl.blog.BloggerListPresenterImpl;
+import com.rae.cnblogs.presenter.impl.blog.SearchBlogPresenterImpl;
 import com.rae.cnblogs.presenter.impl.kb.KBContentPresenterImpl;
 import com.rae.cnblogs.presenter.impl.kb.KBListPresenterImpl;
 import com.rae.cnblogs.presenter.impl.kb.KbCommentPresenterImpl;
@@ -155,5 +157,19 @@ public final class CnblogsPresenterFactory {
      */
     public static IFeedPresenter getFeedPresenter(Context context, IFeedPresenter.IFeedView view) {
         return new FeedPresenterImpl(context, view);
+    }
+
+    /**
+     * 搜索
+     */
+    public static ISearchContract.Presenter getSearchPresenter(Context context, ISearchContract.View view) {
+        return new SearchPresenterImpl(context, view);
+    }
+
+    /**
+     * 搜索博客列表
+     */
+    public static IBlogListPresenter getSearchPresenter(Context context, BlogType type, IBlogListPresenter.IBlogListView view) {
+        return new SearchBlogPresenterImpl(context, view, type);
     }
 }

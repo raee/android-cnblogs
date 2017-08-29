@@ -37,6 +37,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     private IHomePresenter mHomePresenter;
     private List<CategoryBean> mCategoryBeanList;
     private int mPosition;
+    private SearchFragment mSearchFragment;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -134,6 +135,14 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
             mPosition = data != null ? data.getIntExtra("position", 0) : mViewPager.getCurrentItem();
             mHomePresenter.start();
         }
+    }
+
+    @OnClick(R.id.img_search)
+    public void onSearchClick() {
+        if (mSearchFragment == null) {
+            mSearchFragment = new SearchFragment();
+        }
+        mSearchFragment.show(getChildFragmentManager(), "search");
     }
 
     @OnClick(R.id.img_actionbar_logo)
