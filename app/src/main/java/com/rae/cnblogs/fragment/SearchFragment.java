@@ -4,15 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,7 +41,12 @@ import butterknife.Unbinder;
  * 搜索
  * Created by ChenRui on 2017/8/28 0028 14:51.
  */
-public class SearchFragment extends DialogFragment implements ISearchContract.View {
+public class SearchFragment extends BaseFragment implements ISearchContract.View {
+
+    public static SearchFragment newInstance() {
+        return new SearchFragment();
+    }
+
     @BindView(R.id.et_search_text)
     EditText mSearchView;
     @BindView(R.id.img_edit_delete)
@@ -111,6 +117,29 @@ public class SearchFragment extends DialogFragment implements ISearchContract.Vi
         mViewPager.setOffscreenPageLimit(5);
         mTabLayout.setupWithViewPager(mViewPager);
 
+        mSearchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    preformSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        // 搜索建议上档点击
+        mSuggestionAdapter.setSelectedClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = (String) v.getTag();
+                if (text != null) {
+                    mSearchView.setText(text);
+                    mSearchView.setSelection(text.length());
+                }
+            }
+        });
+
         mSuggestionAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
@@ -164,6 +193,17 @@ public class SearchFragment extends DialogFragment implements ISearchContract.Vi
         mSearchView.addTextChangedListener(mSearchTextWatcher);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (getActivity() != null && getActivity().getIntent() != null) {
+            int position = getActivity().getIntent().getIntExtra("position", 0);
+            if (position > 0 && mViewPager != null) {
+                mViewPager.setCurrentItem(position);
+            }
+        }
+    }
+
     @OnClick(R.id.rl_edit_delete)
     public void onEditDeleteClick() {
         mSearchView.setText("");
@@ -176,8 +216,7 @@ public class SearchFragment extends DialogFragment implements ISearchContract.Vi
             preformSearch();
         } else {
             // 退出
-//            getActivity().finish();
-            dismiss();
+            getActivity().finish();
         }
     }
 

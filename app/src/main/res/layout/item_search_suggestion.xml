@@ -7,22 +7,24 @@
               android:background="@drawable/public_divider_while_primary"
               android:gravity="center"
               android:orientation="horizontal"
-              android:paddingBottom="5dp"
-              android:paddingTop="5dp">
+              android:paddingBottom="2dp"
+              android:paddingTop="2dp">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:ellipsize="end"
         android:padding="12dp"
+        android:singleLine="true"
         android:text="@string/deleting"/>
 
     <ImageView
         android:id="@+id/img_selected"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:src="@drawable/ic_edit_delete"/>
+        android:src="@drawable/ic_left_top_arrow"/>
 </LinearLayout>

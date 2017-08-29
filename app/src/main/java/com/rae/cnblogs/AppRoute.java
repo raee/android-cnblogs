@@ -15,6 +15,7 @@ import com.rae.cnblogs.activity.FeedbackActivity;
 import com.rae.cnblogs.activity.FriendsActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
+import com.rae.cnblogs.activity.SearchActivity;
 import com.rae.cnblogs.activity.SettingActivity;
 import com.rae.cnblogs.activity.WebActivity;
 import com.rae.cnblogs.activity.WebLoginActivity;
@@ -241,5 +242,30 @@ public final class AppRoute {
      */
     public static void jumpToSetting(Context context) {
         startActivity(context, SettingActivity.class);
+    }
+
+    /**
+     * 搜索
+     */
+    public static void jumpToSearch(Context context) {
+        startActivity(context, SearchActivity.class);
+    }
+
+    /**
+     * 搜索-新闻
+     */
+    public static void jumpToSearchNews(Context context) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra("position", 2);
+        startActivity(context, intent);
+    }
+
+    /**
+     * 搜索-知识库
+     */
+    public static void jumpToSearchKb(Context context) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra("position", 3);
+        startActivity(context, intent);
     }
 }

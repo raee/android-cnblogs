@@ -1,6 +1,7 @@
 package com.rae.cnblogs.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.rae.cnblogs.R;
@@ -12,6 +13,12 @@ import com.rae.cnblogs.model.SearchSuggestionHolder;
  */
 public class SearchSuggestionAdapter extends BaseItemAdapter<String, SearchSuggestionHolder> {
 
+    private View.OnClickListener mSelectedClickListener;
+
+    public void setSelectedClickListener(View.OnClickListener selectedClickListener) {
+        mSelectedClickListener = selectedClickListener;
+    }
+
     @Override
     public SearchSuggestionHolder onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
         return new SearchSuggestionHolder(inflateView(parent, R.layout.item_search_suggestion));
@@ -20,5 +27,7 @@ public class SearchSuggestionAdapter extends BaseItemAdapter<String, SearchSugge
     @Override
     public void onBindViewHolder(SearchSuggestionHolder holder, int position, String m) {
         holder.getTitleView().setText(m);
+        holder.getSelectedView().setTag(m);
+        holder.getSelectedView().setOnClickListener(mSelectedClickListener);
     }
 }

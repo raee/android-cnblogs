@@ -74,7 +74,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="12dp"
-                android:src="@drawable/ic_action_bar_search"/>
+                android:src="@drawable/ic_action_bar_search"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

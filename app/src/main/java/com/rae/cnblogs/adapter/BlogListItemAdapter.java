@@ -15,6 +15,7 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.BlogItemViewHolder;
 import com.rae.cnblogs.model.ItemLoadingViewHolder;
+import com.rae.cnblogs.model.SimpleViewHolder;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
@@ -79,8 +80,10 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         return VIEW_TYPE_NORMAL;
     }
 
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
+
         if (viewType == VIEW_TYPE_LOADING) {
             return new ItemLoadingViewHolder(inflateView(parent, R.layout.item_list_loading));
         }
@@ -90,14 +93,15 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         if (viewType == VIEW_TYPE_NEWS) {
             return new BlogItemViewHolder(inflateView(parent, R.layout.item_news_list));
         }
-
         return new BlogItemViewHolder(inflateView(parent, R.layout.item_blog_list));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder vh, int position, final BlogBean m) {
-
-        if (getItemViewType(position) == VIEW_TYPE_LOADING || getItemViewType(position) == VIEW_TYPE_EMPTY) {
+        int viewType = getItemViewType(position);
+        if (viewType == VIEW_TYPE_LOADING
+                || viewType == VIEW_TYPE_EMPTY
+                ) {
             return;
         }
 
@@ -164,7 +168,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
     private CharSequence formatHtml(String text) {
         if (TextUtils.isEmpty(text)) return text;
         // <strong>android</strong>
-        text = text.replace("<strong>", "<strong><font color='red'>").replace("</strong>", "</font></strong>");
+        text = text.replace("<strong>", "<strong><font color='#dd4b39'>").replace("</strong>", "</font></strong>");
         return Html.fromHtml(text);
     }
 

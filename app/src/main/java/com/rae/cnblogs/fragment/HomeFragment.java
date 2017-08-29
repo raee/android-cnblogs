@@ -16,7 +16,6 @@ import com.rae.cnblogs.message.TabEvent;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IHomePresenter;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
-import com.rae.cnblogs.sdk.bean.UserInfoBean;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,7 +36,6 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     private IHomePresenter mHomePresenter;
     private List<CategoryBean> mCategoryBeanList;
     private int mPosition;
-    private SearchFragment mSearchFragment;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -113,7 +111,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
 
                 @Override
                 public void onTabReselected(TabLayout.Tab tab) {
-                    onLogoClick();
+                    goTop();
                 }
             });
         } else {
@@ -139,14 +137,15 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
 
     @OnClick(R.id.img_search)
     public void onSearchClick() {
-        if (mSearchFragment == null) {
-            mSearchFragment = new SearchFragment();
-        }
-        mSearchFragment.show(getChildFragmentManager(), "search");
+        AppRoute.jumpToSearch(this.getContext());
     }
 
     @OnClick(R.id.img_actionbar_logo)
     public void onLogoClick() {
+        onSearchClick();
+    }
+
+    private void goTop() {
         // 返回顶部
         int currentItem = mViewPager.getCurrentItem();
         BlogListFragment fragment = mAdapter.getFragment(currentItem);
@@ -155,19 +154,19 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     }
 
 
-    @Override
-    public void onLoadUserInfo(UserInfoBean userInfo) {
-        // 加载头像
+//    @Override
+//    public void onLoadUserInfo(UserInfoBean userInfo) {
+//        //加载头像
 //        mAvatarView.setVisibility(View.VISIBLE);
 //        mNotLoginAvatarView.setVisibility(View.GONE);
 //        ImageLoader.getInstance().displayImage(userInfo.getAvatar(), mAvatarView);
-    }
+//    }
 
-    @Override
-    public void onLoadNormal() {
+//    @Override
+//    public void onLoadNormal() {
 //        mAvatarView.setVisibility(View.GONE);
 //        mNotLoginAvatarView.setVisibility(View.VISIBLE);
-    }
+//    }
 
     @Override
     public void onStop() {
@@ -187,7 +186,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
             mViewPager.post(new Runnable() {
                 @Override
                 public void run() {
-                    onLogoClick();
+                    goTop();
                 }
             });
         }

@@ -25,12 +25,12 @@ public class HomePresenterImpl extends BasePresenter<IHomePresenter.IHomeView> i
     @Override
     public void start() {
 
-        UserProvider userProvider = UserProvider.getInstance();
-        if (userProvider.isLogin()) {
-            mView.onLoadUserInfo(userProvider.getLoginUserInfo());
-        } else {
-            mView.onLoadNormal();
-        }
+//        UserProvider userProvider = UserProvider.getInstance();
+//        if (userProvider.isLogin()) {
+//            mView.onLoadUserInfo(userProvider.getLoginUserInfo());
+//        } else {
+//            mView.onLoadNormal();
+//        }
 
         // 加载分类
         createObservable(getApiProvider().getCategoriesApi().getHomeCategories())

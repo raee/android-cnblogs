@@ -18,6 +18,7 @@ import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.service.JobScheduler;
 import com.rae.cnblogs.service.job.JobEvent;
 import com.rae.cnblogs.widget.AppLayout;
+import com.rae.cnblogs.widget.HomeSearchHeader;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 import com.rae.swift.Rx;
@@ -149,6 +150,11 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
                 mBlogListPresenter.loadMore();
             }
         });
+
+        HomeSearchHeader searchHeader = new HomeSearchHeader(getContext());
+        mAppLayout.removePtrUIHandler(mAppLayout.getHeader());
+        mAppLayout.setHeaderView(searchHeader);
+        mAppLayout.addPtrUIHandler(searchHeader);
 
         if (mBlogType == BlogType.BLOGGER) {
             mAppLayout.setEnabled(false); // 博主页面不允许刷新

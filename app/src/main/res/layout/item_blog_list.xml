@@ -66,6 +66,7 @@
         android:layout_marginTop="11dp"
         android:background="@color/default_background"
         android:padding="2dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_default_placeholder"
         android:visibility="gone"/>
 

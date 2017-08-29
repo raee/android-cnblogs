@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.rae.cnblogs">
 
 
@@ -179,9 +180,9 @@
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden"/>
 
-        <!--   <activity
-               android:name=".fragment.SearchFragment"
-               android:windowSoftInputMode="adjustPan|stateVisible" />-->
+        <activity
+            android:name=".activity.SearchActivity"
+            android:windowSoftInputMode="adjustPan|stateVisible"/>
 
 
         <meta-data
@@ -191,6 +192,21 @@
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL}"/>
 
+        <!--开始-快速开发需要移除下面的多进程-->
+        <service
+            android:name="com.squareup.leakcanary.internal.HeapAnalyzerService"
+            android:enabled="false"
+            tools:remove="process"/>
+        <service
+            android:name="com.tencent.tinker.lib.service.TinkerPatchService"
+            android:exported="false"
+            tools:remove="process" />
+        <service
+            android:name="com.tencent.tinker.lib.service.TinkerPatchService$InnerService"
+            android:exported="false"
+            tools:remove="process"/>
+
+        <!--结束-快速开发需要移除下面的多进程-->
 
     </application>
 

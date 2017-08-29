@@ -10,10 +10,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/default_margin"
-        android:layout_marginRight="@dimen/default_margin"
         android:background="@drawable/public_divider_while_primary"
+        android:gravity="center_vertical"
         android:paddingBottom="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="@dimen/default_margin"
         android:paddingTop="6dp">
 
         <EditText
@@ -25,6 +26,8 @@
             android:drawableLeft="@drawable/ic_search"
             android:drawablePadding="10dp"
             android:hint="搜索博客/博主/新闻/知识库"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
             android:textColor="@color/ph1"
             android:textColorHint="@color/ph4"
             android:textSize="14sp"/>
@@ -61,20 +64,19 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/background_divider">
 
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/default_margin"
-            android:layout_marginRight="@dimen/default_margin">
+            android:orientation="vertical">
 
             <com.rae.cnblogs.widget.RaeTabLayout
                 android:id="@+id/tab_category"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:background="@drawable/public_divider_while_primary"
                 app:tabBackground="@android:color/transparent"
                 app:tabIndicatorHeight="0dp"
