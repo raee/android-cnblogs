@@ -1,14 +1,15 @@
 package com.rae.cnblogs.widget;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+
+import skin.support.widget.SkinCompatTextView;
 
 /**
  * 文本
  * Created by ChenRui on 2016/12/1 23:00.
  */
-public class RaeTextView extends AppCompatTextView {
+public class RaeTextView extends SkinCompatTextView {
     public RaeTextView(Context context) {
         super(context);
         init();

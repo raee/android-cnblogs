@@ -11,6 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <!--夜间模式遮罩层-->
+    <View
+        android:id="@+id/view_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90000000"
+        android:visibility="gone"/>
+
     <ImageView
         android:id="@+id/img_back"
         android:layout_width="wrap_content"

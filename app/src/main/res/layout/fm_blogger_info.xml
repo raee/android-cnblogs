@@ -171,12 +171,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/public_divider_while_primary"
-                app:tabBackground="@drawable/bg_tab_home"
+                app:tabBackground="@android:color/transparent"
                 app:tabIndicatorHeight="0dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="#515151"
+                app:tabSelectedTextColor="@color/homeTabSelectedTextColor"
                 app:tabTextAppearance="@style/TabTextAppearance"
-                app:tabTextColor="#aaaaaa">
+                app:tabTextColor="@color/homeTabTextColor">
 
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
@@ -204,7 +204,7 @@
         android:id="@+id/view_bg_holder"
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_padding_top"
-        android:background="#303135"/>
+        android:background="@color/bloggerStatusBarColor"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
@@ -239,9 +239,9 @@
                 android:layout_marginRight="12dp"
                 android:background="@drawable/bg_btn_follow_drak"
                 android:text="@string/following"
-                android:visibility="gone"
                 android:textColor="@color/ph1"
-                android:textSize="@dimen/h3"/>
+                android:textSize="@dimen/h3"
+                android:visibility="gone"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>

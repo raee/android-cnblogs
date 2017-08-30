@@ -15,7 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/web_action_bar_height"
-        android:background="@android:color/white"/>
+        android:background="@color/white"/>
+
+    <!--夜间模式遮罩层-->
+    <View
+        android:id="@+id/view_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90000000"
+        android:visibility="gone"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"

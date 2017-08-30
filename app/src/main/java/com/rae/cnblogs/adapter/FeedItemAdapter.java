@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.model.FeedViewHolder;
 import com.rae.cnblogs.sdk.bean.UserFeedBean;
 
@@ -39,5 +40,7 @@ public class FeedItemAdapter extends BaseItemAdapter<UserFeedBean, FeedViewHolde
         if (!TextUtils.isEmpty(m.getAvatar())) {
             RaeImageLoader.displayImage(m.getAvatar(), holder.avatarView);
         }
+
+        holder.feedActionView.setBackgroundResource(ThemeCompat.isNight() ? R.drawable.link_allshare_pressed : R.drawable.ic_share_link);
     }
 }

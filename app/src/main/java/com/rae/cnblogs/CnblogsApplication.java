@@ -9,11 +9,12 @@ import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.swift.session.SessionManager;
-import com.tencent.bugly.Bugly;
 import com.tencent.tinker.loader.app.TinkerApplication;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+
+import skin.support.SkinCompatManager;
 
 /**
  * 集成热更新的应用程序
@@ -32,7 +33,7 @@ public class CnblogsApplication extends TinkerApplication {
         // 级别较高的初始化操作
         DbCnblogs.init(getApplication());
         // 日志上报
-        Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG);
+//        Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG);
 //        if (!LeakCanary.isInAnalyzerProcess(this)) {
 //            LeakCanary.install(this);
 //        }
@@ -40,6 +41,10 @@ public class CnblogsApplication extends TinkerApplication {
         // LeanCloud用户反馈初始化，要在主线程总
         AVOSCloud.initialize(getApplication(), BuildConfig.LEAN_CLOUD_APP_ID, BuildConfig.LEAN_CLOUD_APP_KEY);
         FeedbackThread.getInstance();
+
+        // 加载皮肤
+        SkinCompatManager.withoutActivity(getApplication()).loadSkin("night", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
+        SkinCompatManager.getInstance().addInflater(new CnblogsLayoutInflater());
 
         // 一些要求不高的初始化操作放到线程中去操作
         new Thread(new Runnable() {

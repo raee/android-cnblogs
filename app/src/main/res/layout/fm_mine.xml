@@ -162,7 +162,6 @@
         </LinearLayout>
 
 
-
         <LinearLayout
             android:id="@+id/ll_setting"
             style="@style/ItemStyle"

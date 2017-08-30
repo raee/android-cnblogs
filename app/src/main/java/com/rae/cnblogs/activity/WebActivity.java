@@ -15,6 +15,7 @@ import com.rae.cnblogs.fragment.WebViewFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import skin.support.SkinCompatManager;
 
 /**
  * 网页
@@ -30,6 +31,9 @@ public class WebActivity extends SwipeBackBaseActivity {
 
     @BindView(R.id.img_action_bar_more)
     ImageView mShareView;
+
+    @BindView(R.id.view_holder)
+    View mNightView;
 
     WebViewFragment mWebViewFragment;
 
@@ -65,6 +69,11 @@ public class WebActivity extends SwipeBackBaseActivity {
         mShareDialog.setExtLayoutVisibility(View.GONE);
         mWebViewFragment = getWebViewFragment(url);
         getSupportFragmentManager().beginTransaction().add(R.id.fl_content, mWebViewFragment).commit();
+
+        if ("night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName())) {
+            mNightView.setVisibility(View.VISIBLE);
+        }
+
     }
 
     protected WebViewFragment getWebViewFragment(String url) {

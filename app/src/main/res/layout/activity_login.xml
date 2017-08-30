@@ -58,7 +58,7 @@
             android:paddingRight="8dp">
 
 
-            <com.rae.cnblogs.widget.RaeEditText
+            <EditText
                 android:id="@+id/et_login_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp">
 
-                <com.rae.cnblogs.widget.RaeEditText
+                <EditText
                     android:id="@+id/et_login_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

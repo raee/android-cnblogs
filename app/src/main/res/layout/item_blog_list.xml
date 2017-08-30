@@ -64,6 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_blog_list_thumb_large_height"
         android:layout_marginTop="11dp"
+        android:alpha="@integer/imageAlpha"
         android:background="@color/default_background"
         android:padding="2dp"
         android:scaleType="centerCrop"

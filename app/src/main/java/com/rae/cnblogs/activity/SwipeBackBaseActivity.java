@@ -4,13 +4,14 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
+import skin.support.SkinCompatManager;
 
 /**
  * 可以滑动返回的
@@ -28,6 +29,10 @@ public abstract class SwipeBackBaseActivity extends BaseActivity implements Swip
         super.onCreate(savedInstanceState);
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
+        // 夜间模式
+        if ("night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName())) {
+            getSwipeBackLayout().setScrimColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
+        }
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import java.io.File;
 import butterknife.BindView;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
+import skin.support.SkinCompatManager;
 
 /**
  * 网页查看
@@ -79,6 +81,12 @@ public class WebViewFragment extends BaseFragment {
         mWebView = new RaeWebView(getContext().getApplicationContext());
         mWebView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mContentLayout.addView(mWebView);
+
+
+        // 夜间模式
+        if ("night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName())) {
+            mWebView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white_night));
+        }
 
         // 下载监听
         mWebView.setDownloadListener(new DownloadListener() {

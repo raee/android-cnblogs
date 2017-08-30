@@ -13,9 +13,9 @@ import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.model.BlogItemViewHolder;
 import com.rae.cnblogs.model.ItemLoadingViewHolder;
-import com.rae.cnblogs.model.SimpleViewHolder;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
@@ -24,6 +24,8 @@ import com.rae.swift.Rx;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import skin.support.SkinCompatManager;
 
 /**
  * 博客列表ITEM
@@ -150,8 +152,8 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         holder.likeView.setText(m.getLikes());
         holder.commentView.setText(m.getComment());
 
-        int titleColor = m.isReaded() ? R.color.ph4 : R.color.ph1;
-        int summaryColor = m.isReaded() ? R.color.ph4 : R.color.ph2;
+        int titleColor = m.isReaded() ? getColor("ph4") : getColor("ph1");
+        int summaryColor = m.isReaded() ? getColor("ph4") : getColor("ph2");
 
         holder.titleView.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), titleColor));
         holder.summaryView.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), summaryColor));
@@ -162,7 +164,31 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         if (mBlogType != BlogType.NEWS) {
             showThumbImages(m, holder);
         }
+        switchNightMode(holder);
+    }
 
+    private int getColor(String name) {
+        return ThemeCompat.getColor(getContext(), name);
+    }
+
+
+    /**
+     * 切换夜间模式
+     */
+    private void switchNightMode(BlogItemViewHolder holder) {
+        // 夜间模式
+        int alphaRes;
+        if ("night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName())) {
+            alphaRes = getContext().getResources().getInteger(R.integer.imageAlpha_night);
+        } else {
+            alphaRes = getContext().getResources().getInteger(R.integer.imageAlpha);
+        }
+        float alpha = alphaRes / 100.0f;
+        holder.avatarView.setAlpha(alpha);
+        holder.largeThumbView.setAlpha(alpha);
+        holder.thumbOneView.setAlpha(alpha);
+        holder.thumbTwoView.setAlpha(alpha);
+        holder.thumbThreeView.setAlpha(alpha);
     }
 
     private CharSequence formatHtml(String text) {

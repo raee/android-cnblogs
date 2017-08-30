@@ -2,7 +2,9 @@ package com.rae.cnblogs.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import skin.support.SkinCompatManager;
 
 /**
  * 基类
@@ -40,6 +43,12 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     @Override

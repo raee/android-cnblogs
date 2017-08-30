@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.ThemeCompat;
 
 /**
  * Loading and Empty view
@@ -125,7 +126,7 @@ public class PlaceholderView extends FrameLayout {
     public void empty() {
         show();
         if (mDefaultEmptyIcon == null) {
-            mDefaultEmptyIcon = getResources().getDrawable(R.drawable.ic_empty_placeholder);
+            mDefaultEmptyIcon = ThemeCompat.getDrawable(getContext(), "ic_empty_placeholder");
         }
         setEmptyIcon(mDefaultEmptyIcon);
         mEmptyView.setVisibility(VISIBLE);
@@ -149,7 +150,7 @@ public class PlaceholderView extends FrameLayout {
      */
     public void networkError() {
         show();
-        setEmptyIcon(R.drawable.ic_network_error_placeholder);
+        setEmptyIcon(ThemeCompat.getDrawableId(getContext(), "ic_network_error_placeholder"));
         mRetryView.setVisibility(VISIBLE);
         mEmptyView.setVisibility(VISIBLE);
         mLoadingView.setVisibility(GONE);

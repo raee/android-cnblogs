@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.ThemeCompat;
 
 /**
  * blogger
@@ -109,7 +110,13 @@ public class BloggerLayout extends ScrollView {
             mOnScrollPercentChangeListener.onScrollPercentChange(percent);
         }
         int alphaHex = Math.round(0xFF * percent);
-        int color = Color.argb(alphaHex, 0xFF, 0xFF, 0xFF);
+        int color;
+        if (ThemeCompat.isNight()) {
+            // 夜间模式：#1F1F21
+            color = Color.argb(alphaHex, 0x1F, 0X1F, 0X21);
+        } else {
+            color = Color.argb(alphaHex, 0XFF, 0XFF, 0XFF); // 白色背景
+        }
         mActionBarView.setBackgroundColor(color);
     }
 

@@ -12,6 +12,7 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="buttonStyle">@style/AppButton</item>
+        <item name="editTextStyle">@style/AppEditTextStyle</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@style/AppAnimation</item>
         <item name="android:windowBackground">@color/default_background</item>
@@ -20,6 +21,10 @@
 
 
     <style name="AppTheme.Dark">
+    </style>
+
+    <style name="AppEditTextStyle" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:textColorHint">@color/colorHintPrimary</item>
     </style>
 
 

@@ -4,34 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/default_padding_top">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <!--
-                <RelativeLayout
-                    android:id="@+id/ll_action_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="6dp">
-
-
-                </RelativeLayout>
-        -->
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/default_padding_top">
 
         <LinearLayout
             android:id="@+id/ll_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tab_home_height"
-            android:background="@drawable/bg_tab_home"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="6dp">
@@ -51,15 +36,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/bg_tab_home"
                 app:tabBackground="@android:color/transparent"
                 app:tabIndicatorHeight="0dp"
                 app:tabMinWidth="52dp"
                 app:tabMode="scrollable"
                 app:tabPaddingEnd="6dp"
                 app:tabPaddingStart="6dp"
-                app:tabSelectedTextColor="@color/ph1"
+                app:tabSelectedTextColor="@color/homeTabSelectedTextColor"
                 app:tabTextAppearance="@style/TabTextAppearance"
-                app:tabTextColor="#aaaaaa"/>
+                app:tabTextColor="@color/homeTabTextColor"/>
 
             <ImageView
                 android:id="@+id/img_edit_category"

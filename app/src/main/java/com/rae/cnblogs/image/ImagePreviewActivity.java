@@ -38,6 +38,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DefaultObserver;
 import io.reactivex.schedulers.Schedulers;
+import skin.support.SkinCompatManager;
 
 /**
  * 图片预览
@@ -56,6 +57,9 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
 
     @BindView(R.id.img_back)
     View mCloseView;
+
+    @BindView(R.id.view_holder)
+    View mNightView;
 
     ImageAdapter mAdapter;
 
@@ -85,6 +89,9 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
         if (position <= 0)
             onPageSelected(position);
 
+        if ("night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName())) {
+            mNightView.setVisibility(View.VISIBLE);
+        }
     }
 
     @OnClick(R.id.img_back)

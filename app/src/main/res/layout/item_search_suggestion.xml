@@ -18,7 +18,8 @@
         android:ellipsize="end"
         android:padding="12dp"
         android:singleLine="true"
-        android:text="@string/deleting"/>
+        android:text="@string/deleting"
+        android:textColor="@color/ph1"/>
 
     <ImageView
         android:id="@+id/img_selected"
