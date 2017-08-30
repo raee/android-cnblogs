@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
+import com.rae.cnblogs.message.ThemeChangedEvent;
+
+import org.greenrobot.eventbus.EventBus;
+
 import skin.support.SkinCompatManager;
 
 /**
@@ -59,5 +63,20 @@ public final class ThemeCompat {
      */
     public static Drawable getDrawable(Context context, String name) {
         return context.getResources().getDrawable(getDrawableId(context, name));
+    }
+
+    /**
+     * 切换夜间模式
+     */
+    public static void switchNightMode() {
+        if (isNight()) {
+            // 切换正常模式
+            SkinCompatManager.getInstance().restoreDefaultTheme();
+        } else {
+            SkinCompatManager.getInstance().loadSkin("night", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
+        }
+
+        // 发出通知
+        EventBus.getDefault().post(new ThemeChangedEvent(ThemeCompat.isNight()));
     }
 }

@@ -1,72 +1,92 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>test</title>
-    <link type="text/css" rel="stylesheet" href="css/shCore.css"/>
-    <link type="text/css" rel="stylesheet" href="css/shCoreDefault.css"/>
-    <link rel="stylesheet" type="text/css" href="css/blog-common.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="css/rae.css">
-    <link rel="stylesheet" type="text/css" href="css/rae-night.css">
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>test</title>
+	<link type="text/css" rel="stylesheet" href="css/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="css/shCoreDefault.css"/>
+	<link rel="stylesheet" type="text/css" href="css/blog-common.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="css/rae.css" id="RaeStyle">
+	<!--<link rel="stylesheet" type="text/css" href="css/rae-night.css" >-->
 
-    <script src="js/jquery.js" type="text/javascript"></script>
-    <script src="js/highlight.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="js/highlighter/shCore.js"></script>
-    <script type="text/javascript" src="js/highlighter/shAutoloader.js"></script>
-    <script src="js/blog-common.js" type="text/javascript"></script>
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="js/rae.js" type="text/javascript"></script>
-    <script type="text/javascript">
+	<script src="js/jquery.js" type="text/javascript"></script>
+	<script src="js/highlight.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="js/highlighter/shCore.js"></script>
+	<script type="text/javascript" src="js/highlighter/shAutoloader.js"></script>
+	<script src="js/blog-common.js" type="text/javascript"></script>
+	<script src="js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="js/rae.js" type="text/javascript"></script>
+	<script type="text/javascript">
 		var width = 0;
 
-    function path() {
-            var args = arguments,
-            result = [];
-            for (var i = 0; i < args.length; i++)
-                result.push(args[i].replace('$', 'js/highlighter/'));
-            return result
-        }
+		function loadTheme(isNightMode){
+			if(typeof(app) !="object"){
+				return;
+			}
+
+			if(typeof(isNightMode) == "undefined"){
+		    	isNightMode = app.isNightMode(); // 是否为夜间模式
+		    }
+		    if(isNightMode){
+		    	$("#RaeStyle").attr("href","css/rae-night.css");
+		    }else{
+		    	$("#RaeStyle").attr("href","css/rae.css");
+		    }
+		}
+
+		loadTheme();
+
+		function path() {
+			var args = arguments,
+			result = [];
+			for (var i = 0; i < args.length; i++)
+				result.push(args[i].replace('$', 'js/highlighter/'));
+			return result
+		}
 
 		$(document).ready(function(){
 			load();
-			  SyntaxHighlighter.autoloader.apply(null, path(
-            'applescript            $shBrushAppleScript.js',
-            'actionscript3 as3      $shBrushAS3.js',
-            'bash shell properties  $shBrushBash.js',
-            'coldfusion cf          $shBrushColdFusion.js',
-            'cpp c                  $shBrushCpp.js',
-            'c# c-sharp csharp      $shBrushCSharp.js',
-            'css                    $shBrushCss.js',
-            'delphi pascal          $shBrushDelphi.js',
-            'diff patch pas         $shBrushDiff.js',
-            'erl erlang             $shBrushErlang.js',
-            'groovy                 $shBrushGroovy.js',
-            'java                   $shBrushJava.js',
-            'jfx javafx             $shBrushJavaFX.js',
-            'js jscript javascript  $shBrushJScript.js',
-            'perl pl                $shBrushPerl.js',
-            'php                    $shBrushPhp.js',
-            'text plain             $shBrushPlain.js',
-            'py python              $shBrushPython.js',
-            'ruby rails ror rb      $shBrushRuby.js',
-            'sass scss              $shBrushSass.js',
-            'scala                  $shBrushScala.js',
-            'sql                    $shBrushSql.js',
-            'vb vbnet               $shBrushVb.js',
-            'xml xhtml xslt html    $shBrushXml.js'
-        ));
-        SyntaxHighlighter.all();
-        markdown_highlight();
-			width = $("body").width();
+			SyntaxHighlighter.autoloader.apply(null, path(
+				'applescript            $shBrushAppleScript.js',
+				'actionscript3 as3      $shBrushAS3.js',
+				'bash shell properties  $shBrushBash.js',
+				'coldfusion cf          $shBrushColdFusion.js',
+				'cpp c                  $shBrushCpp.js',
+				'c# c-sharp csharp      $shBrushCSharp.js',
+				'css                    $shBrushCss.js',
+				'delphi pascal          $shBrushDelphi.js',
+				'diff patch pas         $shBrushDiff.js',
+				'erl erlang             $shBrushErlang.js',
+				'groovy                 $shBrushGroovy.js',
+				'java                   $shBrushJava.js',
+				'jfx javafx             $shBrushJavaFX.js',
+				'js jscript javascript  $shBrushJScript.js',
+				'perl pl                $shBrushPerl.js',
+				'php                    $shBrushPhp.js',
+				'text plain             $shBrushPlain.js',
+				'py python              $shBrushPython.js',
+				'ruby rails ror rb      $shBrushRuby.js',
+				'sass scss              $shBrushSass.js',
+				'scala                  $shBrushScala.js',
+				'sql                    $shBrushSql.js',
+				'vb vbnet               $shBrushVb.js',
+				'xml xhtml xslt html    $shBrushXml.js'
+				));
+try{
+SyntaxHighlighter.all();
+markdown_highlight();
+}catch(e){
+}
+width = $("body").width();
 
-			$("table").each(function(key,val){
-				setTable(val);
-			});
+$("table").each(function(key,val){
+	setTable(val);
+});
 
-		});
+});
 
 		// 加载图片
 		function loadImage(){
@@ -74,7 +94,7 @@
 				$(val).load(function(){
 					$(this).addClass("img-thumbnail");
 					setImageSize($(this));
-					});
+				});
 			});
 		}
 
@@ -85,10 +105,10 @@
 			var filter = ["ExpandedBlockStart.gif","ContractedBlock.gif"];
 
 			for(var i in filter){
-			    var item = filter[i];
-			    if(src.indexOf(item)>=0){
-			        return;
-			    }
+				var item = filter[i];
+				if(src.indexOf(item)>=0){
+					return;
+				}
 			}
 
 			if(imgWidth>=width)
@@ -98,19 +118,19 @@
 		}
 
 		function load(){
-
+			loadTheme();
 			if(typeof(app) =="object"){
-			var blog = app.getBlog();
-			if(blog!=""){
-				blog = $.parseJSON(blog);
-				$("#blog_title").html(blog.title);
-				$("#blog_date").text(blog.postDate);
-				if(blog.content==null|| blog.content==""){
-				    $("#blog_content").append("<p>接口缺失正文内容，可能由于博客发布时间已经久远，接口任性就是没有返回数据。</p><p>你可以尝试点击下面阅读原文阅读，也可以点击右上方的更多按钮查看原文。</p><p><a href='"+blog.url +"' class='a-source'>【阅读原文】</a></p>");
-				}else{
-				    $("#blog_content").append(blog.content);
+				var blog = app.getBlog();
+				if(blog!=""){
+					blog = $.parseJSON(blog);
+					$("#blog_title").html(blog.title);
+					$("#blog_date").text(blog.postDate);
+					if(blog.content==null|| blog.content==""){
+						$("#blog_content").append("<p>接口缺失正文内容，可能由于博客发布时间已经久远，接口任性就是没有返回数据。</p><p>你可以尝试点击下面阅读原文阅读，也可以点击右上方的更多按钮查看原文。</p><p><a href='"+blog.url +"' class='a-source'>【阅读原文】</a></p>");
+					}else{
+						$("#blog_content").append(blog.content);
+					}
 				}
-			}
 			}
 
 			loadImage();
@@ -121,17 +141,20 @@
 
 
 
-    </script>
+
+
+	</script>
 </head>
 <body>
-<div class="container-fluid">
-    <div id="header">
-        <h3 id="blog_title"></h3>
-        <span id="blog_date"></span>
-        <!--<a href="javascript:window.locatrefreshCategoryload()">刷新页面</a>-->
-    </div>
-    <div id="blog_content">
-    </div>
-</div>
+	<div class="container-fluid">
+		<div id="header">
+			<h3 id="blog_title"></h3>
+			<span id="blog_date"></span>
+			<!--<a href="javascript:window.locatrefreshCategoryload()">刷新页面</a>-->
+		</div>
+		<div id="blog_content">
+
+		</div>
+	</div>
 </body>
 </html>

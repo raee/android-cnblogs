@@ -113,6 +113,14 @@
                     android:drawableTop="@drawable/ic_share_browser"
                     android:text="@string/open_browser"/>
 
+                <TextView
+                    android:id="@+id/tv_share_night"
+                    style="@style/ShareIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/ic_share_night"
+                    android:text="@string/night_mode"/>
+
             </LinearLayout>
         </HorizontalScrollView>
 

@@ -10,6 +10,7 @@ import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogListItemAdapter;
 import com.rae.cnblogs.message.TabEvent;
+import com.rae.cnblogs.message.ThemeChangedEvent;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogListPresenter;
 import com.rae.cnblogs.sdk.bean.BlogBean;
@@ -248,5 +249,11 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
                 }
             });
         }
+    }
+
+    @Subscribe
+    public void onEvent(ThemeChangedEvent event) {
+        if (mItemAdapter != null)
+            mAppLayout.autoRefresh(true, 300);
     }
 }

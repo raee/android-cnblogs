@@ -10,7 +10,7 @@ import com.rae.cnblogs.R;
  * 单个Fragment页面
  * Created by ChenRui on 2017/8/29 0029 22:59.
  */
-public abstract class BaseFragmentActivity extends BaseActivity {
+public abstract class BaseFragmentActivity extends SwipeBackBaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

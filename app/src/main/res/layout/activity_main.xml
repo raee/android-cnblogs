@@ -25,12 +25,13 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_main"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/tab_height"
+            android:layout_height="match_parent"
             android:layout_marginLeft="38dp"
             android:layout_marginRight="38dp"
             app:tabBackground="@android:color/transparent"
             app:tabIndicatorHeight="0dp"
-            app:tabMode="fixed"/>
+            app:tabMode="fixed"
+            app:tabPaddingTop="4dp"/>
     </LinearLayout>
 
 </RelativeLayout>

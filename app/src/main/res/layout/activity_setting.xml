@@ -15,7 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="36dp">
 
             <LinearLayout
                 android:id="@+id/ll_clear_cache"
@@ -26,12 +27,13 @@
 
                 <TextView
                     android:id="@+id/tv_clear_cache"
-                    style="@style/ItemTitleStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableRight="@drawable/default_right_arrow"
                     android:text="@string/clear_cache"
-                    android:textSize="@dimen/h2"/>
+                    android:textColor="@color/ph1"
+                    android:textSize="16sp"/>
 
 
                 <com.rae.cnblogs.widget.ImageLoadingView
@@ -47,88 +49,84 @@
             <LinearLayout
 
                 android:id="@+id/praises"
-                style="@style/ItemStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
 
                 <TextView
-                    style="@style/ItemTitleStyle"
+                    style="@style/ItemStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/praises"
-                    android:textSize="@dimen/h2"/>
+                    android:textColor="@color/ph1"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_share"
-                style="@style/ItemStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
 
                 <TextView
-                    style="@style/ItemTitleStyle"
+                    style="@style/ItemStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/share_app"
-                    android:textSize="@dimen/h2"/>
+                    android:textColor="@color/ph1"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_github"
-                style="@style/ItemStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    style="@style/ItemTitleStyle"
+                    style="@style/ItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/github"
-                    android:textSize="@dimen/h2"/>
+                    android:textColor="@color/ph1"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_open_source"
-                style="@style/ItemStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:visibility="gone">
+                android:gravity="center_vertical">
 
                 <TextView
-                    style="@style/ItemTitleStyle"
+                    style="@style/ItemStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/open_source"
-                    android:textSize="@dimen/h2"/>
+                    android:textColor="@color/ph1"/>
 
             </LinearLayout>
 
 
             <LinearLayout
                 android:id="@+id/ll_logout"
-                style="@style/ItemStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="2dp">
+                android:layout_height="wrap_content">
 
                 <Button
                     android:id="@+id/btn_logout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:layout_marginTop="36dp"
                     android:background="@android:color/transparent"
-                    android:gravity="start|center_vertical"
+                    android:gravity="center"
                     android:text="@string/logout"
                     android:textColor="@color/ph1"
-                    android:textSize="@dimen/h2"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
 
 

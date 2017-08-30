@@ -19,6 +19,7 @@ import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
+import com.rae.cnblogs.message.ThemeChangedEvent;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
 import com.rae.cnblogs.sdk.AppGson;
@@ -29,6 +30,9 @@ import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.webclient.RaeJavaScriptBridge;
 import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 
@@ -74,7 +78,10 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
             mBlogType = BlogType.typeOf(getArguments().getString("type"));
             mContentPresenter = CnblogsPresenterFactory.getBlogContentPresenter(getContext(), mBlogType, this);
         }
+
+        EventBus.getDefault().register(this);
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -104,6 +111,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         mContentPresenter.destroy();
     }
 
@@ -287,5 +295,12 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
      */
     public void scrollToTop() {
         mWebView.scrollTo(0, 0);
+    }
+
+    @Subscribe
+    public void onEvent(ThemeChangedEvent event) {
+
+        mWebView.loadUrl("javascript:loadTheme(" + !event.isNight() + ")");
+//       mWebView.reload();
     }
 }

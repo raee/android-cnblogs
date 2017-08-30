@@ -19,9 +19,16 @@ function onPageLoad(){
 
 // 图片点击
 function initImage(){
+
+	var filter = ["ExpandedBlockStart.gif","ContractedBlock.gif"];
     $("img").click(function(e){
-                   e.stopPropagation(); // 阻止事件冒泡
                 	var src = $(this).attr("src");
+
+                	if(src.indexOf("ExpandedBlockStart.gif")!=-1|| src.indexOf("ContractedBlock.gif")!=-1){
+                	    return;
+                	}
+
+                   e.stopPropagation(); // 阻止事件冒泡
                 	var urls = new Array();
                 	$("img").each(function(key,obj){
                 		urls[urls.length] = $(obj).attr("src");

@@ -43,8 +43,8 @@ public class CnblogsApplication extends TinkerApplication {
         FeedbackThread.getInstance();
 
         // 加载皮肤
-        SkinCompatManager.withoutActivity(getApplication()).loadSkin("night", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
-        SkinCompatManager.getInstance().addInflater(new CnblogsLayoutInflater());
+        SkinCompatManager.withoutActivity(getApplication()).loadSkin();
+//        SkinCompatManager.getInstance().addInflater(new CnblogsLayoutInflater());
 
         // 一些要求不高的初始化操作放到线程中去操作
         new Thread(new Runnable() {

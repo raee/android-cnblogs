@@ -12,6 +12,7 @@ import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.RxObservable;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.UserProvider;
@@ -207,6 +208,14 @@ public class MineFragment extends BaseFragment {
     @OnClick(R.id.ll_setting)
     public void onSettingClick() {
         AppRoute.jumpToSetting(this.getContext());
+    }
+
+    /**
+     * 夜间模式
+     */
+    @OnClick(R.id.ll_night)
+    public void onNightClick() {
+        ThemeCompat.switchNightMode();
     }
 
 }

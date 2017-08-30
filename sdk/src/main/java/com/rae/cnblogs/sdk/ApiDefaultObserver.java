@@ -2,6 +2,8 @@ package com.rae.cnblogs.sdk;
 
 import android.text.TextUtils;
 
+import java.net.UnknownHostException;
+
 import io.reactivex.observers.DefaultObserver;
 import retrofit2.HttpException;
 
@@ -46,14 +48,22 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
                 onLoginExpired();
                 return;
             } else if (ex.code() == 503) {
-                onError("[503]服务器拒绝连接");
+                onError("服务器拒绝连接0x503");
                 return;
             } else {
-                onError("网络连接错误");
+                onError("网络连接错误，请检查网络连接");
                 return;
             }
         }
-        String message = e.getMessage();
+        if (e instanceof UnknownHostException) {
+            onError("网络连接错误，请检查网络连接");
+            return;
+        }
+
+
+        String message = BuildConfig.DEBUG ? e.getMessage() : "数据加载失败，请重试";
+
+
         if (message != null && message.contains("登录过期")) {
             clearLoginToken();
             onLoginExpired();

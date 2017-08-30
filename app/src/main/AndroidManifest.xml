@@ -200,7 +200,7 @@
         <service
             android:name="com.tencent.tinker.lib.service.TinkerPatchService"
             android:exported="false"
-            tools:remove="process" />
+            tools:remove="process"/>
         <service
             android:name="com.tencent.tinker.lib.service.TinkerPatchService$InnerService"
             android:exported="false"

@@ -9,7 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="36dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -128,52 +129,63 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="6dp"
+            android:layout_height="8dp"
             android:background="@color/background_divider"/>
 
         <LinearLayout
             android:id="@+id/ll_favorites"
-            style="@style/ItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                style="@style/ItemTitleStyle"
+                style="@style/ItemStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/my_favorites"
-                android:textSize="@dimen/h2"/>
+                android:textColor="@color/ph1"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_feedback"
-            style="@style/ItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                style="@style/ItemTitleStyle"
+                style="@style/ItemStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/feedback"
-                android:textSize="@dimen/h2"/>
+                android:textColor="@color/ph1"/>
 
         </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/ll_setting"
-            style="@style/ItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                style="@style/ItemTitleStyle"
+                style="@style/ItemStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/setting"
-                android:textSize="@dimen/h2"/>
+                android:textColor="@color/ph1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_night"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/ItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/night_mode"
+                android:textColor="@color/ph1"/>
 
         </LinearLayout>
 

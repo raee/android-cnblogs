@@ -1,6 +1,6 @@
 body,div,p{
     background:#1F1F21;
-    color:#4C4E4D;
+    color:#8f9091;
 }
 div{
     opacity: 0.8;
@@ -9,9 +9,16 @@ div{
 .cnblogs_code pre{
     opacity: 0.6;
     filter: alpha(opacity=60); /* For IE8 and earlier */
-    border: 1px solid #4C4E4D;
+    border: 1px solid #8f9091;
 }
 img{
     opacity: 0.5;
     filter: alpha(opacity=50); /* For IE8 and earlier */
+}
+blockquote{
+	border:none;
+    border-left: 5px solid #eee;
+}
+a {
+    color: #135792;
 }

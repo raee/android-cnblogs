@@ -28,6 +28,8 @@ import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.widget.BloggerLayout;
 import com.rae.swift.app.RaeFragmentAdapter;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -243,5 +245,17 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
         AppUI.loading(this);
         mBloggerPresenter.doFollow();
+    }
+
+
+    /**
+     * 头像点击
+     */
+    @OnClick({R.id.img_background, R.id.img_blog_avatar})
+    public void onAvatarClick() {
+        if (mUserInfo == null) return;
+        ArrayList<String> images = new ArrayList<>();
+        images.add(mUserInfo.getAvatar());
+        AppRoute.jumpToImagePreview(this, images, 0);
     }
 }

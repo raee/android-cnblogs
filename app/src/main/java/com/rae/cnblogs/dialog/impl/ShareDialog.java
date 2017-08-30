@@ -12,11 +12,12 @@ import android.view.animation.AnimationSet;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
-import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -35,6 +36,7 @@ import butterknife.OnClick;
  * Created by ChenRui on 2017/1/24 0024 14:14.
  */
 public class ShareDialog extends SlideDialog {
+
 
     public interface OnShareClickListener {
 
@@ -73,6 +75,10 @@ public class ShareDialog extends SlideDialog {
 
     @BindView(R.id.view_divider)
     View mDividerView;
+
+
+    @BindView(R.id.tv_share_night)
+    TextView mNightView;
 
     ShareAction mShareAction;
 
@@ -158,6 +164,7 @@ public class ShareDialog extends SlideDialog {
         views.add(mViewSourceView);
         views.add(mLinkView);
         views.add(mBrowseriew);
+        views.add(mNightView);
         startAnimSet(views);
         views.clear();
 
@@ -190,6 +197,7 @@ public class ShareDialog extends SlideDialog {
     @Override
     public void show() {
         super.show();
+        showNightText();
         startAnim();
     }
 
@@ -209,7 +217,7 @@ public class ShareDialog extends SlideDialog {
         }
     }
 
-    @OnClick({R.id.tv_share_wechat, R.id.tv_share_wechat_sns, R.id.tv_share_qq, R.id.tv_share_qzone, R.id.tv_share_sina, R.id.tv_share_source, R.id.tv_share_browser, R.id.tv_share_link})
+    @OnClick({R.id.tv_share_wechat, R.id.tv_share_wechat_sns, R.id.tv_share_qq, R.id.tv_share_qzone, R.id.tv_share_sina, R.id.tv_share_source, R.id.tv_share_browser, R.id.tv_share_link, R.id.tv_share_night})
     void onShareClick(View view) {
         switch (view.getId()) {
             case R.id.tv_share_wechat:
@@ -236,9 +244,26 @@ public class ShareDialog extends SlideDialog {
             case R.id.tv_share_link:
                 onLinkClick();
                 break;
+            case R.id.tv_share_night:
+                onNightClick();
+                break;
         }
 
         dismiss();
+    }
+
+    protected void onNightClick() {
+        ThemeCompat.switchNightMode();
+        showNightText();
+        dismiss();
+    }
+
+    private void showNightText() {
+        if (ThemeCompat.isNight()) {
+            mNightView.setText(R.string.day_mode);
+        } else {
+            mNightView.setText(R.string.night_mode);
+        }
     }
 
     // 查看原文

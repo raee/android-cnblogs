@@ -6,6 +6,7 @@ import android.webkit.JavascriptInterface;
 
 import com.google.gson.reflect.TypeToken;
 import com.rae.cnblogs.AppRoute;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.sdk.AppGson;
 
 import java.lang.ref.WeakReference;
@@ -30,8 +31,14 @@ public class RaeJavaScriptBridge {
         this.html = html;
     }
 
+
     public String getHtml() {
         return html;
+    }
+
+    @JavascriptInterface
+    public boolean isNightMode() {
+        return ThemeCompat.isNight();
     }
 
     @JavascriptInterface
