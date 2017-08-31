@@ -123,15 +123,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/check_update"
+                    android:textSize="16sp"
                     android:textColor="@color/ph1"/>
 
-                <TextView
-                    android:id="@+id/tv_check_update"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/loading"
-                    android:textColor="@color/ph3"
-                    android:visibility="gone"/>
 
                 <ProgressBar
                     android:id="@+id/pb_check_update"
@@ -139,6 +133,16 @@
                     android:layout_height="24dp"
                     android:indeterminateDrawable="@drawable/ic_progress_loading"
                     android:visibility="invisible"/>
+
+                <TextView
+                    android:id="@+id/tv_check_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/loading"
+                    android:textColor="@color/ph3"
+                    android:visibility="gone"/>
+
 
             </LinearLayout>
 
