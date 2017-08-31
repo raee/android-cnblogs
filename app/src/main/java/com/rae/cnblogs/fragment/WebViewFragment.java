@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.widget.AppLayout;
+import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeWebView;
 import com.rae.cnblogs.widget.webclient.RaeJavaScriptBridge;
 import com.rae.cnblogs.widget.webclient.RaeWebChromeClient;
@@ -181,6 +182,8 @@ public class WebViewFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        if (getActivity() == null) return;
+
         // 点击标题返回顶部
         View titleView = getActivity().findViewById(R.id.tv_web_title);
         if (titleView != null) {
@@ -191,6 +194,19 @@ public class WebViewFragment extends BaseFragment {
                 }
             });
         }
+
+        PlaceholderView placeholderView = getActivity().findViewById(R.id.placeholder_web);
+        if (placeholderView != null && mRaeWebViewClient != null && mRaeWebViewClient instanceof RaeWebViewClient) {
+            placeholderView.dismiss();
+            placeholderView.setOnRetryClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mWebView.reload();
+                }
+            });
+            ((RaeWebViewClient) mRaeWebViewClient).setPlaceHolderView(placeholderView);
+        }
+
     }
 
     public String getUrl() {

@@ -13,6 +13,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.rae.cnblogs.widget.AppLayout;
+import com.rae.cnblogs.widget.PlaceholderView;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
@@ -21,6 +22,7 @@ public class RaeWebViewClient extends WebViewClient {
 
     private final WeakReference<AppLayout> mAppLayout;
     private WeakReference<ProgressBar> mProgressBar;
+    private WeakReference<PlaceholderView> mPlaceholderViewWeakReference;
     private Context mContext;
 
 
@@ -40,14 +42,28 @@ public class RaeWebViewClient extends WebViewClient {
         if (mAppLayout.get() != null) {
             mAppLayout.get().refreshComplete();
         }
-    }
 
+    }
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         super.onPageStarted(view, url, favicon);
         if (mProgressBar.get() != null) {
             mProgressBar.get().setVisibility(View.VISIBLE);
+        }
+        dismissPlaceHolder();
+    }
+
+
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        super.onPageFinished(view, url);
+        dismissProgress();
+        // 忽略博文的网页
+        if (!url.contains("view.html")) {
+            Activity at = (Activity) mContext;
+            at.setTitle(view.getTitle());
+            injectJavascriptFromAssets(view, "js/rae.js");
         }
     }
 
@@ -57,13 +73,17 @@ public class RaeWebViewClient extends WebViewClient {
     }
 
     @Override
-    public void onPageFinished(WebView view, String url) {
-        super.onPageFinished(view, url);
-        dismissProgress();
-        if (url.startsWith("http")) {
-            Activity at = (Activity) mContext;
-            at.setTitle(view.getTitle());
-            injectJavascriptFromAssets(view, "js/rae.js");
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+        super.onReceivedError(view, errorCode, description, failingUrl);
+        showEmpty(view, failingUrl);
+        view.stopLoading();
+    }
+
+    private void showEmpty(WebView view, String url) {
+        if (!view.getUrl().equalsIgnoreCase(url)) return;
+        if (mPlaceholderViewWeakReference != null && mPlaceholderViewWeakReference.get() != null) {
+            mPlaceholderViewWeakReference.get().networkError();
+            mPlaceholderViewWeakReference.get().setEmptyMessage("网络连接错误，请重试");
         }
     }
 
@@ -105,4 +125,19 @@ public class RaeWebViewClient extends WebViewClient {
             e.printStackTrace();
         }
     }
+
+    public void setPlaceHolderView(PlaceholderView view) {
+        if (mPlaceholderViewWeakReference != null) {
+            mPlaceholderViewWeakReference.clear();
+        }
+
+        mPlaceholderViewWeakReference = new WeakReference<>(view);
+    }
+
+    private void dismissPlaceHolder() {
+        if (mPlaceholderViewWeakReference != null && mPlaceholderViewWeakReference.get() != null) {
+            mPlaceholderViewWeakReference.get().dismiss();
+        }
+    }
+
 }

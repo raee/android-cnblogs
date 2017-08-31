@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.dialog.impl.ShareDialog;
 import com.rae.cnblogs.fragment.WebViewFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import skin.support.SkinCompatManager;
 
 /**
  * 网页
@@ -34,6 +34,9 @@ public class WebActivity extends SwipeBackBaseActivity {
 
     @BindView(R.id.view_holder)
     View mNightView;
+
+//    @BindView(R.id.placeholder_web)
+//    PlaceholderView mPlaceholderView;
 
     WebViewFragment mWebViewFragment;
 
@@ -68,9 +71,9 @@ public class WebActivity extends SwipeBackBaseActivity {
         });
         mShareDialog.setExtLayoutVisibility(View.GONE);
         mWebViewFragment = getWebViewFragment(url);
-        getSupportFragmentManager().beginTransaction().add(R.id.fl_content, mWebViewFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fl_content, mWebViewFragment).commitNowAllowingStateLoss();
 
-        if ("night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName())) {
+        if (ThemeCompat.isNight()) {
             mNightView.setVisibility(View.VISIBLE);
         }
 

@@ -18,12 +18,16 @@ import android.widget.TextView;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
 
+import skin.support.widget.SkinCompatBackgroundHelper;
+import skin.support.widget.SkinCompatSupportable;
+
 /**
  * Loading and Empty view
  * Created by ChenRui on 2016/11/10 0010 14:28.
  */
-public class PlaceholderView extends FrameLayout {
+public class PlaceholderView extends FrameLayout implements SkinCompatSupportable {
 
+    private SkinCompatBackgroundHelper mBackgroundTintHelper;
     private View mEmptyView;
     private View mLoadingView;
     private ImageView mEmptyImageView;
@@ -35,28 +39,34 @@ public class PlaceholderView extends FrameLayout {
 
     public PlaceholderView(Context context) {
         super(context);
-        initView();
+        initView(null, 0);
     }
 
     public PlaceholderView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initView();
+        initView(attrs, 0);
         initAttr(attrs);
     }
 
     public PlaceholderView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView();
+        initView(attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public PlaceholderView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        initView();
+        initView(attrs, defStyleRes);
+        mBackgroundTintHelper = new SkinCompatBackgroundHelper(this);
+        mBackgroundTintHelper.loadFromAttributes(attrs, defStyleAttr);
     }
 
 
-    private void initView() {
+    private void initView(AttributeSet attrs, int defStyleAttr) {
+
+        mBackgroundTintHelper = new SkinCompatBackgroundHelper(this);
+        mBackgroundTintHelper.loadFromAttributes(attrs, defStyleAttr);
+
         mContentView = LayoutInflater.from(getContext()).inflate(R.layout.view_placeholder, this, false);
         mEmptyView = mContentView.findViewById(R.id.ll_placeholder_empty);
         mLoadingView = mContentView.findViewById(R.id.ll_placeholder_loading);
@@ -248,5 +258,12 @@ public class PlaceholderView extends FrameLayout {
                 }
             }
         });
+    }
+
+    @Override
+    public void applySkin() {
+        if (mBackgroundTintHelper != null) {
+            mBackgroundTintHelper.applySkin();
+        }
     }
 }

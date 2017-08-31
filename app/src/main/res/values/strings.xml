@@ -100,7 +100,8 @@
     <string name="forget_password">忘记密码？</string>
     <string name="forget_password_url">https://passport.cnblogs.com/GetMyPassword.aspx</string>
     <string name="search">搜索</string>
-    <string name="open_source">开源许可协议</string>
+    <string name="open_source">开放源代码许可</string>
     <string name="night_mode">夜间模式</string>
     <string name="day_mode">日间模式</string>
+    <string name="check_update">检查更新</string>
 </resources>

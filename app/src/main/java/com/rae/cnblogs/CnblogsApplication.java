@@ -1,6 +1,7 @@
 package com.rae.cnblogs;
 
 import android.app.Application;
+import android.content.pm.PackageManager;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.feedback.FeedbackThread;
@@ -80,5 +81,31 @@ public class CnblogsApplication extends TinkerApplication {
 
     public Application getApplication() {
         return this;
+    }
+
+
+    /**
+     * 获取渠道包
+     */
+    public String getChannel() {
+        try {
+            return getPackageManager()
+                    .getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA)
+                    .metaData
+                    .getString("UMENG_CHANNEL", "official");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "official";
+    }
+
+
+    public int getVersionCode() {
+        try {
+            return getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_META_DATA).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 1;
     }
 }

@@ -79,6 +79,7 @@
 
             </LinearLayout>
 
+
             <LinearLayout
                 android:id="@+id/ll_github"
                 android:layout_width="match_parent"
@@ -109,6 +110,37 @@
 
             </LinearLayout>
 
+
+            <LinearLayout
+                android:id="@+id/ll_check_update"
+                style="@style/ItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/check_update"
+                    android:textColor="@color/ph1"/>
+
+                <TextView
+                    android:id="@+id/tv_check_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/loading"
+                    android:textColor="@color/ph3"
+                    android:visibility="gone"/>
+
+                <ProgressBar
+                    android:id="@+id/pb_check_update"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:indeterminateDrawable="@drawable/ic_progress_loading"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_logout"

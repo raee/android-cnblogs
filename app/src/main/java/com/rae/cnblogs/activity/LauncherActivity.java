@@ -13,8 +13,12 @@ import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILauncherPresenter;
 import com.rae.cnblogs.sdk.bean.BlogType;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 
 /**
  * 启动页
@@ -40,8 +44,28 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
 
     @Override
     protected void onResume() {
-        mLauncherPresenter.start();
         super.onResume();
+
+        // 判断主界面退出时间是否过短
+        long mainExitTimeMillis = config().getMainExitTimeMillis();
+        long span = System.currentTimeMillis() - mainExitTimeMillis;
+
+        // 第一次或者是程序退出的时间超过3分钟(180000)，就启动当前界面
+        if (mainExitTimeMillis <= 0 || span > 180000) {
+            mLauncherPresenter.start();
+        } else {
+
+            // 跳过启动界面
+            AppRoute.jumpToMain(this);
+            Observable.timer(500, TimeUnit.MILLISECONDS)
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+                            finish();
+                        }
+                    });
+        }
+
     }
 
     @Override

@@ -34,7 +34,7 @@
                 android:layout_marginTop="126dp"
                 android:gravity="center"
                 android:text="V1.0.0"
-                android:textColor="@android:color/white"
+                android:textColor="@color/white"
                 android:textSize="16sp"/>
 
         </RelativeLayout>
@@ -77,7 +77,7 @@
                 android:layout_marginBottom="@dimen/default_margin"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:background="@android:color/white"
+                android:background="@color/white"
                 android:gravity="center"
                 android:text="@string/update_now"
                 android:textColor="@color/colorPrimaryDark"

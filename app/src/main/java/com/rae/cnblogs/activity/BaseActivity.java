@@ -1,7 +1,6 @@
 package com.rae.cnblogs.activity;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -13,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.rae.cnblogs.CnblogsApplication;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
 import com.rae.swift.Rx;
@@ -21,7 +21,6 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import skin.support.SkinCompatManager;
 
 /**
  * 基类
@@ -146,12 +145,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public int getVersionCode() {
-        try {
-            return getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_META_DATA).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return 1;
+        return ((CnblogsApplication) getApplication()).getVersionCode();
+    }
+
+    /**
+     * 获取渠道包
+     */
+    public String getChannel() {
+        return ((CnblogsApplication) getApplication()).getChannel();
     }
 
     protected CnblogSdkConfig config() {

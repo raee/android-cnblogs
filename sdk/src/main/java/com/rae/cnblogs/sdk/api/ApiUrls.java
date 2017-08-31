@@ -110,6 +110,7 @@ final class ApiUrls {
 
     // 服务端接口地址
     public static final String RAE_API_BASIC = "http://www.raeblog.com/cnblogs/index.php/";
+//    public static final String RAE_API_BASIC = "http://192.168.100.169:808/cnblogs/index.php/";
 
     // 启动页广告
     public static final String RAE_API_AD_LAUNCHER = RAE_API_BASIC + "app/ad/launcher";

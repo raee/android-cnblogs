@@ -9,14 +9,18 @@
     android:paddingTop="@dimen/default_padding_top">
 
 
-    <!--内容区域-->
-    <FrameLayout
-        android:id="@+id/fl_content"
+    <com.rae.cnblogs.widget.PlaceholderView
+        android:id="@+id/placeholder_web"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/web_action_bar_height"
-        android:background="@color/white"/>
-
+        android:layout_height="match_parent">
+        <!--内容区域-->
+        <FrameLayout
+            android:id="@+id/fl_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/web_action_bar_height"
+            android:background="@color/white"/>
+    </com.rae.cnblogs.widget.PlaceholderView>
     <!--夜间模式遮罩层-->
     <View
         android:id="@+id/view_holder"

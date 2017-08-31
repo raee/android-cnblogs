@@ -6,17 +6,23 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.CnblogsApplication;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.dialog.impl.ShareDialog;
+import com.rae.cnblogs.dialog.impl.VersionUpdateDialog;
+import com.rae.cnblogs.sdk.ApiDefaultObserver;
+import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.UserProvider;
+import com.rae.cnblogs.sdk.bean.VersionInfo;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -38,6 +44,13 @@ public class SettingActivity extends SwipeBackBaseActivity {
 
     @BindView(R.id.ll_logout)
     View mLogoutLayout;
+
+
+    @BindView(R.id.tv_check_update)
+    TextView mCheckUpdateMsgView;
+
+    @BindView(R.id.pb_check_update)
+    ProgressBar mCheckUpdateProgress;
 
     private ShareDialog mShareDialog;
 
@@ -134,7 +147,37 @@ public class SettingActivity extends SwipeBackBaseActivity {
      */
     @OnClick(R.id.ll_open_source)
     public void onOpenSourceLicenseClick() {
-        AppRoute.jumpToWeb(this.getContext(), getString(R.string.github_url));
+        AppRoute.jumpToWeb(this.getContext(), "file:///android_asset/license.html");
+    }
+
+    /**
+     * 检查更新
+     */
+    @OnClick(R.id.ll_check_update)
+    public void onCheckUpdateClick() {
+        mCheckUpdateProgress.setVisibility(View.VISIBLE);
+        mCheckUpdateMsgView.setVisibility(View.GONE);
+        RxObservable.create(CnblogsApiFactory.getInstance(this)
+                .getRaeServerApi()
+                .versionInfo(getVersionCode(), getChannel()), "checkUpdate")
+                .subscribe(new ApiDefaultObserver<VersionInfo>() {
+                    @Override
+                    protected void onError(String message) {
+                        mCheckUpdateProgress.setVisibility(View.INVISIBLE);
+                        mCheckUpdateMsgView.setVisibility(View.VISIBLE);
+                        mCheckUpdateMsgView.setText("已是最新版本");
+                    }
+
+                    @Override
+                    protected void accept(VersionInfo versionInfo) {
+                        mCheckUpdateProgress.setVisibility(View.INVISIBLE);
+                        mCheckUpdateMsgView.setVisibility(View.GONE);
+                        VersionUpdateDialog dialog = new VersionUpdateDialog(getContext());
+                        dialog.setVersionInfo(versionInfo);
+                        dialog.show();
+                    }
+                });
+
     }
 
     /**
@@ -149,4 +192,9 @@ public class SettingActivity extends SwipeBackBaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxObservable.dispose("checkUpdate");
+    }
 }

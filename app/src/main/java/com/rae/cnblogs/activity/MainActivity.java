@@ -26,6 +26,7 @@ import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.RxObservable;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
@@ -34,6 +35,7 @@ import com.rae.cnblogs.fragment.BlogTypeListFragment;
 import com.rae.cnblogs.fragment.HomeFragment;
 import com.rae.cnblogs.fragment.MineFragment;
 import com.rae.cnblogs.message.TabEvent;
+import com.rae.cnblogs.message.ThemeChangedEvent;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.bean.BlogType;
@@ -244,6 +246,7 @@ public class MainActivity extends BaseActivity {
         }
         RxObservable.dispose(); // 释放所有请求
         RaeImageLoader.clearMemoryCache(getApplicationContext()); // 清除图片内存
+        config().setMainExitTimeMillis(System.currentTimeMillis());
         super.onDestroy();
     }
 
@@ -269,23 +272,14 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe
+    public void onEvent(ThemeChangedEvent event) {
+        ThemeCompat.refreshStatusColor(this, true); // 深色状态栏
+    }
+
+    @Subscribe
     public void onEvent(JobEvent event) {
         if (mCnblogsServiceBinder == null) return;
         mCnblogsServiceBinder.getJobScheduler().start(event.getAction());
     }
 
-    /**
-     * 获取渠道包
-     */
-    public String getChannel() {
-        try {
-            return getPackageManager()
-                    .getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA)
-                    .metaData
-                    .getString("UMENG_CHANNEL", "official");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "official";
-    }
 }

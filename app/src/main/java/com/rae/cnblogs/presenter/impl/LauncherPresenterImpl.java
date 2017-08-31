@@ -75,6 +75,8 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
 
     @Override
     public void start() {
+
+
         mCountDownTimer.start();
 
         // 异步下载新的

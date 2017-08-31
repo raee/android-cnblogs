@@ -63,7 +63,7 @@
                             android:layout_width="74dp"
                             android:layout_height="74dp"
                             android:layout_centerInParent="true"
-                            android:src="@android:color/white"
+                            android:src="@color/white"
                             app:riv_corner_radius="74dp"/>
 
                         <com.makeramen.roundedimageview.RoundedImageView

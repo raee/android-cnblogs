@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
         android:lineSpacingExtra="6sp"
-        android:text="每一个系统下都有对文件操作的应用，但是都大致相同，同样在Linux系统中也同样拥有对文件的操作。如：文件描述符、open()函数、close()函数、read()函数、write()函数、文件偏移lseek()函数、获取文件状态fstat()函数、文件空间映射mmap()函数、取消mmap()映射的"
+        android:text="标题"
         android:textColor="@color/ph1"
         android:textSize="@dimen/summary"/>
 
@@ -112,7 +112,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:padding="12dp"
-            android:text="Android技巧"
+            android:text="标签"
             android:textColor="@color/ph2"
             android:textSize="@dimen/h2"/>
 

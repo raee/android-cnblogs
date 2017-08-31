@@ -117,4 +117,16 @@ public class CnblogSdkConfig {
     public void loginGuide() {
         mConfig.edit().putBoolean("hasLoginGuide", true).apply();
     }
+
+
+    /**
+     * 记录首页退出时间
+     */
+    public long getMainExitTimeMillis() {
+        return mConfig.getLong("MainExitTimeMillis", 0);
+    }
+
+    public void setMainExitTimeMillis(long value) {
+        mConfig.edit().putLong("MainExitTimeMillis", value).apply();
+    }
 }

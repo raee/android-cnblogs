@@ -6,7 +6,7 @@
     </item>
 
     <item android:left="3dp">
-        <color android:color="@android:color/white"/>
+        <color android:color="@color/white"/>
     </item>
 
 

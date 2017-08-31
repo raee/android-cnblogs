@@ -41,6 +41,6 @@ public class FeedItemAdapter extends BaseItemAdapter<UserFeedBean, FeedViewHolde
             RaeImageLoader.displayImage(m.getAvatar(), holder.avatarView);
         }
 
-        holder.feedActionView.setBackgroundResource(ThemeCompat.isNight() ? R.drawable.link_allshare_pressed : R.drawable.ic_share_link);
+        holder.feedActionView.setImageResource(ThemeCompat.isNight() ? R.drawable.link_allshare_pressed : R.drawable.ic_share_link);
     }
 }
