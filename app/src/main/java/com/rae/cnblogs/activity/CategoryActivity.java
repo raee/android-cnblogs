@@ -17,10 +17,17 @@ public class CategoryActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        overridePendingTransition(com.rae.cnblogs.R.anim.slide_in_bottom, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
         showHomeAsUp();
         List<CategoryBean> data = getIntent().getParcelableArrayListExtra("data");
         getSupportFragmentManager().beginTransaction().add(R.id.content, CategoriesFragment.newInstance(data)).commit();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, com.rae.cnblogs.R.anim.slide_out_bottom);
     }
 }

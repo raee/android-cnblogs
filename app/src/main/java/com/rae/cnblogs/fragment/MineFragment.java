@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kyleduo.switchbutton.SwitchButton;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
@@ -50,6 +52,9 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.ll_follow_fans)
     View mFansAndFollowLayout;
 
+    @BindView(R.id.sb_night_mode)
+    SwitchButton mNightModeButton;
+
 
     @Override
     protected int getLayoutId() {
@@ -59,6 +64,12 @@ public class MineFragment extends BaseFragment {
     @Override
     protected void onCreateView(View view) {
         super.onCreateView(view);
+        mNightModeButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ThemeCompat.switchNightMode(isChecked);
+            }
+        });
     }
 
     @Override
@@ -215,7 +226,7 @@ public class MineFragment extends BaseFragment {
      */
     @OnClick(R.id.ll_night)
     public void onNightClick() {
-        ThemeCompat.switchNightMode();
+        mNightModeButton.toggle();
     }
 
 }

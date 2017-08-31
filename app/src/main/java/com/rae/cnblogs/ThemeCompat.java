@@ -75,7 +75,16 @@ public final class ThemeCompat {
      * 切换夜间模式
      */
     public static void switchNightMode() {
-        if (isNight()) {
+        switchNightMode(isNight());
+    }
+
+    /**
+     * 切换夜间模式
+     *
+     * @param isNight 是否为夜间模式
+     */
+    public static void switchNightMode(boolean isNight) {
+        if (isNight) {
             // 切换正常模式
             SkinCompatManager.getInstance().restoreDefaultTheme();
         } else {
@@ -85,7 +94,6 @@ public final class ThemeCompat {
         // 发出通知
         EventBus.getDefault().post(new ThemeChangedEvent(ThemeCompat.isNight()));
     }
-
 
     /**
      * 刷新状态栏颜色
@@ -123,4 +131,5 @@ public final class ThemeCompat {
             }
         }
     }
+
 }

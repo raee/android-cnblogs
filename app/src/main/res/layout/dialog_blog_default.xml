@@ -60,7 +60,7 @@
                 android:background="@drawable/bg_button_white_selector"
                 android:gravity="center"
                 android:text="确定"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/buttonColorPrimary"
                 android:textSize="@dimen/h2"/>
         </LinearLayout>
 

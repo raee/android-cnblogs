@@ -14,7 +14,7 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
+//        maven { url 'https://maven.google.com.hk'}
         maven { url 'http://maven.raeblog.com:8081/repository/maven-public/' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
@@ -53,9 +53,9 @@ task cleanCache(type: Delete) {
     }
 }
 ext {
-    compileSdkVersion=25
-    buildToolsVersion='26.0.1'
-    targetSdkVersion=25
-    minSdkVersion=15
-    supportVersion = '25.4.0'
+    compileSdkVersion = 26
+    buildToolsVersion = '26.0.1'
+    targetSdkVersion = 26
+    minSdkVersion = 15
+    supportVersion = '25.1.0'
 }

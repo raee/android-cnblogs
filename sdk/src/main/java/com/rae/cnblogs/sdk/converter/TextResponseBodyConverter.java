@@ -100,7 +100,7 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
         }
 
         if (mHtmlParser == null) {
-            throw new IOException("HTML 解析器为空！");
+            throw new CnblogsApiException("HTML 解析器为空！");
         }
 
         return mHtmlParser.parse(document, text);
@@ -124,7 +124,7 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
         }
 
         if (TextUtils.equals(text, "false") && type == Empty.class) {
-            throw new IOException("删除评论失败");
+            throw new CnblogsApiException("删除评论失败");
         }
 
         if (text.contains("用户登录")) {
@@ -171,10 +171,10 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
                 throw new CnblogsApiException("数据为空");
             } else {
                 message = TextUtils.isEmpty(message) ? "未知错误" : Jsoup.parse(message).text();
-                throw new IOException(message);
+                throw new CnblogsApiException(message);
             }
         } catch (JSONException e) {
-            throw new IOException(e);
+            throw new CnblogsApiException(e);
         }
     }
 }

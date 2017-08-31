@@ -195,7 +195,7 @@ public class WebViewFragment extends BaseFragment {
             });
         }
 
-        PlaceholderView placeholderView = getActivity().findViewById(R.id.placeholder_web);
+        PlaceholderView placeholderView = (PlaceholderView) getActivity().findViewById(R.id.placeholder_web);
         if (placeholderView != null && mRaeWebViewClient != null && mRaeWebViewClient instanceof RaeWebViewClient) {
             placeholderView.dismiss();
             placeholderView.setOnRetryClickListener(new View.OnClickListener() {

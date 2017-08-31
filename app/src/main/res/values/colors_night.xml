@@ -31,4 +31,5 @@
     <color name="homeTabSelectedTextColor_night">#8f9091</color>
     <color name="bloggerStatusBarColor_night">@color/nightColorPrimary</color>
     <color name="colorHintPrimary_night">@color/white</color>
+    <color name="buttonColorPrimary_night">#8f9091</color>
 </resources>

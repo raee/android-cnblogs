@@ -36,7 +36,6 @@ import butterknife.OnClick;
  * Created by ChenRui on 2017/1/19 0019 9:59.
  */
 public class LoginActivity extends BaseActivity implements ILoginPresenter.ILoginView
-//        , WebLoginListener
 {
 
     @BindView(com.rae.cnblogs.R.id.ll_login_container)

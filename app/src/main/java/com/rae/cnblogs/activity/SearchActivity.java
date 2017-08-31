@@ -15,6 +15,7 @@ public class SearchActivity extends BaseFragmentActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        overridePendingTransition(com.rae.cnblogs.R.anim.slide_in_bottom, 0);
         super.onCreate(savedInstanceState);
         mToolBar.setVisibility(View.GONE);
     }
@@ -22,5 +23,11 @@ public class SearchActivity extends BaseFragmentActivity {
     @Override
     protected Fragment newFragment() {
         return SearchFragment.newInstance();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, com.rae.cnblogs.R.anim.slide_out_bottom);
     }
 }

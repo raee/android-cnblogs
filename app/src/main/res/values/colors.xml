@@ -6,6 +6,7 @@
     <color name="colorPrimaryBlack">#409DDB</color>
     <color name="colorAccent">#1783CB</color>
     <color name="colorHintPrimary">#EEEEEE</color>
+    <color name="buttonColorPrimary">#3ba7ee</color>
     <color name="transparent">#00000000</color>
     <color name="navBar">@color/white</color>
     <color name="dividerPrimary">#b2b2b2</color>

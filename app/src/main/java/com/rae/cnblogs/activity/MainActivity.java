@@ -157,6 +157,7 @@ public class MainActivity extends BaseActivity {
 
         // 请求权限
         requestPermissions();
+
     }
 
     /**
