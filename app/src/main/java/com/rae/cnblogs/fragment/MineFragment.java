@@ -67,7 +67,7 @@ public class MineFragment extends BaseFragment {
         mNightModeButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ThemeCompat.switchNightMode(isChecked);
+                ThemeCompat.switchNightMode();
             }
         });
     }
@@ -82,6 +82,8 @@ public class MineFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         loadUserInfo();
+        // 夜间模式处理
+        mNightModeButton.setCheckedNoEvent(ThemeCompat.isNight());
     }
 
     private boolean isNotLogin() {
@@ -226,7 +228,7 @@ public class MineFragment extends BaseFragment {
      */
     @OnClick(R.id.ll_night)
     public void onNightClick() {
-        mNightModeButton.toggle();
+        mNightModeButton.performClick();
     }
 
 }

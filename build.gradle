@@ -6,7 +6,7 @@ buildscript {
     dependencies {
 //        classpath 'com.android.tools.build:gradle:3.0.0-beta2'
         classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.7.0'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
         // 热更新插件
         classpath "com.tencent.bugly:tinker-support:1.0.8"
     }
@@ -14,7 +14,7 @@ buildscript {
 
 allprojects {
     repositories {
-//        maven { url 'https://maven.google.com.hk'}
+        google()
         maven { url 'http://maven.raeblog.com:8081/repository/maven-public/' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()

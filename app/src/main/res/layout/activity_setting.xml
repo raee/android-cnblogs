@@ -81,6 +81,20 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_help_center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/ItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/help_center"
+                    android:textColor="@color/ph1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/ll_github"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -123,8 +137,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/check_update"
-                    android:textSize="16sp"
-                    android:textColor="@color/ph1"/>
+                    android:textColor="@color/ph1"
+                    android:textSize="16sp"/>
 
 
                 <ProgressBar

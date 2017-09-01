@@ -9,7 +9,10 @@ import android.view.View;
 
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.fragment.BlogListFragment;
 import com.rae.cnblogs.sdk.UserProvider;
+import com.rae.cnblogs.sdk.bean.BlogType;
+import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.tencent.bugly.beta.tinker.TinkerManager;
 
 import java.io.File;
@@ -34,6 +37,11 @@ public class TestActivity extends BaseActivity {
 
             }
         });
+
+        CategoryBean categroy = new CategoryBean();
+        categroy.setName("首页");
+        categroy.setType("home");
+        getSupportFragmentManager().beginTransaction().add(R.id.content, BlogListFragment.newInstance(0,categroy, BlogType.BLOG)).commitNowAllowingStateLoss();
     }
 
     @OnClick(R.id.btn_main)

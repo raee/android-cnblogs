@@ -104,6 +104,16 @@ public final class ApiUtils {
         return text;
     }
 
+    public static int parseInt(String text, int defaultValue) {
+        if (TextUtils.isEmpty(text)) return defaultValue;
+        try {
+            return Integer.parseInt(text);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return defaultValue;
+    }
+
     public static String getCount(String text) {
         if (TextUtils.isEmpty(text)) return "0";
         return getNumber(text.trim());

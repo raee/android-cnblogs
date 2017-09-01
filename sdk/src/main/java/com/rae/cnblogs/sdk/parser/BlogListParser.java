@@ -16,7 +16,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 博客列表解析器
@@ -66,17 +69,47 @@ public class BlogListParser implements IHtmlParser<List<BlogBean>> {
     private String createThumbUrls(String content) {
         try {
             List<String> result = new ArrayList<>();
+            // 排序的MAP
+            Map<String, String> sortMap = new TreeMap<>(new Comparator<Object>() {
+                @Override
+                public int compare(Object o1, Object o2) {
+                    return o1.toString().compareTo(o2.toString());
+                }
+            });
+
             Elements elements = Jsoup.parse(content).select("img");
             for (Element element : elements) {
-                String src = element.attr("src");
-
+                String src = ApiUtils.getUrl(element.attr("src"));
                 // 过滤一些没有用的图片
                 if (TextUtils.isEmpty(src) || src.contains(".gif")) {
                     continue;
                 }
 
-                result.add(ApiUtils.getUrl(src));
+                // 优先级处理
+                // 1、封面图优先，只取一个图片
+                if (element.hasAttr("app-cover")) {
+                    result.clear();
+                    result.add(0, src);
+                    break;
+                }
+                // 2、小图优先
+                else if (element.hasAttr("app-thumb")) {
+                    String key = element.attr("app-thumb");
+                    if (TextUtils.isEmpty(key)) {
+                        result.add(src);
+                    } else {
+                        sortMap.put(key, src);
+                    }
+                } else {
+                    result.add(src);
+                }
             }
+
+            if (sortMap.size() > 0) {
+                result.addAll(0, sortMap.values());
+                sortMap.clear();
+            }
+
 
             return mGson.toJson(result);
         } catch (Exception e) {
