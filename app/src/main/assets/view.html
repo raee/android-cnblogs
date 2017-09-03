@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-	<meta charset="utf-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>test</title>
-	<link type="text/css" rel="stylesheet" href="css/shCore.css"/>
-	<link type="text/css" rel="stylesheet" href="css/shCoreDefault.css"/>
-	<link rel="stylesheet" type="text/css" href="css/blog-common.css">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-	<link rel="stylesheet" type="text/css" href="css/rae.css" id="RaeStyle">
-	<!--<link rel="stylesheet" type="text/css" href="css/rae-night.css" >-->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>博文</title>
+    <link type="text/css" rel="stylesheet" href="css/shCore.css"/>
+    <link type="text/css" rel="stylesheet" href="css/shCoreDefault.css"/>
+    <link rel="stylesheet" type="text/css" href="css/blog-common.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/rae.css" id="RaeStyle">
+    <link rel="stylesheet" type="text/css" href="http://www.raeblog.com/cnblogs/Content/app/rae-ext.css" />
+    <!--<link rel="stylesheet" type="text/css" href="css/rae-night.css" />-->
 
-	<script src="js/jquery.js" type="text/javascript"></script>
-	<script src="js/highlight.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="js/highlighter/shCore.js"></script>
-	<script type="text/javascript" src="js/highlighter/shAutoloader.js"></script>
-	<script src="js/blog-common.js" type="text/javascript"></script>
-	<script src="js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="js/rae.js" type="text/javascript"></script>
-	<script type="text/javascript">
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/highlight.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/highlighter/shCore.js"></script>
+    <script type="text/javascript" src="js/highlighter/shAutoloader.js"></script>
+    <script src="js/blog-common.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/rae.js" type="text/javascript"></script>
+    <script src="http://www.raeblog.com/cnblogs/Content/app/rae-ext.js" type="text/javascript"></script>
+    <script type="text/javascript">
 		var width = 0;
 
 		function loadTheme(isNightMode){
@@ -91,6 +93,7 @@ $("table").each(function(key,val){
 		// 加载图片
 		function loadImage(){
 			$("img").each(function(key,val){
+			      var src = $(val).attr("src");
 				$(val).load(function(){
 					$(this).addClass("img-thumbnail");
 					setImageSize($(this));
@@ -118,6 +121,7 @@ $("table").each(function(key,val){
 		}
 
 		function load(){
+
 			loadTheme();
 			if(typeof(app) =="object"){
 				var blog = app.getBlog();
@@ -133,28 +137,34 @@ $("table").each(function(key,val){
 				}
 			}
 
-			loadImage();
-			initImage();
+            try{
+                //  官网，调用的方法，适配代码折叠
+                fixPostBody();
+			    loadImage();
+			    initImage();
+                // 重新设置代码高亮
+                refreshCodeTheme();
+		    }catch(e){
+		        console.error(e);
+		    }
 		}
 
-
-
-
-
-
-
-	</script>
+    </script>
 </head>
 <body>
-	<div class="container-fluid">
-		<div id="header">
-			<h3 id="blog_title"></h3>
-			<span id="blog_date"></span>
-			<!--<a href="javascript:window.locatrefreshCategoryload()">刷新页面</a>-->
-		</div>
-		<div id="blog_content">
+<div class="container-fluid">
+    <div id="header">
+        <h3 id="blog_title"></h3>
+        <span id="blog_date"></span>
+        <!--<a href="javascript:window.locatrefreshCategoryload()">刷新页面</a>-->
+    </div>
+    <div id="blog_content">
+        <div id="test" >
 
-		</div>
-	</div>
+        </div>
+    </div>
+
+
+</div>
 </body>
 </html>

@@ -41,7 +41,12 @@ import butterknife.Unbinder;
  * 搜索
  * Created by ChenRui on 2017/8/28 0028 14:51.
  */
-public class SearchFragment extends BaseFragment implements ISearchContract.View {
+public class SearchFragment extends BaseFragment implements ISearchContract.View, TabLayout.OnTabSelectedListener {
+
+    private SearchBlogFragment mSearchBlogFragment;
+    private SearchBloggerFragment mSearchBloggerFragment;
+    private SearchBlogFragment mSearchNewsFragment;
+    private SearchBlogFragment mSearchKbFragment;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -93,6 +98,7 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mTabLayout.removeOnTabSelectedListener(this);
         if (mBind != null)
             mBind.unbind();
     }
@@ -109,13 +115,21 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
         mRecyclerView.setAdapter(mSuggestionAdapter);
 
         RaeFragmentAdapter adapter = new RaeFragmentAdapter(getChildFragmentManager());
-        adapter.add("博客", SearchBlogFragment.newInstance(BlogType.BLOG));
-        adapter.add("博主", SearchBloggerFragment.newInstance());
-        adapter.add("新闻", SearchBlogFragment.newInstance(BlogType.NEWS));
-        adapter.add("知识库", SearchBlogFragment.newInstance(BlogType.KB));
+        mSearchBlogFragment = SearchBlogFragment.newInstance(BlogType.BLOG);
+        mSearchBloggerFragment = SearchBloggerFragment.newInstance();
+        mSearchNewsFragment = SearchBlogFragment.newInstance(BlogType.NEWS);
+        mSearchKbFragment = SearchBlogFragment.newInstance(BlogType.KB);
+
+        adapter.add("博客", mSearchBlogFragment);
+        adapter.add("博主", mSearchBloggerFragment);
+        adapter.add("新闻", mSearchNewsFragment);
+        adapter.add("知识库", mSearchKbFragment);
+
         mViewPager.setAdapter(adapter);
         mViewPager.setOffscreenPageLimit(5);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        mTabLayout.addOnTabSelectedListener(this);
 
         mSearchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -245,5 +259,35 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
     public void onSuggestionSuccess(List<String> data) {
         mSuggestionAdapter.invalidate(data);
         mSuggestionAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        // 返回顶部
+        int position = mViewPager.getCurrentItem();
+        switch (position) {
+            case 0: // 博客
+                mSearchBlogFragment.scrollToTop();
+                break;
+            case 1: // 博主
+                mSearchBloggerFragment.scrollToTop();
+                break;
+            case 2: // 新闻
+                mSearchNewsFragment.scrollToTop();
+                break;
+            case 3: // 知识库
+                mSearchKbFragment.scrollToTop();
+                break;
+        }
     }
 }

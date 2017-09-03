@@ -1,16 +1,48 @@
-body,div,p{
+body,div,p,.cnblogs_code div{
     background:#1F1F21;
     color:#8f9091;
 }
 div{
     opacity: 0.8;
-    filter: alpha(opacity=80); /* For IE8 and earlier */
+    filter: alpha(opacity=80); /*  For IE8 and earlier */
 }
-.cnblogs_code pre{
-    opacity: 0.6;
-    filter: alpha(opacity=60); /* For IE8 and earlier */
-    border: 1px solid #8f9091;
+code{
+    background: #2B303B !important;
+    border:none !important;
+    color:#C0C5CE !important;
 }
+
+pre, pre code, .hljs{
+    background: #2B303B;
+    color: #C0C5CE;
+    border:none;
+}
+.hljs-string, .hljs-title, .hljs-section, .hljs-attribute, .hljs-literal, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-addition{
+    color:#ECCC87;
+}
+.hljs-function{
+    color:#8EA1B4;
+}
+.code_key_primary, .hljs-keyword, .hljs-selector-tag, .hljs-built_in, .hljs-name, .hljs-tag{
+    color:#B58DAC;
+    font-weight: bold;
+}
+.code_comment,.hljs-comment, .hljs-quote, .hljs-variable{
+     color:#65737F;
+ }
+.code_args{
+     color:#C0C5CE;
+ }
+.code_symbol{
+     color:#C0C5CE;
+ }
+.code_text,.hljs-string{
+     color:#A2BF88;
+ }
+.code_high_night{
+     color:#FFCD22;
+ }
+
 img{
     opacity: 0.5;
     filter: alpha(opacity=50); /* For IE8 and earlier */
@@ -20,5 +52,5 @@ blockquote{
     border-left: 5px solid #eee;
 }
 a {
-    color: #135792;
+    color: #4893D8;
 }

@@ -38,7 +38,7 @@ import butterknife.OnClick;
  * blogger info
  * Created by ChenRui on 2017/2/9 0009 10:02.
  */
-public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPresenter.IBloggerView {
+public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPresenter.IBloggerView, TabLayout.OnTabSelectedListener {
 
     @BindView(R.id.img_background)
     ImageView mBackgroundView;
@@ -86,6 +86,8 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
     private FriendsInfoBean mUserInfo;
     private IBloggerPresenter mBloggerPresenter;
+    private FeedListFragment mFeedListFragment;
+    private BlogListFragment mBlogListFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,11 +109,16 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         CategoryBean category = new CategoryBean();
         category.setCategoryId(getBlogApp()); // 这里设置blogApp
 
-        adapter.add(getString(R.string.feed), FeedListFragment.newInstance(getBlogApp()));
-        adapter.add(getString(R.string.blog), BlogListFragment.newInstance(-1, category, BlogType.BLOGGER));
+        mFeedListFragment = FeedListFragment.newInstance(getBlogApp());
+        mBlogListFragment = BlogListFragment.newInstance(-1, category, BlogType.BLOGGER);
+
+        adapter.add(getString(R.string.feed), mFeedListFragment);
+        adapter.add(getString(R.string.blog), mBlogListFragment);
 
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        mTabLayout.addOnTabSelectedListener(this);
 
         mBloggerLayout.setOnScrollPercentChangeListener(new BloggerLayout.ScrollPercentChangeListener() {
             @Override
@@ -150,6 +157,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         if (mBloggerPresenter != null)
             mBloggerPresenter.destroy();
         super.onDestroy();
+        mTabLayout.removeOnTabSelectedListener(this);
     }
 
     @Override
@@ -257,5 +265,35 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         ArrayList<String> images = new ArrayList<>();
         images.add(mUserInfo.getAvatar());
         AppRoute.jumpToImagePreview(this, images, 0);
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        takeScrollToTop(tab.getPosition());
+    }
+
+    @OnClick(R.id.tv_title)
+    public void onTitleClick() {
+        takeScrollToTop(mViewPager.getCurrentItem());
+    }
+
+    /**
+     * 返回顶部
+     */
+    private void takeScrollToTop(int position) {
+        if (position == 0)
+            mFeedListFragment.scrollToTop();
+        if (position == 1)
+            mBlogListFragment.scrollToTop();
     }
 }

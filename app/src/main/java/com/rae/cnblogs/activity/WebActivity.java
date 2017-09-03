@@ -53,7 +53,12 @@ public class WebActivity extends SwipeBackBaseActivity {
         }
         setContentView(R.layout.activity_web);
         showHomeAsUp(mToolbar);
-        mShareDialog = new ShareDialog(this);
+        mShareDialog = new ShareDialog(this) {
+            @Override
+            protected String getUrl() {
+                return mWebViewFragment.getUrl();
+            }
+        };
         mShareDialog.setOnShareClickListener(new ShareDialog.OnShareClickListener() {
             @Override
             public void onShare(ShareDialog dialog) {
@@ -71,12 +76,10 @@ public class WebActivity extends SwipeBackBaseActivity {
         });
         mShareDialog.setExtLayoutVisibility(View.GONE);
         mWebViewFragment = getWebViewFragment(url);
-        getSupportFragmentManager().beginTransaction().add(R.id.fl_content, mWebViewFragment).commitNowAllowingStateLoss();
-
         if (ThemeCompat.isNight()) {
             mNightView.setVisibility(View.VISIBLE);
         }
-
+        getSupportFragmentManager().beginTransaction().add(R.id.fl_content, mWebViewFragment).commitNowAllowingStateLoss();
     }
 
     protected WebViewFragment getWebViewFragment(String url) {

@@ -1,7 +1,11 @@
 package com.rae.cnblogs.dialog.impl;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -14,6 +18,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.dialog.IAppDialog;
@@ -145,7 +150,10 @@ public class ShareDialog extends SlideDialog {
      * @param visibility
      */
     public void setExtLayoutVisibility(int visibility) {
-        mExtLayout.setVisibility(visibility);
+        mViewSourceView.setVisibility(visibility);
+        mNightView.setVisibility(visibility);
+
+//        mExtLayout.setVisibility(visibility);
         mDividerView.setVisibility(visibility);
     }
 
@@ -266,16 +274,34 @@ public class ShareDialog extends SlideDialog {
         }
     }
 
+
+    protected String getUrl() {
+        return null;
+    }
+
     // 查看原文
     protected void onViewSourceClick() {
     }
 
     // 用浏览器打开
     protected void onBrowserViewClick() {
+        if (getUrl() == null) return;
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(getUrl()));
+            getContext().startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // 复制链接
     protected void onLinkClick() {
+        if (getUrl() == null) return;
+        ClipboardManager clipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboardManager == null) return;
+        clipboardManager.setPrimaryClip(ClipData.newPlainText("url", getUrl()));
+        AppUI.success(getContext(), R.string.copy_link_success);
     }
 
     // 取消

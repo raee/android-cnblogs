@@ -66,6 +66,7 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.image_scale_in, 0);
         setContentView(R.layout.activity_image_preview);
 
         ArrayList<String> images = getIntent().getStringArrayListExtra("images");
@@ -92,6 +93,12 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
         if ("night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName())) {
             mNightView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.image_scale_out);
     }
 
     @OnClick(R.id.img_back)

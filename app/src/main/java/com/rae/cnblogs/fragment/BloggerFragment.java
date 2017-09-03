@@ -3,6 +3,7 @@ package com.rae.cnblogs.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -210,4 +211,25 @@ public class BloggerFragment extends BaseFragment {
         }
     }
 
+
+    /**
+     * 滚动到顶部
+     */
+    public void scrollToTop() {
+        if (mRecyclerView == null) return;
+
+        //先从RecyclerView的LayoutManager中获取第一项和最后一项的Position
+        LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+        int firstItem = layoutManager.findFirstVisibleItemPosition();
+        int lastItem = layoutManager.findLastVisibleItemPosition();
+        int visibleCount = lastItem - firstItem;
+
+        // 已经在顶部
+        if (firstItem <= 1) {
+            mAppLayout.autoRefresh();
+        } else if (lastItem > visibleCount) {
+            layoutManager.scrollToPosition(visibleCount + 1);
+        }
+        mRecyclerView.smoothScrollToPosition(0);
+    }
 }

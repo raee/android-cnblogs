@@ -67,6 +67,12 @@ public class RaeTabLayout extends TabLayout implements SkinCompatSupportable {
         if (mTextSelectColorResId != INVALID_ID && mTextUnselectColorResId != INVALID_ID) {
             setTabTextColors(resources.getColor(mTextUnselectColorResId), resources.getColor(mTextSelectColorResId));
         }
+
+        // 找到所有的TAB，TODO:TAB VIEW
+        int tabCount = getTabCount();
+        for (int i = 0; i < tabCount; i++) {
+            Tab tab = getTabAt(i);
+        }
     }
 
     @Override

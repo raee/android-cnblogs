@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
 
-        <activity
+<!--        <activity
             android:name=".activity.TestActivity"
             android:label="博客园测试"
             android:screenOrientation="portrait"
@@ -55,7 +55,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
+        </activity>-->
 
         <!--博文-->
         <activity
@@ -182,7 +182,7 @@
 
         <activity
             android:name=".activity.SearchActivity"
-            android:windowSoftInputMode="adjustPan|stateVisible"/>
+            android:windowSoftInputMode="stateVisible"/>
 
 
         <meta-data

@@ -26,6 +26,24 @@ public final class AppDataManager {
         // 清除文件缓存
         deleteDir(mContext.getExternalCacheDir());
         deleteDir(mContext.getCacheDir());
+        clearWebViewCache();
+    }
+
+    //清理WebView缓存数据库
+    public void clearWebViewCache() {
+        try {
+            mContext.deleteDatabase("webview.db");
+            mContext.deleteDatabase("webviewCache.db");
+            // 清除文件缓存
+            //WebView 缓存文件
+            File appCacheDir = new File(mContext.getFilesDir().getAbsolutePath() + "/webcache");
+            File webviewCacheDir = new File(mContext.getCacheDir().getAbsolutePath() + "/webviewCache");
+            deleteDir(appCacheDir);
+            deleteDir(webviewCacheDir);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

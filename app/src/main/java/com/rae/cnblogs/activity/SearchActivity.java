@@ -18,6 +18,7 @@ public class SearchActivity extends BaseFragmentActivity {
         overridePendingTransition(com.rae.cnblogs.R.anim.slide_in_bottom, 0);
         super.onCreate(savedInstanceState);
         mToolBar.setVisibility(View.GONE);
+        findViewById(android.R.id.content).setFitsSystemWindows(true);
     }
 
     @Override

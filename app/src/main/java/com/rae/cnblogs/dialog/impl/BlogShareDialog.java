@@ -3,8 +3,6 @@ package com.rae.cnblogs.dialog.impl;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.text.TextUtils;
 
 import com.rae.cnblogs.AppUI;
@@ -28,16 +26,16 @@ public class BlogShareDialog extends ShareDialog {
         return mBlog == null ? null : mBlog.getUrl();
     }
 
-    protected void onBrowserViewClick() {
-        if (mBlog == null) return;
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(getUrl()));
-            getContext().startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    protected void onBrowserViewClick() {
+//        if (mBlog == null) return;
+//        try {
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            intent.setData(Uri.parse(getUrl()));
+//            getContext().startActivity(intent);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     public void show(BlogBean blog) {
@@ -53,12 +51,9 @@ public class BlogShareDialog extends ShareDialog {
         show();
     }
 
-    // 复制链接
-    protected void onLinkClick() {
-        if (mBlog == null) return;
-        ClipboardManager clipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-        clipboardManager.setPrimaryClip(ClipData.newPlainText("url", mBlog.getUrl()));
-        AppUI.success(getContext(), R.string.copy_link_success);
-    }
+//    // 复制链接
+//    protected void onLinkClick() {
+//
+//    }
 
 }

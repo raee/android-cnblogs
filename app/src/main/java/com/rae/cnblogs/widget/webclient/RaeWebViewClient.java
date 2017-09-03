@@ -67,6 +67,7 @@ public class RaeWebViewClient extends WebViewClient {
         }
     }
 
+
     @Override
     public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
         handler.proceed(); // 忽略证书错误

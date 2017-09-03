@@ -147,7 +147,15 @@ public class SettingActivity extends SwipeBackBaseActivity {
      */
     @OnClick(R.id.ll_open_source)
     public void onOpenSourceLicenseClick() {
-        AppRoute.jumpToWeb(this.getContext(), "file:///android_asset/license.html");
+        AppRoute.jumpToWeb(this.getContext(), getString(R.string.url_license));
+    }
+
+    /**
+     * 帮助中心
+     */
+    @OnClick(R.id.ll_help_center)
+    public void onHelpCenterClick() {
+        AppRoute.jumpToWeb(this.getContext(), getString(R.string.url_help_center));
     }
 
     /**

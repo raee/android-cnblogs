@@ -135,8 +135,9 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onLoadContentSuccess(String content) {
         mPlaceholderView.dismiss();
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWebView.loadUrl("file:///android_asset/view.html");
-//        mWebView.loadUrl("http://192.168.168.10:8080/test.html");
+//        mWebView.loadUrl("http://192.168.168.10:8080/r/test.html");
     }
 
     @Override

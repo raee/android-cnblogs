@@ -11,3 +11,22 @@
 .container-fluid{
         overflow: auto;
 }
+
+.code_key_primary, .hljs-keyword, .hljs-selector-tag, .hljs-built_in, .hljs-name, .hljs-tag{
+    color:#0000ff;
+}
+.code_comment{
+     color:#008000;
+ }
+.code_args{
+     color:#000000;
+ }
+.code_symbol{
+     color:#800080;
+ }
+.code_text{
+     color:#800000;
+ }
+.code_high_night{
+     color:#ff0000;
+ }
