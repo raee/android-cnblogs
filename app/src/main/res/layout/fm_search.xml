@@ -97,11 +97,11 @@
                 android:layout_height="match_parent"/>
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <com.rae.cnblogs.widget.RaeRecyclerView
             android:id="@+id/rec_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:background="@color/red"/>
 
     </RelativeLayout>
 </android.support.v7.widget.FitWindowsLinearLayout>

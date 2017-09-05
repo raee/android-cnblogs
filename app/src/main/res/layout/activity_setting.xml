@@ -143,9 +143,10 @@
 
                 <ProgressBar
                     android:id="@+id/pb_check_update"
+                    style="@style/Widget.AppCompat.ProgressBar"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:indeterminateDrawable="@drawable/ic_progress_loading"
+                    android:indeterminateDrawable="@drawable/progress_bar_loading"
                     android:visibility="invisible"/>
 
                 <TextView

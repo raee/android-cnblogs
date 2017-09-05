@@ -86,13 +86,44 @@ public final class ThemeCompat {
     public static void switchNightMode(boolean isNight) {
         if (isNight) {
             // 切换正常模式
-            SkinCompatManager.getInstance().restoreDefaultTheme();
+            SkinCompatManager.getInstance().loadSkin("", new SkinCompatManager.SkinLoaderListener() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onSuccess() {
+                    // 发出通知
+                    EventBus.getDefault().post(new ThemeChangedEvent(ThemeCompat.isNight()));
+                }
+
+                @Override
+                public void onFailed(String s) {
+
+                }
+            });
         } else {
-            SkinCompatManager.getInstance().loadSkin("night", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
+            SkinCompatManager.getInstance().loadSkin("night", new SkinCompatManager.SkinLoaderListener() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onSuccess() {
+                    // 发出通知
+                    EventBus.getDefault().post(new ThemeChangedEvent(ThemeCompat.isNight()));
+                }
+
+                @Override
+                public void onFailed(String s) {
+
+                }
+            }, SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
         }
 
-        // 发出通知
-        EventBus.getDefault().post(new ThemeChangedEvent(ThemeCompat.isNight()));
+
     }
 
     /**

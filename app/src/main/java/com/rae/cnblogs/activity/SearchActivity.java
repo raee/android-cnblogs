@@ -1,10 +1,14 @@
 package com.rae.cnblogs.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
+import com.rae.cnblogs.R;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.fragment.SearchFragment;
 
 /**
@@ -24,6 +28,14 @@ public class SearchActivity extends BaseFragmentActivity {
     @Override
     protected Fragment newFragment() {
         return SearchFragment.newInstance();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, ThemeCompat.isNight() ? R.color.nightColorPrimary : R.color.white));
+        }
     }
 
     @Override

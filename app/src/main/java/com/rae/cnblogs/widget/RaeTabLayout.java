@@ -2,12 +2,12 @@ package com.rae.cnblogs.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.design.widget.TabLayout;
 import android.util.AttributeSet;
 
 import com.rae.cnblogs.R;
 
 import skin.support.content.res.SkinCompatResources;
+import skin.support.design.widget.SkinMaterialTabLayout;
 import skin.support.widget.SkinCompatBackgroundHelper;
 import skin.support.widget.SkinCompatHelper;
 import skin.support.widget.SkinCompatSupportable;
@@ -15,7 +15,7 @@ import skin.support.widget.SkinCompatSupportable;
 import static skin.support.widget.SkinCompatHelper.INVALID_ID;
 
 
-public class RaeTabLayout extends TabLayout implements SkinCompatSupportable {
+public class RaeTabLayout extends SkinMaterialTabLayout implements SkinCompatSupportable {
     private SkinCompatBackgroundHelper mBackgroundTintHelper;
 
     private int mIndicatorColorResId = INVALID_ID;
@@ -36,7 +36,6 @@ public class RaeTabLayout extends TabLayout implements SkinCompatSupportable {
         super(context, attrs, defStyleAttr);
         initViews(attrs, defStyleAttr);
     }
-
 
     private void initViews(AttributeSet attrs, int defStyleAttr) {
         obtainAttributes(getContext(), attrs);
@@ -67,20 +66,14 @@ public class RaeTabLayout extends TabLayout implements SkinCompatSupportable {
         if (mTextSelectColorResId != INVALID_ID && mTextUnselectColorResId != INVALID_ID) {
             setTabTextColors(resources.getColor(mTextUnselectColorResId), resources.getColor(mTextSelectColorResId));
         }
-
-        // 找到所有的TAB，TODO:TAB VIEW
-        int tabCount = getTabCount();
-        for (int i = 0; i < tabCount; i++) {
-            Tab tab = getTabAt(i);
-        }
     }
 
     @Override
     public void applySkin() {
+        super.applySkin();
         applyTabLayoutResources();
         if (mBackgroundTintHelper != null) {
             mBackgroundTintHelper.applySkin();
         }
-
     }
 }

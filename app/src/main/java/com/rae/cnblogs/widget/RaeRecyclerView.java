@@ -1,6 +1,7 @@
 package com.rae.cnblogs.widget;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -9,31 +10,48 @@ import android.util.AttributeSet;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import skin.support.widget.SkinCompatBackgroundHelper;
+import skin.support.widget.SkinCompatSupportable;
+
 /**
  * RecycleView
  * Created by ChenRui on 2016/12/3 17:26.
  */
-public class RaeRecyclerView extends XRecyclerView {
+public class RaeRecyclerView extends XRecyclerView implements SkinCompatSupportable {
+
+    private SkinCompatBackgroundHelper mBackgroundTintHelper;
 
     private RaeLoadMoreView mFootView;
 
 
     public RaeRecyclerView(Context context) {
         super(context);
-        init();
+        init(null, 0);
     }
 
     public RaeRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs, 0);
     }
 
     public RaeRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        init(attrs, defStyle);
     }
 
-    private void init() {
+    public void setBackgroundResource(@DrawableRes int resId) {
+        super.setBackgroundResource(resId);
+        if (this.mBackgroundTintHelper != null) {
+            this.mBackgroundTintHelper.onSetBackgroundResource(resId);
+        }
+
+    }
+
+    private void init(AttributeSet attrs, int defStyle) {
+
+        this.mBackgroundTintHelper = new SkinCompatBackgroundHelper(this);
+        this.mBackgroundTintHelper.loadFromAttributes(attrs, defStyle);
+
         setLayoutManager(new LinearLayoutManager(getContext()));
         setPullRefreshEnabled(false);
         mFootView = new RaeLoadMoreView(getContext());
@@ -59,7 +77,6 @@ public class RaeRecyclerView extends XRecyclerView {
 
     /**
      * 是否在顶部
-     *
      */
     public boolean isOnTop() {
         if (getChildCount() == 0) {
@@ -100,5 +117,12 @@ public class RaeRecyclerView extends XRecyclerView {
             }
         }
         return false;
+    }
+
+    @Override
+    public void applySkin() {
+        if (this.mBackgroundTintHelper != null) {
+            this.mBackgroundTintHelper.applySkin();
+        }
     }
 }

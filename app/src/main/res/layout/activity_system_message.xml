@@ -14,13 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_divider"
+        app:empty_icon="@drawable/ic_empty_message"
         app:empty_message="暂无消息">
 
         <com.rae.cnblogs.widget.RaeRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background_divider"/>
+            android:layout_height="match_parent"/>
 
     </com.rae.cnblogs.widget.PlaceholderView>
 </LinearLayout>

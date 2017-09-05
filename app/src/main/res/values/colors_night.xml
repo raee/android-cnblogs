@@ -14,11 +14,11 @@
     <color name="dividerPrimary_night">#2b2c2f</color>
     <color name="dividerColor_night">#2b2c2f</color>
     <color name="ph4_night">#595959</color>
-    <color name="ph3_night">#595959</color>
+    <color name="ph3_night">#595959</color>\
     <color name="ph2_night">#505053</color>
     <color name="ph1_night">#8f9091</color>
     <color name="default_background_night">#1F1F21</color>
-    <color name="background_divider_night">#1F1F21</color>
+    <color name="background_divider_night">@color/nightColorPrimary</color>
     <color name="colorToastPrimary_night">@color/nightColorPrimary</color>
     <color name="commentAvatarColor_night">@color/nightColorPrimary</color>
     <color name="blog_item_pressed_night">@color/nightColorPrimary</color>
