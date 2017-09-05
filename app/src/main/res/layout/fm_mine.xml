@@ -177,6 +177,35 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_system_message"
+            style="@style/ItemStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/system_message"
+                android:textColor="@color/ph1"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/img_system_message_badge"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/bg_badge"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/default_right_arrow"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/ll_feedback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

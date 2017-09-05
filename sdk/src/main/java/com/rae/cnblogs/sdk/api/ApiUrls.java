@@ -116,4 +116,6 @@ final class ApiUrls {
     public static final String RAE_API_AD_LAUNCHER = RAE_API_BASIC + "app/ad/launcher";
     // 检查更新
     public static final String RAE_API_CHECK_VERSION = RAE_API_BASIC + "app/version/{versionCode}";
+    public static final String RAE_API_MESSAGE = RAE_API_BASIC + "app/messages";
+    public static final String RAE_API_MESSAGE_COUNT = RAE_API_BASIC + "app/messages/count";
 }

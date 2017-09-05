@@ -31,6 +31,16 @@ public class RaeApiTest extends BaseTest {
     }
 
     @Test
+    public void testMessages() throws InterruptedException {
+        runTest("testMessages", mApi.getMessages());
+    }
+
+    @Test
+    public void testMessageCount() throws InterruptedException {
+        runTest("testMessageCount", mApi.getMessageCount());
+    }
+
+    @Test
     public void testVersionUpdate() throws InterruptedException {
         int versionCode = 0;
 
@@ -40,6 +50,6 @@ public class RaeApiTest extends BaseTest {
             e.printStackTrace();
         }
 
-        runTest("testVersionUpdate", mApi.versionInfo(1,"dev"));
+        runTest("testVersionUpdate", mApi.versionInfo(1, "dev"));
     }
 }

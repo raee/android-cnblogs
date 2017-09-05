@@ -17,6 +17,7 @@ import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
 import com.rae.cnblogs.activity.SearchActivity;
 import com.rae.cnblogs.activity.SettingActivity;
+import com.rae.cnblogs.activity.SystemMessageActivity;
 import com.rae.cnblogs.activity.WebActivity;
 import com.rae.cnblogs.activity.WebLoginActivity;
 import com.rae.cnblogs.image.ImagePreviewActivity;
@@ -267,5 +268,12 @@ public final class AppRoute {
         Intent intent = new Intent(context, SearchActivity.class);
         intent.putExtra("position", 3);
         startActivity(context, intent);
+    }
+
+    /**
+     * 系统消息
+     */
+    public static void jumpToSystemMessage(Context context) {
+        startActivity(context, SystemMessageActivity.class);
     }
 }

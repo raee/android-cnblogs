@@ -51,6 +51,8 @@ public class MineFragment extends BaseFragment {
 
     @BindView(R.id.ll_follow_fans)
     View mFansAndFollowLayout;
+    @BindView(R.id.img_system_message_badge)
+    View mSystemMessageBadgeView;
 
     @BindView(R.id.sb_night_mode)
     SwitchButton mNightModeButton;
@@ -73,9 +75,23 @@ public class MineFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // 模拟登录
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // 获取系统消息
+        RxObservable.create(CnblogsApiFactory.getInstance(getContext()).getRaeServerApi().getMessageCount(), "MineFragment")
+                .subscribe(new ApiDefaultObserver<Integer>() {
+                    @Override
+                    protected void onError(String message) {
+
+                    }
+
+                    @Override
+                    protected void accept(Integer integer) {
+                        if (integer == null) return;
+                        mSystemMessageBadgeView.setVisibility(config().getMessageCount() != integer ? View.VISIBLE : View.INVISIBLE);
+                    }
+                });
     }
 
     @Override
@@ -214,6 +230,15 @@ public class MineFragment extends BaseFragment {
         AppRoute.jumpToFeedback(getContext());
     }
 
+
+    /**
+     * 系统消息
+     */
+    @OnClick(R.id.ll_system_message)
+    public void onSystemMessageClick() {
+        mSystemMessageBadgeView.setVisibility(View.INVISIBLE);
+        AppRoute.jumpToSystemMessage(this.getContext());
+    }
 
     /**
      * 设置

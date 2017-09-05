@@ -129,4 +129,18 @@ public class CnblogSdkConfig {
     public void setMainExitTimeMillis(long value) {
         mConfig.edit().putLong("MainExitTimeMillis", value).apply();
     }
+
+    /**
+     * 设置消息数量
+     */
+    public void setMessageCount(int count) {
+        mConfig.edit().putInt("messageCount", count).apply();
+    }
+
+    /**
+     * 获取消息数量
+     */
+    public int getMessageCount() {
+        return mConfig.getInt("messageCount", 0);
+    }
 }

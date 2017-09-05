@@ -16,6 +16,7 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
 import skin.support.SkinCompatManager;
+import skin.support.design.app.SkinMaterialViewInflater;
 
 /**
  * 集成热更新的应用程序
@@ -45,7 +46,10 @@ public class CnblogsApplication extends TinkerApplication {
 
         // 加载皮肤
         SkinCompatManager.withoutActivity(getApplication()).loadSkin();
-        SkinCompatManager.getInstance().addInflater(new CnblogsLayoutInflater());
+        SkinCompatManager.getInstance()
+                .setSkinStatusBarColorEnable(false)
+                .addInflater(new SkinMaterialViewInflater())
+                .addInflater(new CnblogsLayoutInflater());
 
         // 一些要求不高的初始化操作放到线程中去操作
         new Thread(new Runnable() {

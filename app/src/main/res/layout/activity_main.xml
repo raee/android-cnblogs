@@ -22,7 +22,7 @@
         android:background="@drawable/tab_main_background"
         android:gravity="center">
 
-        <android.support.design.widget.TabLayout
+        <com.rae.cnblogs.widget.RaeTabLayout
             android:id="@+id/tab_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

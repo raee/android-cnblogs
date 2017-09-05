@@ -1,7 +1,10 @@
 package com.rae.cnblogs.sdk.api;
 
 import com.rae.cnblogs.sdk.bean.AdvertBean;
+import com.rae.cnblogs.sdk.bean.SystemMessageBean;
 import com.rae.cnblogs.sdk.bean.VersionInfo;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -17,6 +20,12 @@ public interface IRaeServerApi {
     @GET(ApiUrls.RAE_API_AD_LAUNCHER)
     Observable<AdvertBean> getLauncherAd();
 
+
+    @GET(ApiUrls.RAE_API_MESSAGE)
+    Observable<List<SystemMessageBean>> getMessages();
+
+    @GET(ApiUrls.RAE_API_MESSAGE_COUNT)
+    Observable<Integer> getMessageCount();
 
     /**
      * @param versionCode 版本代码
