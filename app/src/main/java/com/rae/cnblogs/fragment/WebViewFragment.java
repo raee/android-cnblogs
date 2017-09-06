@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeWebView;
@@ -31,7 +32,6 @@ import java.io.File;
 import butterknife.BindView;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
-import skin.support.SkinCompatManager;
 
 /**
  * 网页查看
@@ -85,7 +85,7 @@ public class WebViewFragment extends BaseFragment {
 
 
         // 夜间模式
-        if ("night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName())) {
+        if (ThemeCompat.isNight()) {
             mWebView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white_night));
         }
 

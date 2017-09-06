@@ -17,6 +17,7 @@ import com.rae.cnblogs.sdk.bean.UserFeedBean;
 import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
+import com.rae.swift.Rx;
 
 import java.util.List;
 
@@ -120,10 +121,14 @@ public class FeedListFragment extends BaseFragment implements IFeedPresenter.IFe
 
     @Override
     public void onLoadFeedSuccess(List<UserFeedBean> dataList) {
-        mPlaceholderView.dismiss();
-        mAdapter.invalidate(dataList);
-        mAdapter.notifyDataSetChanged();
         mRecyclerView.loadMoreComplete();
+        if (Rx.isEmpty(dataList)) {
+            mPlaceholderView.empty();
+        } else {
+            mPlaceholderView.dismiss();
+            mAdapter.invalidate(dataList);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

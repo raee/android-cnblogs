@@ -47,6 +47,7 @@ import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.avos.avoscloud.feedback.FeedbackThread;
 import com.avos.avoscloud.feedback.FeedbackThread.SyncCallback;
 import com.avos.avoscloud.feedback.Resources;
+import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 
@@ -65,6 +66,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import skin.support.content.res.SkinCompatResources;
 
 public class FeedbackActivity extends SwipeBackBaseActivity {
 
@@ -111,6 +113,7 @@ public class FeedbackActivity extends SwipeBackBaseActivity {
             }
 
         };
+
 
         sendButton.setOnClickListener(new OnClickListener() {
 
@@ -320,15 +323,19 @@ public class FeedbackActivity extends SwipeBackBaseActivity {
 
         contact = (EditText) findViewById(Resources.id.avoscloud_feedback_contact(this));
 
+        contact.clearFocus();
+        feedbackInput.requestFocus();
+
         if (agent.isContactEnabled()) {
 
             // 设置默认的联系方式
             if (TextUtils.isEmpty(thread.getContact()) && UserProvider.getInstance().isLogin()) {
                 UserInfoBean info = UserProvider.getInstance().getLoginUserInfo();
-                thread.setContact(info.getBlogApp() + "_" + info.getDisplayName());
+                thread.setContact(info.getBlogApp() + "@" + info.getDisplayName());
             }
 //            contact.setVisibility(TextUtils.isEmpty(thread.getContact()) ? View.VISIBLE : View.GONE);
             contact.setText(thread.getContact());
+            contact.setSelection(contact.length());
             contact.addTextChangedListener(new TextWatcher() {
 
                 @Override
@@ -342,7 +349,7 @@ public class FeedbackActivity extends SwipeBackBaseActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     if (TextUtils.isEmpty(s) && UserProvider.getInstance().isLogin()) {
-                        s = UserProvider.getInstance().getLoginUserInfo().getBlogApp() + "_" + UserProvider.getInstance().getLoginUserInfo().getDisplayName();
+                        s = UserProvider.getInstance().getLoginUserInfo().getBlogApp() + "@" + UserProvider.getInstance().getLoginUserInfo().getDisplayName();
                     }
 
                     thread.setContact(s.toString());
@@ -356,7 +363,7 @@ public class FeedbackActivity extends SwipeBackBaseActivity {
         thread.sync(syncCallback);
 
         // 定时刷新
-        mSubscribe = Observable.interval(5000, TimeUnit.MILLISECONDS)
+        mSubscribe = Observable.interval(3000, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Long>() {
@@ -576,6 +583,9 @@ public class FeedbackActivity extends SwipeBackBaseActivity {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+
+            holder.content.setTextColor(SkinCompatResources.getInstance().getColor(R.color.ph2));
+
             final Comment comment = (Comment) getItem(position);
             if (comment.getAttachment() != null && comment.getAttachment().getUrl() != null) {
                 holder.content.setVisibility(View.GONE);

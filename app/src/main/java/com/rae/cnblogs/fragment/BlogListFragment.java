@@ -254,6 +254,6 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @Subscribe
     public void onEvent(ThemeChangedEvent event) {
         if (mItemAdapter != null)
-            mAppLayout.autoRefresh(true, 500);
+            mAppLayout.autoRefresh(true, 300);
     }
 }

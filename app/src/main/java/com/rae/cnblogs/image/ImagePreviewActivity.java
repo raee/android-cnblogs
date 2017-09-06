@@ -3,6 +3,7 @@ package com.rae.cnblogs.image;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.target.Target;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.activity.BaseActivity;
 
 import java.io.File;
@@ -90,7 +92,7 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
         if (position <= 0)
             onPageSelected(position);
 
-        if ("night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName())) {
+        if (ThemeCompat.isNight()) {
             mNightView.setVisibility(View.VISIBLE);
         }
     }

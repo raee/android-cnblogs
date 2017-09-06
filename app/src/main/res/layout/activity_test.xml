@@ -6,35 +6,48 @@
               android:orientation="vertical"
               android:paddingTop="@dimen/default_padding_top">
 
-    <Button
-        android:id="@+id/btn_main"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="首页"/>
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btn_test"
+        <Button
+            android:id="@+id/btn_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg_btn_default"
+            android:text="跳转首页"/>
+
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg_btn_default"
+            android:text="测试"/>
+
+        <Button
+            android:id="@+id/btn_patch_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg_btn_default"
+            android:text="补丁测试"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="测试"/>
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_islogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="是否登录"/>
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日志信息："/>
 
-    <Button
-        android:id="@+id/btn_patch_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="补丁测试"/>
-
-  <FrameLayout
-      android:id="@+id/content"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
-
-  </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

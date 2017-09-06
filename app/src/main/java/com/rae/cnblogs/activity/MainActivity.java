@@ -153,44 +153,13 @@ public class MainActivity extends BaseActivity {
                     }
                 });
 
-        // 意见反馈的回复
-        checkFeedbackMessage();
 
         // 请求权限
         requestPermissions();
 
     }
 
-    /**
-     * 检查是否有新的意见反馈回复消息
-     */
-    private void checkFeedbackMessage() {
-        final int originalCount = FeedbackThread.getInstance().getCommentsList().size();
-        FeedbackThread.getInstance().sync(new FeedbackThread.SyncCallback() {
-            @Override
-            public void onCommentsSend(List<Comment> list, AVException e) {
 
-            }
-
-            @Override
-            public void onCommentsFetch(List<Comment> list, AVException e) {
-                if (list.size() > originalCount) {
-                    HintCardDialog dialog = new HintCardDialog(getContext());
-                    dialog.setMessage(getString(R.string.feedback_message));
-                    dialog.showCloseButton();
-                    dialog.setEnSureText(getString(R.string.view_now));
-                    dialog.setOnEnSureListener(new IAppDialogClickListener() {
-                        @Override
-                        public void onClick(IAppDialog dialog, int buttonType) {
-                            dialog.dismiss();
-                            AppRoute.jumpToFeedback(getContext());
-                        }
-                    });
-                    dialog.show();
-                }
-            }
-        });
-    }
 
     /**
      * 申请权限

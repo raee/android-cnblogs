@@ -118,6 +118,7 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
                                 mView.onNormalImage();
                                 return;
                             }
+                            // 过期检查
                             long endTime = ApiUtils.parseDefaultDate(mAdvertBean.getAd_end_date()).getTime();
                             if (System.currentTimeMillis() > endTime) {
                                 mView.onNormalImage();

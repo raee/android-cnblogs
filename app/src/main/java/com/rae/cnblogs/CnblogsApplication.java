@@ -10,9 +10,9 @@ import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.swift.session.SessionManager;
+import com.tencent.bugly.Bugly;
 import com.tencent.tinker.loader.app.TinkerApplication;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
-import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -36,12 +36,11 @@ public class CnblogsApplication extends TinkerApplication {
         // 级别较高的初始化操作
         DbCnblogs.init(getApplication());
         // 日志上报
-//        Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG);
+        Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, BuildConfig.DEBUG);
 //        if (!LeakCanary.isInAnalyzerProcess(this)) {
 //            LeakCanary.install(this);
 //        }
 
-        MobclickAgent.setDebugMode(true);
 
         // LeanCloud用户反馈初始化，要在主线程总
         AVOSCloud.initialize(getApplication(), BuildConfig.LEAN_CLOUD_APP_ID, BuildConfig.LEAN_CLOUD_APP_KEY);
@@ -50,6 +49,7 @@ public class CnblogsApplication extends TinkerApplication {
         // 加载皮肤
         SkinCompatManager.withoutActivity(getApplication()).loadSkin();
         SkinCompatManager.getInstance()
+                .addHookInflater(new ThemeCompat.CnblogsThemeHookInflater())
                 .addInflater(new CnblogsLayoutInflater())
                 .addInflater(new SkinMaterialViewInflater());
 

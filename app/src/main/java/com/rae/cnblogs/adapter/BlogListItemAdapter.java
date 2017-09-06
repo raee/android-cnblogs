@@ -25,8 +25,6 @@ import com.rae.swift.Rx;
 import java.util.ArrayList;
 import java.util.List;
 
-import skin.support.SkinCompatManager;
-
 /**
  * 博客列表ITEM
  * Created by ChenRui on 2016/12/2 0002 19:43.
@@ -164,32 +162,12 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
         if (mBlogType != BlogType.NEWS) {
             showThumbImages(m, holder);
         }
-        switchNightMode(holder);
     }
 
     private int getColor(String name) {
         return ThemeCompat.getColor(getContext(), name);
     }
 
-
-    /**
-     * 切换夜间模式
-     */
-    private void switchNightMode(BlogItemViewHolder holder) {
-        // 夜间模式
-        int alphaRes;
-        if ("night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName())) {
-            alphaRes = getContext().getResources().getInteger(R.integer.imageAlpha_night);
-        } else {
-            alphaRes = getContext().getResources().getInteger(R.integer.imageAlpha);
-        }
-        float alpha = alphaRes / 100.0f;
-        holder.avatarView.setAlpha(alpha);
-        holder.largeThumbView.setAlpha(alpha);
-        holder.thumbOneView.setAlpha(alpha);
-        holder.thumbTwoView.setAlpha(alpha);
-        holder.thumbThreeView.setAlpha(alpha);
-    }
 
     private CharSequence formatHtml(String text) {
         if (TextUtils.isEmpty(text)) return text;

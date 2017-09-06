@@ -9,41 +9,6 @@
     android:paddingTop="@dimen/default_padding_top">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/avoscloud_feedback_input_wrapper"
-        android:orientation="vertical">
-
-        <include layout="@layout/view_title"/>
-
-
-        <EditText
-            android:id="@+id/avoscloud_feedback_contact"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/avoscloud_feedback_contact_background"
-            android:hint="@string/avoscloud_feedback_contact_hint"
-            android:padding="10dp"
-            android:textColor="@color/ph2"
-            android:textColorHint="@color/ph3"
-            android:textCursorDrawable="@null"/>
-
-        <ListView
-            android:id="@+id/avoscloud_feedback_thread_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/avoscloud_feedback_input_wrapper"
-            android:layout_weight="1"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:transcriptMode="normal"/>
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/avoscloud_feedback_input_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,7 +26,6 @@
             android:layout_width="40dp"
             android:layout_height="32dp"
             android:layout_gravity="bottom"
-            android:background="@color/avoscloud_feedback_input_wrap_background"
             android:padding="5dp"
             android:scaleType="center"
             android:src="@drawable/ic_menu_gallery"/>
@@ -90,7 +54,7 @@
         <Button
             android:id="@+id/avoscloud_feedback_send"
             android:layout_width="60dp"
-            android:layout_height="32dp"
+            android:layout_height="30dp"
             android:layout_gravity="bottom"
             android:layout_marginLeft="6dp"
             android:background="@drawable/bg_btn_default"
@@ -99,5 +63,60 @@
             android:textStyle="bold"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/avoscloud_feedback_input_wrapper"
+        android:orientation="vertical">
+
+        <include layout="@layout/view_title"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/avoscloud_feedback_contact_background"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="联系方式："
+                android:textColor="@color/ph2"/>
+
+            <EditText
+                android:id="@+id/avoscloud_feedback_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@color/white"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="填写您的联系方式"
+                android:padding="8dp"
+                android:textColor="@color/ph2"
+                android:textColorHint="@color/ph3"
+                android:textCursorDrawable="@null"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+
+        <ListView
+            android:id="@+id/avoscloud_feedback_thread_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/avoscloud_feedback_input_wrapper"
+            android:layout_weight="1"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:transcriptMode="normal"/>
+    </LinearLayout>
+
 
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILauncherPresenter;
 import com.rae.cnblogs.sdk.bean.BlogType;
@@ -110,8 +111,10 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
 
     @Override
     public void onNormalImage() {
-        mDisplayView.setImageResource(R.drawable.launcher_background);
-//        mDisplayView.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+        // 加载默认
+        if (!ThemeCompat.isNight()) {
+            mDisplayView.setImageResource(R.drawable.launcher_background);
+        }
     }
 
     @OnClick(R.id.img_launcher_display)

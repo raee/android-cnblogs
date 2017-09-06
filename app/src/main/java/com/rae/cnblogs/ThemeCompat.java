@@ -5,10 +5,15 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
 
 import com.rae.cnblogs.message.ThemeChangedEvent;
+import com.rae.cnblogs.widget.RaeSkinImageView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -16,6 +21,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import skin.support.SkinCompatManager;
+import skin.support.app.SkinLayoutInflater;
 
 /**
  * 主题资源扩展类
@@ -24,6 +30,17 @@ import skin.support.SkinCompatManager;
 public final class ThemeCompat {
 
     public static String currentSkinName;
+
+    public static class CnblogsThemeHookInflater implements SkinLayoutInflater {
+        @Override
+        public View createView(@NonNull Context context, String name, @NonNull AttributeSet attributeSet) {
+            Log.i("rae", "addHookInflater创建：" + name);
+            if (TextUtils.equals("ImageView", name)) {
+                return new RaeSkinImageView(context, attributeSet);
+            }
+            return null;
+        }
+    }
 
 
     private static int getResourceId(Context context, String name, String type) {

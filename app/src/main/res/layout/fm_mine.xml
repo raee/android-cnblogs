@@ -207,16 +207,31 @@
 
         <LinearLayout
             android:id="@+id/ll_feedback"
+            style="@style/ItemStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                style="@style/ItemStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/feedback"
-                android:textColor="@color/ph1"/>
+                android:textColor="@color/ph1"
+                android:textSize="16sp"/>
 
+            <ImageView
+                android:id="@+id/img_feedback_badge"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/bg_badge"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/default_right_arrow"/>
         </LinearLayout>
 
 

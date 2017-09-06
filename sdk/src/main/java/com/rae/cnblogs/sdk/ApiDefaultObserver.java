@@ -50,6 +50,9 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
             } else if (ex.code() == 503) {
                 onError("服务器拒绝连接0x503");
                 return;
+            } else if (ex.code() >= 500 && ex.code() < 600) {
+                onError("服务器发生错误0x" + ex.code());
+                return;
             } else {
                 onError("网络连接错误，请检查网络连接");
                 return;

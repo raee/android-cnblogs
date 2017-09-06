@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
+import com.rae.cnblogs.ThemeCompat;
+
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
@@ -30,7 +32,7 @@ public abstract class SwipeBackBaseActivity extends BaseActivity implements Swip
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
         // 夜间模式
-        if ("night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName())) {
+        if (ThemeCompat.isNight()) {
             getSwipeBackLayout().setScrimColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
         }
     }

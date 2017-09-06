@@ -8,6 +8,9 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.feedback.Comment;
+import com.avos.avoscloud.feedback.FeedbackThread;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
@@ -22,6 +25,8 @@ import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -54,6 +59,8 @@ public class MineFragment extends BaseFragment {
     View mFansAndFollowLayout;
     @BindView(R.id.img_system_message_badge)
     View mSystemMessageBadgeView;
+    @BindView(R.id.img_feedback_badge)
+    View mFeedbackBadgeView;
 
     @BindView(R.id.sb_night_mode)
     SwitchButton mNightModeButton;
@@ -78,6 +85,9 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // 意见反馈的回复
+        checkFeedbackMessage();
 
         // 获取系统消息
         RxObservable.create(CnblogsApiFactory.getInstance(getContext()).getRaeServerApi().getMessageCount(), "MineFragment")
@@ -229,6 +239,7 @@ public class MineFragment extends BaseFragment {
      */
     @OnClick(R.id.ll_feedback)
     public void onFeedbackClick() {
+        mFeedbackBadgeView.setVisibility(View.INVISIBLE);
         AppMobclickAgent.onClickEvent(getContext(), "Feedback");
         AppRoute.jumpToFeedback(getContext());
     }
@@ -261,4 +272,22 @@ public class MineFragment extends BaseFragment {
         mNightModeButton.performClick();
     }
 
+
+    /**
+     * 检查是否有新的意见反馈回复消息
+     */
+    private void checkFeedbackMessage() {
+        final int originalCount = FeedbackThread.getInstance().getCommentsList().size();
+        FeedbackThread.getInstance().sync(new FeedbackThread.SyncCallback() {
+            @Override
+            public void onCommentsSend(List<Comment> list, AVException e) {
+
+            }
+
+            @Override
+            public void onCommentsFetch(List<Comment> list, AVException e) {
+                mFeedbackBadgeView.setVisibility(list.size() > originalCount ? View.VISIBLE : View.INVISIBLE);
+            }
+        });
+    }
 }

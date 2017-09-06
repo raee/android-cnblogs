@@ -39,13 +39,12 @@ public abstract class CnblogsApiProvider {
         }
 
         OkHttpClient client = builder
-                .cache(context, 5)
+                .cache(context, 3)
                 .https()
                 .cookie()
                 .build()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .addInterceptor(RequestInterceptor.create(context))
-                .retryOnConnectionFailure(true)
                 .build();
 
         mRetrofit = new Retrofit.Builder()
