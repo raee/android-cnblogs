@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kyleduo.switchbutton.SwitchButton;
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
@@ -214,6 +215,7 @@ public class MineFragment extends BaseFragment {
      */
     @OnClick(R.id.ll_favorites)
     public void onFavoritesClick() {
+        AppMobclickAgent.onClickEvent(getContext(), "Favorites");
         // 没有登录跳登录
         if (isNotLogin()) {
             AppRoute.jumpToLogin(getActivity());
@@ -227,6 +229,7 @@ public class MineFragment extends BaseFragment {
      */
     @OnClick(R.id.ll_feedback)
     public void onFeedbackClick() {
+        AppMobclickAgent.onClickEvent(getContext(), "Feedback");
         AppRoute.jumpToFeedback(getContext());
     }
 
@@ -236,6 +239,7 @@ public class MineFragment extends BaseFragment {
      */
     @OnClick(R.id.ll_system_message)
     public void onSystemMessageClick() {
+        AppMobclickAgent.onClickEvent(getContext(), "SystemMessage");
         mSystemMessageBadgeView.setVisibility(View.INVISIBLE);
         AppRoute.jumpToSystemMessage(this.getContext());
     }
@@ -253,6 +257,7 @@ public class MineFragment extends BaseFragment {
      */
     @OnClick(R.id.ll_night)
     public void onNightClick() {
+        AppMobclickAgent.onClickEvent(getContext(), "NightMode");
         mNightModeButton.performClick();
     }
 

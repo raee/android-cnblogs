@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import com.rae.cnblogs.widget.SkinRoundedImageView;
+
 import skin.support.app.SkinLayoutInflater;
 
 /**
@@ -19,12 +21,10 @@ public class CnblogsLayoutInflater implements SkinLayoutInflater {
 
         Log.i("rae-skin", "创建类型：" + name);
 
-//        switch (name) {
-//            case "com.rae.cnblogs.widget.RaeTabLayout":
-//                break;
-//            case "com.rae.cnblogs.widget.RaeTextView":
-//                break;
-//        }
+        switch (name) {
+            case "com.makeramen.roundedimageview.RoundedImageView":
+                return new SkinRoundedImageView(context, attrs);
+        }
 
         return null;
     }

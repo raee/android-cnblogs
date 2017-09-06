@@ -139,7 +139,10 @@ public class BloggerLayout extends ScrollView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (measureScrollPercent() < 1 && ev.getAction() == MotionEvent.ACTION_MOVE) {
+        if (measureScrollPercent() < 1
+                && ev.getAction() == MotionEvent.ACTION_MOVE
+                && Math.abs(mTouchDownY - ev.getRawY()) > 30
+                ) {
             return true;
         }
         return super.onInterceptTouchEvent(ev); // 拦截事件
@@ -180,7 +183,7 @@ public class BloggerLayout extends ScrollView {
         }
 
 
-        //  如果以及滑动到最底部，把事件分发给列表去处理
+        //  如果已经滑动到最底部，把事件分发给列表去处理
         if (checkInBottom()) {
 
             if (mActionDownEvent == null && ev.getAction() == MotionEvent.ACTION_MOVE) {

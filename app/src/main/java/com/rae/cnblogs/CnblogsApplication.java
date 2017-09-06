@@ -12,6 +12,7 @@ import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.swift.session.SessionManager;
 import com.tencent.tinker.loader.app.TinkerApplication;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -40,6 +41,8 @@ public class CnblogsApplication extends TinkerApplication {
 //            LeakCanary.install(this);
 //        }
 
+        MobclickAgent.setDebugMode(true);
+
         // LeanCloud用户反馈初始化，要在主线程总
         AVOSCloud.initialize(getApplication(), BuildConfig.LEAN_CLOUD_APP_ID, BuildConfig.LEAN_CLOUD_APP_KEY);
         FeedbackThread.getInstance();
@@ -47,9 +50,8 @@ public class CnblogsApplication extends TinkerApplication {
         // 加载皮肤
         SkinCompatManager.withoutActivity(getApplication()).loadSkin();
         SkinCompatManager.getInstance()
-                .setSkinStatusBarColorEnable(false)
-                .addInflater(new SkinMaterialViewInflater())
-                .addInflater(new CnblogsLayoutInflater());
+                .addInflater(new CnblogsLayoutInflater())
+                .addInflater(new SkinMaterialViewInflater());
 
         // 一些要求不高的初始化操作放到线程中去操作
         new Thread(new Runnable() {

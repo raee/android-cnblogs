@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.Window;
 
 import com.rae.cnblogs.message.ThemeChangedEvent;
@@ -21,6 +22,9 @@ import skin.support.SkinCompatManager;
  * Created by ChenRui on 2017/8/30 0030 16:46.
  */
 public final class ThemeCompat {
+
+    public static String currentSkinName;
+
 
     private static int getResourceId(Context context, String name, String type) {
         Resources resources = context.getResources();
@@ -41,6 +45,13 @@ public final class ThemeCompat {
      */
     public static boolean isNight() {
         return "night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName());
+    }
+
+    /**
+     * 在{@link #isNight()} 调用之前，用于判断资源文件
+     */
+    public static boolean isNightInResource() {
+        return !TextUtils.isEmpty(currentSkinName);
     }
 
 

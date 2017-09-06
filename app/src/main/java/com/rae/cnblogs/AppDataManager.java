@@ -32,6 +32,10 @@ public final class AppDataManager {
     //清理WebView缓存数据库
     public void clearWebViewCache() {
         try {
+
+            // 兼容高版本：/data/data/com.rae.cnblogs/app_webview
+            deleteDir(new File(mContext.getCacheDir().getParent(), "app_webview"));
+
             mContext.deleteDatabase("webview.db");
             mContext.deleteDatabase("webviewCache.db");
             // 清除文件缓存

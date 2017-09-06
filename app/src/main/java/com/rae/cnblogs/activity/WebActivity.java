@@ -74,7 +74,7 @@ public class WebActivity extends SwipeBackBaseActivity {
                 dialog.setShareWeb(url, getTitle().toString(), String.format("%s - 来自博客园APP", getTitle()), null);
             }
         });
-        mShareDialog.setExtLayoutVisibility(View.GONE);
+        mShareDialog.setExtVisibility(View.GONE);
         mWebViewFragment = getWebViewFragment(url);
         if (ThemeCompat.isNight()) {
             mNightView.setVisibility(View.VISIBLE);

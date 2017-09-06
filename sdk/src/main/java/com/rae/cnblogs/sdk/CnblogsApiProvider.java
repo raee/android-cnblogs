@@ -34,9 +34,9 @@ public abstract class CnblogsApiProvider {
         mContext = context;
         OkHttpExtBuilder builder = new OkHttpExtBuilder();
 
-//        if (BuildConfig.LOG_DEBUG) {
+        if (BuildConfig.LOG_DEBUG) {
             builder.debug("CNBLOGS-API");
-//        }
+        }
 
         OkHttpClient client = builder
                 .cache(context, 5)
@@ -109,5 +109,6 @@ public abstract class CnblogsApiProvider {
      * 个人的接口
      */
     public abstract IRaeServerApi getRaeServerApi();
+
 
 }

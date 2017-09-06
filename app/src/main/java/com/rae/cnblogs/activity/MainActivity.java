@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
@@ -218,8 +219,10 @@ public class MainActivity extends BaseActivity {
         TabLayout.Tab tab = mTabLayout.newTab();
         View tabView = getLayoutInflater().inflate(R.layout.tab_view, null);
         TextView v = (TextView) tabView.findViewById(R.id.tv_tab_view);
+        ImageView iconView = (ImageView) tabView.findViewById(R.id.img_tab_icon);
         v.setText(resId);
-        v.setCompoundDrawablesWithIntrinsicBounds(0, iconId, 0, 0);
+        iconView.setImageResource(iconId);
+//        v.setCompoundDrawablesWithIntrinsicBounds(0, iconId, 0, 0);
         tab.setCustomView(tabView);
         mTabLayout.addTab(tab);
         if (fragment != null)

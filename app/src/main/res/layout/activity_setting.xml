@@ -154,10 +154,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="@string/loading"
-                    android:textColor="@color/ph3"
-                    android:visibility="gone"/>
-
+                    android:textColor="@color/ph3"/>
 
             </LinearLayout>
 

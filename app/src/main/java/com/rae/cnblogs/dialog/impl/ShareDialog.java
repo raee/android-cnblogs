@@ -95,7 +95,7 @@ public class ShareDialog extends SlideDialog {
         setContentView(R.layout.dialog_blog_content);
         ButterKnife.bind(this, this);
         mShareAction = new ShareAction((Activity) context);
-        setShareIcon(R.drawable.ic_share);
+        setShareIcon(R.drawable.ic_share_app);
     }
 
     public void setShareTitle(String title) {
@@ -115,7 +115,7 @@ public class ShareDialog extends SlideDialog {
         if (!TextUtils.isEmpty(thumb)) {
             web.setThumb(new UMImage(getContext(), thumb));
         } else {
-            web.setThumb(new UMImage(getContext(), R.drawable.ic_share));
+            web.setThumb(new UMImage(getContext(), R.drawable.ic_share_app));
         }
         mShareAction.withMedia(web);
     }
@@ -149,11 +149,16 @@ public class ShareDialog extends SlideDialog {
      *
      * @param visibility
      */
-    public void setExtLayoutVisibility(int visibility) {
+    public void setExtVisibility(int visibility) {
         mViewSourceView.setVisibility(visibility);
         mNightView.setVisibility(visibility);
 
 //        mExtLayout.setVisibility(visibility);
+//        mDividerView.setVisibility(visibility);
+    }
+
+    public void setExtLayoutVisibility(int visibility) {
+        mExtLayout.setVisibility(visibility);
         mDividerView.setVisibility(visibility);
     }
 

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.fragment.SearchFragment;
@@ -23,6 +24,7 @@ public class SearchActivity extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
         mToolBar.setVisibility(View.GONE);
         findViewById(android.R.id.content).setFitsSystemWindows(true);
+        AppMobclickAgent.onClickEvent(getContext(),"Search");
     }
 
     @Override

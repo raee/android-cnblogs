@@ -1,6 +1,8 @@
 package com.rae.cnblogs.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.CnblogsApplication;
@@ -64,6 +67,10 @@ public class SettingActivity extends SwipeBackBaseActivity {
             mLogoutLayout.setVisibility(View.GONE);
         }
 
+        // 获取版本号
+
+        mCheckUpdateMsgView.setText(getAppVersion());
+
     }
 
     /**
@@ -103,7 +110,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
      */
     @OnClick(R.id.btn_logout)
     public void onLogoutClick() {
-
+        AppMobclickAgent.onClickEvent(getContext(), "Logout");
         HintCardDialog dialog = new HintCardDialog(getContext());
         dialog.setMessage(getString(R.string.tips_logout));
         dialog.setOnEnSureListener(new IAppDialogClickListener() {
@@ -126,6 +133,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
      */
     @OnClick(R.id.ll_share)
     public void onShareClick() {
+        AppMobclickAgent.onClickEvent(getContext(), "ShareApp");
         if (mShareDialog == null) {
             mShareDialog = new ShareDialog(getContext());
             mShareDialog.setShareWeb(getString(R.string.share_app_url), getString(R.string.share_app_title), getString(R.string.share_app_desc), R.drawable.ic_share_app);
@@ -139,6 +147,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
      */
     @OnClick(R.id.ll_github)
     public void onOpenSourceClick() {
+        AppMobclickAgent.onClickEvent(getContext(), "OpenSource");
         AppRoute.jumpToWeb(this.getContext(), getString(R.string.github_url));
     }
 
@@ -147,6 +156,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
      */
     @OnClick(R.id.ll_open_source)
     public void onOpenSourceLicenseClick() {
+        AppMobclickAgent.onClickEvent(getContext(), "OpenSourceLicense");
         AppRoute.jumpToWeb(this.getContext(), getString(R.string.url_license));
     }
 
@@ -155,6 +165,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
      */
     @OnClick(R.id.ll_help_center)
     public void onHelpCenterClick() {
+        AppMobclickAgent.onClickEvent(getContext(), "HelpCenter");
         AppRoute.jumpToWeb(this.getContext(), getString(R.string.url_help_center));
     }
 
@@ -163,6 +174,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
      */
     @OnClick(R.id.ll_check_update)
     public void onCheckUpdateClick() {
+        AppMobclickAgent.onClickEvent(getContext(), "CheckUpdate");
         mCheckUpdateProgress.setVisibility(View.VISIBLE);
         mCheckUpdateMsgView.setVisibility(View.GONE);
         RxObservable.create(CnblogsApiFactory.getInstance(this)
@@ -193,6 +205,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
      */
     @OnClick(R.id.praises)
     public void onPraisesClick() {
+        AppMobclickAgent.onClickEvent(getContext(), "Praises");
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.market_url))));
         } catch (Exception e) {
@@ -204,5 +217,15 @@ public class SettingActivity extends SwipeBackBaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         RxObservable.dispose("checkUpdate");
+    }
+
+    public String getAppVersion() {
+        try {
+            PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_META_DATA);
+            return "V" + packageInfo.versionName;
+        } catch (Exception ignored) {
+
+        }
+        return "";
     }
 }

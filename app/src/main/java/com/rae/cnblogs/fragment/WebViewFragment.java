@@ -107,6 +107,7 @@ public class WebViewFragment extends BaseFragment {
         mAppLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
+                mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE); // 下拉刷新禁止使用缓存
                 mWebView.reload(); // 刷新WebView
             }
 
@@ -168,13 +169,19 @@ public class WebViewFragment extends BaseFragment {
 
     @Override
     public void onDestroy() {
-        mContentLayout.removeAllViews();
-        mAppLayout.removeAllViews();
-        mWebView.removeAllViews();
+        if (mContentLayout != null) {
+            mContentLayout.removeAllViews();
+        }
+        if (mAppLayout != null) {
+            mAppLayout.removeAllViews();
+        }
         if (mRaeWebViewClient != null && mRaeWebViewClient instanceof RaeWebViewClient) {
             ((RaeWebViewClient) mRaeWebViewClient).destroy();
         }
-        mWebView.destroy();
+        if (mWebView != null) {
+            mWebView.removeAllViews();
+            mWebView.destroy();
+        }
         super.onDestroy();
     }
 
@@ -238,4 +245,7 @@ public class WebViewFragment extends BaseFragment {
         mWebView.loadUrl(url);
     }
 
+    public void reload() {
+        mWebView.reload();
+    }
 }

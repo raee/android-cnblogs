@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="6dp"
+    android:layout_marginBottom="10dp"
     android:background="@drawable/bg_blog_item_selector"
     android:orientation="vertical"
     android:paddingBottom="@dimen/default_margin"
@@ -86,7 +86,7 @@
             android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:background="@color/background_divider"
-            android:scaleType="fitCenter"/>
+            android:scaleType="centerCrop"/>
 
         <ImageView
             android:id="@+id/img_blog_list_thumb_two"
@@ -95,7 +95,7 @@
             android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:background="@color/background_divider"
-            android:scaleType="fitCenter"/>
+            android:scaleType="centerCrop"/>
 
         <ImageView
             android:id="@+id/img_blog_list_thumb_three"
@@ -103,7 +103,7 @@
             android:layout_height="@dimen/item_blog_list_thumb_height"
             android:layout_weight="1"
             android:background="@color/background_divider"
-            android:scaleType="fitCenter"/>
+            android:scaleType="centerCrop"/>
 
     </LinearLayout>
 

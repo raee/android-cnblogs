@@ -235,7 +235,8 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         mLikeAnimView.stop();
         mLikeAnimView.setVisibility(View.GONE);
         mLikeView.setVisibility(View.VISIBLE);
-        AppRoute.jumpToLogin(getContext());
+        if (getContext() != null)
+            AppRoute.jumpToLogin(getContext());
     }
 
     @Override
@@ -300,8 +301,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
     @Subscribe
     public void onEvent(ThemeChangedEvent event) {
-
-        mWebView.loadUrl("javascript:loadTheme(" + !event.isNight() + ")");
+        mWebView.loadUrl("javascript:loadTheme(" + event.isNight() + ")");
 //       mWebView.reload();
     }
 }

@@ -1,11 +1,8 @@
 package com.rae.cnblogs.dialog.impl;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 
@@ -43,7 +40,7 @@ public class BlogShareDialog extends ShareDialog {
         mBlog = blog;
 
         if (TextUtils.isEmpty(blog.getAvatar())) {
-            setShareWeb(blog.getUrl(), blog.getTitle(), blog.getSummary(), R.drawable.ic_share);
+            setShareWeb(blog.getUrl(), blog.getTitle(), blog.getSummary(), R.drawable.ic_share_app);
         } else {
             setShareWeb(blog.getUrl(), blog.getTitle(), blog.getSummary(), blog.getAvatar());
         }
