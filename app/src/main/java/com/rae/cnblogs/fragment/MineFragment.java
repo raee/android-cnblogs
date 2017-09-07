@@ -21,10 +21,12 @@ import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
+import com.rae.cnblogs.sdk.CnblogsReportException;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.List;
 
@@ -277,17 +279,21 @@ public class MineFragment extends BaseFragment {
      * 检查是否有新的意见反馈回复消息
      */
     private void checkFeedbackMessage() {
-        final int originalCount = FeedbackThread.getInstance().getCommentsList().size();
-        FeedbackThread.getInstance().sync(new FeedbackThread.SyncCallback() {
-            @Override
-            public void onCommentsSend(List<Comment> list, AVException e) {
+        try {
+            final int originalCount = FeedbackThread.getInstance().getCommentsList().size();
+            FeedbackThread.getInstance().sync(new FeedbackThread.SyncCallback() {
+                @Override
+                public void onCommentsSend(List<Comment> list, AVException e) {
 
-            }
+                }
 
-            @Override
-            public void onCommentsFetch(List<Comment> list, AVException e) {
-                mFeedbackBadgeView.setVisibility(list.size() > originalCount ? View.VISIBLE : View.INVISIBLE);
-            }
-        });
+                @Override
+                public void onCommentsFetch(List<Comment> list, AVException e) {
+                    mFeedbackBadgeView.setVisibility(list.size() > originalCount ? View.VISIBLE : View.INVISIBLE);
+                }
+            });
+        } catch (Exception e) {
+            CrashReport.postCatchedException(new CnblogsReportException("意见反馈发生异常！", e));
+        }
     }
 }

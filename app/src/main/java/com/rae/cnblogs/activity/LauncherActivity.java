@@ -2,6 +2,7 @@ package com.rae.cnblogs.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -91,7 +92,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
             onNormalImage();
             return;
         }
-        mNameView.setText(name);
+        mNameView.setText(Html.fromHtml(name));
         showImage(url);
     }
 

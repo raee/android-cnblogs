@@ -29,7 +29,12 @@ function initImage(){
                    e.stopPropagation(); // 阻止事件冒泡
                 	var urls = new Array();
                 	$("img").each(function(key,obj){
-                		urls[urls.length] = $(obj).attr("src");
+                        var itemUrl = $(obj).attr("src");
+                	    // 过滤图片
+                	    if(itemUrl.indexOf("ExpandedBlockStart.gif")!=-1|| itemUrl.indexOf("ContractedBlock.gif")!=-1|| itemUrl.indexOf("copycode.gif")!=-1){
+                            return;
+                        }
+                		urls[urls.length] = itemUrl;
                 	});
                 	var images ="{}"
                     if(urls.length>0){
@@ -84,4 +89,20 @@ function hex(x) {
 return ("0" + parseInt(x).toString(16)).slice(-2);
 }
 return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+}
+
+function getImageWidth(url,callback){
+    var img = new Image();
+    img.src = url;
+    
+    // 如果图片被缓存，则直接返回缓存数据
+    if(img.complete){
+        callback(img.width, img.height);
+    }else{
+            // 完全加载完毕的事件
+        img.onload = function(){
+        callback(img.width, img.height);
+        }
+        }
+    
 }

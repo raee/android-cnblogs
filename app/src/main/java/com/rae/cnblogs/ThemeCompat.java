@@ -8,7 +8,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
@@ -34,7 +33,6 @@ public final class ThemeCompat {
     public static class CnblogsThemeHookInflater implements SkinLayoutInflater {
         @Override
         public View createView(@NonNull Context context, String name, @NonNull AttributeSet attributeSet) {
-            Log.i("rae", "addHookInflater创建：" + name);
             if (TextUtils.equals("ImageView", name)) {
                 return new RaeSkinImageView(context, attributeSet);
             }

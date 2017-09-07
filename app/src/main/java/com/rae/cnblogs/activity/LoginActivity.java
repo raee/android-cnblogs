@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
@@ -35,8 +36,7 @@ import butterknife.OnClick;
  * 登录
  * Created by ChenRui on 2017/1/19 0019 9:59.
  */
-public class LoginActivity extends BaseActivity implements ILoginPresenter.ILoginView
-{
+public class LoginActivity extends BaseActivity implements ILoginPresenter.ILoginView {
 
     @BindView(com.rae.cnblogs.R.id.ll_login_container)
     View mLoginLayout;
@@ -170,8 +170,18 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
      * 忘记密码
      */
     @OnClick(R.id.tv_forget_password)
-    public void onForgetPassword() {
+    public void onForgetPasswordClick() {
+        AppMobclickAgent.onClickEvent(this,"ForgetPassword");
         AppRoute.jumpToWeb(this, getString(R.string.forget_password_url));
+    }
+
+    /**
+     * 注册账号
+     */
+    @OnClick(R.id.tv_reg)
+    public void onRegClick() {
+        AppMobclickAgent.onClickEvent(this,"Reg");
+        AppRoute.jumpToWeb(this, getString(R.string.reg_url));
     }
 
     /**
@@ -179,14 +189,6 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
      */
     @OnClick(R.id.btn_login)
     public void onLoginClick() {
-//        if (BuildConfig.DEBUG) {
-//            CnblogsApiFactory.getInstance(this).getUserApi();
-//            UserProvider.getInstance().debugLogin();
-//            finish();
-//            return;
-//        }
-
-
         if (config().hasLoginGuide()) {
             preformLogin();
         } else {

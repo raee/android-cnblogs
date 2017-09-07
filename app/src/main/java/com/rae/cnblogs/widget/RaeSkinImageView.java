@@ -26,13 +26,13 @@ public class RaeSkinImageView extends SkinCompatImageView {
 
     private void init() {
         // 初始化的时候不用取反
-        setAlpha(ThemeCompat.isNight() ? 0.5f : 1f);
+        setAlpha(ThemeCompat.isNight() ? 0.3f : 1f);
     }
 
     @Override
     public void applySkin() {
         super.applySkin();
-        setAlpha(isNight() ? 0.5f : 1f);
+        setAlpha(isNight() ? 0.3f : 1f);
     }
 
     public boolean isNight() {

@@ -83,7 +83,7 @@
     <string name="share_app">推荐分享</string>
     <string name="praises">给个好评</string>
     <string name="praises_error">您似乎没有安装应用市场</string>
-    <string name="share_app_url">http://www.raeblog.com/cnblogs/</string>
+    <string name="share_app_url">http://www.raeblog.com/cnblogs/index.php/app/share</string>
     <string name="share_app_title">推荐一个好应用给你「博客园」</string>
     <string name="share_app_desc">听说大牛都在用的博客园APP，一个面向开发者的知识分享社区，一个纯净的技术交流社区。</string>
     <string name="market_url">market://details?id=com.rae.cnblogs</string>
@@ -99,6 +99,7 @@
     <string name="title_request_permissions">权限申请</string>
     <string name="forget_password">忘记密码？</string>
     <string name="forget_password_url">https://passport.cnblogs.com/GetMyPassword.aspx</string>
+    <string name="reg_url">https://account.cnblogs.com</string>
     <string name="search">搜索</string>
     <string name="open_source">开源许可</string>
     <string name="night_mode">夜间模式</string>

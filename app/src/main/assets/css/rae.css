@@ -8,6 +8,16 @@
 #blog_content{
     line-height:26px;
 }
+img{
+    width: 100%;
+}
+.code_img_closed, .auto_width{
+    width: auto;
+}
+.cnblogs_code_toolbar button{
+    margin: 10px;
+
+}
 .container-fluid{
         overflow: auto;
 }

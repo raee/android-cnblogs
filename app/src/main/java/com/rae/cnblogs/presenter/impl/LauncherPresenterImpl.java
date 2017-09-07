@@ -113,17 +113,17 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
 
 
                         private void onSuccess(AdvertBean data) {
-                            mAdvertBean = data;
-                            if (mAdvertBean == null || TextUtils.isEmpty(data.getImage_url())) {
+                            if (data == null || TextUtils.isEmpty(data.getImage_url())) {
                                 mView.onNormalImage();
                                 return;
                             }
                             // 过期检查
-                            long endTime = ApiUtils.parseDefaultDate(mAdvertBean.getAd_end_date()).getTime();
+                            long endTime = ApiUtils.parseDefaultDate(data.getAd_end_date()).getTime();
                             if (System.currentTimeMillis() > endTime) {
                                 mView.onNormalImage();
                             } else {
                                 // 统计
+                                mAdvertBean = data;
                                 AppMobclickAgent.onLaunchAdExposureEvent(mContext, mAdvertBean.getAd_id(), mAdvertBean.getAd_name());
                                 mView.onLoadImage(mAdvertBean.getAd_name(), mAdvertBean.getImage_url());
                             }

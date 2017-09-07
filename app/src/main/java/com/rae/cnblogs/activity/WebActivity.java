@@ -65,13 +65,13 @@ public class WebActivity extends SwipeBackBaseActivity {
 
                 String url = mWebViewFragment.getUrl();
                 if (!url.contains("?")) {
-                    url += "?share_from=rae_cnblogs";
+                    url += "?share_from=com.rae.cnblogs";
                 }
                 if (url.contains("&")) {
-                    url += "&share_from=rae_cnblogs";
+                    url += "&share_from=com.rae.cnblogs";
                 }
 
-                dialog.setShareWeb(url, getTitle().toString(), String.format("%s - 来自博客园APP", getTitle()), null);
+                dialog.setShareWeb(url, getTitle().toString(), String.format("%s - 分享自博客园APP", getTitle()), null);
             }
         });
         mShareDialog.setExtVisibility(View.GONE);
