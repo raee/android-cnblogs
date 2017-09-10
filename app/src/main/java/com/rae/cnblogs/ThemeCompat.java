@@ -13,6 +13,7 @@ import android.view.Window;
 
 import com.rae.cnblogs.message.ThemeChangedEvent;
 import com.rae.cnblogs.widget.RaeSkinImageView;
+import com.rae.cnblogs.widget.RaeSkinImageViewV4;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -34,7 +35,12 @@ public final class ThemeCompat {
         @Override
         public View createView(@NonNull Context context, String name, @NonNull AttributeSet attributeSet) {
             if (TextUtils.equals("ImageView", name)) {
-                return new RaeSkinImageView(context, attributeSet);
+                try {
+                    return new RaeSkinImageView(context, attributeSet);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+                return new RaeSkinImageViewV4(context, attributeSet);
             }
             return null;
         }

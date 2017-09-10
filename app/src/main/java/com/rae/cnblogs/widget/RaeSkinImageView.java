@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 
 import com.rae.cnblogs.ThemeCompat;
 
+import skin.support.widget.SkinCompatBackgroundHelper;
+import skin.support.widget.SkinCompatImageHelper;
 import skin.support.widget.SkinCompatImageView;
 
 public class RaeSkinImageView extends SkinCompatImageView {

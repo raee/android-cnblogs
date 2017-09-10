@@ -57,6 +57,8 @@ public class CategoriesOverallItem extends AbstractFlexibleItem<CategoriesOveral
 
     }
 
+
+
     @Override
     public boolean isDraggable() {
         // 首页、推荐不能拖动

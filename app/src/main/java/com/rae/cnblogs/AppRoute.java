@@ -84,7 +84,7 @@ public final class AppRoute {
         Intent intent = new Intent(context, BlogContentActivity.class);
         // 不传递摘要和正文这些过大的数据。进去博文正文之后再从数据库拉取。
         intent.putExtra("blog", blog);
-        intent.putExtra("blogId", blog.getId());
+        intent.putExtra("blogId", blog.getBlogId());
         intent.putExtra("type", type.getTypeName());
         startActivity(context, intent);
     }

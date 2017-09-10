@@ -227,13 +227,6 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
         });
     }
 
-    /**
-     * 通知分类数据改变
-     */
-    private void notifyDataSetChanged() {
-        mCategoryAdapter.updateDataSet(mCategoryItems);
-        mUnusedAdapter.updateDataSet(mUnusedItems);
-    }
 
     @Override
     public void onItemDrag() {
@@ -302,7 +295,7 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
                     public void accept(@NonNull Empty empty) throws Exception {
                         if (enableNotify) {
                             mHandler.removeMessages(0);
-                            mHandler.sendEmptyMessageDelayed(0, 300);
+                            mHandler.sendEmptyMessageDelayed(0, 200);
                         }
                     }
                 });
@@ -318,6 +311,23 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
             return false;
         }
     });
+
+    /**
+     * 通知分类数据改变
+     */
+    private void notifyDataSetChanged() {
+        mCategoryAdapter.updateDataSet(mCategoryItems);
+        mUnusedAdapter.updateDataSet(mUnusedItems);
+
+        // bug fix: 兼容华为文字白屏问题
+        mCategoryRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mCategoryAdapter.notifyDataSetChanged();
+                mUnusedAdapter.notifyDataSetChanged();
+            }
+        }, 300);
+    }
 
     @Override
     public void onDestroy() {

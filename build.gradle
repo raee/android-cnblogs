@@ -52,10 +52,11 @@ task cleanCache(type: Delete) {
         println '-------------> end clean cache task <----------------'
     }
 }
+
 ext {
     compileSdkVersion = 26
     buildToolsVersion = '26.0.1'
     targetSdkVersion = 26
     minSdkVersion = 15
-    supportVersion = '25.1.0'
+    supportVersion = '25.4.0'
 }

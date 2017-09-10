@@ -73,6 +73,7 @@ android {
         yinyongbao {}   // 应用宝
 //        m360 {}         // 360手机助手
 //        pp {}           // PP助手
+        meizu {}           // 魅族
         xiaomi {}       // 小米商店
         huawei {}       // 华为商店
         official {}      // 官方版本
