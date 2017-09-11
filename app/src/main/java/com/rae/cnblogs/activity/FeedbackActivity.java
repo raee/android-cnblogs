@@ -47,6 +47,8 @@ import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.avos.avoscloud.feedback.FeedbackThread;
 import com.avos.avoscloud.feedback.FeedbackThread.SyncCallback;
 import com.avos.avoscloud.feedback.Resources;
+import com.rae.cnblogs.AppRoute;
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
@@ -594,11 +596,14 @@ public class FeedbackActivity extends SwipeBackBaseActivity {
 
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.setDataAndType(
-                                Uri.fromFile(ImageCache.getCacheFile(comment.getAttachment().getUrl())), "image/*");
-                        startActivity(intent);
+                        // fix bugly #432 #422 #412 #382
+                        File file = ImageCache.getCacheFile(comment.getAttachment().getUrl());
+                        if (!file.exists()) {
+                            AppUI.failed(getContext(), "图片不存在！");
+                            return;
+                        }
+
+                        AppRoute.jumpToImagePreview(getContext(), file.getPath());
                     }
                 };
                 Bitmap attachmentCache = cache.getImage(comment.getAttachment().getUrl());

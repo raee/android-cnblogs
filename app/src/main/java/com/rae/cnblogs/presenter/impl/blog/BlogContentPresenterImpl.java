@@ -81,11 +81,14 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
                 .subscribe(new ApiDefaultObserver<String>() {
                     @Override
                     protected void onError(String message) {
+                        // fix bugly #374
+                        if (mView == null) return;
                         mView.onLoadContentFailed(message);
                     }
 
                     @Override
                     protected void accept(String content) {
+                        if (mView == null) return;
                         mView.getBlog().setContent(content);
                         mView.onLoadContentSuccess(content);
 
