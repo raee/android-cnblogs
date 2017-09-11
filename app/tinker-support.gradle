@@ -1,6 +1,6 @@
 apply plugin: 'com.tencent.bugly.tinker-support'
 
-def bakPath = file("C:\\cnblosApp\\v1.0.0\\bakApk\\")
+def bakPath = file("C:\\cnblosApp\\v1.0.1\\bakApk\\")
 
 /**
  * 此处填写每次构建生成的基准包目录
