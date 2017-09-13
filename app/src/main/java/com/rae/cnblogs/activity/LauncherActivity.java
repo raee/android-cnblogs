@@ -52,11 +52,10 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
         long mainExitTimeMillis = config().getMainExitTimeMillis();
         long span = System.currentTimeMillis() - mainExitTimeMillis;
 
-        // 第一次或者是程序退出的时间超过3分钟(180000)，就启动当前界面
-        if (mainExitTimeMillis <= 0 || span > 180000) {
+        // 第一次或者是程序退出的时间超过1分钟(60000)，就启动当前界面
+        if (mainExitTimeMillis <= 0 || span > 60000) {
             mLauncherPresenter.start();
         } else {
-
             // 跳过启动界面
             AppRoute.jumpToMain(this);
             Observable.timer(500, TimeUnit.MILLISECONDS)
@@ -98,6 +97,10 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
 
     @Override
     public void onJumpToWeb(String url) {
+        // 网页路径为空不跳转
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
         AppRoute.jumpToMain(this);
         AppRoute.jumpToWeb(this, url);
         finish();

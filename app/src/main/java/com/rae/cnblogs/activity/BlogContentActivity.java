@@ -226,7 +226,8 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.fl_comment, mBlogCommentFragment);
         transaction.add(R.id.fl_content, mBlogContentFragment);
-        transaction.commit();
+        // fix bugly #472
+        transaction.commitAllowingStateLoss();
     }
 
     // 分享

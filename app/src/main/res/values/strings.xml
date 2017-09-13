@@ -32,7 +32,7 @@
     <string name="register">注册</string>
     <string name="login_tips">登录即表示同意</string>
     <string name="login_contract">博客园APP隐私说明</string>
-    <string name="login_contract_content">博客园APP已经开源，登录过程我们会收集您遇到的错误信息以及博客名称，但我们不会收集您的帐号密码信息，请放心登录。\n您在登录过程如有任何问题请联系博客园官方团\n对于博客园APP您有任何意见或者想法都可以随时联系作者raedev@qq.com</string>
+    <string name="login_contract_content">博客园APP已经开源，登录过程我们会收集您遇到的错误信息以及博客名称，但我们不会收集您的帐号密码信息，请放心登录。\n您在登录过程如有任何问题请联系博客园官方团队。contact@cnblogs.com\n</string>
     <string name="login_user_name_hint">用户名</string>
     <string name="login_password_hint">密码</string>
     <string name="login">登录</string>
