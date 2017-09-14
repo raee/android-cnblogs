@@ -1,6 +1,8 @@
 package com.rae.cnblogs.sdk.interceptor;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
@@ -31,6 +33,9 @@ import okio.Buffer;
 public class RequestInterceptor implements Interceptor {
 
     private final ConnectivityManager mConnectivityManager;
+    private String versionName;
+    private String packageName;
+    private int versionCode;
 
     public static RequestInterceptor create(Context context) {
         return new RequestInterceptor(context);
@@ -39,6 +44,15 @@ public class RequestInterceptor implements Interceptor {
     public RequestInterceptor(Context context) {
         mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         CookieSyncManager.createInstance(context.getApplicationContext());
+        try {
+            this.packageName = context.getPackageName();
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            this.versionName = packageInfo.versionName;
+            this.versionCode = packageInfo.versionCode;
+        } catch (Exception e) {
+            this.versionName = "1.0.0";
+            e.printStackTrace();
+        }
     }
 
     private boolean isConnected() {
@@ -52,6 +66,11 @@ public class RequestInterceptor implements Interceptor {
         Request request = chain.request();
 
         Request.Builder newBuilder = request.newBuilder();
+
+        // 添加版本号
+        newBuilder.addHeader("APP-PACKAGE-NAME", this.packageName);
+        newBuilder.addHeader("APP-VERSION-NAME", this.versionName);
+        newBuilder.addHeader("APP-VERSION-CODE", String.valueOf(this.versionCode));
 
         // [重要] 带上COOKIE，保持登录需要用到
         String cookie = CookieManager.getInstance().getCookie("http://www.cnblogs.com");

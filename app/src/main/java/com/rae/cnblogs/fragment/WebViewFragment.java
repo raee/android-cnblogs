@@ -3,6 +3,7 @@ package com.rae.cnblogs.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.rae.cnblogs.AppUI;
+import com.rae.cnblogs.BuildConfig;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.widget.AppLayout;
@@ -87,6 +89,10 @@ public class WebViewFragment extends BaseFragment {
         // 夜间模式
         if (ThemeCompat.isNight()) {
             mWebView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white_night));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && BuildConfig.DEBUG) {
+            WebView.setWebContentsDebuggingEnabled(true);
         }
 
         // 下载监听
