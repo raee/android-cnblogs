@@ -8,7 +8,7 @@
     <string name="edit_comment">发表伟大的言论…</string>
     <string name="wechat_sns">微信朋友圈</string>
     <string name="qq">QQ</string>
-    <string name="wechat">微信</string>
+    <string name="wechat">微信好友</string>
     <string name="qzone">QQ空间</string>
     <string name="sina">新浪微博</string>
     <string name="view_source">查看原文</string>
@@ -32,7 +32,7 @@
     <string name="register">注册</string>
     <string name="login_tips">登录即表示同意</string>
     <string name="login_contract">博客园APP隐私说明</string>
-    <string name="login_contract_content">博客园APP已经开源，登录过程我们会收集您遇到的错误信息以及博客名称，但我们不会收集您的帐号密码信息，请放心登录。\n您在登录过程如有任何问题请联系博客园官方团\n对于博客园APP您有任何意见或者想法都可以随时联系作者raedev@qq.com</string>
+    <string name="login_contract_content">博客园APP已经开源，登录过程我们会收集您遇到的错误信息以及您的博客名称，但我们不会收集您的帐号密码信息，请放心登录。\n\n您在登录过程如有任何问题请前往设置-帮助中心查看具体说明，或者联系博客园官方团队contact@cnblogs.com。</string>
     <string name="login_user_name_hint">用户名</string>
     <string name="login_password_hint">密码</string>
     <string name="login">登录</string>
@@ -84,7 +84,7 @@
     <string name="praises">给个好评</string>
     <string name="praises_error">您似乎没有安装应用市场</string>
     <string name="share_app_url">http://www.raeblog.com/cnblogs/index.php/app/share</string>
-    <string name="share_app_title">推荐一个好应用给你「博客园」</string>
+    <string name="share_app_title">推荐一个好应用「博客园」给你</string>
     <string name="share_app_desc">听说大牛都在用的博客园APP，一个面向开发者的知识分享社区，一个纯净的技术交流社区。</string>
     <string name="market_url">market://details?id=com.rae.cnblogs</string>
     <string name="service_name">博客园离线服务</string>
@@ -107,6 +107,6 @@
     <string name="check_update">检查更新</string>
     <string name="help_center">帮助中心</string>
     <string name="url_help_center">http://www.raeblog.com/cnblogs/help.html</string>
-    <string name="url_license">file:///android_asset/license.html</string>
+    <string name="url_license">http://www.raeblog.com/cnblogs/license.html</string>
     <string name="system_message">系统消息</string>
 </resources>

@@ -81,8 +81,9 @@ public final class AppRoute {
      * @param type 博客类型
      */
     public static void jumpToBlogContent(Context context, BlogBean blog, BlogType type) {
+        if (blog == null) return;
         Intent intent = new Intent(context, BlogContentActivity.class);
-        // 不传递摘要和正文这些过大的数据。进去博文正文之后再从数据库拉取。
+        // 不传递摘要和正文这些过大的数据。进去博文正文之后再从数据库拉取。已经在BlogBean里面处理大数据问题
         intent.putExtra("blog", blog);
         intent.putExtra("blogId", blog.getBlogId());
         intent.putExtra("type", type.getTypeName());

@@ -12,13 +12,12 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="48dp"
+        android:layout_marginRight="12dp"
         android:ellipsize="end"
-        android:gravity="center"
         android:singleLine="true"
         android:text="@string/app_name"
         android:textColor="@color/ph1"
-        android:textSize="@dimen/h1"
+        android:textSize="18sp"
         android:textStyle="bold"/>
 
 </android.support.v7.widget.Toolbar>
