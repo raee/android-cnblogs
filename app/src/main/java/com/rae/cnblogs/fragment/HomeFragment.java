@@ -79,6 +79,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
         mHomePresenter.start();
     }
 
+
     @OnClick(R.id.img_edit_category)
     public void onCategoryClick(View view) {
         if (mCategoryBeanList == null || mCategoryBeanList.size() <= 0) {
@@ -90,6 +91,11 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
 
     @Override
     public void onLoadCategory(List<CategoryBean> data) {
+
+        if (!isAdded()) {
+            // 还没有加载
+            return;
+        }
 
         mCategoryBeanList = data;
         int count = mAdapter == null ? 0 : mAdapter.getCount();
@@ -131,7 +137,13 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
         // 分类编辑返回
         if (requestCode == AppRoute.REQ_CODE_CATEGORY && resultCode == Activity.RESULT_OK) {
             mPosition = data != null ? data.getIntExtra("position", 0) : mViewPager.getCurrentItem();
-            mHomePresenter.start();
+            // 可能没有附加上去，fix bugly #352
+            mViewPager.post(new Runnable() {
+                @Override
+                public void run() {
+                    mHomePresenter.start();
+                }
+            });
         }
     }
 

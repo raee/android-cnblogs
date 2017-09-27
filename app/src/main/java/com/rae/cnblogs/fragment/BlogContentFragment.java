@@ -134,10 +134,17 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
     @Override
     public void onLoadContentSuccess(String content) {
-        mPlaceholderView.dismiss();
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        mWebView.loadUrl("file:///android_asset/view.html");
-//        mWebView.loadUrl("http://192.168.168.10:8080/r/test.html");
+        // 可能会处于非主线程中，这里提交到主线程中去。
+        // fix bugly #354
+        mContentLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mPlaceholderView.dismiss();
+                mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+                mWebView.loadUrl("file:///android_asset/view.html");
+            }
+        });
+
     }
 
     @Override
