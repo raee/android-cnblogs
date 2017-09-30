@@ -107,6 +107,11 @@ final class ApiUrls {
     // 搜索-新闻-列表
     static final String API_SEARCH_NEWS_LIST = "http://zzk.cnblogs.com/s/news";
 
+    // 闪存-全站
+    static final String API_MOMENT_LIST = "https://ing.cnblogs.com/ajax/ing/GetIngList?PageSize=30";
+
+    // 闪存-发布
+    static final String API_MOMENT_PUBLISH = "https://ing.cnblogs.com/ajax/ing/Publish";
 
     // 服务端接口地址
     public static final String RAE_API_BASIC = "http://www.raeblog.com/cnblogs/index.php/";

@@ -1,6 +1,7 @@
 package com.rae.cnblogs.sdk.utils;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -121,6 +122,15 @@ public final class ApiUtils {
 
     public static String getBlogApp(String authorUrl) {
         if (authorUrl == null) return null;
+        if (authorUrl.contains("home.cnblogs.com")) {
+            try {
+                authorUrl = authorUrl.replace("//", "http://");
+                Uri uri = Uri.parse(authorUrl);
+                return uri.getLastPathSegment();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return authorUrl.replace("http://www.cnblogs.com/", "").replace("/", "");
     }
 
