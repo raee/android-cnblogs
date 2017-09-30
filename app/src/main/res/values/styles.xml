@@ -88,13 +88,15 @@
         <item name="android:layout_marginBottom">22dp</item>
         <item name="android:drawablePadding">7dp</item>
         <item name="android:textColor">@color/ph1</item>
-        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginRight">25dp</item>
         <item name="android:textSize">@dimen/h3</item>
         <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AppToolBar" parent="Widget.AppCompat.Toolbar">
         <item name="contentInsetStart">0dp</item><!-- 设置该属性解决空白部分-->
+        <item name="contentInsetEnd">0dp</item>
         <item name="contentInsetStartWithNavigation">0dp</item>
 
     </style>

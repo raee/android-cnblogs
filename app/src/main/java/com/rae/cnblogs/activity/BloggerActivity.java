@@ -1,5 +1,6 @@
 package com.rae.cnblogs.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -12,11 +13,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.fragment.BlogListFragment;
 import com.rae.cnblogs.model.FeedListFragment;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
@@ -161,7 +165,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     }
 
     @Override
-    public void onLoadBloggerInfo(FriendsInfoBean userInfo) {
+    public void onLoadBloggerInfo(final FriendsInfoBean userInfo) {
         mUserInfo = userInfo;
         mFansLayout.setClickable(true);
         mFollowLayout.setClickable(true);
@@ -182,12 +186,30 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
         if (!TextUtils.isEmpty(userInfo.getAvatar())) {
 
+            // 封面图
+            String coverUrl = String.format("https://files.cnblogs.com/files/%s/app-cover.bmp", userInfo.getBlogApp());
+            mBackgroundView.setContentDescription(coverUrl);
             GlideApp.with(this)
-                    .load(userInfo.getAvatar())
+                    .load(coverUrl)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Drawable> target, boolean b) {
+                            // 如果没有这张封面图就展示默认的
+                            GlideApp.with(getContext())
+                                    .load(userInfo.getAvatar())
+                                    .into(mBackgroundView);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable drawable, Object o, Target<Drawable> target, DataSource dataSource, boolean b) {
+                            return false;
+                        }
+                    })
                     .placeholder(R.drawable.account_top_bg)
                     .into(mBackgroundView);
 
-            RaeImageLoader.displayImage(userInfo.getAvatar(), mBackgroundView);
+//            RaeImageLoader.displayImage(userInfo.getAvatar(), mBackgroundView);
         }
 
         mBloggerNameView.setText(userInfo.getDisplayName());
@@ -260,10 +282,15 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
      * 头像点击
      */
     @OnClick({R.id.img_background, R.id.img_blog_avatar})
-    public void onAvatarClick() {
+    public void onAvatarClick(View view) {
         if (mUserInfo == null) return;
         ArrayList<String> images = new ArrayList<>();
-        images.add(mUserInfo.getAvatar());
+
+        if (view.getId() == R.id.img_background && !TextUtils.isEmpty(view.getContentDescription())) {
+            images.add(view.getContentDescription().toString());
+        } else {
+            images.add(mUserInfo.getAvatar());
+        }
         AppRoute.jumpToImagePreview(this, images, 0);
     }
 

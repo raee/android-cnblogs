@@ -254,7 +254,7 @@ public class BlogBean extends Model implements Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.url);
         dest.writeString(this.avatar);
-//        dest.writeString(this.summary);
+//        dest.writeString(this.summary);  //  不传递大数据
         dest.writeString(this.author);
         dest.writeString(this.authorUrl);
         dest.writeString(this.comment);
@@ -268,7 +268,7 @@ public class BlogBean extends Model implements Parcelable {
         dest.writeByte(this.isReaded ? (byte) 1 : (byte) 0);
         dest.writeString(this.blogType);
         dest.writeStringList(this.mThumbList);
-//        dest.writeString(this.content);
+//        dest.writeString(this.content); //  不传递大数据
         dest.writeString(this.likes);
     }
 
@@ -276,7 +276,7 @@ public class BlogBean extends Model implements Parcelable {
         this.title = in.readString();
         this.url = in.readString();
         this.avatar = in.readString();
-//        this.summary = in.readString();
+//        this.summary = in.readString(); //  不传递大数据
         this.author = in.readString();
         this.authorUrl = in.readString();
         this.comment = in.readString();
@@ -290,7 +290,7 @@ public class BlogBean extends Model implements Parcelable {
         this.isReaded = in.readByte() != 0;
         this.blogType = in.readString();
         this.mThumbList = in.createStringArrayList();
-//        this.content = in.readString();
+//        this.content = in.readString(); //  不传递大数据
         this.likes = in.readString();
     }
 

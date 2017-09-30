@@ -1,7 +1,9 @@
 package com.rae.cnblogs;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.support.multidex.MultiDex;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.feedback.FeedbackThread;
@@ -106,6 +108,11 @@ public class CnblogsApplication extends TinkerApplication {
         return "official";
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        MultiDex.install(base); // 解决Tinker存在的BUG，一定要在这之前初始化
+        super.attachBaseContext(base);
+    }
 
     public int getVersionCode() {
         try {

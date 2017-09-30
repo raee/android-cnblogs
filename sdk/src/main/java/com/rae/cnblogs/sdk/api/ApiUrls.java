@@ -77,7 +77,7 @@ final class ApiUrls {
     // 新闻-点赞
     static final String API_NEWS_LIKE = "https://news.cnblogs.com/News/VoteNews?action=agree";
 
-    // 朋友-关注-列表
+    // 朋友-关注-粉丝-列表
     static final String API_FRIENDS_FOLLOW_LIST = "https://home.cnblogs.com/relation_users?groupId=00000000-0000-0000-0000-000000000000";
 
     // 朋友-关注-发起
@@ -88,9 +88,6 @@ final class ApiUrls {
 
     // 朋友-博客列表
     static final String API_FRIENDS_BLOG_LIST = "http://wcf.open.cnblogs.com/blog/u/{blogApp}/posts/{page}/20";
-
-    // 朋友-粉丝-列表
-    public static final String API_FRIENDS_FANS_LIST = "https://home.cnblogs.com/relation_users";
 
     // 搜索-百度建议
     static final String API_BAIDU_SUGGESTION = "http://suggestion.baidu.com/su?cb=cnblogs";
@@ -114,13 +111,13 @@ final class ApiUrls {
     static final String API_MOMENT_PUBLISH = "https://ing.cnblogs.com/ajax/ing/Publish";
 
     // 服务端接口地址
-    public static final String RAE_API_BASIC = "http://www.raeblog.com/cnblogs/index.php/";
-//    public static final String RAE_API_BASIC = "http://192.168.100.169:808/cnblogs/index.php/";
+    private static final String RAE_API_BASIC = "http://www.raeblog.com/cnblogs/index.php/";
+//    public static final String RAE_API_BASIC = "http://192.168.168.10/cnblogs/index.php/";
 
     // 启动页广告
-    public static final String RAE_API_AD_LAUNCHER = RAE_API_BASIC + "app/ad/launcher";
+    static final String RAE_API_AD_LAUNCHER = RAE_API_BASIC + "app/ad/launcher";
     // 检查更新
-    public static final String RAE_API_CHECK_VERSION = RAE_API_BASIC + "app/version/{versionCode}";
-    public static final String RAE_API_MESSAGE = RAE_API_BASIC + "app/messages";
-    public static final String RAE_API_MESSAGE_COUNT = RAE_API_BASIC + "app/messages/count";
+    static final String RAE_API_CHECK_VERSION = RAE_API_BASIC + "app/version/{versionCode}";
+    static final String RAE_API_MESSAGE = RAE_API_BASIC + "app/messages";
+    static final String RAE_API_MESSAGE_COUNT = RAE_API_BASIC + "app/messages/count";
 }

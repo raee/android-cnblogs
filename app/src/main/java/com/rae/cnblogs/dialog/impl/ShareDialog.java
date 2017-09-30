@@ -92,7 +92,7 @@ public class ShareDialog extends SlideDialog {
 
     public ShareDialog(Context context) {
         super(context);
-        setContentView(R.layout.dialog_blog_content);
+        setContentView(R.layout.dialog_share);
         ButterKnife.bind(this, this);
         mShareAction = new ShareAction((Activity) context);
         setShareIcon(R.drawable.ic_share_app);

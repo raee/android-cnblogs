@@ -111,10 +111,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
             }
         };
 
-        // 根据blogId 获取博客信息
-        if (!TextUtils.isEmpty(blogId)) {
-            loadBlogFromDatabase(blogId);
-        } else if (mBlog != null) {
+        if (mBlog != null) {
             mPlaceholderView.dismiss();
             onLoadData(mBlog);
             // 加载博客摘要
@@ -130,6 +127,10 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
                             mBlog.setSummary(blogBean.getSummary());
                         }
                     });
+        }
+        // 根据blogId 获取博客信息
+        else if (!TextUtils.isEmpty(blogId)) {
+            loadBlogFromDatabase(blogId);
         } else {
             mPlaceholderView.empty("博客不存在");
         }
