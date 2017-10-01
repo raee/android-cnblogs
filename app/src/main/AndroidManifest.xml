@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.rae.cnblogs">
 
 
@@ -26,11 +27,11 @@
             android:name=".activity.LauncherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
-                <intent-filter>
-                    <action android:name="android.intent.action.MAIN"/>
+               <intent-filter>
+                   <action android:name="android.intent.action.MAIN"/>
 
-                    <category android:name="android.intent.category.LAUNCHER"/>
-                </intent-filter>
+                   <category android:name="android.intent.category.LAUNCHER"/>
+               </intent-filter>
         </activity>
 
         <!--主界面-->
@@ -44,10 +45,10 @@
             android:label="博客园测试"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-         <!--   <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
+            <!--   <intent-filter>
+                   <action android:name="android.intent.action.MAIN"/>
+                   <category android:name="android.intent.category.LAUNCHER"/>
+               </intent-filter>-->
         </activity>
 
         <!--博文-->
@@ -60,7 +61,12 @@
             android:name=".activity.LoginActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible"/>
+            android:windowSoftInputMode="stateVisible">
+         <!--   <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>-->
+        </activity>
 
 
         <!--网页登录-->
@@ -202,18 +208,18 @@
             android:value="${UMENG_CHANNEL}"/>
 
         <!--开始-快速开发需要移除下面的多进程-->
-        <!--   <service
-               android:name="com.squareup.leakcanary.internal.HeapAnalyzerService"
-               android:enabled="false"
-               tools:remove="process"/>
-           <service
-               android:name="com.tencent.tinker.lib.service.TinkerPatchService"
-               android:exported="false"
-               tools:remove="process"/>
-           <service
-               android:name="com.tencent.tinker.lib.service.TinkerPatchService$InnerService"
-               android:exported="false"
-               tools:remove="process"/>-->
+        <service
+            android:name="com.squareup.leakcanary.internal.HeapAnalyzerService"
+            android:enabled="false"
+            tools:remove="process"/>
+        <service
+            android:name="com.tencent.tinker.lib.service.TinkerPatchService"
+            android:exported="false"
+            tools:remove="process"/>
+        <service
+            android:name="com.tencent.tinker.lib.service.TinkerPatchService$InnerService"
+            android:exported="false"
+            tools:remove="process"/>
         <!--结束-快速开发需要移除下面的多进程-->
 
     </application>

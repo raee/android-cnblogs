@@ -114,14 +114,16 @@ public class RaeWebViewClient extends WebViewClient {
      * @param view
      * @param filePath 文件在assets 的路径
      */
-    private void injectJavascriptFromAssets(WebView view, String filePath) {
+    protected void injectJavascriptFromAssets(WebView view, String filePath) {
         try {
             InputStream in = view.getContext().getResources().getAssets().open(filePath);
             byte[] data = new byte[in.available()];
             in.read(data);
             in.close();
             String content = new String(data);
-            injectJavascript(view, content);
+
+            String script = "var s=document.createElement(\"script\");s.text=\"" + content + "\";document.body.appendChild(s);";
+            injectJavascript(view, script);
         } catch (Exception e) {
             e.printStackTrace();
         }

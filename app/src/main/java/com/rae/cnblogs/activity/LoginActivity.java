@@ -25,6 +25,7 @@ import com.rae.cnblogs.dialog.DialogProvider;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
+import com.rae.cnblogs.fragment.WebLoginFragment;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILoginPresenter;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
@@ -36,7 +37,7 @@ import butterknife.OnClick;
  * 登录
  * Created by ChenRui on 2017/1/19 0019 9:59.
  */
-public class LoginActivity extends BaseActivity implements ILoginPresenter.ILoginView {
+public class LoginActivity extends BaseActivity implements ILoginPresenter.ILoginView, WebLoginFragment.WebLoginListener {
 
     @BindView(com.rae.cnblogs.R.id.ll_login_container)
     View mLoginLayout;
@@ -73,6 +74,7 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
     protected HintCardDialog mLoginContractDialog;
 
     private int mErrorTime; // 登录错误次数，达到3次以上提示用户是否跳转网页登录
+    private WebLoginFragment mWebLoginFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -141,6 +143,16 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
         mLoginContractDialog = new HintCardDialog(this);
         mLoginContractDialog.setMessage(getString(R.string.login_contract_content));
         mLoginContractDialog.setEnSureText(getString(R.string.agree));
+
+        // 加载网页登录
+        mWebLoginFragment = WebLoginFragment.newInstance("https://passport.cnblogs.com/user/signin");
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fl_web_login, mWebLoginFragment)
+                .commit();
+
+        mUserNameView.setText("abc");
+        mPasswordView.setText("123456");
     }
 
     private void addAccountTextListener(AccountTextWatcher watcher) {
@@ -171,7 +183,7 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
      */
     @OnClick(R.id.tv_forget_password)
     public void onForgetPasswordClick() {
-        AppMobclickAgent.onClickEvent(this,"ForgetPassword");
+        AppMobclickAgent.onClickEvent(this, "ForgetPassword");
         AppRoute.jumpToWeb(this, getString(R.string.forget_password_url));
     }
 
@@ -180,7 +192,7 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
      */
     @OnClick(R.id.tv_reg)
     public void onRegClick() {
-        AppMobclickAgent.onClickEvent(this,"Reg");
+        AppMobclickAgent.onClickEvent(this, "Reg");
         AppRoute.jumpToWeb(this, getString(R.string.reg_url));
     }
 
@@ -211,7 +223,8 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
     private void preformLogin() {
         showLoading();
-        mLoginPresenter.login();
+//        mLoginPresenter.login();
+        mWebLoginFragment.performLogin(getUserName(), getPassword(), null);
         removeAccountTextListener(mAccountTextWatcher);
         mLoginButton.setEnabled(false);
     }
@@ -241,6 +254,22 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
     }
 
     @Override
+    public void onWebLoadingFinish() {
+        AppUI.toastInCenter(getContext(), "onWebLoadingFinish");
+    }
+
+    @Override
+    public void onLoginVerifyCodeError(String url) {
+        AppUI.toastInCenter(getContext(), "onLoginVerifyCodeError:" + url);
+
+    }
+
+    @Override
+    public void onNeedVerifyCode(String url) {
+        AppUI.toastInCenter(getContext(), "onNeedVerifyCode:" + url);
+    }
+
+    @Override
     public void onLoginError(String message) {
         onLoginCallback();
         if (mErrorTime >= 3) {
@@ -251,6 +280,11 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
         AppUI.failed(this, message);
         mErrorTime++;
+    }
+
+    @Override
+    public void onLoggingIn(String msg) {
+
     }
 
     @Override
