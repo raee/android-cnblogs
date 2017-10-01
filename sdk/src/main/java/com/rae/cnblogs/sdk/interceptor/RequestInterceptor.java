@@ -46,8 +46,8 @@ public class RequestInterceptor implements Interceptor {
         CookieSyncManager.createInstance(context.getApplicationContext());
         try {
             this.packageName = context.getPackageName();
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            this.versionName = packageInfo.versionName;
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
+            this.versionName = packageInfo.versionName == null ? "0.0.0" : packageInfo.versionName;
             this.versionCode = packageInfo.versionCode;
         } catch (Exception e) {
             this.versionName = "1.0.0";

@@ -6,6 +6,7 @@ import com.rae.cnblogs.sdk.api.IBlogApi;
 import com.rae.cnblogs.sdk.api.IBookmarksApi;
 import com.rae.cnblogs.sdk.api.ICategoryApi;
 import com.rae.cnblogs.sdk.api.IFriendsApi;
+import com.rae.cnblogs.sdk.api.IMomentApi;
 import com.rae.cnblogs.sdk.api.INewsApi;
 import com.rae.cnblogs.sdk.api.IRaeServerApi;
 import com.rae.cnblogs.sdk.api.ISearchApi;
@@ -103,6 +104,11 @@ public abstract class CnblogsApiProvider {
      * 获取搜索接口
      */
     public abstract ISearchApi getSearchApi();
+
+    /**
+     * 获取闪存接口
+     */
+    public abstract IMomentApi getMomentApi();
 
     /**
      * 个人的接口

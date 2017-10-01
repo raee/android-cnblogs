@@ -146,6 +146,9 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
             if (obj.has("success")) {
                 isSuccess = obj.getBoolean("success");
             }
+            if (obj.has("isSuccess")) {
+                isSuccess = obj.getBoolean("isSuccess"); // 发布闪存返回的字段
+            }
             if (obj.has("Message")) {
                 message = obj.getString("Message");
             }
