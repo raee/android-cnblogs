@@ -6,16 +6,38 @@
     padding-bottom:20px;
 }
 #blog_title{
-    text-align: center;
-    margin-top: 60px;
+    text-align: left;
+    margin-top: 25px;
     font-weight: bold;
     line-height: 32px;
-    margin-left: 24px;
-    margin-right: 24px;
+}
+#author{
+    margin-top: 72px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 12px;
+}
+.author_right{
+    float: left;
+    margin-top: 8px;
+}
+.btn_author{
+    display: block;
+    float: right;
+    margin-top: 12px;
+}
+#author_name{
+    font-weight: bold;
+    display: block;
+}
+#blog_avatar{
+    display: block;
+    float: left; 
+    margin-right: 12px;
+    box-shadow: none;
+    max-width:120px;
+    max-height:120px;
 }
 #blog_date{
-    text-align: center;
-    margin-top: 15px;
     display: block;
     color: #929292;
 }

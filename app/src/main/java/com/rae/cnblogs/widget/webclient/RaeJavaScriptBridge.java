@@ -66,4 +66,15 @@ public class RaeJavaScriptBridge {
         }
     }
 
+    /**
+     * 跳转到博主界面
+     */
+    @JavascriptInterface
+    public void jumpToBlogger(String blogApp) {
+        if (TextUtils.isEmpty(blogApp)) return;
+        if (mReference.get() != null) {
+            AppRoute.jumpToBlogger(mReference.get(), blogApp);
+        }
+    }
+
 }

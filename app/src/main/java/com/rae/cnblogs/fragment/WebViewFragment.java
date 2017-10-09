@@ -58,7 +58,7 @@ public class WebViewFragment extends BaseFragment {
     }
 
     // @BindView(R.id.web_view_blog_content)
-    WebView mWebView;
+    RaeWebView mWebView;
 
     @BindView(R.id.content)
     FrameLayout mContentLayout;

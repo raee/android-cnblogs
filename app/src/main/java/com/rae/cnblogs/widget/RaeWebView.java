@@ -15,6 +15,12 @@ import java.lang.reflect.Field;
 public class RaeWebView extends WebView {
     private static Field sConfigCallback;
 
+    public interface OnScrollChangeListener {
+        void onScrollChange(int x, int y, int oldX, int oldY);
+    }
+
+    protected OnScrollChangeListener mOnScrollChangeListener;
+
     static {
         try {
             sConfigCallback = Class.forName("android.webkit.BrowserFrame")
@@ -47,6 +53,10 @@ public class RaeWebView extends WebView {
         super(context, attrs, defStyleAttr, privateBrowsing);
     }
 
+    public void setOnScrollChangeListener(OnScrollChangeListener onScrollChangeListener) {
+        mOnScrollChangeListener = onScrollChangeListener;
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (canGoBack() && keyCode == KeyEvent.KEYCODE_BACK) {
@@ -58,6 +68,7 @@ public class RaeWebView extends WebView {
 
     @Override
     public void destroy() {
+        mOnScrollChangeListener = null;
         clearHistory();
         setTag(null);
         super.destroy();
@@ -69,4 +80,11 @@ public class RaeWebView extends WebView {
         }
     }
 
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
+        if (mOnScrollChangeListener != null) {
+            mOnScrollChangeListener.onScrollChange(l, t, oldl, oldt);
+        }
+    }
 }

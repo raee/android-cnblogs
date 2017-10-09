@@ -4,17 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.dialog.DialogProvider;
 import com.rae.cnblogs.dialog.IAppDialog;
@@ -50,14 +47,14 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class BlogContentActivity extends SwipeBackBaseActivity {
 
-    @BindView(R.id.tool_bar)
-    Toolbar mToolbar;
+//    @BindView(R.id.tool_bar)
+//    Toolbar mToolbar;
 
-    @BindView(R.id.img_blog_avatar)
-    ImageView mAvatarView;
+//    @BindView(R.id.img_blog_avatar)
+//    ImageView mAvatarView;
 
-    @BindView(R.id.tv_blog_author)
-    TextView mAuthorView;
+//    @BindView(R.id.tv_blog_author)
+//    TextView mAuthorView;
 
     @BindView(R.id.tv_comment_badge)
     TextView mCommentBadgeView;
@@ -91,8 +88,8 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         AppStatusBar.setStatusbarToDark(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog_content);
-        setSupportActionBar(mToolbar);
-        showHomeAsUp(mToolbar);
+//        setSupportActionBar(mToolbar);
+//        showHomeAsUp(mToolbar);
 
         final String blogId = getIntent().getStringExtra("blogId");
         mBlog = getIntent().getParcelableExtra("blog");
@@ -209,12 +206,13 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         if (mBlogType == BlogType.KB || (mBlogType == BlogType.NEWS && TextUtils.isEmpty(mBlog.getAuthor()))) {
             mPostCommentView.setVisibility(View.GONE);
             mViewCommentView.setVisibility(View.GONE);
-            mAuthorView.setVisibility(View.GONE);
-            mAvatarView.setVisibility(View.GONE);
-        } else {
-            RaeImageLoader.displayHeaderImage(mBlog.getAvatar(), mAvatarView);
-            mAuthorView.setText(mBlog.getAuthor());
+//            mAuthorView.setVisibility(View.GONE);
+//            mAvatarView.setVisibility(View.GONE);
         }
+//        else {
+//            RaeImageLoader.displayHeaderImage(mBlog.getAvatar(), mAvatarView);
+//            mAuthorView.setText(mBlog.getAuthor());
+//        }
 
 
         // 评论
@@ -250,16 +248,16 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         EventBus.getDefault().post(new EditCommentEvent());
     }
 
-    // 作者头像
-    @OnClick({R.id.img_blog_avatar, R.id.tv_blog_author})
-    public void onBloggerClick() {
-        if (mBlog == null) return;
-        if (mBlogType != BlogType.BLOG) {
-            return;
-        }
-
-        AppRoute.jumpToBlogger(this, mBlog.getBlogApp());
-    }
+//    // 作者头像
+//    @OnClick({R.id.img_blog_avatar, R.id.tv_blog_author})
+//    public void onBloggerClick() {
+//        if (mBlog == null) return;
+//        if (mBlogType != BlogType.BLOG) {
+//            return;
+//        }
+//
+//        AppRoute.jumpToBlogger(this, mBlog.getBlogApp());
+//    }
 
     @OnClick(R.id.tool_bar)
     public void onActionBarClick() {

@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
 
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -9,8 +9,8 @@
         <item name="actionBarDivider">@color/transparent</item>
         <item name="actionBarStyle">@style/AppActionBar</item>
         <item name="toolbarNavigationButtonStyle">@style/AppToolbarNavigationButtonStyle</item>
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
+        <!--<item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>-->
         <item name="buttonStyle">@style/AppButton</item>
         <item name="editTextStyle">@style/AppEditTextStyle</item>
         <item name="android:windowIsTranslucent">true</item>

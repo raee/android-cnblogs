@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
@@ -28,6 +30,7 @@ import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.PlaceholderView;
+import com.rae.cnblogs.widget.RaeWebView;
 import com.rae.cnblogs.widget.webclient.RaeJavaScriptBridge;
 import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
 
@@ -46,6 +49,8 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @BindView(R.id.view_holder)
     PlaceholderView mPlaceholderView;
 
+    private ImageView mBackView;
+    private ImageView mMoreView;
 
     private TextView mLikeView;
     private ImageLoadingView mBookmarksView;
@@ -86,7 +91,9 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+//        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        // todo:调试模式
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 
         mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +101,29 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
                 // 重试
                 mPlaceholderView.loading();
                 mContentPresenter.loadContent();
+            }
+        });
+
+        final int transparentId = ContextCompat.getColor(getContext(), android.R.color.transparent);
+
+        mWebView.setOnScrollChangeListener(new RaeWebView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(int x, int y, int oldX, int oldY) {
+                if (mBackView == null || mMoreView == null) return;
+                if (y <= 0) {
+                    // 显示默认的
+                    mBackView.setBackgroundColor(transparentId);
+                    mMoreView.setBackgroundColor(transparentId);
+
+                    mBackView.setImageResource(R.drawable.ic_back);
+                    mMoreView.setImageResource(R.drawable.ic_action_bar_more);
+                } else {
+                    int bgResId = R.drawable.bg_blog_content_back;
+                    mBackView.setBackgroundResource(bgResId);
+                    mMoreView.setBackgroundResource(bgResId);
+                    mBackView.setImageResource(R.drawable.ic_back_white);
+                    mMoreView.setImageResource(R.drawable.ic_blog_content_more);
+                }
             }
         });
     }
@@ -105,6 +135,8 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
             public String getBlog() {
                 return AppGson.get().toJson(mBlog);
             }
+
+
         };
     }
 
@@ -125,6 +157,9 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         getActivity().findViewById(R.id.ll_like).setOnClickListener(this); // 点赞布局
         getActivity().findViewById(R.id.ll_content_bookmarks).setOnClickListener(this); // 收藏布局
         mContentPresenter.loadContent();
+
+        mBackView = getActivity().findViewById(R.id.back);
+        mMoreView = getActivity().findViewById(R.id.img_action_bar_more);
     }
 
     @Override

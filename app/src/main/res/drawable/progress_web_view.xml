@@ -2,14 +2,21 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@android:id/background">
-        <color android:color="@android:color/transparent"/>
+        <!--  <color android:color="@android:color/transparent"/>-->
+        <shape>
+            <gradient
+                android:endColor="@color/colorPrimary"
+                android:startColor="#9bd7ff"/>
+        </shape>
     </item>
 
     <!-- 第二条进度条颜色 -->
     <item android:id="@android:id/secondaryProgress">
         <clip>
             <shape>
-                <solid android:color="@color/colorPrimaryDark"/>
+                <gradient
+                    android:endColor="#32FFFFFF"
+                    android:startColor="#00FFFFFF"/>
             </shape>
         </clip>
     </item>
@@ -18,7 +25,9 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <solid android:color="@color/colorPrimary"/>
+                <gradient
+                    android:endColor="#FFFFFF"
+                    android:startColor="#C8FFFFFF"/>
             </shape>
         </clip>
     </item>
