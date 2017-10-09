@@ -50,8 +50,8 @@ public final class AppMobclickAgent {
     public static void onLaunchAdExposureEvent(Context context, String id, String name) {
         Map<String, String> map = new HashMap<>();
         map.put("type", "Exposure");
-        map.put("ad", id);
-        map.put("title", name);
+        map.put("ad", withString(id, "广告ID为空"));
+        map.put("title", withString(name, "广告标题为空"));
         onAdEvent(context, map);
     }
 
@@ -63,8 +63,8 @@ public final class AppMobclickAgent {
     public static void onLaunchAdClickEvent(Context context, String id, String name) {
         Map<String, String> map = new HashMap<>();
         map.put("type", "Click");
-        map.put("id", id);
-        map.put("name", name);
+        map.put("id", withString(id, "广告ID为空"));
+        map.put("name", withString(name, "广告标题为空"));
         onAdEvent(context, map);
     }
 
@@ -96,6 +96,16 @@ public final class AppMobclickAgent {
      */
     public static void onClickEvent(Context context, String name) {
         MobclickAgent.onEvent(context, "APP_CLICK_EVENT", name);
+    }
+
+    /**
+     * 使用默认值的字符串
+     *
+     * @param text     源
+     * @param defValue 默认值
+     */
+    private static String withString(String text, String defValue) {
+        return TextUtils.isEmpty(text) ? defValue : text;
     }
 
 }

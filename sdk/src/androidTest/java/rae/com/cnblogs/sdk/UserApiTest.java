@@ -42,7 +42,7 @@ public class UserApiTest extends BaseTest {
     public void testLogin() throws InterruptedException {
         String userName = ApiEncrypt.encrypt("chenrui7");
         String pwd = ApiEncrypt.encrypt("chenrui123456789");
-        runTest("testLogin", mApi.login(null, userName, pwd));
+        runTest("testLogin", mApi.login(null, userName, pwd, true));
     }
 
     /**

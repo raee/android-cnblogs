@@ -31,7 +31,7 @@
             android:paddingRight="12dp"
             android:paddingTop="12dp"
             android:scaleType="center"
-            android:src="@drawable/login_btn_close"/>
+            android:src="@drawable/ic_back_closed"/>
 
     </RelativeLayout>
 

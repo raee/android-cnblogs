@@ -59,7 +59,12 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
                 .flatMap(new Function<LoginToken, ObservableSource<Empty>>() {
                     @Override
                     public ObservableSource<Empty> apply(LoginToken loginToken) throws Exception {
-                        return createObservable(mUserApi.login(loginToken.getVerificationToken(), ApiEncrypt.encrypt(userName), ApiEncrypt.encrypt(pwd)));
+                        return createObservable(
+                                mUserApi.login(
+                                        loginToken.getVerificationToken(),
+                                        ApiEncrypt.encrypt(userName),
+                                        ApiEncrypt.encrypt(pwd),
+                                        true));
                     }
                 })
                 .flatMap(new Function<Empty, ObservableSource<UserInfoBean>>() {
@@ -134,7 +139,7 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
                         }
 
                         // [重要] 同步Cookie登录信息
-                        UserProvider.getInstance().syncFormCookieJar();
+                        UserProvider.getInstance().cookieJar2CookieManager();
 
                         mView.onLoginSuccess(data);
                     }

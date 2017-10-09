@@ -145,39 +145,14 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
 
         try {
             JSONObject obj = new JSONObject(text);
-            boolean isSuccess = false;
-            String message = null;
-            Object data = null;
+            boolean isSuccess = parseSuccess(obj);
+            String message = parseMessage(obj);
+            Object data = parseData(obj);
 
-            if (obj.has("IsSuccess")) {
-                isSuccess = obj.getBoolean("IsSuccess");
-            }
-            if (obj.has("IsSucceed")) {
-                isSuccess = obj.getBoolean("IsSucceed");
-            }
-            if (obj.has("success")) {
-                isSuccess = obj.getBoolean("success");
-            }
-            if (obj.has("isSuccess")) {
-                isSuccess = obj.getBoolean("isSuccess"); // 发布闪存返回的字段
-            }
-            if (obj.has("Message")) {
-                message = obj.getString("Message");
-            }
-            if (obj.has("message")) {
-                message = obj.getString("message");
-            }
-            if (obj.has("Data")) {
-                data = obj.get("Data");
-            }
-            if (obj.has("data")) {
-                data = obj.get("data");
-            }
             if (isSuccess && !obj.isNull("data") && data != null) {
                 text = data.toString();
                 JsonReader jsonReader = mGson.newJsonReader(new StringReader(text));
                 return mAdapter.read(jsonReader);
-
             } else if (isSuccess && type == Void.class) {
                 return null;
             } else if (isSuccess && type == Empty.class) {
@@ -191,5 +166,45 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
         } catch (JSONException e) {
             throw new CnblogsApiException(e);
         }
+    }
+
+    /**
+     * 解析是否成功标志字段
+     */
+    private boolean parseSuccess(JSONObject obj) throws JSONException {
+        if (obj.has("IsSuccess")) {
+            return obj.getBoolean("IsSuccess");
+        } else if (obj.has("IsSucceed")) {
+            return obj.getBoolean("IsSucceed");
+        } else if (obj.has("success")) {
+            return obj.getBoolean("success");
+        } else if (obj.has("isSuccess")) {
+            return obj.getBoolean("isSuccess"); // 发布闪存返回的字段
+        }
+        return false;
+    }
+
+    /**
+     * 解析错误消息字段
+     */
+    private String parseMessage(JSONObject obj) throws JSONException {
+        if (obj.has("Message")) {
+            return obj.getString("Message");
+        } else if (obj.has("message")) {
+            return obj.getString("message");
+        }
+        return null;
+    }
+
+    /**
+     * 解析DATA字段
+     */
+    private Object parseData(JSONObject obj) throws JSONException {
+        if (obj.has("Data")) {
+            return obj.get("Data");
+        } else if (obj.has("data")) {
+            return obj.get("data");
+        }
+        return null;
     }
 }

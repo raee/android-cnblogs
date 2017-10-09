@@ -29,6 +29,31 @@ import retrofit2.http.Path;
 public interface IUserApi {
 
     /**
+     * 登录，登录成功返回cookie，api已经自动处理cookie持久化，所以这里返回的是空对象
+     *
+     * @param verificationToken 登录凭证
+     * @param userName          用户名
+     * @param password          密码
+     * @param remember          是否记住登录，建议传TRUE
+     */
+    @POST(ApiUrls.API_SIGN_IN)
+    @FormUrlEncoded
+    @Headers({
+            JsonBody.CONTENT_TYPE,
+            JsonBody.XHR,
+            "Cookie:AspxAutoDetectCookieSupport=1; _gat=1;",
+            "Accept: application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding: gzip, deflate, br",
+            "Accept-Language: zh-CN,zh;q=0.8",
+            "Referer: https://passport.cnblogs.com/user/signin"
+    })
+    @Parser(LoginParser.class)
+    Observable<Empty> login(@Header("VerificationToken") String verificationToken,
+                            @Field("input1") String userName,
+                            @Field("input2") String password,
+                            @Field("remember") boolean remember);
+
+    /**
      * 请求登录页面，获取登录凭证
      */
     @GET(ApiUrls.API_SIGN_IN)
@@ -38,25 +63,6 @@ public interface IUserApi {
     @Parser(LoginPageParser.class)
     @ApiOptions(ignoreLogin = true)
     Observable<LoginToken> loadSignInPage();
-
-    /**
-     * 登录，登录成功返回cookie，api已经自动处理cookie持久化，所以这里返回的是空对象
-     *
-     * @param verificationToken 登录凭证
-     * @param userName          用户名
-     * @param password          密码
-     * @return
-     */
-    @POST(ApiUrls.API_SIGN_IN)
-    @FormUrlEncoded
-    @Headers({
-            JsonBody.CONTENT_TYPE,
-            JsonBody.XHR,
-            "Cookie:AspxAutoDetectCookieSupport=1"
-    })
-    @Parser(LoginParser.class)
-    // TODO: 这里设置的COOKIE 没有起到作用
-    Observable<Empty> login(@Header("Cookie") String verificationToken, @Field("input1") String userName, @Field("input2") String password);
 
 
     /**

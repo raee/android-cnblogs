@@ -39,7 +39,7 @@ final class ApiUrls {
     static final String API_USER_FEED = "https://home.cnblogs.com/u/{blogApp}/feed/{page}.html";
 
     // 用户-登录
-    static final String API_SIGN_IN = "https://passport.cnblogs.com/user/signin?AspxAutoDetectCookieSupport=1&remember=true";
+    static final String API_SIGN_IN = "https://passport.cnblogs.com/user/signin";
 
     // 新闻-列表
     static final String API_NEWS_LIST = "http://wcf.open.cnblogs.com/news/recent/paged/{page}/20";
@@ -111,8 +111,8 @@ final class ApiUrls {
     static final String API_MOMENT_PUBLISH = "https://ing.cnblogs.com/ajax/ing/Publish";
 
     // 服务端接口地址
-//    private static final String RAE_API_BASIC = "http://www.raeblog.com/cnblogs/index.php/";
-    public static final String RAE_API_BASIC = "http://192.168.168.10/cnblogs/index.php/";
+    private static final String RAE_API_BASIC = "http://www.raeblog.com/cnblogs/index.php/";
+//    public static final String RAE_API_BASIC = "http://192.168.168.10/cnblogs/index.php/";
 
     // 启动页广告
     static final String RAE_API_AD_LAUNCHER = RAE_API_BASIC + "app/ad/launcher";

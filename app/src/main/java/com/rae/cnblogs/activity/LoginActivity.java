@@ -126,10 +126,10 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    //选择状态 显示明文--设置为可见的密码
+                    // 选择状态 显示明文--设置为可见的密码
                     mPasswordView.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 } else {
-                    //默认状态显示密码--设置文本 要一起写才能起作用  InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
+                    // 默认状态显示密码--设置文本 要一起写才能起作用  InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
                     mPasswordView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 }
 
@@ -142,8 +142,6 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
         mLoginContractDialog.setMessage(getString(R.string.login_contract_content));
         mLoginContractDialog.setEnSureText(getString(R.string.agree));
 
-        mUserNameView.setText("abc");
-        mPasswordView.setText("123456");
     }
 
     private void addAccountTextListener(AccountTextWatcher watcher) {
@@ -238,6 +236,7 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
     @Override
     public void onLoginSuccess(UserInfoBean userInfo) {
+        AppUI.success(this, R.string.login_success);
         onLoginCallback();
         setResult(RESULT_OK);
         finish();

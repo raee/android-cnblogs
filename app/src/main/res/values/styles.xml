@@ -14,7 +14,7 @@
         <item name="buttonStyle">@style/AppButton</item>
         <item name="editTextStyle">@style/AppEditTextStyle</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@style/AppAnimation</item>
+        <!--<item name="android:windowAnimationStyle">@style/AppAnimation</item>-->
         <item name="android:windowBackground">@color/default_background</item>
         <item name="android:textColorPrimary">@color/ph1</item>
     </style>
@@ -58,6 +58,7 @@
         <item name="android:textSize">16sp</item>
         <!--兼容夜间模式-->
         <item name="android:textColor">@color/text_color_default_tab</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="SlideDialog" parent="Theme.AppCompat.Light.Dialog">

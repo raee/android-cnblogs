@@ -27,11 +27,11 @@
             android:name=".activity.LauncherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
-              <!-- <intent-filter>
-                   <action android:name="android.intent.action.MAIN"/>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-                   <category android:name="android.intent.category.LAUNCHER"/>
-               </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <!--主界面-->
@@ -61,12 +61,7 @@
             android:name=".activity.LoginActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="stateVisible"/>
 
 
         <!--网页登录-->

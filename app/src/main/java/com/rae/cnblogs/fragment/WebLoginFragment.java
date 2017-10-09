@@ -85,10 +85,9 @@ public class WebLoginFragment extends WebViewFragment {
         super.onDestroy();
     }
 
-    private void perfromLogin() {
+    private void performLogin() {
         // 同步COOKIE
-        UserProvider.getInstance().syncFormWebview();
-
+        UserProvider.getInstance().cookieManager2CookieJar();
         // 获取用户信息
         loadUserInfo();
     }
@@ -164,7 +163,7 @@ public class WebLoginFragment extends WebViewFragment {
 
                 // 登录成功
                 if (cookie != null && cookie.contains(".CNBlogsCookie")) {
-                    perfromLogin();
+                    performLogin();
                 }
             }
 

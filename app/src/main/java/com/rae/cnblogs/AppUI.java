@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,9 +25,6 @@ public final class AppUI {
 
     private static WeakReference<IAppDialog> dialogWeakReference;
 
-    public static Toast failed(Context context, String msg) {
-        return toastInCenter(context, msg);
-    }
 
     public static Toast toast(Context context, String msg) {
         Toast toast = makeToast(context, msg);
@@ -50,9 +48,13 @@ public final class AppUI {
             return toast;
         }
         toast.getView().setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_toast));
-        TextView msgView = (TextView) toast.getView().findViewById(android.R.id.message);
-        msgView.setTextSize(14);
-        msgView.setTextColor(ContextCompat.getColor(context, android.R.color.white));
+        TextView msgView = toast.getView().findViewById(android.R.id.message);
+        if (msgView != null) {
+            int p = 12;
+            msgView.setPadding(p, p, p, p);
+            msgView.setTextSize(14);
+            msgView.setTextColor(ContextCompat.getColor(context, R.color.white));
+        }
         return toast;
     }
 
@@ -90,7 +92,30 @@ public final class AppUI {
     }
 
     public static void success(Context context, int resId) {
-        toast(context, context.getString(resId));
+        Toast toast = makeToast(context, context.getString(resId));
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        TextView msgView = toast.getView().findViewById(android.R.id.message);
+        if (msgView != null) {
+            int p = 20;
+            msgView.setPadding(p, p, p, p);
+            msgView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.toast_success, 0, 0);
+            msgView.setCompoundDrawablePadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics()));
+        }
+        toast.show();
+    }
+
+    public static Toast failed(Context context, String msg) {
+        Toast toast = makeToast(context, msg);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        TextView msgView = toast.getView().findViewById(android.R.id.message);
+        if (msgView != null) {
+            int p = 20;
+            msgView.setPadding(p, p, p, p);
+            msgView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.toast_failed, 0, 0);
+            msgView.setCompoundDrawablePadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics()));
+        }
+        toast.show();
+        return toast;
     }
 
     public static void dismiss() {
@@ -105,7 +130,6 @@ public final class AppUI {
         dialogWeakReference.clear();
         dialogWeakReference = null;
     }
-
 
 
 }

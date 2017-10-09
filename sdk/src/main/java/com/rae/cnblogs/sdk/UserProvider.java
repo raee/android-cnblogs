@@ -112,9 +112,9 @@ public final class UserProvider {
 
 
     /**
-     * 同步Cookie，方向：javaNetCookie-> webkit
+     * 同步Cookie：JavaNetCookieJar covert to WebKit CookieManger
      */
-    public void syncFormCookieJar() {
+    public void cookieJar2CookieManager() {
 
         if (java.net.CookieManager.getDefault() == null) {
             return;
@@ -135,26 +135,30 @@ public final class UserProvider {
 
     }
 
+
     /**
-     * 同步Cookie，方向：webkit -> javaNetCookie
+     * 同步Cookie：WebKit CookieManger covert to JavaNetCookieJar
      */
-    public void syncFormWebview() {
-
-        if (java.net.CookieManager.getDefault() == null) {
-            return;
-        }
-
-        String url = "http://cnblogs.com";
-        JavaNetCookieJar cookieJar = new JavaNetCookieJar(java.net.CookieManager.getDefault());
+    public void cookieManager2CookieJar() {
         // 同步接口的cookie达到同步web登陆
         CookieManager cookieManager = CookieManager.getInstance();
-        String webCookies = cookieManager.getCookie(url);
-        if (TextUtils.isEmpty(webCookies)) return;
+        String webCookies = cookieManager.getCookie("http://cnblogs.com");
+        cookieManager2CookieJar(webCookies);
+    }
+
+    public void cookieManager2CookieJar(String webCookies) {
+        if (java.net.CookieManager.getDefault() == null || TextUtils.isEmpty(webCookies)) {
+            return;
+        }
+        JavaNetCookieJar cookieJar = new JavaNetCookieJar(java.net.CookieManager.getDefault());
+        String url = "http://cnblogs.com";
         List<Cookie> cookies = new ArrayList<>();
         String[] texts = webCookies.split(";");
         HttpUrl httpUrl = HttpUrl.parse(url);
         // 解析字符串
         for (String text : texts) {
+            if (TextUtils.isEmpty(text)) continue;
+            text = text.trim(); // 去掉多余的空格
             if (!text.endsWith(";")) {
                 text += ";";
             }
@@ -163,10 +167,8 @@ public final class UserProvider {
             cookies.add(cookie);
         }
 
+        // 保存cookie
         cookieJar.saveFromResponse(httpUrl, cookies);
-
-        List<Cookie> list = cookieJar.loadForRequest(httpUrl);
-
     }
 
 //    public void debugLogin() {

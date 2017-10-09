@@ -5,11 +5,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
 import com.rae.cnblogs.sdk.JsonBody;
+import com.rae.cnblogs.sdk.UserProvider;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -41,7 +43,7 @@ public class RequestInterceptor implements Interceptor {
         return new RequestInterceptor(context);
     }
 
-    public RequestInterceptor(Context context) {
+    RequestInterceptor(Context context) {
         mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         CookieSyncManager.createInstance(context.getApplicationContext());
         try {
@@ -61,7 +63,7 @@ public class RequestInterceptor implements Interceptor {
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         // 请求处理参数处理
         Request request = chain.request();
 
@@ -72,12 +74,25 @@ public class RequestInterceptor implements Interceptor {
         newBuilder.addHeader("APP-VERSION-NAME", this.versionName);
         newBuilder.addHeader("APP-VERSION-CODE", String.valueOf(this.versionCode));
 
+        // 使用Chrome的User-Agent
+        newBuilder
+                .removeHeader("User-Agent")
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36");
+
         // [重要] 带上COOKIE，保持登录需要用到
         String cookie = CookieManager.getInstance().getCookie("http://www.cnblogs.com");
         if (!TextUtils.isEmpty(cookie)) {
-            newBuilder.addHeader("Cookie", cookie);
+            // 同步WebKit Cookie 到 JavaNetCookieJar
+            UserProvider.getInstance().cookieManager2CookieJar();
         }
 
+        // 同步手动设置的cookie
+        cookie = request.header("Cookie");
+        if (!TextUtils.isEmpty(cookie)) {
+            UserProvider.getInstance().cookieManager2CookieJar(cookie);
+        }
+
+        // 首页列表缓存特殊处理
         if (request.url().toString().contains("PostList") && !this.isConnected()) {
             newBuilder.cacheControl(CacheControl.FORCE_CACHE).build();
         }
@@ -87,10 +102,17 @@ public class RequestInterceptor implements Interceptor {
             newBuilder = convertParamToBody(request, newBuilder);
         }
 
+        // 发起请求
         request = newBuilder.build();
         return chain.proceed(request);
     }
 
+    /**
+     * 转换请求参数
+     *
+     * @param request    请求
+     * @param newBuilder 新的请求构建者
+     */
     private Request.Builder convertParamToBody(Request request, Request.Builder newBuilder) {
         HttpUrl url = request.url();
         RequestBody body = request.body();
@@ -122,20 +144,23 @@ public class RequestInterceptor implements Interceptor {
 
         // JSON BODY
         if (TextUtils.equals(contentType, JsonBody.MEDIA_TYPE)) {
-            JsonBody.Builder builder = new JsonBody.Builder();
-            HttpUrl.Builder httUrlBuilder = url.newBuilder();
+            JsonBody.Builder jsonBody = new JsonBody.Builder();
+            HttpUrl.Builder httpUrlBuilder = url.newBuilder();
 
             // 加上原来的参数
             Buffer sink = new Buffer();
             try {
                 body.writeTo(sink);
                 String params = sink.readString(Charset.defaultCharset());
-                HttpUrl oldUrl = httUrlBuilder.query(URLDecoder.decode(params)).build();
+                HttpUrl oldUrl = httpUrlBuilder.query(URLDecoder.decode(params)).build();
                 Set<String> oldNames = oldUrl.queryParameterNames();
                 for (String name : oldNames) {
                     String value = oldUrl.queryParameter(name);
-                    builder.add(name, value);
+                    jsonBody.add(name, value);
+                    // 移除参数
+                    httpUrlBuilder.removeAllQueryParameters(name);
                 }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -143,17 +168,15 @@ public class RequestInterceptor implements Interceptor {
             // URL的参数
             for (String name : names) {
                 String value = url.queryParameter(name);
-                builder.add(name, value);
-                httUrlBuilder.removeAllQueryParameters(name);
+                jsonBody.add(name, value);
+                //httpUrlBuilder.removeAllQueryParameters(name);
             }
 
-            JsonBody jsonBody = builder.build();
-            return newBuilder.url(httUrlBuilder.build()).post(jsonBody);
+            return newBuilder.url(httpUrlBuilder.build()).post(jsonBody.build());
         }
 
         return newBuilder;
     }
-
 
     /**
      * 复制表单数据

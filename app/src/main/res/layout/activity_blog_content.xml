@@ -8,82 +8,86 @@
     android:orientation="vertical"
     android:paddingTop="@dimen/default_padding_top">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tool_bar"
-        style="@style/AppToolBar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_height"
-        android:background="@color/white">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical">
-
-            <!--    <ImageView
-                    android:id="@android:id/home"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="20dp"
-                    android:src="@drawable/ic_back"/>-->
-
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/img_blog_avatar"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:background="@drawable/bg_user_avatar"
-                android:scaleType="fitCenter"
-                app:riv_corner_radius="26dp"/>
-
-
-            <com.rae.cnblogs.widget.RaeTextView
-                android:id="@+id/tv_blog_author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="9dp"
-                android:text="@string/app_name"
-                android:textColor="@color/ph2"
-                android:textSize="12sp"/>
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/img_action_bar_more"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:padding="@dimen/default_margin"
-                android:src="@drawable/ic_action_bar_more"/>
-        </RelativeLayout>
-
-    </android.support.v7.widget.Toolbar>
-
-    <com.rae.cnblogs.widget.PlaceholderView
-        android:id="@+id/placeholder"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <!--内容区域-->
-        <FrameLayout
-            android:id="@+id/fl_content"
+        <com.rae.cnblogs.widget.PlaceholderView
+            android:id="@+id/placeholder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:layout_height="match_parent">
 
-        <!--评论区域-->
-        <com.rae.cnblogs.widget.RaeDrawerLayout
-            android:id="@+id/fl_comment"
+            <!--内容区域-->
+            <FrameLayout
+                android:id="@+id/fl_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"/>
+
+            <!--评论区域-->
+            <com.rae.cnblogs.widget.RaeDrawerLayout
+                android:id="@+id/fl_comment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
+
+        </com.rae.cnblogs.widget.PlaceholderView>
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tool_bar"
+            style="@style/AppToolBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"/>
+            android:layout_height="@dimen/action_bar_height">
 
-    </com.rae.cnblogs.widget.PlaceholderView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
+                <!--    <ImageView
+                        android:id="@android:id/home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="20dp"
+                        android:src="@drawable/ic_back"/>-->
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/img_blog_avatar"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:background="@drawable/bg_user_avatar"
+                    android:scaleType="fitCenter"
+                    app:riv_corner_radius="26dp"/>
+
+
+                <com.rae.cnblogs.widget.RaeTextView
+                    android:id="@+id/tv_blog_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="9dp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/ph2"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_action_bar_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/default_margin"
+                    android:src="@drawable/ic_action_bar_more"/>
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -126,8 +130,9 @@
                     android:background="@drawable/ic_comment_toolbar"
                     android:gravity="center"
                     android:textColor="@color/badge_color"
-                    android:textSize="9sp"
+                    android:textSize="10sp"
                     android:textStyle="bold"
+                    android:typeface="monospace"
                     android:visibility="visible"/>
 
             </RelativeLayout>
@@ -148,8 +153,9 @@
                     android:background="@drawable/ic_like_content_badge"
                     android:gravity="center"
                     android:textColor="@color/badge_color"
-                    android:textSize="9sp"
+                    android:textSize="10sp"
                     android:textStyle="bold"
+                    android:typeface="monospace"
                     android:visibility="visible"/>
 
                 <com.rae.cnblogs.widget.ImageLoadingView
@@ -158,7 +164,7 @@
                     android:layout_height="32dp"
                     android:layout_centerInParent="true"
                     android:scaleType="center"
-                    android:src="@drawable/ic_like_content_selected"
+                    android:src="@drawable/ic_like_content_badge"
                     android:visibility="gone"/>
 
             </RelativeLayout>

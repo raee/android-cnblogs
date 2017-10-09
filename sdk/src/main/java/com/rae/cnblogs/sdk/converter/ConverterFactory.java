@@ -27,7 +27,7 @@ public class ConverterFactory extends Converter.Factory {
         return new ConverterFactory();
     }
 
-    protected ConverterFactory() {
+    private ConverterFactory() {
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
         gson = builder.create();

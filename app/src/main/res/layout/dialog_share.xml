@@ -135,5 +135,6 @@
         android:background="@drawable/bg_button_while"
         android:text="@string/cancel"
         android:textColor="@color/ph1"
-        android:textSize="@dimen/h1"/>
+        android:textSize="@dimen/h1"
+        android:textStyle="bold"/>
 </LinearLayout>

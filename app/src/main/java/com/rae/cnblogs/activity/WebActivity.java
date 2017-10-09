@@ -100,7 +100,7 @@ public class WebActivity extends SwipeBackBaseActivity {
 
     @Override
     protected int getHomeAsUpIndicator() {
-        return R.drawable.ic_search_del;
+        return R.drawable.ic_back_closed;
     }
 
     @OnClick(R.id.img_action_bar_more)

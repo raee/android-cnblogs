@@ -3,7 +3,6 @@
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="android:fitsSystemWindows">false</item>
     </style>
 
