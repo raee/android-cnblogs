@@ -10,6 +10,7 @@ import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IUserApi;
+import com.rae.cnblogs.sdk.bean.LoginToken;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.utils.ApiEncrypt;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -36,8 +37,8 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
 
     @Override
     public void login() {
-        String userName = mView.getUserName();
-        String pwd = mView.getPassword();
+        final String userName = mView.getUserName();
+        final String pwd = mView.getPassword();
         if (isEmpty(userName)) {
             mView.onLoginError(mContext.getString(R.string.error_username_empty));
             return;
@@ -51,7 +52,16 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
         UserProvider.getInstance().logout();
 
         mFromLogin = true;
-        createObservable(mUserApi.login(ApiEncrypt.encrypt(userName), ApiEncrypt.encrypt(pwd)))
+
+        // 先请求登录页面，获取登录凭证
+        createObservable(mUserApi.loadSignInPage())
+                //  执行登录
+                .flatMap(new Function<LoginToken, ObservableSource<Empty>>() {
+                    @Override
+                    public ObservableSource<Empty> apply(LoginToken loginToken) throws Exception {
+                        return createObservable(mUserApi.login(loginToken.getVerificationToken(), ApiEncrypt.encrypt(userName), ApiEncrypt.encrypt(pwd)));
+                    }
+                })
                 .flatMap(new Function<Empty, ObservableSource<UserInfoBean>>() {
                     @Override
                     public ObservableSource<UserInfoBean> apply(Empty empty) throws Exception {

@@ -1,11 +1,14 @@
 package com.rae.cnblogs.sdk.api;
 
+import com.rae.cnblogs.sdk.ApiOptions;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.JsonBody;
 import com.rae.cnblogs.sdk.JsonParser;
 import com.rae.cnblogs.sdk.Parser;
 import com.rae.cnblogs.sdk.UserProvider;
+import com.rae.cnblogs.sdk.bean.LoginToken;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
+import com.rae.cnblogs.sdk.parser.LoginPageParser;
 import com.rae.cnblogs.sdk.parser.LoginParser;
 import com.rae.cnblogs.sdk.parser.SimpleUserInfoParser;
 import com.rae.cnblogs.sdk.parser.UserInfoParser;
@@ -13,6 +16,8 @@ import com.rae.cnblogs.sdk.parser.UserInfoParser;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -22,11 +27,25 @@ import retrofit2.http.Path;
  * Created by ChenRui on 2017/1/14 01:00.
  */
 public interface IUserApi {
+
+    /**
+     * 请求登录页面，获取登录凭证
+     */
+    @GET(ApiUrls.API_SIGN_IN)
+    @Headers({
+            "Cookie:AspxAutoDetectCookieSupport=1"
+    })
+    @Parser(LoginPageParser.class)
+    @ApiOptions(ignoreLogin = true)
+    Observable<LoginToken> loadSignInPage();
+
     /**
      * 登录，登录成功返回cookie，api已经自动处理cookie持久化，所以这里返回的是空对象
      *
-     * @param userName 用户名
-     * @param password 密码
+     * @param verificationToken 登录凭证
+     * @param userName          用户名
+     * @param password          密码
+     * @return
      */
     @POST(ApiUrls.API_SIGN_IN)
     @FormUrlEncoded
@@ -36,7 +55,8 @@ public interface IUserApi {
             "Cookie:AspxAutoDetectCookieSupport=1"
     })
     @Parser(LoginParser.class)
-    Observable<Empty> login(@Field("input1") String userName, @Field("input2") String password);
+    // TODO: 这里设置的COOKIE 没有起到作用
+    Observable<Empty> login(@Header("Cookie") String verificationToken, @Field("input1") String userName, @Field("input2") String password);
 
 
     /**

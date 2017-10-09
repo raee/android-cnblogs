@@ -44,25 +44,6 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     protected void onResume() {
         super.onResume();
         mLauncherPresenter.start();
-//        // 判断主界面退出时间是否过短
-//        long mainExitTimeMillis = config().getMainExitTimeMillis();
-//        long span = System.currentTimeMillis() - mainExitTimeMillis;
-//
-//        // 第一次或者是程序退出的时间超过1分钟(60000)，就启动当前界面
-//        if (mainExitTimeMillis <= 0 || span > 60000) {
-//            mLauncherPresenter.start();
-//        } else {
-//            // 跳过启动界面
-//            AppRoute.jumpToMain(this);
-//            Observable.timer(500, TimeUnit.MILLISECONDS)
-//                    .subscribe(new Consumer<Long>() {
-//                        @Override
-//                        public void accept(Long aLong) throws Exception {
-//                            finish();
-//                        }
-//                    });
-//        }
-
     }
 
     @Override
@@ -124,7 +105,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
 
     @Override
     public void onJumpToMain() {
-//        AppRoute.jumpToMain(this);
-//        finish();
+        AppRoute.jumpToMain(this);
+        finish();
     }
 }

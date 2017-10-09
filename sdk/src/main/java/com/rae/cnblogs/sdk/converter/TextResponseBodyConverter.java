@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.rae.cnblogs.sdk.ApiErrorCode;
+import com.rae.cnblogs.sdk.ApiOptions;
 import com.rae.cnblogs.sdk.CnblogsApiException;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.JsonParser;
@@ -37,6 +38,7 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
     private final Gson mGson;
     private IJsonParser<T> mJsonParser;
     private IHtmlParser<T> mHtmlParser;
+    private ApiOptions mApiOptions;
 
     @SuppressWarnings("unchecked")
     public TextResponseBodyConverter(Type type, Annotation[] annotations, Gson gson, TypeAdapter<T> adapter) {
@@ -61,7 +63,17 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
                     e.printStackTrace();
                 }
             }
+            if (annotation instanceof ApiOptions) {
+                mApiOptions = (ApiOptions) annotation;
+            }
         }
+    }
+
+    /**
+     * 接口是否忽略登录
+     */
+    private boolean ignoreLogin() {
+        return mApiOptions != null && mApiOptions.ignoreLogin();
     }
 
     @Override
@@ -95,7 +107,7 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
 
         Document document = Jsoup.parse(text);
 
-        if (document.title().contains("用户登录")) {
+        if (document.title().contains("用户登录") && !ignoreLogin()) {
             throw new CnblogsApiException(ApiErrorCode.LOGIN_EXPIRED, "登录失效，请重新登录");
         }
 
@@ -127,7 +139,7 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
             throw new CnblogsApiException("删除评论失败");
         }
 
-        if (text.contains("用户登录")) {
+        if (text.contains("用户登录") && !ignoreLogin()) {
             throw new CnblogsApiException(ApiErrorCode.LOGIN_EXPIRED, "登录失效，请重新登录");
         }
 
