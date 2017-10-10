@@ -41,6 +41,10 @@ public interface IBookmarksApi {
      * @param page 页码
      */
     @GET(ApiUrls.API_BOOK_MARKS_LIST)
+    @Headers({
+            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Upgrade-Insecure-Requests: 1"
+    })
     @Parser(BookmarksParser.class)
     Observable<List<BookmarksBean>> getBookmarks(@Path("page") int page);
 

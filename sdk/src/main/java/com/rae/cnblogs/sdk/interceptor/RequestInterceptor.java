@@ -70,14 +70,16 @@ public class RequestInterceptor implements Interceptor {
         Request.Builder newBuilder = request.newBuilder();
 
         // 添加版本号
-        newBuilder.addHeader("APP-PACKAGE-NAME", this.packageName);
-        newBuilder.addHeader("APP-VERSION-NAME", this.versionName);
-        newBuilder.addHeader("APP-VERSION-CODE", String.valueOf(this.versionCode));
+//        newBuilder.addHeader("APP-PACKAGE-NAME", this.packageName);
+//        newBuilder.addHeader("APP-VERSION-NAME", this.versionName);
+//        newBuilder.addHeader("APP-VERSION-CODE", String.valueOf(this.versionCode));
 
         // 使用Chrome的User-Agent
         newBuilder
                 .removeHeader("User-Agent")
-                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36");
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36")
+                .removeHeader("Accept-Language")
+                .addHeader("Accept-Language", " zh-CN,zh;q=0.8");
 
         // [重要] 带上COOKIE，保持登录需要用到
         String cookie = CookieManager.getInstance().getCookie("http://www.cnblogs.com");

@@ -19,6 +19,7 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.ThemeCompat;
+import com.rae.cnblogs.message.UserInfoEvent;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.CnblogsReportException;
@@ -27,6 +28,9 @@ import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.tencent.bugly.crashreport.CrashReport;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -74,6 +78,12 @@ public class MineFragment extends BaseFragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected void onCreateView(View view) {
         super.onCreateView(view);
         mNightModeButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -87,6 +97,9 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // 加载用户信息
+        loadUserInfo();
 
         // 意见反馈的回复
         checkFeedbackMessage();
@@ -110,7 +123,6 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadUserInfo();
         // 夜间模式处理
         mNightModeButton.setCheckedNoEvent(ThemeCompat.isNight());
     }
@@ -189,6 +201,7 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         RxObservable.dispose("MineFragment");
     }
 
@@ -295,5 +308,10 @@ public class MineFragment extends BaseFragment {
         } catch (Exception e) {
             CrashReport.postCatchedException(new CnblogsReportException("意见反馈发生异常！", e));
         }
+    }
+
+    @Subscribe
+    public void onEvent(UserInfoEvent event) {
+        loadUserInfo();
     }
 }

@@ -2,12 +2,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@android:id/background">
-        <!--  <color android:color="@android:color/transparent"/>-->
-        <shape>
-            <gradient
-                android:endColor="@color/colorPrimary"
-                android:startColor="#9bd7ff"/>
-        </shape>
+        <color android:color="@android:color/transparent"/>
+        <!--    <shape>
+                <gradient
+                    android:endColor="@color/colorPrimary"
+                    android:startColor="#9bd7ff"/>
+            </shape>-->
     </item>
 
     <!-- 第二条进度条颜色 -->
@@ -26,8 +26,8 @@
         <clip>
             <shape>
                 <gradient
-                    android:endColor="#FFFFFF"
-                    android:startColor="#C8FFFFFF"/>
+                    android:endColor="@color/colorPrimary"
+                    android:startColor="#9bd7ff"/>
             </shape>
         </clip>
     </item>

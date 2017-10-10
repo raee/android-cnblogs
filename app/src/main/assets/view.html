@@ -27,7 +27,27 @@
     <script src="http://www.raeblog.com/cnblogs/Content/app/rae-ext.js"
             type="text/javascript"></script>
     <script type="text/javascript">
-    	var width = 0;
+    // //  测试
+    // var app={
+    // 	isNightMode:function(){
+    // 		return false;
+    // 	},
+    // 	getBlog:function(){
+    // 		var obj = {
+    // 			title:"测试标题",
+    // 			postDate:"刚刚",
+    // 			author:"陈睿",
+    // 			avatar:"https://pic.cnblogs.com/face/35695/20140318223943.png",
+    // 			blogApp:"RAE",
+    // 			blogType:"BLOG"
+    // 		};
+
+    // 		return JSON.stringify(obj);
+    // 	}
+
+    // };
+
+    var width = 0;
     	// 加载主题
     	function loadTheme(isNightMode){
     		if(typeof(app) !="object"){
@@ -82,40 +102,66 @@
 				'vb vbnet               $shBrushVb.js',
 				'xml xhtml xslt html    $shBrushXml.js'
 				));
-			try{
-				SyntaxHighlighter.all();
-				markdown_highlight();
-			}catch(e){
-			}
-	});
+try{
+	SyntaxHighlighter.all();
+	markdown_highlight();
+}catch(e){
+}
+});
 		// 加载图片
 		function loadImage(){
 			$("img").each(function(key,val){
 				var src = $(val).attr("src");
-				getImageWidth(src,function(w,h){
+				var id = $(val).attr("id");
+				if(id=="blog_avatar") return;
+				getImageWidth(src,function(e,w,h){
 					var screenWidth = $(document).width();
 			    	// 图片适配屏幕
 			    	if(screenWidth>0 && w< screenWidth/2){
 			    		$(val).css("width","auto");
 			    	}
 			    })
-				$(val).load(function(){
-					$(this).addClass("img-thumbnail");
-				});
-			});
+				// $(val).load(function(){
+				// 	$(this).addClass("img-thumbnail");
+				// });
+		});
 		}
+
+
+
 		function load(){
 			loadTheme();
 			if(typeof(app) =="object"){
 				var blog = app.getBlog();
 				if(blog!=""){
 					blog = $.parseJSON(blog);
-					$("#blog_content").html("");
 					$("#blog_title").html(blog.title);
 					$("#blog_date").text(blog.postDate);
 					$("#author_name").text(blog.author);
+
+					if(!blog.avatar||  blog.avatar==null ||  blog.avatar==""){
+					    $("#blog_avatar").hide();
+					}
+
 					$("#blog_avatar").attr("src", blog.avatar);
 					$("#author").attr("blogApp", blog.blogApp);
+
+					if(blog.blogType == "BLOG"){
+						//  作者点击时间
+						$("#blog_avatar").unbind("click");
+						$("#author").bind("click",function(){
+							if(typeof(app) =="object"){
+								app.jumpToBlogger($(this).attr("blogApp"));
+							}else{
+								alert("不支持跳转到作者主页");
+							}
+						});
+					}else{
+					    $("#author").hide();
+						$("#header").css("margin-top","60px");
+					}
+
+					$("#blog_content").html("");
 					if(blog.content==null|| blog.content==""){
 						$("#blog_content").append("<p>接口缺失正文内容，可能由于博客发布时间已经久远，接口任性就是没有返回数据。</p><p>你可以尝试点击下面阅读原文阅读，也可以点击右上方的更多按钮查看原文。</p><p><a href='"+blog.url +"' class='a-source'>【阅读原文】</a></p>");
 					}else{
@@ -134,16 +180,11 @@
             	console.error(e);
             }
 
-            //  作者点击时间
-            $("#blog_avatar").unbind("click");
-            $("#author").bind("click",function(){
-			    if(typeof(app) =="object"){
-			        app.jumpToBlogger($(this).attr("blogApp"));
-			    }else{
-			        alert("不支持跳转到作者主页");
-			    }
-            });
+
         }
+
+
+
 
     </script>
 </head>
@@ -152,874 +193,33 @@
     <div id="header">
 
         <div id="author" class="clearfix">
-            <img id="blog_avatar" class="img-circle" src="https://pic.cnblogs.com/face/35695/20140318223943.png" />
+            <img id="blog_avatar" class="img-circle img-thumbnail" border=0
+                 style="width:52px; height:52px; padding:0;"/>
             <div class="author_right">
                 <span id="author_name">作者昵称</span>
                 <span id="blog_date">发布时间</span>
             </div>
-            <button  type="button" class="btn btn_author btn-default">作者主页</button>
+            <button id="btn_author" type="button" class="btn btn_author btn-default">作者主页</button>
         </div>
+
+        <script type="text/javascript">
+				if(typeof(app) =="object"){
+					var blog = app.getBlog();
+					if(blog!=""){
+						blog = $.parseJSON(blog);
+						if(blog.blogType != "BLOG"){
+					    	$("#author").hide();
+						}
+					}
+				}	
+
+
+
+        </script>
 
         <h3 id="blog_title" class="clearfix">库朗等指出需要引进的点数至多为，此种点称为斯坦纳点。</h3>
-
-
-        <!--<a href="javascript:window.locatrefreshCategoryload()">刷新页面</a>-->
     </div>
     <div id="blog_content" class="clearfix">
-
-
-        <h2>①<span style="font-size: 18px;">什么是斯坦纳点？</span></h2>
-        <p><span style="font-size: 14px;">　　假设原来已经给定了个点，库朗等指出需要引进的点数至多为，此种点称为斯坦纳点。过每一斯坦纳点，至多有三条边通过。若为三条边，则它们两两交成120&deg;角；若为两条边，则此斯坦纳点必为某一已给定的点，且此两条边交成的角必大于或等于120&deg;。其中最小的网络称为已给定点的集合的最小斯坦纳树，记作SMT。若此SMT的斯坦纳点中有等于给定点的点，则称此SMT为退化的，此给定点称为退化点。</span>
-        </p>
-        <p><span style="font-size: 14px;">构造方法：</span></p>
-        <p><span style="font-size: 14px;"><img
-                style="display: block; margin-left: auto; margin-right: auto;"
-                src="http://images2017.cnblogs.com/blog/1100338/201710/1100338-20171009223317824-1951787591.png"
-                alt=""/></span></p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <div class="para">
-            已知B，C，D，E可知B点为转轴线段BC绕B顺时针旋转60度得到正三角形，再以顶点F为转轴，FD构成的线段逆时针旋转得到新的正三角形顶点G，劣弧DF上任意一点都能和D，F构成三个，相同的，劣弧CB上的点也是。
-        </div>
-        <div class="para">
-            故将第四点E与G相连接在劣弧上得到一个交点，再由交点与F连接交劣弧CB于一点，即构成了非退化情况下的两斯坦纳点，枚举得到斯坦纳最小生成树，当与顶点连线不与劣弧有交点时则为该种结构的退化点情况.
-        </div>
-        <h2>②<span style="font-size: 18px;">什么是斯坦纳树？</span></h2>
-        <p><span style="font-size: 14px;">&nbsp; &nbsp; &nbsp; &nbsp;斯坦纳树问题是组合优化学科中的一个问题。将指定点集合中的所有点连通，且边权总和最小的生成树称为最小斯坦纳树（Minimal Steiner Tree），其实最小生成树是最小斯坦纳树的一种特殊情况。而<span
-                style="font-size: 14.399999618530273px;">斯坦纳树可以理解为使得指定集合中的点连通的树，但不一定最小。</span></span>
-        </p>
-        <h2>③<span style="font-size: 18px;">如何求解最小斯坦纳树？</span></h2>
-        <p><span style="font-size: 14px;">&nbsp; &nbsp; &nbsp; 可以用DP求解，dp[i][state]表示以i为根，指定集合中的点的连通状态为state的生成树的最小总权值。</span>
-        </p>
-        <p><span style="font-size: 14px;">&nbsp; &nbsp; &nbsp; 转移方程有两重：</span></p>
-        <p><span style="font-size: 14px;">&nbsp; &nbsp; &nbsp; 第一重，先通过连通状态的子集进行转移。</span></p>
-        <p><span style="font-size: 14px;">&nbsp; &nbsp; &nbsp; dp[i][state]=min{ dp[i][subset1]+dp[i][subset2] }&nbsp;</span>
-        </p>
-        <p><span style="font-size: 14px;">&nbsp; &nbsp; &nbsp; 枚举子集的技巧可以用 for(sub=(state-1)&amp;state;sub;sub=(sub-1)&amp;state)。</span>
-        </p>
-        <p><span style="font-size: 14px;">&nbsp; &nbsp; &nbsp; 第二重，在当前枚举的连通状态下，对该连通状态进行松弛操作。</span>
-        </p>
-        <p><span style="font-size: 14px;">&nbsp; &nbsp; &nbsp; dp[i][state]=min{ dp[i][state], dp[j][state]+e[i][j] }</span>
-        </p>
-        <p><span style="font-size: 14px;">&nbsp; &nbsp; &nbsp; 为什么只需对该连通状态进行松弛？因为更后面的连通状态会由先前的连通状态通过第一重转移得到，所以无需对别的连通状态松弛。松弛操作用SPFA即可。</span>
-        </p>
-        <p><span style="font-size: 14px;">&nbsp; &nbsp; &nbsp; 复杂度 O(n*3^k+cE*<span
-                style="font-size: 14.399999618530273px;">2^k)</span></span></p>
-        <p><span style="font-size: 14px;">&nbsp; &nbsp; &nbsp; c为SPFA复杂度中的常数，E为边的数量，但几乎达不到全部边的数量，甚至非常小。3^k来自于子集的转移sum{C(i,n)*2^i} (1&lt;=i&lt;=n)，用二项式展开求一下和。</span>
-        </p>
-        <p><span style="font-size: 14px;">模版如下：</span></p>
-        <div class="cnblogs_code">
- <pre><span style="color: #008080;"> 1</span> <span style="color: #008000;">/*</span>
- <span style="color: #008080;"> 2</span> <span style="color: #008000;"> * Steiner Tree：求，使得指定K个点连通的生成树的最小总权值
- </span><span style="color: #008080;"> 3</span> <span style="color: #008000;"> * st[i] 表示顶点i的标记值，如果i是指定集合内第m(0&lt;=m&lt;K)个点，则st[i]=1&lt;&lt;m 
- </span><span style="color: #008080;"> 4</span> <span style="color: #008000;"> * endSt=1&lt;&lt;K
- </span><span style="color: #008080;"> 5</span> <span style="color: #008000;"> * dptree[i][state] 表示以i为根，连通状态为state的生成树值
- </span><span style="color: #008080;"> 6</span> <span style="color: #008000;">*/</span>
- <span style="color: #008080;"> 7</span> <span style="color: #0000ff;">#define</span> CLR(x,a) memset(x,a,sizeof(x))
- <span style="color: #008080;"> 8</span> 
- <span style="color: #008080;"> 9</span> <span style="color: #0000ff;">int</span> dptree[N][<span
-             style="color: #800080;">1</span>&lt;&lt;<span style="color: #000000;">K],st[N],endSt;
- </span><span style="color: #008080;">10</span> <span
-             style="color: #0000ff;">bool</span> vis[N][<span style="color: #800080;">1</span>&lt;&lt;<span
-             style="color: #000000;">K];
- </span><span style="color: #008080;">11</span> queue&lt;<span style="color: #0000ff;">int</span>&gt;<span
-             style="color: #000000;"> que;
- </span><span style="color: #008080;">12</span> 
- <span style="color: #008080;">13</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> input()
- </span><span style="color: #008080;">14</span> <span style="color: #000000;">{
- </span><span style="color: #008080;">15</span> <span style="color: #008000;">/*</span>
- <span style="color: #008080;">16</span> <span style="color: #008000;"> * 输入，并且返回指定集合元素个数K
- </span><span style="color: #008080;">17</span> <span style="color: #008000;"> * 因为有时候元素个数需要通过输入数据处理出来，所以单独开个输入函数。
- </span><span style="color: #008080;">18</span> <span style="color: #008000;">*/</span>
- <span style="color: #008080;">19</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">20</span> 
- <span style="color: #008080;">21</span> <span style="color: #0000ff;">void</span><span
-             style="color: #000000;"> initSteinerTree()
- </span><span style="color: #008080;">22</span> <span style="color: #000000;">{
- </span><span style="color: #008080;">23</span> CLR(dptree,-<span
-             style="color: #800080;">1</span><span style="color: #000000;">);
- </span><span style="color: #008080;">24</span> CLR(st,<span style="color: #800080;">0</span><span
-             style="color: #000000;">);
- </span><span style="color: #008080;">25</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">1</span>;i&lt;=n;i++) CLR(vis[i],<span
-             style="color: #800080;">0</span><span style="color: #000000;">);
- </span><span style="color: #008080;">26</span> endSt=<span style="color: #800080;">1</span>&lt;&lt;<span
-             style="color: #000000;">input();
- </span><span style="color: #008080;">27</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">1</span>;i&lt;=n;i++<span
-             style="color: #000000;">)
- </span><span style="color: #008080;">28</span> dptree[i][st[i]]=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">29</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">30</span> 
- <span style="color: #008080;">31</span> <span style="color: #0000ff;">void</span> update(<span
-             style="color: #0000ff;">int</span> &amp;a,<span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> x)
- </span><span style="color: #008080;">32</span> <span style="color: #000000;">{
- </span><span style="color: #008080;">33</span> a=(a&gt;x || a==-<span
-             style="color: #800080;">1</span>)?<span style="color: #000000;"> x : a;
- </span><span style="color: #008080;">34</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">35</span> 
- <span style="color: #008080;">36</span> <span style="color: #0000ff;">void</span> SPFA(<span
-             style="color: #0000ff;">int</span><span style="color: #000000;"> state)
- </span><span style="color: #008080;">37</span> <span style="color: #000000;">{
- </span><span style="color: #008080;">38</span> <span style="color: #0000ff;">while</span>(!<span
-             style="color: #000000;">que.empty()){
- </span><span style="color: #008080;">39</span> <span style="color: #0000ff;">int</span> u=<span
-             style="color: #000000;">que.front();
- </span><span style="color: #008080;">40</span> <span style="color: #000000;"> que.pop();
- </span><span style="color: #008080;">41</span> vis[u][state]=<span
-             style="color: #0000ff;">false</span><span style="color: #000000;">;
- </span><span style="color: #008080;">42</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=p[u];i!=-<span style="color: #800080;">1</span>;i=<span
-             style="color: #000000;">e[i].next){
- </span><span style="color: #008080;">43</span> <span style="color: #0000ff;">int</span> v=<span
-             style="color: #000000;">e[i].vid;
- </span><span style="color: #008080;">44</span> <span style="color: #0000ff;">if</span>(dptree[v][st[v]|state]==-<span
-             style="color: #800080;">1</span> ||
- <span style="color: #008080;">45</span> dptree[v][st[v]|state]&gt;dptree[u][state]+<span
-             style="color: #000000;">e[i].w){
- </span><span style="color: #008080;">46</span> 
- <span style="color: #008080;">47</span> dptree[v][st[v]|state]=dptree[u][state]+<span
-             style="color: #000000;">e[i].w;
- </span><span style="color: #008080;">48</span> <span style="color: #0000ff;">if</span>(st[v]|state!=state ||<span
-             style="color: #000000;"> vis[v][state])
- </span><span style="color: #008080;">49</span> <span style="color: #0000ff;">continue</span>; <span
-             style="color: #008000;">//</span><span style="color: #008000;">只更新当前连通状态</span>
- <span style="color: #008080;">50</span> vis[v][state]=<span
-             style="color: #0000ff;">true</span><span style="color: #000000;">;
- </span><span style="color: #008080;">51</span> <span style="color: #000000;"> que.push(v);
- </span><span style="color: #008080;">52</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">53</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">54</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">55</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">56</span> 
- <span style="color: #008080;">57</span> <span style="color: #0000ff;">void</span><span
-             style="color: #000000;"> steinerTree()
- </span><span style="color: #008080;">58</span> <span style="color: #000000;">{
- </span><span style="color: #008080;">59</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> j=<span style="color: #800080;">1</span>;j&lt;endSt;j++<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">60</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">1</span>;i&lt;=n;i++<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">61</span> <span style="color: #0000ff;">if</span>(st[i] &amp;&amp; (st[i]&amp;j)==<span
-             style="color: #800080;">0</span>) <span style="color: #0000ff;">continue</span><span
-             style="color: #000000;">;
- </span><span style="color: #008080;">62</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> sub=(j-<span style="color: #800080;">1</span>)&amp;j;sub;sub=(sub-<span
-             style="color: #800080;">1</span>)&amp;<span style="color: #000000;">j){
- </span><span style="color: #008080;">63</span> <span style="color: #0000ff;">int</span> x=st[i]|sub,y=st[i]|(j-<span
-             style="color: #000000;">sub);
- </span><span style="color: #008080;">64</span> <span style="color: #0000ff;">if</span>(dptree[i][x]!=-<span
-             style="color: #800080;">1</span> &amp;&amp; dptree[i][y]!=-<span
-             style="color: #800080;">1</span><span style="color: #000000;">)
- </span><span style="color: #008080;">65</span> update(dptree[i][j],dptree[i][x]+<span
-             style="color: #000000;">dptree[i][y]);
- </span><span style="color: #008080;">66</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">67</span> <span style="color: #0000ff;">if</span>(dptree[i][j]!=-<span
-             style="color: #800080;">1</span><span style="color: #000000;">)
- </span><span style="color: #008080;">68</span> que.push(i),vis[i][j]=<span style="color: #0000ff;">true</span><span
-             style="color: #000000;">;
- </span><span style="color: #008080;">69</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">70</span> <span style="color: #000000;"> SPFA(j);
- </span><span style="color: #008080;">71</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">72</span> }</pre>
-        </div>
-        <h2>④<span style="font-size: 18px;">学习心得</span></h2>
-        <p>　　参考09年姜碧野神牛写的论文《SPFA的优化与应用》，里面提到了一道题&mdash;&mdash;[WC2008]游览计划。这题让我立刻联想到了去年北京赛区的E题，差不多的模型，大概就是在一个图中求给定的k个点的斯坦纳生成树，给定点的个数k&lt;=10。</p>
-        <div class="bct fc05 fc11 nbw-blog ztag">
-            <div>&nbsp; &nbsp; &nbsp; &nbsp;首先我们知道，最优解必然是一棵树，然后这棵树又是由若干棵子树合并成的，于是我们可以状态压缩，把k个节点的连通状态用一个二进制数j表示，dp[i][j]表示以i为根和对应状态为j的节点连通的子树的最小权值。有两种转移方法：</div>
-            <div>&nbsp; &nbsp; &nbsp; &nbsp;枚举子树的形态：dp[ i ][ j ]=min{ dp[ i ][ j ]，dp[ i ][ k ]+dp[
-                i ][ l ] }，其中k和l是对j的一个划分。
-            </div>
-            <div>&nbsp; &nbsp; &nbsp; &nbsp;按照边进行松弛：dp[ i ][ j ]=<span style="line-height: 22px;">min{ dp[ i ][ j ]，dp[ i' ][ j ]+w[ i ][ i' ] }，其中i和i'之间有边相连。</span>
-            </div>
-            <div><span style="line-height: 22px;">&nbsp; &nbsp; &nbsp; &nbsp;对于第一种转移，我们直接枚举子集就行了。对于第二种转移，我们仔细观察可以发现这个方程和最短路的约束条件是很类似的，于是我们可以用spfa或者dij来进行状态转移。枚举子集的复杂度=n*sum{C(k，i)*2^i，0&lt;i=k}=n*3^k，spfa的复杂度为n*2^k。所以总复杂度为O(n*3^k)。</span>
-            </div>
-            <div><span style="line-height: 22px;">&nbsp; &nbsp; &nbsp; &nbsp;具体实现的时候我试了好几种不同的方法，一开始是直接把两种转移都看成图中的边，一遍spfa得出结果，大概如下所示：</span>
-            </div>
-        </div>
-        <div class="bct fc05 fc11 nbw-blog ztag">
-            <div class="cnblogs_code">
- <pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">void</span><span
-         style="color: #000000;"> spfa(){
- </span><span style="color: #008080;"> 2</span> <span style="color: #0000ff;">while</span>(!<span
-         style="color: #000000;">Q.empty()){
- </span><span style="color: #008080;"> 3</span> <span style="color: #0000ff;">int</span> x=Q.front()/<span
-         style="color: #800080;">10000</span>,y=Q.front()%<span style="color: #800080;">10000</span><span
-         style="color: #000000;">;
- </span><span style="color: #008080;"> 4</span> <span style="color: #0000ff;">in</span>[x][y]=<span
-         style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;"> 5</span> <span style="color: #000000;"> Q.pop();
- </span><span style="color: #008080;"> 6</span> <span style="color: #0000ff;">for</span>(edge *i=Adj[x];i;i=i-&gt;nxt) <span
-         style="color: #008000;">//</span><span style="color: #008000;">对当前节点的每条边都进行松弛操作</span>
- <span style="color: #008080;"> 7</span> update(i-&gt;v,s[i-&gt;v]|y,d[x][y]+i-&gt;<span
-             style="color: #000000;">w);
- </span><span style="color: #008080;"> 8</span> <span style="color: #0000ff;">int</span> t=nn-<span
-             style="color: #800080;">1</span>-<span style="color: #000000;">y;
- </span><span style="color: #008080;"> 9</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=t;i;i=(i-<span style="color: #800080;">1</span>)&amp;t) <span
-             style="color: #008000;">//</span><span style="color: #008000;">枚举补集的所有子集，进行松弛操作</span>
- <span style="color: #008080;">10</span> update(x,y|i,d[x][y]+d[x][i|<span style="color: #000000;">s[x]]);
- </span><span style="color: #008080;">11</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">12</span> }</pre>
-            </div>
-            <p>&nbsp; &nbsp;&nbsp;
-                这么做的复杂度是没有变的，但是常数非常大，hdu上跑了2500ms才过，仔细一想，我们发现第二松弛操作其实做了很多无用功，考虑能不能进行优化。</p>
-            <div>&nbsp; &nbsp; &nbsp; &nbsp;第二种松弛操作非常的耗时间，所以我们就不把它加到spfa里面进行转移，直接在外面进行枚举，实现更新，避免大量的重复计算。先枚举连通性j，对于所有的1&lt;=i&lt;=n，我们先进行第一种转移，既枚举子集进行更新。如果dp[i][j]被更新了，我们就把它加到队列里，最后再进行spfa()，这样按j分层的进行转移，大概如下：</div>
-            <div>
-                <div class="cnblogs_code">
- <pre><span style="color: #008080;">1</span> <span style="color: #0000ff;">for</span>(<span
-         style="color: #0000ff;">int</span> y=<span
-         style="color: #800080;">0</span>;y&lt;nn;y++) <span style="color: #008000;">//</span><span
-         style="color: #008000;">枚举连通性</span>
- <span style="color: #008080;">2</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> x=<span style="color: #800080;">1</span>;x&lt;=n;x++<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">3</span> <span style="color: #0000ff;">bool</span> flag=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">4</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=(y-<span style="color: #800080;">1</span>)&amp;y;i;i=(i-<span
-             style="color: #800080;">1</span>)&amp;y) <span style="color: #008000;">//</span><span
-             style="color: #008000;">枚举所有子集，进行第一种转移</span>
- <span style="color: #008080;">5</span> flag|=update(x,y,d[x][i|s[x]]+d[x][(y-i)|<span
-             style="color: #000000;">s[x]]);
- </span><span style="color: #008080;">6</span> <span style="color: #0000ff;">if</span>(flag) Q.push(x*<span
-             style="color: #800080;">10000</span>+y); <span style="color: #008000;">//</span><span
-             style="color: #008000;">如果节点被更新则加入队列</span>
- <span style="color: #008080;">7</span> spfa(); <span style="color: #008000;">//</span><span
-             style="color: #008000;">spfa进行第二种转移</span>
- <span style="color: #008080;">8</span> }</pre>
-                </div>
-                <p>&nbsp; &nbsp; &nbsp;&nbsp; 我本来以为这样会更快一些，结果跑了4700ms = =！顿时吐槽无力。</p>
-                <div>&nbsp; &nbsp; &nbsp; &nbsp;为啥这样会更慢呢？我觉的大概是由于spfa()的次数过多，所以导致很多节点被重复的更新了很多次，又产生了大量了重复计算，所以反而更慢了。那么就没有什么好办法吗？仔细一想，我发现进行spfa的时候只需要对当前层的节点进行spfa就行了，不需要整个图完全松弛一遍，因为更高的层都可以通过枚举子集而变成若干个更低的层，这样一次spfa的复杂度一下就降了下来，变成了O(n)级别，大概如下：</div>
-                <div>
-                    <div class="cnblogs_code">
- <pre><span style="color: #008080;">1</span> <span style="color: #0000ff;">for</span>(edge *i=Adj[x];i;i=i-&gt;<span
-         style="color: #000000;">nxt)
- </span><span style="color: #008080;">2</span> <span style="color: #0000ff;">if</span>(update(i-&gt;v,y|s[i-&gt;v],d[x][y]+i-&gt;w)&amp;&amp;y==(y|s[i-&gt;v])&amp;&amp;!<span
-         style="color: #0000ff;">in</span>[i-&gt;v][y]) <span style="color: #008000;">//</span><span
-         style="color: #008000;">只把处于相同层的节点加到队列中</span>
- <span style="color: #008080;">3</span> <span style="color: #0000ff;">in</span>[i-&gt;v][y]=<span
-             style="color: #800080;">1</span>,Q.push(i-&gt;v*<span
-             style="color: #800080;">10000</span>+y); </pre>
-                    </div>
-                    <p>
-                        这样修改以后效果果然非常明显，1000ms就AC了。但还是不够快，别人最快的能够达到500ms。于是我baidu了一下，发现他们没有用spfa！大概就是把第二种转移表示成了另外一种形式：</p>
-                    <div>&nbsp; &nbsp; &nbsp; &nbsp;dp[ i ][ j ]=min{ dp[ i ][ j ] , dp[ k ][ j ]+d[
-                        k ][ i ] }，其中d[ k ][ i ]表示k到i的最短路。
-                    </div>
-                    <div>&nbsp; &nbsp; &nbsp; &nbsp;</div>
-                    <div>&nbsp; &nbsp; &nbsp; &nbsp;很容易就能证明这样写方程也是对的，于是我们就可以先用floyed预处理出任意两点间的最短路，然后直接DP。这样做的总复杂度为O(n^3+n^2*2^k+n*3^k)，这个复杂度并不比上面的方法低，但由于hdu4085的n比较小，所以这样写反而比上一种方法要快上不少。但对于&nbsp;<span
-                            style="line-height: 22px;">[WC2008]游览计划、ZOJ 3613&nbsp;Wormhole Transport这两道题就不行了，n都达到了100甚至200的大小，这种方法要比前面一种慢。所以最后得出结论，还是前一种方法最稳定 = ^ =</span>
-                        <h2>⑤<span style="font-size: 18px;">更多习题分享</span></h2>
-                    </div>
-                    <div>
-                        <div style="line-height: 22px;"><strong><span style="line-height: 22px;">HDU 4085 Peach Blossom Spring</span></strong>
-                        </div>
-                        <div style="line-height: 22px;">&nbsp; &nbsp; &nbsp; &nbsp;11年北京赛区的E题，这题有点不同的地方在于，最后的答案可能是一个森林，所以我们要先求出斯坦纳树后进行DP。转移的时候要注意一点，只有人的个数和房子的个数相等的时候才算合法状态，所以我们要加一个check()函数进行检查。</div>
-                        <div style="line-height: 22px;">
-                            <div class="cnblogs_code">
- <pre><span style="color: #008080;"> 1</span> #include&lt;cstdio&gt;
- <span style="color: #008080;"> 2</span> #include&lt;cstring&gt;
- <span style="color: #008080;"> 3</span> #include&lt;vector&gt;
- <span style="color: #008080;"> 4</span> #include&lt;queue&gt;
- <span style="color: #008080;"> 5</span> #include&lt;algorithm&gt;
- <span style="color: #008080;"> 6</span> <span style="color: #0000ff;">#define</span> N 60
- <span style="color: #008080;"> 7</span> <span style="color: #0000ff;">#define</span> INF 2000000
- <span style="color: #008080;"> 8</span> <span style="color: #0000ff;">using</span> <span
-             style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
- </span><span style="color: #008080;"> 9</span> <span style="color: #0000ff;">struct</span><span
-             style="color: #000000;"> edge{
- </span><span style="color: #008080;">10</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> v,w;
- </span><span style="color: #008080;">11</span> edge *<span style="color: #000000;">nxt;
- </span><span style="color: #008080;">12</span> }E[<span style="color: #800080;">2009</span>],*Adj[N],*<span
-             style="color: #000000;">cur;
- </span><span style="color: #008080;">13</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> n,m,K,nn;
- </span><span style="color: #008080;">14</span> <span style="color: #0000ff;">int</span> s[N],<span
-             style="color: #0000ff;">in</span>[N][<span
-             style="color: #800080;">1</span>&lt;&lt;<span style="color: #800080;">10</span><span
-             style="color: #000000;">];
- </span><span style="color: #008080;">15</span> <span style="color: #0000ff;">int</span> d[N][<span
-             style="color: #800080;">1</span>&lt;&lt;<span
-             style="color: #800080;">10</span>],dp[<span
-             style="color: #800080;">1</span>&lt;&lt;<span style="color: #800080;">10</span><span
-             style="color: #000000;">];
- </span><span style="color: #008080;">16</span> queue&lt;<span style="color: #0000ff;">int</span>&gt;<span
-             style="color: #000000;"> Q;
- </span><span style="color: #008080;">17</span> <span
-             style="color: #0000ff;">void</span> addedge(<span style="color: #0000ff;">int</span> u,<span
-             style="color: #0000ff;">int</span> v,<span style="color: #0000ff;">int</span> w){cur-&gt;v=v,cur-&gt;w=w,cur-&gt;nxt=Adj[u],Adj[u]=cur++<span
-             style="color: #000000;">;}
- </span><span style="color: #008080;">18</span> <span
-             style="color: #0000ff;">bool</span> check(<span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> x){
- </span><span style="color: #008080;">19</span> <span style="color: #0000ff;">int</span> r=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">20</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">0</span>;x;i++,x&gt;&gt;=<span
-             style="color: #800080;">1</span><span style="color: #000000;">)
- </span><span style="color: #008080;">21</span> r+=(x&amp;<span style="color: #800080;">1</span>)*(i&lt;K?<span
-             style="color: #800080;">1</span>:-<span style="color: #800080;">1</span><span
-             style="color: #000000;">);
- </span><span style="color: #008080;">22</span> <span style="color: #0000ff;">return</span> r==<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">23</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">24</span> inline <span style="color: #0000ff;">bool</span> update(<span
-             style="color: #0000ff;">int</span> x,<span style="color: #0000ff;">int</span> y,<span
-             style="color: #0000ff;">int</span><span style="color: #000000;"> w){
- </span><span style="color: #008080;">25</span> <span style="color: #0000ff;">if</span>(w&lt;d[x][y]) <span
-             style="color: #0000ff;">return</span> d[x][y]=w,<span
-             style="color: #0000ff;">true</span><span style="color: #000000;">;
- </span><span style="color: #008080;">26</span> <span style="color: #0000ff;">return</span> <span
-             style="color: #0000ff;">false</span><span style="color: #000000;">;
- </span><span style="color: #008080;">27</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">28</span> <span style="color: #0000ff;">void</span><span
-             style="color: #000000;"> spfa(){
- </span><span style="color: #008080;">29</span> <span style="color: #0000ff;">while</span>(!<span
-             style="color: #000000;">Q.empty()){
- </span><span style="color: #008080;">30</span> <span style="color: #0000ff;">int</span> x=Q.front()/<span
-             style="color: #800080;">10000</span>,y=Q.front()%<span
-             style="color: #800080;">10000</span><span style="color: #000000;">;
- </span><span style="color: #008080;">31</span> <span style="color: #0000ff;">in</span>[x][y]=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">32</span> <span style="color: #000000;"> Q.pop();
- </span><span style="color: #008080;">33</span> <span style="color: #0000ff;">for</span>(edge *i=Adj[x];i;i=i-&gt;<span
-             style="color: #000000;">nxt)
- </span><span style="color: #008080;">34</span> <span style="color: #0000ff;">if</span>(update(i-&gt;v,y|s[i-&gt;v],d[x][y]+i-&gt;w)&amp;&amp;y==(y|s[i-&gt;v])&amp;&amp;!<span
-             style="color: #0000ff;">in</span>[i-&gt;<span style="color: #000000;">v][y])
- </span><span style="color: #008080;">35</span> <span style="color: #0000ff;">in</span>[i-&gt;v][y]=<span
-             style="color: #800080;">1</span>,Q.push(i-&gt;v*<span
-             style="color: #800080;">10000</span>+<span style="color: #000000;">y);
- </span><span style="color: #008080;">36</span> 
- <span style="color: #008080;">37</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">38</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">39</span> <span style="color: #0000ff;">void</span><span
-             style="color: #000000;"> init(){
- </span><span style="color: #008080;">40</span> cur=<span style="color: #000000;">E;
- </span><span style="color: #008080;">41</span> memset(Adj,<span
-             style="color: #800080;">0</span>,<span style="color: #0000ff;">sizeof</span><span
-             style="color: #000000;">(Adj));
- </span><span style="color: #008080;">42</span> memset(s,<span
-             style="color: #800080;">0</span>,<span style="color: #0000ff;">sizeof</span><span
-             style="color: #000000;">(s));
- </span><span style="color: #008080;">43</span> scanf(<span style="color: #800000;">"</span><span
-             style="color: #800000;">%d%d%d</span><span style="color: #800000;">"</span>,&amp;n,&amp;m,&amp;<span
-             style="color: #000000;">K);
- </span><span style="color: #008080;">44</span> nn=<span
-             style="color: #800080;">1</span>&lt;&lt;(<span style="color: #800080;">2</span>*<span
-             style="color: #000000;">K);
- </span><span style="color: #008080;">45</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">1</span>;i&lt;=n;i++<span
-             style="color: #000000;">)
- </span><span style="color: #008080;">46</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> j=<span style="color: #800080;">0</span>;j&lt;nn;j++<span
-             style="color: #000000;">)
- </span><span style="color: #008080;">47</span> d[i][j]=<span style="color: #000000;">INF;
- </span><span style="color: #008080;">48</span> <span style="color: #0000ff;">while</span>(m--<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">49</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> u,v,w;
- </span><span style="color: #008080;">50</span> scanf(<span style="color: #800000;">"</span><span
-             style="color: #800000;">%d%d%d</span><span style="color: #800000;">"</span>,&amp;u,&amp;v,&amp;<span
-             style="color: #000000;">w);
- </span><span style="color: #008080;">51</span> <span style="color: #000000;"> addedge(u,v,w);
- </span><span style="color: #008080;">52</span> <span style="color: #000000;"> addedge(v,u,w);
- </span><span style="color: #008080;">53</span> <span style="color: #000000;"> } 
- </span><span style="color: #008080;">54</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">1</span>;i&lt;=K;i++<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">55</span> s[i]=<span style="color: #800080;">1</span>&lt;&lt;(i-<span
-             style="color: #800080;">1</span>),d[i][s[i]]=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">56</span> s[n-i+<span style="color: #800080;">1</span>]=<span
-             style="color: #800080;">1</span>&lt;&lt;(K+i-<span style="color: #800080;">1</span>),d[n-i+<span
-             style="color: #800080;">1</span>][s[n-i+<span style="color: #800080;">1</span>]]=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">57</span> <span style="color: #000000;"> } 
- </span><span style="color: #008080;">58</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">59</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> main(){
- </span><span style="color: #008080;">60</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> T;
- </span><span style="color: #008080;">61</span> scanf(<span style="color: #800000;">"</span><span
-             style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;<span
-             style="color: #000000;">T);
- </span><span style="color: #008080;">62</span> <span style="color: #0000ff;">while</span>(T--<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">63</span> <span style="color: #000000;"> init();
- </span><span style="color: #008080;">64</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> y=<span style="color: #800080;">0</span>;y&lt;nn;y++<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">65</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> x=<span style="color: #800080;">1</span>;x&lt;=n;x++<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">66</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=(y-<span style="color: #800080;">1</span>)&amp;y;i;i=(i-<span
-             style="color: #800080;">1</span>)&amp;<span style="color: #000000;">y)
- </span><span style="color: #008080;">67</span> d[x][y]=min(d[x][y],d[x][i|s[x]]+d[x][(y-i)|<span
-             style="color: #000000;">s[x]]);
- </span><span style="color: #008080;">68</span> <span style="color: #0000ff;">if</span>(d[x][y]&lt;INF) Q.push(x*<span
-             style="color: #800080;">10000</span>+y),<span
-             style="color: #0000ff;">in</span>[x][y]=<span style="color: #800080;">1</span><span
-             style="color: #000000;">;
- </span><span style="color: #008080;">69</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">70</span> <span style="color: #000000;"> spfa();
- </span><span style="color: #008080;">71</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">72</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> j=<span style="color: #800080;">0</span>;j&lt;nn;j++<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">73</span> dp[j]=<span style="color: #000000;">INF;
- </span><span style="color: #008080;">74</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">1</span>;i&lt;=n;i++) dp[j]=<span
-             style="color: #000000;">min(dp[j],d[i][j]);
- </span><span style="color: #008080;">75</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">76</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">1</span>;i&lt;nn;i++<span
-             style="color: #000000;">)
- </span><span style="color: #008080;">77</span> <span style="color: #0000ff;">if</span><span
-             style="color: #000000;">(check(i))
- </span><span style="color: #008080;">78</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> j=i&amp;(i-<span style="color: #800080;">1</span>);j;j=(j-<span
-             style="color: #800080;">1</span>)&amp;<span style="color: #000000;">i)
- </span><span style="color: #008080;">79</span> <span style="color: #0000ff;">if</span><span
-             style="color: #000000;">(check(j))
- </span><span style="color: #008080;">80</span> dp[i]=min(dp[i],dp[j]+dp[i-<span
-             style="color: #000000;">j]);
- </span><span style="color: #008080;">81</span> <span style="color: #0000ff;">if</span>(dp[nn-<span
-             style="color: #800080;">1</span>]&gt;=INF) puts(<span
-             style="color: #800000;">"</span><span style="color: #800000;">No solution</span><span
-             style="color: #800000;">"</span><span style="color: #000000;">);
- </span><span style="color: #008080;">82</span> <span
-             style="color: #0000ff;">else</span> printf(<span style="color: #800000;">"</span><span
-             style="color: #800000;">%d\n</span><span style="color: #800000;">"</span>,dp[nn-<span
-             style="color: #800080;">1</span><span style="color: #000000;">]);
- </span><span style="color: #008080;">83</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">84</span> }</pre>
-                            </div>
-                            <div style="line-height: 22px;"><strong>[WC2008]游览计划</strong></div>
-                            <div style="line-height: 22px;">&nbsp; &nbsp; &nbsp; &nbsp;这题要求一棵满足要求的斯坦纳树，基本上按照上面的做法写就行了，不过有一点恶心的就是要输出一组可行方案，所以DP的时候还要记录一下路径。</div>
-                            <div style="line-height: 22px;">
-                                <div class="cnblogs_code">
- <pre><span style="color: #008080;"> 1</span> #include&lt;cstdio&gt;
- <span style="color: #008080;"> 2</span> #include&lt;cstring&gt;
- <span style="color: #008080;"> 3</span> #include&lt;vector&gt;
- <span style="color: #008080;"> 4</span> #include&lt;queue&gt;
- <span style="color: #008080;"> 5</span> #include&lt;algorithm&gt;
- <span style="color: #008080;"> 6</span> <span style="color: #0000ff;">#define</span> INF 2000000
- <span style="color: #008080;"> 7</span> <span style="color: #0000ff;">#define</span> N 10
- <span style="color: #008080;"> 8</span> <span style="color: #0000ff;">using</span> <span
-             style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
- </span><span style="color: #008080;"> 9</span> <span style="color: #0000ff;">int</span> dx[]={<span
-             style="color: #800080;">0</span>,<span style="color: #800080;">1</span>,<span
-             style="color: #800080;">0</span>,-<span style="color: #800080;">1</span><span
-             style="color: #000000;">},
- </span><span style="color: #008080;">10</span> dy[]={<span style="color: #800080;">1</span>,<span
-             style="color: #800080;">0</span>,-<span style="color: #800080;">1</span>,<span
-             style="color: #800080;">0</span><span style="color: #000000;">};
- </span><span style="color: #008080;">11</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> max_s,n,m;
- </span><span style="color: #008080;">12</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> mat[N][N],st[N][N],vis[N][N],cnt;
- </span><span style="color: #008080;">13</span> <span
-             style="color: #0000ff;">int</span> d[N][N][<span style="color: #800080;">1</span>&lt;&lt;N],pre[N][N][<span
-             style="color: #800080;">1</span>&lt;&lt;<span style="color: #000000;">N];
- </span><span style="color: #008080;">14</span> <span style="color: #0000ff;">bool</span> <span
-             style="color: #0000ff;">in</span>[N][N][<span
-             style="color: #800080;">1</span>&lt;&lt;<span style="color: #000000;">N];
- </span><span style="color: #008080;">15</span> queue&lt;<span style="color: #0000ff;">int</span>&gt;<span
-             style="color: #000000;"> Q;
- </span><span style="color: #008080;">16</span> <span style="color: #0000ff;">void</span><span
-             style="color: #000000;"> spfa(){
- </span><span style="color: #008080;">17</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> x,y,s,tx,ty,ts;
- </span><span style="color: #008080;">18</span> <span style="color: #0000ff;">while</span>(!<span
-             style="color: #000000;">Q.empty()){
- </span><span style="color: #008080;">19</span> x=Q.front()/<span
-             style="color: #800080;">100000</span><span style="color: #000000;">;
- </span><span style="color: #008080;">20</span> y=(Q.front()-x*<span
-             style="color: #800080;">100000</span>)/<span style="color: #800080;">10000</span><span
-             style="color: #000000;">;
- </span><span style="color: #008080;">21</span> s=Q.front()-x*<span
-             style="color: #800080;">100000</span>-y*<span style="color: #800080;">10000</span><span
-             style="color: #000000;">;
- </span><span style="color: #008080;">22</span> <span style="color: #000000;"> Q.pop();
- </span><span style="color: #008080;">23</span> <span
-             style="color: #0000ff;">in</span>[x][y][s]=<span style="color: #800080;">0</span><span
-             style="color: #000000;">;
- </span><span style="color: #008080;">24</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">0</span>;i&lt;<span
-             style="color: #800080;">4</span>;i++<span style="color: #000000;">){
- </span><span style="color: #008080;">25</span> tx=x+dx[i],ty=y+<span style="color: #000000;">dy[i];
- </span><span style="color: #008080;">26</span> <span style="color: #0000ff;">if</span>(tx&gt;=n||ty&gt;=m||tx&lt;<span
-             style="color: #800080;">0</span>||ty&lt;<span style="color: #800080;">0</span>) <span
-             style="color: #0000ff;">continue</span><span style="color: #000000;">;
- </span><span style="color: #008080;">27</span> ts=s|<span style="color: #000000;">st[tx][ty];
- </span><span style="color: #008080;">28</span> <span style="color: #0000ff;">if</span>(d[x][y][s]+mat[tx][ty]&lt;<span
-             style="color: #000000;">d[tx][ty][ts]){
- </span><span style="color: #008080;">29</span> d[tx][ty][ts]=d[x][y][s]+<span
-             style="color: #000000;">mat[tx][ty];
- </span><span style="color: #008080;">30</span> pre[tx][ty][ts]=x*<span style="color: #800080;">100000</span>+y*<span
-             style="color: #800080;">10000</span>+<span style="color: #000000;">s;
- </span><span style="color: #008080;">31</span> <span style="color: #0000ff;">if</span>(!<span
-             style="color: #0000ff;">in</span>[tx][ty][ts]&amp;&amp;s==ts) <span
-             style="color: #0000ff;">in</span>[tx][ty][ts]=<span style="color: #800080;">1</span>,Q.push(tx*<span
-             style="color: #800080;">100000</span>+ty*<span
-             style="color: #800080;">10000</span>+<span style="color: #000000;">ts);
- </span><span style="color: #008080;">32</span> <span style="color: #000000;"> } 
- </span><span style="color: #008080;">33</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">34</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">35</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">36</span> <span style="color: #0000ff;">void</span> go(<span
-             style="color: #0000ff;">int</span> x,<span style="color: #0000ff;">int</span> y,<span
-             style="color: #0000ff;">int</span><span style="color: #000000;"> s){
- </span><span style="color: #008080;">37</span> vis[x][y]=<span
-             style="color: #800080;">1</span><span style="color: #000000;">;
- </span><span style="color: #008080;">38</span> <span style="color: #0000ff;">int</span> t=<span
-             style="color: #000000;">pre[x][y][s],tx,ty,ts;
- </span><span style="color: #008080;">39</span> <span style="color: #0000ff;">if</span>(!t) <span
-             style="color: #0000ff;">return</span><span style="color: #000000;">;
- </span><span style="color: #008080;">40</span> tx=t/<span
-             style="color: #800080;">100000</span><span style="color: #000000;">;
- </span><span style="color: #008080;">41</span> ty=(t-tx*<span style="color: #800080;">100000</span>)/<span
-             style="color: #800080;">10000</span><span style="color: #000000;">;
- </span><span style="color: #008080;">42</span> ts=t-tx*<span style="color: #800080;">100000</span>-ty*<span
-             style="color: #800080;">10000</span><span style="color: #000000;">;
- </span><span style="color: #008080;">43</span> <span style="color: #000000;"> go(tx,ty,ts);
- </span><span style="color: #008080;">44</span> <span style="color: #0000ff;">if</span>(x==tx&amp;&amp;y==ty) go(x,y,(s-ts)|<span
-             style="color: #000000;">st[x][y]);
- </span><span style="color: #008080;">45</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">46</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> main(){
- </span><span style="color: #008080;">47</span> <span style="color: #008000;">//</span><span
-             style="color: #008000;">freopen("in.in","r",stdin);</span>
- <span style="color: #008080;">48</span> scanf(<span style="color: #800000;">"</span><span
-             style="color: #800000;">%d%d</span><span
-             style="color: #800000;">"</span>,&amp;n,&amp;<span style="color: #000000;">m);
- </span><span style="color: #008080;">49</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span
-             style="color: #800080;">0</span>;i&lt;n;i++<span style="color: #000000;">)
- </span><span style="color: #008080;">50</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> j=<span
-             style="color: #800080;">0</span>;j&lt;m;j++<span style="color: #000000;">){
- </span><span style="color: #008080;">51</span> scanf(<span style="color: #800000;">"</span><span
-             style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;<span
-             style="color: #000000;">mat[i][j]);
- </span><span style="color: #008080;">52</span> <span style="color: #0000ff;">if</span>(!mat[i][j]) st[i][j]=<span
-             style="color: #800080;">1</span>&lt;&lt;(cnt++<span style="color: #000000;">);
- </span><span style="color: #008080;">53</span> <span style="color: #000000;"> } 
- </span><span style="color: #008080;">54</span> max_s=<span style="color: #800080;">1</span>&lt;&lt;<span
-             style="color: #000000;">cnt;
- </span><span style="color: #008080;">55</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span
-             style="color: #800080;">0</span>;i&lt;n;i++<span style="color: #000000;">)
- </span><span style="color: #008080;">56</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> j=<span
-             style="color: #800080;">0</span>;j&lt;m;j++<span style="color: #000000;">){
- </span><span style="color: #008080;">57</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> k=<span style="color: #800080;">0</span>;k&lt;max_s;k++<span
-             style="color: #000000;">)
- </span><span style="color: #008080;">58</span> d[i][j][k]=<span style="color: #000000;">INF;
- </span><span style="color: #008080;">59</span> <span style="color: #0000ff;">if</span>(st[i][j]) d[i][j][st[i][j]]=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">60</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">61</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> k=<span style="color: #800080;">1</span>;k&lt;max_s;k++<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">62</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span
-             style="color: #800080;">0</span>;i&lt;n;i++<span style="color: #000000;">)
- </span><span style="color: #008080;">63</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> j=<span
-             style="color: #800080;">0</span>;j&lt;m;j++<span style="color: #000000;">){
- </span><span style="color: #008080;">64</span> <span style="color: #0000ff;">if</span>(st[i][j]&amp;&amp;!(st[i][j]&amp;k)) <span
-             style="color: #0000ff;">continue</span><span style="color: #000000;">;
- </span><span style="color: #008080;">65</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> x=(k-<span style="color: #800080;">1</span>)&amp;k;x;x=(x-<span
-             style="color: #800080;">1</span>)&amp;<span style="color: #000000;">k){
- </span><span style="color: #008080;">66</span> <span style="color: #0000ff;">int</span> t=d[i][j][x|st[i][j]]+d[i][j][(k-x)|st[i][j]]-<span
-             style="color: #000000;">mat[i][j];
- </span><span style="color: #008080;">67</span> <span style="color: #0000ff;">if</span>(t&lt;d[i][j][k]) d[i][j][k]=t,pre[i][j][k]=i*<span
-             style="color: #800080;">100000</span>+j*<span
-             style="color: #800080;">10000</span>+(x|<span style="color: #000000;">st[i][j]);
- </span><span style="color: #008080;">68</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">69</span> <span style="color: #0000ff;">if</span>(d[i][j][k]&lt;INF) Q.push(i*<span
-             style="color: #800080;">100000</span>+j*<span
-             style="color: #800080;">10000</span>+k),<span style="color: #0000ff;">in</span>[i][j][k]=<span
-             style="color: #800080;">1</span><span style="color: #000000;">;
- </span><span style="color: #008080;">70</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">71</span> <span style="color: #000000;"> spfa();
- </span><span style="color: #008080;">72</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">73</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span
-             style="color: #800080;">0</span>;i&lt;n;i++<span style="color: #000000;">)
- </span><span style="color: #008080;">74</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> j=<span
-             style="color: #800080;">0</span>;j&lt;m;j++<span style="color: #000000;">)
- </span><span style="color: #008080;">75</span> <span style="color: #0000ff;">if</span><span
-             style="color: #000000;">(st[i][j]){
- </span><span style="color: #008080;">76</span> printf(<span style="color: #800000;">"</span><span
-             style="color: #800000;">%d\n</span><span style="color: #800000;">"</span>,d[i][j][max_s-<span
-             style="color: #800080;">1</span><span style="color: #000000;">]);
- </span><span style="color: #008080;">77</span> go(i,j,max_s-<span
-             style="color: #800080;">1</span><span style="color: #000000;">);
- </span><span style="color: #008080;">78</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> x=<span
-             style="color: #800080;">0</span>;x&lt;n;x++<span style="color: #000000;">){
- </span><span style="color: #008080;">79</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> y=<span
-             style="color: #800080;">0</span>;y&lt;m;y++<span style="color: #000000;">){
- </span><span style="color: #008080;">80</span> <span style="color: #0000ff;">if</span>(st[x][y]) putchar(<span
-             style="color: #800000;">'</span><span style="color: #800000;">x</span><span
-             style="color: #800000;">'</span><span style="color: #000000;">);
- </span><span style="color: #008080;">81</span> <span style="color: #0000ff;">else</span> <span
-             style="color: #0000ff;">if</span>(vis[x][y]) putchar(<span
-             style="color: #800000;">'</span><span style="color: #800000;">o</span><span
-             style="color: #800000;">'</span><span style="color: #000000;">);
- </span><span style="color: #008080;">82</span> <span
-             style="color: #0000ff;">else</span> putchar(<span style="color: #800000;">'</span><span
-             style="color: #800000;">_</span><span style="color: #800000;">'</span><span
-             style="color: #000000;">);
- </span><span style="color: #008080;">83</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">84</span> puts(<span style="color: #800000;">""</span><span
-             style="color: #000000;">);
- </span><span style="color: #008080;">85</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">86</span> <span style="color: #0000ff;">return</span> <span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">87</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">88</span> }</pre>
-                                </div>
-                                <div><strong>ZOJ 3613 Wormhole Transport</strong></div>
-                                <div style="line-height: 22px;">&nbsp; &nbsp; &nbsp; &nbsp;ZOJ
-                                    Monthly, June 2012的C题。和HDU
-                                    4085差不多，有一点不同的是一个星球可能有很多个工厂，但是含有资源和含有工厂的星球个数都不超过4。还是先状态压缩，然后DP求出斯坦纳树。最优的方案有可能是森林，所以我们还要DP，dp[
-                                    i ]表示对应的工厂节点和资源节点组成的斯坦树森林的最优值。那么：
-                                </div>
-                                <div style="line-height: 22px;">&nbsp; &nbsp; &nbsp; &nbsp;dp[ i
-                                    ]=min{ dp[ i ]，dp[ j ]+dp[ k ] }，其中j和k为i的一个划分。
-                                </div>
-                                <div style="line-height: 22px;">&nbsp; &nbsp; &nbsp; &nbsp;这里要注意一点，所有的状态i、j、k都要满足一个条件，就是连通的星球上工厂的个数要大于等于资源的个数，这样才是一个合法的状态，所以要加一个check()函数。最后再找到所含资源最多，花费最小的合法方案就是答案。</div>
-                                <div style="line-height: 22px;">
-                                    <div class="cnblogs_code">
- <pre><span style="color: #008080;"> 1</span> #include&lt;cstdio&gt;
- <span style="color: #008080;"> 2</span> #include&lt;cstring&gt;
- <span style="color: #008080;"> 3</span> #include&lt;queue&gt;
- <span style="color: #008080;"> 4</span> #include&lt;vector&gt;
- <span style="color: #008080;"> 5</span> #include&lt;algorithm&gt;
- <span style="color: #008080;"> 6</span> <span style="color: #0000ff;">#define</span> N 209
- <span style="color: #008080;"> 7</span> <span style="color: #0000ff;">using</span> <span
-             style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
- </span><span style="color: #008080;"> 8</span> 
- <span style="color: #008080;"> 9</span> <span style="color: #0000ff;">struct</span> edge{<span
-             style="color: #0000ff;">int</span> v,w;edge *nxt;}E[<span
-             style="color: #800080;">10009</span>],*Adj[N],*<span style="color: #000000;">cur;
- </span><span style="color: #008080;">10</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> n,m,nn;
- </span><span style="color: #008080;">11</span> <span style="color: #0000ff;">int</span> d[N][<span
-             style="color: #800080;">1</span>&lt;&lt;<span
-             style="color: #800080;">8</span>],dp[<span
-             style="color: #800080;">1</span>&lt;&lt;<span style="color: #800080;">8</span><span
-             style="color: #000000;">];
- </span><span style="color: #008080;">12</span> <span style="color: #0000ff;">bool</span> <span
-             style="color: #0000ff;">in</span>[N][<span
-             style="color: #800080;">1</span>&lt;&lt;<span style="color: #800080;">8</span><span
-             style="color: #000000;">];
- </span><span style="color: #008080;">13</span> <span style="color: #0000ff;">int</span> S[N],P[N],st[N],fac[<span
-             style="color: #800080;">4</span><span style="color: #000000;">],cf,cs;
- </span><span style="color: #008080;">14</span> queue&lt;<span style="color: #0000ff;">int</span>&gt;<span
-             style="color: #000000;"> Q;
- </span><span style="color: #008080;">15</span> <span
-             style="color: #0000ff;">void</span> addedge(<span style="color: #0000ff;">int</span> u,<span
-             style="color: #0000ff;">int</span> v,<span style="color: #0000ff;">int</span> w){cur-&gt;v=v,cur-&gt;w=w,cur-&gt;nxt=Adj[u],Adj[u]=cur++<span
-             style="color: #000000;">;}
- </span><span style="color: #008080;">16</span> <span style="color: #0000ff;">void</span> up(<span
-             style="color: #0000ff;">int</span> &amp;a,<span
-             style="color: #0000ff;">int</span> b){<span style="color: #0000ff;">if</span>(a==-<span
-             style="color: #800080;">1</span>||a&gt;b) a=<span style="color: #000000;">b;}
- </span><span style="color: #008080;">17</span> <span style="color: #0000ff;">void</span><span
-             style="color: #000000;"> spfa(){
- </span><span style="color: #008080;">18</span> <span style="color: #0000ff;">while</span>(!<span
-             style="color: #000000;">Q.empty()){
- </span><span style="color: #008080;">19</span> <span style="color: #0000ff;">int</span> x=Q.front()/<span
-             style="color: #800080;">1000</span>,y=Q.front()%<span
-             style="color: #800080;">1000</span><span style="color: #000000;">;
- </span><span style="color: #008080;">20</span> <span style="color: #000000;"> Q.pop();
- </span><span style="color: #008080;">21</span> <span style="color: #0000ff;">in</span>[x][y]=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">22</span> <span style="color: #0000ff;">for</span>(edge *i=Adj[x];i;i=i-&gt;<span
-             style="color: #000000;">nxt)
- </span><span style="color: #008080;">23</span> <span style="color: #0000ff;">if</span>(d[i-&gt;v][y|st[i-&gt;v]]==-<span
-             style="color: #800080;">1</span>||d[x][y]+i-&gt;w&lt;d[i-&gt;v][y|st[i-&gt;<span
-             style="color: #000000;">v]]){
- </span><span style="color: #008080;">24</span> d[i-&gt;v][y|st[i-&gt;v]]=d[x][y]+i-&gt;<span
-             style="color: #000000;">w;
- </span><span style="color: #008080;">25</span> <span style="color: #0000ff;">if</span>(y==(y|st[i-&gt;v])&amp;&amp;!<span
-             style="color: #0000ff;">in</span>[i-&gt;v][y]) <span style="color: #0000ff;">in</span>[i-&gt;v][y]=<span
-             style="color: #800080;">1</span>,Q.push(i-&gt;v*<span
-             style="color: #800080;">1000</span>+<span style="color: #000000;">y);
- </span><span style="color: #008080;">26</span> <span style="color: #000000;"> } 
- </span><span style="color: #008080;">27</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">28</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">29</span> <span
-             style="color: #0000ff;">bool</span> check(<span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> x){
- </span><span style="color: #008080;">30</span> <span style="color: #0000ff;">int</span> t=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">31</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">0</span>;x;i++,x&gt;&gt;=<span
-             style="color: #800080;">1</span><span style="color: #000000;">)
- </span><span style="color: #008080;">32</span> t+=(x&amp;<span style="color: #800080;">1</span>)*(i&lt;cf?fac[i]:-<span
-             style="color: #800080;">1</span><span style="color: #000000;">);
- </span><span style="color: #008080;">33</span> <span
-             style="color: #0000ff;">return</span> t&gt;=<span style="color: #800080;">0</span><span
-             style="color: #000000;">;
- </span><span style="color: #008080;">34</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">35</span> <span style="color: #0000ff;">int</span> cnt(<span
-             style="color: #0000ff;">int</span><span style="color: #000000;"> x){
- </span><span style="color: #008080;">36</span> <span style="color: #0000ff;">int</span> r=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">37</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">0</span>;x;i++,x&gt;&gt;=<span
-             style="color: #800080;">1</span><span style="color: #000000;">)
- </span><span style="color: #008080;">38</span> r+=(x&amp;<span style="color: #800080;">1</span>)*(i&lt;cf?<span
-             style="color: #800080;">0</span>:<span style="color: #800080;">1</span><span
-             style="color: #000000;">);
- </span><span style="color: #008080;">39</span> <span style="color: #0000ff;">return</span><span
-             style="color: #000000;"> r;
- </span><span style="color: #008080;">40</span> <span style="color: #000000;">}
- </span><span style="color: #008080;">41</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> main(){
- </span><span style="color: #008080;">42</span> <span
-             style="color: #0000ff;">while</span>(scanf(<span style="color: #800000;">"</span><span
-             style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;n)+<span
-             style="color: #800080;">1</span><span style="color: #000000;">){
- </span><span style="color: #008080;">43</span> cur=<span style="color: #000000;">E;
- </span><span style="color: #008080;">44</span> cf=cs=<span style="color: #800080;">0</span><span
-             style="color: #000000;">;
- </span><span style="color: #008080;">45</span> memset(Adj,<span
-             style="color: #800080;">0</span>,<span style="color: #0000ff;">sizeof</span><span
-             style="color: #000000;">(Adj));
- </span><span style="color: #008080;">46</span> memset(st,<span
-             style="color: #800080;">0</span>,<span style="color: #0000ff;">sizeof</span><span
-             style="color: #000000;">(st));
- </span><span style="color: #008080;">47</span> memset(d,-<span
-             style="color: #800080;">1</span>,<span style="color: #0000ff;">sizeof</span><span
-             style="color: #000000;">(d));
- </span><span style="color: #008080;">48</span> memset(dp,-<span
-             style="color: #800080;">1</span>,<span style="color: #0000ff;">sizeof</span><span
-             style="color: #000000;">(dp));
- </span><span style="color: #008080;">49</span> <span style="color: #0000ff;">int</span> ans=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">50</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">1</span>;i&lt;=n;i++<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">51</span> scanf(<span style="color: #800000;">"</span><span
-             style="color: #800000;">%d%d</span><span style="color: #800000;">"</span>,P+i,S+<span
-             style="color: #000000;">i);
- </span><span style="color: #008080;">52</span> <span style="color: #0000ff;">if</span>(S[i]&amp;&amp;P[i]) P[i]--,S[i]=<span
-             style="color: #800080;">0</span>,ans++<span style="color: #000000;">;
- </span><span style="color: #008080;">53</span> <span style="color: #0000ff;">if</span>(P[i]) st[i]=<span
-             style="color: #800080;">1</span>&lt;&lt;cf,fac[cf++]=P[i],d[i][st[i]]=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">54</span> <span style="color: #000000;"> } 
- </span><span style="color: #008080;">55</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">1</span>;i&lt;=n;i++<span
-             style="color: #000000;">)
- </span><span style="color: #008080;">56</span> <span style="color: #0000ff;">if</span><span
-             style="color: #000000;">(S[i])
- </span><span style="color: #008080;">57</span> st[i]=<span style="color: #800080;">1</span>&lt;&lt;(cf+cs++),d[i][st[i]]=<span
-             style="color: #800080;">0</span><span style="color: #000000;">;
- </span><span style="color: #008080;">58</span> nn=<span style="color: #800080;">1</span>&lt;&lt;(cf+<span
-             style="color: #000000;">cs);
- </span><span style="color: #008080;">59</span> 
- <span style="color: #008080;">60</span> scanf(<span style="color: #800000;">"</span><span
-             style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;<span
-             style="color: #000000;">m);
- </span><span style="color: #008080;">61</span> <span style="color: #0000ff;">while</span>(m--<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">62</span> <span style="color: #0000ff;">int</span><span
-             style="color: #000000;"> u,v,w;
- </span><span style="color: #008080;">63</span> scanf(<span style="color: #800000;">"</span><span
-             style="color: #800000;">%d%d%d</span><span style="color: #800000;">"</span>,&amp;u,&amp;v,&amp;<span
-             style="color: #000000;">w);
- </span><span style="color: #008080;">64</span> <span style="color: #000000;"> addedge(u,v,w);
- </span><span style="color: #008080;">65</span> <span style="color: #000000;"> addedge(v,u,w);
- </span><span style="color: #008080;">66</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">67</span> 
- <span style="color: #008080;">68</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> y=<span style="color: #800080;">1</span>;y&lt;nn;y++<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">69</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> x=<span style="color: #800080;">1</span>;x&lt;=n;x++<span
-             style="color: #000000;">){
- </span><span style="color: #008080;">70</span> <span style="color: #0000ff;">if</span>(st[x]&amp;&amp;!(st[x]&amp;y)) <span
-             style="color: #0000ff;">continue</span><span style="color: #000000;">;
- </span><span style="color: #008080;">71</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=(y-<span style="color: #800080;">1</span>)&amp;y;i;i=(i-<span
-             style="color: #800080;">1</span>)&amp;<span style="color: #000000;">y)
- </span><span style="color: #008080;">72</span> <span style="color: #0000ff;">if</span>(d[x][i|st[x]]!=-<span
-             style="color: #800080;">1</span>&amp;&amp;d[x][(y-i)|st[x]]!=-<span
-             style="color: #800080;">1</span><span style="color: #000000;">)
- </span><span style="color: #008080;">73</span> up(d[x][y],d[x][i|st[x]]+d[x][(y-i)|<span
-             style="color: #000000;">st[x]]);
- </span><span style="color: #008080;">74</span> <span
-             style="color: #0000ff;">if</span>(d[x][y]!=-<span style="color: #800080;">1</span>) Q.push(x*<span
-             style="color: #800080;">1000</span>+y),<span
-             style="color: #0000ff;">in</span>[x][y]=<span style="color: #800080;">1</span><span
-             style="color: #000000;">;
- </span><span style="color: #008080;">75</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">76</span> <span style="color: #000000;"> spfa();
- </span><span style="color: #008080;">77</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">78</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">1</span>;i&lt;=n;i++<span
-             style="color: #000000;">)
- </span><span style="color: #008080;">79</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> j=<span style="color: #800080;">0</span>;j&lt;nn;j++<span
-             style="color: #000000;">)
- </span><span style="color: #008080;">80</span> <span
-             style="color: #0000ff;">if</span>(d[i][j]!=-<span style="color: #800080;">1</span><span
-             style="color: #000000;">)
- </span><span style="color: #008080;">81</span> <span style="color: #000000;"> up(dp[j],d[i][j]);
- </span><span style="color: #008080;">82</span> <span style="color: #0000ff;">int</span> num=<span
-             style="color: #800080;">0</span>,cost=<span style="color: #800080;">0</span><span
-             style="color: #000000;">;
- </span><span style="color: #008080;">83</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> i=<span style="color: #800080;">1</span>;i&lt;nn;i++<span
-             style="color: #000000;">)
- </span><span style="color: #008080;">84</span> <span style="color: #0000ff;">if</span><span
-             style="color: #000000;">(check(i)){
- </span><span style="color: #008080;">85</span> <span style="color: #0000ff;">for</span>(<span
-             style="color: #0000ff;">int</span> j=(i-<span style="color: #800080;">1</span>)&amp;i;j;j=(j-<span
-             style="color: #800080;">1</span>)&amp;<span style="color: #000000;">i)
- </span><span style="color: #008080;">86</span> <span style="color: #0000ff;">if</span>(check(j)&amp;&amp;check(i-j)&amp;&amp;dp[j]!=-<span
-             style="color: #800080;">1</span>&amp;&amp;dp[i-j]!=-<span
-             style="color: #800080;">1</span><span style="color: #000000;">)
- </span><span style="color: #008080;">87</span> up(dp[i],dp[j]+dp[i-<span style="color: #000000;">j]);
- </span><span style="color: #008080;">88</span> <span style="color: #0000ff;">int</span> t=<span
-             style="color: #000000;">cnt(i);
- </span><span style="color: #008080;">89</span> <span
-             style="color: #0000ff;">if</span>(dp[i]!=-<span style="color: #800080;">1</span>&amp;&amp;(t&gt;num||(t==num&amp;&amp;dp[i]&lt;<span
-             style="color: #000000;">cost)))
- </span><span style="color: #008080;">90</span> num=t,cost=<span style="color: #000000;">dp[i];
- </span><span style="color: #008080;">91</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">92</span> printf(<span style="color: #800000;">"</span><span
-             style="color: #800000;">%d %d\n</span><span style="color: #800000;">"</span>,num+<span
-             style="color: #000000;">ans,cost);
- </span><span style="color: #008080;">93</span> <span style="color: #000000;"> }
- </span><span style="color: #008080;">94</span> }</pre>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
     </div>
 </div>

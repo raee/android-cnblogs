@@ -1,5 +1,6 @@
 package com.rae.cnblogs.activity;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,8 +24,10 @@ public class SearchActivity extends BaseFragmentActivity {
         overridePendingTransition(com.rae.cnblogs.R.anim.slide_in_bottom, 0);
         super.onCreate(savedInstanceState);
         mToolBar.setVisibility(View.GONE);
+        ((View) mToolBar.getParent()).setBackgroundColor(Color.TRANSPARENT);
+
         findViewById(android.R.id.content).setFitsSystemWindows(true);
-        AppMobclickAgent.onClickEvent(getContext(),"Search");
+        AppMobclickAgent.onClickEvent(getContext(), "Search");
     }
 
     @Override

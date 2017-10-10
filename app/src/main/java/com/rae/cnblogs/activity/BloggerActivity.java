@@ -22,6 +22,7 @@ import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.fragment.BlogListFragment;
+import com.rae.cnblogs.message.UserInfoEvent;
 import com.rae.cnblogs.model.FeedListFragment;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBloggerPresenter;
@@ -31,6 +32,8 @@ import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.widget.BloggerLayout;
 import com.rae.swift.app.RaeFragmentAdapter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -240,6 +243,9 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         AppUI.dismiss();
         mFollowView.setText(mBloggerPresenter.isFollowed() ? R.string.cancel_follow : R.string.following);
         setResult(RESULT_OK);
+
+        // 发送通知
+        EventBus.getDefault().post(new UserInfoEvent());
     }
 
     @Override
@@ -249,6 +255,9 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         finish();
     }
 
+    @Override
+    protected void onStatusBarColorChanged() {
+    }
 
     /**
      * 粉丝

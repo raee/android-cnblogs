@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.CnblogsApplication;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
@@ -46,8 +47,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        onStatusBarColorChanged();
         super.onCreate(savedInstanceState);
+    }
 
+    protected void onStatusBarColorChanged() {
+        AppStatusBar.setStatusbarToDark(this);
     }
 
     @Override

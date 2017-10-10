@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
-import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RxObservable;
@@ -28,6 +27,7 @@ import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeDrawerLayout;
 
 import org.greenrobot.eventbus.EventBus;
+import org.jsoup.Jsoup;
 
 import java.util.List;
 
@@ -85,7 +85,6 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        AppStatusBar.setStatusbarToDark(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog_content);
 //        setSupportActionBar(mToolbar);
@@ -187,6 +186,11 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
 
     private void onLoadData(BlogBean blog) {
         mBlog = blog;
+
+        // 从搜索进来的标题处理
+        String text = Jsoup.parse(blog.getTitle()).text();
+        mBlog.setTitle(text);
+
 
         // 评论角标
         if (!TextUtils.equals(mBlog.getComment(), "0")) {

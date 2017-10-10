@@ -63,7 +63,7 @@ final class ApiUrls {
     static final String API_BOOK_MARKS_DELETE = "http://wz.cnblogs.com/ajax/wz/DeleteWzlink";
 
     // 收藏-列表
-    static final String API_BOOK_MARKS_LIST = "http://wz.cnblogs.com/my/{page}.html";
+    static final String API_BOOK_MARKS_LIST = "https://wz.cnblogs.com/my/{page}.html";
 
     // 知识库-内容
     static final String API_KB_CONTENT = "https://kb.cnblogs.com/page/{id}/";

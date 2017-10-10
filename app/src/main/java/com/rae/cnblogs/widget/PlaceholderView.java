@@ -100,6 +100,7 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
                     break;
                 case R.styleable.PlaceholderView_loading_message:
                     mLoadingText = a.getString(index);
+                    mLoadingTextView.setText(mLoadingText);
                     break;
             }
         }
