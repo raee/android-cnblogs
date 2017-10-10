@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -28,6 +29,7 @@ import com.rae.cnblogs.sdk.AppGson;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
+import com.rae.cnblogs.utils.ViewCaptureUtils;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeWebView;
@@ -37,7 +39,10 @@ import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
+
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 
 /**
@@ -91,9 +96,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        // todo:调试模式
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
         mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +127,8 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
                     mBackView.setImageResource(R.drawable.ic_back_white);
                     mMoreView.setImageResource(R.drawable.ic_blog_content_more);
                 }
+
+                Log.i("rae", "滚动高度：" + y);
             }
         });
     }
@@ -160,6 +165,22 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
         mBackView = getActivity().findViewById(R.id.back);
         mMoreView = getActivity().findViewById(R.id.img_action_bar_more);
+
+        // 测试一下
+        final ViewCaptureUtils viewCaptureUtils = new ViewCaptureUtils(getContext());
+        mBackView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                viewCaptureUtils.capture(mWebView, "/sdcard/test.jpg")
+                        .subscribe(new Consumer<File>() {
+                            @Override
+                            public void accept(File file) throws Exception {
+                                AppUI.toast(getContext(), "保存成功！");
+                            }
+                        });
+            }
+        });
     }
 
     @Override

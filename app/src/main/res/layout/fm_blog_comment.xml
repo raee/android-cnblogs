@@ -18,7 +18,9 @@
         <com.rae.cnblogs.widget.RaeRecyclerView
             android:id="@+id/rec_blog_comment_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/action_bar_height"/>
+
     </com.rae.cnblogs.widget.PlaceholderView>
 
 

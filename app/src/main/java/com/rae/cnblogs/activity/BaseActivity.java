@@ -121,7 +121,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void onBackClick(View view) {
-        finish();
+        onBackPressed();
     }
 
     @Override

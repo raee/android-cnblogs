@@ -81,6 +81,7 @@ public class WebViewFragment extends BaseFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
 
+
         mWebView = new RaeWebView(getContext().getApplicationContext());
         mWebView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mContentLayout.addView(mWebView);

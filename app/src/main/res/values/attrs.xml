@@ -9,6 +9,7 @@
 
         <attr name="empty_icon" format="reference"/>
         <attr name="empty_message" format="reference|string"/>
+        <attr name="loading_message" format="reference|string"/>
     </declare-styleable>
 
     <declare-styleable name="RaeViewPager">

@@ -36,6 +36,7 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
     private View mRetryView;
     private View mContentView;
     private TextView mLoadingTextView;
+    private String mLoadingText;
 
     public PlaceholderView(Context context) {
         super(context);
@@ -97,6 +98,9 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
                     mDefaultEmptyIcon = a.getDrawable(index);
                     setEmptyIcon(mDefaultEmptyIcon);
                     break;
+                case R.styleable.PlaceholderView_loading_message:
+                    mLoadingText = a.getString(index);
+                    break;
             }
         }
         a.recycle();
@@ -120,7 +124,9 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
      */
     public void loading() {
         show();
-        mLoadingTextView.setText(R.string.loading);
+        if (mLoadingText == null)
+            mLoadingText = getContext().getString(R.string.loading);
+        mLoadingTextView.setText(mLoadingText);
         mEmptyView.setVisibility(GONE);
         mLoadingView.setVisibility(VISIBLE);
     }
