@@ -3,7 +3,6 @@ package com.rae.cnblogs.image;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,6 +21,7 @@ import com.bumptech.glide.request.target.Target;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.activity.BaseActivity;
 
@@ -40,7 +40,6 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DefaultObserver;
 import io.reactivex.schedulers.Schedulers;
-import skin.support.SkinCompatManager;
 
 /**
  * 图片预览
@@ -62,6 +61,9 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
 
     @BindView(R.id.view_holder)
     View mNightView;
+
+    @BindView(R.id.rl_content)
+    View mContentView;
 
     ImageAdapter mAdapter;
 
@@ -99,6 +101,7 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
 
     @Override
     public void finish() {
+        RaeAnim.fadeOut(mCloseView);
         super.finish();
         overridePendingTransition(0, R.anim.image_scale_out);
     }

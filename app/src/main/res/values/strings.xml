@@ -30,7 +30,7 @@
     <string name="nomore_loading"> ——阅读完毕——</string>
     <string name="no_more_tips">全部加载完毕</string>
     <string name="register">注册</string>
-    <string name="login_tips">登录即表示同意</string>
+    <string name="login_tips">登录遇到问题？</string>
     <string name="login_contract">博客园APP隐私说明</string>
     <string name="login_contract_content">博客园APP已经开源，登录过程我们会收集您遇到的错误信息以及您的博客名称，但我们不会收集您的帐号密码信息，请放心登录。\n\n您在登录过程如有任何问题请前往设置-帮助中心查找原因，或者联系博客园官方团队contact@cnblogs.com。</string>
     <string name="login_user_name_hint">用户名</string>
@@ -110,4 +110,6 @@
     <string name="url_license">http://www.raeblog.com/cnblogs/license.html</string>
     <string name="system_message">系统消息</string>
     <string name="url_signin">https://passport.cnblogs.com/user/signin</string>
+    <string name="login_help_message">登录遇到问题您可以点击立即前往查看相关的问题以及原因，或者截图向我们进行意见反馈。</string>
+    <string name="url_login_help">http://www.raeblog.com/cnblogs/loginHelp.html</string>
 </resources>

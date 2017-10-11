@@ -11,11 +11,11 @@
         android:pivotX="50%"
         android:pivotY="50%"
         android:startOffset="50"
-        android:toXScale="90%p"
-        android:toYScale="90%p"/>
+        android:toXScale="80%p"
+        android:toYScale="80%p"/>
 
     <alpha
         android:duration="300"
         android:fromAlpha="1"
-        android:toAlpha="0.5"/>
+        android:toAlpha="0"/>
 </set>

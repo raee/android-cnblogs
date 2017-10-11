@@ -4,6 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical"
+              android:layout_marginTop="10dp"
               android:paddingLeft="10dp"
               android:paddingRight="10dp">
 
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_message_card"
         app:cardCornerRadius="4dp"
-        app:cardElevation="10dp"
+        app:cardElevation="4dp"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
         app:contentPadding="5dp">

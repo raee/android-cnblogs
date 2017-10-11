@@ -219,8 +219,21 @@ public class LoginActivity extends BaseActivity implements ILoginPresenter.ILogi
 
     @OnClick(R.id.ll_login_contract)
     public void onLoginContractClick() {
-        mLoginContractDialog.setOnDismissListener(null);
-        mLoginContractDialog.show();
+//        mLoginContractDialog.setOnDismissListener(null);
+//        mLoginContractDialog.show();
+
+        HintCardDialog dialog = new HintCardDialog(this);
+        dialog.setMessage(getString(R.string.login_help_message));
+        dialog.setEnSureText(getString(R.string.go_now));
+        dialog.setOnEnSureListener(new IAppDialogClickListener() {
+            @Override
+            public void onClick(IAppDialog dialog, int buttonType) {
+                dialog.dismiss();
+                AppRoute.jumpToWeb(getContext(), getContext().getString(R.string.url_login_help));
+            }
+        });
+        dialog.showCloseButton();
+        dialog.show();
     }
 
 
