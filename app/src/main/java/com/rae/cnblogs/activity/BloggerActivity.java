@@ -86,6 +86,9 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     @BindView(R.id.view_bg_holder)
     View mBloggerBackgroundView;
 
+    @BindView(R.id.pb_blogger_follow)
+    View mFollowProgressBar;
+
     @BindView(R.id.layout_blogger)
     BloggerLayout mBloggerLayout;
 
@@ -190,8 +193,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         if (!TextUtils.isEmpty(userInfo.getAvatar())) {
 
             // 封面图
-            String coverUrl = String.format("https://files.cnblogs.com/files/%s/app-cover.bmp", userInfo.getBlogApp());
-            mBackgroundView.setContentDescription(coverUrl);
+            final String coverUrl = String.format("https://files.cnblogs.com/files/%s/app-cover.bmp", userInfo.getBlogApp());
             GlideApp.with(this)
                     .load(coverUrl)
                     .listener(new RequestListener<Drawable>() {
@@ -206,13 +208,13 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
                         @Override
                         public boolean onResourceReady(Drawable drawable, Object o, Target<Drawable> target, DataSource dataSource, boolean b) {
+                            // 如果有封面图，则设置进去
+                            mBackgroundView.setContentDescription(coverUrl);
                             return false;
                         }
                     })
                     .placeholder(R.drawable.account_top_bg)
                     .into(mBackgroundView);
-
-//            RaeImageLoader.displayImage(userInfo.getAvatar(), mBackgroundView);
         }
 
         mBloggerNameView.setText(userInfo.getDisplayName());
@@ -234,13 +236,19 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
     @Override
     public void onFollowFailed(String msg) {
-        AppUI.dismiss();
+//        AppUI.dismiss();
+        mFollowProgressBar.setVisibility(ViewPager.GONE);
+        mFollowView.setVisibility(View.VISIBLE);
         AppUI.toast(this, msg);
     }
 
     @Override
     public void onFollowSuccess() {
-        AppUI.dismiss();
+//        AppUI.dismiss();
+
+        mFollowProgressBar.setVisibility(ViewPager.GONE);
+        mFollowView.setVisibility(View.VISIBLE);
+
         mFollowView.setText(mBloggerPresenter.isFollowed() ? R.string.cancel_follow : R.string.following);
         setResult(RESULT_OK);
 
@@ -282,7 +290,9 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     public void onFollowButtonClick() {
         if (mUserInfo == null) return;
 
-        AppUI.loading(this);
+//        AppUI.loading(this);
+        mFollowProgressBar.setVisibility(ViewPager.VISIBLE);
+        mFollowView.setVisibility(View.GONE);
         mBloggerPresenter.doFollow();
     }
 

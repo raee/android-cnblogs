@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@color/white">
 
-
     <com.rae.cnblogs.widget.BloggerLayout
         android:id="@+id/layout_blogger"
         android:layout_width="match_parent"
@@ -226,6 +225,21 @@
                 android:gravity="center"
                 android:textColor="@color/ph1"
                 android:textSize="@dimen/h1"/>
+
+            <ProgressBar
+                android:id="@+id/pb_blogger_follow"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:indeterminateDuration="3000"
+                android:indeterminateTint="@android:color/white"
+                android:indeterminateTintMode="src_atop"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/btn_blogger_follow"

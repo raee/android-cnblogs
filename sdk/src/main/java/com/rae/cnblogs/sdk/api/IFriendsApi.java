@@ -61,7 +61,7 @@ public interface IFriendsApi {
      */
     @POST(ApiUrls.API_FRIENDS_FOLLOW)
     @FormUrlEncoded
-    @Headers(JsonBody.CONTENT_TYPE)
+//    @Headers(JsonBody.CONTENT_TYPE)
     Observable<Empty> follow(@Field("userId") String userId);
 
     /**
@@ -71,7 +71,7 @@ public interface IFriendsApi {
      */
     @POST(ApiUrls.API_FRIENDS_UN_FOLLOW)
     @FormUrlEncoded
-    @Headers(JsonBody.CONTENT_TYPE)
+//    @Headers(JsonBody.CONTENT_TYPE)
     Observable<Empty> unFollow(@Field("userId") String userId);
 
 

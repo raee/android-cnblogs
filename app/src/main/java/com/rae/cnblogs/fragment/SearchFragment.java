@@ -240,11 +240,14 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
     private void preformSearch() {
         // 弹下键盘
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
-        // 取消搜索建议
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
+        }
+
+        // 取消/清除搜索建议数据
         mSuggestionAdapter.clear();
         mSuggestionAdapter.notifyDataSetChanged();
-        // 显示或者隐藏
+        // 显示或者隐藏搜索建议
         mRecyclerView.setVisibility(mSearchView.length() > 0 ? View.GONE : View.VISIBLE);
 
         EventBus.getDefault().post(new SearchEvent(getSearchText()));

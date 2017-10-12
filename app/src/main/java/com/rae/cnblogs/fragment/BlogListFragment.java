@@ -98,8 +98,17 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
         MobclickAgent.onPageStart("博客列表");
         // 统计分类
         if (mCategory != null) {
-            AppMobclickAgent.onCategoryEvent(getContext(), mCategory.getName());
+            onMobclickAgent(mCategory);
         }
+    }
+
+    /**
+     * 当前友盟统计事件触发
+     *
+     * @param category 分类
+     */
+    protected void onMobclickAgent(CategoryBean category) {
+        AppMobclickAgent.onCategoryEvent(getContext(), category.getName());
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.rae.cnblogs.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.message.SearchEvent;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogListPresenter;
@@ -44,6 +45,11 @@ public class SearchBlogFragment extends BlogListFragment {
         mPlaceholderView.dismiss();
     }
 
+    @Override
+    protected void onMobclickAgent(CategoryBean category) {
+        // 搜索统计
+        AppMobclickAgent.onSearchEvent(getContext(), category.getName());
+    }
 
     @Subscribe
     public void onEvent(SearchEvent event) {

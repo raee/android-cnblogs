@@ -112,4 +112,6 @@
     <string name="url_signin">https://passport.cnblogs.com/user/signin</string>
     <string name="login_help_message">登录遇到问题您可以点击立即前往查看相关的问题以及原因，或者截图向我们进行意见反馈。</string>
     <string name="url_login_help">http://www.raeblog.com/cnblogs/loginHelp.html</string>
+    <string name="font_setting">字体设置</string>
+    <string name="font_setting_poetry">月落乌啼霜满天\n江枫渔火对愁眠\n姑苏城外寒山寺\n夜半钟声到客船</string>
 </resources>

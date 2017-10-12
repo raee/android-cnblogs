@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * APP 统计
+ * APP 埋点统计
  * Created by ChenRui on 2017/2/8 0008 11:44.
  */
 public final class AppMobclickAgent {
@@ -33,6 +33,15 @@ public final class AppMobclickAgent {
      */
     public static void onCategoryEvent(Context context, String category) {
         MobclickAgent.onEvent(context, "APP_CATEGORY", category);
+    }
+
+    /**
+     * 搜索统计
+     *
+     * @param keyword 关键字
+     */
+    public static void onSearchEvent(Context context, String keyword) {
+        MobclickAgent.onEvent(context, "APP_SEARCH", keyword);
     }
 
     /**
