@@ -2,7 +2,6 @@ package com.rae.cnblogs.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -48,10 +47,6 @@ public class FontSettingActivity extends SwipeBackBaseActivity {
                         break;
                 }
 
-                int width = mSeekBar.getWidth() - mSeekBar.getPaddingLeft() - mSeekBar.getPaddingRight();
-                int thumbPos = mSeekBar.getPaddingLeft() + width * mSeekBar.getProgress() / mSeekBar.getMax();
-
-                Log.i("rae", "大小：" + thumbPos);
             }
 
             @Override

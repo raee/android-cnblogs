@@ -35,7 +35,7 @@
         android:textColor="@color/ph1"
         android:textSize="16sp"/>
 
-    <SeekBar
+    <com.rae.cnblogs.widget.RaeSeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,10 +45,9 @@
         android:layout_marginLeft="36dp"
         android:layout_marginRight="36dp"
         android:layout_marginTop="60dp"
-        android:indeterminateDrawable="@color/transparent"
         android:max="4"
         android:progress="1"
-        android:progressDrawable="@color/transparent"
+        android:progressDrawable="@android:color/transparent"
         android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
         android:thumb="@drawable/seekbar_thumb_material_anim_font_setting"/>
 
