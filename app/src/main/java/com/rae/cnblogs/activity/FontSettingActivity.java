@@ -2,10 +2,12 @@ package com.rae.cnblogs.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.TypedValue;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.widget.RaeSeekBar;
 
 import butterknife.BindView;
 
@@ -17,7 +19,7 @@ public class FontSettingActivity extends SwipeBackBaseActivity {
     @BindView(R.id.tv_message)
     TextView mMessage;
     @BindView(R.id.seekBar)
-    SeekBar mSeekBar;
+    RaeSeekBar mSeekBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,28 +27,17 @@ public class FontSettingActivity extends SwipeBackBaseActivity {
         setContentView(R.layout.activity_font_setting);
         showHomeAsUp();
 
+        int size = config().getPageTextSize();
+        if (size > 0) {
+            mSeekBar.setTextSize(size);
+            mMessage.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+        }
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int value, boolean b) {
-                switch (value) {
-                    case 0:
-                        mMessage.setTextSize(14);
-                        break;
-                    case 1:
-                        mMessage.setTextSize(16);
-                        break;
-                    case 2:
-                        mMessage.setTextSize(18);
-                        break;
-                    case 3:
-                        mMessage.setTextSize(24);
-                        break;
-                    case 4:
-                        mMessage.setTextSize(26);
-                        break;
-                }
-
+                int size = mSeekBar.getRawTextSize(value);
+                mMessage.setTextSize(size);
             }
 
             @Override
@@ -59,5 +50,12 @@ public class FontSettingActivity extends SwipeBackBaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        // 保存设置
+        config().setPageTextSize(mSeekBar.getTextSize(mSeekBar.getProgress()));
+        super.onDestroy();
     }
 }

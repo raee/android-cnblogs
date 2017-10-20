@@ -242,7 +242,8 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     // 查看评论
     @OnClick(R.id.layout_content_comment)
     public void onCommentClick() {
-        mCommentLayout.toggleSmoothScroll();
+        AppRoute.jumpToComment(this, mBlog, mBlogType);
+//        mCommentLayout.toggleSmoothScroll();
     }
 
     // 发表评论

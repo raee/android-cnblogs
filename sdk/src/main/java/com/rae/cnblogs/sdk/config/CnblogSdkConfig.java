@@ -143,4 +143,18 @@ public class CnblogSdkConfig {
     public int getMessageCount() {
         return mConfig.getInt("messageCount", 0);
     }
+
+    /**
+     * 获取字体大小，注意判断是否为0，单位：PX
+     */
+    public int getPageTextSize() {
+        return mConfig.getInt("PageTextSize", 0);
+    }
+
+    /**
+     * 设置字体大小，单位：PX
+     */
+    public void setPageTextSize(int size) {
+        mConfig.edit().putInt("PageTextSize", size).apply();
+    }
 }

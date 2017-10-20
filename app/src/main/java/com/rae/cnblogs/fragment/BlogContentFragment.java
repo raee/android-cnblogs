@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -92,7 +93,18 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+//        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        // 设置字体大小
+        int pageTextSize = config().getPageTextSize();
+        if (pageTextSize > 0) {
+            // 默认字体大小
+            int defaultTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, getResources().getDisplayMetrics());
+            int zoom = mWebView.getSettings().getTextZoom() * pageTextSize / defaultTextSize;
+            mWebView.getSettings().setTextZoom(zoom);
+        }
+
 
         mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
             @Override

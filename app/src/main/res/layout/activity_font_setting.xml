@@ -48,7 +48,7 @@
         android:max="4"
         android:progress="1"
         android:progressDrawable="@android:color/transparent"
-        android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:theme="@style/Widget.AppCompat.SeekBar"
         android:thumb="@drawable/seekbar_thumb_material_anim_font_setting"/>
 
 

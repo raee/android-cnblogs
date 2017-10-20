@@ -20,6 +20,12 @@ public class FriendsInfoBean extends UserInfoBean {
      */
     private boolean isFollowed;
 
+
+    /**
+     * 园龄
+     */
+    private String snsAge;
+
     public String getFans() {
         return fans;
     }
@@ -42,5 +48,13 @@ public class FriendsInfoBean extends UserInfoBean {
 
     public void setFollowed(boolean followed) {
         isFollowed = followed;
+    }
+
+    public String getSnsAge() {
+        return snsAge;
+    }
+
+    public void setSnsAge(String snsAge) {
+        this.snsAge = snsAge;
     }
 }

@@ -213,6 +213,11 @@ public class SettingActivity extends SwipeBackBaseActivity {
         }
     }
 
+    @OnClick(R.id.ll_font_setting)
+    public void onFontSettingClick() {
+        AppRoute.jumpToFontSetting(this);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

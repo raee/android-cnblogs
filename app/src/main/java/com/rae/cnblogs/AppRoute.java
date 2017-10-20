@@ -10,8 +10,10 @@ import android.text.TextUtils;
 import com.rae.cnblogs.activity.BlogContentActivity;
 import com.rae.cnblogs.activity.BloggerActivity;
 import com.rae.cnblogs.activity.CategoryActivity;
+import com.rae.cnblogs.activity.CommentActivity;
 import com.rae.cnblogs.activity.FavoritesActivity;
 import com.rae.cnblogs.activity.FeedbackActivity;
+import com.rae.cnblogs.activity.FontSettingActivity;
 import com.rae.cnblogs.activity.FriendsActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
@@ -288,5 +290,22 @@ public final class AppRoute {
      */
     public static void jumpToSystemMessage(Context context) {
         startActivity(context, SystemMessageActivity.class);
+    }
+
+    /**
+     * 字体设置
+     */
+    public static void jumpToFontSetting(Context context) {
+        startActivity(context, FontSettingActivity.class);
+    }
+
+    /**
+     * 博客评论
+     */
+    public static void jumpToComment(Context context, BlogBean blog, BlogType type) {
+        Intent intent = new Intent(context, CommentActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("blog", blog);
+        startActivity(context, intent);
     }
 }

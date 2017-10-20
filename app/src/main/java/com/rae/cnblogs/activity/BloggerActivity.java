@@ -62,6 +62,9 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     @BindView(R.id.tv_fans_count)
     TextView mFansCountView;
 
+    @BindView(R.id.tv_age)
+    TextView mSnsAgeView;
+
     @BindView(R.id.btn_blogger_follow)
     Button mFollowView;
 
@@ -177,6 +180,9 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         mFollowLayout.setClickable(true);
         mFollowView.setEnabled(true);
 
+        if (!TextUtils.isEmpty(userInfo.getSnsAge())) {
+            mSnsAgeView.setText(userInfo.getSnsAge());
+        }
 
         // 如果是自己，则隐藏关注按钮
         if (UserProvider.getInstance().isLogin() && TextUtils.equals(mBlogApp, UserProvider.getInstance().getLoginUserInfo().getBlogApp())) {

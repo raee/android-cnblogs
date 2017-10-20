@@ -19,18 +19,27 @@ import com.rae.cnblogs.R;
 public class RaeSeekBar extends AppCompatSeekBar {
 
     private String[] mTickMarkTitles = new String[]{
-            "小号",
+            "A",
             "标准",
-            "中号",
-            "大号",
-            "特大",
-
+            "",
+            "",
+            "A"
+    };
+    private int[] mTextSize = new int[]{
+            16,
+            18,
+            24,
+            26,
+            28
     };
 
     private final Paint mTickMarkTitlePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
     private float mTickMarkTitleTextSize = 18;
-    private float mOffsetY = 20;
+    private float mOffsetY = 40;
+    private int mLineHeight = 10; // 刻度高度
+    private int mThumbWidth;
     private final Rect mRect = new Rect();
+    private int mThumbHeight;
 
     public RaeSeekBar(Context context) {
         super(context);
@@ -50,72 +59,80 @@ public class RaeSeekBar extends AppCompatSeekBar {
     protected void init() {
         mTickMarkTitleTextSize = getSize(mTickMarkTitleTextSize);
         mOffsetY = getSize(mOffsetY);
+        mLineHeight = getSize(mLineHeight);
+        mTickMarkTitlePaint.setTextAlign(Paint.Align.CENTER);
+        mTickMarkTitlePaint.setColor(ContextCompat.getColor(getContext(), R.color.ph1));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-//        canvas.translate(0, mTickMarkTitleTextSize + mOffsetY);
-//        canvas.save();
         super.onDraw(canvas);
-
-        // draw line
-
+        int max = getMax();
         int width = canvas.getWidth();
         int height = canvas.getHeight();
         int h2 = height / 2;
 
-
-        int max = getMax();
-        int thumbStart = getPaddingLeft();
-        int thumbEnd = getPaddingLeft() + width * max / max;
-
+        // 画刻度背景
         mRect.left = getPaddingLeft();
-        mRect.right = thumbEnd;
-        mRect.top = h2 - ((int) getSize(1));
-        mRect.bottom = (mRect.top + (int) getSize(2));
+        mRect.right = width - getPaddingRight();
+        mRect.top = h2 - getSize(1);
+        mRect.bottom = mRect.top + getSize(1.5f);
         canvas.drawRect(mRect, mTickMarkTitlePaint);
-
-
-//        canvas.save();
-
-//        // 总宽度
-//        int width = getWidth() - getPaddingLeft() - getPaddingRight();
-//
-//
-//        canvas.translate(0, -mTickMarkTitleTextSize);
-//
-//
-        mTickMarkTitlePaint.setTextSize(mTickMarkTitleTextSize);
-        mTickMarkTitlePaint.setTextAlign(Paint.Align.CENTER);
-        mTickMarkTitlePaint.setColor(ContextCompat.getColor(getContext(), R.color.ph1));
-
-        for (int i = 0; i <= getMax(); i++) {
-            String title = mTickMarkTitles[i % mTickMarkTitles.length];
+        int cw = mRect.right - mRect.left; // 总画线的长度 = 右边坐标 - 左边坐标
+        for (int i = 0; i <= max; i++) {
             // 每个间隔的大小
-            int thumbPos = getPaddingLeft() + width * i / getMax();
-            mTickMarkTitlePaint.getTextBounds(title, 0, title.length(), mRect);
-//            canvas.drawText(title, thumbPos, mRect.height(), mTickMarkTitlePaint);
-        }
+            int thumbPos = getPaddingLeft() + (cw * i / max);
+            // 画分割线
+            mRect.top = h2 - mLineHeight / 2;
+            mRect.bottom = h2 + mLineHeight / 2;
+            mRect.left = thumbPos;
+            mRect.right = thumbPos + getSize(1.5f);
+            canvas.drawRect(mRect, mTickMarkTitlePaint);
 
+            // 画刻度文本
+            String title = mTickMarkTitles[i % mTickMarkTitles.length];
+            mTickMarkTitlePaint.getTextBounds(title, 0, title.length(), mRect);
+            mTickMarkTitlePaint.setTextSize(getSize(mTextSize[i]));
+            canvas.drawText(title, thumbPos, getSize(mTextSize[mTextSize.length - 1]), mTickMarkTitlePaint);
+        }
     }
 
     @Override
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
+        mThumbWidth = getThumb().getIntrinsicWidth();
+        mThumbHeight = getThumb().getIntrinsicHeight();
         // 加上字体大小
         int wm = MeasureSpec.getMode(widthMeasureSpec);
         int hm = MeasureSpec.getMode(heightMeasureSpec);
         int w = getMeasuredWidth();
         int h = getMeasuredHeight();
-        h += mTickMarkTitleTextSize;
+        h += getSize(mTextSize[mTextSize.length - 1]); // 最大的字体
         h += mOffsetY;
         // 保存
-//        setMeasuredDimension(MeasureSpec.makeMeasureSpec(w, wm), MeasureSpec.makeMeasureSpec(h, hm));
+        setMeasuredDimension(MeasureSpec.makeMeasureSpec(w, wm), MeasureSpec.makeMeasureSpec(h, hm));
     }
 
-    protected float getSize(float size) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, getResources().getDisplayMetrics());
+    protected int getSize(float size) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, getResources().getDisplayMetrics());
+    }
+
+    public int getRawTextSize(int progress) {
+        return mTextSize[progress % mTextSize.length];
+    }
+
+    public int getTextSize(int progress) {
+        return getSize(getRawTextSize(progress));
+    }
+
+    public void setTextSize(int size) {
+        for (int i = 0; i < mTextSize.length; i++) {
+            int textSize = getSize(mTextSize[i]);
+            if (textSize == size) {
+                setProgress(i);
+                break;
+            }
+        }
     }
 
 }

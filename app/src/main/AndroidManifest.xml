@@ -39,11 +39,11 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-        <!--    <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
+            </intent-filter>
         </activity>
 
         <activity
@@ -131,13 +131,7 @@
         <activity
             android:name=".activity.FontSettingActivity"
             android:label="@string/font_setting"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".service.CnblogsService"
@@ -200,6 +194,10 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".activity.CommentActivity"
+            android:label="@string/label_comment"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

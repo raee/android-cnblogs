@@ -46,7 +46,7 @@
     // 	}
 
     // };
-
+    var cb_enable_mathjax=true;
     var width = 0;
     	// 加载主题
     	function loadTheme(isNightMode){
@@ -176,12 +176,17 @@ try{
                 initImage();
                 // 重新设置代码高亮
                 refreshCodeTheme();
+
+                cb_mathjax_render();
             }catch(e){
+                alert(e);
             	console.error(e);
             }
 
 
         }
+
+
 
 
 
@@ -212,6 +217,8 @@ try{
 						}
 					}
 				}	
+
+
 
 
 

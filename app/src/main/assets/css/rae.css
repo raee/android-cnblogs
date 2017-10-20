@@ -20,6 +20,13 @@ h5{
 h6{
     font-size: 14px;
 }
+a{
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+    outline:none;
+    background: none;
+    text-decoration: none;
+}
 #header{
     padding-bottom:20px;
 }
