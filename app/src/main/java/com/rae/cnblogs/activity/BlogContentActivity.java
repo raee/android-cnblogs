@@ -15,18 +15,14 @@ import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.dialog.DialogProvider;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.impl.BlogShareDialog;
-import com.rae.cnblogs.fragment.BlogCommentFragment;
 import com.rae.cnblogs.fragment.BlogContentFragment;
-import com.rae.cnblogs.message.EditCommentEvent;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.DbBlog;
 import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.cnblogs.widget.PlaceholderView;
-import com.rae.cnblogs.widget.RaeDrawerLayout;
 
-import org.greenrobot.eventbus.EventBus;
 import org.jsoup.Jsoup;
 
 import java.util.List;
@@ -71,8 +67,8 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     @BindView(R.id.layout_content_comment)
     View mViewCommentView;
 
-    @BindView(R.id.fl_comment)
-    RaeDrawerLayout mCommentLayout;
+//    @BindView(R.id.fl_comment)
+//    RaeDrawerLayout mCommentLayout;
 
     @BindView(R.id.placeholder)
     PlaceholderView mPlaceholderView;
@@ -80,7 +76,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     private BlogShareDialog mShareDialog;
     private BlogBean mBlog;
     private BlogType mBlogType;
-    private BlogCommentFragment mBlogCommentFragment;
+//    private BlogCommentFragment mBlogCommentFragment;
     private BlogContentFragment mBlogContentFragment;
 
     @Override
@@ -220,14 +216,14 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
 
 
         // 评论
-        mBlogCommentFragment = BlogCommentFragment.newInstance(mBlog, mBlogType);
+//        mBlogCommentFragment = BlogCommentFragment.newInstance(mBlog, mBlogType);
         // 内容
         mBlogContentFragment = BlogContentFragment.newInstance(mBlog, mBlogType);
 
 
         // 加载Fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_comment, mBlogCommentFragment);
+//        transaction.add(R.id.fl_comment, mBlogCommentFragment);
         transaction.add(R.id.fl_content, mBlogContentFragment);
         // fix bugly #472
         transaction.commitAllowingStateLoss();
@@ -250,7 +246,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     @OnClick(R.id.tv_edit_comment)
     public void onEditCommentClick() {
         // 通知里面的评论打开发表对话框
-        EventBus.getDefault().post(new EditCommentEvent());
+//        EventBus.getDefault().post(new EditCommentEvent());
     }
 
 //    // 作者头像
@@ -271,21 +267,21 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
             return;
         }
 
-        if (mCommentLayout.getVisibility() == View.VISIBLE) {
-            mBlogCommentFragment.scrollToTop();
-        } else {
+//        if (mCommentLayout.getVisibility() == View.VISIBLE) {
+//            mBlogCommentFragment.scrollToTop();
+//        } else {
             mBlogContentFragment.scrollToTop();
-        }
+//        }
     }
 
 
-    // 返回键处理
-    @Override
-    public void onBackPressed() {
-        if (mCommentLayout.getVisibility() == View.VISIBLE) {
-            mCommentLayout.toggleSmoothScroll();
-            return;
-        }
-        super.onBackPressed();
-    }
+//    // 返回键处理
+//    @Override
+//    public void onBackPressed() {
+//        if (mCommentLayout.getVisibility() == View.VISIBLE) {
+//            mCommentLayout.toggleSmoothScroll();
+//            return;
+//        }
+//        super.onBackPressed();
+//    }
 }

@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,9 +24,7 @@ import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.widget.PlaceholderView;
-import com.rae.cnblogs.widget.RaeDrawerLayout;
 import com.rae.cnblogs.widget.RaeRecyclerView;
-import com.rae.cnblogs.widget.compat.RaeDragDownCompat;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -54,7 +51,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     @BindView(R.id.rec_blog_comment_list)
     RaeRecyclerView mRecyclerView;
 
-    private RaeDrawerLayout mParentView;
+//    private RaeDrawerLayout mParentView;
 
     @BindView(R.id.placeholder)
     PlaceholderView mPlaceholderView;
@@ -100,13 +97,13 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mParentView = (RaeDrawerLayout) view.getParent();
-        mParentView.setDragDownHandler(new RaeDragDownCompat.DragDownHandler() {
-            @Override
-            public boolean checkCanDrag(float dy, MotionEvent ev) {
-                return !mPlaceholderView.isDismiss() || dy < 0 && mRecyclerView.isOnTop();
-            }
-        });
+//        mParentView = (RaeDrawerLayout) view.getParent();
+//        mParentView.setDragDownHandler(new RaeDragDownCompat.DragDownHandler() {
+//            @Override
+//            public boolean checkCanDrag(float dy, MotionEvent ev) {
+//                return !mPlaceholderView.isDismiss() || dy < 0 && mRecyclerView.isOnTop();
+//            }
+//        });
         initView();
     }
 

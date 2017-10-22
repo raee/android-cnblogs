@@ -27,12 +27,12 @@
                 android:background="@color/white"/>
 
             <!--评论区域-->
-            <com.rae.cnblogs.widget.RaeDrawerLayout
+       <!--     <com.rae.cnblogs.widget.RaeDrawerLayout
                 android:id="@+id/fl_comment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"/>
-
+-->
         </com.rae.cnblogs.widget.PlaceholderView>
 
         <RelativeLayout
