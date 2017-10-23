@@ -3,13 +3,13 @@ package com.rae.cnblogs.fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.TextView;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RaeViewCompat;
 import com.rae.cnblogs.adapter.BlogCommentItemAdapter;
 import com.rae.cnblogs.dialog.impl.CommentMenuDialog;
 import com.rae.cnblogs.dialog.impl.EditCommentDialog;
@@ -56,7 +56,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     @BindView(R.id.placeholder)
     PlaceholderView mPlaceholderView;
 
-    TextView mCommentBadgeView;
+//    TextView mCommentBadgeView;
 
     private BlogCommentItemAdapter mItemAdapter;
     private IBlogCommentPresenter mCommentPresenter;
@@ -91,7 +91,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mCommentBadgeView = (TextView) getActivity().findViewById(R.id.tv_comment_badge);
+//        mCommentBadgeView = (TextView) getActivity().findViewById(R.id.tv_comment_badge);
     }
 
     @Override
@@ -167,6 +167,14 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
                 } else {
                     mEditCommentDialog.show(comment);
                 }
+            }
+        });
+
+        // 用户信息点击
+        mItemAdapter.setOnAuthorClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppRoute.jumpToBlogger(getContext(), v.getTag().toString());
             }
         });
 
@@ -246,10 +254,6 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
         }, 1000);
 
 
-        // 评论数量加1
-        int comment = parseInt(mBlog.getComment()) + 1;
-        mCommentBadgeView.setText(String.valueOf(comment));
-
         if (config().hasCommentGuide()) {
             AppUI.toastInCenter(getContext(), "您伟大的讲话发表成功");
         } else {
@@ -301,18 +305,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
      * 滚动到顶部
      */
     public void scrollToTop() {
-        if (mRecyclerView == null) return;
-
-        //先从RecyclerView的LayoutManager中获取第一项和最后一项的Position
-        LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-        int firstItem = layoutManager.findFirstVisibleItemPosition();
-        int lastItem = layoutManager.findLastVisibleItemPosition();
-        int visibleCount = lastItem - firstItem;
-
-        if (lastItem > visibleCount) {
-            layoutManager.scrollToPosition(visibleCount + 1);
-        }
-        mRecyclerView.smoothScrollToPosition(0);
+        RaeViewCompat.scrollToTop(mRecyclerView);
     }
 
 }

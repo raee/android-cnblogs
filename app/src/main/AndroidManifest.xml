@@ -66,8 +66,7 @@
         <activity
             android:name=".activity.LoginActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible"/>
+            android:screenOrientation="portrait"/>
 
 
         <!--网页登录-->

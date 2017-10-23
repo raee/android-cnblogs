@@ -18,6 +18,7 @@ import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 public class BlogCommentItemAdapter extends BaseItemAdapter<BlogCommentBean, BlogCommentViewHolder> implements View.OnClickListener, View.OnLongClickListener {
 
     private OnBlogCommentItemClick mOnBlogCommentItemLongClick;
+    private View.OnClickListener mOnAuthorClickListener;
 
     @Override
     public void onClick(View v) {
@@ -45,6 +46,10 @@ public class BlogCommentItemAdapter extends BaseItemAdapter<BlogCommentBean, Blo
         mOnBlogCommentItemClick = onBlogCommentItemClick;
     }
 
+    public void setOnAuthorClickListener(View.OnClickListener onAuthorClickListener) {
+        mOnAuthorClickListener = onAuthorClickListener;
+    }
+
     public void setOnBlogCommentItemLongClick(OnBlogCommentItemClick onBlogCommentItemClick) {
         mOnBlogCommentItemLongClick = onBlogCommentItemClick;
     }
@@ -56,6 +61,8 @@ public class BlogCommentItemAdapter extends BaseItemAdapter<BlogCommentBean, Blo
 
     @Override
     public void onBindViewHolder(BlogCommentViewHolder holder, int position, BlogCommentBean m) {
+        holder.authorLayout.setTag(m.getBlogApp());
+        holder.authorLayout.setOnClickListener(mOnAuthorClickListener);
         holder.authorTitleView.setText(m.getAuthorName());
         holder.dateView.setText(m.getDate());
         holder.contentView.setText(m.getBody());

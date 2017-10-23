@@ -1,9 +1,11 @@
 package com.rae.cnblogs.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -11,17 +13,24 @@ import android.widget.TextView;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RaeViewCompat;
 import com.rae.cnblogs.RxObservable;
+import com.rae.cnblogs.adapter.BlogContentAdapter;
 import com.rae.cnblogs.dialog.DialogProvider;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.impl.BlogShareDialog;
-import com.rae.cnblogs.fragment.BlogContentFragment;
+import com.rae.cnblogs.dialog.impl.EditCommentDialog;
+import com.rae.cnblogs.dialog.impl.HintCardDialog;
+import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
+import com.rae.cnblogs.presenter.IBlogCommentPresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.bean.BlogBean;
+import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.db.DbBlog;
 import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.cnblogs.widget.PlaceholderView;
+import com.rae.swift.Rx;
 
 import org.jsoup.Jsoup;
 
@@ -41,7 +50,7 @@ import io.reactivex.schedulers.Schedulers;
  * 博文查看
  * Created by ChenRui on 2016/12/6 21:38.
  */
-public class BlogContentActivity extends SwipeBackBaseActivity {
+public class BlogContentActivity extends SwipeBackBaseActivity implements EditCommentDialog.OnEditCommentListener, IBlogCommentPresenter.IBlogCommentView {
 
 //    @BindView(R.id.tool_bar)
 //    Toolbar mToolbar;
@@ -72,12 +81,17 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
 
     @BindView(R.id.placeholder)
     PlaceholderView mPlaceholderView;
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
+
 
     private BlogShareDialog mShareDialog;
     private BlogBean mBlog;
     private BlogType mBlogType;
-//    private BlogCommentFragment mBlogCommentFragment;
-    private BlogContentFragment mBlogContentFragment;
+    //    private BlogCommentFragment mBlogCommentFragment;
+//    private BlogContentFragment mBlogContentFragment;
+    private EditCommentDialog mEditCommentDialog;
+    private IBlogCommentPresenter mCommentPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,6 +117,9 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
             }
         };
 
+        mEditCommentDialog = new EditCommentDialog(getContext());
+        mEditCommentDialog.setOnEditCommentListener(this);
+        mCommentPresenter = CnblogsPresenterFactory.getBlogCommentPresenter(this, mBlogType, this);
         if (mBlog != null) {
             mPlaceholderView.dismiss();
             onLoadData(mBlog);
@@ -126,6 +143,10 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         } else {
             mPlaceholderView.empty("博客不存在");
         }
+
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(new BlogContentAdapter());
 
     }
 
@@ -218,15 +239,15 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
         // 评论
 //        mBlogCommentFragment = BlogCommentFragment.newInstance(mBlog, mBlogType);
         // 内容
-        mBlogContentFragment = BlogContentFragment.newInstance(mBlog, mBlogType);
+//        mBlogContentFragment = BlogContentFragment.newInstance(mBlog, mBlogType);
 
 
         // 加载Fragment
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 //        transaction.add(R.id.fl_comment, mBlogCommentFragment);
-        transaction.add(R.id.fl_content, mBlogContentFragment);
+//        transaction.add(R.id.fl_content, mBlogContentFragment);
         // fix bugly #472
-        transaction.commitAllowingStateLoss();
+//        transaction.commitAllowingStateLoss();
     }
 
     // 分享
@@ -245,6 +266,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
     // 发表评论
     @OnClick(R.id.tv_edit_comment)
     public void onEditCommentClick() {
+        mEditCommentDialog.show();
         // 通知里面的评论打开发表对话框
 //        EventBus.getDefault().post(new EditCommentEvent());
     }
@@ -270,8 +292,92 @@ public class BlogContentActivity extends SwipeBackBaseActivity {
 //        if (mCommentLayout.getVisibility() == View.VISIBLE) {
 //            mBlogCommentFragment.scrollToTop();
 //        } else {
-            mBlogContentFragment.scrollToTop();
+//        mBlogContentFragment.scrollToTop();
 //        }
+
+        RaeViewCompat.scrollToTop(mRecyclerView);
+    }
+
+    @Override
+    public void onPostComment(String content, BlogCommentBean parent, boolean isReference) {
+        // 发表评论
+        AppUI.loading(getContext(), "正在发表..");
+        mCommentPresenter.post(parent);
+        mEditCommentDialog.dismiss();
+    }
+
+    @Override
+    public void onLoadCommentSuccess(List<BlogCommentBean> data) {
+        // 不用处理
+    }
+
+    @Override
+    public BlogBean getBlog() {
+        return mBlog;
+    }
+
+    @Override
+    public void onLoadCommentEmpty() {
+// 不用处理
+    }
+
+    @Override
+    public void onLoadMoreCommentEmpty() {
+// 不用处理
+    }
+
+    @Override
+    public String getCommentContent() {
+        return mEditCommentDialog.getCommentContent();
+    }
+
+    @Override
+    public void onPostCommentFailed(String msg) {
+        AppUI.dismiss();
+        AppUI.failed(getContext(), msg);
+    }
+
+    @Override
+    public void onPostCommentSuccess() {
+        AppUI.dismiss();
+        mEditCommentDialog.dismiss();
+        // 评论数量加1
+        int comment = Rx.parseInt(mBlog.getComment()) + 1;
+        mCommentBadgeView.setText(String.valueOf(comment));
+
+        if (config().hasCommentGuide()) {
+            AppUI.toastInCenter(getContext(), "您伟大的讲话发表成功");
+        } else {
+            HintCardDialog dialog = new HintCardDialog(getContext());
+            dialog.setMessage(getString(R.string.dialog_tips_post_comment));
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    config().commentGuide();
+                }
+            });
+            dialog.show();
+        }
+    }
+
+    @Override
+    public boolean enableReferenceComment() {
+        return mEditCommentDialog.enableReferenceComment();
+    }
+
+    @Override
+    public void onDeleteCommentSuccess(BlogCommentBean item) {
+// 不用处理
+    }
+
+    @Override
+    public void onDeleteCommentFailed(String msg) {
+// 不用处理
+    }
+
+    @Override
+    public void onLoadCommentFailed(String message) {
+// 不用处理
     }
 
 

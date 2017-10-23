@@ -45,6 +45,7 @@ public class WebViewFragment extends BaseFragment {
     private String mRawUrl;
     private RaeJavaScriptBridge mJavaScriptApi;
     private WebViewClient mRaeWebViewClient;
+    private boolean mEnablePullToRefresh = true;
 //    private JavaNetCookieJar mJavaNetCookieJar;
 
 
@@ -81,7 +82,6 @@ public class WebViewFragment extends BaseFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
 
-
         mWebView = new RaeWebView(getContext().getApplicationContext());
         mWebView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mContentLayout.addView(mWebView);
@@ -111,6 +111,7 @@ public class WebViewFragment extends BaseFragment {
             }
         });
 
+        mAppLayout.setEnabled(mEnablePullToRefresh);
         mAppLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout ptrFrameLayout) {
@@ -254,5 +255,13 @@ public class WebViewFragment extends BaseFragment {
 
     public void reload() {
         mWebView.reload();
+    }
+
+    public void enablePullToRefresh(boolean enable) {
+        if (mAppLayout != null) {
+            mAppLayout.setEnabled(enable);
+        } else {
+            mEnablePullToRefresh = enable;
+        }
     }
 }

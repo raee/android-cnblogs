@@ -21,7 +21,7 @@ public class SearchActivity extends BaseFragmentActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        overridePendingTransition(com.rae.cnblogs.R.anim.slide_in_bottom, 0);
+        overridePendingTransition(com.rae.cnblogs.R.anim.slide_in_bottom, android.R.anim.fade_out);
         super.onCreate(savedInstanceState);
         mToolBar.setVisibility(View.GONE);
         ((View) mToolBar.getParent()).setBackgroundColor(Color.TRANSPARENT);

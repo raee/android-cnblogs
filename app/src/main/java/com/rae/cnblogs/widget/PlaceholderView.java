@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -272,5 +273,12 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
         if (mBackgroundTintHelper != null) {
             mBackgroundTintHelper.applySkin();
         }
+    }
+
+    @Override
+    public void setOnClickListener(@Nullable OnClickListener l) {
+        super.setOnClickListener(l);
+        if (mContentView != null)
+            mContentView.setOnClickListener(l);
     }
 }

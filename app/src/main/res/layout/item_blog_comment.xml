@@ -11,6 +11,7 @@
     android:paddingTop="@dimen/default_margin">
 
     <LinearLayout
+        android:id="@+id/ll_blog_author_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">

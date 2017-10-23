@@ -9,6 +9,7 @@ import android.view.View;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RaeViewCompat;
 import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.FriendsAdapter;
@@ -216,20 +217,6 @@ public class BloggerFragment extends BaseFragment {
      * 滚动到顶部
      */
     public void scrollToTop() {
-        if (mRecyclerView == null) return;
-
-        //先从RecyclerView的LayoutManager中获取第一项和最后一项的Position
-        LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-        int firstItem = layoutManager.findFirstVisibleItemPosition();
-        int lastItem = layoutManager.findLastVisibleItemPosition();
-        int visibleCount = lastItem - firstItem;
-
-        // 已经在顶部
-        if (firstItem <= 1) {
-            mAppLayout.autoRefresh();
-        } else if (lastItem > visibleCount) {
-            layoutManager.scrollToPosition(visibleCount + 1);
-        }
-        mRecyclerView.smoothScrollToPosition(0);
+        RaeViewCompat.scrollToTop(mRecyclerView);
     }
 }

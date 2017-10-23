@@ -19,20 +19,25 @@
             android:layout_height="match_parent"
             app:loading_message="">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
             <!--内容区域-->
-            <FrameLayout
+        <!--    <FrameLayout
                 android:id="@+id/fl_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"/>
-
-            <!--评论区域-->
-       <!--     <com.rae.cnblogs.widget.RaeDrawerLayout
-                android:id="@+id/fl_comment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"/>
 -->
+            <!--评论区域-->
+            <!--     <com.rae.cnblogs.widget.RaeDrawerLayout
+                     android:id="@+id/fl_comment"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:visibility="gone"/>
+     -->
         </com.rae.cnblogs.widget.PlaceholderView>
 
         <RelativeLayout

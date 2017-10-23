@@ -7,7 +7,7 @@ import com.rae.cnblogs.sdk.bean.UserInfoBean;
  * Created by ChenRui on 2017/1/19 0019 14:55.
  */
 public interface ILoginPresenter extends IRaePresenter {
-    void login();
+//    void login();
 
     void loadUserInfo();
 
@@ -18,18 +18,20 @@ public interface ILoginPresenter extends IRaePresenter {
 
     interface ILoginView {
 
-        String getUserName();
-
-        String getPassword();
+//        String getUserName();
+//
+//        String getPassword();
 
         void onLoginSuccess(UserInfoBean userInfo);
 
         void onLoginError(String message);
 
-        /**
-         * 登录验证码错误
-         */
-        void onLoginVerifyCodeError();
+        void onLoading(String msg);
+//
+//        /**
+//         * 登录验证码错误
+//         */
+//        void onLoginVerifyCodeError();
 
     }
 }

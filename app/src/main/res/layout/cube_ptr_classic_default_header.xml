@@ -6,8 +6,10 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="72dp"
-        android:gravity="center">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp">
 
         <LinearLayout
             android:id="@+id/ptr_classic_header_rotate_view_header_text"
@@ -34,28 +36,38 @@
                 android:textSize="10sp"/>
         </LinearLayout>
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/ptr_classic_header_rotate_view_header_text">
 
-            <ImageView
-                android:id="@+id/ptr_classic_header_rotate_view"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_pull_down"/>
+                android:orientation="vertical">
 
-            <ProgressBar
-                android:id="@+id/ptr_classic_header_rotate_view_progressbar"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:indeterminateDrawable="@drawable/progress_bar_loading"
-                android:indeterminateDuration="1000"/>
-        </FrameLayout>
+                <ImageView
+                    android:id="@+id/ptr_classic_header_rotate_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_pull_down"
+                    android:visibility="visible"/>
+
+                <ProgressBar
+                    android:id="@+id/ptr_classic_header_rotate_view_progressbar"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"/>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
 </LinearLayout>

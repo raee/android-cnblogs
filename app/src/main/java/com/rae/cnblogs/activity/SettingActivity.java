@@ -22,12 +22,15 @@ import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.dialog.impl.ShareDialog;
 import com.rae.cnblogs.dialog.impl.VersionUpdateDialog;
+import com.rae.cnblogs.message.UserInfoEvent;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.VersionInfo;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -119,6 +122,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
                 dialog.dismiss();
                 MobclickAgent.onProfileSignOff();
                 UserProvider.getInstance().logout();
+                EventBus.getDefault().post(new UserInfoEvent());
                 finish();
             }
         });
