@@ -66,11 +66,16 @@ public class RaeSeekBar extends AppCompatSeekBar {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+//        super.onDraw(canvas);
         int max = getMax();
         int width = canvas.getWidth();
         int height = canvas.getHeight();
         int h2 = height / 2;
+
+        final int saveCount = canvas.save();
+        canvas.translate(getPaddingLeft() - getThumbOffset(), getPaddingTop() + h2 - mThumbHeight / 2);
+        getThumb().draw(canvas);
+        canvas.restoreToCount(saveCount);
 
         // 画刻度背景
         mRect.left = getPaddingLeft();
@@ -111,6 +116,7 @@ public class RaeSeekBar extends AppCompatSeekBar {
         h += mOffsetY;
         // 保存
         setMeasuredDimension(MeasureSpec.makeMeasureSpec(w, wm), MeasureSpec.makeMeasureSpec(h, hm));
+
     }
 
     protected int getSize(float size) {

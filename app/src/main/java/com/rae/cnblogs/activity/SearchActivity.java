@@ -30,6 +30,10 @@ public class SearchActivity extends BaseFragmentActivity {
         AppMobclickAgent.onClickEvent(getContext(), "Search");
     }
 
+    public int getLayoutId() {
+        return R.layout.activity_search;
+    }
+
     @Override
     protected Fragment newFragment() {
         return SearchFragment.newInstance();
