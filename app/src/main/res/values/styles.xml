@@ -61,6 +61,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="DiscoverTabTextAppearance" parent="TextAppearance.AppCompat.Medium.Inverse">
+        <item name="android:textSize">16sp</item>
+        <!--兼容夜间模式-->
+        <item name="android:textColor">@color/text_color_default_tab</item>
+    </style>
+
     <style name="SlideDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>

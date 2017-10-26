@@ -17,11 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.feedback.Comment;
-import com.avos.avoscloud.feedback.FeedbackThread;
 import com.rae.cnblogs.AppMobclickAgent;
-import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
@@ -32,15 +28,14 @@ import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.dialog.impl.VersionUpdateDialog;
-import com.rae.cnblogs.fragment.BlogTypeListFragment;
+import com.rae.cnblogs.fragment.DiscoverFragment;
 import com.rae.cnblogs.fragment.HomeFragment;
 import com.rae.cnblogs.fragment.MineFragment;
+import com.rae.cnblogs.fragment.SNSFragment;
 import com.rae.cnblogs.message.TabEvent;
 import com.rae.cnblogs.message.ThemeChangedEvent;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
-import com.rae.cnblogs.sdk.bean.BlogType;
-import com.rae.cnblogs.sdk.bean.CategoryBean;
 import com.rae.cnblogs.sdk.bean.VersionInfo;
 import com.rae.cnblogs.service.CnblogsService;
 import com.rae.cnblogs.service.CnblogsServiceBinder;
@@ -49,8 +44,6 @@ import com.rae.swift.app.RaeFragmentAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -89,18 +82,14 @@ public class MainActivity extends BaseActivity {
         // 绑定服务
         bindService(new Intent(this, CnblogsService.class), mServiceConnection, BIND_AUTO_CREATE);
         mFragmentAdapter = new RaeFragmentAdapter(getSupportFragmentManager());
-        CategoryBean kb = new CategoryBean();
-        kb.setType("kb");
-        kb.setName(getString(R.string.tab_library));
 
-        CategoryBean news = new CategoryBean();
-        news.setType("news");
-        news.setName(getString(R.string.tab_news));
 
         // 初始化TAB
         addTab(R.string.tab_home, R.drawable.tab_home, HomeFragment.newInstance());
-        addTab(R.string.tab_news, R.drawable.tab_news, BlogTypeListFragment.newInstance(1, news, BlogType.NEWS));
-        addTab(R.string.tab_library, R.drawable.tab_library, BlogTypeListFragment.newInstance(2, kb, BlogType.KB));
+//        addTab(R.string.tab_sns, R.drawable.tab_news, BlogTypeListFragment.newInstance(1, news, BlogType.NEWS));
+//        addTab(R.string.tab_discover, R.drawable.tab_library, BlogTypeListFragment.newInstance(2, kb, BlogType.KB));
+        addTab(R.string.tab_sns, R.drawable.tab_news, SNSFragment.newInstance());
+        addTab(R.string.tab_discover, R.drawable.tab_library, DiscoverFragment.newInstance());
         addTab(R.string.tab_mine, R.drawable.tab_mine, MineFragment.newInstance());
 
         mViewPager.setOffscreenPageLimit(4);
@@ -158,7 +147,6 @@ public class MainActivity extends BaseActivity {
         requestPermissions();
 
     }
-
 
 
     /**

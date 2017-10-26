@@ -65,7 +65,6 @@
         <ProgressBar
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:indeterminateDrawable="@drawable/progress_bar_loading"
             android:indeterminateDuration="500"/>
 
         <TextView

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/default_padding_top">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_home_height"
+        android:background="@drawable/bg_tab_home">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.DesignTabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/img_search"
+                app:tabBackground="@android:color/transparent"
+                app:tabGravity="center"
+                app:tabIndicatorColor="@color/ph1"
+                app:tabIndicatorHeight="2dp"
+                app:tabIndicatorWidth="16dp"
+                app:tabMode="fixed"
+                app:tabPadding="0dp"
+                app:tabSelectedTextColor="@color/ph1"
+                app:tabTextAppearance="@style/DiscoverTabTextAppearance"
+                app:tabTextColor="@color/ph2">
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_news"/>
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_library"/>
+            </android.support.design.widget.DesignTabLayout>
+
+            <ImageView
+                android:id="@+id/img_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/ic_action_bar_search"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <com.rae.cnblogs.widget.RaeViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/default_background">
+    </com.rae.cnblogs.widget.RaeViewPager>
+
+</LinearLayout>

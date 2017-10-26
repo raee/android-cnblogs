@@ -244,14 +244,17 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @Subscribe
     public void onTabEvent(TabEvent event) {
         if (event.getPosition() == getArguments().getInt("position")) {
-            mRecyclerView.post(new Runnable() {
-                @Override
-                public void run() {
-                    scrollToTop();
-
-                }
-            });
+            performTabEvent();
         }
+    }
+
+    protected void performTabEvent() {
+        mRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollToTop();
+            }
+        });
     }
 
     @Subscribe

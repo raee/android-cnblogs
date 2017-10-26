@@ -2,7 +2,9 @@
     <string name="app_name">博客园</string>
     <string name="tab_home">首页</string>
     <string name="tab_news">新闻</string>
+    <string name="tab_sns">朋友圈</string>
     <string name="tab_library">知识库</string>
+    <string name="tab_discover">发现</string>
     <string name="tab_mine">我</string>
     <string name="more">更多</string>
     <string name="edit_comment">发表伟大的言论…</string>
@@ -120,4 +122,6 @@
     <string name="label_comment">评论</string>
     <string name="beta_version">内测版本</string>
     <string name="url_beta_version">https://fir.im/android-cnblogs</string>
+    <string name="tab_recommend">推荐</string>
+    <string name="tab_follow">关注</string>
 </resources>
