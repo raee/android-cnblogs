@@ -118,4 +118,6 @@
     <string name="font_setting">字体设置</string>
     <string name="font_setting_poetry">月落乌啼霜满天\n江枫渔火对愁眠\n姑苏城外寒山寺\n夜半钟声到客船</string>
     <string name="label_comment">评论</string>
+    <string name="beta_version">内测版本</string>
+    <string name="url_beta_version">https://fir.im/android-cnblogs</string>
 </resources>

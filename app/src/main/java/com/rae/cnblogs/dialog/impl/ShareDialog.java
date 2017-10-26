@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -221,6 +222,9 @@ public class ShareDialog extends SlideDialog {
             attr.height = WindowManager.LayoutParams.WRAP_CONTENT;
             onWindowLayout(getWindow(), attr);
             getWindow().setAttributes(attr);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                getWindow().setElevation(0);
+            }
         }
 
         showNightText();

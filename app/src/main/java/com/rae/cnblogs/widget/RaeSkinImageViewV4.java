@@ -41,12 +41,12 @@ public class RaeSkinImageViewV4 extends ImageView implements SkinCompatSupportab
 
     private void init() {
         // 初始化的时候不用取反
-        setAlpha(ThemeCompat.isNight() ? 0.3f : 1f);
+        setAlpha(ThemeCompat.isNight() ? 0.6f : 1f);
     }
 
     @Override
     public void applySkin() {
-        setAlpha(isNight() ? 0.3f : 1f);
+        setAlpha(isNight() ? 0.6f : 1f);
         if (this.mBackgroundTintHelper != null) {
             this.mBackgroundTintHelper.applySkin();
         }

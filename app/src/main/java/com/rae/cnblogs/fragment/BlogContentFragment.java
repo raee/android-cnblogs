@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
+import com.rae.cnblogs.BuildConfig;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.dialog.IAppDialog;
@@ -93,8 +94,12 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        if (BuildConfig.DEBUG) {
+            mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        } else {
+            enablePullToRefresh(false);
+            mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
 
         // 设置字体大小
         int pageTextSize = config().getPageTextSize();
@@ -206,6 +211,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
                 mPlaceholderView.dismiss();
                 mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
                 mWebView.loadUrl("file:///android_asset/view.html");
+//                mWebView.loadUrl("http://www.baibeidev.com/cb/view.html");
             }
         });
 

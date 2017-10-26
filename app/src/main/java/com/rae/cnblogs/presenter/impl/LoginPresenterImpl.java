@@ -12,10 +12,15 @@ import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -27,7 +32,6 @@ import io.reactivex.functions.Function;
 public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView> implements ILoginPresenter {
 
     private IUserApi mUserApi;
-    private boolean mFromLogin;
     private String mBlogApp;
 
     public LoginPresenterImpl(Context context, ILoginView view) {
@@ -187,7 +191,7 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
                     }
 
                     @Override
-                    protected void accept(UserInfoBean data) {
+                    protected void accept(final UserInfoBean data) {
                         if (TextUtils.isEmpty(data.getUserId())) {
                             onError("获取用户信息失败");
                             AppMobclickAgent.onLoginEvent(mContext, "WEB-ERROR", false, "没有获取到用户ID");
@@ -201,9 +205,25 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
                             data.setBlogApp(mBlogApp);
                         }
 
+                        // 保存登录信息
                         UserProvider.getInstance().setLoginUserInfo(data);
-                        mView.onLoginSuccess(data);
+                        // 统计登录事件
+                        AppMobclickAgent.onLoginEvent(mApplicationContext, data.getBlogApp(), true, "登录成功");
+                        // 友盟统计用户
+                        MobclickAgent.onProfileSignIn(data.getBlogApp());
+                        // [重要] 同步Cookie登录信息
+                        UserProvider.getInstance().cookieJar2CookieManager();
                         EventBus.getDefault().post(new UserInfoEvent());
+
+                        Observable.timer(2000, TimeUnit.MILLISECONDS)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Consumer<Long>() {
+                                    @Override
+                                    public void accept(Long aLong) throws Exception {
+                                        mView.onLoginSuccess(data);
+                                    }
+                                });
+
                     }
                 });
     }

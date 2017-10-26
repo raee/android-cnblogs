@@ -3,17 +3,18 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="msapplication-tap-highlight" content="no"> 
     <title>博文</title>
     <link type="text/css" rel="stylesheet" href="css/shCore.css"/>
     <link rel="stylesheet" type="text/css" href="css/blog-common.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css"> -->
     <link type="text/css" rel="stylesheet" href="css/shCoreDefault.css" id="CodeStyle"/>
+    <link rel="stylesheet" type="text/css" href="css/rae-common.css">
     <link rel="stylesheet" type="text/css" href="css/rae.css" id="RaeStyle">
-    <link rel="stylesheet" type="text/css"
-          href="http://www.raeblog.com/cnblogs/Content/app/rae-ext.css"/>
-    <!--<link type="text/css" rel="stylesheet" href="css/shThemeRDark.css"  />-->
-    <!--<link rel="stylesheet" type="text/css" href="css/rae-night.css" />-->
+    <link rel="stylesheet" type="text/css"  href="http://www.raeblog.com/cnblogs/Content/app/rae-ext.css"/>
+<!--     <link type="text/css" rel="stylesheet" href="css/shThemeRDark.css"  />
+    <link rel="stylesheet" type="text/css" href="css/rae-night.css" /> -->
 
     <script src="js/jquery.js" type="text/javascript"></script>
     <script src="js/highlight.min.js" type="text/javascript"></script>
@@ -46,6 +47,8 @@
     // 	}
 
     // };
+
+    // 渲染数学公式
     var cb_enable_mathjax=true;
     var width = 0;
     	// 加载主题
@@ -166,6 +169,11 @@ try{
 						$("#blog_content").append("<p>接口缺失正文内容，可能由于博客发布时间已经久远，接口任性就是没有返回数据。</p><p>你可以尝试点击下面阅读原文阅读，也可以点击右上方的更多按钮查看原文。</p><p><a href='"+blog.url +"' class='a-source'>【阅读原文】</a></p>");
 					}else{
 						$("#blog_content").append(blog.content);
+						if($(".math").length>0){
+                            // 渲染数学公式
+                            alert('mathjax');
+                            cb_mathjax_render();
+						}
 					}
 				}
 			}
@@ -177,12 +185,10 @@ try{
                 // 重新设置代码高亮
                 refreshCodeTheme();
 
-                cb_mathjax_render();
             }catch(e){
                 alert(e);
             	console.error(e);
             }
-
 
         }
 
@@ -224,7 +230,7 @@ try{
 
         </script>
 
-        <h3 id="blog_title" class="clearfix">库朗等指出需要引进的点数至多为，此种点称为斯坦纳点。</h3>
+        <h3 id="blog_title" class="clearfix">标题</h3>
     </div>
     <div id="blog_content" class="clearfix">
 

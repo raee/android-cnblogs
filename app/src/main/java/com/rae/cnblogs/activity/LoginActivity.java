@@ -213,7 +213,7 @@ public class LoginActivity extends BaseActivity
     /**
      * 登录点击
      */
-    @OnClick(R.id.btn_login)
+    @OnClick(R.id.ll_login)
     public void onLoginClick() {
         if (config().hasLoginGuide()) {
             preformLogin();

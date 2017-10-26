@@ -19,7 +19,6 @@ public class WebLoginActivity extends WebActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mShareView.setVisibility(View.GONE);
-        setSwipeBackEnable(false);
         mWebViewFragment.enablePullToRefresh(false);
     }
 

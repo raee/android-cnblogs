@@ -175,6 +175,32 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_beta_version"
+                style="@style/ItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/beta_version"
+                    android:textColor="@color/ph1"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/default_right_arrow"
+                    android:gravity="right"
+                    android:textColor="@color/ph3"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/ll_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

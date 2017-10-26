@@ -92,6 +92,7 @@ public class WebLoginFragment extends WebViewFragment {
                 if (cookie != null && cookie.contains(".CNBlogsCookie")) {
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
+                    getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             }
 

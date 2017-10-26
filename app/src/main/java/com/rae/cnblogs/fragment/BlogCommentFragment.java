@@ -23,6 +23,7 @@ import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
+import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 
@@ -32,6 +33,8 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.List;
 
 import butterknife.BindView;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * 评论
@@ -50,6 +53,9 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     @BindView(R.id.rec_blog_comment_list)
     RaeRecyclerView mRecyclerView;
+
+    @BindView(R.id.content_layout)
+    AppLayout mAppLayout;
 
 //    private RaeDrawerLayout mParentView;
 
@@ -126,6 +132,18 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
             }
         });
 
+        mAppLayout.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mCommentPresenter.start();
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return mRecyclerView.isOnTop();
+            }
+        });
+
         mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,7 +192,11 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
         mItemAdapter.setOnAuthorClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppRoute.jumpToBlogger(getContext(), v.getTag().toString());
+                if (v.getTag() == null) {
+                    AppUI.failed(v.getContext(), "博主可能没有开通博客功能！[blogApp is null]");
+                    return;
+                }
+                AppRoute.jumpToBlogger(v.getContext(), v.getTag().toString());
             }
         });
 
@@ -208,6 +230,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     @Override
     public void onLoadCommentSuccess(List<BlogCommentBean> data) {
+        mAppLayout.refreshComplete();
         mPlaceholderView.dismiss();
         mItemAdapter.invalidate(data);
         mItemAdapter.notifyDataSetChanged();
@@ -221,6 +244,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     @Override
     public void onLoadCommentEmpty() {
+        mAppLayout.refreshComplete();
         mPlaceholderView.empty();
     }
 
@@ -290,6 +314,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
 
     @Override
     public void onLoadCommentFailed(String message) {
+        mAppLayout.refreshComplete();
         mPlaceholderView.retry(message);
     }
 

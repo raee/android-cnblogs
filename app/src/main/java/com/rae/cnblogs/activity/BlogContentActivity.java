@@ -4,8 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -13,14 +12,13 @@ import android.widget.TextView;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.RaeViewCompat;
 import com.rae.cnblogs.RxObservable;
-import com.rae.cnblogs.adapter.BlogContentAdapter;
 import com.rae.cnblogs.dialog.DialogProvider;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.impl.BlogShareDialog;
 import com.rae.cnblogs.dialog.impl.EditCommentDialog;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
+import com.rae.cnblogs.fragment.BlogContentFragment;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogCommentPresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
@@ -67,8 +65,8 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
     @BindView(R.id.tv_like_badge)
     TextView mLikeBadgeView;
 
-    @BindView(R.id.fl_content)
-    View mContentLayout;
+//    @BindView(R.id.fl_content)
+//    View mContentLayout;
 
     @BindView(R.id.tv_edit_comment)
     View mPostCommentView;
@@ -81,15 +79,12 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
 
     @BindView(R.id.placeholder)
     PlaceholderView mPlaceholderView;
-    @BindView(R.id.recycler_view)
-    RecyclerView mRecyclerView;
-
 
     private BlogShareDialog mShareDialog;
     private BlogBean mBlog;
     private BlogType mBlogType;
     //    private BlogCommentFragment mBlogCommentFragment;
-//    private BlogContentFragment mBlogContentFragment;
+    private BlogContentFragment mBlogContentFragment;
     private EditCommentDialog mEditCommentDialog;
     private IBlogCommentPresenter mCommentPresenter;
 
@@ -143,11 +138,6 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
         } else {
             mPlaceholderView.empty("博客不存在");
         }
-
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(new BlogContentAdapter());
-
     }
 
     /**
@@ -239,15 +229,15 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
         // 评论
 //        mBlogCommentFragment = BlogCommentFragment.newInstance(mBlog, mBlogType);
         // 内容
-//        mBlogContentFragment = BlogContentFragment.newInstance(mBlog, mBlogType);
+        mBlogContentFragment = BlogContentFragment.newInstance(mBlog, mBlogType);
 
 
         // 加载Fragment
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 //        transaction.add(R.id.fl_comment, mBlogCommentFragment);
-//        transaction.add(R.id.fl_content, mBlogContentFragment);
-        // fix bugly #472
-//        transaction.commitAllowingStateLoss();
+        transaction.add(R.id.fl_content, mBlogContentFragment);
+//         fix bugly #472
+        transaction.commitAllowingStateLoss();
     }
 
     // 分享
@@ -292,10 +282,10 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
 //        if (mCommentLayout.getVisibility() == View.VISIBLE) {
 //            mBlogCommentFragment.scrollToTop();
 //        } else {
-//        mBlogContentFragment.scrollToTop();
+        mBlogContentFragment.scrollToTop();
 //        }
 
-        RaeViewCompat.scrollToTop(mRecyclerView);
+//        RaeViewCompat.scrollToTop(mRecyclerView);
     }
 
     @Override
@@ -344,6 +334,12 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
         // 评论数量加1
         int comment = Rx.parseInt(mBlog.getComment()) + 1;
         mCommentBadgeView.setText(String.valueOf(comment));
+
+        if (Rx.parseInt(mBlog.getComment()) <= 0) {
+            mCommentBadgeView.setSelected(true);
+        }else{
+            mCommentBadgeView.setSelected(false);
+        }
 
         if (config().hasCommentGuide()) {
             AppUI.toastInCenter(getContext(), "您伟大的讲话发表成功");

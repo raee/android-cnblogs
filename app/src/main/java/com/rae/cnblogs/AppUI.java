@@ -111,8 +111,8 @@ public final class AppUI {
         if (msgView != null) {
             int p = 20;
             msgView.setPadding(p, p, p, p);
-            msgView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.toast_failed, 0, 0);
-            msgView.setCompoundDrawablePadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics()));
+//            msgView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.toast_failed, 0, 0);
+//            msgView.setCompoundDrawablePadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics()));
         }
         toast.show();
         return toast;

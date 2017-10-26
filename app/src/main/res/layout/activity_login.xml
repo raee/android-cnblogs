@@ -19,11 +19,10 @@
         android:gravity="center_vertical">
 
         <ImageButton
+            android:visibility="invisible"
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:paddingBottom="12dp"
@@ -42,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="46dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="48dp"
         android:src="@drawable/ic_login_logo"
         android:visibility="visible"/>
 
@@ -166,15 +165,26 @@
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"/>
 
-        <Button
-            android:id="@+id/btn_login"
+        <RelativeLayout
+            android:id="@+id/ll_login"
             android:layout_width="match_parent"
             android:layout_height="@dimen/public_button_height"
             android:layout_marginTop="20dp"
-            android:background="@drawable/public_button_login"
-            android:text="@string/login"
-            android:textColor="@color/text_color_login_button"
-            android:textSize="16sp"/>
+            android:background="@drawable/public_button_login">
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_official_flag"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:text="@string/login"
+                android:textColor="@color/text_color_login_button"
+                android:textSize="16sp"/>
+        </RelativeLayout>
 
 
         <RelativeLayout
@@ -192,17 +202,17 @@
                         android:text="注册账号"
                         android:textColor="@color/ph4"
                         android:textSize="12sp"/>-->
-          <!--  <TextView
-                android:layout_alignParentLeft="true"
-                android:id="@+id/tv_login_contract"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="12dp"
-                android:paddingRight="12dp"
-                android:paddingTop="18dp"
-                android:text="@string/login_tips"
-                android:textColor="@color/ph4"
-                android:textSize="12sp"/>-->
+            <!--  <TextView
+                  android:layout_alignParentLeft="true"
+                  android:id="@+id/tv_login_contract"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:paddingBottom="12dp"
+                  android:paddingRight="12dp"
+                  android:paddingTop="18dp"
+                  android:text="@string/login_tips"
+                  android:textColor="@color/ph4"
+                  android:textSize="12sp"/>-->
 
             <TextView
                 android:id="@+id/tv_forget_password"

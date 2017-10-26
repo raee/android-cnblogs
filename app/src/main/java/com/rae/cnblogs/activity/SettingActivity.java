@@ -165,6 +165,15 @@ public class SettingActivity extends SwipeBackBaseActivity {
     }
 
     /**
+     * 内测版本
+     */
+    @OnClick(R.id.ll_beta_version)
+    public void onBetaVersionLicenseClick() {
+        AppMobclickAgent.onClickEvent(getContext(), "BetaVersion");
+        AppRoute.jumpToWeb(this.getContext(), getString(R.string.url_beta_version));
+    }
+
+    /**
      * 帮助中心
      */
     @OnClick(R.id.ll_help_center)

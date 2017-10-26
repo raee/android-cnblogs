@@ -68,3 +68,13 @@ blockquote{
 a {
     color: #4893D8;
 }
+#author {
+    margin-top: 72px;
+    border-bottom: 1px solid #3E3E40;
+    padding-bottom: 12px;
+}
+.btn-default {
+    color: #8f9091;
+    background-color: #000;
+    border-color: #8f9091;
+}

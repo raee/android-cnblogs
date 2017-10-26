@@ -21,7 +21,7 @@ import butterknife.OnClick;
  * 网页
  * Created by ChenRui on 2017/1/25 0025 9:32.
  */
-public class WebActivity extends SwipeBackBaseActivity {
+public class WebActivity extends BaseActivity {
 
     @BindView(R.id.tool_bar)
     Toolbar mToolbar;

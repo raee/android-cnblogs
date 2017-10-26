@@ -21,7 +21,7 @@ function initImage(){
 	var filter = ["ExpandedBlockStart.gif","ContractedBlock.gif"];
     $("img").click(function(e){
                 	var src = $(this).attr("src");
-
+                	if($(this).attr("id")=="blog_avatar") return; // 过滤头像
                 	if(src.indexOf("ExpandedBlockStart.gif")!=-1|| src.indexOf("ContractedBlock.gif")!=-1){
                 	    return false;
                 	}
@@ -31,6 +31,7 @@ function initImage(){
                 	$("img").each(function(key,obj){
                         var itemUrl = $(obj).attr("src");
                 	    // 过滤图片
+                	    if($(obj).attr("id")=="blog_avatar") return; // 过滤头像
                 	    if(itemUrl.indexOf("ExpandedBlockStart.gif")!=-1|| itemUrl.indexOf("ContractedBlock.gif")!=-1|| itemUrl.indexOf("copycode.gif")!=-1){
                             return;
                         }
