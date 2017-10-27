@@ -124,4 +124,6 @@
     <string name="url_beta_version">https://fir.im/android-cnblogs</string>
     <string name="tab_recommend">推荐</string>
     <string name="tab_follow">关注</string>
+    <string name="post">发布</string>
+    <string name="label_image_selection">选择照片</string>
 </resources>

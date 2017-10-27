@@ -108,12 +108,13 @@ final class ApiUrls {
     static final String API_MOMENT_LIST = "https://ing.cnblogs.com/ajax/ing/GetIngList?PageSize=30";
 
     // 闪存-发布
-    static final String API_MOMENT_PUBLISH = "https://ing.cnblogs.com/ajax/ing/Publish";
+    static final String API_MOMENT_PUBLISH = "https://ing.cnblogs.com/ajax/Ing/MobileIngSubmit";
 
+    public static final String API_POST_IMAGE = "https://upload.cnblogs.com/imageuploader/processupload?host=www.cnblogs.com";
     // 服务端接口地址
     private static final String RAE_API_BASIC = "http://www.raeblog.com/cnblogs/index.php/";
-//    public static final String RAE_API_BASIC = "http://192.168.168.10/cnblogs/index.php/";
 
+//    public static final String RAE_API_BASIC = "http://192.168.168.10/cnblogs/index.php/";
     // 启动页广告
     static final String RAE_API_AD_LAUNCHER = RAE_API_BASIC + "app/ad/launcher";
     // 检查更新

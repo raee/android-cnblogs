@@ -192,6 +192,8 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
             return obj.getString("Message");
         } else if (obj.has("message")) {
             return obj.getString("message");
+        } else if (obj.has("responseText")) {
+            return obj.getString("responseText"); // 发布闪存返回的字段
         }
         return null;
     }

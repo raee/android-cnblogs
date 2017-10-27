@@ -27,11 +27,11 @@
             android:name=".activity.LauncherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
-            <!--       <intent-filter>
+                   <intent-filter>
                        <action android:name="android.intent.action.MAIN"/>
 
                        <category android:name="android.intent.category.LAUNCHER"/>
-                   </intent-filter>-->
+                   </intent-filter>
         </activity>
 
         <!--主界面-->
@@ -39,11 +39,11 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-            <intent-filter>
+       <!--     <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <activity
@@ -132,6 +132,24 @@
             android:label="@string/font_setting"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".activity.CommentActivity"
+            android:label="@string/label_comment"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.PostMomentActivity"
+            android:screenOrientation="portrait">
+            <!--  <intent-filter>
+                  <action android:name="android.intent.action.MAIN"/>
+                  <category android:name="android.intent.category.LAUNCHER"/>
+              </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".activity.ImageSelectionActivity"
+            android:label="@string/label_image_selection"
+            android:screenOrientation="portrait"/>
+
         <service
             android:name=".service.CnblogsService"
             android:label="@string/service_name"/>
@@ -193,10 +211,6 @@
             </intent-filter>
 
         </activity>
-        <activity
-            android:name=".activity.CommentActivity"
-            android:label="@string/label_comment"
-            android:screenOrientation="portrait"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

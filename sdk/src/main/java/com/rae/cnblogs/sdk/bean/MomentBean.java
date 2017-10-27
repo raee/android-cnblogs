@@ -28,6 +28,9 @@ public class MomentBean {
     // 回复作者blogApp
     private String replyBlogApp;
 
+    // 评论数量
+    private String commentCount;
+
     private String content;
 
     // 回复的评论
@@ -97,6 +100,13 @@ public class MomentBean {
         this.replyBlogApp = replyBlogApp;
     }
 
+    public String getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(String commentCount) {
+        this.commentCount = commentCount;
+    }
 
     public List<MomentBean> getComments() {
         return comments;

@@ -15,8 +15,10 @@ import com.rae.cnblogs.activity.FavoritesActivity;
 import com.rae.cnblogs.activity.FeedbackActivity;
 import com.rae.cnblogs.activity.FontSettingActivity;
 import com.rae.cnblogs.activity.FriendsActivity;
+import com.rae.cnblogs.activity.ImageSelectionActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
+import com.rae.cnblogs.activity.PostMomentActivity;
 import com.rae.cnblogs.activity.SearchActivity;
 import com.rae.cnblogs.activity.SettingActivity;
 import com.rae.cnblogs.activity.SystemMessageActivity;
@@ -46,6 +48,10 @@ public final class AppRoute {
     public static final int REQ_CODE_FAVORITES = 103;
     // 博主
     public static final int REQ_CODE_BLOGGER = 104;
+    // 发布闪存
+    private static final int REQ_POST_MOMENT = 105;
+    // 图片选择
+    private static final int REQ_IMAGE_SELECTION = 106;
 
     private static void startActivity(Context context, Intent intent) {
         context.startActivity(intent);
@@ -307,5 +313,22 @@ public final class AppRoute {
         intent.putExtra("type", type);
         intent.putExtra("blog", blog);
         startActivity(context, intent);
+    }
+
+    /**
+     * 发布闪存
+     */
+    public static void jumpToPostMoment(Activity context) {
+        Intent intent = new Intent(context, PostMomentActivity.class);
+        startActivityForResult(context, intent, REQ_POST_MOMENT);
+    }
+
+    /**
+     * 跳转到图片选择
+     */
+    public static void jumpToImageSelection(Activity context, ArrayList<String> images) {
+        Intent intent = new Intent(context, ImageSelectionActivity.class);
+        intent.putStringArrayListExtra("images", images);
+        startActivityForResult(context, intent, REQ_IMAGE_SELECTION);
     }
 }

@@ -9,13 +9,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.sdk.bean.BlogType;
-import com.rae.cnblogs.sdk.bean.CategoryBean;
+import com.rae.cnblogs.message.TabEvent;
+import com.rae.cnblogs.sdk.api.IMomentApi;
 import com.rae.cnblogs.widget.RaeViewPager;
 import com.rae.swift.session.SessionManager;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 朋友圈（闪存）
@@ -38,6 +46,18 @@ public class SNSFragment extends BaseFragment {
         return R.layout.fm_sns;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -51,37 +71,43 @@ public class SNSFragment extends BaseFragment {
         mTabLayout.getTabAt(SessionManager.getDefault().isLogin() ? 0 : 1).select();
     }
 
+    @OnClick(R.id.tv_post)
+    public void onPostClick() {
+        AppRoute.jumpToPostMoment(getActivity());
+    }
+
     public static class SNSFragmentAdapter extends FragmentStatePagerAdapter {
 
-        private final BlogTypeListFragment mNewFragment;
-        private final BlogTypeListFragment mKBFragment;
+        private final List<MomentFragment> mFragments = new ArrayList<>();
 
         public SNSFragmentAdapter(Context context, FragmentManager fm) {
             super(fm);
-            CategoryBean kb = new CategoryBean();
-            kb.setType("kb");
-            kb.setName(context.getString(R.string.tab_library));
-
-            CategoryBean news = new CategoryBean();
-            news.setType("news");
-            news.setName(context.getString(R.string.tab_news));
-
-            mNewFragment = BlogTypeListFragment.newInstance(30, news, BlogType.NEWS);
-            mKBFragment = BlogTypeListFragment.newInstance(31, kb, BlogType.KB);
+            mFragments.add(MomentFragment.newInstance(IMomentApi.MOMENT_TYPE_FOLLOWING));
+            mFragments.add(MomentFragment.newInstance(IMomentApi.MOMENT_TYPE_ALL));
         }
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 0)
-                return mNewFragment;
-            else
-                return mKBFragment;
+            return mFragments.get(position);
         }
 
         @Override
         public int getCount() {
             return 2;
         }
+    }
+
+    @Subscribe
+    public void onTabEvent(TabEvent event) {
+        if (event.getPosition() == 1) {
+            performTabEvent();
+        }
+    }
+
+    private void performTabEvent() {
+        int position = mViewPager.getCurrentItem();
+        MomentFragment fragment = (MomentFragment) mAdapter.getItem(position);
+        fragment.scrollToTop();
     }
 
     class DefaultOnTabSelectedListener implements DesignTabLayout.OnTabSelectedListener {
@@ -104,6 +130,7 @@ public class SNSFragment extends BaseFragment {
         @Override
         public void onTabReselected(DesignTabLayout.Tab tab) {
             onTabSelected(tab);
+            performTabEvent();
         }
     }
 }

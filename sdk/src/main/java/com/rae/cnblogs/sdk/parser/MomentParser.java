@@ -36,6 +36,7 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
             m.setAvatar(ApiUtils.getUrl(element.select(".feed_avatar a img").attr("src"))); //头像地址
             m.setContent(element.select(".ing_body").text()); // 内容
             m.setPostTime(element.select(".ing_time").text()); // 发布时间
+            m.setCommentCount(ApiUtils.getCount(element.select(".ing_reply").text().replace("回应", ""))); // 评论数量
             m.setBlogApp(ApiUtils.getBlogApp(element.select(".ing-author").attr("href"))); // blogApp
 
             result.add(m);

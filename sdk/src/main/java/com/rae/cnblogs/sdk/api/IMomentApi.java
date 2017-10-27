@@ -48,7 +48,7 @@ public interface IMomentApi {
 
     @POST(ApiUrls.API_MOMENT_PUBLISH)
     @FormUrlEncoded
-    @Headers({JsonBody.CONTENT_TYPE, JsonBody.XHR})
+    @Headers({JsonBody.XHR})
     Observable<Empty> publish(@Field("content") String content, @Field("publicFlag") int publicFlag);
 
     /**
