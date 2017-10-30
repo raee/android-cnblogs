@@ -21,6 +21,20 @@
 
 
             <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="45dp"
+                android:gravity="center"
+                android:paddingEnd="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingStart="12dp"
+                android:text="@string/label_post_moment"
+                android:textColor="@color/ph1"
+                android:textSize="16sp"/>
+
+            <TextView
                 android:id="@+id/tv_post"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -65,7 +79,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"

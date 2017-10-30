@@ -141,15 +141,18 @@
 
         <activity
             android:name=".activity.PostMomentActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.ImageSelectionActivity"
-            android:label="@string/label_image_selection"
+            android:label="@string/label_post_moment"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.ImageSelectionActivity"
+            android:label="@string/label_image_selection"
+            android:screenOrientation="portrait">
+
         </activity>
 
         <service

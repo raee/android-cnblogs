@@ -1,5 +1,6 @@
 package com.rae.cnblogs.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
+import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IPostMomentContract;
@@ -48,8 +51,29 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mAdapter = new PostImageAdapter();
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnAddImageClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppRoute.jumpToImageSelection(PostMomentActivity.this, mAdapter.getImageSelectedList());
+            }
+        });
+        mAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppRoute.jumpToImagePreview(PostMomentActivity.this, mAdapter.getImageSelectedList(), (Integer) v.getTag(), mAdapter.getImageSelectedList(), mAdapter.getMaxCount());
+            }
+        });
+    }
 
-        AppRoute.jumpToImageSelection(this, null);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == AppRoute.REQ_IMAGE_SELECTION || requestCode == AppRoute.REQ_CODE_IMAGE_SELECTED) {
+                mAdapter.setUrls(data.getStringArrayListExtra("selectedImages"));
+                mAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     @Override
@@ -108,16 +132,23 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
     }
 
     private static class PostImageHolder extends RecyclerView.ViewHolder {
+        ImageView mImageView;
 
         public PostImageHolder(View itemView) {
             super(itemView);
+            mImageView = itemView.findViewById(R.id.img_photo);
         }
     }
 
     private static class PostImageAdapter extends RecyclerView.Adapter<PostImageHolder> {
 
-        private final List<String> mUrls = new ArrayList<>();
+        private static final int VIEW_TYPE_ADD = 1;
+        private static final int VIEW_TYPE_NORMAL = 0;
+        private ArrayList<String> mUrls = new ArrayList<>();
         private LayoutInflater mLayoutInflater;
+        private View.OnClickListener mOnAddImageClickListener;
+        private View.OnClickListener mOnClickListener;
+        private final int mMaxCount = 6;
 
         public PostImageAdapter() {
             super();
@@ -132,21 +163,55 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
         }
 
         @Override
-        public void onBindViewHolder(PostImageHolder postImageHolder, int i) {
+        public int getItemViewType(int position) {
+            if (position < 0) return VIEW_TYPE_ADD;
+            if (mUrls.size() < mMaxCount && position == getItemCount() - 1) return VIEW_TYPE_ADD;
+            return VIEW_TYPE_NORMAL;
+        }
 
+        @Override
+        public void onBindViewHolder(PostImageHolder holder, int position) {
+            int viewType = getItemViewType(position);
+            holder.itemView.setTag(position);
+            switch (viewType) {
+                case VIEW_TYPE_ADD:
+                    holder.itemView.setOnClickListener(mOnAddImageClickListener);
+                    holder.mImageView.setImageResource(R.drawable.ic_add_photo_holder);
+                    break;
+                default:
+                    holder.itemView.setOnClickListener(mOnClickListener);
+                    GlideApp.with(holder.itemView.getContext()).load(mUrls.get(position % mUrls.size())).into(holder.mImageView);
+                    break;
+            }
         }
 
         @Override
         public int getItemCount() {
-            return mUrls.size() + 1;
+            return Math.min(mMaxCount, mUrls.size() + 1);
         }
 
-        public void addImage(String fileName) {
-            mUrls.add(0, fileName);
+        public void setUrls(ArrayList<String> urls) {
+            mUrls = urls;
         }
 
         public void remove(String fileName) {
             mUrls.remove(fileName);
+        }
+
+        public void setOnAddImageClickListener(View.OnClickListener listener) {
+            mOnAddImageClickListener = listener;
+        }
+
+        public ArrayList<String> getImageSelectedList() {
+            return mUrls;
+        }
+
+        public void setOnClickListener(View.OnClickListener onClickListener) {
+            mOnClickListener = onClickListener;
+        }
+
+        public int getMaxCount() {
+            return mMaxCount;
         }
     }
 }

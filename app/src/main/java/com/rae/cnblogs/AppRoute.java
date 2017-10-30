@@ -49,9 +49,11 @@ public final class AppRoute {
     // 博主
     public static final int REQ_CODE_BLOGGER = 104;
     // 发布闪存
-    private static final int REQ_POST_MOMENT = 105;
+    public static final int REQ_POST_MOMENT = 105;
     // 图片选择
-    private static final int REQ_IMAGE_SELECTION = 106;
+    public static final int REQ_IMAGE_SELECTION = 106;
+    // 图片选择
+    public static final int REQ_CODE_IMAGE_SELECTED = 107;
 
     private static void startActivity(Context context, Intent intent) {
         context.startActivity(intent);
@@ -194,6 +196,33 @@ public final class AppRoute {
      * @param images   图片数组
      * @param position 跳转到低几张图片，默认传0
      */
+    public static void jumpToImagePreview(Activity context, @NonNull ArrayList<String> images, int position, ArrayList<String> selectedImages, int maxCount) {
+        Intent intent = new Intent(context, ImagePreviewActivity.class);
+        intent.putStringArrayListExtra("images", images);
+        if (selectedImages != null) {
+            intent.putStringArrayListExtra("selectedImages", selectedImages);
+        }
+        intent.putExtra("position", position);
+        intent.putExtra("maxCount", maxCount);
+        startActivityForResult(context, intent, REQ_CODE_IMAGE_SELECTED);
+    }
+
+    /**
+     * 图片大图预览
+     *
+     * @param images   图片数组
+     * @param position 跳转到低几张图片，默认传0
+     */
+    public static void jumpToImagePreview(Activity context, @NonNull ArrayList<String> images, int position) {
+        jumpToImagePreview(context, images, position, null, 0);
+    }
+
+    /**
+     * 图片大图预览
+     *
+     * @param images   图片数组
+     * @param position 跳转到低几张图片，默认传0
+     */
     public static void jumpToImagePreview(Context context, @NonNull ArrayList<String> images, int position) {
         Intent intent = new Intent(context, ImagePreviewActivity.class);
         intent.putStringArrayListExtra("images", images);
@@ -207,7 +236,7 @@ public final class AppRoute {
      *
      * @param imgUrl 图片路径
      */
-    public static void jumpToImagePreview(Context context, @NonNull String imgUrl) {
+    public static void jumpToImagePreview(Activity context, @NonNull String imgUrl) {
         ArrayList<String> data = new ArrayList<>();
         data.add(imgUrl);
         jumpToImagePreview(context, data, 0);
@@ -326,9 +355,10 @@ public final class AppRoute {
     /**
      * 跳转到图片选择
      */
-    public static void jumpToImageSelection(Activity context, ArrayList<String> images) {
+    public static void jumpToImageSelection(Activity context, ArrayList<String> selectedImages) {
         Intent intent = new Intent(context, ImageSelectionActivity.class);
-        intent.putStringArrayListExtra("images", images);
+        if (selectedImages != null)
+            intent.putStringArrayListExtra("selectedImages", selectedImages);
         startActivityForResult(context, intent, REQ_IMAGE_SELECTION);
     }
 }

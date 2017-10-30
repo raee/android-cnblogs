@@ -4,8 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="120dp"
     android:layout_margin="2dp"
-    android:layout_weight="1"
-    android:background="#000">
+    android:layout_weight="1">
 
     <ImageView
         android:id="@+id/img_background"

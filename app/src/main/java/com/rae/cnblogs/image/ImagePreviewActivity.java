@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.DataSource;
@@ -24,6 +26,7 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.activity.BaseActivity;
+import com.rae.swift.Rx;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,8 +67,20 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
 
     @BindView(R.id.rl_content)
     View mContentView;
+    @BindView(R.id.rl_checkbox)
+    View mCheckBoxLayout;
+    @BindView(R.id.cb_checkbox)
+    CheckBox mCheckBox;
+    @BindView(R.id.tv_position)
+    TextView mPositionView;
+    @BindView(R.id.btn_selected)
+    Button mSelectedButton;
+    @BindView(R.id.img_download)
+    View mDownLoadView;
+    private int mMaxCount = 6; // 最大选择数量
 
     ImageAdapter mAdapter;
+    private ArrayList<String> mSelectedImages;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +89,12 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
         setContentView(R.layout.activity_image_preview);
 
         ArrayList<String> images = getIntent().getStringArrayListExtra("images");
+        mSelectedImages = getIntent().getStringArrayListExtra("selectedImages");
+        mMaxCount = getIntent().getIntExtra("maxCount", mMaxCount);
+        mCheckBoxLayout.setVisibility(mSelectedImages == null ? View.GONE : View.VISIBLE);
+        mDownLoadView.setVisibility(mSelectedImages == null ? View.VISIBLE : View.GONE);
+        mSelectedButton.setVisibility(mCheckBoxLayout.getVisibility());
+
         if (images == null || images.size() <= 0) {
             finish();
             return;
@@ -83,6 +104,34 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
         mAdapter.setOnItemClickListener(this);
         mViewPager.setAdapter(mAdapter);
 
+        mCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox buttonView = (CheckBox) v;
+                boolean isChecked = buttonView.isChecked();
+                int position = mViewPager.getCurrentItem();
+                String url = mAdapter.getItem(position);
+                // 不超过6张图片
+                if (isChecked && mSelectedImages.size() >= mMaxCount) {
+                    buttonView.setChecked(false);
+                    AppUI.failed(buttonView.getContext(), "最多选择" + mMaxCount + "张图片");
+                    return;
+                }
+
+                mSelectedImages.remove(url);
+                if (isChecked) {
+                    if (!mSelectedImages.contains(url)) {
+                        mSelectedImages.add(url);
+                    }
+                } else {
+                    mSelectedImages.remove(url);
+                }
+
+                // 重新
+                onPageSelected(position);
+            }
+        });
+
         int position = getIntent().getIntExtra("position", mViewPager.getCurrentItem());
 
         if (mViewPager.getAdapter().getCount() > 1) {
@@ -90,6 +139,7 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
         }
 
         mViewPager.setCurrentItem(position);
+
 
         if (position <= 0)
             onPageSelected(position);
@@ -111,6 +161,17 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
         finish();
     }
 
+    @OnClick(R.id.btn_selected)
+    public void onSelectedButtonClick() {
+        // 选择图片模式返回数据
+        if (mSelectedImages != null) {
+            Intent data = new Intent();
+            data.putStringArrayListExtra("selectedImages", mSelectedImages);
+            setResult(RESULT_OK, data);
+        }
+        finish();
+    }
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -118,8 +179,19 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
 
     @Override
     public void onPageSelected(int position) {
-        position++;
-        mCountView.setText(String.format(Locale.getDefault(), "%d/%d", position, mViewPager.getAdapter().getCount()));
+        mCountView.setText(String.format(Locale.getDefault(), "%d/%d", (position + 1), mViewPager.getAdapter().getCount()));
+
+        // 处理选中状态
+        if (Rx.isEmpty(mSelectedImages)) return;
+        String item = mAdapter.getItem(position);
+        if (mSelectedImages.contains(item)) {
+            mCheckBox.setChecked(true);
+            mPositionView.setText(String.valueOf(mSelectedImages.indexOf(item) + 1));
+        } else {
+            mCheckBox.setChecked(false);
+            mPositionView.setText("");
+        }
+        mSelectedButton.setText(getContext().getString(R.string.button_text_image_post, mSelectedImages.size(), mMaxCount));
     }
 
     @Override
@@ -129,8 +201,11 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
 
     @Override
     public void onClick(View v) {
+        // 选择图片模式
+        if (mSelectedImages != null) return;
         this.finish();
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

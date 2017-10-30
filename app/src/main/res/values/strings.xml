@@ -2,7 +2,7 @@
     <string name="app_name">博客园</string>
     <string name="tab_home">首页</string>
     <string name="tab_news">新闻</string>
-    <string name="tab_sns">朋友圈</string>
+    <string name="tab_sns">动态</string>
     <string name="tab_library">知识库</string>
     <string name="tab_discover">发现</string>
     <string name="tab_mine">我</string>
@@ -125,5 +125,8 @@
     <string name="tab_recommend">推荐</string>
     <string name="tab_follow">关注</string>
     <string name="post">发布</string>
-    <string name="label_image_selection">选择照片</string>
+    <string name="label_image_selection">所有照片</string>
+    <string name="button_text_image_post">确定(%1$d/%2$d)</string>
+    <string name="button_text_image_post_default">确定</string>
+    <string name="label_post_moment">发布动态</string>
 </resources>

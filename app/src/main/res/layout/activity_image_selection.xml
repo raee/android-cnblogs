@@ -21,6 +21,16 @@
 
 
             <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="60dp"
+                android:gravity="center"
+                android:text="@string/label_image_selection"
+                android:textColor="@color/ph1"
+                android:textSize="16sp"/>
+
+            <TextView
                 android:id="@+id/tv_post"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -30,8 +40,8 @@
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:paddingStart="12dp"
-                android:text="确定"
-                android:textColor="@color/ph1"
+                android:text="确定(0/6)"
+                android:textColor="@color/colorPrimary"
                 android:textSize="16sp"/>
 
 
@@ -42,7 +52,10 @@
     <com.rae.cnblogs.widget.AppLayout
         android:id="@+id/ptr_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/recycler_view_selected"
+        android:layout_below="@+id/title_tool_bar"
+        android:layout_weight="1">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -50,5 +63,22 @@
             android:layout_height="match_parent"
             android:background="@color/background_divider"/>
     </com.rae.cnblogs.widget.AppLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/recycler_view_selected"
+        android:background="@color/dividerColor"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_selected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:paddingBottom="2dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="2dp"/>
 
 </LinearLayout>
