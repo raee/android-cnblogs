@@ -1,11 +1,16 @@
 package com.rae.cnblogs.activity;
 
+import android.Manifest;
 import android.content.ContentResolver;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,12 +24,15 @@ import android.widget.TextView;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.widget.AppLayout;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * 图片选择
@@ -33,6 +41,8 @@ import butterknife.BindView;
 public class ImageSelectionActivity extends BaseActivity {
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.ptr_content)
+    AppLayout mPtrContentView;
     private ImageSelectionAdapter mAdapter;
 
     @Override
@@ -43,12 +53,50 @@ public class ImageSelectionActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mAdapter = new ImageSelectionAdapter();
         mRecyclerView.setAdapter(mAdapter);
+        mPtrContentView.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                start();
+            }
+        });
+        start();
+    }
+
+    private void start() {
+        // 先检查权限
+        if (requestPermissions()) {
+            loadImageData();
+        }
+    }
+
+    /**
+     * 申请权限
+     */
+    private boolean requestPermissions() {
+        // 检查权限
+        if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            AppUI.toast(this, "请允许访问存储卡权限");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+            }
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkPermission(String permission) {
+        return ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED;
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        loadImageData();
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // 允许权限，重新加载
+        if (requestCode == 100 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            loadImageData();
+        }
     }
 
     /**
@@ -75,6 +123,7 @@ public class ImageSelectionActivity extends BaseActivity {
 
         mAdapter.setImageList(result);
         mAdapter.notifyDataSetChanged();
+        mPtrContentView.refreshComplete();
     }
 
 
@@ -114,8 +163,11 @@ public class ImageSelectionActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(ImageSelectionHolder holder, int position) {
             String fileName = mUrls.get(position);
+
             holder.mCheckBox.setTag(position);
+            holder.mCheckBox.setOnClickListener(this);
             holder.mCheckBoxLayout.setOnClickListener(this);
+
             holder.mCheckBox.setChecked(mSelectedList.contains(fileName));
             if (holder.mCheckBox.isChecked()) {
                 holder.mPositionTextView.setVisibility(View.VISIBLE);
@@ -143,7 +195,10 @@ public class ImageSelectionActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.rl_checkbox) {
-                onCheckBoxClick((CompoundButton) v.findViewById(R.id.cb_checkbox));
+                v.findViewById(R.id.cb_checkbox).performClick();
+            }
+            if (v.getId() == R.id.cb_checkbox) {
+                onCheckBoxClick((CompoundButton) v);
             }
         }
 
