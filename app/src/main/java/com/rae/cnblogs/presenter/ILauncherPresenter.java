@@ -8,6 +8,8 @@ public interface ILauncherPresenter extends IAppPresenter {
 
     void advertClick();
 
+    void cancel();
+
     void stop();
 
 

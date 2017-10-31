@@ -36,6 +36,12 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
 
     private onItemClickListener<T> mOnItemClickListener;
 
+    public BaseItemAdapter() {
+    }
+
+    public BaseItemAdapter(List<T> dataList) {
+        mDataList = dataList;
+    }
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {

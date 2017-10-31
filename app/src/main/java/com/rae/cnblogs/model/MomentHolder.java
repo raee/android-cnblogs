@@ -1,5 +1,6 @@
 package com.rae.cnblogs.model;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +33,9 @@ public class MomentHolder extends SimpleViewHolder {
 
     @BindView(R.id.tv_blog_comment)
     public TextView commentView;
+
+    @BindView(R.id.recycler_view)
+    public RecyclerView mRecyclerView;
 
 
 //    @BindView(R.id.img_blog_list_large_thumb)

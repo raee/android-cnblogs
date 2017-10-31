@@ -27,7 +27,7 @@ public class RaeTextView extends SkinCompatTextView {
 
     }
 
-    private void init() {
+    void init() {
 //        Typeface tf = Typeface.createFromAsset(getResources().getAssets(),"fonts/cnblogs.ttf");
 //        setTypeface(tf);
     }

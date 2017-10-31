@@ -243,6 +243,11 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
     // 分享
     @OnClick(R.id.img_action_bar_more)
     public void onActionMenuMoreClick() {
+        // 从搜索进来的处理
+        if (!TextUtils.isEmpty(mBlog.getSummary())) {
+            mBlog.setSummary(Jsoup.parse(mBlog.getSummary()).text());
+        }
+
         mShareDialog.show(mBlog);
     }
 
@@ -337,7 +342,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
 
         if (Rx.parseInt(mBlog.getComment()) <= 0) {
             mCommentBadgeView.setSelected(true);
-        }else{
+        } else {
             mCommentBadgeView.setSelected(false);
         }
 

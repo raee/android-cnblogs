@@ -31,10 +31,9 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
         super(context, view);
         mRaeServerApi = getApiProvider().getRaeServerApi();
         mDbAdvert = DbFactory.getInstance().getAdvert();
-        mCountDownTimer = new CountDownTimer(3500, 1000) {
+        mCountDownTimer = new CountDownTimer(5000, 1000) {
             @Override
-            public void onTick(long l) {
-
+            public void onTick(long millisUntilFinished) {
             }
 
             @Override
@@ -62,23 +61,26 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
     }
 
     @Override
-    public void stop() {
+    public void cancel() {
         RxObservable.dispose("thread");
         mCountDownTimer.cancel();
     }
 
     @Override
+    public void stop() {
+        cancel();
+        mCountDownTimer.onFinish();
+    }
+
+    @Override
     public void destroy() {
-        stop();
+        cancel();
         super.destroy();
     }
 
     @Override
     public void start() {
-
-
         mCountDownTimer.start();
-
         // 异步下载新的
         createObservable(mRaeServerApi.getLauncherAd())
                 .subscribe(new ApiDefaultObserver<AdvertBean>() {

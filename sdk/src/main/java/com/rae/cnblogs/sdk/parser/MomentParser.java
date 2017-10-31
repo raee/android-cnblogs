@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.rae.cnblogs.sdk.bean.MomentBean;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -38,6 +40,27 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
             m.setPostTime(element.select(".ing_time").text()); // 发布时间
             m.setCommentCount(ApiUtils.getCount(element.select(".ing_reply").text().replace("回应", ""))); // 评论数量
             m.setBlogApp(ApiUtils.getBlogApp(element.select(".ing-author").attr("href"))); // blogApp
+
+            // 解析图片
+            String content = m.getContent();
+            int startIndex = content.indexOf("#img");
+            int endIndex = content.indexOf("#end");
+            if (startIndex > 0 && endIndex > 0) {
+                String json = content.substring(startIndex + 4, endIndex);
+                try {
+                    JSONArray array = new JSONArray(json);
+                    int length = array.length();
+                    List<String> imageList = new ArrayList<>();
+                    m.setImageList(imageList);
+                    for (int i = 0; i < length; i++) {
+                        imageList.add("http://" + array.getString(i));
+                    }
+                    // 去除图片标记
+                    m.setContent(content.substring(0, startIndex));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
             result.add(m);
         }

@@ -33,8 +33,15 @@ public class MomentBean {
 
     private String content;
 
-    // 回复的评论
-    private List<MomentBean> comments;
+    private List<String> imageList;
+
+    public List<String> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<String> imageList) {
+        this.imageList = imageList;
+    }
 
     public String getContent() {
         return content;
@@ -108,11 +115,4 @@ public class MomentBean {
         this.commentCount = commentCount;
     }
 
-    public List<MomentBean> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<MomentBean> comments) {
-        this.comments = comments;
-    }
 }

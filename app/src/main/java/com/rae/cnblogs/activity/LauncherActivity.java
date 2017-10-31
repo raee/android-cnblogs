@@ -14,6 +14,7 @@ import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.ILauncherPresenter;
 import com.rae.cnblogs.sdk.bean.BlogType;
+import com.rae.cnblogs.widget.CountDownTextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,6 +31,9 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     @BindView(R.id.tv_launcher_name)
     TextView mNameView;
 
+    @BindView(R.id.tv_skip)
+    CountDownTextView mCountDownTextView;
+
     ILauncherPresenter mLauncherPresenter;
 
 
@@ -44,11 +48,14 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     protected void onResume() {
         super.onResume();
         mLauncherPresenter.start();
+        mCountDownTextView.start();
     }
 
     @Override
     protected void onStop() {
-        mLauncherPresenter.stop();
+        mLauncherPresenter.cancel();
+        mCountDownTextView.stop();
+        mCountDownTextView.reset();
         super.onStop();
     }
 
@@ -107,5 +114,12 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     public void onJumpToMain() {
         AppRoute.jumpToMain(this);
         finish();
+    }
+
+
+    @OnClick(R.id.tv_skip)
+    public void onSkipClick() {
+        mLauncherPresenter.stop();
+        mCountDownTextView.stop();
     }
 }

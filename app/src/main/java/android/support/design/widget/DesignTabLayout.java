@@ -750,7 +750,7 @@ public class DesignTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * The one-stop shop for setting up this {@link DesignTabLayout} with a {@link ViewPager}.
+     * The one-cancel shop for setting up this {@link DesignTabLayout} with a {@link ViewPager}.
      * <p>
      * <p>This is the same as calling {@link #setupWithViewPager(ViewPager, boolean)} with
      * auto-refresh enabled.</p>
@@ -762,7 +762,7 @@ public class DesignTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * The one-stop shop for setting up this {@link DesignTabLayout} with a {@link ViewPager}.
+     * The one-cancel shop for setting up this {@link DesignTabLayout} with a {@link ViewPager}.
      * <p>
      * <p>This method will link the given ViewPager and this RaeTabLayout together so that
      * changes in one are automatically reflected in the other. This includes scroll state changes
