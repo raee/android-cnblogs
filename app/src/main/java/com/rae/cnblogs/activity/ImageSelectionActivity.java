@@ -198,7 +198,8 @@ public class ImageSelectionActivity extends BaseActivity {
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
         ContentResolver contentResolver = this.getContentResolver();
-        Cursor cursor = contentResolver.query(uri, null, null, null, null);
+        // 按时间倒序排列，取2000条记录
+        Cursor cursor = contentResolver.query(uri, null, null, null, MediaStore.Images.Media.DATE_MODIFIED + " DESC limit 0,2000");
         // 没有图片
         if (cursor == null || cursor.getCount() <= 0) return;
         while (cursor.moveToNext()) {

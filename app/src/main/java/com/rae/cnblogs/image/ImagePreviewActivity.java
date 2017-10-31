@@ -23,7 +23,6 @@ import com.bumptech.glide.request.target.Target;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.activity.BaseActivity;
 import com.rae.swift.Rx;
@@ -85,7 +84,7 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.image_scale_in, 0);
+        overridePendingTransition(R.anim.image_scale_in, R.anim.keep_status);
         setContentView(R.layout.activity_image_preview);
 
         ArrayList<String> images = getIntent().getStringArrayListExtra("images");
@@ -151,9 +150,8 @@ public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPa
 
     @Override
     public void finish() {
-        RaeAnim.fadeOut(mCloseView);
         super.finish();
-        overridePendingTransition(0, R.anim.image_scale_out);
+        overridePendingTransition(R.anim.keep_status, R.anim.image_scale_out);
     }
 
     @OnClick(R.id.img_back)

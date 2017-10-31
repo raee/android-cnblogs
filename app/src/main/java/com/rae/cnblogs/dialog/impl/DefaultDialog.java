@@ -42,7 +42,9 @@ public class DefaultDialog extends AppDialog {
 
     @Override
     protected void initDialog() {
-        initWindowAttr(getWindow());
+        if (getWindow() != null) {
+            getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        }
         initView();
         super.initDialog();
     }
@@ -63,9 +65,9 @@ public class DefaultDialog extends AppDialog {
     protected void initWindowAttr(Window window) {
         if (window == null) return;
 
-        window.requestFeature(Window.FEATURE_NO_TITLE);
         WindowManager.LayoutParams lp = window.getAttributes();
-        window.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT | Gravity.RIGHT);
+        window.setGravity(Gravity.CENTER | Gravity.START | Gravity.END);
+
         lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
         lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
@@ -78,6 +80,7 @@ public class DefaultDialog extends AppDialog {
     @Override
     public void show() {
         super.show();
+        initWindowAttr(getWindow());
         Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.scale_in);
         mContentView.startAnimation(anim);
     }

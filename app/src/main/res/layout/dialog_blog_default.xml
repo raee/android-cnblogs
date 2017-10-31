@@ -11,20 +11,19 @@
         android:background="@drawable/bg_dialog_default"
         android:orientation="vertical">
 
-
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginBottom="24dp"
             android:layout_marginLeft="@dimen/default_margin"
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginTop="24dp"
-            android:gravity="center"
+            android:gravity="start"
             android:lineSpacingMultiplier="1.5"
-            android:text="标题"
             android:textColor="@color/ph2"
-            android:textSize="@dimen/h2"/>
+            android:textSize="@dimen/h1"/>
 
         <View
             android:layout_width="match_parent"

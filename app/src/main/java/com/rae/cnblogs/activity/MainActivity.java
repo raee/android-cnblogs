@@ -146,6 +146,24 @@ public class MainActivity extends BaseActivity {
         // 请求权限
         requestPermissions();
 
+        autoSelectedTab();
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        autoSelectedTab();
+    }
+
+    /**
+     * 自动跳转标签
+     */
+    private void autoSelectedTab() {
+        int tab = getIntent().getIntExtra("tab", -1);
+        if (tab >= 0 && mTabLayout != null) {
+            mViewPager.setCurrentItem(tab);
+        }
     }
 
 

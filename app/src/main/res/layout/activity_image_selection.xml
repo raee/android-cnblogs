@@ -22,9 +22,8 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="60dp"
                 android:gravity="center"
                 android:text="@string/label_image_selection"
                 android:textColor="@color/ph1"

@@ -15,6 +15,13 @@ def buglyAppId = properties.getProperty("buglyAppId", "replace_your_bugly_appid"
 def leancloudAppId = properties.getProperty("leancloudAppId", "replace_your_leancloud_appid")
 def leancloudAppKey = properties.getProperty("leancloudAppKey", "replace_your_leancloud_appeky")
 
+def wechatAppId = properties.getProperty("wechatAppId", "replace_your_wechatAppId")
+def wechatAppSecret = properties.getProperty("wechatAppSecret", "replace_wechatAppSecret")
+def weiboAppId = properties.getProperty("weiboAppId", "replace_your_weboAppId")
+def weiboAppSecret = properties.getProperty("weiboAppSecret", "replace_your_weiboAppSecret")
+def qqAppId = properties.getProperty("qqAppId", "replace_your_qqAppId")
+def qqAppSecret = properties.getProperty("qqAppSecret", "replace_your_qqAppSecret")
+
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -44,6 +51,16 @@ android {
         buildConfigField 'String', 'BUGLY_APP_ID', '"' + buglyAppId + '"'
         buildConfigField 'String', 'LEAN_CLOUD_APP_ID', '"' + leancloudAppId + '"'
         buildConfigField 'String', 'LEAN_CLOUD_APP_KEY', '"' + leancloudAppKey + '"'
+
+        // 微信APP ID
+        buildConfigField 'String', 'WECHAT_APP_ID', '"' + wechatAppId + '"'
+        buildConfigField 'String', 'WECHAT_APP_SECRET', '"' + wechatAppSecret + '"'
+        buildConfigField 'String', 'WEIBO_APP_ID', '"' + weiboAppId + '"'
+        buildConfigField 'String', 'WEIBO_APP_SECRET', '"' + weiboAppSecret + '"'
+        buildConfigField 'String', 'QQ_APP_ID', '"' + qqAppId + '"'
+        buildConfigField 'String', 'QQ_APP_SECRET', '"' + qqAppSecret + '"'
+
+
         manifestPlaceholders = [
                 UMENG_APPKEY: umengAppKey
         ]

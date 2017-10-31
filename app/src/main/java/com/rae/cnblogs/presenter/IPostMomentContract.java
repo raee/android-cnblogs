@@ -21,5 +21,11 @@ public interface IPostMomentContract {
         void onPostMomentSuccess();
 
         List<String> getImageUrls();
+
+        /**
+         * 后台发送
+         */
+        void onPostMomentInProgress();
+
     }
 }

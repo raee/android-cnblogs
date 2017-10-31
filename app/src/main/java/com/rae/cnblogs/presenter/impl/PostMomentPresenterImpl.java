@@ -1,17 +1,22 @@
 package com.rae.cnblogs.presenter.impl;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.rae.cnblogs.presenter.IPostMomentContract;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.api.IMomentApi;
+import com.rae.cnblogs.sdk.model.ImageMetaData;
+import com.rae.cnblogs.sdk.model.MomentMetaData;
+import com.rae.cnblogs.service.MomentIntentService;
+import com.rae.swift.Rx;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,56 +34,84 @@ public class PostMomentPresenterImpl extends BasePresenter<IPostMomentContract.V
 
     @Override
     public boolean post() {
-        String content = mView.getContent();
+        String content = mView.getContent().trim();
         if (TextUtils.isEmpty(content)) {
             return false;
         }
 
-        if (content.length() > 300) {
-            mView.onPostMomentFailed("请精简一下内容，不要超过300字");
+        String imageContent = withImageContent(mView.getImageUrls());
+        int imageLength = 0;
+        String noUrlIng;
+        if (!TextUtils.isEmpty(imageContent)) {
+            noUrlIng = content + imageContent;
+            imageLength = replaceText(imageContent).length();
+        } else {
+            noUrlIng = content;
+        }
+
+        noUrlIng = replaceText(noUrlIng);
+        if (noUrlIng.length() > 240) {
+            mView.onPostMomentFailed("请精简一下内容，文字加图片不要超过240字。\n当前图片占用字符数：" + imageLength + "个\n当前字符数: " + noUrlIng.length() + "个");
             return false;
         }
 
-//        content = withImageContent(content, mView.getImageUrls());
+        int size = Rx.getCount(mView.getImageUrls());
 
-        // 现阶段只能发布公开内容
-        createObservable(mMomentApi.publish(content, 1))
-                .subscribe(new ApiDefaultObserver<Empty>() {
-                    @Override
-                    protected void onError(String message) {
-                        mView.onPostMomentFailed(message);
-                    }
+        if (size > 0) {
+            // 发表图文，组合参数，发送到后台上传
+            Intent intent = new Intent(mContext, MomentIntentService.class);
+            MomentMetaData metaData = new MomentMetaData();
+            metaData.content = content;
+            metaData.images = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                ImageMetaData m = new ImageMetaData();
+                m.localPath = mView.getImageUrls().get(i);
+                metaData.images.add(m);
+            }
+            intent.putExtra(Intent.EXTRA_TEXT, metaData);
+            mContext.startService(intent);
 
-                    @Override
-                    protected void accept(Empty empty) {
-                        mView.onPostMomentSuccess();
-                    }
-                });
+            mView.onPostMomentInProgress();
+            return false;
+        } else {
+            createObservable(mMomentApi.publish(content, 1))
+                    .subscribe(new ApiDefaultObserver<Empty>() {
+                        @Override
+                        protected void onError(String message) {
+                            mView.onPostMomentFailed(message);
+                        }
 
+                        @Override
+                        protected void accept(Empty empty) {
+                            mView.onPostMomentSuccess();
+                        }
+                    });
+        }
         return true;
     }
 
-    private String withImageContent(String content, List<String> images) {
-        // 格式：内容 @data客户端识别的JSON
-        StringBuilder sb = new StringBuilder(content.trim());
-        sb.append(" "); // 加空格
-        sb.append("@data");
-
-        try {
-            JSONObject obj = new JSONObject();
-            obj.put("from", "android");
-            obj.put("package", "com.rae.cnblogs");
-            JSONArray array = new JSONArray();
-            for (String image : images) {
-                array.put(image);
-            }
-            obj.putOpt("images", array);
-            sb.append(obj.toString());
-            return sb.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
+    @Nullable
+    private String withImageContent(List<String> images) {
+        if (Rx.isEmpty(images)) return null;
+        // 格式：内容 #img图片地址#end
+        StringBuilder sb = new StringBuilder();
+        sb.append("#img");
+        JSONArray array = new JSONArray();
+        int size = images.size();
+        for (int i = 0; i < size; i++) {
+            // 占位，用于计算字符大小
+            array.put("t.cn/1234567");
         }
+        sb.append(array.toString());
+        sb.append("#end");
+        return sb.toString();
+    }
 
-        return content;
+    protected String replaceText(String text) {
+        if (TextUtils.isEmpty(text)) return text;
+        return text
+                .replaceAll("(http|ftp|https):\\/\\/([^\\/:,，]+)(:\\d+)?(\\/[^\\u0391-\\uFFE5\\s,]*)?", "")
+                .replaceAll("(\\s)+", "")
+                .replaceAll("[^\\x00-\\xff]", "aa");
     }
 }

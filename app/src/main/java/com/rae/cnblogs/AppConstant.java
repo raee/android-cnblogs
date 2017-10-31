@@ -8,25 +8,25 @@ public final class AppConstant {
     /**
      * 微信APP ID
      */
-    public final static String WECHAT_APP_ID = "wx53e2633a2b1fa785";
+    public final static String WECHAT_APP_ID = BuildConfig.WECHAT_APP_ID;
     /**
      * 微信APPSecret
      */
-    public final static String WECHAT_APP_SECRET = "wx53e2633a2b1fa785";
+    public final static String WECHAT_APP_SECRET = BuildConfig.WECHAT_APP_SECRET;
     /**
      * 微博APP ID
      */
-    public final static String WEIBO_APP_ID = "1018850937";
+    public final static String WEIBO_APP_ID = BuildConfig.WEIBO_APP_ID;
     /**
      * 微博APPSecret
      */
-    public final static String WEIBO_APP_SECRET = "79152f5ac3d4b183b346f241e2966310";
+    public final static String WEIBO_APP_SECRET = BuildConfig.WEIBO_APP_SECRET;
     /**
      * QQ APP ID
      */
-    public final static String QQ_APP_ID = "1105927778";
+    public final static String QQ_APP_ID = BuildConfig.QQ_APP_ID;
     /**
      * QQ APPSecret
      */
-    public final static String QQ_APP_SECRET = "6klDHIKKtF3JYCz4";
+    public final static String QQ_APP_SECRET = BuildConfig.QQ_APP_SECRET;
 }

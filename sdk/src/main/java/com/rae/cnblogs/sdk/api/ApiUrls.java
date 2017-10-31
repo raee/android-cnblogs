@@ -114,11 +114,17 @@ final class ApiUrls {
     // 服务端接口地址
     private static final String RAE_API_BASIC = "http://www.raeblog.com/cnblogs/index.php/";
 
-//    public static final String RAE_API_BASIC = "http://192.168.168.10/cnblogs/index.php/";
+    //    public static final String RAE_API_BASIC = "http://192.168.168.10/cnblogs/index.php/";
     // 启动页广告
     static final String RAE_API_AD_LAUNCHER = RAE_API_BASIC + "app/ad/launcher";
     // 检查更新
     static final String RAE_API_CHECK_VERSION = RAE_API_BASIC + "app/version/{versionCode}";
     static final String RAE_API_MESSAGE = RAE_API_BASIC + "app/messages";
     static final String RAE_API_MESSAGE_COUNT = RAE_API_BASIC + "app/messages/count";
+
+    /**
+     * 新浪短链接接口
+     * https://www.douban.com/note/249723561/
+     */
+    public static final String API_SINA_SHORTEN = "http://api.t.sina.com.cn/short_url/shorten.json";
 }

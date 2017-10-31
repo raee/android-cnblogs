@@ -2,10 +2,12 @@ package com.rae.cnblogs.sdk.api;
 
 import com.rae.cnblogs.sdk.JsonParser;
 import com.rae.cnblogs.sdk.parser.ImagePostParser;
+import com.rae.cnblogs.sdk.parser.SinaShotenParser;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -36,4 +38,16 @@ public interface IPostApi {
     })
     @JsonParser(ImagePostParser.class)
     Observable<String> uploadImage(@Query("qqfile") String fileName, @Header("X-File-Name") String headerFileName, @Body RequestBody file);
+
+
+    /**
+     * 新浪短链接接口
+     *
+     * @param weiboAppId 微博APPID
+     * @param url        长连接
+     * @return
+     */
+    @GET(ApiUrls.API_SINA_SHORTEN)
+    @JsonParser(SinaShotenParser.class)
+    Observable<String> shotUrl(@Query("source") String weiboAppId, @Query("url_long") String url);
 }
