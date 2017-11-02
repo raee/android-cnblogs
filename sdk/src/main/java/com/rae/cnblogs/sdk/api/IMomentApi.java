@@ -6,6 +6,7 @@ import com.rae.cnblogs.sdk.Parser;
 import com.rae.cnblogs.sdk.bean.MomentBean;
 import com.rae.cnblogs.sdk.bean.MomentCommentBean;
 import com.rae.cnblogs.sdk.parser.MomentCommentParser;
+import com.rae.cnblogs.sdk.parser.MomentDelParser;
 import com.rae.cnblogs.sdk.parser.MomentParser;
 
 import java.util.List;
@@ -52,6 +53,15 @@ public interface IMomentApi {
     @FormUrlEncoded
     @Headers({JsonBody.XHR})
     Observable<Empty> publish(@Field("content") String content, @Field("publicFlag") int publicFlag);
+
+    /**
+     * 删除闪存
+     */
+    @POST(ApiUrls.API_MOMENT_DEL)
+    @FormUrlEncoded
+    @Headers({JsonBody.XHR})
+    @Parser(MomentDelParser.class)
+    Observable<Empty> deleteMoment(@Field("ingId") String ingId);
 
     /**
      * 获取闪存列表

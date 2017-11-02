@@ -29,6 +29,7 @@ import com.rae.cnblogs.image.ImagePreviewActivity;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
 import com.rae.cnblogs.sdk.bean.MomentBean;
+import com.rae.cnblogs.sdk.model.MomentMetaData;
 
 import java.util.ArrayList;
 
@@ -148,6 +149,13 @@ public final class AppRoute {
      */
     public static void jumpToLogin(Context context) {
         startActivity(context, LoginActivity.class);
+    }
+
+    /**
+     * 登录
+     */
+    public static void jumpToLogin(Activity context, int req) {
+        startActivityForResult(context, LoginActivity.class, req);
     }
 
     /**
@@ -351,6 +359,15 @@ public final class AppRoute {
      */
     public static void jumpToPostMoment(Activity context) {
         Intent intent = new Intent(context, PostMomentActivity.class);
+        startActivityForResult(context, intent, REQ_POST_MOMENT);
+    }
+
+    /**
+     * 发布闪存
+     */
+    public static void jumpToPostMoment(Activity context, MomentMetaData data) {
+        Intent intent = new Intent(context, PostMomentActivity.class);
+        intent.putExtra(Intent.EXTRA_TEXT, data);
         startActivityForResult(context, intent, REQ_POST_MOMENT);
     }
 

@@ -6,6 +6,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
 
@@ -16,6 +18,7 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.activity.MainActivity;
 import com.rae.cnblogs.activity.PostMomentActivity;
+import com.rae.cnblogs.message.PostMomentEvent;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiException;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
@@ -24,19 +27,26 @@ import com.rae.cnblogs.sdk.api.IMomentApi;
 import com.rae.cnblogs.sdk.api.IPostApi;
 import com.rae.cnblogs.sdk.model.ImageMetaData;
 import com.rae.cnblogs.sdk.model.MomentMetaData;
+import com.rae.cnblogs.utils.BitmapCompressor;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
@@ -55,6 +65,7 @@ public class MomentIntentService extends IntentService {
     private NotificationManager mNotificationManager;
     private Notification mNotification;
     private MomentMetaData mMomentMetaData;
+    private final int mNotificationId = 10891;
 
     public MomentIntentService() {
         super("MomentIntentService");
@@ -87,6 +98,52 @@ public class MomentIntentService extends IntentService {
 
         // 开始上传图片
         Observable.fromIterable(mMomentMetaData.images)
+                // 压缩图片
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Function<ImageMetaData, ObservableSource<ImageMetaData>>() {
+                    @Override
+                    public ObservableSource<ImageMetaData> apply(ImageMetaData imageMetaData) throws Exception {
+                        imageMetaData.localPath = composeImage(BitmapFactory.decodeFile(imageMetaData.localPath), imageMetaData.localPath);
+                        return Observable.just(imageMetaData);
+                    }
+
+                    /**
+                     * 压缩图片小于2M
+                     */
+                    private String composeImage(Bitmap bmp, String output) {
+                        OutputStream stream = null;
+                        try {
+
+                            Log.d(TAG, "图片压缩前大小：" + output + "--> " + bmp.getByteCount());
+                            Bitmap result = BitmapCompressor.compressBitmap(bmp, 2048);
+                            File file = new File(output);
+                            if (file.exists()) {
+                                file.delete();
+                            }
+                            stream = new FileOutputStream(file);
+                            result.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+                            stream.close();
+                            stream.flush();
+
+                            Log.d(TAG, "图片压缩后大小：" + output + "--> " + result.getByteCount());
+                        } catch (Exception e) {
+                            Log.e(TAG, "压缩图片异常！", e);
+                        } finally {
+                            if (stream != null) {
+                                try {
+                                    stream.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        return output;
+                    }
+
+                })
+
                 // 上传图片
                 .flatMap(new Function<ImageMetaData, ObservableSource<String>>() {
                     @Override
@@ -172,6 +229,8 @@ public class MomentIntentService extends IntentService {
 
                                         sendNotification(notification);
 
+                                        // 发送应用内事件
+                                        EventBus.getDefault().post(new PostMomentEvent(mNotificationId, true, null));
                                         mCountDownLatch.countDown();
                                         stopSelf();
                                     }
@@ -192,6 +251,12 @@ public class MomentIntentService extends IntentService {
                     }
 
                     public void notifyUploadFailed(String msg) {
+
+                        // 发送应用内事件
+                        PostMomentEvent event = new PostMomentEvent(mNotificationId, false, msg);
+                        event.setMomentMetaData(mMomentMetaData);
+                        EventBus.getDefault().post(event);
+
                         Intent intent = new Intent(getApplicationContext(), PostMomentActivity.class);
                         intent.putExtra(Intent.EXTRA_TEXT, mMomentMetaData);
                         intent.putExtra(Intent.EXTRA_HTML_TEXT, msg);
@@ -232,6 +297,6 @@ public class MomentIntentService extends IntentService {
 
     private void sendNotification(Notification notification) {
         if (mNotificationManager != null && notification != null)
-            mNotificationManager.notify(10891, notification);
+            mNotificationManager.notify(mNotificationId, notification);
     }
 }

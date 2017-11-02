@@ -25,6 +25,12 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
     /* 内容为空的时候显示 */
     static final int VIEW_TYPE_EMPTY = 3;
 
+    public void remove(int position) {
+        if (mDataList != null) {
+            mDataList.remove(position);
+        }
+    }
+
 
     public interface onItemClickListener<T> {
         void onItemClick(T item);
@@ -71,7 +77,7 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
     }
 
 
-    T getDataItem(int position) {
+    public T getDataItem(int position) {
         return Rx.isEmpty(mDataList) ? null : mDataList.get(position % getItemCount());
     }
 

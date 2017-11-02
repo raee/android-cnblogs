@@ -28,8 +28,7 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
     public List<MomentBean> parse(Document doc, String html) throws IOException {
         List<MomentBean> result = new ArrayList<>();
 
-        Elements elements = doc.select(".entry_a");
-        elements.addAll(doc.select(".entry_b"));
+        Elements elements = doc.select("#feed_list li");
 
         for (Element element : elements) {
             MomentBean m = new MomentBean();

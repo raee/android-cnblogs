@@ -71,7 +71,9 @@ public final class AppUI {
         LoadingDialog loadingDialog = (LoadingDialog) dialog;
 
         if (!((ContextWrapper) loadingDialog.getContext()).getBaseContext().equals(context)) {
-            loadingDialog.dismiss();
+            if (loadingDialog.getWindow() != null && loadingDialog.getWindow().getDecorView() != null) {
+                loadingDialog.dismiss();
+            }
             dialogWeakReference.clear();
             dialogWeakReference = null;
             dialog = DialogProvider.create(context, DialogProvider.TYPE_LOADING);

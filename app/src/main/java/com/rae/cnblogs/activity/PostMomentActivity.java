@@ -95,6 +95,7 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
 
         if (mMomentMetaData != null) {
             mContentView.setText(mMomentMetaData.content);
+            mContentView.setSelection(mContentView.length());
             ArrayList<String> urls = new ArrayList<>();
             for (ImageMetaData image : mMomentMetaData.images) {
                 urls.add(image.localPath);
@@ -146,6 +147,7 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
 
     @Override
     public void onPostMomentSuccess() {
+        AppUI.success(this, R.string.tips_post_moment_success);
         setResult(RESULT_OK);
         finish();
     }
@@ -158,16 +160,21 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
     @Override
     public void onPostMomentInProgress() {
         AppUI.dismiss();
-        DefaultDialog dialog = new DefaultDialog(this);
-        dialog.setMessage("为了节省您的时间，已为进入后台发送，结果请稍后留意通知栏消息。");
-        dialog.setCancelButtonVisibility(View.GONE);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                finish();
-            }
-        });
-        dialog.show();
+        if (config().getPostMomentInProgressTips()) {
+            DefaultDialog dialog = new DefaultDialog(this);
+            dialog.setMessage(getString(R.string.tips_post_moment_progress));
+            dialog.setCancelButtonVisibility(View.GONE);
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    finish();
+                }
+            });
+            dialog.show();
+        } else {
+            AppUI.success(getContext(), R.string.tips_post_moment_progress_simple);
+            finish();
+        }
     }
 
     @OnClick(R.id.tv_post)

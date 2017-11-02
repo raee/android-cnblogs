@@ -1,6 +1,8 @@
 package com.rae.cnblogs.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.DesignTabLayout;
@@ -13,9 +15,9 @@ import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.message.TabEvent;
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IMomentApi;
 import com.rae.cnblogs.widget.RaeViewPager;
-import com.rae.swift.session.SessionManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -69,7 +71,12 @@ public class SNSFragment extends BaseFragment {
         mViewPager.addOnPageChangeListener(new DesignTabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new DesignTabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         mTabLayout.addOnTabSelectedListener(new DefaultOnTabSelectedListener());
-        DesignTabLayout.Tab tab = mTabLayout.getTabAt(SessionManager.getDefault().isLogin() ? 0 : 1);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        DesignTabLayout.Tab tab = mTabLayout.getTabAt(UserProvider.getInstance().isLogin() ? 0 : 1);
         if (tab != null) {
             tab.select();
         }
@@ -79,7 +86,19 @@ public class SNSFragment extends BaseFragment {
     public void onPostClick() {
         // 统计闪存发布按钮点击
         AppMobclickAgent.onClickEvent(getContext(), "PostMoment_Enter");
-        AppRoute.jumpToPostMoment(getActivity());
+        if (!UserProvider.getInstance().isLogin()) {
+            AppRoute.jumpToLogin(getActivity(), 10256);
+        } else {
+            AppRoute.jumpToPostMoment(getActivity());
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == 10256) {
+            AppRoute.jumpToPostMoment(getActivity());
+        }
     }
 
     public static class SNSFragmentAdapter extends FragmentStatePagerAdapter {
@@ -113,7 +132,9 @@ public class SNSFragment extends BaseFragment {
     private void performTabEvent() {
         int position = mViewPager.getCurrentItem();
         MomentFragment fragment = (MomentFragment) mAdapter.getItem(position);
-        fragment.scrollToTop();
+        if (fragment.isAdded() && !fragment.isDetached() && !fragment.isHidden()) {
+            fragment.scrollToTop();
+        }
     }
 
     class DefaultOnTabSelectedListener implements DesignTabLayout.OnTabSelectedListener {

@@ -54,7 +54,7 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
     }
 
     @Override
-    MomentCommentBean getDataItem(int position) {
+    public MomentCommentBean getDataItem(int position) {
         return super.getDataItem(Math.max(0, position - mViewTypeCount));
     }
 

@@ -11,6 +11,8 @@ public interface IMomentContract {
 
     interface Presenter extends IAppPresenter {
         void loadMore();
+
+        void delete(String ingId);
     }
 
     interface View extends IPageView<MomentBean> {
@@ -19,5 +21,16 @@ public interface IMomentContract {
          * 参考 {@link com.rae.cnblogs.sdk.api.IMomentApi#MOMENT_TYPE_ALL}
          */
         String getType();
+
+        /**
+         * 删除失败
+         */
+        void onDeleteMomentFailed(String msg);
+
+        /**
+         * 删除成功
+         */
+        void onDeleteMomentSuccess();
+
     }
 }

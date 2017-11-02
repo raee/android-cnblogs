@@ -1,7 +1,9 @@
 package com.rae.cnblogs.activity;
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rae.cnblogs.AppMobclickAgent;
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.BuildConfig;
@@ -33,6 +36,7 @@ import com.rae.cnblogs.fragment.DiscoverFragment;
 import com.rae.cnblogs.fragment.HomeFragment;
 import com.rae.cnblogs.fragment.MineFragment;
 import com.rae.cnblogs.fragment.SNSFragment;
+import com.rae.cnblogs.message.PostMomentEvent;
 import com.rae.cnblogs.message.TabEvent;
 import com.rae.cnblogs.message.ThemeChangedEvent;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
@@ -41,10 +45,12 @@ import com.rae.cnblogs.sdk.bean.VersionInfo;
 import com.rae.cnblogs.service.CnblogsService;
 import com.rae.cnblogs.service.CnblogsServiceBinder;
 import com.rae.cnblogs.service.job.JobEvent;
+import com.rae.swift.Rx;
 import com.rae.swift.app.RaeFragmentAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
@@ -260,6 +266,57 @@ public class MainActivity extends BaseActivity {
     public void onEvent(JobEvent event) {
         if (mCnblogsServiceBinder == null) return;
         mCnblogsServiceBinder.getJobScheduler().start(event.getAction());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(final PostMomentEvent event) {
+
+        // 清除通知
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (nm != null) {
+            nm.cancel(event.getNotificationId());
+        }
+
+        HintCardDialog dialog = new HintCardDialog(this);
+        dialog.setEnSureText("立即查看");
+        dialog.showCloseButton();
+
+        // 闪存事件
+        if (event.getIsSuccess()) {
+            // 刷新
+            dialog.setTitle("发布闪存闪存");
+            dialog.setMessage("是否立即查看？");
+            dialog.setOnEnSureListener(new IAppDialogClickListener() {
+                @Override
+                public void onClick(IAppDialog dialog, int buttonType) {
+                    dialog.dismiss();
+                    // 切换到动态TAB
+                    mViewPager.setCurrentItem(1);
+                    if (!Rx.isEmpty(getSupportFragmentManager().getFragments())) {
+                        try {
+                            SNSFragment fragment = (SNSFragment) getSupportFragmentManager().getFragments().get(mViewPager.getCurrentItem());
+                            fragment.onTabEvent(new TabEvent(1));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+
+        } else {
+            dialog.setTitle("发布闪存失败");
+            dialog.setMessage(event.getMessage());
+            dialog.setOnEnSureListener(new IAppDialogClickListener() {
+                @Override
+                public void onClick(IAppDialog dialog, int buttonType) {
+                    dialog.dismiss();
+                    // 跳转到闪存发布
+                    AppRoute.jumpToPostMoment(getContext(), event.getMomentMetaData());
+                }
+            });
+        }
+
+        dialog.show();
     }
 
 }

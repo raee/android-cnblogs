@@ -37,6 +37,9 @@ public class MomentHolder extends SimpleViewHolder {
     @BindView(R.id.recycler_view)
     public RecyclerView mRecyclerView;
 
+    public View deleteView;
+    public ImageView thumbView;
+
 
 //    @BindView(R.id.img_blog_list_large_thumb)
 //    public ImageView largeThumbView;
@@ -55,6 +58,8 @@ public class MomentHolder extends SimpleViewHolder {
 
     public MomentHolder(View itemView) {
         super(itemView);
+        deleteView = itemView.findViewById(R.id.img_close);
+        thumbView = itemView.findViewById(R.id.img_thumb);
         ButterKnife.bind(this, itemView);
     }
 }

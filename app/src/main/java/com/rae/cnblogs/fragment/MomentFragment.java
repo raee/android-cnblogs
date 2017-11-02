@@ -7,6 +7,7 @@ import android.view.View;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeViewCompat;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
@@ -50,6 +51,9 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
 
     private String mType;
 
+    // 当前正在删除的索引
+    private int mCurrentDeletePosition;
+
     @BindView(R.id.recycler_view)
     RaeRecyclerView mRecyclerView;
     @BindView(R.id.placeholder)
@@ -92,6 +96,15 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
             @Override
             public void onBloggerClick(String blogApp) {
                 AppRoute.jumpToBlogger(getContext(), blogApp);
+            }
+        });
+        mAdapter.setOnDeleteClickListener(new MomentAdapter.OnDeleteClickListener() {
+            @Override
+            public void onDeleteClick(String ingId, int position) {
+                // 删除
+                mCurrentDeletePosition = position;
+                AppUI.loading(getContext(), "正在删除");
+                mPresenter.delete(ingId);
             }
         });
         mAdapter.setOnItemClickListener(new BaseItemAdapter.onItemClickListener<MomentBean>() {
@@ -180,6 +193,21 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
     @Override
     public String getType() {
         return mType;
+    }
+
+    @Override
+    public void onDeleteMomentFailed(String msg) {
+        AppUI.dismiss();
+        AppUI.failed(getContext(), msg);
+    }
+
+    @Override
+    public void onDeleteMomentSuccess() {
+        AppUI.dismiss();
+        MomentBean item = mAdapter.getDataItem(mCurrentDeletePosition);
+        mAdapter.remove(item);
+        mAdapter.notifyDataSetChanged();
+        AppUI.success(getContext(), R.string.tips_del_moment_success);
     }
 
     /**

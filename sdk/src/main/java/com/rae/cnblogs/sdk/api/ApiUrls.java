@@ -113,7 +113,12 @@ final class ApiUrls {
     // 闪存-发布
     static final String API_MOMENT_PUBLISH = "https://ing.cnblogs.com/ajax/Ing/MobileIngSubmit";
 
-    public static final String API_POST_IMAGE = "https://upload.cnblogs.com/imageuploader/processupload?host=www.cnblogs.com";
+    // 闪存-删除
+    static final String API_MOMENT_DEL = "https://ing.cnblogs.com/ajax/ing/del";
+
+    // 上传图片
+    static final String API_POST_IMAGE = "https://upload.cnblogs.com/imageuploader/processupload?host=www.cnblogs.com";
+
     // 服务端接口地址
     private static final String RAE_API_BASIC = "http://www.raeblog.com/cnblogs/index.php/";
 

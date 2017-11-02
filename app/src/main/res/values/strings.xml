@@ -130,4 +130,8 @@
     <string name="button_text_image_post_default">确定</string>
     <string name="label_post_moment">发布动态</string>
     <string name="label_moment_detail">闪存详情</string>
+    <string name="tips_post_moment_success">闪存发布成功！</string>
+    <string name="tips_post_moment_progress">为了节省您的时间，已进入后台发送，结果请稍后留意通知栏消息。</string>
+    <string name="tips_post_moment_progress_simple">已进入后台发布，请稍候留意通知。</string>
+    <string name="tips_del_moment_success">删除成功</string>
 </resources>

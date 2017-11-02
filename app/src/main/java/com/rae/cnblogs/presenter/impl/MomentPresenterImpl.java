@@ -1,12 +1,21 @@
 package com.rae.cnblogs.presenter.impl;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.rae.cnblogs.PageObservable;
+import com.rae.cnblogs.R;
+import com.rae.cnblogs.message.UserInfoEvent;
 import com.rae.cnblogs.presenter.IMomentContract;
+import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
+import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.api.IMomentApi;
 import com.rae.cnblogs.sdk.bean.MomentBean;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -25,6 +34,7 @@ public class MomentPresenterImpl extends BasePresenter<IMomentContract.View> imp
 
     public MomentPresenterImpl(Context context, IMomentContract.View view) {
         super(context, view);
+        EventBus.getDefault().register(this);
         mMomentApi = CnblogsApiFactory.getInstance(context).getMomentApi();
         mPageObservable = new PageObservable<MomentBean>(view) {
             @Override
@@ -43,11 +53,43 @@ public class MomentPresenterImpl extends BasePresenter<IMomentContract.View> imp
     @Override
     public void destroy() {
         super.destroy();
+        EventBus.getDefault().unregister(this);
         mPageObservable.destroy();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UserInfoEvent event) {
+        // 重新加载数据
+        start();
     }
 
     @Override
     public void loadMore() {
         mPageObservable.loadMore();
+    }
+
+    @Override
+    public void delete(String ingId) {
+        if (isNotLogin()) {
+            mView.onDeleteMomentFailed(getString(R.string.login_expired));
+            return;
+        }
+        if (TextUtils.isEmpty(ingId)) {
+            mView.onDeleteMomentFailed("闪存ID为空");
+            return;
+        }
+
+        createObservable(mMomentApi.deleteMoment(ingId))
+                .subscribe(new ApiDefaultObserver<Empty>() {
+                    @Override
+                    protected void onError(String message) {
+                        mView.onDeleteMomentFailed(message);
+                    }
+
+                    @Override
+                    protected void accept(Empty empty) {
+                        mView.onDeleteMomentSuccess();
+                    }
+                });
     }
 }

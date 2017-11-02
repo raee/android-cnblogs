@@ -5,8 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rae.cnblogs.AppRoute;
+import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.MomentImageHolder;
 
 import java.util.ArrayList;
@@ -24,17 +24,20 @@ public class MomentImageAdapter extends BaseItemAdapter<String, MomentImageHolde
 
     @Override
     public MomentImageHolder onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
-        if (getItemCount() == 1) {
-            return new MomentImageHolder(inflateView(parent, R.layout.item_moment_image_single));
-        }
+//        if (getItemCount() == 1) {
+//            return new MomentImageHolder(inflateView(parent, R.layout.item_moment_image_single));
+//        }
         return new MomentImageHolder(inflateView(parent, R.layout.item_moment_image));
     }
 
     @Override
-    public void onBindViewHolder(MomentImageHolder holder, int position, String m) {
+    public void onBindViewHolder(final MomentImageHolder holder, int position, String m) {
         holder.itemView.setOnClickListener(this);
         holder.itemView.setContentDescription(m);
-        RaeImageLoader.displayImage(m, holder.getImageView());
+        GlideApp.with(holder.getImageView().getContext())
+                .load(m)
+                .placeholder(R.color.background_divider)
+                .into(holder.getImageView());
     }
 
     @Override

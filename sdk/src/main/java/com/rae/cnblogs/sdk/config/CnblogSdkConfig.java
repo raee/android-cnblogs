@@ -157,4 +157,18 @@ public class CnblogSdkConfig {
     public void setPageTextSize(int size) {
         mConfig.edit().putInt("PageTextSize", size).apply();
     }
+
+    /**
+     * 发布动态提示信息
+     */
+    public boolean getPostMomentInProgressTips() {
+        return mConfig.getBoolean("PostMomentInProgressTips", false);
+    }
+
+    /**
+     * 发布动态提示信息
+     */
+    public void setPostMomentInProgressTips(boolean value) {
+        mConfig.edit().putBoolean("PostMomentInProgressTips", value).apply();
+    }
 }

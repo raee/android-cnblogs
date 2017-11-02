@@ -45,7 +45,9 @@ public abstract class CnblogsApiProvider {
                 .https()
                 .cookie()
                 .build()
-                .connectTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(45, TimeUnit.SECONDS)
+                .readTimeout(90, TimeUnit.SECONDS)
+                .writeTimeout(90, TimeUnit.SECONDS)
                 .addInterceptor(RequestInterceptor.create(context))
                 .build();
 
