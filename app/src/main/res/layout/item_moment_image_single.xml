@@ -6,8 +6,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
+    android:maxHeight="320dp"
     android:minHeight="100dp"
     android:minWidth="100dp"
     android:scaleType="centerCrop"
     android:src="@color/dividerColor"
-    app:riv_corner_radius="4dp"/>
+    app:riv_corner_radius="2dp"/>

@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.message.TabEvent;
@@ -68,11 +69,16 @@ public class SNSFragment extends BaseFragment {
         mViewPager.addOnPageChangeListener(new DesignTabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new DesignTabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         mTabLayout.addOnTabSelectedListener(new DefaultOnTabSelectedListener());
-        mTabLayout.getTabAt(SessionManager.getDefault().isLogin() ? 0 : 1).select();
+        DesignTabLayout.Tab tab = mTabLayout.getTabAt(SessionManager.getDefault().isLogin() ? 0 : 1);
+        if (tab != null) {
+            tab.select();
+        }
     }
 
     @OnClick(R.id.tv_post)
     public void onPostClick() {
+        // 统计闪存发布按钮点击
+        AppMobclickAgent.onClickEvent(getContext(), "PostMoment_Enter");
         AppRoute.jumpToPostMoment(getActivity());
     }
 

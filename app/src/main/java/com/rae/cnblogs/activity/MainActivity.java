@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.AppUI;
+import com.rae.cnblogs.BuildConfig;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.RxObservable;
@@ -126,7 +127,7 @@ public class MainActivity extends BaseActivity {
         RxObservable.create(CnblogsApiFactory
                 .getInstance(getContext())
                 .getRaeServerApi()
-                .versionInfo(getVersionCode(), getChannel()), "MainActivity")
+                .versionInfo(getVersionCode(), getChannel(), BuildConfig.BUILD_TYPE), "MainActivity")
                 .subscribe(new ApiDefaultObserver<VersionInfo>() {
                     @Override
                     protected void onError(String message) {

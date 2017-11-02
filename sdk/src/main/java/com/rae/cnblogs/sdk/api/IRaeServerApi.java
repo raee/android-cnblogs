@@ -17,20 +17,32 @@ import retrofit2.http.Query;
  */
 public interface IRaeServerApi {
 
+    /**
+     * 获取启动页内容
+     */
     @GET(ApiUrls.RAE_API_AD_LAUNCHER)
     Observable<AdvertBean> getLauncherAd();
 
 
+    /**
+     * 获取系统消息
+     */
     @GET(ApiUrls.RAE_API_MESSAGE)
     Observable<List<SystemMessageBean>> getMessages();
 
+    /**
+     * 获取系统消息个数
+     */
     @GET(ApiUrls.RAE_API_MESSAGE_COUNT)
     Observable<Integer> getMessageCount();
 
     /**
+     * 检查更新
+     *
      * @param versionCode 版本代码
      * @param channel     渠道
+     * @param env         环境，这里使用buildType
      */
     @GET(ApiUrls.RAE_API_CHECK_VERSION)
-    Observable<VersionInfo> versionInfo(@Path("versionCode") int versionCode, @Query("channel") String channel);
+    Observable<VersionInfo> versionInfo(@Path("versionCode") int versionCode, @Query("channel") String channel, @Query("env") String env);
 }

@@ -121,7 +121,7 @@
     <string name="font_setting_poetry">月落乌啼霜满天\n江枫渔火对愁眠\n姑苏城外寒山寺\n夜半钟声到客船</string>
     <string name="label_comment">评论</string>
     <string name="beta_version">内测版本</string>
-    <string name="url_beta_version">https://fir.im/android-cnblogs</string>
+    <string name="url_beta_version">https://fir.im/cnblogsbeta</string>
     <string name="tab_recommend">推荐</string>
     <string name="tab_follow">关注</string>
     <string name="post">发布</string>
@@ -129,4 +129,5 @@
     <string name="button_text_image_post">确定(%1$d/%2$d)</string>
     <string name="button_text_image_post_default">确定</string>
     <string name="label_post_moment">发布动态</string>
+    <string name="label_moment_detail">闪存详情</string>
 </resources>

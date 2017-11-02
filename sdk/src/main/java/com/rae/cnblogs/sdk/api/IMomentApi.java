@@ -4,6 +4,8 @@ import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.JsonBody;
 import com.rae.cnblogs.sdk.Parser;
 import com.rae.cnblogs.sdk.bean.MomentBean;
+import com.rae.cnblogs.sdk.bean.MomentCommentBean;
+import com.rae.cnblogs.sdk.parser.MomentCommentParser;
 import com.rae.cnblogs.sdk.parser.MomentParser;
 
 import java.util.List;
@@ -62,6 +64,19 @@ public interface IMomentApi {
     @Headers({JsonBody.XHR})
     @Parser(MomentParser.class)
     Observable<List<MomentBean>> getMoments(@Query("IngListType") String type, @Query("PageIndex") int page, @Query("_") long timestamp);
+
+    /**
+     * 获取闪存评论
+     *
+     * @param ingId     闪存ID
+     * @param userAlias 用户ID
+     * @param timestamp 传当前的时间戳
+     * @return
+     */
+    @GET(ApiUrls.API_MOMENT_SINGLE_COMMENTS)
+    @Headers({JsonBody.XHR})
+    @Parser(MomentCommentParser.class)
+    Observable<List<MomentCommentBean>> getMomentSingleComments(@Query("ingId") String ingId, @Query("userAlias") String userAlias, @Query("_") long timestamp);
 
 
 }

@@ -169,4 +169,14 @@ public final class ApiUtils {
         sb.append(content);
         return sb.toString();
     }
+
+    public static String getUserAlias(String text) {
+        if (TextUtils.isEmpty(text)) return text;
+        // showCommentBox(1243228,607820);return false;
+        Matcher matcher = Pattern.compile("\\d+").matcher(text);
+        while (matcher.find()) {
+            text = matcher.group();
+        }
+        return text;
+    }
 }

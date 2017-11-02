@@ -222,12 +222,14 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
     public void setEmptyIcon(Drawable icon) {
         if (icon != null) {
             mEmptyImageView.setImageDrawable(icon);
+            mDefaultEmptyIcon = mEmptyImageView.getDrawable();
         }
     }
 
     public void setEmptyIcon(int resId) {
         if (resId > 0) {
             mEmptyImageView.setImageResource(resId);
+            mDefaultEmptyIcon = mEmptyImageView.getDrawable();
         }
     }
 

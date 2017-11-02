@@ -107,6 +107,9 @@ final class ApiUrls {
     // 闪存-全站
     static final String API_MOMENT_LIST = "https://ing.cnblogs.com/ajax/ing/GetIngList?PageSize=30";
 
+    // 闪存- 评论
+    static final String API_MOMENT_SINGLE_COMMENTS = "https://ing.cnblogs.com/ajax/ing/SingleIngComments?PageSize=30";
+
     // 闪存-发布
     static final String API_MOMENT_PUBLISH = "https://ing.cnblogs.com/ajax/Ing/MobileIngSubmit";
 

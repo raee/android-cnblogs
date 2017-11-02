@@ -7,6 +7,7 @@ import com.rae.cnblogs.presenter.impl.FeedPresenterImpl;
 import com.rae.cnblogs.presenter.impl.HomePresenterImpl;
 import com.rae.cnblogs.presenter.impl.LauncherPresenterImpl;
 import com.rae.cnblogs.presenter.impl.LoginPresenterImpl;
+import com.rae.cnblogs.presenter.impl.MomentDetailPresenterImpl;
 import com.rae.cnblogs.presenter.impl.MomentPresenterImpl;
 import com.rae.cnblogs.presenter.impl.PostMomentPresenterImpl;
 import com.rae.cnblogs.presenter.impl.SearchPresenterImpl;
@@ -183,10 +184,17 @@ public final class CnblogsPresenterFactory {
     }
 
     /**
-     * 闪存列表
+     * 发布闪存
      */
     public static IPostMomentContract.Presenter getPostMomentPresenter(Context context, IPostMomentContract.View view) {
         return new PostMomentPresenterImpl(context, view);
+    }
+
+    /**
+     * 闪存详情
+     */
+    public static IMomentDetailContract.Presenter getMomentDetailPresenter(Context context, IMomentDetailContract.View view) {
+        return new MomentDetailPresenterImpl(context, view);
     }
 
 }

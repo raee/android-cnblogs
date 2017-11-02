@@ -21,6 +21,9 @@ import java.util.List;
  */
 public class MomentParser implements IHtmlParser<List<MomentBean>> {
 
+    private final MomentCommentHelper mMomentCommentHelper = new MomentCommentHelper();
+
+
     @Override
     public List<MomentBean> parse(Document doc, String html) throws IOException {
         List<MomentBean> result = new ArrayList<>();
@@ -39,7 +42,12 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
             m.setContent(element.select(".ing_body").text()); // 内容
             m.setPostTime(element.select(".ing_time").text()); // 发布时间
             m.setCommentCount(ApiUtils.getCount(element.select(".ing_reply").text().replace("回应", ""))); // 评论数量
+            m.setUserAlias(ApiUtils.getUserAlias(element.select(".ing_reply").attr("onclick"))); // 用户域
             m.setBlogApp(ApiUtils.getBlogApp(element.select(".ing-author").attr("href"))); // blogApp
+
+            // 解析评论
+            m.setCommentList(mMomentCommentHelper.parse(element));
+
 
             // 解析图片
             String content = m.getContent();

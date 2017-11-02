@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
 
 import com.activeandroid.util.Log;
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.BuildConfig;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RxObservable;
@@ -142,12 +143,17 @@ public class MomentIntentService extends IntentService {
                                     @Override
                                     public void onError(Throwable e) {
                                         super.onError(e);
+                                        // 统计错误
+                                        AppMobclickAgent.onClickEvent(getApplicationContext(), "PostMoment_Error");
                                         // 上报错误信息
                                         CrashReport.postCatchedException(new CnblogsApiException("闪存发布失败！[publish]", e));
                                     }
 
                                     @Override
                                     protected void accept(Empty empty) {
+                                        // 统计成功
+                                        AppMobclickAgent.onClickEvent(getApplicationContext(), "PostMoment_Success");
+
                                         // 成功，跳转到首页
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
@@ -175,6 +181,9 @@ public class MomentIntentService extends IntentService {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, e);
+
+                        // 统计错误
+                        AppMobclickAgent.onClickEvent(getApplicationContext(), "PostMoment_Error");
 
                         // 上报错误信息
                         CrashReport.postCatchedException(new CnblogsApiException("闪存发布失败！", e));

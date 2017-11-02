@@ -1,8 +1,11 @@
 package rae.com.cnblogs.sdk;
 
+import android.util.Log;
+
 import com.github.raee.runit.AndroidRUnit4ClassRunner;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.api.IMomentApi;
+import com.rae.cnblogs.sdk.utils.ApiUtils;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +33,13 @@ public class MomentApiTest extends BaseTest {
     @Test
     public void testMoments() throws InterruptedException {
         runTest("testMoments", mApi.getMoments(IMomentApi.MOMENT_TYPE_FOLLOWING, 1, System.currentTimeMillis()));
+    }
+
+
+    @Test
+    public void testReg() {
+        String text = "showCommentBox(1243228,607820);return false;";
+        Log.e("rae", "测试结果：" + ApiUtils.getUserAlias(text));
     }
 
 }

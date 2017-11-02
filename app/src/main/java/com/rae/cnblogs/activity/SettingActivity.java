@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
+import com.rae.cnblogs.BuildConfig;
 import com.rae.cnblogs.CnblogsApplication;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RxObservable;
@@ -71,7 +72,6 @@ public class SettingActivity extends SwipeBackBaseActivity {
         }
 
         // 获取版本号
-
         mCheckUpdateMsgView.setText(getAppVersion());
 
     }
@@ -192,7 +192,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
         mCheckUpdateMsgView.setVisibility(View.GONE);
         RxObservable.create(CnblogsApiFactory.getInstance(this)
                 .getRaeServerApi()
-                .versionInfo(getVersionCode(), getChannel()), "checkUpdate")
+                .versionInfo(getVersionCode(), getChannel(), BuildConfig.BUILD_TYPE), "checkUpdate")
                 .subscribe(new ApiDefaultObserver<VersionInfo>() {
                     @Override
                     protected void onError(String message) {

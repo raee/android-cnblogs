@@ -12,5 +12,5 @@
         android:layout_height="100dp"
         android:scaleType="centerCrop"
         android:src="@color/dividerColor"
-        app:riv_corner_radius="4dp"/>
+        app:riv_corner_radius="2dp"/>
 </FrameLayout>

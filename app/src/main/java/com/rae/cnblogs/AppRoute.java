@@ -18,6 +18,7 @@ import com.rae.cnblogs.activity.FriendsActivity;
 import com.rae.cnblogs.activity.ImageSelectionActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
+import com.rae.cnblogs.activity.MomentDetailActivity;
 import com.rae.cnblogs.activity.PostMomentActivity;
 import com.rae.cnblogs.activity.SearchActivity;
 import com.rae.cnblogs.activity.SettingActivity;
@@ -27,6 +28,7 @@ import com.rae.cnblogs.activity.WebLoginActivity;
 import com.rae.cnblogs.image.ImagePreviewActivity;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.BlogType;
+import com.rae.cnblogs.sdk.bean.MomentBean;
 
 import java.util.ArrayList;
 
@@ -350,6 +352,15 @@ public final class AppRoute {
     public static void jumpToPostMoment(Activity context) {
         Intent intent = new Intent(context, PostMomentActivity.class);
         startActivityForResult(context, intent, REQ_POST_MOMENT);
+    }
+
+    /**
+     * 闪存详情
+     */
+    public static void jumpToMomentDetail(Context context, MomentBean data) {
+        Intent intent = new Intent(context, MomentDetailActivity.class);
+        intent.putExtra("data", data);
+        startActivity(context, intent);
     }
 
     /**

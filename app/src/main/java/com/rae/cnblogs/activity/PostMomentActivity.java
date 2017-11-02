@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
@@ -171,9 +172,13 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
 
     @OnClick(R.id.tv_post)
     public void onPostViewClick() {
+        // 统计发布
         if (mPresenter.post()) {
             AppUI.loading(this, "正在发布");
+            AppMobclickAgent.onClickEvent(this, "PostMoment_Publish");
             mPostView.setEnabled(false);
+        } else {
+            AppMobclickAgent.onClickEvent(this, "PostMoment_Return");
         }
     }
 

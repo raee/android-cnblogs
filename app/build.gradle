@@ -66,11 +66,6 @@ android {
         ]
     }
     buildTypes {
-        release {
-            minifyEnabled false
-            signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
         debug {
             minifyEnabled false
             debuggable true
@@ -80,12 +75,21 @@ android {
             ]
             signingConfig signingConfigs.release
         }
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        beta {
+            initWith release
+            versionNameSuffix rootProject.hasProperty("buildNum") ? '.beta-' + rootProject.property("buildNum") : ''
+        }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 
     // 渠道包定义，默认定义的名称就是渠道名称
     productFlavors {
-        DEV {}          // 测试
+        Dev {}          // 测试
         baidu {}        // 百度手机助手
         yinyongbao {}   // 应用宝
         m360 {}         // 360手机助手
@@ -113,6 +117,7 @@ dependencies {
     compile "com.android.support:cardview-v7:${rootProject.ext.supportVersion}"
     compile 'com.android.support:multidex:1.0.1'
     debugCompile project(path: ':sdk', configuration: 'debug')
+    betaCompile project(path: ':sdk', configuration: 'release')
     releaseCompile project(path: ':sdk', configuration: 'release')
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile 'com.jakewharton:butterknife:8.8.1'
