@@ -17,6 +17,7 @@
             android:id="@+id/placeholder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:app_background="@color/white"
             app:loading_message="">
 
             <!--内容区域-->

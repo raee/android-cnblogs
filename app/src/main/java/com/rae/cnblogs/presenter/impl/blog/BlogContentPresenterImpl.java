@@ -18,6 +18,7 @@ import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -77,6 +78,8 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
                         return createObservable(Observable.just(blogInfo.getContent()));
                     }
                 })
+                // fix bugly #483
+                .observeOn(AndroidSchedulers.mainThread())
                 // 3、缓存/网络加载成功后回调到UI
                 .subscribe(new ApiDefaultObserver<String>() {
                     @Override

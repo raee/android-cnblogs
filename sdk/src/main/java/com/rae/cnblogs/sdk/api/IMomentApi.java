@@ -64,6 +64,20 @@ public interface IMomentApi {
     Observable<Empty> deleteMoment(@Field("ingId") String ingId);
 
     /**
+     * 发表闪存评论
+     *
+     * @param ingId     闪存ID
+     * @param userId    回复的用户ID
+     * @param commentId 回复的评论ID
+     * @param content   回复内容
+     * @return
+     */
+    @POST(ApiUrls.API_MOMENT_POST_COMMENT)
+    @FormUrlEncoded
+    @Headers({JsonBody.CONTENT_TYPE, JsonBody.XHR})
+    Observable<Empty> postComment(@Field("ingId") String ingId, @Field("ReplyToUserId") String userId, @Field("ParentCommentId") String commentId, @Field("Content") String content);
+
+    /**
      * 获取闪存列表
      *
      * @param type      类型，参考静态变量MOMENT_TYPE_*，如：{@link #MOMENT_TYPE_ALL}

@@ -41,20 +41,31 @@ public class MomentCommentHelper {
                 if (commentLiElement.select("a").text().contains("浏览更多")) {
                     commentBean.setContent(commentLiElement.text());
                     commentBean.setId("more");
+                    commentList.add(commentBean);
                     continue;
                 }
 
                 // 评论ID
                 String commentId = ApiUtils.getNumber(commentLiElement.attr("id"));
-                String userAlias = ApiUtils.getUserAlias(commentLiElement.select(".ing_reply gray").attr("onclick"));
+                String userAlias = ApiUtils.getUserAlias(commentLiElement.select(".ing_reply").attr("onclick"));
+                String content = commentLiElement.select(".ing_comment").text();
                 if (TextUtils.isEmpty(commentId)) continue;
+
+                // @用户处理
+                Elements atUserElement = commentLiElement.select(".ing_comment a");
+                if (atUserElement.text().contains("@")) {
+                    commentBean.setAtAuthorName(atUserElement.text());
+                    commentBean.setAtUserAlias(ApiUtils.getBlogApp(atUserElement.attr("href")));
+//                    content = content.replace(commentBean.getAtAuthorName(), "");
+//                    content = content.trim().startsWith("：") ? content.substring(1) : content;
+                }
 
                 commentBean.setId(commentId);
                 commentBean.setIngId(ingId);
                 commentBean.setUserAlias(userAlias);
+                commentBean.setContent(content);
                 commentBean.setAuthorName(commentLiElement.select("#comment_author_" + commentId).text());
                 commentBean.setBlogApp(ApiUtils.getBlogApp(commentLiElement.select("#comment_author_" + commentId).attr("href")));
-                commentBean.setContent(commentLiElement.select(".ing_comment").text());
                 commentBean.setPostTime(commentLiElement.select(".ing_comment_time").text().replace("回应于", ""));
                 commentList.add(commentBean);
             }

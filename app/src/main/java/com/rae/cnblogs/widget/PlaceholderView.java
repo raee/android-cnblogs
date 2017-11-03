@@ -95,6 +95,9 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
                         setEmptyMessage(msg.equals("null") ? null : msg);
                     }
                     break;
+                case R.styleable.PlaceholderView_app_background:
+                    mContentView.setBackground(a.getDrawable(index));
+                    break;
                 case R.styleable.PlaceholderView_empty_icon:
                     mDefaultEmptyIcon = a.getDrawable(index);
                     setEmptyIcon(mDefaultEmptyIcon);
@@ -103,6 +106,7 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
                     mLoadingText = a.getString(index);
                     mLoadingTextView.setText(mLoadingText);
                     break;
+
             }
         }
         a.recycle();

@@ -8,25 +8,37 @@ import android.view.ViewGroup;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
+import com.rae.cnblogs.model.ItemLoadingViewHolder;
 import com.rae.cnblogs.model.MomentHolder;
+import com.rae.cnblogs.model.SimpleViewHolder;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.MomentBean;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.swift.Rx;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 闪存
  * Created by ChenRui on 2017/10/27 0027 10:49.
  */
-public class MomentAdapter extends BaseItemAdapter<MomentBean, MomentHolder> implements View.OnClickListener {
+public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder> implements View.OnClickListener {
+
 
     String blogApp;
 
     public MomentAdapter() {
         initUserInfo();
+        int size = 5;
+        List<MomentBean> data = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            MomentBean m = new MomentBean();
+            m.setId("loading");
+            data.add(m);
+        }
+        invalidate(data);
     }
 
     private void initUserInfo() {
@@ -67,12 +79,28 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, MomentHolder> imp
     }
 
     @Override
-    public MomentHolder onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
+    public int getItemViewType(int position) {
+        MomentBean dataItem = getDataItem(position);
+        if (dataItem != null && "loading".equalsIgnoreCase(dataItem.getId())) {
+            return VIEW_TYPE_LOADING;
+        }
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public SimpleViewHolder onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_LOADING) {
+            return new ItemLoadingViewHolder(inflateView(parent, R.layout.item_list_loading));
+        }
         return new MomentHolder(inflateView(parent, R.layout.item_moment_list));
     }
 
     @Override
-    public void onBindViewHolder(MomentHolder holder, int position, MomentBean m) {
+    public void onBindViewHolder(SimpleViewHolder viewHolder, int position, MomentBean m) {
+        int viewType = getItemViewType(position);
+        if (viewType == VIEW_TYPE_LOADING) return;
+
+        MomentHolder holder = (MomentHolder) viewHolder;
         int imageCount = Rx.getCount(m.getImageList());
         holder.mRecyclerView.setVisibility(imageCount > 1 ? View.GONE : View.VISIBLE);
 
@@ -80,7 +108,7 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, MomentHolder> imp
             int spanCount = imageCount == 4 || imageCount == 2 ? 2 : 3;
             holder.mRecyclerView.setLayoutManager(new GridLayoutManager(holder.itemView.getContext(), spanCount));
             holder.mRecyclerView.setAdapter(new MomentImageAdapter(m.getImageList()));
-        } else {
+        } else if (holder.mRecyclerView.getLayoutManager() != null) {
             holder.mRecyclerView.getLayoutManager().removeAllViews();
             holder.mRecyclerView.removeAllViews();
         }
@@ -126,7 +154,7 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, MomentHolder> imp
     }
 
 
-    private static class ItemBloggerClickListener implements View.OnClickListener {
+    public static class ItemBloggerClickListener implements View.OnClickListener {
         private String blogApp;
         private WeakReference<OnBloggerClickListener> mOnBloggerClickListenerWeakReference;
 

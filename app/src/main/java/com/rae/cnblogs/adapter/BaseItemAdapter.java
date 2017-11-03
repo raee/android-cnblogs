@@ -1,6 +1,7 @@
 package com.rae.cnblogs.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,21 +65,26 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        final T dataItem = getDataItem(position);
+        final T dataItem = getDataItem(Math.max(0, position));
         onBindViewHolder(holder, position, dataItem);
         if (mOnItemClickListener != null && dataItem != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mOnItemClickListener.onItemClick(dataItem);
-                }
-            });
+            onBindItemClickListener(holder, position, dataItem);
         }
     }
 
+    protected void onBindItemClickListener(VH holder, int position, final T dataItem) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(dataItem);
+            }
+        });
+    }
 
+
+    @Nullable
     public T getDataItem(int position) {
-        return Rx.isEmpty(mDataList) ? null : mDataList.get(position % getItemCount());
+        return Rx.isEmpty(mDataList) || position < 0 ? null : mDataList.get(position % Rx.getCount(mDataList));
     }
 
     @Override

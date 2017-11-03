@@ -29,14 +29,17 @@
 
     <Button
         android:id="@+id/tv_edit_comment"
-        android:layout_width="180dp"
-        android:layout_height="30dp"
-        android:layout_marginRight="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_marginTop="6dp"
         android:background="@drawable/bg_write_comment"
         android:gravity="left|center"
         android:paddingLeft="21dp"
         android:paddingRight="21dp"
-        android:text="@string/edit_comment"
-        android:textColor="@color/ph2"
+        android:text="@string/edit_moment_comment"
+        android:textColor="@color/ph3"
         android:textSize="@dimen/h2"/>
 </LinearLayout>

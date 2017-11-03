@@ -23,6 +23,12 @@ public class MomentCommentBean implements Parcelable {
     // 发布时间
     private String postTime;
 
+    // @用户昵称
+    private String atAuthorName;
+    // @用户userAlias
+    private String atUserAlias;
+
+
     public String getIngId() {
         return ingId;
     }
@@ -75,6 +81,22 @@ public class MomentCommentBean implements Parcelable {
         return userAlias;
     }
 
+    public String getAtAuthorName() {
+        return atAuthorName;
+    }
+
+    public void setAtAuthorName(String atAuthorName) {
+        this.atAuthorName = atAuthorName;
+    }
+
+    public String getAtUserAlias() {
+        return atUserAlias;
+    }
+
+    public void setAtUserAlias(String atUserAlias) {
+        this.atUserAlias = atUserAlias;
+    }
+
     public void setUserAlias(String userAlias) {
         this.userAlias = userAlias;
     }
@@ -96,6 +118,8 @@ public class MomentCommentBean implements Parcelable {
         dest.writeString(this.content);
         dest.writeString(this.userAlias);
         dest.writeString(this.postTime);
+        dest.writeString(this.atAuthorName);
+        dest.writeString(this.atUserAlias);
     }
 
     protected MomentCommentBean(Parcel in) {
@@ -106,6 +130,8 @@ public class MomentCommentBean implements Parcelable {
         this.content = in.readString();
         this.userAlias = in.readString();
         this.postTime = in.readString();
+        this.atAuthorName = in.readString();
+        this.atUserAlias = in.readString();
     }
 
     public static final Creator<MomentCommentBean> CREATOR = new Creator<MomentCommentBean>() {

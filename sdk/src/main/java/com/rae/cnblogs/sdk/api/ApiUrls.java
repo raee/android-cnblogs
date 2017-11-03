@@ -115,6 +115,8 @@ final class ApiUrls {
 
     // 闪存-删除
     static final String API_MOMENT_DEL = "https://ing.cnblogs.com/ajax/ing/del";
+    // 闪存-发表评论
+    static final String API_MOMENT_POST_COMMENT = "https://ing.cnblogs.com/ajax/ing/PostComment";
 
     // 上传图片
     static final String API_POST_IMAGE = "https://upload.cnblogs.com/imageuploader/processupload?host=www.cnblogs.com";

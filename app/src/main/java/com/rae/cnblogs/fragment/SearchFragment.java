@@ -101,6 +101,7 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
         mTabLayout.removeOnTabSelectedListener(this);
         if (mBind != null)
             mBind.unbind();
+
     }
 
     @Override
@@ -108,6 +109,8 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
         super.onViewCreated(view, savedInstanceState);
         initView();
     }
+
+
 
     private void initView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -234,6 +237,7 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
         }
     }
 
+
     /**
      * 执行搜索
      */
@@ -245,8 +249,11 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
         }
 
         // 取消/清除搜索建议数据
+
         mSuggestionAdapter.clear();
         mSuggestionAdapter.notifyDataSetChanged();
+
+
         // 显示或者隐藏搜索建议
         mRecyclerView.setVisibility(mSearchView.length() > 0 ? View.GONE : View.VISIBLE);
 

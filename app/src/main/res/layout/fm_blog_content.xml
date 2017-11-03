@@ -2,6 +2,7 @@
 
 <com.rae.cnblogs.widget.AppLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ptr_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +13,8 @@
         android:id="@+id/view_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:app_background="@color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -1,7 +1,13 @@
 package com.rae.cnblogs.adapter;
 
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,18 +31,34 @@ import java.util.List;
  */
 public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, SimpleViewHolder> {
 
+
     private static final int VIEW_TYPE_DETAIL = 10;
     private final MomentBean mMomentBean;
     private boolean mIsEmpty;
     private String mEmptyMessage;
-    private int mDetailLayoutHeight;
 
     // 显示类型
     private int mViewTypeCount = 1;
     private WeakReference<ViewGroup> mViewParent;
+    private View.OnClickListener mOnPlaceholderClickListener;
+    private MomentAdapter.OnBloggerClickListener mOnBloggerClickListener;
+    private MomentHolder mMomentHolder;
 
     public MomentDetailAdapter(MomentBean momentBean) {
         mMomentBean = momentBean;
+    }
+
+    public void setOnPlaceholderClickListener(View.OnClickListener onPlaceholderClickListener) {
+        mOnPlaceholderClickListener = onPlaceholderClickListener;
+    }
+
+    public void setOnBloggerClickListener(MomentAdapter.OnBloggerClickListener onBloggerClickListener) {
+        mOnBloggerClickListener = onBloggerClickListener;
+    }
+
+    @Nullable
+    public MomentHolder getMomentHolder() {
+        return mMomentHolder;
     }
 
     @Override
@@ -71,6 +93,13 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
     }
 
     @Override
+    protected void onBindItemClickListener(SimpleViewHolder holder, int position, MomentCommentBean dataItem) {
+        if (position > 0) {
+            super.onBindItemClickListener(holder, position, dataItem);
+        }
+    }
+
+    @Override
     public SimpleViewHolder onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
 
         if (mViewParent == null || mViewParent.get() == null) {
@@ -82,7 +111,8 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
                 return new SimpleViewHolder(inflateView(parent, R.layout.item_comment_placeholder));
             // 详情
             case VIEW_TYPE_DETAIL:
-                return new MomentHolder(inflateView(parent, R.layout.item_moment_detail_info));
+                mMomentHolder = new MomentHolder(inflateView(parent, R.layout.item_moment_detail_info));
+                return mMomentHolder;
             default:
                 return new MomentCommentHolder(inflateView(parent, R.layout.item_moment_comment));
         }
@@ -100,7 +130,6 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
             // 详情
             case VIEW_TYPE_DETAIL:
                 onBindDetailInfoViewHolder((MomentHolder) holder, mMomentBean);
-                mDetailLayoutHeight = holder.itemView.getMeasuredHeight();
                 return;
             default:
                 onBindCommentViewHolder((MomentCommentHolder) holder, m);
@@ -113,9 +142,18 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
      * 评论
      */
     private void onBindCommentViewHolder(MomentCommentHolder holder, MomentCommentBean m) {
+        SpannableString content = new SpannableString(m.getContent());
+
+        if (!TextUtils.isEmpty(m.getAtAuthorName())) {
+            content.setSpan(new ForegroundColorSpan(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorPrimary)), 0, m.getAtAuthorName().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        int index = mDataList.indexOf(m);
+        holder.titleLayout.setVisibility(index == 0 ? View.VISIBLE : View.GONE);
+        holder.dividerView.setVisibility(index == mDataList.size() - 1 ? View.GONE : View.VISIBLE);
         holder.authorView.setText(m.getAuthorName());
         holder.dateView.setText(m.getPostTime());
-        holder.summaryView.setText(m.getContent());
+        holder.summaryView.setText(content);
     }
 
     /**
@@ -132,6 +170,11 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
             holder.mRecyclerView.setLayoutManager(new GridLayoutManager(holder.itemView.getContext(), spanCount));
         }
 
+        View.OnClickListener onClickListener = TextUtils.isEmpty(m.getBlogApp()) ? null : new MomentAdapter.ItemBloggerClickListener(m.getBlogApp(), mOnBloggerClickListener);
+        holder.authorView.setOnClickListener(onClickListener);
+        holder.avatarView.setOnClickListener(onClickListener);
+        holder.dateView.setOnClickListener(onClickListener);
+
         holder.mRecyclerView.setAdapter(new MomentImageAdapter(m.getImageList()));
         RaeImageLoader.displayHeaderImage(m.getAvatar(), holder.avatarView);
         holder.authorView.setText(m.getAuthorName());
@@ -144,19 +187,8 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
      * 空视图
      */
     private void onBindEmptyViewHolder(final PlaceholderView view) {
-        // 重新计算高度
-        if (mViewParent != null && mViewParent.get() != null) {
-            view.post(new Runnable() {
-                @Override
-                public void run() {
-                    ViewGroup parent = mViewParent.get();
-                    int height = parent.getMeasuredHeight();
-                    int[] location = new int[2];
-                    view.getLocationInWindow(location);
-                    view.getLayoutParams().height = height - location[1];
-                }
-            });
-        }
+        // 绑定点击事件
+        view.setOnClickListener(mOnPlaceholderClickListener);
 
         // 有评论
         if (getItemCount() > mViewTypeCount) {

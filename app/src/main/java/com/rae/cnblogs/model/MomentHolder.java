@@ -2,6 +2,7 @@ package com.rae.cnblogs.model;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,8 +38,9 @@ public class MomentHolder extends SimpleViewHolder {
     @BindView(R.id.recycler_view)
     public RecyclerView mRecyclerView;
 
-    public View deleteView;
-    public ImageView thumbView;
+    public View deleteView; // 删除
+    public Button followView; // 关注
+    public ImageView thumbView; // 单张图片
 
 
 //    @BindView(R.id.img_blog_list_large_thumb)
@@ -60,6 +62,7 @@ public class MomentHolder extends SimpleViewHolder {
         super(itemView);
         deleteView = itemView.findViewById(R.id.img_close);
         thumbView = itemView.findViewById(R.id.img_thumb);
+        followView = itemView.findViewById(R.id.btn_blogger_follow);
         ButterKnife.bind(this, itemView);
     }
 }

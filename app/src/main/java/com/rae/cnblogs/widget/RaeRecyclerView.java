@@ -60,6 +60,12 @@ public class RaeRecyclerView extends XRecyclerView implements SkinCompatSupporta
         setFootView(mFootView);
     }
 
+
+
+    public RaeLoadMoreView getFootView() {
+        return mFootView;
+    }
+
     /**
      * 设置没有更多数据的文本文字
      *

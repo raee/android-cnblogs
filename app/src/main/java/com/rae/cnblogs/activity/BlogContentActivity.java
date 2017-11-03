@@ -296,9 +296,8 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
     @Override
     public void onPostComment(String content, BlogCommentBean parent, boolean isReference) {
         // 发表评论
-        AppUI.loading(getContext(), "正在发表..");
+        mEditCommentDialog.showLoading();
         mCommentPresenter.post(parent);
-        mEditCommentDialog.dismiss();
     }
 
     @Override
@@ -328,7 +327,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
 
     @Override
     public void onPostCommentFailed(String msg) {
-        AppUI.dismiss();
+        mEditCommentDialog.dismissLoading();
         AppUI.failed(getContext(), msg);
     }
 

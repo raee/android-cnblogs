@@ -22,6 +22,7 @@ public class MomentBean implements Parcelable {
 
     private String blogApp;
 
+
     // 发布时间
     private String postTime;
 
@@ -32,6 +33,9 @@ public class MomentBean implements Parcelable {
 
     // 用户，评论用到
     private String userAlias;
+
+    // 源地址
+    private String sourceUrl;
 
     // 评论列表
     private List<MomentCommentBean> commentList;
@@ -53,6 +57,14 @@ public class MomentBean implements Parcelable {
 
     public void setImageList(List<String> imageList) {
         this.imageList = imageList;
+    }
+
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
     }
 
     public String getContent() {
@@ -138,6 +150,7 @@ public class MomentBean implements Parcelable {
         dest.writeString(this.commentCount);
         dest.writeString(this.content);
         dest.writeString(this.userAlias);
+        dest.writeString(this.sourceUrl);
         dest.writeTypedList(this.commentList);
         dest.writeStringList(this.imageList);
     }
@@ -151,6 +164,7 @@ public class MomentBean implements Parcelable {
         this.commentCount = in.readString();
         this.content = in.readString();
         this.userAlias = in.readString();
+        this.sourceUrl = in.readString();
         this.commentList = in.createTypedArrayList(MomentCommentBean.CREATOR);
         this.imageList = in.createStringArrayList();
     }

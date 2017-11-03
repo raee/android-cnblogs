@@ -115,7 +115,7 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-
+        mPlaceholderView.dismiss();
         mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

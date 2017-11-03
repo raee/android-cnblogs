@@ -8,6 +8,7 @@
         </attr>
 
         <attr name="empty_icon" format="reference"/>
+        <attr name="app_background" format="color|reference"/>
         <attr name="empty_message" format="reference|string"/>
         <attr name="loading_message" format="reference|string"/>
     </declare-styleable>

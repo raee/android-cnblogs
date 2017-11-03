@@ -45,7 +45,7 @@
     <string name="error_username_empty">请输入用户名</string>
     <string name="error_password_empty">请输入密码</string>
     <string name="no_more_comment">已显示全部评论</string>
-    <string name="edit_comment_hint">忍不了了，我来说两句..</string>
+    <string name="edit_comment_hint">我来说两句..</string>
     <string name="reference_comment">引用评论</string>
     <string name="send">发送</string>
     <string name="i_try_agin">我再试试</string>
@@ -77,6 +77,7 @@
     <string name="i_get_it">我知道了</string>
     <string name="dialog_tips_post_comment">您伟大的讲话发表成功\n由于缓存更新较慢，请稍候再到评论区查看您已经发布的评论。\n您发表的评论长按可以进行删除。</string>
     <string name="dialog_tips_post_like">由于缓存问题，点赞数量可能更新较慢哦。</string>
+    <string name="tips_comment_success">发表评论成功</string>
     <string name="github">开源项目</string>
     <string name="agree">我同意</string>
     <string name="tips_logout">是否真的退出登录？</string>
@@ -134,4 +135,5 @@
     <string name="tips_post_moment_progress">为了节省您的时间，已进入后台发送，结果请稍后留意通知栏消息。</string>
     <string name="tips_post_moment_progress_simple">已进入后台发布，请稍候留意通知。</string>
     <string name="tips_del_moment_success">删除成功</string>
+    <string name="edit_moment_comment">吃瓜群众有话说</string>
 </resources>

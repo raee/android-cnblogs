@@ -43,6 +43,7 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
             m.setCommentCount(ApiUtils.getCount(element.select(".ing_reply").text().replace("回应", ""))); // 评论数量
             m.setUserAlias(ApiUtils.getUserAlias(element.select(".ing_reply").attr("onclick"))); // 用户域
             m.setBlogApp(ApiUtils.getBlogApp(element.select(".ing-author").attr("href"))); // blogApp
+            m.setSourceUrl(ApiUtils.getUrl(element.select(".ing-author").attr("href")).replace("home", "ing") + "status/" + id); // blogApp
 
             // 解析评论
             m.setCommentList(mMomentCommentHelper.parse(element));

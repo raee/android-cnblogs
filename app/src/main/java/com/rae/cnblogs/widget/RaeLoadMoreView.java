@@ -37,6 +37,10 @@ public class RaeLoadMoreView extends LoadingMoreFooter {
         mNoMoreText = getResources().getString(R.string.no_more_tips);
     }
 
+    public void setTextColor(int color) {
+        mTextView.setTextColor(color);
+    }
+
     public void setNoMoreText(String text) {
         mNoMoreText = text;
     }
