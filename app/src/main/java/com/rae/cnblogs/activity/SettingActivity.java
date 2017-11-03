@@ -192,7 +192,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
         mCheckUpdateMsgView.setVisibility(View.GONE);
         RxObservable.create(CnblogsApiFactory.getInstance(this)
                 .getRaeServerApi()
-                .versionInfo(getVersionCode(), getChannel(), BuildConfig.BUILD_TYPE), "checkUpdate")
+                .versionInfo(getVersionCode(), getVersionName(), getChannel(), BuildConfig.BUILD_TYPE), "checkUpdate")
                 .subscribe(new ApiDefaultObserver<VersionInfo>() {
                     @Override
                     protected void onError(String message) {

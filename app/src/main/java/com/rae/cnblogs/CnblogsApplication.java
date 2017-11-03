@@ -131,4 +131,13 @@ public class CnblogsApplication extends TinkerApplication {
         }
         return 1;
     }
+
+    public String getVersionName() {
+        try {
+            return getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_META_DATA).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "1.0.0";
+    }
 }

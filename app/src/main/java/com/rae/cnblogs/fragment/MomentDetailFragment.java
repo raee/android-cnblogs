@@ -53,6 +53,18 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
     private IMomentDetailContract.Presenter mPresenter;
 
     private EditCommentDialog mEditCommentDialog;
+    private final View.OnClickListener mOnFollowClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (!UserProvider.getInstance().isLogin()) {
+                AppRoute.jumpToLogin(v.getContext());
+                return;
+            }
+            ((Button) v).setText("请稍后");
+            v.setEnabled(false);
+            mPresenter.follow();
+        }
+    };
 
 
     public static MomentDetailFragment newInstance(MomentBean data) {
@@ -129,6 +141,7 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
                 AppRoute.jumpToBlogger(getContext(), blogApp);
             }
         });
+        mAdapter.setOnFollowClickListener(mOnFollowClickListener);
         mAdapter.setOnItemClickListener(new BaseItemAdapter.onItemClickListener<MomentCommentBean>() {
             @Override
             public void onItemClick(MomentCommentBean item) {
@@ -234,9 +247,9 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
     public void onLoadBloggerInfoFailed(String msg) {
         MomentHolder holder = mAdapter.getMomentHolder();
         if (holder != null && holder.followView != null) {
-            holder.followView.setEnabled(false);
-            holder.followView.setText("信息异常");
-
+            holder.followView.setEnabled(true);
+            if (UserProvider.getInstance().isLogin())
+                holder.followView.setText("信息异常");
         }
     }
 
@@ -245,19 +258,6 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
         MomentHolder holder = mAdapter.getMomentHolder();
         if (holder != null && holder.followView != null) {
             holder.followView.setEnabled(true);
-            holder.followView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!UserProvider.getInstance().isLogin()) {
-                        AppRoute.jumpToLogin(v.getContext());
-                        return;
-                    }
-                    ((Button) v).setText("请稍后");
-                    v.setEnabled(false);
-                    mPresenter.follow();
-                }
-            });
-            holder.followView.setSelected(info.isFollowed());
             holder.followView.setText(info.isFollowed() ? "取消关注" : "加关注");
         }
     }

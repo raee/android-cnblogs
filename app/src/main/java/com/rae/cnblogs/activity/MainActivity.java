@@ -133,7 +133,7 @@ public class MainActivity extends BaseActivity {
         RxObservable.create(CnblogsApiFactory
                 .getInstance(getContext())
                 .getRaeServerApi()
-                .versionInfo(getVersionCode(), getChannel(), BuildConfig.BUILD_TYPE), "MainActivity")
+                .versionInfo(getVersionCode(), getVersionName(), getChannel(), BuildConfig.BUILD_TYPE), "MainActivity")
                 .subscribe(new ApiDefaultObserver<VersionInfo>() {
                     @Override
                     protected void onError(String message) {

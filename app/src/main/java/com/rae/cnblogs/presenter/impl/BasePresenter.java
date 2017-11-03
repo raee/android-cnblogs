@@ -68,6 +68,10 @@ public abstract class BasePresenter<V> implements IAppPresenter {
         RxObservable.dispose("thread");
     }
 
+    protected boolean isLogin() {
+        return UserProvider.getInstance().isLogin();
+    }
+
     protected boolean isNotLogin() {
         return !UserProvider.getInstance().isLogin();
     }

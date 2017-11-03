@@ -19,7 +19,6 @@
         android:gravity="center_vertical">
 
         <ImageButton
-            android:visibility="invisible"
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +29,8 @@
             android:paddingRight="12dp"
             android:paddingTop="32dp"
             android:scaleType="center"
-            android:src="@drawable/login_btn_close"/>
+            android:src="@drawable/login_btn_close"
+            android:visibility="invisible"/>
 
     </RelativeLayout>
 
@@ -172,14 +172,16 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/public_button_login">
 
-            <Button
+            <TextView
                 android:id="@+id/btn_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:background="@android:color/transparent"
+                android:clickable="false"
                 android:drawableLeft="@drawable/ic_official_flag"
                 android:drawablePadding="4dp"
+                android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:text="@string/login"
                 android:textColor="@color/text_color_login_button"

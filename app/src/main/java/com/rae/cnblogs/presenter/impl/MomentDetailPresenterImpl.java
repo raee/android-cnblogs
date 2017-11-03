@@ -62,20 +62,24 @@ public class MomentDetailPresenterImpl extends BasePresenter<IMomentDetailContra
                     }
                 });
 
+        if (isLogin()) {
+            // 加载博主信息
+            createObservable(mFriendApi.getFriendsInfo(mView.getBlogApp())).subscribe(new ApiDefaultObserver<FriendsInfoBean>() {
+                @Override
+                protected void onError(String msg) {
+                    mView.onLoadBloggerInfoFailed(msg);
+                }
 
-        // 加载博主信息
-        createObservable(mFriendApi.getFriendsInfo(mView.getBlogApp())).subscribe(new ApiDefaultObserver<FriendsInfoBean>() {
-            @Override
-            protected void onError(String msg) {
-                mView.onLoadBloggerInfoFailed(msg);
-            }
+                @Override
+                protected void accept(FriendsInfoBean friendsInfoBean) {
+                    mBloggerInfo = friendsInfoBean;
+                    mView.onLoadBloggerInfo(friendsInfoBean);
+                }
+            });
+        } else {
+            mView.onLoadBloggerInfoFailed(getString(R.string.login_expired));
+        }
 
-            @Override
-            protected void accept(FriendsInfoBean friendsInfoBean) {
-                mBloggerInfo = friendsInfoBean;
-                mView.onLoadBloggerInfo(friendsInfoBean);
-            }
-        });
     }
 
     @Override

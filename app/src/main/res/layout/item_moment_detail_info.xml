@@ -41,7 +41,6 @@
             android:layout_width="62dp"
             android:layout_height="26dp"
             android:background="@drawable/bg_btn_follow_drak"
-            android:enabled="false"
             android:text="加关注"
             android:textColor="@color/ph2"
             android:textSize="@dimen/h3"

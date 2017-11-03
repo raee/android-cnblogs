@@ -44,5 +44,5 @@ public interface IRaeServerApi {
      * @param env         环境，这里使用buildType
      */
     @GET(ApiUrls.RAE_API_CHECK_VERSION)
-    Observable<VersionInfo> versionInfo(@Path("versionCode") int versionCode, @Query("channel") String channel, @Query("env") String env);
+    Observable<VersionInfo> versionInfo(@Path("versionCode") int versionCode, @Query("versionName") String versionName, @Query("channel") String channel, @Query("env") String env);
 }

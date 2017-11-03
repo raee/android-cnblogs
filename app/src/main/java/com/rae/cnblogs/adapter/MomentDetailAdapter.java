@@ -41,6 +41,7 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
     private int mViewTypeCount = 1;
     private WeakReference<ViewGroup> mViewParent;
     private View.OnClickListener mOnPlaceholderClickListener;
+    private View.OnClickListener mOnFollowClickListener;
     private MomentAdapter.OnBloggerClickListener mOnBloggerClickListener;
     private MomentHolder mMomentHolder;
 
@@ -54,6 +55,10 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
 
     public void setOnBloggerClickListener(MomentAdapter.OnBloggerClickListener onBloggerClickListener) {
         mOnBloggerClickListener = onBloggerClickListener;
+    }
+
+    public void setOnFollowClickListener(View.OnClickListener onFollowClickListener) {
+        mOnFollowClickListener = onFollowClickListener;
     }
 
     @Nullable
@@ -160,6 +165,8 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
      * 详情
      */
     private void onBindDetailInfoViewHolder(MomentHolder holder, MomentBean m) {
+
+        holder.followView.setOnClickListener(mOnFollowClickListener);
         holder.mRecyclerView.setVisibility(Rx.isEmpty(m.getImageList()) ? View.GONE : View.VISIBLE);
 
         int imageCount = Rx.getCount(m.getImageList());

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,7 +53,7 @@ public class LoginActivity extends BaseActivity
     TextView mLoadingMsgView;
 
     @BindView(R.id.btn_login)
-    Button mLoginButton;
+    TextView mLoginButton;
 
     @BindView(R.id.img_login_logo)
     ImageView mLogoView;
@@ -209,6 +208,7 @@ public class LoginActivity extends BaseActivity
         AppMobclickAgent.onClickEvent(this, "Reg");
         AppRoute.jumpToWeb(this, getString(R.string.reg_url));
     }
+
 
     /**
      * 登录点击

@@ -153,6 +153,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         return ((CnblogsApplication) getApplication()).getVersionCode();
     }
 
+    public String getVersionName() {
+        return ((CnblogsApplication) getApplication()).getVersionName();
+    }
+
     /**
      * 获取渠道包
      */
