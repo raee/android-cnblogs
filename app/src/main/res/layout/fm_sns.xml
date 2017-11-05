@@ -46,13 +46,15 @@
 
             </android.support.design.widget.DesignTabLayout>
 
-            <TextView
+            <ImageView
                 android:id="@+id/tv_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:padding="12dp"
-                android:text="发布"/>
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/default_margin"
+                android:src="@drawable/ic_moment_post"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>

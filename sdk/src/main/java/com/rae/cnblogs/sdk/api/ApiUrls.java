@@ -118,6 +118,9 @@ final class ApiUrls {
     // 闪存-发表评论
     static final String API_MOMENT_POST_COMMENT = "https://ing.cnblogs.com/ajax/ing/PostComment";
 
+    // 闪存-回复我的数量
+    static final String API_MOMENT_REPLY_COUNT = "https://ing.cnblogs.com/ajax/ing/UnviewedReplyToMeCount";
+
     // 上传图片
     static final String API_POST_IMAGE = "https://upload.cnblogs.com/imageuploader/processupload?host=www.cnblogs.com";
 

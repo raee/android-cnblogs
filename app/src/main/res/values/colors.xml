@@ -13,6 +13,7 @@
     <color name="dividerColor">#dedede</color>
     <color name="ph1">#2d2d2d</color>
     <color name="ph2">#595959</color>
+    <color name="moment_author">#576b95</color>
     <color name="ph3">#929292</color>
     <color name="ph4">#999999</color>
     <color name="default_background">#f9f9f9</color>

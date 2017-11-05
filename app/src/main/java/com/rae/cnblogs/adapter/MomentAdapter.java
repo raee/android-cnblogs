@@ -130,7 +130,9 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
         holder.authorView.setText(m.getAuthorName());
         holder.dateView.setText(m.getPostTime());
         holder.summaryView.setText(m.getContent());
-        holder.commentView.setText(m.getCommentCount());
+        holder.androidTagView.setVisibility(m.isAndroidClient() ? View.VISIBLE : View.GONE);
+        holder.commentView.setVisibility("0".equals(m.getCommentCount()) ? View.GONE : View.VISIBLE);
+        holder.commentView.setText("0".equals(m.getCommentCount()) ? "" : m.getCommentCount() + "条回复");
     }
 
     private static class ItemDeleteClickListener implements View.OnClickListener {

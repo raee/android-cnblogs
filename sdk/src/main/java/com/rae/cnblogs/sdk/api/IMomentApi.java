@@ -64,6 +64,14 @@ public interface IMomentApi {
     Observable<Empty> deleteMoment(@Field("ingId") String ingId);
 
     /**
+     * 获取回复我的数量
+     */
+    @POST(ApiUrls.API_MOMENT_REPLY_COUNT)
+    @FormUrlEncoded
+    @Headers({JsonBody.XHR})
+    Observable<String> queryReplyCount(@Field("_") long timestamp);
+
+    /**
      * 发表闪存评论
      *
      * @param ingId     闪存ID

@@ -12,6 +12,7 @@ import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.api.IMomentApi;
 import com.rae.cnblogs.sdk.bean.MomentBean;
+import com.rae.swift.Rx;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,6 +49,25 @@ public class MomentPresenterImpl extends BasePresenter<IMomentContract.View> imp
     public void start() {
         super.start();
         mPageObservable.start();
+
+        // 查询回复我的数量
+        if (isLogin()) {
+            createObservable(mMomentApi.queryReplyCount(System.currentTimeMillis()))
+                    .subscribe(new ApiDefaultObserver<String>() {
+                        @Override
+                        protected void onError(String message) {
+
+                        }
+
+                        @Override
+                        protected void accept(String s) {
+                            int number = Rx.parseInt(s);
+                            if (number > 0) {
+                                mView.onReplyContChanged(number);
+                            }
+                        }
+                    });
+        }
     }
 
     @Override

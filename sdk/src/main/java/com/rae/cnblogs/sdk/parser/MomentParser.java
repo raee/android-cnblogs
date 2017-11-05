@@ -30,6 +30,7 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
 
         Elements elements = doc.select("#feed_list li");
 
+        final String androidTag = "[来自Android客户端]";
         for (Element element : elements) {
             MomentBean m = new MomentBean();
             String id = ApiUtils.getNumber(element.select(".feed_body").attr("id"));
@@ -45,6 +46,7 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
             m.setBlogApp(ApiUtils.getBlogApp(element.select(".ing-author").attr("href"))); // blogApp
             m.setSourceUrl(ApiUtils.getUrl(element.select(".ing-author").attr("href")).replace("home", "ing") + "status/" + id); // blogApp
 
+
             // 解析评论
             m.setCommentList(mMomentCommentHelper.parse(element));
 
@@ -53,6 +55,7 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
             String content = m.getContent();
             int startIndex = content.indexOf("#img");
             int endIndex = content.indexOf("#end");
+
             if (startIndex > 0 && endIndex > 0) {
                 String json = content.substring(startIndex + 4, endIndex);
                 try {
@@ -68,6 +71,14 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+
+            // Android标签处理
+            if (m.getContent().contains(androidTag) || (startIndex > 0 && endIndex > 0)) {
+                // 来自安卓客户端
+                m.setAndroidClient(true);
+                // 去除标签
+                m.setContent(m.getContent().replace(androidTag, ""));
             }
 
             result.add(m);

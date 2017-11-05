@@ -37,6 +37,9 @@ public class MomentBean implements Parcelable {
     // 源地址
     private String sourceUrl;
 
+    // 是否发自于Android客户端
+    private  boolean isAndroidClient;
+
     // 评论列表
     private List<MomentCommentBean> commentList;
 
@@ -89,6 +92,14 @@ public class MomentBean implements Parcelable {
 
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
+    }
+
+    public boolean isAndroidClient() {
+        return isAndroidClient;
+    }
+
+    public void setAndroidClient(boolean androidClient) {
+        isAndroidClient = androidClient;
     }
 
     public String getUserAlias() {
@@ -151,6 +162,7 @@ public class MomentBean implements Parcelable {
         dest.writeString(this.content);
         dest.writeString(this.userAlias);
         dest.writeString(this.sourceUrl);
+        dest.writeByte(this.isAndroidClient ? (byte) 1 : (byte) 0);
         dest.writeTypedList(this.commentList);
         dest.writeStringList(this.imageList);
     }
@@ -165,6 +177,7 @@ public class MomentBean implements Parcelable {
         this.content = in.readString();
         this.userAlias = in.readString();
         this.sourceUrl = in.readString();
+        this.isAndroidClient = in.readByte() != 0;
         this.commentList = in.createTypedArrayList(MomentCommentBean.CREATOR);
         this.imageList = in.createStringArrayList();
     }

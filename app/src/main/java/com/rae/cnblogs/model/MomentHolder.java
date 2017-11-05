@@ -41,6 +41,7 @@ public class MomentHolder extends SimpleViewHolder {
     public View deleteView; // 删除
     public Button followView; // 关注
     public ImageView thumbView; // 单张图片
+    public View androidTagView; // 客户端标志
 
 
 //    @BindView(R.id.img_blog_list_large_thumb)
@@ -63,6 +64,7 @@ public class MomentHolder extends SimpleViewHolder {
         deleteView = itemView.findViewById(R.id.img_close);
         thumbView = itemView.findViewById(R.id.img_thumb);
         followView = itemView.findViewById(R.id.btn_blogger_follow);
+        androidTagView = itemView.findViewById(R.id.tv_android_tag);
         ButterKnife.bind(this, itemView);
     }
 }

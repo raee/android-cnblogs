@@ -77,6 +77,7 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T convert(ResponseBody value) throws IOException {
         // 解析
         String text = value.string();
@@ -88,8 +89,9 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
         if (text.startsWith("{") || text.startsWith("[")) {
             // 解析JSON
             return json2Entity(text);
+        } else if (type == String.class) {
+            return (T) text;
         }
-
         return html2Entity(text);
     }
 

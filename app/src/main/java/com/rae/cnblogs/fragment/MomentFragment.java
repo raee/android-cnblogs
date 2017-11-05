@@ -2,6 +2,7 @@ package com.rae.cnblogs.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -208,6 +209,11 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
         mAdapter.remove(item);
         mAdapter.notifyDataSetChanged();
         AppUI.success(getContext(), R.string.tips_del_moment_success);
+    }
+
+    @Override
+    public void onReplyContChanged(int number) {
+        Log.i("rae", "有回复我的；" + number);
     }
 
     /**

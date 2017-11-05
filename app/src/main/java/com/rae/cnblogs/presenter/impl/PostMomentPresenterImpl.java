@@ -74,6 +74,10 @@ public class PostMomentPresenterImpl extends BasePresenter<IPostMomentContract.V
             mView.onPostMomentInProgress();
             return false;
         } else {
+
+            // 加上客户端标志
+            content = "[来自Android客户端] " + content;
+
             createObservable(mMomentApi.publish(content, 1))
                     .subscribe(new ApiDefaultObserver<Empty>() {
                         @Override

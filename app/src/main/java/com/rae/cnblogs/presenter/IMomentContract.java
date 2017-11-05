@@ -32,5 +32,9 @@ public interface IMomentContract {
          */
         void onDeleteMomentSuccess();
 
+        /**
+         * 有回复我的消息数量
+         */
+        void onReplyContChanged(int number);
     }
 }
