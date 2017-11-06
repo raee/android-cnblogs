@@ -7,7 +7,9 @@ import com.rae.cnblogs.sdk.bean.MomentBean;
 import com.rae.cnblogs.sdk.bean.MomentCommentBean;
 import com.rae.cnblogs.sdk.parser.MomentCommentParser;
 import com.rae.cnblogs.sdk.parser.MomentDelParser;
+import com.rae.cnblogs.sdk.parser.MomentDetailParser;
 import com.rae.cnblogs.sdk.parser.MomentParser;
+import com.rae.cnblogs.sdk.parser.MomentReplyParser;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -36,9 +39,19 @@ public interface IMomentApi {
     String MOMENT_TYPE_FOLLOWING = "following";
 
     /**
+     * 回复我的
+     */
+    String MOMENT_TYPE_REPLY_ME = "comment";
+
+    /**
+     * 提到我的
+     */
+    String MOMENT_TYPE_AT_ME = "mention";
+
+    /**
      * 我自己的闪存
      */
-    String MOMENT_TYPE_MY = "my";
+    String MOMENT_TYPE_MY = "My";
 
     /**
      * 发布闪存
@@ -98,6 +111,18 @@ public interface IMomentApi {
     Observable<List<MomentBean>> getMoments(@Query("IngListType") String type, @Query("PageIndex") int page, @Query("_") long timestamp);
 
     /**
+     * 获取回复我的闪存
+     *
+     * @param type      默认：{@link #MOMENT_TYPE_REPLY_ME}
+     * @param page      页码
+     * @param timestamp 传当前的时间戳
+     */
+    @GET(ApiUrls.API_MOMENT_LIST)
+    @Headers({JsonBody.XHR})
+    @Parser(MomentReplyParser.class)
+    Observable<List<MomentCommentBean>> getReplyMeMoments(@Query("IngListType") String type, @Query("PageIndex") int page, @Query("_") long timestamp);
+
+    /**
      * 获取闪存评论
      *
      * @param ingId     闪存ID
@@ -111,4 +136,7 @@ public interface IMomentApi {
     Observable<List<MomentCommentBean>> getMomentSingleComments(@Query("ingId") String ingId, @Query("userAlias") String userAlias, @Query("_") long timestamp);
 
 
+    @GET(ApiUrls.API_MOMENT_DETAIL)
+    @Parser(MomentDetailParser.class)
+    Observable<MomentBean> getMomentDetail(@Path("user") String userAlias, @Path("ingId") String ingId);
 }

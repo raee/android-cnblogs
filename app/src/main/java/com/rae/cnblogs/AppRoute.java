@@ -19,6 +19,7 @@ import com.rae.cnblogs.activity.ImageSelectionActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
 import com.rae.cnblogs.activity.MomentDetailActivity;
+import com.rae.cnblogs.activity.MomentMessageActivity;
 import com.rae.cnblogs.activity.PostMomentActivity;
 import com.rae.cnblogs.activity.SearchActivity;
 import com.rae.cnblogs.activity.SettingActivity;
@@ -377,6 +378,25 @@ public final class AppRoute {
     public static void jumpToMomentDetail(Context context, MomentBean data) {
         Intent intent = new Intent(context, MomentDetailActivity.class);
         intent.putExtra("data", data);
+        startActivity(context, intent);
+    }
+
+    /**
+     * 闪存详情
+     */
+    public static void jumpToMomentDetail(Context context, String userAlias, String ingId) {
+        Intent intent = new Intent(context, MomentDetailActivity.class);
+        intent.putExtra("ingId", ingId);
+        intent.putExtra("userId", userAlias);
+        startActivity(context, intent);
+    }
+
+
+    /**
+     * 闪存详情
+     */
+    public static void jumpToMomentMessage(Context context) {
+        Intent intent = new Intent(context, MomentMessageActivity.class);
         startActivity(context, intent);
     }
 

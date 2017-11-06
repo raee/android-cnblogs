@@ -5,8 +5,6 @@ import android.text.TextUtils;
 import com.rae.cnblogs.sdk.bean.MomentBean;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -30,7 +28,6 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
 
         Elements elements = doc.select("#feed_list li");
 
-        final String androidTag = "[来自Android客户端]";
         for (Element element : elements) {
             MomentBean m = new MomentBean();
             String id = ApiUtils.getNumber(element.select(".feed_body").attr("id"));
@@ -46,41 +43,10 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
             m.setBlogApp(ApiUtils.getBlogApp(element.select(".ing-author").attr("href"))); // blogApp
             m.setSourceUrl(ApiUtils.getUrl(element.select(".ing-author").attr("href")).replace("home", "ing") + "status/" + id); // blogApp
 
-
             // 解析评论
-            m.setCommentList(mMomentCommentHelper.parse(element));
-
-
+            m.setCommentList(mMomentCommentHelper.parseCommentInList(element));
             // 解析图片
-            String content = m.getContent();
-            int startIndex = content.indexOf("#img");
-            int endIndex = content.indexOf("#end");
-
-            if (startIndex > 0 && endIndex > 0) {
-                String json = content.substring(startIndex + 4, endIndex);
-                try {
-                    JSONArray array = new JSONArray(json);
-                    int length = array.length();
-                    List<String> imageList = new ArrayList<>();
-                    m.setImageList(imageList);
-                    for (int i = 0; i < length; i++) {
-                        imageList.add("http://" + array.getString(i));
-                    }
-                    // 去除图片标记
-                    m.setContent(content.substring(0, startIndex));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            // Android标签处理
-            if (m.getContent().contains(androidTag) || (startIndex > 0 && endIndex > 0)) {
-                // 来自安卓客户端
-                m.setAndroidClient(true);
-                // 去除标签
-                m.setContent(m.getContent().replace(androidTag, ""));
-            }
-
+            mMomentCommentHelper.parseImageList(m);
             result.add(m);
         }
 

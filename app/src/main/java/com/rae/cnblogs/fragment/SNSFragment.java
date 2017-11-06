@@ -18,6 +18,7 @@ import com.rae.cnblogs.message.TabEvent;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IMomentApi;
 import com.rae.cnblogs.widget.RaeViewPager;
+import com.rae.cnblogs.widget.ToolbarToastView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -42,6 +43,10 @@ public class SNSFragment extends BaseFragment {
     DesignTabLayout mTabLayout;
     @BindView(R.id.view_pager)
     RaeViewPager mViewPager;
+
+    @BindView(R.id.tool_bar_toast_view)
+    ToolbarToastView mToastView;
+
     private SNSFragmentAdapter mAdapter;
 
     @Override
@@ -93,12 +98,32 @@ public class SNSFragment extends BaseFragment {
         }
     }
 
+
+    @OnClick(R.id.img_mine)
+    public void onMineClick() {
+        AppRoute.jumpToMomentMessage(this.getContext());
+    }
+
+    @OnClick(R.id.tool_bar_toast_view)
+    public void onToastClick() {
+        mToastView.dismiss();
+        int type = mToastView.getType();
+        if (type == ToolbarToastView.TYPE_REPLY_ME) {
+            AppRoute.jumpToMomentMessage(this.getContext());
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == 10256) {
             AppRoute.jumpToPostMoment(getActivity());
         }
+    }
+
+    public void showToast(int type, String msg) {
+        mToastView.setType(type);
+        mToastView.show(msg);
     }
 
     public static class SNSFragmentAdapter extends FragmentStatePagerAdapter {

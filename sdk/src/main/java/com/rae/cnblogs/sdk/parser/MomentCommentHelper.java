@@ -3,14 +3,19 @@ package com.rae.cnblogs.sdk.parser;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.rae.cnblogs.sdk.bean.MomentBean;
 import com.rae.cnblogs.sdk.bean.MomentCommentBean;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 闪存评论解析
@@ -24,7 +29,7 @@ public class MomentCommentHelper {
      * @param element 节点
      */
     @Nullable
-    public List<MomentCommentBean> parse(Element element) {
+    public List<MomentCommentBean> parseCommentInList(Element element) {
 
         // 解析评论
         Elements commentLiElements = element.select(".feed_ing_comment_block li");
@@ -56,8 +61,6 @@ public class MomentCommentHelper {
                 if (atUserElement.text().contains("@")) {
                     commentBean.setAtAuthorName(atUserElement.text());
                     commentBean.setAtUserAlias(ApiUtils.getBlogApp(atUserElement.attr("href")));
-//                    content = content.replace(commentBean.getAtAuthorName(), "");
-//                    content = content.trim().startsWith("：") ? content.substring(1) : content;
                 }
 
                 commentBean.setId(commentId);
@@ -74,6 +77,100 @@ public class MomentCommentHelper {
         }
 
         return null;
+    }
+
+    /**
+     * 闪存详情里面解析评论
+     */
+    public void parseCommentInDetail(Element element, MomentBean m) {
+        Elements elements = element.select(".comment_list_block li");
+        if (elements.size() <= 0) {
+            return;
+        }
+
+        List<MomentCommentBean> commentList = new ArrayList<>();
+
+        for (Element commentLiElement : elements) {
+            MomentCommentBean commentBean = new MomentCommentBean();
+
+            // 评论ID
+            String commentId = ApiUtils.getNumber(commentLiElement.attr("id"));
+            if (TextUtils.isEmpty(commentId)) continue;
+
+
+            // @用户处理
+            Elements atUserElement = commentLiElement.select(".comment_author_" + commentId + " > a");
+            if (atUserElement.text().contains("@")) {
+                commentBean.setAtAuthorName(atUserElement.text());
+                commentBean.setAtUserAlias(ApiUtils.getBlogApp(atUserElement.attr("href")));
+            }
+
+            Matcher matcher = Pattern.compile("\\d+").matcher(commentLiElement.select(".gray3").attr("onclick"));
+            int i = 0;
+            while (matcher.find()) {
+                String text = matcher.group();
+                if (i == 0) {
+                    commentBean.setIngId(text);
+                }
+                if (i == 2) {
+                    commentBean.setUserAlias(text);
+                }
+                i++;
+            }
+
+            commentBean.setId(commentId);
+            commentBean.setAvatar(commentLiElement.select(".ing_comment_face").attr("src"));
+            commentBean.setAuthorName(commentLiElement.select("#comment_author_" + commentId).text());
+            commentBean.setBlogApp(ApiUtils.getBlogApp(commentLiElement.select("#comment_author_" + commentId).attr("href")));
+            commentBean.setPostTime(commentLiElement.select(".text_green").text());
+
+
+            // 获取文本,放到最后，因为是纯文本，要移除其他标签
+
+            int size = commentLiElement.childNodeSize();
+            for (int k = 0; k < size; k++) {
+                commentLiElement.child(i).remove();
+            }
+
+            commentBean.setContent(commentLiElement.text());
+
+            commentList.add(commentBean);
+        }
+    }
+
+
+    public void parseImageList(MomentBean m) {
+        // 解析图片
+        String content = m.getContent();
+        int startIndex = content.indexOf("#img");
+        int endIndex = content.indexOf("#end");
+
+        if (startIndex > 0 && endIndex > 0) {
+            String json = content.substring(startIndex + 4, endIndex);
+            try {
+                JSONArray array = new JSONArray(json);
+                int length = array.length();
+                List<String> imageList = new ArrayList<>();
+                m.setImageList(imageList);
+                for (int i = 0; i < length; i++) {
+                    imageList.add("http://" + array.getString(i));
+                }
+                // 去除图片标记
+                m.setContent(content.substring(0, startIndex));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Android标签处理
+        String androidTag = "[来自Android客户端]";
+        if (m.getContent().contains(androidTag) || (startIndex > 0 && endIndex > 0)) {
+            // 来自安卓客户端
+            m.setAndroidClient(true);
+            // 去除标签
+            m.setContent(m.getContent().replace(androidTag, ""));
+        }
+
     }
 
 }

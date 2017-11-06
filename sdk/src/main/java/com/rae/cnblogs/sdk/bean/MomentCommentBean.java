@@ -2,6 +2,7 @@ package com.rae.cnblogs.sdk.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 /**
  * 闪存评论
@@ -20,6 +21,8 @@ public class MomentCommentBean implements Parcelable {
     private String blogApp;
     private String content;
     private String userAlias;
+    // 作者头像
+    private String avatar;
     // 发布时间
     private String postTime;
 
@@ -27,6 +30,9 @@ public class MomentCommentBean implements Parcelable {
     private String atAuthorName;
     // @用户userAlias
     private String atUserAlias;
+
+    // 引用的原文
+    private String referenceContent;
 
 
     public String getIngId() {
@@ -69,6 +75,14 @@ public class MomentCommentBean implements Parcelable {
         this.content = content;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public String getPostTime() {
         return postTime;
     }
@@ -101,6 +115,14 @@ public class MomentCommentBean implements Parcelable {
         this.userAlias = userAlias;
     }
 
+    public String getReferenceContent() {
+        return referenceContent;
+    }
+
+    public void setReferenceContent(String referenceContent) {
+        this.referenceContent = referenceContent;
+    }
+
     public MomentCommentBean() {
     }
 
@@ -117,9 +139,11 @@ public class MomentCommentBean implements Parcelable {
         dest.writeString(this.blogApp);
         dest.writeString(this.content);
         dest.writeString(this.userAlias);
+        dest.writeString(this.avatar);
         dest.writeString(this.postTime);
         dest.writeString(this.atAuthorName);
         dest.writeString(this.atUserAlias);
+        dest.writeString(this.referenceContent);
     }
 
     protected MomentCommentBean(Parcel in) {
@@ -129,9 +153,11 @@ public class MomentCommentBean implements Parcelable {
         this.blogApp = in.readString();
         this.content = in.readString();
         this.userAlias = in.readString();
+        this.avatar = in.readString();
         this.postTime = in.readString();
         this.atAuthorName = in.readString();
         this.atUserAlias = in.readString();
+        this.referenceContent = in.readString();
     }
 
     public static final Creator<MomentCommentBean> CREATOR = new Creator<MomentCommentBean>() {
@@ -145,4 +171,13 @@ public class MomentCommentBean implements Parcelable {
             return new MomentCommentBean[size];
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        // 比较
+        if (obj instanceof MomentCommentBean) {
+            return TextUtils.equals(this.id, ((MomentCommentBean) obj).getId());
+        }
+        return super.equals(obj);
+    }
 }

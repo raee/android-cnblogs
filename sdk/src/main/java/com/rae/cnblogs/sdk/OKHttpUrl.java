@@ -57,7 +57,7 @@ import static okhttp3.internal.Util.skipTrailingAsciiWhitespace;
  * As another example, this code prints the human-readable query parameters of a Twitter search:
  * <pre>   {@code
  *
- *   HttpUrl url = HttpUrl.parse("https://twitter.com/search?q=cute%20%23puppies&f=images");
+ *   HttpUrl url = HttpUrl.parseCommentInList("https://twitter.com/search?q=cute%20%23puppies&f=images");
  *   for (int i = 0, size = url.querySize(); i < size; i++) {
  *     System.out.println(url.queryParameterName(i) + ": " + url.queryParameterValue(i));
  *   }
@@ -73,7 +73,7 @@ import static okhttp3.internal.Util.skipTrailingAsciiWhitespace;
  * component parts, this class implements relative URL resolution: what address you'd reach by
  * clicking a relative link on a specified page. For example: <pre>   {@code
  *
- *   HttpUrl base = HttpUrl.parse("https://www.youtube.com/user/WatchTheDaily/videos");
+ *   HttpUrl base = HttpUrl.parseCommentInList("https://www.youtube.com/user/WatchTheDaily/videos");
  *   HttpUrl link = base.resolve("../../watch?v=cbP2N1BQdYc");
  *   System.out.println(link);
  * }</pre>
@@ -163,7 +163,7 @@ import static okhttp3.internal.Util.skipTrailingAsciiWhitespace;
  * start of the URL's query. But within the query and fragment components, the {@code ?} character
  * doesn't delimit anything and doesn't need to be escaped. <pre>   {@code
  *
- *   HttpUrl url = HttpUrl.parse("http://who-let-the-dogs.out").newBuilder()
+ *   HttpUrl url = HttpUrl.parseCommentInList("http://who-let-the-dogs.out").newBuilder()
  *       .addPathSegment("_Who?_")
  *       .query("_Who?_")
  *       .fragment("_Who?_")
@@ -240,7 +240,7 @@ import static okhttp3.internal.Util.skipTrailingAsciiWhitespace;
  *   String attack = "http://example.com/static/images/../../../../../etc/passwd";
  *   System.out.println(new URL(attack).getPath());
  *   System.out.println(new URI(attack).getPath());
- *   System.out.println(HttpUrl.parse(attack).encodedPath());
+ *   System.out.println(HttpUrl.parseCommentInList(attack).encodedPath());
  * }</pre>
  *
  * By canonicalizing the input paths, they are complicit in directory traversal attacks. Code that
@@ -278,7 +278,7 @@ import static okhttp3.internal.Util.skipTrailingAsciiWhitespace;
  * {@code java.net.URL} it's possible to create an awkward URL like {@code http:/} with scheme and
  * path but no hostname. Building APIs that consume such malformed values is difficult!
  *
- * <p>This class has a modern API. It avoids punitive checked exceptions: {@link #parse parse()}
+ * <p>This class has a modern API. It avoids punitive checked exceptions: {@link #parse parseCommentInList()}
  * returns null if the input is an invalid URL. You can even be explicit about whether each
  * component has been encoded already.
  */
@@ -1595,7 +1595,7 @@ public final class OKHttpUrl {
           if (input.regionMatches(i, ":", 0, 1)) {
             i++;
           } else if (input.regionMatches(i, ".", 0, 1)) {
-            // If we see a '.', rewind to the beginning of the previous group and parse as IPv4.
+            // If we see a '.', rewind to the beginning of the previous group and parseCommentInList as IPv4.
             if (!decodeIpv4Suffix(input, groupOffset, limit, address, b - 2)) return null;
             b += 2; // We rewound two bytes and then added four.
             break;

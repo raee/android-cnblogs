@@ -35,9 +35,15 @@
 
     </RelativeLayout>
 
-
-    <FrameLayout
-        android:id="@+id/fl_content"
+    <com.rae.cnblogs.widget.PlaceholderView
+        android:id="@+id/placeholder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/fl_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.rae.cnblogs.widget.PlaceholderView>
 </LinearLayout>

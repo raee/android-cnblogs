@@ -87,7 +87,7 @@ public final class ApiUtils {
         try {
             @SuppressLint("SimpleDateFormat")
             SimpleDateFormat format = new SimpleDateFormat(pattern);
-            target = format.parse(text);// RaeDateUtil.parse(text, "yyyy-MM-dd HH:mm");
+            target = format.parse(text);// RaeDateUtil.parseCommentInList(text, "yyyy-MM-dd HH:mm");
         } catch (Exception e) {
             Log.e("rae", "解析出错!", e);
             target = new Date();
@@ -176,6 +176,19 @@ public final class ApiUtils {
         Matcher matcher = Pattern.compile("\\d+").matcher(text);
         while (matcher.find()) {
             text = matcher.group();
+        }
+        return text;
+    }
+
+
+    public static String getNumber(String text, int index) {
+        if (TextUtils.isEmpty(text)) return text;
+        Matcher matcher = Pattern.compile("\\d+").matcher(text);
+        int i = 0;
+        while (matcher.find()) {
+            text = matcher.group();
+            if (i == index)
+                return text;
         }
         return text;
     }

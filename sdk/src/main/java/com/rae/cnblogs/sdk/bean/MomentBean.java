@@ -22,7 +22,6 @@ public class MomentBean implements Parcelable {
 
     private String blogApp;
 
-
     // 发布时间
     private String postTime;
 
@@ -38,7 +37,7 @@ public class MomentBean implements Parcelable {
     private String sourceUrl;
 
     // 是否发自于Android客户端
-    private  boolean isAndroidClient;
+    private boolean isAndroidClient;
 
     // 评论列表
     private List<MomentCommentBean> commentList;

@@ -1,7 +1,10 @@
 package com.rae.cnblogs.fragment;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 
@@ -13,6 +16,10 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeViewCompat;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.MomentAdapter;
+import com.rae.cnblogs.dialog.IAppDialog;
+import com.rae.cnblogs.dialog.IAppDialogClickListener;
+import com.rae.cnblogs.dialog.impl.HintCardDialog;
+import com.rae.cnblogs.message.PostMomentEvent;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IMomentContract;
 import com.rae.cnblogs.sdk.api.IMomentApi;
@@ -20,8 +27,11 @@ import com.rae.cnblogs.sdk.bean.MomentBean;
 import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
+import com.rae.cnblogs.widget.ToolbarToastView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -130,6 +140,7 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
                 start();
                 // 统计闪存
                 AppMobclickAgent.onClickEvent(frame.getContext(), "Moment_" + mType);
+
             }
 
             @Override
@@ -163,7 +174,6 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
         super.onActivityCreated(savedInstanceState);
         start();
     }
-
 
     @Override
     public void onNoMoreData() {
@@ -214,6 +224,15 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
     @Override
     public void onReplyContChanged(int number) {
         Log.i("rae", "有回复我的；" + number);
+        showToast(ToolbarToastView.TYPE_REPLY_ME, number + "条回复我的消息");
+    }
+
+    private void showToast(int type, String msg) {
+        Fragment fragment = getParentFragment();
+        if (fragment != null && fragment.isAdded() && fragment.isVisible()) {
+            SNSFragment snsFragment = (SNSFragment) fragment;
+            snsFragment.showToast(type, msg);
+        }
     }
 
     /**
@@ -229,5 +248,39 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
                 }
             });
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(final PostMomentEvent event) {
+
+        // 清除通知
+        NotificationManager nm = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (nm != null) {
+            nm.cancel(event.getNotificationId());
+        }
+
+        // 闪存事件
+        if (event.getIsSuccess()) {
+
+
+        } else {
+
+            HintCardDialog dialog = new HintCardDialog(getContext());
+            dialog.setEnSureText("立即查看");
+            dialog.showCloseButton();
+            dialog.setTitle("发布闪存失败");
+            dialog.setMessage(event.getMessage());
+            dialog.setOnEnSureListener(new IAppDialogClickListener() {
+                @Override
+                public void onClick(IAppDialog dialog, int buttonType) {
+                    dialog.dismiss();
+                    // 跳转到闪存发布
+                    AppRoute.jumpToPostMoment(getActivity(), event.getMomentMetaData());
+                }
+            });
+
+            dialog.show();
+        }
+
     }
 }

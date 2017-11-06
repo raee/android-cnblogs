@@ -17,6 +17,6 @@ public class MomentCommentParser implements IHtmlParser<List<MomentCommentBean>>
 
     @Override
     public List<MomentCommentBean> parse(Document doc, String html) throws IOException {
-        return mMomentCommentHelper.parse(doc);
+        return mMomentCommentHelper.parseCommentInList(doc);
     }
 }

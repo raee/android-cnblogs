@@ -41,11 +41,11 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            <!--     <intent-filter>
+                     <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+                     <category android:name="android.intent.category.LAUNCHER"/>
+                 </intent-filter>-->
         </activity>
 
         <activity
@@ -153,6 +153,17 @@
             android:name=".activity.MomentDetailActivity"
             android:label="@string/label_moment_detail"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.MomentMessageActivity"
+            android:label="@string/label_moment_message"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".service.CnblogsService"

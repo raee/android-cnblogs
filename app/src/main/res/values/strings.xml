@@ -136,4 +136,5 @@
     <string name="tips_post_moment_progress_simple">已进入后台发布，请稍候留意通知。</string>
     <string name="tips_del_moment_success">删除成功</string>
     <string name="edit_moment_comment">吃瓜群众有话说</string>
+    <string name="label_moment_message">消息</string>
 </resources>
