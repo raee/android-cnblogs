@@ -10,6 +10,7 @@ import com.rae.cnblogs.sdk.utils.ApiUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
@@ -90,6 +91,8 @@ public class MomentCommentHelper {
 
         List<MomentCommentBean> commentList = new ArrayList<>();
 
+        StringBuilder sb = new StringBuilder();
+
         for (Element commentLiElement : elements) {
             MomentCommentBean commentBean = new MomentCommentBean();
 
@@ -97,13 +100,6 @@ public class MomentCommentHelper {
             String commentId = ApiUtils.getNumber(commentLiElement.attr("id"));
             if (TextUtils.isEmpty(commentId)) continue;
 
-
-            // @用户处理
-            Elements atUserElement = commentLiElement.select(".comment_author_" + commentId + " > a");
-            if (atUserElement.text().contains("@")) {
-                commentBean.setAtAuthorName(atUserElement.text());
-                commentBean.setAtUserAlias(ApiUtils.getBlogApp(atUserElement.attr("href")));
-            }
 
             Matcher matcher = Pattern.compile("\\d+").matcher(commentLiElement.select(".gray3").attr("onclick"));
             int i = 0;
@@ -125,17 +121,42 @@ public class MomentCommentHelper {
             commentBean.setPostTime(commentLiElement.select(".text_green").text());
 
 
-            // 获取文本,放到最后，因为是纯文本，要移除其他标签
-
-            int size = commentLiElement.childNodeSize();
-            for (int k = 0; k < size; k++) {
-                commentLiElement.child(i).remove();
+            // @用户处理
+            Elements atUserElement = commentLiElement.select("a:contains(@)");
+            if (atUserElement.size() > 0) {
+                commentBean.setAtAuthorName(atUserElement.text());
+                commentBean.setAtUserAlias(ApiUtils.getBlogApp(atUserElement.attr("href")));
             }
 
-            commentBean.setContent(commentLiElement.text());
+            // 内容处理
+            Elements divElements = commentLiElement.select("div");
+            int size = divElements.size();
+            if (size <= 0) {
+                commentBean.setContent(commentLiElement.text());
+            } else {
+                Element div = divElements.get(0);
+                List<TextNode> textNodes = div.textNodes();
+                sb.delete(0, sb.length()); // 删除之前的
+
+                // 添加@用户
+                if (!TextUtils.isEmpty(commentBean.getAtAuthorName())) {
+                    sb.append(commentBean.getAtAuthorName());
+                    sb.append(" ");
+                }
+
+                for (TextNode node : textNodes) {
+                    String text = node.text().trim();
+                    if (TextUtils.isEmpty(text)) continue;
+                    if (text.startsWith("：") || text.startsWith(":")) text = text.substring(1);
+                    sb.append(text);
+                }
+                commentBean.setContent(sb.toString());
+            }
+
 
             commentList.add(commentBean);
         }
+        m.setCommentList(commentList);
     }
 
 

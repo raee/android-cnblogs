@@ -136,7 +136,23 @@ public interface IMomentApi {
     Observable<List<MomentCommentBean>> getMomentSingleComments(@Query("ingId") String ingId, @Query("userAlias") String userAlias, @Query("_") long timestamp);
 
 
+    /**
+     * 删除闪存评论
+     */
+    @POST(ApiUrls.API_MOMENT_COMMENT_DEL)
+    @FormUrlEncoded
+    @Headers({JsonBody.XHR})
+    Observable<Empty> deleteMomentComment(@Field("commentId") String commentId);
+
+    /**
+     * 闪存详情
+     *
+     * @param userAlias 用户
+     * @param ingId     闪存ID
+     * @param timestamp 时间戳
+     * @return
+     */
     @GET(ApiUrls.API_MOMENT_DETAIL)
     @Parser(MomentDetailParser.class)
-    Observable<MomentBean> getMomentDetail(@Path("user") String userAlias, @Path("ingId") String ingId);
+    Observable<MomentBean> getMomentDetail(@Path("user") String userAlias, @Path("ingId") String ingId, @Query("_") long timestamp);
 }

@@ -74,7 +74,7 @@ public class MomentDetailActivity extends SwipeBackBaseActivity {
         }
 
         IMomentApi momentApi = CnblogsApiFactory.getInstance(this).getMomentApi();
-        RxObservable.create(momentApi.getMomentDetail(mUserId, mIngId), "moment")
+        RxObservable.create(momentApi.getMomentDetail(mUserId, mIngId, System.currentTimeMillis()), "moment")
                 .subscribe(new ApiDefaultObserver<MomentBean>() {
                     @Override
                     protected void onError(String message) {
