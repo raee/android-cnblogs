@@ -93,6 +93,7 @@ public class EditCommentDialog extends SlideDialog {
         dismissLoading();
         mReferenceView.setVisibility(View.GONE);
         mBodyView.setText("");
+        mBodyView.setHint(R.string.edit_comment_hint);
     }
 
     public void show(BlogCommentBean comment) {

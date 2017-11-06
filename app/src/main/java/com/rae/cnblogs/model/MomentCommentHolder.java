@@ -1,6 +1,7 @@
 package com.rae.cnblogs.model;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rae.cnblogs.R;
@@ -18,6 +19,9 @@ public class MomentCommentHolder extends SimpleViewHolder {
 
     @BindView(R.id.tv_blog_summary)
     public TextView summaryView;
+
+    @BindView(R.id.img_blog_avatar)
+    public ImageView avatarView;
 
     @BindView(R.id.tv_blog_date)
     public TextView dateView;

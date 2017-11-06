@@ -29,7 +29,7 @@ public class MomentDetailParser implements IHtmlParser<MomentBean> {
         m.setAuthorName(element.select(".ing_item_author").text()); // 作者名称
         m.setBlogApp(ApiUtils.getBlogApp(element.select(".ing_item_author").attr("href"))); // blogApp
         m.setAvatar(ApiUtils.getUrl(element.select(".ing_item_face").attr("src"))); //头像地址
-        m.setContent(element.select(".ing_detail_body").text()); // 内容
+        m.setContent(element.select("#ing_detail_body").text()); // 内容
         m.setPostTime(element.select(".ing_detail_title").text().replace("：", "").replace(m.getAuthorName(), "")); // 发布时间
         m.setCommentCount(ApiUtils.getCount(element.select(".ing_comment_count").text().replace("回应", ""))); // 评论数量
 
@@ -38,7 +38,7 @@ public class MomentDetailParser implements IHtmlParser<MomentBean> {
         // 找用户ID
         Elements scripts = element.select("script");
         for (Element script : scripts) {
-            String text = script.text();
+            String text = script.html();
             // 匹配脚本出现的第一组数字
             if (text.contains("replyToSpaceUserId")) {
                 Matcher matcher = Pattern.compile("\\d+").matcher(text);

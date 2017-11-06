@@ -1,9 +1,7 @@
 package com.rae.cnblogs.dialog.impl;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.InsetDrawable;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,17 +40,15 @@ public class MenuDialog extends SlideDialog {
         super(context);
         setContentView(R.layout.dialog_blog_menu);
 
-        WindowManager.LayoutParams attr = getWindow().getAttributes();
-        attr.width = WindowManager.LayoutParams.MATCH_PARENT;
-        attr.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        attr.gravity = Gravity.START | Gravity.END;
-        getWindow().setAttributes(attr);
-        getWindow().setDimAmount(0.5f);
-
-
-        int margin = (int) getContext().getResources().getDimension(R.dimen.default_dialog_margin);
-        InsetDrawable drawable = new InsetDrawable(new ColorDrawable(Color.TRANSPARENT), margin, 0, margin, 0);
-        getWindow().setBackgroundDrawable(drawable);
+        if (getWindow() != null) {
+            getWindow().setDimAmount(0.5f);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                getWindow().setElevation(0);
+            }
+//            int margin = (int) getContext().getResources().getDimension(R.dimen.default_dialog_margin);
+//            InsetDrawable drawable = new InsetDrawable(new ColorDrawable(Color.TRANSPARENT), margin, 0, margin, 0);
+//            getWindow().setBackgroundDrawable(drawable);
+        }
 
 
         ButterKnife.bind(this);
@@ -61,6 +57,17 @@ public class MenuDialog extends SlideDialog {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
 
+    @Override
+    public void show() {
+        super.show();
+        if (getWindow() != null) {
+            WindowManager.LayoutParams attr = getWindow().getAttributes();
+            attr.width = WindowManager.LayoutParams.MATCH_PARENT;
+            attr.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            attr.gravity = Gravity.START | Gravity.END | Gravity.BOTTOM;
+            getWindow().setAttributes(attr);
+        }
+    }
 
     public void addItem(String name) {
         mAdapter.addItem(name);
@@ -115,6 +122,13 @@ public class MenuDialog extends SlideDialog {
                     dismiss();
                 }
             });
+
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
+            if (position == getItemCount() - 1) {
+                params.topMargin = 45;
+            } else {
+                params.topMargin = 0;
+            }
         }
 
         @Override

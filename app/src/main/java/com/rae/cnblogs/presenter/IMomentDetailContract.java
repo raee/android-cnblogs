@@ -14,6 +14,12 @@ public interface IMomentDetailContract {
 
     interface Presenter extends IAppPresenter {
 
+
+        /**
+         * 下拉刷新，重新发起请求
+         */
+        void refresh();
+
         void loadMore();
 
         /**
@@ -30,6 +36,13 @@ public interface IMomentDetailContract {
          * 是否已经关注
          */
         boolean isFollowed();
+
+        /**
+         * 删除闪存评论
+         *
+         * @param commentId 评论ID
+         */
+        void deleteComment(String commentId);
     }
 
     interface View {
@@ -65,5 +78,11 @@ public interface IMomentDetailContract {
         void onFollowFailed(String msg);
 
         void onFollowSuccess();
+
+        /**
+         * 删除评论失败
+         * @param message
+         */
+        void onDeleteCommentFailed(String message);
     }
 }

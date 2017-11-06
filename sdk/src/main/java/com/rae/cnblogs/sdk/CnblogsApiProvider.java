@@ -41,7 +41,7 @@ public abstract class CnblogsApiProvider {
         }
 
         OkHttpClient client = builder
-                .cache(context, 1)
+//                .cache(context, 2)
                 .https()
                 .cookie()
                 .build()

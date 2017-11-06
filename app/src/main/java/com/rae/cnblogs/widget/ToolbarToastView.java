@@ -75,11 +75,15 @@ public class ToolbarToastView extends RaeTextView implements ValueAnimator.Anima
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mValueAnimator.removeUpdateListener(this);
-        mValueAnimator.cancel();
-        mHandler.removeMessages(0);
-        mHandler = null;
-        mValueAnimator = null;
+        if (mValueAnimator != null) {
+            mValueAnimator.removeUpdateListener(this);
+            mValueAnimator.cancel();
+            mValueAnimator = null;
+        }
+        if (mHandler != null) {
+            mHandler.removeMessages(0);
+            mHandler = null;
+        }
     }
 
     public void setOnDismissListener(OnDismissListener onDismissListener) {

@@ -16,6 +16,7 @@ import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.MomentAdapter;
 import com.rae.cnblogs.adapter.MomentDetailAdapter;
 import com.rae.cnblogs.dialog.impl.EditCommentDialog;
+import com.rae.cnblogs.dialog.impl.MenuDeleteDialog;
 import com.rae.cnblogs.model.MomentHolder;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IMomentDetailContract;
@@ -53,6 +54,7 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
     private IMomentDetailContract.Presenter mPresenter;
 
     private EditCommentDialog mEditCommentDialog;
+    private MenuDeleteDialog mDeleteDialog;
     private final View.OnClickListener mOnFollowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -122,6 +124,16 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
             }
         });
 
+        mDeleteDialog = new MenuDeleteDialog(this.getContext());
+        mDeleteDialog.setOnDeleteClickListener(new MenuDeleteDialog.onDeleteClickListener() {
+            @Override
+            public void onMenuDeleteClicked() {
+                // 执行删除
+                AppUI.loading(getContext(), "正在删除");
+                mPresenter.deleteComment(mDeleteDialog.getTag().toString());
+            }
+        });
+
         mPlaceholderView.dismiss();
 
         mAdapter = new MomentDetailAdapter(mData);
@@ -145,7 +157,16 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
         mAdapter.setOnItemClickListener(new BaseItemAdapter.onItemClickListener<MomentCommentBean>() {
             @Override
             public void onItemClick(MomentCommentBean item) {
-                if (item != null) {
+                if (item == null) {
+                    AppUI.failed(getContext(), "数据为空");
+                    return;
+                }
+
+                // 如果是自己的话就弹出删除
+                if (UserProvider.getInstance().isLogin() && UserProvider.getInstance().getLoginUserInfo().getBlogApp().equals(item.getBlogApp())) {
+                    mDeleteDialog.setTag(item.getId());
+                    mDeleteDialog.show();
+                } else {
                     mEditCommentDialog.show(item);
                 }
             }
@@ -171,7 +192,9 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
         mAppLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                start();
+                if (mData != null) {
+                    mPresenter.refresh();
+                }
             }
 
             @Override
@@ -217,6 +240,7 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
 
     @Override
     public void onLoadComments(List<MomentCommentBean> data, boolean hasMore) {
+        AppUI.dismiss();
         mRecyclerView.loadMoreComplete();
         mAppLayout.refreshComplete();
         mAdapter.invalidate(data);
@@ -235,7 +259,7 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
         mEditCommentDialog.dismiss();
         AppUI.toastInCenter(getContext(), getString(R.string.tips_comment_success));
         // 重新加载
-        start();
+        mPresenter.refresh();
     }
 
     @Override
@@ -275,6 +299,12 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
             holder.followView.setEnabled(true);
             holder.followView.setText(mPresenter.isFollowed() ? R.string.cancel_follow : R.string.following);
         }
+    }
+
+    @Override
+    public void onDeleteCommentFailed(String message) {
+        AppUI.dismiss();
+        AppUI.failed(getContext(), message);
     }
 
 

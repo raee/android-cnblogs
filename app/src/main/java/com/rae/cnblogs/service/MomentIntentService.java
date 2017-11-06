@@ -36,7 +36,6 @@ import org.json.JSONArray;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -104,40 +103,46 @@ public class MomentIntentService extends IntentService {
                 .flatMap(new Function<ImageMetaData, ObservableSource<ImageMetaData>>() {
                     @Override
                     public ObservableSource<ImageMetaData> apply(ImageMetaData imageMetaData) throws Exception {
-                        imageMetaData.localPath = composeImage(BitmapFactory.decodeFile(imageMetaData.localPath), imageMetaData.localPath);
+                        imageMetaData.localPath = composeImage(imageMetaData.localPath);
                         return Observable.just(imageMetaData);
                     }
 
                     /**
                      * 压缩图片小于2M
                      */
-                    private String composeImage(Bitmap bmp, String output) {
-                        OutputStream stream = null;
-                        try {
+                    private String composeImage(String output) throws IOException {
+                        BitmapFactory.Options opt = new BitmapFactory.Options();
+                        opt.inJustDecodeBounds = true;
+                        BitmapFactory.decodeFile(output, opt);
 
-                            Log.d(TAG, "图片压缩前大小：" + output + "--> " + bmp.getByteCount());
-                            Bitmap result = BitmapCompressor.compressBitmap(bmp, 2048);
-                            File file = new File(output);
-                            if (file.exists()) {
-                                file.delete();
-                            }
-                            stream = new FileOutputStream(file);
-                            result.compress(Bitmap.CompressFormat.JPEG, 90, stream);
-                            stream.close();
-                            stream.flush();
-
-                            Log.d(TAG, "图片压缩后大小：" + output + "--> " + result.getByteCount());
-                        } catch (Exception e) {
-                            Log.e(TAG, "压缩图片异常！", e);
-                        } finally {
-                            if (stream != null) {
-                                try {
-                                    stream.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+                        if (opt.outWidth > opt.outHeight) {
+                            opt.inSampleSize = opt.outWidth / 320;
+                        } else {
+                            opt.inSampleSize = opt.outHeight / 680;
                         }
+
+                        //避免出现内存溢出的情况，进行相应的属性设置。
+                        opt.inPreferredConfig = Bitmap.Config.RGB_565;
+                        opt.inJustDecodeBounds = false;
+                        opt.inDither = true;
+                        opt.inScaled = true;
+
+                        Bitmap bmp = BitmapFactory.decodeFile(output, opt);
+                        if (bmp == null) {
+                            throw new IOException("图片加载失败，可能由于图片太大了");
+                        }
+                        Log.d(TAG, "图片压缩前大小：" + output + "--> " + bmp.getByteCount());
+                        Bitmap result = BitmapCompressor.compressBitmap(bmp, 2048);
+                        File file = new File(output);
+                        if (file.exists()) {
+                            file.delete();
+                        }
+                        FileOutputStream stream = new FileOutputStream(file);
+                        result.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+                        stream.close();
+                        stream.flush();
+
+                        Log.d(TAG, "图片压缩后大小：" + output + "--> " + result.getByteCount());
 
                         return output;
                     }

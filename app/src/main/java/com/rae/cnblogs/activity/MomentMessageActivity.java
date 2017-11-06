@@ -20,6 +20,7 @@ public class MomentMessageActivity extends SwipeBackBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moment_message);
         showHomeAsUp();
+//        AppRoute.jumpToLogin(this);
         mFragment = new MomentMessageFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.content, mFragment)

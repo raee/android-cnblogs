@@ -18,7 +18,7 @@ public class FriendsInfoParser extends AbsUserInfoParser<FriendsInfoBean> {
         onParseUserInfo(result, document);
         result.setFollows(document.select("#following_count").text());
         result.setFans(document.select("#follower_count").text());
-        result.setFollowed(!document.select("#followedPanel").attr("style").contains("none"));
+        result.setFollowed(document.select("#unFollowedPanel[style*=none]").size() > 0);
 
         // 解析园龄
         Elements profileLi = document.select("#user_profile li");

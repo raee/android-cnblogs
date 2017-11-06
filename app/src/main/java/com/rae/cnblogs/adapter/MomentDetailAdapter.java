@@ -3,7 +3,6 @@ package com.rae.cnblogs.adapter;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -30,7 +29,6 @@ import java.util.List;
  * Created by ChenRui on 2017/11/2 0002 15:54.
  */
 public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, SimpleViewHolder> {
-
 
     private static final int VIEW_TYPE_DETAIL = 10;
     private final MomentBean mMomentBean;
@@ -152,6 +150,14 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
         if (!TextUtils.isEmpty(m.getAtAuthorName())) {
             content.setSpan(new ForegroundColorSpan(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorPrimary)), 0, m.getAtAuthorName().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
+        if (!TextUtils.isEmpty(m.getAvatar())) {
+            RaeImageLoader.displayHeaderImage(m.getAvatar(), holder.avatarView);
+        }
+
+        View.OnClickListener onClickListener = TextUtils.isEmpty(m.getBlogApp()) ? null : new MomentAdapter.ItemBloggerClickListener(m.getBlogApp(), mOnBloggerClickListener);
+        holder.authorView.setOnClickListener(onClickListener);
+        holder.avatarView.setOnClickListener(onClickListener);
+        holder.dateView.setOnClickListener(onClickListener);
 
         int index = mDataList.indexOf(m);
         holder.titleLayout.setVisibility(index == 0 ? View.VISIBLE : View.GONE);
@@ -171,11 +177,21 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
 
         int imageCount = Rx.getCount(m.getImageList());
         if (imageCount == 1) {
-            holder.mRecyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+            holder.mRecyclerView.setVisibility(View.INVISIBLE);
+            holder.mRecyclerView.removeAllViews();
         } else {
             int spanCount = imageCount == 4 || imageCount == 2 ? 2 : 3;
+            holder.mRecyclerView.setVisibility(View.VISIBLE);
             holder.mRecyclerView.setLayoutManager(new GridLayoutManager(holder.itemView.getContext(), spanCount));
         }
+
+        holder.thumbView.setVisibility(imageCount == 1 ? View.VISIBLE : View.GONE);
+        if (imageCount == 1) {
+            String url = m.getImageList().get(0);
+            RaeImageLoader.displayHeaderImage(url, holder.thumbView);
+            holder.thumbView.setOnClickListener(new MomentAdapter.ItemImageClickListener(url));
+        }
+
 
         View.OnClickListener onClickListener = TextUtils.isEmpty(m.getBlogApp()) ? null : new MomentAdapter.ItemBloggerClickListener(m.getBlogApp(), mOnBloggerClickListener);
         holder.authorView.setOnClickListener(onClickListener);
@@ -188,6 +204,7 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
         holder.dateView.setText(m.getPostTime());
         holder.summaryView.setText(m.getContent());
         holder.commentView.setText(m.getCommentCount());
+        holder.androidTagView.setVisibility(m.isAndroidClient() ? View.VISIBLE : View.GONE);
     }
 
     /**

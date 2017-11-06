@@ -3,6 +3,7 @@ package com.rae.cnblogs.presenter.impl;
 import android.content.Context;
 
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.message.UserInfoEvent;
 import com.rae.cnblogs.presenter.IMomentDetailContract;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
@@ -13,6 +14,8 @@ import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.sdk.bean.MomentBean;
 import com.rae.cnblogs.sdk.bean.MomentCommentBean;
 import com.rae.swift.Rx;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -27,6 +30,7 @@ public class MomentDetailPresenterImpl extends BasePresenter<IMomentDetailContra
     private IMomentApi mMomentApi;
     private final IFriendsApi mFriendApi;
     private FriendsInfoBean mBloggerInfo;
+    private boolean mRefresh;
 
     public MomentDetailPresenterImpl(Context context, IMomentDetailContract.View view) {
         super(context, view);
@@ -38,6 +42,56 @@ public class MomentDetailPresenterImpl extends BasePresenter<IMomentDetailContra
     public void start() {
         super.start();
         MomentBean momentInfo = mView.getMomentInfo();
+
+        // 如果自带有评论就不用再发起请求了
+        if (Rx.isEmpty(momentInfo.getCommentList()) || mRefresh) {
+            loaMomentDetail(momentInfo);
+        } else {
+            mView.onLoadComments(momentInfo.getCommentList(), false);
+        }
+
+        if (isLogin()) {
+            // 加载博主信息
+            createObservable(mFriendApi.getFriendsInfo(mView.getBlogApp())).subscribe(new ApiDefaultObserver<FriendsInfoBean>() {
+                @Override
+                protected void onError(String msg) {
+                    mView.onLoadBloggerInfoFailed(msg);
+                }
+
+                @Override
+                protected void accept(FriendsInfoBean friendsInfoBean) {
+                    mBloggerInfo = friendsInfoBean;
+                    mView.onLoadBloggerInfo(friendsInfoBean);
+                }
+            });
+        } else {
+            mView.onLoadBloggerInfoFailed(getString(R.string.login_expired));
+        }
+
+    }
+
+    private void loaMomentDetail(MomentBean momentInfo) {
+        // 加载详情里面的
+        createObservable(mMomentApi.getMomentDetail(momentInfo.getUserAlias(), momentInfo.getId(), System.currentTimeMillis()))
+                .subscribe(new ApiDefaultObserver<MomentBean>() {
+                    @Override
+                    protected void onError(String message) {
+                        // 加载失败后，默认加载
+                        loadComments(mView.getMomentInfo());
+                    }
+
+                    @Override
+                    protected void accept(MomentBean momentBean) {
+                        if (Rx.isEmpty(momentBean.getCommentList())) {
+                            loadComments(mView.getMomentInfo());
+                        } else {
+                            mView.onLoadComments(momentBean.getCommentList(), false);
+                        }
+                    }
+                });
+    }
+
+    private void loadComments(MomentBean momentInfo) {
         createObservable(mMomentApi.getMomentSingleComments(momentInfo.getId(), momentInfo.getUserAlias(), System.currentTimeMillis()))
                 .subscribe(new ApiDefaultObserver<List<MomentCommentBean>>() {
                     @Override
@@ -61,30 +115,18 @@ public class MomentDetailPresenterImpl extends BasePresenter<IMomentDetailContra
                         mView.onLoadComments(momentCommentBeans, hasMore);
                     }
                 });
+    }
 
-        if (isLogin()) {
-            // 加载博主信息
-            createObservable(mFriendApi.getFriendsInfo(mView.getBlogApp())).subscribe(new ApiDefaultObserver<FriendsInfoBean>() {
-                @Override
-                protected void onError(String msg) {
-                    mView.onLoadBloggerInfoFailed(msg);
-                }
-
-                @Override
-                protected void accept(FriendsInfoBean friendsInfoBean) {
-                    mBloggerInfo = friendsInfoBean;
-                    mView.onLoadBloggerInfo(friendsInfoBean);
-                }
-            });
-        } else {
-            mView.onLoadBloggerInfoFailed(getString(R.string.login_expired));
-        }
-
+    @Override
+    public void refresh() {
+        mRefresh = true;
+        start();
     }
 
     @Override
     public void loadMore() {
-        // TODO:闪存评论加载更多
+        // 目前没有发现有多页的情况，就重新刷新当前页面
+        refresh();
     }
 
     @Override
@@ -128,6 +170,8 @@ public class MomentDetailPresenterImpl extends BasePresenter<IMomentDetailContra
                     mBloggerInfo.setFollowed(!mBloggerInfo.isFollowed());
                 }
                 mView.onFollowSuccess();
+                // 通知更新用户信息
+                EventBus.getDefault().post(new UserInfoEvent());
             }
         });
     }
@@ -135,5 +179,22 @@ public class MomentDetailPresenterImpl extends BasePresenter<IMomentDetailContra
     @Override
     public boolean isFollowed() {
         return mBloggerInfo != null && mBloggerInfo.isFollowed();
+    }
+
+    @Override
+    public void deleteComment(String commentId) {
+        createObservable(mMomentApi.deleteMomentComment(commentId))
+                .subscribe(new ApiDefaultObserver<Empty>() {
+                    @Override
+                    protected void onError(String message) {
+                        mView.onDeleteCommentFailed(message);
+                    }
+
+                    @Override
+                    protected void accept(Empty empty) {
+                        // 重新加载数据
+                        loaMomentDetail(mView.getMomentInfo());
+                    }
+                });
     }
 }

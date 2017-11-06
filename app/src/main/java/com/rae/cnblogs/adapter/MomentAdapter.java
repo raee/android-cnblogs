@@ -1,11 +1,13 @@
 package com.rae.cnblogs.adapter;
 
+import android.app.Activity;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.ItemLoadingViewHolder;
@@ -102,7 +104,7 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
 
         MomentHolder holder = (MomentHolder) viewHolder;
         int imageCount = Rx.getCount(m.getImageList());
-        holder.mRecyclerView.setVisibility(imageCount > 1 ? View.GONE : View.VISIBLE);
+        holder.mRecyclerView.setVisibility(imageCount > 1 ? View.VISIBLE : View.GONE);
 
         if (imageCount > 1) {
             int spanCount = imageCount == 4 || imageCount == 2 ? 2 : 3;
@@ -121,7 +123,9 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
 
         holder.thumbView.setVisibility(imageCount == 1 ? View.VISIBLE : View.GONE);
         if (imageCount == 1) {
-            RaeImageLoader.displayHeaderImage(m.getImageList().get(0), holder.thumbView);
+            String url = m.getImageList().get(0);
+            RaeImageLoader.displayHeaderImage(url, holder.thumbView);
+            holder.thumbView.setOnClickListener(new ItemImageClickListener(url));
         }
 
         RaeImageLoader.displayHeaderImage(m.getAvatar(), holder.avatarView);
@@ -133,6 +137,19 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
         holder.androidTagView.setVisibility(m.isAndroidClient() ? View.VISIBLE : View.GONE);
         holder.commentView.setVisibility("0".equals(m.getCommentCount()) ? View.GONE : View.VISIBLE);
         holder.commentView.setText("0".equals(m.getCommentCount()) ? "" : m.getCommentCount() + "条回复");
+    }
+
+    static class ItemImageClickListener implements View.OnClickListener {
+        private String mUrl;
+
+        public ItemImageClickListener(String url) {
+            mUrl = url;
+        }
+
+        @Override
+        public void onClick(View v) {
+            AppRoute.jumpToImagePreview((Activity) v.getContext(), mUrl);
+        }
     }
 
     private static class ItemDeleteClickListener implements View.OnClickListener {
