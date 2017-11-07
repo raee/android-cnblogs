@@ -130,7 +130,7 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
         holder.thumbView.setVisibility(imageCount == 1 ? View.VISIBLE : View.GONE);
         if (imageCount == 1) {
             String url = m.getImageList().get(0);
-            RaeImageLoader.displayHeaderImage(url, holder.thumbView);
+            RaeImageLoader.displayImage(url, holder.thumbView);
             holder.thumbView.setOnClickListener(new ItemImageClickListener(url));
         }
 

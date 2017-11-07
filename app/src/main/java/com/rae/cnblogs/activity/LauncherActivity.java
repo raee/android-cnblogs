@@ -122,4 +122,10 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
         mLauncherPresenter.stop();
         mCountDownTextView.stop();
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
 }

@@ -68,6 +68,9 @@ public class MainActivity extends BaseActivity {
         AppStatusBar.setStatusbarToDark(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // 跳启动页
+        startActivity(new Intent(this, LauncherActivity.class));
+
         EventBus.getDefault().register(this);
         mServiceConnection = new ServiceConnection() {
             @Override
@@ -260,7 +263,6 @@ public class MainActivity extends BaseActivity {
         if (mCnblogsServiceBinder == null) return;
         mCnblogsServiceBinder.getJobScheduler().start(event.getAction());
     }
-
 
 
 }

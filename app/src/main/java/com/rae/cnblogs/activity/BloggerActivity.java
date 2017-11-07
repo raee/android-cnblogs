@@ -17,6 +17,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
@@ -216,6 +217,8 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
                         public boolean onResourceReady(Drawable drawable, Object o, Target<Drawable> target, DataSource dataSource, boolean b) {
                             // 如果有封面图，则设置进去
                             mBackgroundView.setContentDescription(coverUrl);
+                            // 统计
+                            AppMobclickAgent.onClickEvent(getContext(), "BloggerCover");
                             return false;
                         }
                     })

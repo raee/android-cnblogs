@@ -13,7 +13,6 @@ import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
-import skin.support.SkinCompatManager;
 
 /**
  * 可以滑动返回的
@@ -23,6 +22,7 @@ public abstract class SwipeBackBaseActivity extends BaseActivity implements Swip
 
     private SwipeBackActivityHelper mHelper;
 
+    // 是否为滑动返回
     private boolean mIsSwipeBack;
 
 
@@ -81,13 +81,20 @@ public abstract class SwipeBackBaseActivity extends BaseActivity implements Swip
     public void scrollToFinishActivity() {
         Utils.convertActivityToTranslucent(this);
         getSwipeBackLayout().scrollToFinishActivity();
+        mIsSwipeBack = true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mIsSwipeBack = false;
     }
 
     @Override
     public void finish() {
         super.finish();
-//        if (!mIsSwipeBack) {
-        overridePendingTransition(0, 0);
-//        }
+        if (mIsSwipeBack) {
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
 }

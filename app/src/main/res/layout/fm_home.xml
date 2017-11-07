@@ -30,7 +30,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_action_bar_logo"/>
+                android:src="@drawable/ic_logo_small"/>
 
             <android.support.design.widget.DesignTabLayout
                 android:id="@+id/tab_category"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:tabBackground="@android:color/transparent"
-                app:tabIndicatorColor="@color/colorPrimaryDark"
+                app:tabIndicatorColor="@color/ph1"
                 app:tabIndicatorHeight="2dp"
                 app:tabIndicatorWidth="16dp"
                 app:tabMinWidth="52dp"

@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.rae.cnblogs.model.CategoriesOverallItem;
 
@@ -20,12 +21,20 @@ public class CategoriesOverallAdapter extends FlexibleAdapter<AbstractFlexibleIt
     private boolean mIsRemoveMode;
 
     public interface CategoryDragListener {
-
-
         void onItemDrag();
     }
 
+    public interface OnDataSetFinishListener {
+        /**
+         * 更新完成
+         *
+         * @param lastView 最后一个View
+         */
+        void onDataSetFinish(View lastView);
+    }
+
     private CategoryDragListener mCategoryDragListener;
+    private OnDataSetFinishListener mOnDataSetFinishListener;
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -47,6 +56,10 @@ public class CategoriesOverallAdapter extends FlexibleAdapter<AbstractFlexibleIt
         mCategoryDragListener = categoryDragListener;
     }
 
+    public void setOnDataSetFinishListener(OnDataSetFinishListener onDataSetFinishListener) {
+        mOnDataSetFinishListener = onDataSetFinishListener;
+    }
+
     /**
      * 移除模式切换
      */
@@ -64,6 +77,11 @@ public class CategoriesOverallAdapter extends FlexibleAdapter<AbstractFlexibleIt
         // 切换模型
         CategoriesOverallItem.CategoriesViewHolder viewHolder = (CategoriesOverallItem.CategoriesViewHolder) holder;
         viewHolder.onRemoveMode(mIsRemoveMode, getItem(position).isDraggable());
+
+        // 最后一个，动态计算高度
+        if (position == getItemCount() - 1 && mOnDataSetFinishListener != null) {
+            mOnDataSetFinishListener.onDataSetFinish(holder.itemView);
+        }
     }
 
     @Override

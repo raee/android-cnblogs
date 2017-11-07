@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
@@ -135,7 +136,7 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
                 .setAnimationDelay(70L);
         mCategoryRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
         mCategoryRecyclerView.setItemViewCacheSize(0); //Setting ViewCache to 0 (default=2) will animate mCategoryItems better while scrolling down+up with LinearLayout
-        mCategoryRecyclerView.setLayoutManager(new SmoothScrollStaggeredLayoutManager(getActivity(), 4));
+        mCategoryRecyclerView.setLayoutManager(new SmoothScrollStaggeredLayoutManager(getActivity(), 3));
         mCategoryRecyclerView.setAdapter(mCategoryAdapter);
         mCategoryRecyclerView.setHasFixedSize(true); //Size of RV will not change
         mCategoryAdapter.setLongPressDragEnabled(true) //Enable long press to drag items
@@ -143,6 +144,24 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
                 .setSwipeEnabled(true); //Enable swipe items
 
         mCategoryAdapter.setCategoryDragListener(this);
+        mCategoryAdapter.setOnDataSetFinishListener(new CategoriesOverallAdapter.OnDataSetFinishListener() {
+            @Override
+            public void onDataSetFinish(final View lastView) {
+                lastView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        onViewLayoutFinish(lastView);
+                    }
+                });
+            }
+
+            private void onViewLayoutFinish(View lastView) {
+                int[] location = new int[2];
+                lastView.getLocationInWindow(location);
+                int y = location[1];
+                Log.i("rae", "高度：" + mCategoryRecyclerView.getLayoutManager().getHeight() + ";实际：" + mCategoryRecyclerView.getHeight());
+            }
+        });
 
         mCategoryAdapter.addListener(new FlexibleAdapter.OnItemClickListener() {
             @Override
@@ -182,6 +201,8 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
                 AppUI.toastInCenter(getContext(), item.getCategory().getName());
             }
         });
+
+
     }
 
 
@@ -195,7 +216,7 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
 
         mUnusedRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_unused);
         mUnusedRecyclerView.setItemViewCacheSize(0); //Setting ViewCache to 0 (default=2) will animate mCategoryItems better while scrolling down+up with LinearLayout
-        mUnusedRecyclerView.setLayoutManager(new SmoothScrollStaggeredLayoutManager(getActivity(), 4));
+        mUnusedRecyclerView.setLayoutManager(new SmoothScrollStaggeredLayoutManager(getActivity(), 3));
         mUnusedRecyclerView.setAdapter(mUnusedAdapter);
         mUnusedRecyclerView.setHasFixedSize(true); //Size of RV will not change
         mUnusedAdapter.setCategoryDragListener(this);
@@ -331,6 +352,9 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
 
     @Override
     public void onDestroy() {
+        if (mCategoryAdapter != null) {
+            mCategoryAdapter.setOnDataSetFinishListener(null);
+        }
         mHandler.removeMessages(0);
         mHandler = null;
         super.onDestroy();

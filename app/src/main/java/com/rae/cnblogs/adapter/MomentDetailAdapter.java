@@ -191,7 +191,7 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
         holder.thumbView.setVisibility(imageCount == 1 ? View.VISIBLE : View.GONE);
         if (imageCount == 1) {
             String url = m.getImageList().get(0);
-            RaeImageLoader.displayHeaderImage(url, holder.thumbView);
+            RaeImageLoader.displayImage(url, holder.thumbView);
             holder.thumbView.setOnClickListener(new MomentAdapter.ItemImageClickListener(url));
         }
 

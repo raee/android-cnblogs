@@ -127,13 +127,27 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true">
 
-
             <com.rae.cnblogs.widget.RaeTextView
                 android:id="@+id/tv_blog_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_view"
+                android:layout_marginLeft="20dp"
+                android:drawableLeft="@drawable/ic_blog_read"
                 android:drawablePadding="7dp"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/ph2"
+                android:textSize="@dimen/h2"/>
+
+            <com.rae.cnblogs.widget.RaeTextView
+                android:id="@+id/tv_blog_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="2dp"
+                android:drawableLeft="@drawable/ic_blog_comment"
+                android:drawablePadding="7dp"
+                android:gravity="center"
                 android:text="0"
                 android:textColor="@color/ph2"
                 android:textSize="@dimen/h2"/>
@@ -143,25 +157,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:drawableLeft="@drawable/ic_like_normal_min"
+                android:drawableLeft="@drawable/ic_blog_like"
                 android:drawablePadding="7dp"
+                android:gravity="center"
                 android:text="0"
                 android:textColor="@color/ph2"
                 android:textSize="14sp"/>
 
 
-            <com.rae.cnblogs.widget.RaeTextView
-                android:id="@+id/tv_blog_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="2dp"
-                android:drawableLeft="@drawable/ic_comment_min"
-                android:drawablePadding="7dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/ph2"
-                android:textSize="@dimen/h2"/>
         </LinearLayout>
 
     </RelativeLayout>

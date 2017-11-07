@@ -90,14 +90,8 @@ public class LoginActivity extends BaseActivity
         setContentView(com.rae.cnblogs.R.layout.activity_login);
         mLoginPresenter = CnblogsPresenterFactory.getLoginPresenter(this, this);
 
-        mBackView.setVisibility(View.INVISIBLE);
-        mBackView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mBackView.setVisibility(View.VISIBLE);
-                RaeAnim.fadeIn(mBackView);
-            }
-        }, 300);
+        mBackView.setVisibility(View.VISIBLE);
+        RaeAnim.fadeIn(mBackView);
 
 //        mAccountTextWatcher = new AccountTextWatcher();
 //        addAccountTextListener(mAccountTextWatcher);
