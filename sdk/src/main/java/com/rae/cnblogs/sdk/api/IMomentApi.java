@@ -145,6 +145,18 @@ public interface IMomentApi {
     Observable<Empty> deleteMomentComment(@Field("commentId") String commentId);
 
     /**
+     * 更新回复我的为已阅读
+     *
+     * @param commentId 最新的评论ID
+     * @param timestamp 时间戳
+     * @return
+     */
+    @POST(ApiUrls.API_MOMENT_COMMENT_UPDATE_READ)
+    @FormUrlEncoded
+    @Headers({JsonBody.XHR})
+    Observable<Empty> updateRelyMeToRead(@Field("commentId") String commentId, @Query("_") long timestamp);
+
+    /**
      * 闪存详情
      *
      * @param userAlias 用户

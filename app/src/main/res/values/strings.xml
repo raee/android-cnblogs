@@ -24,9 +24,9 @@
     <string name="loading">正在加载…</string>
     <string name="signing">正在登录…</string>
     <string name="loading_web_user_info">请稍等片刻</string>
-    <string name="loading_user_info">请稍等片刻，一切都有可能「%s」..</string>
+    <string name="loading_user_info">遇见你真好「%s」..</string>
     <string name="loading_blog_app">每一步的改变都不平凡..</string>
-    <string name="loading_user_info_finish">技术改变世界，即刻出发</string>
+    <string name="loading_user_info_finish">技术改变世界</string>
     <string name="login_retry_error">多次登录失败？试试官方网页登录吧！</string>
     <string name="login_verify_code_error">登录需要校验验证码，请前往官方网页登录。</string>
     <string name="empty_message">这里什么都没有</string>
@@ -41,6 +41,7 @@
     <string name="login_user_name_hint">用户名</string>
     <string name="login_password_hint">密码</string>
     <string name="login">官网登录</string>
+    <string name="go_login">去登录</string>
     <string name="login_success">登录成功</string>
     <string name="error_username_empty">请输入用户名</string>
     <string name="error_password_empty">请输入密码</string>
@@ -137,4 +138,6 @@
     <string name="tips_del_moment_success">删除成功</string>
     <string name="edit_moment_comment">吃瓜群众有话说</string>
     <string name="label_moment_message">消息</string>
+    <string name="tab_sns_mine">我的</string>
+    <string name="unlogin_hint">登录，发现更大的世界</string>
 </resources>

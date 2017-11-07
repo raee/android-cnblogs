@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
 
@@ -28,8 +29,12 @@ import skin.support.widget.SkinCompatSupportable;
  */
 public class PlaceholderView extends FrameLayout implements SkinCompatSupportable {
 
+    private static final int TYPE_EMPTY = 0;
+    private static final int TYPE_LOADING = 1;
+    private static final int TYPE_LOGIN = 2;
     private SkinCompatBackgroundHelper mBackgroundTintHelper;
     private View mEmptyView;
+    private View mLoginView;
     private View mLoadingView;
     private ImageView mEmptyImageView;
     private TextView mEmptyMessageView;
@@ -38,6 +43,7 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
     private View mContentView;
     private TextView mLoadingTextView;
     private String mLoadingText;
+    private View mLoginBtn;
 
     public PlaceholderView(Context context) {
         super(context);
@@ -71,12 +77,21 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
 
         mContentView = LayoutInflater.from(getContext()).inflate(R.layout.view_placeholder, this, false);
         mEmptyView = mContentView.findViewById(R.id.ll_placeholder_empty);
+        mLoginView = mContentView.findViewById(R.id.ll_placeholder_login);
         mLoadingView = mContentView.findViewById(R.id.ll_placeholder_loading);
         mLoadingTextView = (TextView) mContentView.findViewById(R.id.tv_loading);
         mEmptyImageView = (ImageView) mContentView.findViewById(R.id.img_placeholder_empty);
         mEmptyMessageView = (TextView) mContentView.findViewById(R.id.tv_placeholder_empty_message);
         mRetryView = mContentView.findViewById(R.id.btn_placeholder_retry);
+        mLoginBtn = mContentView.findViewById(R.id.btn_placeholder_login);
         setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
+
+        setOnLoginListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppRoute.jumpToLogin(v.getContext());
+            }
+        });
     }
 
     private void initAttr(AttributeSet attrs) {
@@ -130,11 +145,35 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
      */
     public void loading() {
         show();
+        switchHolderType(TYPE_LOADING);
         if (mLoadingText == null)
             mLoadingText = getContext().getString(R.string.loading);
         mLoadingTextView.setText(mLoadingText);
-        mEmptyView.setVisibility(GONE);
-        mLoadingView.setVisibility(VISIBLE);
+    }
+
+    /**
+     * 切换显示类型
+     */
+    private void switchHolderType(int type) {
+
+        int emptyVisibility = GONE;
+        int loadingVisibility = GONE;
+        int loginVisibility = GONE;
+        switch (type) {
+            case TYPE_EMPTY:
+                emptyVisibility = VISIBLE;
+                break;
+            case TYPE_LOADING:
+                loadingVisibility = VISIBLE;
+                break;
+            case TYPE_LOGIN:
+                loginVisibility = VISIBLE;
+                break;
+        }
+
+        mEmptyView.setVisibility(emptyVisibility);
+        mLoginView.setVisibility(loginVisibility);
+        mLoadingView.setVisibility(loadingVisibility);
     }
 
     public void loading(String text) {
@@ -151,15 +190,13 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
             mDefaultEmptyIcon = ThemeCompat.getDrawable(getContext(), "ic_empty_placeholder");
         }
         setEmptyIcon(mDefaultEmptyIcon);
-        mEmptyView.setVisibility(VISIBLE);
-        mLoadingView.setVisibility(GONE);
+        switchHolderType(TYPE_EMPTY);
     }
 
     public void empty(int defaultEmptyIcon) {
         show();
         setEmptyIcon(defaultEmptyIcon);
-        mEmptyView.setVisibility(VISIBLE);
-        mLoadingView.setVisibility(GONE);
+        switchHolderType(TYPE_EMPTY);
     }
 
     public void retry(String msg) {
@@ -174,8 +211,13 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
         show();
         setEmptyIcon(ThemeCompat.getDrawableId(getContext(), "ic_network_error_placeholder"));
         mRetryView.setVisibility(VISIBLE);
-        mEmptyView.setVisibility(VISIBLE);
-        mLoadingView.setVisibility(GONE);
+        switchHolderType(TYPE_EMPTY);
+    }
+
+
+    public void showLogin() {
+        show();
+        switchHolderType(TYPE_LOGIN);
     }
 
     /**
@@ -212,6 +254,13 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
                 listener.onClick(v);
             }
         });
+    }
+
+    /**
+     * 登录按钮点击
+     */
+    public void setOnLoginListener(OnClickListener listener) {
+        mLoginBtn.setOnClickListener(listener);
     }
 
 
@@ -287,4 +336,5 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
         if (mContentView != null)
             mContentView.setOnClickListener(l);
     }
+
 }

@@ -1,6 +1,7 @@
 package com.rae.cnblogs.fragment;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,14 +15,20 @@ import android.view.View;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.dialog.IAppDialog;
+import com.rae.cnblogs.dialog.IAppDialogClickListener;
+import com.rae.cnblogs.dialog.impl.DefaultDialog;
+import com.rae.cnblogs.message.PostMomentEvent;
 import com.rae.cnblogs.message.TabEvent;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IMomentApi;
 import com.rae.cnblogs.widget.RaeViewPager;
 import com.rae.cnblogs.widget.ToolbarToastView;
+import com.rae.swift.Rx;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,12 +83,13 @@ public class SNSFragment extends BaseFragment {
         mViewPager.addOnPageChangeListener(new DesignTabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new DesignTabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         mTabLayout.addOnTabSelectedListener(new DefaultOnTabSelectedListener());
+        mViewPager.setOffscreenPageLimit(3);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DesignTabLayout.Tab tab = mTabLayout.getTabAt(UserProvider.getInstance().isLogin() ? 0 : 1);
+        DesignTabLayout.Tab tab = mTabLayout.getTabAt(mTabLayout.getTabCount() - 1);
         if (tab != null) {
             tab.select();
         }
@@ -101,7 +109,12 @@ public class SNSFragment extends BaseFragment {
 
     @OnClick(R.id.img_mine)
     public void onMineClick() {
-        AppRoute.jumpToMomentMessage(this.getContext());
+        if (UserProvider.getInstance().isLogin()) {
+            dismissToast();
+            AppRoute.jumpToMomentMessage(this.getContext());
+        } else {
+            AppRoute.jumpToLogin(getContext());
+        }
     }
 
     @OnClick(R.id.tool_bar_toast_view)
@@ -110,6 +123,10 @@ public class SNSFragment extends BaseFragment {
         int type = mToastView.getType();
         if (type == ToolbarToastView.TYPE_REPLY_ME) {
             AppRoute.jumpToMomentMessage(this.getContext());
+        }
+        if (type == ToolbarToastView.TYPE_POST_SUCCESS && mAdapter != null && mViewPager.getCurrentItem() >= 0) {
+            MomentFragment momentFragment = (MomentFragment) mAdapter.getItem(mViewPager.getCurrentItem());
+            momentFragment.scrollToTop();
         }
     }
 
@@ -126,12 +143,17 @@ public class SNSFragment extends BaseFragment {
         mToastView.show(msg);
     }
 
+    public void dismissToast() {
+        mToastView.dismiss();
+    }
+
     public static class SNSFragmentAdapter extends FragmentStatePagerAdapter {
 
         private final List<MomentFragment> mFragments = new ArrayList<>();
 
         public SNSFragmentAdapter(Context context, FragmentManager fm) {
             super(fm);
+            mFragments.add(MomentFragment.newInstance(IMomentApi.MOMENT_TYPE_MY));
             mFragments.add(MomentFragment.newInstance(IMomentApi.MOMENT_TYPE_FOLLOWING));
             mFragments.add(MomentFragment.newInstance(IMomentApi.MOMENT_TYPE_ALL));
         }
@@ -143,7 +165,7 @@ public class SNSFragment extends BaseFragment {
 
         @Override
         public int getCount() {
-            return 2;
+            return Rx.getCount(mFragments);
         }
     }
 
@@ -184,5 +206,36 @@ public class SNSFragment extends BaseFragment {
             onTabSelected(tab);
             performTabEvent();
         }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(final PostMomentEvent event) {
+
+        // 清除通知
+        NotificationManager nm = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (nm != null && event.getNotificationId() > 0) {
+            nm.cancel(event.getNotificationId());
+        }
+
+        // 闪存事件
+        if (event.getIsSuccess()) {
+            showToast(ToolbarToastView.TYPE_POST_SUCCESS, "发布成功");
+        } else {
+            DefaultDialog dialog = new DefaultDialog(getContext());
+            dialog.setEnSureText("立即查看");
+            dialog.setTitle("发布闪存失败");
+            dialog.setMessage(event.getMessage());
+            dialog.setOnEnSureListener(new IAppDialogClickListener() {
+                @Override
+                public void onClick(IAppDialog dialog, int buttonType) {
+                    dialog.dismiss();
+                    // 跳转到闪存发布
+                    AppRoute.jumpToPostMoment(getActivity(), event.getMomentMetaData());
+                }
+            });
+            dialog.show();
+        }
+
     }
 }

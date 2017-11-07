@@ -98,6 +98,12 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
     }
 
     @Override
+    protected void onBindItemClickListener(SimpleViewHolder holder, int position, MomentBean dataItem) {
+        if (getItemViewType(position) == VIEW_TYPE_LOADING) return;
+        super.onBindItemClickListener(holder, position, dataItem);
+    }
+
+    @Override
     public void onBindViewHolder(SimpleViewHolder viewHolder, int position, MomentBean m) {
         int viewType = getItemViewType(position);
         if (viewType == VIEW_TYPE_LOADING) return;

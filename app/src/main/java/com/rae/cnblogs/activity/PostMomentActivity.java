@@ -22,10 +22,13 @@ import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.dialog.impl.DefaultDialog;
+import com.rae.cnblogs.message.PostMomentEvent;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IPostMomentContract;
 import com.rae.cnblogs.sdk.model.ImageMetaData;
 import com.rae.cnblogs.sdk.model.MomentMetaData;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +53,7 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        overridePendingTransition(com.rae.cnblogs.R.anim.slide_in_bottom, android.R.anim.fade_out);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_moment);
         showHomeAsUp();
@@ -148,6 +152,7 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
     @Override
     public void onPostMomentSuccess() {
         AppUI.success(this, R.string.tips_post_moment_success);
+        EventBus.getDefault().post(new PostMomentEvent(0, true, null));
         setResult(RESULT_OK);
         finish();
     }
@@ -187,6 +192,12 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
         } else {
             AppMobclickAgent.onClickEvent(this, "PostMoment_Return");
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, com.rae.cnblogs.R.anim.slide_out_bottom);
     }
 
     private static class PostImageHolder extends RecyclerView.ViewHolder {

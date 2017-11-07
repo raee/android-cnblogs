@@ -89,7 +89,9 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
         if (text.startsWith("{") || text.startsWith("[")) {
             // 解析JSON
             return json2Entity(text);
-        } else if (type == String.class) {
+        }
+        // 如果没有解析器，直接返回响应文本。
+        else if (type == String.class && mHtmlParser == null && mJsonParser == null) {
             return (T) text;
         }
         return html2Entity(text);

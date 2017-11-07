@@ -1,10 +1,9 @@
 package com.rae.cnblogs.fragment;
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -16,12 +15,9 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeViewCompat;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.MomentAdapter;
-import com.rae.cnblogs.dialog.IAppDialog;
-import com.rae.cnblogs.dialog.IAppDialogClickListener;
-import com.rae.cnblogs.dialog.impl.HintCardDialog;
-import com.rae.cnblogs.message.PostMomentEvent;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IMomentContract;
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IMomentApi;
 import com.rae.cnblogs.sdk.bean.MomentBean;
 import com.rae.cnblogs.widget.AppLayout;
@@ -30,8 +26,6 @@ import com.rae.cnblogs.widget.RaeRecyclerView;
 import com.rae.cnblogs.widget.ToolbarToastView;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -126,13 +120,22 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-        mPlaceholderView.dismiss();
         mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 start();
             }
         });
+
+
+        // 判断是否登录
+        boolean isLogin = UserProvider.getInstance().isLogin();
+        if (!isLogin && TextUtils.equals(IMomentApi.MOMENT_TYPE_ALL, mType)) {
+            // 没有登录
+            mPlaceholderView.showLogin();
+        } else {
+            mPlaceholderView.dismiss();
+        }
 
         mAppLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
@@ -198,7 +201,8 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
 
     @Override
     public void onLoginExpired() {
-        mPlaceholderView.retry(getString(R.string.login_expired));
+        mAppLayout.refreshComplete();
+        mPlaceholderView.showLogin();
     }
 
     @Override
@@ -240,7 +244,7 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
      */
     public void scrollToTop() {
         RaeViewCompat.scrollToTop(mRecyclerView);
-        if (mRecyclerView.isOnTop()) {
+        if (mRecyclerView != null && mRecyclerView.isOnTop()) {
             mAppLayout.post(new Runnable() {
                 @Override
                 public void run() {
@@ -250,37 +254,4 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(final PostMomentEvent event) {
-
-        // 清除通知
-        NotificationManager nm = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        if (nm != null) {
-            nm.cancel(event.getNotificationId());
-        }
-
-        // 闪存事件
-        if (event.getIsSuccess()) {
-
-
-        } else {
-
-            HintCardDialog dialog = new HintCardDialog(getContext());
-            dialog.setEnSureText("立即查看");
-            dialog.showCloseButton();
-            dialog.setTitle("发布闪存失败");
-            dialog.setMessage(event.getMessage());
-            dialog.setOnEnSureListener(new IAppDialogClickListener() {
-                @Override
-                public void onClick(IAppDialog dialog, int buttonType) {
-                    dialog.dismiss();
-                    // 跳转到闪存发布
-                    AppRoute.jumpToPostMoment(getActivity(), event.getMomentMetaData());
-                }
-            });
-
-            dialog.show();
-        }
-
-    }
 }

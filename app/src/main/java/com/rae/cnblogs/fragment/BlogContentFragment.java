@@ -24,6 +24,7 @@ import com.rae.cnblogs.RaeAnim;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
+import com.rae.cnblogs.message.FontChangedEvent;
 import com.rae.cnblogs.message.ThemeChangedEvent;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IBlogContentPresenter;
@@ -59,6 +60,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     private ImageLoadingView mBookmarksView;
     private ImageLoadingView mLikeAnimView; // 点赞做动画的视图
     private BlogType mBlogType;
+    private int mSourceTextZoom; // 刚进来的字体大小
 
     public static BlogContentFragment newInstance(BlogBean blog, BlogType type) {
         Bundle args = new Bundle();
@@ -94,6 +96,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mSourceTextZoom = mWebView.getSettings().getTextZoom();
         if (BuildConfig.DEBUG) {
             mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         } else {
@@ -102,14 +105,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         }
 
         // 设置字体大小
-        int pageTextSize = config().getPageTextSize();
-        if (pageTextSize > 0) {
-            // 默认字体大小
-            int defaultTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, getResources().getDisplayMetrics());
-            int zoom = mWebView.getSettings().getTextZoom() * pageTextSize / defaultTextSize;
-            mWebView.getSettings().setTextZoom(zoom);
-        }
-
+        initFontSize();
 
         mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +140,19 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
                 Log.i("rae", "滚动高度：" + y);
             }
         });
+    }
+
+    private void initFontSize() {
+        if (mSourceTextZoom <= 0) {
+            mSourceTextZoom = mWebView.getSettings().getTextZoom();
+        }
+        int pageTextSize = config().getPageTextSize();
+        if (pageTextSize > 0) {
+            // 默认字体大小
+            int defaultTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, getResources().getDisplayMetrics());
+            int zoom = mSourceTextZoom * pageTextSize / defaultTextSize;
+            mWebView.getSettings().setTextZoom(zoom);
+        }
     }
 
     @Override
@@ -379,6 +388,11 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Subscribe
     public void onEvent(ThemeChangedEvent event) {
         mWebView.loadUrl("javascript:loadTheme(" + event.isNight() + ")");
-//       mWebView.reload();
+    }
+
+    @Subscribe
+    public void onEvent(FontChangedEvent event) {
+        initFontSize();
+        mWebView.reload();
     }
 }

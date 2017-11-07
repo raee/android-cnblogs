@@ -33,6 +33,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
@@ -331,6 +332,11 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
      */
     public void scrollToTop() {
         RaeViewCompat.scrollToTop(mRecyclerView);
+    }
+
+    @OnClick(R.id.tv_edit_comment)
+    public void onCommentClick() {
+        mEditCommentDialog.show();
     }
 
 }

@@ -119,6 +119,10 @@ final class ApiUrls {
     static final String API_MOMENT_DEL = "https://ing.cnblogs.com/ajax/ing/del";
     // 闪存-评论删除
     static final String API_MOMENT_COMMENT_DEL = "https://ing.cnblogs.com/ajax/ing/DeleteComment";
+
+    // 闪存-更新回复我的消息为已阅读
+    static final String API_MOMENT_COMMENT_UPDATE_READ = "https://ing.cnblogs.com/ajax/ing/UpdateReplyToMeViewStatus";
+
     // 闪存-发表评论
     static final String API_MOMENT_POST_COMMENT = "https://ing.cnblogs.com/ajax/ing/PostComment";
 

@@ -21,6 +21,7 @@ public class ToolbarToastView extends RaeTextView implements ValueAnimator.Anima
 
 
     public static final int TYPE_REPLY_ME = 12;
+    public static final int TYPE_POST_SUCCESS = 11;
 
     private static class ToolbarToastViewHandler extends Handler {
 

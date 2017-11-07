@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
+import android.support.design.widget.DesignTabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -42,7 +42,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     }
 
     @BindView(R.id.tab_category)
-    TabLayout mTabLayout;
+    DesignTabLayout mTabLayout;
 
     @BindView(R.id.vp_blog_list)
     ViewPager mViewPager;
@@ -104,19 +104,19 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
             mAdapter = new BlogListAdapter(getChildFragmentManager(), data);
             mViewPager.setAdapter(mAdapter);
             mTabLayout.setupWithViewPager(mViewPager);
-            mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            mTabLayout.addOnTabSelectedListener(new DesignTabLayout.OnTabSelectedListener() {
                 @Override
-                public void onTabSelected(TabLayout.Tab tab) {
+                public void onTabSelected(DesignTabLayout.Tab tab) {
 
                 }
 
                 @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
+                public void onTabUnselected(DesignTabLayout.Tab tab) {
 
                 }
 
                 @Override
-                public void onTabReselected(TabLayout.Tab tab) {
+                public void onTabReselected(DesignTabLayout.Tab tab) {
                     goTop();
                 }
             });

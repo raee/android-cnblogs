@@ -21,6 +21,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
@@ -77,6 +78,9 @@ public class ShareDialog extends SlideDialog {
 
     @BindView(R.id.btn_share_cancel)
     Button mCancelView;
+
+    @BindView(R.id.tv_share_font)
+    TextView mFontSettingView;
 
     @BindView(R.id.hl_ext_action_layout)
     View mExtLayout;
@@ -155,7 +159,7 @@ public class ShareDialog extends SlideDialog {
     public void setExtVisibility(int visibility) {
         mViewSourceView.setVisibility(visibility);
         mNightView.setVisibility(visibility);
-
+        mFontSettingView.setVisibility(visibility);
 //        mExtLayout.setVisibility(visibility);
 //        mDividerView.setVisibility(visibility);
     }
@@ -169,18 +173,19 @@ public class ShareDialog extends SlideDialog {
     private void startAnim() {
 
         List<View> views = new ArrayList<>();
-        views.add(mWeChatView);
-        views.add(mWeChatSNSView);
         views.add(mQQView);
         views.add(mQzoneView);
+        views.add(mWeChatView);
+        views.add(mWeChatSNSView);
         views.add(mSinaView);
         startAnimSet(views);
 
         views.clear();
         views.add(mViewSourceView);
-        views.add(mLinkView);
-        views.add(mBrowseriew);
         views.add(mNightView);
+        views.add(mFontSettingView);
+        views.add(mBrowseriew);
+        views.add(mLinkView);
         startAnimSet(views);
         views.clear();
 
@@ -330,6 +335,13 @@ public class ShareDialog extends SlideDialog {
     @OnClick(R.id.btn_share_cancel)
     void onCancelClick() {
         dismiss();
+    }
+
+    // 字体设置
+    @OnClick(R.id.tv_share_font)
+    void onFontSettingClick() {
+        dismiss();
+        AppRoute.jumpToFontSetting(getContext());
     }
 
     @Override

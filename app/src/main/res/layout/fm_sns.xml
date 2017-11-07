@@ -47,22 +47,22 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/img_mine"
+                android:id="@+id/tv_post"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/default_margin"
-                android:src="@drawable/ic_default_user_avatar"/>
+                android:src="@drawable/ic_moment_post"/>
 
             <android.support.design.widget.DesignTabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toEndOf="@+id/img_mine"
-                android:layout_toRightOf="@+id/img_mine"
+                android:layout_toEndOf="@+id/tv_post"
+                android:layout_toLeftOf="@+id/img_mine"
+                android:layout_toRightOf="@+id/tv_post"
+                android:layout_toStartOf="@+id/img_mine"
                 app:tabBackground="@android:color/transparent"
-                android:layout_toLeftOf="@+id/tv_post"
-                android:layout_toStartOf="@+id/tv_post"
                 app:tabGravity="center"
                 app:tabIndicatorColor="@color/ph1"
                 app:tabIndicatorHeight="2dp"
@@ -77,6 +77,11 @@
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/tab_sns_mine"/>
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/tab_follow"/>
 
                 <android.support.design.widget.TabItem
@@ -87,14 +92,14 @@
             </android.support.design.widget.DesignTabLayout>
 
             <ImageView
-                android:id="@+id/tv_post"
+                android:id="@+id/img_mine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/default_margin"
-                android:src="@drawable/ic_moment_post"/>
+                android:src="@drawable/ic_moment_notification"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>

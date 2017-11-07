@@ -7,7 +7,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.message.FontChangedEvent;
 import com.rae.cnblogs.widget.RaeSeekBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 
@@ -57,5 +60,8 @@ public class FontSettingActivity extends SwipeBackBaseActivity {
         // 保存设置
         config().setPageTextSize(mSeekBar.getTextSize(mSeekBar.getProgress()));
         super.onDestroy();
+
+        // 通知
+        EventBus.getDefault().post(new FontChangedEvent());
     }
 }

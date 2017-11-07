@@ -9,10 +9,12 @@ import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.api.IMomentApi;
 import com.rae.cnblogs.sdk.bean.MomentCommentBean;
+import com.rae.swift.Rx;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * moment
@@ -32,6 +34,29 @@ public class MomentMessagePresenterImpl extends BasePresenter<IMomentMessageCont
             @Override
             protected Observable<List<MomentCommentBean>> onCreateObserver(int page) {
                 return createObservable(mMomentApi.getReplyMeMoments(IMomentApi.MOMENT_TYPE_REPLY_ME, page, System.currentTimeMillis()));
+            }
+
+            @Override
+            protected void onLoadDataComplete(List<MomentCommentBean> dataList) {
+                super.onLoadDataComplete(dataList);
+                if (!Rx.isEmpty(dataList)) {
+                    // 更新消息数量
+                    updateReplyMeToRead(dataList.get(0).getId());
+                }
+            }
+
+            private void updateReplyMeToRead(String id) {
+                mMomentApi.updateRelyMeToRead(id, System.currentTimeMillis())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new ApiDefaultObserver<Empty>() {
+                            @Override
+                            protected void onError(String message) {
+                            }
+
+                            @Override
+                            protected void accept(Empty empty) {
+                            }
+                        });
             }
         };
     }

@@ -16,6 +16,7 @@ import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.MomentCommentHolder;
 import com.rae.cnblogs.model.MomentHolder;
 import com.rae.cnblogs.model.SimpleViewHolder;
+import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.MomentBean;
 import com.rae.cnblogs.sdk.bean.MomentCommentBean;
 import com.rae.cnblogs.widget.PlaceholderView;
@@ -42,6 +43,7 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
     private View.OnClickListener mOnFollowClickListener;
     private MomentAdapter.OnBloggerClickListener mOnBloggerClickListener;
     private MomentHolder mMomentHolder;
+    private CharSequence mBlogApp;
 
     public MomentDetailAdapter(MomentBean momentBean) {
         mMomentBean = momentBean;
@@ -173,6 +175,7 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
     private void onBindDetailInfoViewHolder(MomentHolder holder, MomentBean m) {
 
         holder.followView.setOnClickListener(mOnFollowClickListener);
+        holder.followView.setVisibility(TextUtils.equals(m.getBlogApp(), mBlogApp) ? View.GONE : View.VISIBLE);
         holder.mRecyclerView.setVisibility(Rx.isEmpty(m.getImageList()) ? View.GONE : View.VISIBLE);
 
         int imageCount = Rx.getCount(m.getImageList());
@@ -228,6 +231,9 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
     @Override
     public void invalidate(List<MomentCommentBean> data) {
         mIsEmpty = false;
+        if (UserProvider.getInstance().isLogin()) {
+            mBlogApp = UserProvider.getInstance().getLoginUserInfo().getBlogApp();
+        }
         super.invalidate(data);
     }
 
@@ -237,4 +243,5 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
         clear();
         notifyDataSetChanged();
     }
+
 }

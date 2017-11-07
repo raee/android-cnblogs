@@ -44,6 +44,13 @@ public class MomentMessageAdapter extends BaseItemAdapter<MomentCommentBean, Sim
     }
 
     @Override
+    protected void onBindItemClickListener(SimpleViewHolder holder, int position, MomentCommentBean dataItem) {
+        if (getItemViewType(position) == VIEW_TYPE_LOADING) return;
+        super.onBindItemClickListener(holder, position, dataItem);
+    }
+
+
+    @Override
     public SimpleViewHolder onCreateViewHolder(LayoutInflater inflater, ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_LOADING) {
             return new ItemLoadingViewHolder(inflateView(parent, R.layout.item_list_loading));

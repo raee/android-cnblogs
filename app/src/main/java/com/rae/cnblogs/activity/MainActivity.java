@@ -121,7 +121,6 @@ public class MainActivity extends BaseActivity {
 
         // 统计打开时间
         AppMobclickAgent.onAppOpenEvent(this);
-        mViewPager.setCurrentItem(1);
 
         // 检查更新
         RxObservable.create(CnblogsApiFactory

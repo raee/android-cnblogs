@@ -32,13 +32,15 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_action_bar_logo"/>
 
-            <com.rae.cnblogs.widget.RaeTabLayout
+            <android.support.design.widget.DesignTabLayout
                 android:id="@+id/tab_category"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:tabBackground="@android:color/transparent"
-                app:tabIndicatorHeight="0dp"
+                app:tabIndicatorColor="@color/colorPrimaryDark"
+                app:tabIndicatorHeight="2dp"
+                app:tabIndicatorWidth="16dp"
                 app:tabMinWidth="52dp"
                 app:tabMode="scrollable"
                 app:tabPaddingEnd="6dp"

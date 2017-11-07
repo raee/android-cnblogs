@@ -48,7 +48,6 @@ public class MomentPresenterImpl extends BasePresenter<IMomentContract.View> imp
     @Override
     public void start() {
         super.start();
-        mPageObservable.start();
 
         // 查询回复我的数量
         if (isLogin()) {
@@ -67,6 +66,12 @@ public class MomentPresenterImpl extends BasePresenter<IMomentContract.View> imp
                             }
                         }
                     });
+        }
+
+        if (!isLogin() && !TextUtils.equals(mView.getType(), IMomentApi.MOMENT_TYPE_ALL)) {
+            mView.onLoginExpired();
+        } else {
+            mPageObservable.start();
         }
     }
 
