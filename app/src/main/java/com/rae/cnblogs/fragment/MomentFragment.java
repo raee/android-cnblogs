@@ -9,12 +9,10 @@ import android.view.View;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
-import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeViewCompat;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.MomentAdapter;
-import com.rae.cnblogs.dialog.impl.MenuDeleteDialog;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IMomentContract;
 import com.rae.cnblogs.sdk.UserProvider;
@@ -24,8 +22,6 @@ import com.rae.cnblogs.widget.AppLayout;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 import com.rae.cnblogs.widget.ToolbarToastView;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -77,6 +73,7 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mPresenter = CnblogsPresenterFactory.getMomentPresenter(getContext(), this);
         if (getArguments() != null) {
             mType = getArguments().getString("type", IMomentApi.MOMENT_TYPE_ALL);
@@ -86,7 +83,6 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
         mPresenter.destroy();
         mAdapter.setOnItemClickListener(null);
         mAdapter.setOnBloggerClickListener(null);
@@ -103,24 +99,24 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
                 AppRoute.jumpToBlogger(getContext(), blogApp);
             }
         });
-        mAdapter.setOnDeleteClickListener(new MomentAdapter.OnDeleteClickListener() {
-
-            final MenuDeleteDialog deleteDialog = new MenuDeleteDialog(getContext());
-
-            @Override
-            public void onDeleteClick(final String ingId, int position) {
-                // 删除闪存
-                mCurrentDeletePosition = position;
-                deleteDialog.setOnDeleteClickListener(new MenuDeleteDialog.onDeleteClickListener() {
-                    @Override
-                    public void onMenuDeleteClicked() {
-                        AppUI.loading(getContext(), "正在删除");
-                        mPresenter.delete(ingId);
-                    }
-                });
-                deleteDialog.show();
-            }
-        });
+//        mAdapter.setOnDeleteClickListener(new MomentAdapter.OnDeleteClickListener() {
+//
+//            final MenuDeleteDialog deleteDialog = new MenuDeleteDialog(getContext());
+//
+//            @Override
+//            public void onDeleteClick(final String ingId, int position) {
+//                // 删除闪存
+//                mCurrentDeletePosition = position;
+//                deleteDialog.setOnDeleteClickListener(new MenuDeleteDialog.onDeleteClickListener() {
+//                    @Override
+//                    public void onMenuDeleteClicked() {
+//                        AppUI.loading(getContext(), "正在删除");
+//                        mPresenter.delete(ingId);
+//                    }
+//                });
+//                deleteDialog.show();
+//            }
+//        });
         mAdapter.setOnItemClickListener(new BaseItemAdapter.onItemClickListener<MomentBean>() {
             @Override
             public void onItemClick(MomentBean item) {
@@ -219,20 +215,20 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
         return mType;
     }
 
-    @Override
-    public void onDeleteMomentFailed(String msg) {
-        AppUI.dismiss();
-        AppUI.failed(getContext(), msg);
-    }
-
-    @Override
-    public void onDeleteMomentSuccess() {
-        AppUI.dismiss();
-        MomentBean item = mAdapter.getDataItem(mCurrentDeletePosition);
-        mAdapter.remove(item);
-        mAdapter.notifyDataSetChanged();
-        AppUI.success(getContext(), R.string.tips_del_moment_success);
-    }
+//    @Override
+//    public void onDeleteMomentFailed(String msg) {
+//        AppUI.dismiss();
+//        AppUI.failed(getContext(), msg);
+//    }
+//
+//    @Override
+//    public void onDeleteMomentSuccess() {
+//        AppUI.dismiss();
+//        MomentBean item = mAdapter.getDataItem(mCurrentDeletePosition);
+//        mAdapter.remove(item);
+//        mAdapter.notifyDataSetChanged();
+//        AppUI.success(getContext(), R.string.tips_del_moment_success);
+//    }
 
     @Override
     public void onReplyCountChanged(int number) {

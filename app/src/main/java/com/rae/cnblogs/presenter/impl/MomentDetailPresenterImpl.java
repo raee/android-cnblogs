@@ -1,8 +1,10 @@
 package com.rae.cnblogs.presenter.impl;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.message.PostMomentEvent;
 import com.rae.cnblogs.message.UserInfoEvent;
 import com.rae.cnblogs.presenter.IMomentDetailContract;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
@@ -194,6 +196,35 @@ public class MomentDetailPresenterImpl extends BasePresenter<IMomentDetailContra
                     protected void accept(Empty empty) {
                         // 重新加载数据
                         loaMomentDetail(mView.getMomentInfo());
+                    }
+                });
+    }
+
+    @Override
+    public void deleteMoment() {
+        String ingId = mView.getMomentInfo().getId();
+        if (isNotLogin()) {
+            mView.onDeleteMomentFailed(getString(R.string.login_expired));
+            return;
+        }
+        if (TextUtils.isEmpty(ingId)) {
+            mView.onDeleteMomentFailed("闪存ID为空");
+            return;
+        }
+
+        createObservable(mMomentApi.deleteMoment(ingId))
+                .subscribe(new ApiDefaultObserver<Empty>() {
+                    @Override
+                    protected void onError(String message) {
+                        mView.onDeleteMomentFailed(message);
+                    }
+
+                    @Override
+                    protected void accept(Empty empty) {
+                        PostMomentEvent postMomentEvent = new PostMomentEvent();
+                        postMomentEvent.setDeleted(true);
+                        EventBus.getDefault().post(postMomentEvent);
+                        mView.onDeleteMomentSuccess();
                     }
                 });
     }

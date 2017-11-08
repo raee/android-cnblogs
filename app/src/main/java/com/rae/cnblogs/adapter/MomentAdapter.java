@@ -1,20 +1,12 @@
 package com.rae.cnblogs.adapter;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.ImageViewTarget;
-import com.bumptech.glide.request.target.Target;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
@@ -39,25 +31,6 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
 
 
     String blogApp;
-
-    private RequestListener<Drawable> mThumbViewRequestListener = new RequestListener<Drawable>() {
-        @Override
-        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-            return false;
-        }
-
-        @Override
-        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
-            // 限制图片不超过最大高度
-            if (target instanceof ImageViewTarget) {
-                ImageView view = (ImageView) ((ImageViewTarget) target).getView();
-                view.getLayoutParams().height = Math.min(resource.getIntrinsicHeight(), view.getMaxHeight());
-                view.invalidate();
-            }
-            return false;
-        }
-    };
 
     public MomentAdapter() {
         initUserInfo();
@@ -98,15 +71,15 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
     }
 
     private OnBloggerClickListener mOnBloggerClickListener;
-    private OnDeleteClickListener mOnDeleteClickListener;
+//    private OnDeleteClickListener mOnDeleteClickListener;
 
     public void setOnBloggerClickListener(OnBloggerClickListener onBloggerClickListener) {
         mOnBloggerClickListener = onBloggerClickListener;
     }
 
-    public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
-        mOnDeleteClickListener = onDeleteClickListener;
-    }
+//    public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
+//        mOnDeleteClickListener = onDeleteClickListener;
+//    }
 
     @Override
     public int getItemViewType(int position) {
@@ -157,14 +130,13 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
             String url = m.getImageList().get(0);
             GlideApp.with(holder.thumbView)
                     .load(url)
-                    .listener(mThumbViewRequestListener)
                     .into(holder.thumbView);
             holder.thumbView.setOnClickListener(new ItemImageClickListener(url));
         }
 
         RaeImageLoader.displayHeaderImage(m.getAvatar(), holder.avatarView);
-        holder.deleteView.setVisibility(TextUtils.equals(blogApp, m.getBlogApp()) ? View.VISIBLE : View.GONE);
-        holder.deleteView.setOnClickListener(new ItemDeleteClickListener(m.getId(), position, mOnDeleteClickListener));
+//        holder.deleteView.setVisibility(TextUtils.equals(blogApp, m.getBlogApp()) ? View.VISIBLE : View.GONE);
+//        holder.deleteView.setOnClickListener(new ItemDeleteClickListener(m.getId(), position, mOnDeleteClickListener));
         holder.authorView.setText(m.getAuthorName());
         holder.dateView.setText(m.getPostTime());
         holder.summaryView.setText(m.getContent());

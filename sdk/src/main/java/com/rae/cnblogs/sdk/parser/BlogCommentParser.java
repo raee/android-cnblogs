@@ -49,8 +49,12 @@ public class BlogCommentParser implements IJsonParser<List<BlogCommentBean>> {
 
         Elements posts = document.select(".post");
         Elements feeds = document.select(".feedbackItem");
+        Elements lis = document.select(".commentlist li");
         if (feeds.size() <= 0 && posts.size() > 0) {
             feeds = posts;
+        }
+        if (lis.size() > 0 && feeds.size() <= 0) {
+            feeds = lis;
         }
 
         for (Element feed : feeds) {

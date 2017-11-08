@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.DesignTabLayout
+            <android.support.design.widget.RaeSkinDesignTabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -43,16 +43,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tab_library"/>
-            </android.support.design.widget.DesignTabLayout>
+            </android.support.design.widget.RaeSkinDesignTabLayout>
 
-            <ImageView
+            <com.rae.cnblogs.widget.RaeSkinImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="12dp"
-                android:src="@drawable/ic_action_bar_search"/>
+                android:src="@drawable/ic_action_bar_search"
+                app:nightColor="@color/nightIconColor"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>

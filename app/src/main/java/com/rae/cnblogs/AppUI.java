@@ -121,16 +121,20 @@ public final class AppUI {
     }
 
     public static void dismiss() {
-        if (dialogWeakReference == null || dialogWeakReference.get() == null) {
-            return;
-        }
-        IAppDialog dialog = dialogWeakReference.get();
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
+        try {
+            if (dialogWeakReference == null || dialogWeakReference.get() == null) {
+                return;
+            }
+            IAppDialog dialog = dialogWeakReference.get();
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
 
-        dialogWeakReference.clear();
-        dialogWeakReference = null;
+            dialogWeakReference.clear();
+            dialogWeakReference = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -100,6 +100,7 @@ public class WebActivity extends BaseActivity {
 
     @Override
     protected int getHomeAsUpIndicator() {
+        if (ThemeCompat.isNight()) return R.drawable.ic_back_closed_night;
         return R.drawable.ic_back_closed;
     }
 

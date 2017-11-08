@@ -40,7 +40,7 @@
                 android:paddingRight="12dp"
                 android:paddingStart="12dp"
                 android:text="确定(0/6)"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/color_image_selection_post"
                 android:textSize="16sp"/>
 
 

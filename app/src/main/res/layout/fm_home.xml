@@ -32,7 +32,7 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_logo_small"/>
 
-            <android.support.design.widget.DesignTabLayout
+            <android.support.design.widget.RaeSkinDesignTabLayout
                 android:id="@+id/tab_category"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -49,11 +49,12 @@
                 app:tabTextAppearance="@style/TabTextAppearance"
                 app:tabTextColor="@color/homeTabTextColor"/>
 
-            <ImageView
+            <com.rae.cnblogs.widget.RaeSkinImageView
                 android:id="@+id/img_edit_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/channel_manager_icon"/>
+                android:src="@drawable/channel_manager_icon"
+                app:nightColor="@color/nightIconColor"/>
 
             <ImageView
                 android:id="@+id/img_search"

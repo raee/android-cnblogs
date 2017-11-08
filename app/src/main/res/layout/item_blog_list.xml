@@ -64,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_blog_list_thumb_large_height"
         android:layout_marginTop="11dp"
-        android:background="@drawable/ic_default_placeholder"
+        android:background="@color/background_divider"
         android:padding="2dp"
         android:scaleType="centerCrop"
         android:visibility="gone"/>

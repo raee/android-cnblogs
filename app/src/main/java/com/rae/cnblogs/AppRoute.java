@@ -356,7 +356,7 @@ public final class AppRoute {
      */
     public static void jumpToComment(Context context, BlogBean blog, BlogType type) {
         Intent intent = new Intent(context, CommentActivity.class);
-        intent.putExtra("type", type);
+        intent.putExtra("type", type.getTypeName());
         intent.putExtra("blog", blog);
         startActivity(context, intent);
     }

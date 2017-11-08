@@ -28,6 +28,7 @@ public class PostMomentPresenterImpl extends BasePresenter<IPostMomentContract.V
 
     IMomentApi mMomentApi;
     IBlogApi mBlogApi;
+    private boolean mIsBlogOpened = true;
 
     public PostMomentPresenterImpl(Context context, IPostMomentContract.View view) {
         super(context, view);
@@ -48,6 +49,7 @@ public class PostMomentPresenterImpl extends BasePresenter<IPostMomentContract.V
 
                         @Override
                         protected void accept(Boolean value) {
+                            mIsBlogOpened = value;
                             mView.onLoadBlogOpenStatus(value);
                         }
                     });
@@ -114,6 +116,11 @@ public class PostMomentPresenterImpl extends BasePresenter<IPostMomentContract.V
                     });
         }
         return true;
+    }
+
+    @Override
+    public boolean isBlogOpened() {
+        return mIsBlogOpened;
     }
 
     @Nullable

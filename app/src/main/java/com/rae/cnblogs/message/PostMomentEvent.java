@@ -11,6 +11,10 @@ public class PostMomentEvent {
     private String message;
     private int notificationId;
     private MomentMetaData mMomentMetaData;
+    private boolean isDeleted;
+
+    public PostMomentEvent() {
+    }
 
     public PostMomentEvent(int notificationId, boolean isSuccess, String message) {
         this.notificationId = notificationId;
@@ -36,5 +40,13 @@ public class PostMomentEvent {
 
     public int getNotificationId() {
         return notificationId;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

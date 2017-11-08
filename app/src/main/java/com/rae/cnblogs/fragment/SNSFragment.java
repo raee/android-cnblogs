@@ -217,6 +217,8 @@ public class SNSFragment extends BaseFragment {
     public void onEvent(final PostMomentEvent event) {
 
         // 闪存事件
+        if (event.isDeleted()) return;
+
         if (event.getIsSuccess()) {
             showToast(ToolbarToastView.TYPE_POST_SUCCESS, "发布成功");
             cancelPostMomentNotification(event);

@@ -171,6 +171,13 @@ public final class UserProvider {
         cookieJar.saveFromResponse(httpUrl, cookies);
     }
 
+    /**
+     * 校验是否为当前登录用户
+     */
+    public boolean checkIsMe(String blogApp) {
+        return isLogin() && TextUtils.equals(blogApp, getLoginUserInfo().getBlogApp());
+    }
+
 //    public void debugLogin() {
 //        UserInfoBean userInfo = new UserInfoBean();
 //        userInfo.setAvatar("http://pic.cnblogs.com/avatar/446312/20170124105915.png");

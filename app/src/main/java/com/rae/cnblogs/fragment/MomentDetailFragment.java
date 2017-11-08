@@ -103,6 +103,7 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
             return;
         }
 
+
         mEditCommentDialog = new EditCommentDialog(getContext());
         mEditCommentDialog.setOnEditCommentListener(new EditCommentDialog.OnEditCommentListener() {
             @Override
@@ -130,7 +131,13 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
             public void onMenuDeleteClicked() {
                 // 执行删除
                 AppUI.loading(getContext(), "正在删除");
-                mPresenter.deleteComment(mDeleteDialog.getTag().toString());
+                String tag = mDeleteDialog.getTag().toString();
+                if ("ing".equalsIgnoreCase(tag)) {
+                    // 删除闪存
+                    mPresenter.deleteMoment();
+                } else {
+                    mPresenter.deleteComment(mDeleteDialog.getTag().toString());
+                }
             }
         });
 
@@ -169,6 +176,14 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
                 } else {
                     mEditCommentDialog.show(item);
                 }
+            }
+        });
+        mAdapter.setMomentDeleteOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 删除闪存
+                mDeleteDialog.setTag("ing");
+                mDeleteDialog.show();
             }
         });
 
@@ -306,6 +321,18 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
     public void onDeleteCommentFailed(String message) {
         AppUI.dismiss();
         AppUI.failed(getContext(), message);
+    }
+
+    @Override
+    public void onDeleteMomentFailed(String msg) {
+        AppUI.dismiss();
+        AppUI.failed(getContext(), msg);
+    }
+
+    @Override
+    public void onDeleteMomentSuccess() {
+        AppUI.success(getContext(), R.string.tips_del_moment_success);
+        getActivity().finish();
     }
 
     @Override

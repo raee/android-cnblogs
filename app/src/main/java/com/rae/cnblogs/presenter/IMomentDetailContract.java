@@ -43,6 +43,8 @@ public interface IMomentDetailContract {
          * @param commentId 评论ID
          */
         void deleteComment(String commentId);
+
+        void deleteMoment();
     }
 
     interface View {
@@ -81,8 +83,13 @@ public interface IMomentDetailContract {
 
         /**
          * 删除评论失败
+         *
          * @param message
          */
         void onDeleteCommentFailed(String message);
+
+        void onDeleteMomentFailed(String string);
+
+        void onDeleteMomentSuccess();
     }
 }

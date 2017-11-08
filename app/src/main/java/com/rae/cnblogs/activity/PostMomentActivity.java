@@ -21,6 +21,7 @@ import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.DefaultDialog;
@@ -148,6 +149,7 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
 
     @Override
     protected int getHomeAsUpIndicator() {
+        if (ThemeCompat.isNight()) return R.drawable.ic_back_closed_night;
         return R.drawable.ic_back_closed;
     }
 
@@ -211,6 +213,36 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
 
     @OnClick(R.id.tv_post)
     public void onPostViewClick() {
+        // 检查是否开通博客
+        if (!mPresenter.isBlogOpened() && Rx.getCount(getImageUrls()) > 0) {
+            DefaultDialog dialog = new DefaultDialog(this);
+            dialog.setMessage(getString(R.string.tips_post_moment_apply));
+            dialog.setEnSureText("继续发布");
+            dialog.setCancelText(getString(R.string.blog_apply));
+            dialog.setOnCancelListener(new IAppDialogClickListener() {
+                @Override
+                public void onClick(IAppDialog dialog, int buttonType) {
+                    dialog.dismiss();
+                    onBlogApplyClick();
+                }
+            });
+            dialog.setOnEnSureListener(new IAppDialogClickListener() {
+                @Override
+                public void onClick(IAppDialog dialog, int buttonType) {
+                    dialog.dismiss();
+                    performPostMoment();
+                }
+            });
+            dialog.show();
+            return;
+        }
+
+        performPostMoment();
+
+
+    }
+
+    private void performPostMoment() {
         // 统计发布
         if (mPresenter.post()) {
             AppUI.loading(this, "正在发布");
@@ -228,7 +260,7 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
             DefaultDialog dialog = new DefaultDialog(this);
             dialog.setMessage("内容还没有发布，真的要放弃吗？");
             dialog.setEnSureText("我再想想");
-            dialog.setCancelText("退下吧");
+            dialog.setCancelText("不想要了");
             dialog.setOnCancelListener(new IAppDialogClickListener() {
                 @Override
                 public void onClick(IAppDialog dialog, int buttonType) {

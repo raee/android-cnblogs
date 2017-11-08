@@ -13,6 +13,8 @@ import com.rae.cnblogs.dialog.IAppDialogClickListener;
  */
 public abstract class AppDialog extends Dialog implements IAppDialog {
 
+    private boolean mIsAttachedToWindow;
+
     public AppDialog(Context context) {
         super(context);
         initDialog();
@@ -146,4 +148,24 @@ public abstract class AppDialog extends Dialog implements IAppDialog {
         }
     }
 
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mIsAttachedToWindow = true;
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mIsAttachedToWindow = false;
+    }
+
+    @Override
+    public void dismiss() {
+        // 检查是否已经建立窗口
+        if (!mIsAttachedToWindow) {
+            return;
+        }
+        super.dismiss();
+    }
 }

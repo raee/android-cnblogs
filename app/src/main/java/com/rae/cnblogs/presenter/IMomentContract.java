@@ -12,7 +12,7 @@ public interface IMomentContract {
     interface Presenter extends IAppPresenter {
         void loadMore();
 
-        void delete(String ingId);
+//        void delete(String ingId);
     }
 
     interface View extends IPageView<MomentBean> {
@@ -22,15 +22,15 @@ public interface IMomentContract {
          */
         String getType();
 
-        /**
-         * 删除失败
-         */
-        void onDeleteMomentFailed(String msg);
-
-        /**
-         * 删除成功
-         */
-        void onDeleteMomentSuccess();
+//        /**
+//         * 删除失败
+//         */
+//        void onDeleteMomentFailed(String msg);
+//
+//        /**
+//         * 删除成功
+//         */
+//        void onDeleteMomentSuccess();
 
         /**
          * 有回复我的消息数量

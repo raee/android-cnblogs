@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.MomentCommentHolder;
@@ -44,9 +45,18 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
     private MomentAdapter.OnBloggerClickListener mOnBloggerClickListener;
     private MomentHolder mMomentHolder;
     private CharSequence mBlogApp;
+    private View.OnClickListener mMomentDeleteOnClickListener;
+
 
     public MomentDetailAdapter(MomentBean momentBean) {
         mMomentBean = momentBean;
+        initBlogApp();
+    }
+
+    private void initBlogApp() {
+        if (UserProvider.getInstance().isLogin()) {
+            mBlogApp = UserProvider.getInstance().getLoginUserInfo().getBlogApp();
+        }
     }
 
     public void setOnPlaceholderClickListener(View.OnClickListener onPlaceholderClickListener) {
@@ -64,6 +74,10 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
     @Nullable
     public MomentHolder getMomentHolder() {
         return mMomentHolder;
+    }
+
+    public void setMomentDeleteOnClickListener(View.OnClickListener listener) {
+        mMomentDeleteOnClickListener = listener;
     }
 
     @Override
@@ -177,6 +191,8 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
         holder.followView.setOnClickListener(mOnFollowClickListener);
         holder.followView.setVisibility(TextUtils.equals(m.getBlogApp(), mBlogApp) ? View.GONE : View.VISIBLE);
         holder.mRecyclerView.setVisibility(Rx.isEmpty(m.getImageList()) ? View.GONE : View.VISIBLE);
+        holder.deleteView.setOnClickListener(mMomentDeleteOnClickListener);
+        holder.deleteView.setVisibility(TextUtils.equals(m.getBlogApp(), mBlogApp) ? View.VISIBLE : View.GONE);
 
         int imageCount = Rx.getCount(m.getImageList());
         if (imageCount == 1) {
@@ -191,7 +207,9 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
         holder.thumbView.setVisibility(imageCount == 1 ? View.VISIBLE : View.GONE);
         if (imageCount == 1) {
             String url = m.getImageList().get(0);
-            RaeImageLoader.displayImage(url, holder.thumbView);
+            GlideApp.with(holder.thumbView)
+                    .load(url)
+                    .into(holder.thumbView);
             holder.thumbView.setOnClickListener(new MomentAdapter.ItemImageClickListener(url));
         }
 
@@ -231,9 +249,7 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
     @Override
     public void invalidate(List<MomentCommentBean> data) {
         mIsEmpty = false;
-        if (UserProvider.getInstance().isLogin()) {
-            mBlogApp = UserProvider.getInstance().getLoginUserInfo().getBlogApp();
-        }
+        initBlogApp();
         super.invalidate(data);
     }
 

@@ -46,15 +46,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <com.rae.cnblogs.widget.RaeSkinImageView
                 android:id="@+id/tv_post"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/default_margin"
-                android:src="@drawable/ic_moment_post"/>
+                android:src="@drawable/ic_moment_post"
+                app:nightColor="@color/nightIconColor"/>
 
-            <android.support.design.widget.DesignTabLayout
+            <android.support.design.widget.RaeSkinDesignTabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -89,9 +90,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tab_recommend"/>
 
-            </android.support.design.widget.DesignTabLayout>
+            </android.support.design.widget.RaeSkinDesignTabLayout>
 
-            <ImageView
+            <com.rae.cnblogs.widget.RaeSkinImageView
                 android:id="@+id/img_mine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -99,7 +100,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/default_margin"
-                android:src="@drawable/ic_moment_notification"/>
+                android:src="@drawable/ic_moment_notification"
+                app:nightColor="@color/nightIconColor"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>

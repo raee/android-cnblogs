@@ -28,7 +28,9 @@ public class CommentActivity extends SwipeBackBaseActivity {
                 fragment.scrollToTop();
             }
         });
-        fragment = BlogCommentFragment.newInstance((BlogBean) getIntent().getParcelableExtra("blog"), BlogType.typeOf(getIntent().getStringExtra("type")));
+        BlogBean blog = getIntent().getParcelableExtra("blog");
+        String type = getIntent().getStringExtra("type");
+        fragment = BlogCommentFragment.newInstance(blog, BlogType.typeOf(type));
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.content, fragment)
                 .commit();

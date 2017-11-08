@@ -144,5 +144,6 @@
     <string name="label_moment_at_me">提到我的消息</string>
     <string name="title">标题</string>
     <string name="tips_post_moment_image">开通博客后才能发图片，还没开通？</string>
+    <string name="tips_post_moment_apply">开通博客后才能发图片，您似乎还没有开通，如果已经开通请继续。</string>
     <string name="blog_apply">立即申请</string>
 </resources>

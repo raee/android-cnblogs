@@ -10,6 +10,8 @@ public interface IPostMomentContract {
 
     interface Presenter extends IAppPresenter {
         boolean post();
+
+        boolean isBlogOpened();
     }
 
     interface View {

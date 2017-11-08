@@ -57,7 +57,7 @@
         android:layout_toRightOf="@+id/img_blog_avatar"
         android:gravity="center_vertical"
         android:text="RAE"
-        android:textColor="@color/ph2"
+        android:textColor="@color/moment_author"
         android:textSize="@dimen/h2"/>
 
     <com.rae.cnblogs.widget.RaeTextView
@@ -89,10 +89,10 @@
 
         <ImageView
             android:id="@+id/img_thumb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="140dp"
             android:layout_marginTop="12dp"
-            android:scaleType="center"/>
+            android:scaleType="centerCrop"/>
 
     </RelativeLayout>
 
@@ -103,11 +103,10 @@
         android:layout_below="@+id/rl_image"
         android:layout_marginTop="18dp"
         android:layout_toRightOf="@+id/img_blog_avatar"
-        android:drawablePadding="7dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <com.rae.cnblogs.widget.RaeTextView
+        <TextView
             android:id="@+id/tv_blog_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -118,7 +117,7 @@
             android:textSize="@dimen/h3"/>
 
 
-        <com.rae.cnblogs.widget.RaeTextView
+        <TextView
             android:id="@+id/tv_blog_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -139,15 +138,24 @@
 
         <TextView
             android:id="@+id/tv_android_tag"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tv_blog_date"
-            android:layout_gravity="right"
             android:layout_marginLeft="24dp"
-            android:layout_toRightOf="@+id/tv_blog_date"
+            android:layout_weight="1"
             android:gravity="right"
             android:text="来自客户端"
             android:textColor="@color/ph3"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/img_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:paddingLeft="24dp"
+            android:text="@string/delete"
+            android:textColor="@color/moment_author"
             android:textSize="12sp"/>
 
     </LinearLayout>

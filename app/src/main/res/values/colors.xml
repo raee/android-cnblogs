@@ -28,4 +28,6 @@
     <color name="homeTabTextColor">#aaaaaa</color>
     <color name="homeTabSelectedTextColor">#2d2d2d</color>
     <color name="bloggerStatusBarColor">#303135</color>
+    <color name="color_login_reg">#3ba7ee</color>
+    <color name="color_image_selection_post">#3ba7ee</color>
 </resources>

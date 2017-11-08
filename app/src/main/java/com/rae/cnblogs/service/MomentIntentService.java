@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
+import android.text.TextUtils;
 
 import com.activeandroid.util.Log;
 import com.rae.cnblogs.AppMobclickAgent;
@@ -20,6 +21,7 @@ import com.rae.cnblogs.activity.MainActivity;
 import com.rae.cnblogs.activity.PostMomentActivity;
 import com.rae.cnblogs.message.PostMomentEvent;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
+import com.rae.cnblogs.sdk.ApiErrorCode;
 import com.rae.cnblogs.sdk.CnblogsApiException;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.Empty;
@@ -36,6 +38,7 @@ import org.json.JSONArray;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -48,6 +51,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import retrofit2.HttpException;
 
 /**
  * 闪存上传
@@ -252,7 +256,30 @@ public class MomentIntentService extends IntentService {
                         // 上报错误信息
                         CrashReport.postCatchedException(new CnblogsApiException("闪存发布失败！", e));
 
-                        notifyUploadFailed(e.getMessage());
+                        if (e instanceof CnblogsApiException) {
+                            if (((CnblogsApiException) e).getCode() == ApiErrorCode.LOGIN_EXPIRED) {
+                                onError("登录过期");
+                                return;
+                            }
+                        } else if (e instanceof HttpException) {
+                            HttpException ex = (HttpException) e;
+                            onError("服务器发生错误0x" + ex.code());
+                            return;
+                        } else if (e instanceof UnknownHostException) {
+                            onError("网络连接错误，请检查网络连接");
+                            return;
+                        }
+
+
+                        String message = com.rae.cnblogs.sdk.BuildConfig.DEBUG ? e.getMessage() : "数据加载失败，请重试";
+                        if (TextUtils.isEmpty(message)) {
+                            message = "接口信息异常";
+                        }
+                        onError(message);
+                    }
+
+                    public void onError(String msg) {
+                        notifyUploadFailed(msg);
                     }
 
                     public void notifyUploadFailed(String msg) {

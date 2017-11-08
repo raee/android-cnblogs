@@ -46,7 +46,7 @@ public enum BlogType {
 
 
     public static BlogType typeOf(String type) {
-
+        if (TextUtils.isEmpty(type)) return BlogType.UNKNOWN;
         BlogType[] values = BlogType.values();
         for (BlogType value : values) {
             if (TextUtils.equals(type, value.getTypeName())) {
