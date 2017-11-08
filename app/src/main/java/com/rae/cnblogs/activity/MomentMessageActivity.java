@@ -3,6 +3,7 @@ package com.rae.cnblogs.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.fragment.MomentMessageFragment;
 
@@ -20,7 +21,6 @@ public class MomentMessageActivity extends SwipeBackBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moment_message);
         showHomeAsUp();
-//        AppRoute.jumpToLogin(this);
         mFragment = new MomentMessageFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.content, mFragment)
@@ -30,5 +30,10 @@ public class MomentMessageActivity extends SwipeBackBaseActivity {
     @OnClick(R.id.title_tool_bar)
     public void onToolbarClick() {
         mFragment.scrollToTop();
+    }
+
+    @OnClick(R.id.img_at_me)
+    public void onAtMeClick() {
+        AppRoute.jumpToMomentAtMe(this);
     }
 }

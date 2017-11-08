@@ -4,6 +4,7 @@ package com.rae.cnblogs.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
 
 import skin.support.widget.SkinCompatImageView;
@@ -26,13 +27,15 @@ public class RaeSkinImageView extends SkinCompatImageView {
 
     private void init() {
         // 初始化的时候不用取反
-        setAlpha(ThemeCompat.isNight() ? 0.8f : 1f);
+        setAlpha(ThemeCompat.isNight() ? getResources().getInteger(R.integer.imageAlpha_night) / 100.0f : 1f);
     }
 
     @Override
     public void applySkin() {
+        // 跳过已经设置图片的，避免
+
         super.applySkin();
-        setAlpha(isNight() ? 0.8f : 1f);
+        setAlpha(isNight() ? getResources().getInteger(R.integer.imageAlpha_night) / 100.0f : 1f);
     }
 
     public boolean isNight() {

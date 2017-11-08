@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import com.rae.cnblogs.presenter.IPostMomentContract;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.Empty;
+import com.rae.cnblogs.sdk.api.IBlogApi;
 import com.rae.cnblogs.sdk.api.IMomentApi;
 import com.rae.cnblogs.sdk.model.ImageMetaData;
 import com.rae.cnblogs.sdk.model.MomentMetaData;
@@ -26,10 +27,31 @@ import java.util.List;
 public class PostMomentPresenterImpl extends BasePresenter<IPostMomentContract.View> implements IPostMomentContract.Presenter {
 
     IMomentApi mMomentApi;
+    IBlogApi mBlogApi;
 
     public PostMomentPresenterImpl(Context context, IPostMomentContract.View view) {
         super(context, view);
         mMomentApi = getApiProvider().getMomentApi();
+        mBlogApi = getApiProvider().getBlogApi();
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        if (isLogin()) {
+            createObservable(mBlogApi.checkBlogIsOpen())
+                    .subscribe(new ApiDefaultObserver<Boolean>() {
+                        @Override
+                        protected void onError(String message) {
+                            mView.onLoadBlogOpenStatus(false);
+                        }
+
+                        @Override
+                        protected void accept(Boolean value) {
+                            mView.onLoadBlogOpenStatus(value);
+                        }
+                    });
+        }
     }
 
     @Override

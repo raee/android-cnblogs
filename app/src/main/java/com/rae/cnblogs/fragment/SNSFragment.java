@@ -3,6 +3,7 @@ package com.rae.cnblogs.fragment;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -108,7 +109,7 @@ public class SNSFragment extends BaseFragment {
 
 
     @OnClick(R.id.img_mine)
-    public void onMineClick() {
+    public void onMessageClick() {
         if (UserProvider.getInstance().isLogin()) {
             dismissToast();
             AppRoute.jumpToMomentMessage(this.getContext());
@@ -127,6 +128,9 @@ public class SNSFragment extends BaseFragment {
         if (type == ToolbarToastView.TYPE_POST_SUCCESS && mAdapter != null && mViewPager.getCurrentItem() >= 0) {
             MomentFragment momentFragment = (MomentFragment) mAdapter.getItem(mViewPager.getCurrentItem());
             momentFragment.scrollToTop();
+        }
+        if (type == ToolbarToastView.TYPE_AT_ME) {
+            AppRoute.jumpToMomentAtMe(getContext());
         }
     }
 
@@ -212,15 +216,10 @@ public class SNSFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(final PostMomentEvent event) {
 
-        // 清除通知
-        NotificationManager nm = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        if (nm != null && event.getNotificationId() > 0) {
-            nm.cancel(event.getNotificationId());
-        }
-
         // 闪存事件
         if (event.getIsSuccess()) {
             showToast(ToolbarToastView.TYPE_POST_SUCCESS, "发布成功");
+            cancelPostMomentNotification(event);
         } else {
             DefaultDialog dialog = new DefaultDialog(getContext());
             dialog.setEnSureText("立即查看");
@@ -234,8 +233,22 @@ public class SNSFragment extends BaseFragment {
                     AppRoute.jumpToPostMoment(getActivity(), event.getMomentMetaData());
                 }
             });
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    cancelPostMomentNotification(event);
+                }
+            });
             dialog.show();
         }
 
+    }
+
+    private void cancelPostMomentNotification(PostMomentEvent event) {
+        // 清除通知
+        NotificationManager nm = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (nm != null && event.getNotificationId() > 0) {
+            nm.cancel(event.getNotificationId());
+        }
     }
 }

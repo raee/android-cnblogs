@@ -1,13 +1,22 @@
 package com.rae.cnblogs.adapter;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.ImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 import com.rae.cnblogs.AppRoute;
+import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.model.ItemLoadingViewHolder;
@@ -30,6 +39,25 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
 
 
     String blogApp;
+
+    private RequestListener<Drawable> mThumbViewRequestListener = new RequestListener<Drawable>() {
+        @Override
+        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+
+            // 限制图片不超过最大高度
+            if (target instanceof ImageViewTarget) {
+                ImageView view = (ImageView) ((ImageViewTarget) target).getView();
+                view.getLayoutParams().height = Math.min(resource.getIntrinsicHeight(), view.getMaxHeight());
+                view.invalidate();
+            }
+            return false;
+        }
+    };
 
     public MomentAdapter() {
         initUserInfo();
@@ -116,9 +144,6 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
             int spanCount = imageCount == 4 || imageCount == 2 ? 2 : 3;
             holder.mRecyclerView.setLayoutManager(new GridLayoutManager(holder.itemView.getContext(), spanCount));
             holder.mRecyclerView.setAdapter(new MomentImageAdapter(m.getImageList()));
-        } else if (holder.mRecyclerView.getLayoutManager() != null) {
-            holder.mRecyclerView.getLayoutManager().removeAllViews();
-            holder.mRecyclerView.removeAllViews();
         }
 
 
@@ -130,7 +155,10 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
         holder.thumbView.setVisibility(imageCount == 1 ? View.VISIBLE : View.GONE);
         if (imageCount == 1) {
             String url = m.getImageList().get(0);
-            RaeImageLoader.displayImage(url, holder.thumbView);
+            GlideApp.with(holder.thumbView)
+                    .load(url)
+                    .listener(mThumbViewRequestListener)
+                    .into(holder.thumbView);
             holder.thumbView.setOnClickListener(new ItemImageClickListener(url));
         }
 

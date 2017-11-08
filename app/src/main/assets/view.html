@@ -11,7 +11,8 @@
     <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css"> -->
     <link type="text/css" rel="stylesheet" href="css/shCoreDefault.css" id="CodeStyle"/>
     <link rel="stylesheet" type="text/css" href="css/rae-common.css">
-    <link rel="stylesheet" type="text/css" href="css/rae.css" id="RaeStyle">
+    <!--主题-->
+    <link rel="stylesheet" type="text/css" href="css/{{theme}}" id="RaeStyle">
     <link rel="stylesheet" type="text/css"  href="http://www.raeblog.com/cnblogs/Content/app/rae-ext.css"/>
 <!--     <link type="text/css" rel="stylesheet" href="css/shThemeRDark.css"  />
     <link rel="stylesheet" type="text/css" href="css/rae-night.css" /> -->
@@ -117,11 +118,14 @@ try{
 				var src = $(val).attr("src");
 				var id = $(val).attr("id");
 				if(id=="blog_avatar") return;
-				getImageWidth(src,function(e,w,h){
+				getImageWidth(src,function(w,h){
 					var screenWidth = $(document).width();
 			    	// 图片适配屏幕
 			    	if(screenWidth>0 && w< screenWidth/2){
 			    		$(val).css("width","auto");
+			    	}else{
+			    	    // 填充全屏
+			    	    $(val).css("width","100%");
 			    	}
 			    })
 				// $(val).load(function(){

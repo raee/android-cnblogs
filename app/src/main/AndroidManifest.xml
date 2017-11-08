@@ -29,11 +29,11 @@
             android:name=".activity.LauncherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
-        <!--    <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            <!--    <intent-filter>
+                    <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
+                    <category android:name="android.intent.category.LAUNCHER"/>
+                </intent-filter>-->
         </activity>
 
         <!--主界面-->
@@ -41,11 +41,11 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-               <intent-filter>
-                   <action android:name="android.intent.action.MAIN"/>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-                   <category android:name="android.intent.category.LAUNCHER"/>
-               </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <activity
@@ -53,10 +53,10 @@
             android:label="博客园测试"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
-            <!--   <intent-filter>
-                   <action android:name="android.intent.action.MAIN"/>
-                   <category android:name="android.intent.category.LAUNCHER"/>
-               </intent-filter>-->
+       <!--     <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>-->
         </activity>
 
         <!--博文-->
@@ -152,6 +152,11 @@
         <activity
             android:name=".activity.MomentDetailActivity"
             android:label="@string/label_moment_detail"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.MomentAtMeActivity"
+            android:label="@string/label_moment_at_me"
             android:screenOrientation="portrait"/>
 
         <activity

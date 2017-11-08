@@ -6,6 +6,7 @@ import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
 
 import skin.support.widget.SkinCompatBackgroundHelper;
@@ -41,12 +42,12 @@ public class RaeSkinImageViewV4 extends ImageView implements SkinCompatSupportab
 
     private void init() {
         // 初始化的时候不用取反
-        setAlpha(ThemeCompat.isNight() ? 0.6f : 1f);
+        setAlpha(ThemeCompat.isNight() ? getResources().getInteger(R.integer.imageAlpha_night) / 100.0f : 1f);
     }
 
     @Override
     public void applySkin() {
-        setAlpha(isNight() ? 0.6f : 1f);
+        setAlpha(isNight() ? getResources().getInteger(R.integer.imageAlpha_night) / 100.0f : 1f);
         if (this.mBackgroundTintHelper != null) {
             this.mBackgroundTintHelper.applySkin();
         }

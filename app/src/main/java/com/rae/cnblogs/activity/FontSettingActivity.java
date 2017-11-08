@@ -23,6 +23,7 @@ public class FontSettingActivity extends SwipeBackBaseActivity {
     TextView mMessage;
     @BindView(R.id.seekBar)
     RaeSeekBar mSeekBar;
+    private boolean mFontChanged;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class FontSettingActivity extends SwipeBackBaseActivity {
             public void onProgressChanged(SeekBar seekBar, int value, boolean b) {
                 int size = mSeekBar.getRawTextSize(value);
                 mMessage.setTextSize(size);
+                mFontChanged = true;
             }
 
             @Override
@@ -60,8 +62,9 @@ public class FontSettingActivity extends SwipeBackBaseActivity {
         // 保存设置
         config().setPageTextSize(mSeekBar.getTextSize(mSeekBar.getProgress()));
         super.onDestroy();
-
-        // 通知
-        EventBus.getDefault().post(new FontChangedEvent());
+        if (mFontChanged) {
+            // 通知
+            EventBus.getDefault().post(new FontChangedEvent());
+        }
     }
 }

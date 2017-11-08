@@ -91,7 +91,6 @@ public class MomentDetailActivity extends SwipeBackBaseActivity {
 
     }
 
-
     /**
      * 分享
      */

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -21,6 +20,7 @@ import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.BuildConfig;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeAnim;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
@@ -40,6 +40,9 @@ import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import butterknife.BindView;
 
@@ -137,7 +140,6 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
                     mMoreView.setImageResource(R.drawable.ic_blog_content_more);
                 }
 
-                Log.i("rae", "滚动高度：" + y);
             }
         });
     }
@@ -219,8 +221,19 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
             public void run() {
                 mPlaceholderView.dismiss();
                 mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-                mWebView.loadUrl("file:///android_asset/view.html");
-//                mWebView.loadUrl("http://www.baibeidev.com/cb/view.html");
+                try {
+                    // 避免切换夜间模式闪烁问题
+                    InputStream stream = getResources().getAssets().open("view.html");
+                    byte[] data = new byte[stream.available()];
+                    stream.read(data);
+                    stream.close();
+                    String content = new String(data).replace("{{theme}}", ThemeCompat.isNight() ? "rae-night.css" : "rae.css");
+                    mWebView.loadDataWithBaseURL("file:///android_asset/view.html", content, "text/html", "UTF-8", null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // 如果加载失败了，就从默认打开
+                    mWebView.loadUrl("file:///android_asset/view.html");
+                }
             }
         });
 

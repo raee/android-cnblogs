@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
 
 import skin.support.widget.SkinCompatSupportable;
@@ -30,12 +31,12 @@ public class SkinRoundedImageView extends RoundedImageView implements SkinCompat
 
     private void init() {
         // 初始化的时候不用取反
-        setAlpha(ThemeCompat.isNight() ? 0.5f : 1f);
+        setAlpha(ThemeCompat.isNight() ? getResources().getInteger(R.integer.imageAlpha_night) / 100.0f : 1f);
     }
 
     @Override
     public void applySkin() {
-        setAlpha(isNight() ? 0.5f : 1f);
+        setAlpha(isNight() ? getResources().getInteger(R.integer.imageAlpha_night) / 100.0f : 1f);
     }
 
     public boolean isNight() {

@@ -25,6 +25,7 @@ import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -1259,9 +1260,9 @@ public class DesignTabLayout extends HorizontalScrollView {
             if (mView == null) return;
             TextView textView = mView.mTextView;
             if (flag == 1) {
-                textView.getPaint().setFlags(textView.getPaint().getFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+                textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
             } else {
-                textView.getPaint().setFlags(textView.getPaint().getFlags() ^ Paint.FAKE_BOLD_TEXT_FLAG);
+                textView.setTypeface(null, Typeface.NORMAL);
             }
         }
 

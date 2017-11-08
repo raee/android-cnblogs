@@ -27,8 +27,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginRight="12dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_user_avatar"/>
+        android:background="@color/background_divider"
+        android:scaleType="centerCrop"/>
 
 
     <com.rae.cnblogs.widget.RaeTextView
@@ -96,6 +96,10 @@
             android:id="@+id/img_thumb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/background_divider"
+            android:maxHeight="140dp"
+            android:minHeight="80dp"
+            android:minWidth="80dp"
             android:scaleType="center"/>
 
     </RelativeLayout>

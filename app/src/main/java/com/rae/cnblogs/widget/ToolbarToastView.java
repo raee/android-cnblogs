@@ -20,8 +20,9 @@ import java.lang.ref.WeakReference;
 public class ToolbarToastView extends RaeTextView implements ValueAnimator.AnimatorUpdateListener {
 
 
-    public static final int TYPE_REPLY_ME = 12;
     public static final int TYPE_POST_SUCCESS = 11;
+    public static final int TYPE_REPLY_ME = 12;
+    public static final int TYPE_AT_ME = 13;
 
     private static class ToolbarToastViewHandler extends Handler {
 
@@ -122,7 +123,7 @@ public class ToolbarToastView extends RaeTextView implements ValueAnimator.Anima
 
 
     public void dismiss() {
-        if (getVisibility() == View.VISIBLE) {
+        if (getVisibility() == View.VISIBLE && mValueAnimator != null) {
             mValueAnimator.start();
         }
     }

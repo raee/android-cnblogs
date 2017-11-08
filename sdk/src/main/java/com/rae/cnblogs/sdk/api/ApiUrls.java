@@ -123,11 +123,17 @@ final class ApiUrls {
     // 闪存-更新回复我的消息为已阅读
     static final String API_MOMENT_COMMENT_UPDATE_READ = "https://ing.cnblogs.com/ajax/ing/UpdateReplyToMeViewStatus";
 
+    // 闪存-更新提到我的消息为已阅读
+    static final String API_MOMENT_AT_UPDATE_READ = "https://ing.cnblogs.com/ajax/ing/UpdateMentionViewStatus";
+
     // 闪存-发表评论
     static final String API_MOMENT_POST_COMMENT = "https://ing.cnblogs.com/ajax/ing/PostComment";
 
     // 闪存-回复我的数量
     static final String API_MOMENT_REPLY_COUNT = "https://ing.cnblogs.com/ajax/ing/UnviewedReplyToMeCount";
+
+    // 闪存-提到我的数量
+    static final String API_MOMENT_AT_COUNT = "https://ing.cnblogs.com/ajax/ing/UnviewedMentionCount";
 
     // 上传图片
     static final String API_POST_IMAGE = "https://upload.cnblogs.com/imageuploader/processupload?host=www.cnblogs.com";
@@ -148,4 +154,7 @@ final class ApiUrls {
      * https://www.douban.com/note/249723561/
      */
     public static final String API_SINA_SHORTEN = "http://api.t.sina.com.cn/short_url/shorten.json";
+
+    // 博客园开通状态
+    public static final String API_BLOG_CHECK_OPEN = "https://passport.cnblogs.com/BlogApply.aspx";
 }

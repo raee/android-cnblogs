@@ -48,6 +48,10 @@ a{
 .btn_author{
     -webkit-tap-highlight-color:rgba(0,0,0,0);
     -webkit-tap-highlight-color: transparent;
+    white-space:nowrap;
+    letter-spacing:-1px;
+    box-sizing:inherit;
+    text-shadow:none;
     box-shadow: none;
     outline: none;
     display: block;

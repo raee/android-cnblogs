@@ -130,4 +130,9 @@
         <item name="android:drawableRight">@drawable/default_right_arrow</item>
     </style>
 
+    <style name="ProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/progress_bar_loading</item>
+        <item name="android:indeterminateDuration">800</item>
+    </style>
+
 </resources>

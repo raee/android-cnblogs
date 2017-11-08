@@ -85,6 +85,14 @@ public interface IMomentApi {
     Observable<String> queryReplyCount(@Field("_") long timestamp);
 
     /**
+     * 提到我的数量
+     */
+    @POST(ApiUrls.API_MOMENT_AT_COUNT)
+    @FormUrlEncoded
+    @Headers({JsonBody.XHR})
+    Observable<String> queryAtMeCount(@Field("_") long timestamp);
+
+    /**
      * 发表闪存评论
      *
      * @param ingId     闪存ID
@@ -155,6 +163,16 @@ public interface IMomentApi {
     @FormUrlEncoded
     @Headers({JsonBody.XHR})
     Observable<Empty> updateRelyMeToRead(@Field("commentId") String commentId, @Query("_") long timestamp);
+
+    /**
+     * 更新提到我的为已阅读
+     *
+     * @param timestamp 时间戳
+     * @return
+     */
+    @POST(ApiUrls.API_MOMENT_AT_UPDATE_READ)
+    @Headers({JsonBody.XHR})
+    Observable<Empty> updateAtMeToRead(@Query("_") long timestamp);
 
     /**
      * 闪存详情

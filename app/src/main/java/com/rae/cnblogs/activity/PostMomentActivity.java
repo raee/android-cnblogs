@@ -21,12 +21,15 @@ import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.dialog.IAppDialog;
+import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.DefaultDialog;
 import com.rae.cnblogs.message.PostMomentEvent;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IPostMomentContract;
 import com.rae.cnblogs.sdk.model.ImageMetaData;
 import com.rae.cnblogs.sdk.model.MomentMetaData;
+import com.rae.swift.Rx;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -45,6 +48,8 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
     EditText mContentView;
     @BindView(R.id.tv_post)
     TextView mPostView;
+    @BindView(R.id.ll_blog_apply_tips)
+    View mBlogApplyTipsLayout;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     private IPostMomentContract.Presenter mPresenter;
@@ -119,6 +124,18 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data != null) {
@@ -182,6 +199,16 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
         }
     }
 
+    @Override
+    public void onLoadBlogOpenStatus(Boolean value) {
+        mBlogApplyTipsLayout.setVisibility(value ? View.GONE : View.VISIBLE);
+    }
+
+    @OnClick(R.id.tv_blog_apply)
+    public void onBlogApplyClick() {
+        AppRoute.jumpToWeb(this, getString(R.string.url_blog_apply));
+    }
+
     @OnClick(R.id.tv_post)
     public void onPostViewClick() {
         // 统计发布
@@ -192,6 +219,28 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
         } else {
             AppMobclickAgent.onClickEvent(this, "PostMoment_Return");
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!TextUtils.isEmpty(getContent()) || !Rx.isEmpty(getImageUrls())) {
+            // 提示
+            DefaultDialog dialog = new DefaultDialog(this);
+            dialog.setMessage("内容还没有发布，真的要放弃吗？");
+            dialog.setEnSureText("我再想想");
+            dialog.setCancelText("退下吧");
+            dialog.setOnCancelListener(new IAppDialogClickListener() {
+                @Override
+                public void onClick(IAppDialog dialog, int buttonType) {
+                    finish();
+                }
+            });
+
+            dialog.show();
+            return;
+        }
+
+        super.onBackPressed();
     }
 
     @Override

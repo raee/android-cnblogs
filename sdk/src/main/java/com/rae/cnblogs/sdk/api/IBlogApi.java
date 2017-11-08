@@ -9,6 +9,7 @@ import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import com.rae.cnblogs.sdk.parser.BlogCommentParser;
 import com.rae.cnblogs.sdk.parser.BlogContentParser;
 import com.rae.cnblogs.sdk.parser.BlogListParser;
+import com.rae.cnblogs.sdk.parser.BlogOpenStatusParser;
 import com.rae.cnblogs.sdk.parser.KBContentParser;
 import com.rae.cnblogs.sdk.parser.KBListParser;
 
@@ -153,5 +154,13 @@ public interface IBlogApi {
     @FormUrlEncoded
     @Headers({JsonBody.CONTENT_TYPE})
     Observable<Empty> deleteBlogComment(@Field("commentId") String commentId);
+
+
+    /**
+     * 博客开通状态，如果已开通返回真
+     */
+    @POST(ApiUrls.API_BLOG_CHECK_OPEN)
+    @Parser(BlogOpenStatusParser.class)
+    Observable<Boolean> checkBlogIsOpen();
 
 }

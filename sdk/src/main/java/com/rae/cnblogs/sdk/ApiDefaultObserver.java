@@ -91,6 +91,7 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
      */
     protected void onLoginExpired() {
         onError("登录失效，请重新登录");
+
     }
 
     protected abstract void onError(String message);

@@ -20,7 +20,7 @@
             android:layout_marginRight="12dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="@string/app_name"
+            android:text="@string/title"
             android:textColor="@color/ph1"
             android:textSize="18sp"/>
 

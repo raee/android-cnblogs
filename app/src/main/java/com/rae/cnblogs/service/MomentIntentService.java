@@ -257,11 +257,6 @@ public class MomentIntentService extends IntentService {
 
                     public void notifyUploadFailed(String msg) {
 
-                        // 发送应用内事件
-                        PostMomentEvent event = new PostMomentEvent(mNotificationId, false, msg);
-                        event.setMomentMetaData(mMomentMetaData);
-                        EventBus.getDefault().post(event);
-
                         Intent intent = new Intent(getApplicationContext(), PostMomentActivity.class);
                         intent.putExtra(Intent.EXTRA_TEXT, mMomentMetaData);
                         intent.putExtra(Intent.EXTRA_HTML_TEXT, msg);
@@ -278,6 +273,12 @@ public class MomentIntentService extends IntentService {
                                 .setContentIntent(pendingIntent)
                                 .build();
                         sendNotification(mNotification);
+
+                        // 发送应用内事件
+                        PostMomentEvent event = new PostMomentEvent(mNotificationId, false, msg);
+                        event.setMomentMetaData(mMomentMetaData);
+                        EventBus.getDefault().post(event);
+
                         mCountDownLatch.countDown();
                         stopSelf();
                     }

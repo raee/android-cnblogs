@@ -136,12 +136,7 @@ public class MineFragment extends BaseFragment {
      */
     private void loadUserInfo() {
         if (isNotLogin()) {
-            mAvatarView.setImageResource(R.drawable.boy);
-            mDisplayNameView.setVisibility(View.GONE);
-            mNoLoginTextView.setVisibility(View.VISIBLE);
-            mFansAndFollowLayout.setVisibility(View.GONE);
-            mFansCountView.setText("0");
-            mFollowCountView.setText("0");
+            loadNotLoginUI();
             return;
         }
 
@@ -179,6 +174,7 @@ public class MineFragment extends BaseFragment {
                     @Override
                     protected void onLoginExpired() {
                         // 登录过期
+                        loadNotLoginUI();
                         AppUI.toastInCenter(getContext(), getString(R.string.login_expired));
                         AppRoute.jumpToLogin(getContext());
                     }
@@ -191,6 +187,15 @@ public class MineFragment extends BaseFragment {
                         }
                     }
                 });
+    }
+
+    private void loadNotLoginUI() {
+        mAvatarView.setImageResource(R.drawable.boy);
+        mDisplayNameView.setVisibility(View.GONE);
+        mNoLoginTextView.setVisibility(View.VISIBLE);
+        mFansAndFollowLayout.setVisibility(View.GONE);
+        mFansCountView.setText("0");
+        mFollowCountView.setText("0");
     }
 
     private void onLoadUserInfo(UserInfoBean user) {

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -15,6 +14,7 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeViewCompat;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.MomentAdapter;
+import com.rae.cnblogs.dialog.impl.MenuDeleteDialog;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IMomentContract;
 import com.rae.cnblogs.sdk.UserProvider;
@@ -104,12 +104,21 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
             }
         });
         mAdapter.setOnDeleteClickListener(new MomentAdapter.OnDeleteClickListener() {
+
+            final MenuDeleteDialog deleteDialog = new MenuDeleteDialog(getContext());
+
             @Override
-            public void onDeleteClick(String ingId, int position) {
-                // 删除
+            public void onDeleteClick(final String ingId, int position) {
+                // 删除闪存
                 mCurrentDeletePosition = position;
-                AppUI.loading(getContext(), "正在删除");
-                mPresenter.delete(ingId);
+                deleteDialog.setOnDeleteClickListener(new MenuDeleteDialog.onDeleteClickListener() {
+                    @Override
+                    public void onMenuDeleteClicked() {
+                        AppUI.loading(getContext(), "正在删除");
+                        mPresenter.delete(ingId);
+                    }
+                });
+                deleteDialog.show();
             }
         });
         mAdapter.setOnItemClickListener(new BaseItemAdapter.onItemClickListener<MomentBean>() {
@@ -226,9 +235,29 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
     }
 
     @Override
-    public void onReplyContChanged(int number) {
-        Log.i("rae", "有回复我的；" + number);
-        showToast(ToolbarToastView.TYPE_REPLY_ME, number + "条回复我的消息");
+    public void onReplyCountChanged(int number) {
+        if (number > 0) {
+            showToast(ToolbarToastView.TYPE_REPLY_ME, number + "条回复我的消息");
+        } else {
+            dismissToast();
+        }
+    }
+
+    @Override
+    public void onAtMeCountChanged(int number) {
+        if (number > 0) {
+            showToast(ToolbarToastView.TYPE_AT_ME, number + "条提到我的消息");
+        } else {
+            dismissToast();
+        }
+    }
+
+    private void dismissToast() {
+        Fragment fragment = getParentFragment();
+        if (fragment != null && fragment.isAdded() && fragment.isVisible()) {
+            SNSFragment snsFragment = (SNSFragment) fragment;
+            snsFragment.dismissToast();
+        }
     }
 
     private void showToast(int type, String msg) {

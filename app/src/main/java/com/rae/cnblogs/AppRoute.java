@@ -18,6 +18,7 @@ import com.rae.cnblogs.activity.FriendsActivity;
 import com.rae.cnblogs.activity.ImageSelectionActivity;
 import com.rae.cnblogs.activity.LoginActivity;
 import com.rae.cnblogs.activity.MainActivity;
+import com.rae.cnblogs.activity.MomentAtMeActivity;
 import com.rae.cnblogs.activity.MomentDetailActivity;
 import com.rae.cnblogs.activity.MomentMessageActivity;
 import com.rae.cnblogs.activity.PostMomentActivity;
@@ -398,10 +399,18 @@ public final class AppRoute {
 
 
     /**
-     * 闪存详情
+     * 闪存消息
      */
     public static void jumpToMomentMessage(Context context) {
         Intent intent = new Intent(context, MomentMessageActivity.class);
+        startActivity(context, intent);
+    }
+
+    /**
+     * 提到我的闪存
+     */
+    public static void jumpToMomentAtMe(Context context) {
+        Intent intent = new Intent(context, MomentAtMeActivity.class);
         startActivity(context, intent);
     }
 

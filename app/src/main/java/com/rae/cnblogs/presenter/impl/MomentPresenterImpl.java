@@ -49,8 +49,9 @@ public class MomentPresenterImpl extends BasePresenter<IMomentContract.View> imp
     public void start() {
         super.start();
 
-        // 查询回复我的数量
         if (isLogin()) {
+
+            // 查询回复我的数量
             createObservable(mMomentApi.queryReplyCount(System.currentTimeMillis()))
                     .subscribe(new ApiDefaultObserver<String>() {
                         @Override
@@ -60,10 +61,20 @@ public class MomentPresenterImpl extends BasePresenter<IMomentContract.View> imp
 
                         @Override
                         protected void accept(String s) {
-                            int number = Rx.parseInt(s);
-                            if (number > 0) {
-                                mView.onReplyContChanged(number);
-                            }
+                            mView.onReplyCountChanged(Rx.parseInt(s));
+                        }
+                    });
+
+            // 查询提到我的数量
+            createObservable(mMomentApi.queryAtMeCount(System.currentTimeMillis()))
+                    .subscribe(new ApiDefaultObserver<String>() {
+                        @Override
+                        protected void onError(String message) {
+                        }
+
+                        @Override
+                        protected void accept(String s) {
+                            mView.onAtMeCountChanged(Rx.parseInt(s));
                         }
                     });
         }

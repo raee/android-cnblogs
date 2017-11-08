@@ -232,6 +232,7 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
 
     @Override
     public void onEmptyComment(String message) {
+        AppUI.dismiss();
         mRecyclerView.setNoMore(true);
         mAppLayout.refreshComplete();
         mRecyclerView.loadMoreComplete();
@@ -307,6 +308,11 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
         AppUI.failed(getContext(), message);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
 
     /**
      * 评论

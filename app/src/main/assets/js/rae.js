@@ -100,10 +100,11 @@ function getImageWidth(url,callback){
     if(img.complete){
         callback(img.width, img.height);
     }else{
-            // 完全加载完毕的事件
+         // 完全加载完毕的事件
         img.onload = function(){
-        callback(img.width, img.height);
+             callback(img.width, img.height);
         }
-        }
+    }
+
     
 }

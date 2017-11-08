@@ -35,6 +35,11 @@ public interface IMomentContract {
         /**
          * 有回复我的消息数量
          */
-        void onReplyContChanged(int number);
+        void onReplyCountChanged(int number);
+
+        /**
+         * 有提到我的数量
+         */
+        void onAtMeCountChanged(int number);
     }
 }

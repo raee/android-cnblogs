@@ -27,5 +27,9 @@ public interface IPostMomentContract {
          */
         void onPostMomentInProgress();
 
+        /**
+         * 博客开通状态
+         */
+        void onLoadBlogOpenStatus(Boolean value);
     }
 }

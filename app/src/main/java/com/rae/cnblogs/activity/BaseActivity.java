@@ -97,7 +97,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
-            bar.setHomeAsUpIndicator(getHomeAsUpIndicator());
+            // 设置返回按钮
+            if (getHomeAsUpIndicator() != 0) {
+                bar.setHomeAsUpIndicator(getHomeAsUpIndicator());
+            }
             bar.setDisplayShowHomeEnabled(false);
             bar.setDisplayShowTitleEnabled(false);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -118,7 +121,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 返回按钮的图片
      */
     protected int getHomeAsUpIndicator() {
-        return R.drawable.ic_back;
+        return 0;
     }
 
     protected BaseActivity getContext() {

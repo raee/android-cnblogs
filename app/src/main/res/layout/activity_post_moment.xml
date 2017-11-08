@@ -81,13 +81,40 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:fadeScrollbars="false"
         android:fadingEdge="none"
         android:fadingEdgeLength="0dp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_blog_apply_tips"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|bottom"
+        android:visibility="gone"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|bottom"
+            android:text="@string/tips_post_moment_image"
+            android:textColor="@color/ph3"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:id="@+id/tv_blog_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|bottom"
+            android:padding="10dp"
+            android:text="@string/blog_apply"
+            android:textColor="@color/ph2"
+            android:textSize="10sp"/>
+    </LinearLayout>
 
 
 </LinearLayout>
