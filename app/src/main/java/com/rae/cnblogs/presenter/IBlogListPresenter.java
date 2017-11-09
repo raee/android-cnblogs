@@ -18,6 +18,8 @@ public interface IBlogListPresenter extends IRaePresenter {
      */
     void refreshDataSet();
 
+    void destroy();
+
     interface IBlogListView {
 
         void onLoadBlogList(int pageIndex, List<BlogBean> data);

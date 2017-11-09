@@ -11,6 +11,8 @@ import com.rae.cnblogs.sdk.db.model.UserBlogInfo;
 
 import java.util.List;
 
+import io.reactivex.annotations.Nullable;
+
 /**
  * 博客数据库
  * Created by ChenRui on 2017/1/25 0025 16:56.
@@ -29,8 +31,15 @@ public class DbBlog extends DbCnblogs {
         return new Select().from(BlogBean.class).where("blogType=? and categoryId=?", type.getTypeName(), category).orderBy("blogId desc").offset(page * 20).limit(20).execute();
     }
 
+    @Nullable
     public BlogBean getBlog(String blogId) {
-        return new Select().from(BlogBean.class).where("blogId=?", blogId).executeSingle();
+        try {
+            return new Select().from(BlogBean.class).where("blogId=?", blogId).executeSingle();
+        } catch (OutOfMemoryError e) {
+            // fix bug #616 内存空间满了
+            DbFactory.getInstance().clearData();
+        }
+        return null;
     }
 
     public void saveBlogInfo(UserBlogInfo m) {

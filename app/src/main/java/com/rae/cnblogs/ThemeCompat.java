@@ -40,7 +40,10 @@ public final class ThemeCompat {
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
-                return new RaeSkinImageViewV4(context, attributeSet);
+
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                    return new RaeSkinImageViewV4(context, attributeSet);
+                }
             }
             return null;
         }

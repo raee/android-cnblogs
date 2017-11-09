@@ -215,7 +215,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     @Override
     public void onLoadContentSuccess(String content) {
         // 可能会处于非主线程中，这里提交到主线程中去。
-        // fix bugly #354
+        // fix bugly #354 #562
         mContentLayout.post(new Runnable() {
             @Override
             public void run() {

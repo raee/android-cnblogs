@@ -2,6 +2,8 @@ package com.rae.cnblogs.service.job;
 
 import android.util.Log;
 
+import com.tencent.bugly.crashreport.CrashReport;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -23,8 +25,13 @@ public abstract class AsyncDownloadJob implements IJob {
             Log.e("rae", "线程池已经结束！");
             return;
         }
-        // 延迟周期运行，避免过多的CPU消耗
-        mExecutorService.schedule(runnable, 1500, TimeUnit.MILLISECONDS);
+        try {
+            // 延迟周期运行，避免过多的CPU消耗
+            mExecutorService.schedule(runnable, 1500, TimeUnit.MILLISECONDS);
+        } catch (Throwable e) {
+            // 上传异常
+            CrashReport.postCatchedException(e);
+        }
     }
 
     @Override

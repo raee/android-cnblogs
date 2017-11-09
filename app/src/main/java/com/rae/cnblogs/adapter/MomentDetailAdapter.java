@@ -164,7 +164,12 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
         SpannableString content = new SpannableString(m.getContent());
 
         if (!TextUtils.isEmpty(m.getAtAuthorName())) {
-            content.setSpan(new ForegroundColorSpan(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorPrimary)), 0, m.getAtAuthorName().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            content.setSpan(
+                    new ForegroundColorSpan(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorPrimary)),
+                    0,
+                    // fix bug #762
+                    Math.min(m.getAtAuthorName().length() + 1, content.length()),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         if (!TextUtils.isEmpty(m.getAvatar())) {
             RaeImageLoader.displayHeaderImage(m.getAvatar(), holder.avatarView);

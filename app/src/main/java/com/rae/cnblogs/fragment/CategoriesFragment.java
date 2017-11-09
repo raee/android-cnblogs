@@ -33,6 +33,7 @@ import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -42,6 +43,8 @@ import io.reactivex.schedulers.Schedulers;
  * Created by ChenRui on 2017/7/16 0016 22:58.
  */
 public class CategoriesFragment extends BaseFragment implements CategoriesOverallAdapter.CategoryDragListener {
+
+    private Disposable mDisposable;
 
     public static CategoriesFragment newInstance(List<CategoryBean> data) {
         Bundle args = new Bundle();
@@ -279,7 +282,7 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
 
         final String tag = "updateCategories";
 
-        Observable.just(result)
+        mDisposable = Observable.just(result)
                 .subscribeOn(Schedulers.io())
                 .map(new Function<List<CategoryBean>, List<CategoryBean>>() {
                     @Override
@@ -321,7 +324,10 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
                     }
                 });
 
-        getActivity().setResult(Activity.RESULT_OK);
+        // fix bug #512
+        if (getActivity() != null) {
+            getActivity().setResult(Activity.RESULT_OK);
+        }
 
     }
 
@@ -352,9 +358,15 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
 
     @Override
     public void onDestroy() {
+
         if (mCategoryAdapter != null) {
             mCategoryAdapter.setOnDataSetFinishListener(null);
         }
+        // fix bug #385
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
+        }
+
         mHandler.removeMessages(0);
         mHandler = null;
         super.onDestroy();

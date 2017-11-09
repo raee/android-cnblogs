@@ -27,9 +27,9 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
-    dexOptions {
-        javaMaxHeapSize '2g'
-    }
+//    dexOptions {
+//        javaMaxHeapSize '2g'
+//    }
 
     signingConfigs {
         release {
@@ -64,6 +64,12 @@ android {
         manifestPlaceholders = [
                 UMENG_APPKEY: umengAppKey
         ]
+
+        ndk {
+            // fix bug #504 64位系统webView问题
+            abiFilters "armeabi"
+            abiFilters "armeabi-v7a"
+        }
     }
     buildTypes {
         debug {
@@ -104,6 +110,7 @@ android {
     productFlavors.all { flavor ->
         flavor.manifestPlaceholders = [UMENG_CHANNEL: name, BUGLY_CHANNEL: name]
     }
+
 }
 
 dependencies {

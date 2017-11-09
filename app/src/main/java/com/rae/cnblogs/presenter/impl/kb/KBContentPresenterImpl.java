@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -17,6 +18,8 @@ import io.reactivex.functions.Consumer;
  * Created by ChenRui on 2017/2/4 0004 14:49.
  */
 public class KBContentPresenterImpl extends BlogContentPresenterImpl {
+
+    private Disposable mDisposable;
 
     public KBContentPresenterImpl(Context context, IBlogContentView view) {
         super(context, view);
@@ -32,7 +35,7 @@ public class KBContentPresenterImpl extends BlogContentPresenterImpl {
 
         // 不支持取消点赞
         if (isCancel) {
-            Observable.timer(1000, TimeUnit.MILLISECONDS)
+            mDisposable = Observable.timer(1000, TimeUnit.MILLISECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<Long>() {
                         @Override
@@ -44,5 +47,14 @@ public class KBContentPresenterImpl extends BlogContentPresenterImpl {
         }
         Observable<Empty> observable = mBlogApi.likeKb(mView.getBlog().getBlogId());
         createObservable(false, observable, true);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        // fix bug #726
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
     }
 }

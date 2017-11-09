@@ -111,7 +111,6 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
     }
 
 
-
     private void initView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mSuggestionAdapter = new SearchSuggestionAdapter();
@@ -161,7 +160,8 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
             @Override
             public void onChanged() {
                 super.onChanged();
-                if (mSuggestionAdapter.getItemCount() > 0) {
+                // fix bug #506
+                if (mRecyclerView != null && mSuggestionAdapter.getItemCount() > 0) {
                     mRecyclerView.setVisibility(View.VISIBLE);
                 }
             }

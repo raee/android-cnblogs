@@ -73,6 +73,10 @@ public abstract class BaseItemAdapter<T, VH extends RecyclerView.ViewHolder> ext
     }
 
     protected void onBindItemClickListener(VH holder, int position, final T dataItem) {
+
+        // 加载中点击事件不处理
+        if (getItemViewType(position) == VIEW_TYPE_LOADING) return;
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

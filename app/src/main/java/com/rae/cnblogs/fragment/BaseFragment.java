@@ -37,10 +37,6 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mUnbinder != null) {
-            mUnbinder.unbind();
-            mUnbinder = null;
-        }
     }
 
     protected void onCreateView(View view) {
@@ -53,7 +49,8 @@ public abstract class BaseFragment extends Fragment {
     protected abstract int getLayoutId();
 
     protected CnblogSdkConfig config() {
-        return CnblogSdkConfig.getsInstance(getContext().getApplicationContext());
+        // fix bug #478
+        return CnblogSdkConfig.getsInstance(getContext());
     }
 
     protected int parseInt(String text) {

@@ -112,9 +112,16 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
 
     @Override
     public void onDestroy() {
-        mItemAdapter.destroy();
-        mAppLayout.removeAllViews();
-        mRecyclerView.removeAllViews();
+        // fix bug #772
+        if (mBlogListPresenter != null)
+            mBlogListPresenter.destroy();
+        if (mItemAdapter != null)
+            mItemAdapter.destroy();
+        // fix bug #732
+        if (mAppLayout != null)
+            mAppLayout.removeAllViews();
+        if (mRecyclerView != null)
+            mRecyclerView.removeAllViews();
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }

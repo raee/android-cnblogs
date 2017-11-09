@@ -44,8 +44,8 @@ public class CnblogsService extends Service {
             boolean isInsufficient = appDataManager.isInsufficient(); // 是否空间不足
             double dbSize = appDataManager.getDatabaseTotalSize();
 //            Log.i("rae-service", "是否空间不够：" + isInsufficient + "; 数据库缓存大小：" + dbSize);
-            // 当数据大于50MB，清空博客缓存数据
-            if (dbSize > 50 || isInsufficient) {
+            // 当数据大于30MB，清空博客缓存数据
+            if (dbSize > 30 || isInsufficient) {
 //                Log.i("rae-service", "清除数据！" + dbSize);
                 DbFactory.getInstance().clearData();
             }
@@ -53,7 +53,7 @@ public class CnblogsService extends Service {
             // 清除缓存目录
             long cacheSize = appDataManager.getCacheSize();
             // 缓存大小超过1G，或者空间不足的时候清除缓存目录
-            if (cacheSize > 1024 || isInsufficient) {
+            if (cacheSize > 600 || isInsufficient) {
 //                Log.i("rae-service", "清除缓存！" + cacheSize);
                 appDataManager.clearCache();
             }

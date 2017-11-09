@@ -109,12 +109,11 @@ public class MineFragment extends BaseFragment {
                 .subscribe(new ApiDefaultObserver<Integer>() {
                     @Override
                     protected void onError(String message) {
-
                     }
 
                     @Override
                     protected void accept(Integer integer) {
-                        if (integer == null) return;
+                        if (integer == null || getContext() == null) return;
                         mSystemMessageBadgeView.setVisibility(config().getMessageCount() != integer ? View.VISIBLE : View.INVISIBLE);
                     }
                 });

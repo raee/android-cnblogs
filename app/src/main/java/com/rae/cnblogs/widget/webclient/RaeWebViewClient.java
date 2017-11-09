@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -33,6 +34,8 @@ public class RaeWebViewClient extends WebViewClient {
     }
 
     private void dismissProgress() {
+        if (mContext == null) return;
+
         Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.fade_out);
         if (mProgressBar.get() != null) {
             mProgressBar.get().startAnimation(animation);
@@ -81,7 +84,8 @@ public class RaeWebViewClient extends WebViewClient {
     }
 
     private void showEmpty(WebView view, String url) {
-        if (!view.getUrl().equalsIgnoreCase(url)) return;
+        // fix bug #643
+        if (!TextUtils.equals(view.getUrl(), url)) return;
         if (mPlaceholderViewWeakReference != null && mPlaceholderViewWeakReference.get() != null) {
             mPlaceholderViewWeakReference.get().networkError();
             mPlaceholderViewWeakReference.get().setEmptyMessage("网络连接错误，请重试");
@@ -103,8 +107,6 @@ public class RaeWebViewClient extends WebViewClient {
     public void destroy() {
         mProgressBar.clear();
         mAppLayout.clear();
-        mProgressBar = null;
-        mContext = null;
     }
 
 

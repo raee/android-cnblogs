@@ -1,9 +1,11 @@
 package com.rae.cnblogs.sdk.db;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteFullException;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
+import com.activeandroid.query.Delete;
 import com.rae.cnblogs.sdk.BuildConfig;
 import com.rae.cnblogs.sdk.bean.AdvertBean;
 import com.rae.cnblogs.sdk.bean.BlogBean;
@@ -41,7 +43,15 @@ public abstract class DbCnblogs {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            ActiveAndroid.endTransaction();
+            try {
+                ActiveAndroid.endTransaction();
+            } catch (SQLiteFullException e) {
+                // 数据库缓存已经满了，清除缓存
+                // fix bug #690
+                new Delete().from(UserBlogInfo.class).execute();
+                new Delete().from(BlogBean.class).execute();
+                ActiveAndroid.clearCache();
+            }
         }
     }
 

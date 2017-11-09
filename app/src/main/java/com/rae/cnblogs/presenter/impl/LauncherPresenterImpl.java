@@ -115,6 +115,7 @@ public class LauncherPresenterImpl extends BasePresenter<ILauncherPresenter.ILau
 
 
                         private void onSuccess(AdvertBean data) {
+                            if (mView == null) return; // fix bug #674
                             if (data == null || TextUtils.isEmpty(data.getImage_url())) {
                                 mView.onNormalImage();
                                 return;

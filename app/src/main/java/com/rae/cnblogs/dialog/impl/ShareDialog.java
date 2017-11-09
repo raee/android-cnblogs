@@ -29,6 +29,7 @@ import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
@@ -245,6 +246,15 @@ public class ShareDialog extends SlideDialog {
         }
 
         try {
+
+            UMShareAPI umShareAPI = UMShareAPI.get(getContext());
+
+            // fix bug #536 没有安装应用
+            if (getContext() instanceof Activity && !umShareAPI.isInstall((Activity) getContext(), type)) {
+                AppUI.failed(getContext(), "请安装" + type);
+                return;
+            }
+
             mShareAction.setPlatform(type);
             mShareAction.share();
         } catch (Exception e) {
