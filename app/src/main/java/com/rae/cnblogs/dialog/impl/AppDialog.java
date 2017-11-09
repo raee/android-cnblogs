@@ -2,8 +2,10 @@ package com.rae.cnblogs.dialog.impl;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 
@@ -33,6 +35,14 @@ public abstract class AppDialog extends Dialog implements IAppDialog {
     protected void initDialog() {
         setOnCancelListener((IAppDialogClickListener) null);
         setOnEnSureListener(null);
+
+        // 夜间模式不显示遮罩层
+        if (ThemeCompat.isNight() && getWindow() != null) {
+            getWindow().setDimAmount(0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                getWindow().setElevation(0);
+            }
+        }
     }
 
     @Override

@@ -296,6 +296,8 @@ public class ShareDialog extends SlideDialog {
     private void showNightText() {
         if (ThemeCompat.isNight()) {
             mNightView.setText(R.string.day_mode);
+
+
         } else {
             mNightView.setText(R.string.night_mode);
         }
