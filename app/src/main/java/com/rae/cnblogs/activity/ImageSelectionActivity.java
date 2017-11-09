@@ -155,10 +155,10 @@ public class ImageSelectionActivity extends BaseActivity {
      */
     private boolean requestPermissions() {
         // 检查权限
-        if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             AppUI.toast(this, "请允许访问存储卡权限");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 100);
             }
             return false;
         }

@@ -36,6 +36,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -261,6 +262,16 @@ public class MomentIntentService extends IntentService {
                                 onError("登录过期");
                                 return;
                             }
+                        } else if (e instanceof FileNotFoundException) {
+                            // 权限问题
+                            String message;
+                            if (e.getMessage() != null && e.getMessage().contains("Permission")) {
+                                message = "没有权限访问图片，请检查是否授权访问照相机/相册/存储卡权限。";
+                            } else {
+                                message = "没找到上传的图片";
+                            }
+                            onError(message);
+                            return;
                         } else if (e instanceof HttpException) {
                             HttpException ex = (HttpException) e;
                             onError("服务器发生错误0x" + ex.code());
