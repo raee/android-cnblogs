@@ -259,6 +259,18 @@ public final class AppRoute {
         jumpToImagePreview(context, data, 0);
     }
 
+
+    /**
+     * 图片查看
+     *
+     * @param imgUrl 图片路径
+     */
+    public static void jumpToImagePreview(Context context, @NonNull String imgUrl) {
+        ArrayList<String> data = new ArrayList<>();
+        data.add(imgUrl);
+        jumpToImagePreview(context, data, 0);
+    }
+
     /**
      * 博主界面
      *

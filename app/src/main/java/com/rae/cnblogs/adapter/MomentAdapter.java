@@ -1,6 +1,5 @@
 package com.rae.cnblogs.adapter;
 
-import android.app.Activity;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -154,7 +153,7 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
 
         @Override
         public void onClick(View v) {
-            AppRoute.jumpToImagePreview((Activity) v.getContext(), mUrl);
+            AppRoute.jumpToImagePreview(v.getContext(), mUrl);
         }
     }
 
