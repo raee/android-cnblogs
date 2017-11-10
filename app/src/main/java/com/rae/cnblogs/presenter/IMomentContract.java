@@ -33,13 +33,10 @@ public interface IMomentContract {
 //        void onDeleteMomentSuccess();
 
         /**
-         * 有回复我的消息数量
+         * 消息数量改变
+         * @param replyMeCount 有回复我的消息数量
+         * @param atMeCount 有提到我的数量
          */
-        void onReplyCountChanged(int number);
-
-        /**
-         * 有提到我的数量
-         */
-        void onAtMeCountChanged(int number);
+        void onMessageCountChanged(int replyMeCount, int atMeCount);
     }
 }

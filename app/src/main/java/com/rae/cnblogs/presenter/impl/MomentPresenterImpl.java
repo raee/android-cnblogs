@@ -20,6 +20,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Function;
 
 /**
  * moment
@@ -28,6 +30,8 @@ import io.reactivex.Observable;
 public class MomentPresenterImpl extends BasePresenter<IMomentContract.View> implements IMomentContract.Presenter {
 
     private IMomentApi mMomentApi;
+    private int mReplyMeCount;
+    private int mAtMeCount;
 
     private PageObservable<MomentBean> mPageObservable;
 
@@ -52,28 +56,23 @@ public class MomentPresenterImpl extends BasePresenter<IMomentContract.View> imp
 
             // 查询回复我的数量
             createObservable(mMomentApi.queryReplyCount(System.currentTimeMillis()))
+                    .flatMap(new Function<String, ObservableSource<String>>() {
+                        @Override
+                        public ObservableSource<String> apply(String s) throws Exception {
+                            mReplyMeCount = Rx.parseInt(s);
+                            return createObservable(mMomentApi.queryAtMeCount(System.currentTimeMillis()));
+                        }
+                    })
                     .subscribe(new ApiDefaultObserver<String>() {
                         @Override
                         protected void onError(String message) {
-
+                            mView.onMessageCountChanged(mReplyMeCount, mAtMeCount);
                         }
 
                         @Override
                         protected void accept(String s) {
-                            mView.onReplyCountChanged(Rx.parseInt(s));
-                        }
-                    });
-
-            // 查询提到我的数量
-            createObservable(mMomentApi.queryAtMeCount(System.currentTimeMillis()))
-                    .subscribe(new ApiDefaultObserver<String>() {
-                        @Override
-                        protected void onError(String message) {
-                        }
-
-                        @Override
-                        protected void accept(String s) {
-                            mView.onAtMeCountChanged(Rx.parseInt(s));
+                            mAtMeCount = Rx.parseInt(s);
+                            mView.onMessageCountChanged(mReplyMeCount, mAtMeCount);
                         }
                     });
         }

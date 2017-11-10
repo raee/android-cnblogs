@@ -104,9 +104,9 @@ public class ToolbarToastView extends RaeTextView implements ValueAnimator.Anima
      * 显示
      */
     public void show() {
-        mHandler.removeMessages(0);
-        setTranslationY(0);
         if (this.getVisibility() != View.VISIBLE) {
+            mHandler.removeMessages(0);
+            setTranslationY(0);
             setVisibility(View.VISIBLE);
             Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.toolbar_toast_in);
             startAnimation(anim);

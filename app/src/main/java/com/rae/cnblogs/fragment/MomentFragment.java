@@ -231,18 +231,11 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
 //    }
 
     @Override
-    public void onReplyCountChanged(int number) {
-        if (number > 0) {
-            showToast(ToolbarToastView.TYPE_REPLY_ME, number + "条回复我的消息");
-        } else {
-            dismissToast();
-        }
-    }
-
-    @Override
-    public void onAtMeCountChanged(int number) {
-        if (number > 0) {
-            showToast(ToolbarToastView.TYPE_AT_ME, number + "条提到我的消息");
+    public void onMessageCountChanged(int replyMeCount, int atMeCount) {
+        if (replyMeCount > 0) {
+            showToast(ToolbarToastView.TYPE_REPLY_ME, replyMeCount + "条回复我的消息");
+        } else if (atMeCount > 0) {
+            showToast(ToolbarToastView.TYPE_AT_ME, atMeCount + "条提到我的消息");
         } else {
             dismissToast();
         }

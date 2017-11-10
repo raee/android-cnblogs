@@ -16,7 +16,7 @@ public final class RaeImageLoader {
         Context context = view.getContext();
         GlideApp.with(context)
                 .load(url)
-                .placeholder(R.drawable.bg_user_avatar)
+                .placeholder(R.drawable.ic_default_user_avatar)
                 .into(view);
     }
 
