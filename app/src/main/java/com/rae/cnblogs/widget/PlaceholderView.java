@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
@@ -35,14 +36,15 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
     private SkinCompatBackgroundHelper mBackgroundTintHelper;
     private View mEmptyView;
     private View mLoginView;
-    private View mLoadingView;
+    View mLoadingView;
     private ImageView mEmptyImageView;
     private TextView mEmptyMessageView;
     private Drawable mDefaultEmptyIcon;
     private View mRetryView;
     private View mContentView;
-    private TextView mLoadingTextView;
-    private String mLoadingText;
+    TextView mLoadingTextView;
+    String mLoadingText;
+    ProgressBar mLoadingProgressBar;
     private View mLoginBtn;
 
     public PlaceholderView(Context context) {
@@ -70,7 +72,7 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
     }
 
 
-    private void initView(AttributeSet attrs, int defStyleAttr) {
+    protected void initView(AttributeSet attrs, int defStyleAttr) {
 
         mBackgroundTintHelper = new SkinCompatBackgroundHelper(this);
         mBackgroundTintHelper.loadFromAttributes(attrs, defStyleAttr);
@@ -79,6 +81,7 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
         mEmptyView = mContentView.findViewById(R.id.ll_placeholder_empty);
         mLoginView = mContentView.findViewById(R.id.ll_placeholder_login);
         mLoadingView = mContentView.findViewById(R.id.ll_placeholder_loading);
+        mLoadingProgressBar = mContentView.findViewById(R.id.pb_loading);
         mLoadingTextView = (TextView) mContentView.findViewById(R.id.tv_loading);
         mEmptyImageView = (ImageView) mContentView.findViewById(R.id.img_placeholder_empty);
         mEmptyMessageView = (TextView) mContentView.findViewById(R.id.tv_placeholder_empty_message);

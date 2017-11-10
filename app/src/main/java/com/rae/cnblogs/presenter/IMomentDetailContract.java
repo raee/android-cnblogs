@@ -91,5 +91,10 @@ public interface IMomentDetailContract {
         void onDeleteMomentFailed(String string);
 
         void onDeleteMomentSuccess();
+
+        /**
+         * 加载更多的时候没有登录
+         */
+        void onLoadMoreNotLogin();
     }
 }

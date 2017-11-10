@@ -33,6 +33,7 @@ public class MomentDetailPresenterImpl extends BasePresenter<IMomentDetailContra
     private final IFriendsApi mFriendApi;
     private FriendsInfoBean mBloggerInfo;
     private boolean mRefresh;
+    private boolean mFromLoadMore;
 
     public MomentDetailPresenterImpl(Context context, IMomentDetailContract.View view) {
         super(context, view);
@@ -49,7 +50,7 @@ public class MomentDetailPresenterImpl extends BasePresenter<IMomentDetailContra
         if (Rx.isEmpty(momentInfo.getCommentList()) || mRefresh) {
             loaMomentDetail(momentInfo);
         } else {
-            mView.onLoadComments(momentInfo.getCommentList(), false);
+            notifyCommentSuccess(momentInfo.getCommentList());
         }
 
         if (isLogin()) {
@@ -103,20 +104,27 @@ public class MomentDetailPresenterImpl extends BasePresenter<IMomentDetailContra
 
                     @Override
                     protected void accept(List<MomentCommentBean> momentCommentBeans) {
-                        if (Rx.isEmpty(momentCommentBeans)) {
-                            mView.onEmptyComment(getString(R.string.empty_comment));
-                            return;
-                        }
-
-                        // 判断是否还有更多评论
-                        MomentCommentBean commentBean = momentCommentBeans.get(momentCommentBeans.size() - 1);
-                        boolean hasMore = "more".equals(commentBean.getId());
-                        if (hasMore)
-                            momentCommentBeans.remove(commentBean);
-
-                        mView.onLoadComments(momentCommentBeans, hasMore);
+                        notifyCommentSuccess(momentCommentBeans);
                     }
                 });
+    }
+
+    /**
+     * 回调成功
+     */
+    private void notifyCommentSuccess(List<MomentCommentBean> momentCommentBeans) {
+        if (Rx.isEmpty(momentCommentBeans)) {
+            mView.onEmptyComment(getString(R.string.empty_comment));
+            return;
+        }
+
+        // 判断是否还有更多评论
+        MomentCommentBean commentBean = momentCommentBeans.get(momentCommentBeans.size() - 1);
+        boolean hasMore = "more".equals(commentBean.getId());
+        if (hasMore)
+            momentCommentBeans.remove(commentBean);
+
+        mView.onLoadComments(momentCommentBeans, hasMore);
     }
 
     @Override
@@ -127,6 +135,10 @@ public class MomentDetailPresenterImpl extends BasePresenter<IMomentDetailContra
 
     @Override
     public void loadMore() {
+        if (isNotLogin()) {
+            mView.onLoadMoreNotLogin();
+            return;
+        }
         // 目前没有发现有多页的情况，就重新刷新当前页面
         refresh();
     }

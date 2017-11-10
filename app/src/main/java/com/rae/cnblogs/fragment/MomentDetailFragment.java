@@ -15,7 +15,10 @@ import com.rae.cnblogs.RaeViewCompat;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.MomentAdapter;
 import com.rae.cnblogs.adapter.MomentDetailAdapter;
+import com.rae.cnblogs.dialog.IAppDialog;
+import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.EditCommentDialog;
+import com.rae.cnblogs.dialog.impl.HintCardDialog;
 import com.rae.cnblogs.dialog.impl.MenuDeleteDialog;
 import com.rae.cnblogs.model.MomentHolder;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
@@ -333,6 +336,23 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
     public void onDeleteMomentSuccess() {
         AppUI.success(getContext(), R.string.tips_del_moment_success);
         getActivity().finish();
+    }
+
+    @Override
+    public void onLoadMoreNotLogin() {
+        mRecyclerView.loadMoreComplete();
+        HintCardDialog dialog = new HintCardDialog(getContext());
+        dialog.showCloseButton();
+        dialog.setMessage(getString(R.string.moment_unlogin_hint));
+        dialog.setEnSureText(getString(R.string.go_login));
+        dialog.setOnEnSureListener(new IAppDialogClickListener() {
+            @Override
+            public void onClick(IAppDialog dialog, int buttonType) {
+                dialog.dismiss();
+                AppRoute.jumpToLogin(getContext());
+            }
+        });
+        dialog.show();
     }
 
     @Override

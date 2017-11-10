@@ -28,6 +28,9 @@
     <string name="loading_blog_app">每一步的改变都不平凡..</string>
     <string name="loading_user_info_finish">技术改变世界</string>
     <string name="login_retry_error">多次登录失败？试试官方网页登录吧！</string>
+    <string name="login_retry">正在重试，请稍等片刻。</string>
+    <string name="login_retry_tips">等待太久了？重新试试吧</string>
+    <string name="login_retry_route_tips">还是登录不上？试试重新登录吧</string>
     <string name="login_verify_code_error">登录需要校验验证码，请前往官方网页登录。</string>
     <string name="empty_message">这里什么都没有</string>
     <string name="retry">重新加载</string>
@@ -146,4 +149,5 @@
     <string name="tips_post_moment_image">开通博客后才能发图片，还没开通？</string>
     <string name="tips_post_moment_apply">开通博客后才能发图片，您似乎还没有开通，如果已经开通请继续。</string>
     <string name="blog_apply">立即申请</string>
+    <string name="moment_unlogin_hint">登录后，更多评论等你来发现。</string>
 </resources>

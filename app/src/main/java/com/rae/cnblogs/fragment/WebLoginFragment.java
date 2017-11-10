@@ -12,12 +12,15 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RxObservable;
+import com.rae.cnblogs.sdk.CnblogsApiException;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.api.IUserApi;
-import com.rae.cnblogs.widget.PlaceholderView;
+import com.rae.cnblogs.widget.LoginPlaceholderView;
 import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
+import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * 网页登录
@@ -37,7 +40,7 @@ public class WebLoginFragment extends WebViewFragment {
 
     private IUserApi mUserApi;
 
-    private PlaceholderView mPlaceholderView;
+    private LoginPlaceholderView mPlaceholderView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,9 +61,33 @@ public class WebLoginFragment extends WebViewFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ViewGroup parent = (ViewGroup) mContentLayout.getParent();
-        mPlaceholderView = new PlaceholderView(view.getContext());
+        mPlaceholderView = new LoginPlaceholderView(view.getContext());
         mPlaceholderView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mPlaceholderView.dismiss();
+        mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPlaceholderView.isRouteLogin()) {
+                    mPlaceholderView.dismiss();
+                    // 重新登录
+                    mWebView.loadUrl(getRawUrl());
+
+                    // 统计失败
+                    AppMobclickAgent.onClickEvent(v.getContext(), "WEB_RETRY_LOGIN");
+
+                    CrashReport.postCatchedException(new CnblogsApiException("重试登录失败，当前路径：" + mWebView.getUrl()));
+
+                    return;
+                }
+
+                // 统计登录超时
+                AppMobclickAgent.onClickEvent(v.getContext(), "WEB_LOGIN_TIMEOUT");
+
+                mPlaceholderView.loadingWithTimer(v.getContext().getString(R.string.login_retry));
+                mPlaceholderView.dismissLoadingRetry();
+                mWebView.reload();
+            }
+        });
         parent.addView(mPlaceholderView);
     }
 
@@ -79,7 +106,7 @@ public class WebLoginFragment extends WebViewFragment {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 if (!TextUtils.isEmpty(url) && url.contains("home.cnblogs.com")) {
-                    mPlaceholderView.loading(getString(R.string.loading_web_user_info));
+                    mPlaceholderView.loadingWithTimer(getString(R.string.loading_web_user_info));
                 }
             }
 

@@ -175,6 +175,10 @@ public class WebViewFragment extends BaseFragment {
         }
     }
 
+    public String getRawUrl() {
+        return mRawUrl;
+    }
+
     @Override
     public void onDestroy() {
         if (mContentLayout != null) {
