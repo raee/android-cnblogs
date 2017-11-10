@@ -16,6 +16,9 @@
 
 package android.support.design.widget;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -273,7 +276,7 @@ public class DesignTabLayout extends HorizontalScrollView {
     private final ArrayList<OnTabSelectedListener> mSelectedListeners = new ArrayList<>();
     private OnTabSelectedListener mCurrentVpSelectedListener;
 
-    private ValueAnimatorCompat mScrollAnimator;
+    private ValueAnimator mScrollAnimator;
 
     ViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
@@ -1094,14 +1097,13 @@ public class DesignTabLayout extends HorizontalScrollView {
         final int targetScrollX = calculateScrollXForTab(newPosition, 0);
 
         if (startScrollX != targetScrollX) {
-            if (mScrollAnimator == null) {
-                mScrollAnimator = ViewUtils.createAnimator();
-                mScrollAnimator.setInterpolator(AnimationUtils.FAST_OUT_SLOW_IN_INTERPOLATOR);
-                mScrollAnimator.setDuration(ANIMATION_DURATION);
-                mScrollAnimator.addUpdateListener(new ValueAnimatorCompat.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimatorCompat animator) {
-                        scrollTo(animator.getAnimatedIntValue(), 0);
+            if(this.mScrollAnimator == null) {
+                this.mScrollAnimator = new ValueAnimator();
+                this.mScrollAnimator.setInterpolator(AnimationUtils.FAST_OUT_SLOW_IN_INTERPOLATOR);
+                this.mScrollAnimator.setDuration(300L);
+                this.mScrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        scrollTo(((Integer)animator.getAnimatedValue()).intValue(), 0);
                     }
                 });
             }
@@ -1840,7 +1842,7 @@ public class DesignTabLayout extends HorizontalScrollView {
         private int mIndicatorLeft = -1;
         private int mIndicatorRight = -1;
 
-        private ValueAnimatorCompat mIndicatorAnimator;
+        private ValueAnimator mIndicatorAnimator;
         private int mIndicatorWidth;
         private boolean mEnableIndicatorAnimate = true;
 
@@ -2049,24 +2051,20 @@ public class DesignTabLayout extends HorizontalScrollView {
             }
 
             if (startLeft != targetLeft || startRight != targetRight) {
-                ValueAnimatorCompat animator = mIndicatorAnimator = ViewUtils.createAnimator();
+                ValueAnimator animator = this.mIndicatorAnimator = new ValueAnimator();
                 animator.setInterpolator(AnimationUtils.FAST_OUT_SLOW_IN_INTERPOLATOR);
-                animator.setDuration(duration);
-                animator.setFloatValues(0, 1);
-                animator.addUpdateListener(new ValueAnimatorCompat.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimatorCompat animator) {
-                        final float fraction = animator.getAnimatedFraction();
-                        setIndicatorPosition(
-                                AnimationUtils.lerp(startLeft, targetLeft, fraction),
-                                AnimationUtils.lerp(startRight, targetRight, fraction));
+                animator.setDuration((long)duration);
+                animator.setFloatValues(new float[]{0.0F, 1.0F});
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        float fraction = animator.getAnimatedFraction();
+                        SlidingTabStrip.this.setIndicatorPosition(AnimationUtils.lerp(startLeft, targetLeft, fraction), AnimationUtils.lerp(startRight, targetRight, fraction));
                     }
                 });
-                animator.addListener(new ValueAnimatorCompat.AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(ValueAnimatorCompat animator) {
-                        mSelectedPosition = position;
-                        mSelectionOffset = 0f;
+                animator.addListener(new AnimatorListenerAdapter() {
+                    public void onAnimationEnd(Animator animator) {
+                        SlidingTabStrip.this.mSelectedPosition = position;
+                        SlidingTabStrip.this.mSelectionOffset = 0.0F;
                     }
                 });
                 animator.start();

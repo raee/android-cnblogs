@@ -32,7 +32,7 @@ public class MomentHolder extends SimpleViewHolder {
     @BindView(R.id.tv_blog_date)
     public TextView dateView;
 
-    @BindView(R.id.tv_blog_comment)
+
     public TextView commentView;
 
     @BindView(R.id.recycler_view)
@@ -65,6 +65,7 @@ public class MomentHolder extends SimpleViewHolder {
         thumbView = itemView.findViewById(R.id.img_thumb);
         followView = itemView.findViewById(R.id.btn_blogger_follow);
         androidTagView = itemView.findViewById(R.id.tv_android_tag);
+        commentView = itemView.findViewById(R.id.tv_blog_comment);
         ButterKnife.bind(this, itemView);
     }
 }

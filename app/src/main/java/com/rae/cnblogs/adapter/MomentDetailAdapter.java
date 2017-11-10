@@ -181,6 +181,7 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
         holder.dateView.setOnClickListener(onClickListener);
 
         int index = mDataList.indexOf(m);
+        holder.commentTextView.setText(holder.itemView.getContext().getString(R.string.title_comment, mMomentBean.getCommentCount()));
         holder.titleLayout.setVisibility(index == 0 ? View.VISIBLE : View.GONE);
         holder.dividerView.setVisibility(index == mDataList.size() - 1 ? View.GONE : View.VISIBLE);
         holder.authorView.setText(m.getAuthorName());
@@ -229,7 +230,7 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
         holder.authorView.setText(m.getAuthorName());
         holder.dateView.setText(m.getPostTime());
         holder.summaryView.setText(m.getContent());
-        holder.commentView.setText(m.getCommentCount());
+//        holder.commentView.setText(m.getCommentCount());
         holder.androidTagView.setVisibility(m.isAndroidClient() ? View.VISIBLE : View.GONE);
     }
 

@@ -32,6 +32,9 @@ public class MomentCommentHolder extends SimpleViewHolder {
     @BindView(R.id.view_divider)
     public View dividerView;
 
+    @BindView(R.id.tv_title)
+    public TextView commentTextView;
+
     public MomentCommentHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);

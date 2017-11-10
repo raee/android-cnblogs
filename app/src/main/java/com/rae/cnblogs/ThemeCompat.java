@@ -36,14 +36,15 @@ public final class ThemeCompat {
         public View createView(@NonNull Context context, String name, @NonNull AttributeSet attributeSet) {
             if (TextUtils.equals("ImageView", name)) {
                 try {
+                    // 解决compat包使用了vector，导致5.0以下低版本文章复制产生崩溃。
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH) {
+                        return new RaeSkinImageViewV4(context, attributeSet);
+                    }
                     return new RaeSkinImageView(context, attributeSet);
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
-
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                    return new RaeSkinImageViewV4(context, attributeSet);
-                }
+                return null;
             }
             return null;
         }

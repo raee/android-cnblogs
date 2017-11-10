@@ -70,6 +70,7 @@
         android:lineSpacingExtra="6sp"
         android:text="描述"
         android:textColor="@color/ph1"
+        android:textIsSelectable="true"
         android:textSize="@dimen/summary"/>
 
     <RelativeLayout
@@ -113,25 +114,6 @@
             android:layout_gravity="left"
             android:text="今天18:30"
             android:textAlignment="gravity"
-            android:textColor="@color/ph3"
-            android:textSize="@dimen/h3"/>
-
-
-        <TextView
-            android:id="@+id/tv_blog_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="@color/ph3"
-            android:textSize="@dimen/h3"/>
-
-        <TextView
-            android:id="@+id/tv_comment_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="条回复"
             android:textColor="@color/ph3"
             android:textSize="@dimen/h3"/>
 

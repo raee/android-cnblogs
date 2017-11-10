@@ -35,8 +35,12 @@ public class RaeSkinImageViewV4 extends ImageView implements SkinCompatSupportab
         super(context, attrs, defStyleAttr);
         this.mBackgroundTintHelper = new SkinCompatBackgroundHelper(this);
         this.mBackgroundTintHelper.loadFromAttributes(attrs, defStyleAttr);
-        this.mImageHelper = new SkinCompatImageHelper(this);
-        this.mImageHelper.loadFromAttributes(attrs, defStyleAttr);
+        try {
+            this.mImageHelper = new SkinCompatImageHelper(this);
+            this.mImageHelper.loadFromAttributes(attrs, defStyleAttr);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
         init();
     }
 
@@ -48,12 +52,15 @@ public class RaeSkinImageViewV4 extends ImageView implements SkinCompatSupportab
     @Override
     public void applySkin() {
         setAlpha(isNight() ? getResources().getInteger(R.integer.imageAlpha_night) / 100.0f : 1f);
-        if (this.mBackgroundTintHelper != null) {
-            this.mBackgroundTintHelper.applySkin();
-        }
-
-        if (this.mImageHelper != null) {
-            this.mImageHelper.applySkin();
+        try {
+            if (this.mBackgroundTintHelper != null) {
+                this.mBackgroundTintHelper.applySkin();
+            }
+            if (this.mImageHelper != null) {
+                this.mImageHelper.applySkin();
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
     }
 
@@ -65,17 +72,24 @@ public class RaeSkinImageViewV4 extends ImageView implements SkinCompatSupportab
 
     public void setBackgroundResource(@DrawableRes int resId) {
         super.setBackgroundResource(resId);
-        if (this.mBackgroundTintHelper != null) {
-            this.mBackgroundTintHelper.onSetBackgroundResource(resId);
+        try {
+            if (this.mBackgroundTintHelper != null) {
+                this.mBackgroundTintHelper.onSetBackgroundResource(resId);
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
 
     }
 
     public void setImageResource(@DrawableRes int resId) {
-        if (this.mImageHelper != null) {
-            this.mImageHelper.setImageResource(resId);
+        try {
+            if (this.mImageHelper != null) {
+                this.mImageHelper.setImageResource(resId);
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
-
     }
 
 }

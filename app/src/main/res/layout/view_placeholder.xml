@@ -104,9 +104,10 @@
 
         <ProgressBar
             android:id="@+id/pb_loading"
+            style="@style/ProgressBar"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:indeterminateDuration="500"/>
+            android:indeterminateDuration="1500"/>
 
         <TextView
             android:id="@+id/tv_loading"

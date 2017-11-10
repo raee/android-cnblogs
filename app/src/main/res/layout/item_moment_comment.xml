@@ -34,7 +34,7 @@
             android:layout_alignTop="@+id/img_blog_avatar"
             android:layout_marginLeft="12dp"
             android:layout_toRightOf="@+id/img_blog_avatar"
-            android:text="全部评论"
+            android:text="@string/title_comment"
             android:textColor="@color/ph1"
             android:textSize="@dimen/h2"/>
     </LinearLayout>

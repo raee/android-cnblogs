@@ -150,4 +150,5 @@
     <string name="tips_post_moment_apply">开通博客后才能发图片，您似乎还没有开通，如果已经开通请继续。</string>
     <string name="blog_apply">立即申请</string>
     <string name="moment_unlogin_hint">登录后，更多评论等你来发现。</string>
+    <string name="title_comment">全部评论（%s）</string>
 </resources>
