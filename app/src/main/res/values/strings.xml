@@ -24,8 +24,8 @@
     <string name="loading">正在加载…</string>
     <string name="signing">正在登录…</string>
     <string name="loading_web_user_info">请稍等片刻</string>
-    <string name="loading_user_info">遇见你真好「%s」..</string>
-    <string name="loading_blog_app">每一步的改变都不平凡..</string>
+    <string name="loading_user_info">「%s」遇见你真好</string>
+    <string name="loading_blog_app">每一步的改变都不平凡</string>
     <string name="loading_user_info_finish">技术改变世界</string>
     <string name="login_retry_error">多次登录失败？试试官方网页登录吧！</string>
     <string name="login_retry">正在重试，请稍等片刻。</string>
@@ -80,7 +80,7 @@
     <string name="title_category">分类</string>
     <string name="i_get_it">我知道了</string>
     <string name="dialog_tips_post_comment">您伟大的讲话发表成功\n由于缓存更新较慢，请稍候再到评论区查看您已经发布的评论。\n您发表的评论长按可以进行删除。</string>
-    <string name="dialog_tips_post_like">由于缓存问题，点赞数量可能更新较慢哦。</string>
+    <string name="dialog_tips_post_like">点赞成功，由于缓存问题，点赞数量更新较慢。</string>
     <string name="tips_comment_success">发表评论成功</string>
     <string name="github">开源项目</string>
     <string name="agree">我同意</string>
@@ -101,7 +101,6 @@
     <string name="permission_tips_message">博客园需要读取/写入您的存储卡，禁止后部分功能受到限制，是否再次开启？</string>
     <string name="permission_granted">同意申请权限</string>
     <string name="feedback">意见反馈</string>
-    <string name="feedback_message">您收到新的意见反馈消息，是否前往查看？</string>
     <string name="view_now">立即查看</string>
     <string name="feedback_hint">请填写反馈信息</string>
     <string name="permission_request_message">博客园准备申请读取/写入您的内存卡权限，用于博客缓存以及图片缓存。</string>
@@ -120,7 +119,7 @@
     <string name="url_license">http://www.raeblog.com/cnblogs/license.html</string>
     <string name="system_message">系统消息</string>
     <string name="url_signin">https://passport.cnblogs.com/user/signin</string>
-    <string name="login_help_message">登录遇到问题您可以点击立即前往查看相关的问题以及原因，或者截图向我们进行意见反馈。</string>
+    <string name="login_help_message">您可以点击立即前往查看相关的问题以及原因，或者截图向我们进行意见反馈。</string>
     <string name="url_login_help">http://www.raeblog.com/cnblogs/loginHelp.html</string>
     <string name="url_blog_apply">https://passport.cnblogs.com/BlogApply.aspx</string>
     <string name="font_setting">字体设置</string>

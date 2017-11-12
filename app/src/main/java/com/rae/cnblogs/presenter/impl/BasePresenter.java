@@ -85,6 +85,7 @@ public abstract class BasePresenter<V> implements IAppPresenter {
      * 网络是否可用
      */
     protected boolean isNetworkError() {
+        if (mContext == null) return true;
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) return false;
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();

@@ -38,7 +38,6 @@ public class CnblogsApplication extends TinkerApplication {
 
         // 级别较高的初始化操作
         DbCnblogs.init(getApplication());
-        // TODO:日志上报
         if (!BuildConfig.DEBUG) {
             // 正式环境
             Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, false);
