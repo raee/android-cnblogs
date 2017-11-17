@@ -113,6 +113,7 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
     }
 
     private void onApiSuccess(List<BlogBean> data) {
+        if (mView == null) return;
 
         // 保存到数据库
         if (!Rx.isEmpty(data)) {

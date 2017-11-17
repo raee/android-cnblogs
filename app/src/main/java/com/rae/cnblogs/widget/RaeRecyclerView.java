@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -59,7 +60,6 @@ public class RaeRecyclerView extends XRecyclerView implements SkinCompatSupporta
         setLoadingMoreProgressStyle(ProgressStyle.BallScaleMultiple);
         setFootView(mFootView);
     }
-
 
 
     public RaeLoadMoreView getFootView() {
@@ -123,6 +123,17 @@ public class RaeRecyclerView extends XRecyclerView implements SkinCompatSupporta
             }
         }
         return false;
+    }
+
+    @Override
+    public void onScrollStateChanged(int state) {
+        super.onScrollStateChanged(state);
+        Log.i("rae", "滑动状态改变：" + state);
+    }
+
+    @Override
+    public boolean fling(int velocityX, int velocityY) {
+        return super.fling(velocityX, velocityY);
     }
 
     @Override

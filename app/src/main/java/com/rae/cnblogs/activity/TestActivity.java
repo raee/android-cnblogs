@@ -78,6 +78,13 @@ public class TestActivity extends BaseActivity {
             }
 
             @Override
+            public void onPatchStart() {
+
+                Log.i("rae-tinker", "【onPatchStart】");
+                mMsgView.append("onPatchStart");
+            }
+
+            @Override
             public void onApplySuccess(String s) {
                 Log.i("rae-tinker", "【补丁应用成功】" + s);
                 mMsgView.append("补丁应用成功：" + s);

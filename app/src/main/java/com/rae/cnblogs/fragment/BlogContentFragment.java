@@ -171,9 +171,9 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         EventBus.getDefault().unregister(this);
         mContentPresenter.destroy();
+        super.onDestroy();
     }
 
     @Override
@@ -223,13 +223,14 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
                 mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
                 try {
                     // 避免切换夜间模式闪烁问题
+                    if (isDetached() || getContext() == null || !isAdded()) return; // fix bug #638
                     InputStream stream = getResources().getAssets().open("view.html");
                     byte[] data = new byte[stream.available()];
                     stream.read(data);
                     stream.close();
                     String content = new String(data).replace("{{theme}}", ThemeCompat.isNight() ? "rae-night.css" : "rae.css");
                     mWebView.loadDataWithBaseURL("file:///android_asset/view.html", content, "text/html", "UTF-8", null);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     // 如果加载失败了，就从默认打开
                     mWebView.loadUrl("file:///android_asset/view.html");

@@ -54,9 +54,9 @@ task cleanCache(type: Delete) {
 }
 
 ext {
-    compileSdkVersion = 26
-    buildToolsVersion = '26.0.1'
-    targetSdkVersion = 26
+    compileSdkVersion = 27
+    buildToolsVersion = '27.0.1'
+    targetSdkVersion = 27
     minSdkVersion = 16
-    supportVersion = '26.+'
+    supportVersion = '27.0.1'
 }

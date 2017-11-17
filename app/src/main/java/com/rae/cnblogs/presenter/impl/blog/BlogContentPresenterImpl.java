@@ -109,6 +109,13 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
 
                         Observable.just(mBlogInfo)
                                 .subscribeOn(Schedulers.io())
+                                .map(new Function<UserBlogInfo, UserBlogInfo>() {
+                                    @Override
+                                    public UserBlogInfo apply(UserBlogInfo userBlogInfo) throws Exception {
+                                        mBlogInfo.save();
+                                        return userBlogInfo;
+                                    }
+                                })
                                 .subscribe(new ApiDefaultObserver<UserBlogInfo>() {
                                     @Override
                                     protected void onError(String message) {
@@ -117,7 +124,7 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
 
                                     @Override
                                     protected void accept(UserBlogInfo content) {
-                                        mBlogInfo.save();
+                                        // 更新成功不处理
                                     }
                                 });
                     }

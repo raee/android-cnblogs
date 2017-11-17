@@ -1,5 +1,7 @@
 package com.rae.cnblogs.sdk.db;
 
+import android.content.Context;
+
 import com.activeandroid.ActiveAndroid;
 
 /**
@@ -22,6 +24,10 @@ public final class DbFactory {
         }
 
         return sFactory;
+    }
+
+    public static void init(Context applicationContext) {
+        DbCnblogs.init(applicationContext);
     }
 
     private DbFactory() {

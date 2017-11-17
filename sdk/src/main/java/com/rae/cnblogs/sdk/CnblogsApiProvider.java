@@ -13,7 +13,6 @@ import com.rae.cnblogs.sdk.api.IRaeServerApi;
 import com.rae.cnblogs.sdk.api.ISearchApi;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.converter.ConverterFactory;
-import com.rae.cnblogs.sdk.db.DbCnblogs;
 import com.rae.cnblogs.sdk.interceptor.RequestInterceptor;
 import com.squareup.okhttp3.OkHttpExtBuilder;
 
@@ -57,8 +56,6 @@ public abstract class CnblogsApiProvider {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(ConverterFactory.create())
                 .build();
-
-        DbCnblogs.init(context);
 
     }
 

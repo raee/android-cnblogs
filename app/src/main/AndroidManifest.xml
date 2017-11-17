@@ -27,54 +27,54 @@
         <!--启动页-->
         <activity
             android:name=".activity.LauncherActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.FullScreen">
-            <!--    <intent-filter>
-                    <action android:name="android.intent.action.MAIN"/>
 
-                    <category android:name="android.intent.category.LAUNCHER"/>
-                </intent-filter>-->
+            android:theme="@style/AppTheme.NoActionBar.FullScreen">
+        <!--    <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>-->
         </activity>
 
         <!--主界面-->
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Dark">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            android:theme="@style/AppTheme.Dark">
+               <intent-filter>
+                   <action android:name="android.intent.action.MAIN"/>
+
+                   <category android:name="android.intent.category.LAUNCHER"/>
+               </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.TestActivity"
             android:label="博客园测试"
-            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.Dark">
-       <!--     <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
+            <!--     <intent-filter>
+                     <action android:name="android.intent.action.MAIN"/>
+                     <category android:name="android.intent.category.LAUNCHER"/>
+                 </intent-filter>-->
         </activity>
 
         <!--博文-->
         <activity
             android:name=".activity.BlogContentActivity"
-            android:screenOrientation="portrait"/>
+            />
 
         <!--登录-->
         <activity
             android:name=".activity.LoginActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
+            />
 
 
         <!--网页登录-->
         <activity
             android:name=".activity.WebLoginActivity"
-            android:screenOrientation="portrait"/>
+            />
 
         <!--网页-->
         <activity
@@ -88,81 +88,81 @@
         <!--博主-->
         <activity
             android:name=".activity.BloggerActivity"
-            android:screenOrientation="portrait"/>
+            />
         <!--关注、粉丝-->
         <activity
             android:name=".activity.FriendsActivity"
-            android:screenOrientation="portrait"/>
+            />
         <!--分类管理-->
         <activity
             android:name=".activity.CategoryActivity"
             android:label="@string/title_category"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
+            />
 
         <activity
             android:name=".activity.FavoritesActivity"
             android:label="@string/my_favorites"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
+            />
 
         <activity
             android:name=".activity.SettingActivity"
             android:label="@string/setting"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
+            />
 
         <activity
             android:name=".activity.FeedbackActivity"
             android:label="@string/feedback"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
+
             android:windowSoftInputMode="stateVisible"/>
 
         <activity
             android:name=".activity.SearchActivity"
-            android:screenOrientation="portrait"
+
             android:windowSoftInputMode="stateVisible"/>
 
         <activity
             android:name=".activity.SystemMessageActivity"
             android:label="@string/system_message"
-            android:screenOrientation="portrait"/>
+            />
 
         <activity
             android:name=".activity.FontSettingActivity"
             android:label="@string/font_setting"
-            android:screenOrientation="portrait"/>
+            />
 
         <activity
             android:name=".activity.CommentActivity"
             android:label="@string/label_comment"
-            android:screenOrientation="portrait"/>
+            />
 
         <activity
             android:name=".activity.PostMomentActivity"
             android:label="@string/label_post_moment"
-            android:screenOrientation="portrait"/>
+            />
         <activity
             android:name=".activity.ImageSelectionActivity"
             android:label="@string/label_image_selection"
-            android:screenOrientation="portrait">
+            >
 
         </activity>
         <activity
             android:name=".activity.MomentDetailActivity"
             android:label="@string/label_moment_detail"
-            android:screenOrientation="portrait"/>
+            />
 
         <activity
             android:name=".activity.MomentAtMeActivity"
             android:label="@string/label_moment_at_me"
-            android:screenOrientation="portrait"/>
+            />
 
         <activity
             android:name=".activity.MomentMessageActivity"
             android:label="@string/label_moment_message"
-            android:screenOrientation="portrait"/>
+            />
 
         <service
             android:name=".service.CnblogsService"
@@ -197,7 +197,7 @@
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
+
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
 
@@ -206,14 +206,14 @@
             android:name=".activity.WBShareActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            />
 
         <!--新浪微博-->
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:screenOrientation="portrait"
+
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
 
@@ -229,6 +229,7 @@
 
         </activity>
 
+        <!--文件提供者-->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.rae.cnblogs.fileprovider"
@@ -239,6 +240,12 @@
                 android:resource="@xml/lc_fileprovider_path"/>
         </provider>
 
+        <!--数据库提供者，解决Android 8.0 权限问题-->
+        <provider
+            android:name="com.rae.cnblogs.sdk.db.CnblogsContentProvider"
+            android:authorities="com.rae.cnblogs"
+            android:enabled="true"
+            android:exported="false"/>
 
         <meta-data
             android:name="UMENG_APPKEY"

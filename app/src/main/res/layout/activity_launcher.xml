@@ -14,8 +14,7 @@
             android:id="@+id/img_launcher_display"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/launcher_background"/>
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/tv_launcher_name"
@@ -57,8 +56,9 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_logo_small"/>
+            android:layout_height="24dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_login_logo"/>
 
         <TextView
             android:layout_width="wrap_content"
