@@ -83,6 +83,8 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
 
             @Override
             public void onError(Throwable e) {
+                // fix bug #649
+                if (mView == null) return;
                 if (isNetworkError()) {
                     loadOfflineData(mView.getCategory(), mPageIndex);
                     return;
@@ -93,12 +95,14 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
 
             @Override
             protected void onError(String message) {
-
+                if (mView == null) return;
                 mView.onLoadFailed(mPageIndex, message);
             }
 
             @Override
             protected void accept(List<BlogBean> blogBeans) {
+                if (mView == null) return;
+
                 if (Rx.isEmpty(blogBeans)) {
                     // 没有更多
                     if (mPageIndex > 1)

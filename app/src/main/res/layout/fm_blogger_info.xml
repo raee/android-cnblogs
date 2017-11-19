@@ -12,13 +12,13 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="vertical"
-        android:theme="@style/ThemeOverlay.AppCompat.Light"
-        app:elevation="0dp">
+        android:theme="@style/ThemeOverlay.AppCompat.Light">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:contentScrim="@android:color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed"
             app:statusBarScrim="?colorPrimaryDark">
 
@@ -76,7 +76,7 @@
 
 
                 <TextView
-                    android:id="@+id/tv_title"
+                    android:id="@+id/tv_blogger_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/ll_blog_avatar"
@@ -91,7 +91,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_title"
+                    android:layout_below="@+id/tv_blogger_name"
                     android:layout_marginLeft="18dp"
                     android:layout_toRightOf="@+id/ll_blog_avatar"
                     android:gravity="start|center_vertical"
@@ -241,17 +241,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <!--
 
-                                        <TextView
-                                            android:id="@+id/tv_title"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_toLeftOf="@+id/btn_blogger_follow"
-                                            android:gravity="center"
-                                            android:textColor="@android:color/white"
-                                            android:textSize="@dimen/h1"/>
-                    -->
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/btn_blogger_follow"
+                        android:gravity="center"
+                        android:textColor="@color/ph1"
+                        android:textSize="@dimen/h1"
+                        android:visibility="gone"/>
 
                     <ProgressBar
                         android:id="@+id/pb_blogger_follow"

@@ -19,7 +19,7 @@ public abstract class BaseFragmentActivity extends SwipeBackBaseActivity {
         showHomeAsUp();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.content, newFragment())
+                .replace(R.id.content, newFragment())
                 .commitNowAllowingStateLoss();
 
     }

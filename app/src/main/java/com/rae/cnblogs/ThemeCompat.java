@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -168,7 +169,16 @@ public final class ThemeCompat {
      * @param nightMode 是否为深色模式
      */
     public static void refreshStatusColor(Activity context, boolean nightMode) {
+        if (context == null || context.getWindow() == null) return;
         changeMiUIStatusMode(context.getWindow(), nightMode);
+
+        // 改变系统状态颜色
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.getWindow().setStatusBarColor(nightMode ?
+                    ContextCompat.getColor(context, android.R.color.black) :
+                    ContextCompat.getColor(context, android.R.color.white));
+        }
+
     }
 
     /**
@@ -177,7 +187,7 @@ public final class ThemeCompat {
      * @param dark 状态栏黑色字体
      */
     private static void changeMiUIStatusMode(Window window, boolean dark) {
-        if (!Build.BRAND.toLowerCase().equalsIgnoreCase("xiaomi")) {
+        if (!Build.BRAND.toLowerCase().contains("mi")) {
             return;
         }
 

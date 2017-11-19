@@ -317,7 +317,8 @@ public class CategoriesFragment extends BaseFragment implements CategoriesOveral
                 .subscribe(new Consumer<Empty>() {
                     @Override
                     public void accept(@NonNull Empty empty) throws Exception {
-                        if (enableNotify) {
+                        // fix bug #812
+                        if (enableNotify && mHandler!=null) {
                             mHandler.removeMessages(0);
                             mHandler.sendEmptyMessageDelayed(0, 200);
                         }

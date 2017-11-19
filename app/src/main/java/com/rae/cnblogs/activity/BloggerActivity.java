@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.DesignTabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,11 +19,13 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.jcodecraeer.xrecyclerview.AppBarStateChangeListener;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.fragment.BlogListFragment;
 import com.rae.cnblogs.message.UserInfoEvent;
 import com.rae.cnblogs.model.FeedListFragment;
@@ -53,8 +57,8 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     @BindView(R.id.img_blog_avatar)
     ImageView mAvatarView;
 
-//    @BindView(R.id.tv_blogger_name)
-//    TextView mBloggerNameView;
+    @BindView(R.id.tv_blogger_name)
+    TextView mBloggerNameView;
 
     @BindView(R.id.tv_follow_count)
     TextView mFollowCountView;
@@ -139,22 +143,30 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
         mTabLayout.addOnTabSelectedListener(this);
 
-//        mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-//            @Override
-//            public void onStateChanged(AppBarLayout appBarLayout, State state) {
-//                if (state == State.COLLAPSED) {
-//                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
-//                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow_drak);
-//                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.ph2));
-////                    mAlphaImageView.setBackgroundColor(ContextCompat.getColor(appBarLayout.getContext(), android.R.color.white));
-//                } else {
-//                    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
-//                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow);
-//                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-////                    mAlphaImageView.setBackgroundColor(ContextCompat.getColor(appBarLayout.getContext(), R.color.blogger_image_alpha_color));
-//                }
-//            }
-//        });
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                Log.i("rae", "状态改变：" + state);
+                if (state == State.COLLAPSED) {
+                    ThemeCompat.refreshStatusColor(getContext(), true);
+                    setHomeAsUpIndicator(R.drawable.ic_back);
+                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow_drak);
+                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.ph2));
+                    mTitleView.setVisibility(View.VISIBLE);
+                } else {
+                    mTitleView.setVisibility(View.GONE);
+                    ThemeCompat.refreshStatusColor(getContext(), false);
+                    setHomeAsUpIndicator(R.drawable.ic_back_white);
+                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow);
+                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                }
+            }
+
+            void setHomeAsUpIndicator(int homeAsUpIndicator) {
+                if (getSupportActionBar() != null)
+                    getSupportActionBar().setHomeAsUpIndicator(homeAsUpIndicator);
+            }
+        });
 
 //        mBloggerLayout.setOnScrollPercentChangeListener(new BloggerLayout.ScrollPercentChangeListener() {
 //            @Override
@@ -248,7 +260,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
                     .into(mBackgroundView);
         }
 
-//        mBloggerNameView.setText(userInfo.getDisplayName());
+        mBloggerNameView.setText(userInfo.getDisplayName());
         mTitleView.setText(userInfo.getDisplayName());
         mFansCountView.setText(userInfo.getFans());
         mFollowCountView.setText(userInfo.getFollows());
@@ -359,7 +371,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         takeScrollToTop(tab.getPosition());
     }
 
-    @OnClick(R.id.tv_title)
+    @OnClick(R.id.tool_bar)
     public void onTitleClick() {
         takeScrollToTop(mViewPager.getCurrentItem());
     }

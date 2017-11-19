@@ -41,7 +41,6 @@ import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import butterknife.BindView;
@@ -223,14 +222,15 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
                 mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
                 try {
                     // 避免切换夜间模式闪烁问题
-                    if (isDetached() || getContext() == null || !isAdded()) return; // fix bug #638
+                    if (isDetached() || getContext() == null || !isAdded() || !isVisible())
+                        return; // fix bug #638
                     InputStream stream = getResources().getAssets().open("view.html");
                     byte[] data = new byte[stream.available()];
                     stream.read(data);
                     stream.close();
                     String content = new String(data).replace("{{theme}}", ThemeCompat.isNight() ? "rae-night.css" : "rae.css");
                     mWebView.loadDataWithBaseURL("file:///android_asset/view.html", content, "text/html", "UTF-8", null);
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     e.printStackTrace();
                     // 如果加载失败了，就从默认打开
                     mWebView.loadUrl("file:///android_asset/view.html");

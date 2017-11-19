@@ -7,6 +7,7 @@ import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.api.ISearchApi;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -42,6 +43,8 @@ public class SearchPresenterImpl extends BasePresenter<ISearchContract.View> imp
                         mSuggestionSubscriber = disposable;
                     }
                 })
+                // 延迟，避免响应过快 fix bug #717
+                .delay(300, TimeUnit.MILLISECONDS)
                 .subscribe(new ApiDefaultObserver<List<String>>() {
                     @Override
                     protected void onError(String message) {
@@ -50,6 +53,7 @@ public class SearchPresenterImpl extends BasePresenter<ISearchContract.View> imp
 
                     @Override
                     protected void accept(List<String> data) {
+
                         mView.onSuggestionSuccess(data);
                     }
                 });
