@@ -44,8 +44,8 @@ android {
         applicationId "com.rae.cnblogs"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "1.1.0"
+        versionCode 4
+        versionName "1.1.1"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'BUGLY_APP_ID', '"' + buglyAppId + '"'
@@ -97,9 +97,9 @@ android {
     // 渠道包定义，默认定义的名称就是渠道名称
     productFlavors {
         Dev {}          // 测试
-        baidu {}        // 百度手机助手
+//        baidu {}        // 百度手机助手
         yinyongbao {}   // 应用宝
-        m360 {}         // 360手机助手
+//        m360 {}         // 360手机助手
         pp {}           // PP助手
         meizu {}           // 魅族
         xiaomi {}       // 小米商店

@@ -3,11 +3,13 @@ package com.rae.cnblogs.presenter.impl;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.message.PostMomentEvent;
 import com.rae.cnblogs.message.UserInfoEvent;
 import com.rae.cnblogs.presenter.IMomentDetailContract;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
+import com.rae.cnblogs.sdk.CnblogsApiException;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.Empty;
 import com.rae.cnblogs.sdk.api.IFriendsApi;
@@ -16,6 +18,7 @@ import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
 import com.rae.cnblogs.sdk.bean.MomentBean;
 import com.rae.cnblogs.sdk.bean.MomentCommentBean;
 import com.rae.swift.Rx;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -145,8 +148,17 @@ public class MomentDetailPresenterImpl extends BasePresenter<IMomentDetailContra
 
     @Override
     public void postComment(String ingId, String userId, String commentId, String content) {
+
+        AppMobclickAgent.onClickEvent(mContext, "MOMENT_COMMENT");
+
         createObservable(mMomentApi.postComment(ingId, userId, commentId, content))
                 .subscribe(new ApiDefaultObserver<Empty>() {
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        CrashReport.postCatchedException(new CnblogsApiException("闪存评论发生异常！", e));
+                    }
+
                     @Override
                     protected void onError(String message) {
                         mView.onPostCommentFailed(message);

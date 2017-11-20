@@ -1,6 +1,6 @@
 apply plugin: 'com.tencent.bugly.tinker-support'
 
-def bakPath = file("F:\\rae\\cnblosApp\\v1.1.0\\bakApk\\")
+def bakPath = file("F:\\rae\\cnblosApp\\v1.1.1\\bakApk\\")
 
 /**
  * 此处填写每次构建生成的基准包目录
@@ -37,7 +37,7 @@ tinkerSupport {
     // 构建基准包和补丁包都要指定不同的tinkerId，并且必须保证唯一性
     // 基类版本：cnblogs-basic-1.1.0
     // 补丁版本：cnblogs-path-1.0.0-001
-    tinkerId = "cnblogs-basic-1.1.0"
+    tinkerId = "cnblogs-basic-1.1.1"
 //    tinkerId = "cnblogs-path-1.0.0-001"
 
     // 构建多渠道补丁时使用

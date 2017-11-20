@@ -2,6 +2,8 @@ package com.rae.cnblogs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.umeng.analytics.MobclickAgent;
@@ -116,5 +118,21 @@ public final class AppMobclickAgent {
     private static String withString(String text, String defValue) {
         return TextUtils.isEmpty(text) ? defValue : text;
     }
+
+    /**
+     * 点击版本更新事件
+     */
+    public static void onUpdateEvent(Context context) {
+        String versionName = "1.0.0";
+        try {
+            PackageInfo am = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            versionName = am.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        MobclickAgent.onEvent(context, "APP_UPDATE", versionName);
+    }
+
 
 }

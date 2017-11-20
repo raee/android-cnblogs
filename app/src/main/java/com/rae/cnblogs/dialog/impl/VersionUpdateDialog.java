@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
 
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.dialog.IAppDialog;
@@ -41,13 +42,17 @@ public class VersionUpdateDialog extends HintCardDialog {
             public void onClick(IAppDialog dialog, int buttonType) {
                 // 启动第三方
                 dialog.dismiss();
+
+                // 统计更新
+                AppMobclickAgent.onUpdateEvent(getContext());
+
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(versionInfo.getDownloadUrl()));
                     getContext().startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    AppUI.failed(getContext(), "未找到下载的应用程序！");
+                    AppUI.failed(getContext(), "未找到关联的应用程序，请前往应用市场更新。");
                 }
             }
         });

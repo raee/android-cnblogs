@@ -2,6 +2,7 @@ package com.rae.cnblogs.presenter.impl.blog;
 
 import android.content.Context;
 
+import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.presenter.IBlogCommentPresenter;
 import com.rae.cnblogs.presenter.impl.BasePresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
@@ -40,6 +41,9 @@ public class BlogCommentPresenterImpl extends BasePresenter<IBlogCommentPresente
 
     @Override
     public void post(BlogCommentBean parent) {
+
+        AppMobclickAgent.onClickEvent(mContext, "BLOG_COMMENT");
+
         BlogBean blog = mView.getBlog();
         Observer<Empty> subscriber = new ApiDefaultObserver<Empty>() {
             @Override

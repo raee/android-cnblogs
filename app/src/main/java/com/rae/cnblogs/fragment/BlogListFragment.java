@@ -139,6 +139,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
             @Override
             public void onClick(View v) {
                 mItemAdapter.empty();
+                mItemAdapter.notifyDataSetChanged();
                 mBlogListPresenter.start();
             }
         });
