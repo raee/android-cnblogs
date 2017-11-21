@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
@@ -29,12 +30,14 @@ import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.VersionInfo;
 import com.rae.cnblogs.widget.ImageLoadingView;
+import com.tencent.bugly.beta.tinker.TinkerManager;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 
 /**
@@ -231,6 +234,18 @@ public class SettingActivity extends SwipeBackBaseActivity {
         AppRoute.jumpToFontSetting(this);
     }
 
+    @OnLongClick(R.id.tv_check_update)
+    public boolean onVersionLongClick() {
+        String newTinkerId = TinkerManager.getNewTinkerId();
+        String tinkerId = TinkerManager.getTinkerId();
+        if (!TextUtils.isEmpty(newTinkerId)) {
+            AppUI.toastInCenter(this, "基准版本：" + tinkerId + "；补丁版本：" + newTinkerId);
+        } else {
+            AppUI.toastInCenter(this, "当前版本暂无补丁版本！");
+        }
+        return false;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -246,4 +261,5 @@ public class SettingActivity extends SwipeBackBaseActivity {
         }
         return "";
     }
+
 }

@@ -37,6 +37,11 @@ public class SearchPresenterImpl extends BasePresenter<ISearchContract.View> imp
     @Override
     public void suggest() {
         cancelSuggest();
+        if (mSuggestionSubscriber != null && !mSuggestionSubscriber.isDisposed()) {
+            // 释放之前的
+            mSuggestionSubscriber.dispose();
+            mSuggestionSubscriber = null;
+        }
         createObservable(mSearchApi.getSuggestion(mView.getSearchText()))
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
@@ -51,12 +56,10 @@ public class SearchPresenterImpl extends BasePresenter<ISearchContract.View> imp
                 .subscribe(new ApiDefaultObserver<List<String>>() {
                     @Override
                     protected void onError(String message) {
-
                     }
 
                     @Override
                     protected void accept(List<String> data) {
-
                         mView.onSuggestionSuccess(data);
                     }
                 });

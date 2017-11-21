@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
+import com.rae.cnblogs.sdk.UserProvider;
 import com.umeng.analytics.MobclickAgent;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +27,20 @@ public final class AppMobclickAgent {
         @SuppressLint("SimpleDateFormat")
         String openDate = new SimpleDateFormat("HH").format(new Date()) + ":00";
         MobclickAgent.onEvent(context, "APP_OPEN_EVENT", openDate);
+
+        // 统计活跃用户
+        onUserOpenEvent(context);
+    }
+
+    /**
+     * 统计用户打开APP事件
+     */
+    public static void onUserOpenEvent(Context context) {
+        try {
+            String blogApp = UserProvider.getInstance().isLogin() ? UserProvider.getInstance().getLoginUserInfo().getBlogApp() : "Guest";
+            MobclickAgent.onEvent(context, "APP_USER_OPEN_EVENT", blogApp);
+        } catch (Throwable ignored) {
+        }
     }
 
     /**

@@ -105,6 +105,7 @@ android {
         xiaomi {}       // 小米商店
         huawei {}       // 华为商店
         official {}      // 官方版本
+        fir{} // fir内测平台版本
     }
 
     // 批量渠道包值替换
