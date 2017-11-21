@@ -9,6 +9,7 @@ import com.rae.cnblogs.sdk.api.ISearchApi;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -45,6 +46,8 @@ public class SearchPresenterImpl extends BasePresenter<ISearchContract.View> imp
                 })
                 // 延迟，避免响应过快 fix bug #717
                 .delay(300, TimeUnit.MILLISECONDS)
+                // 切换回到主线程
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiDefaultObserver<List<String>>() {
                     @Override
                     protected void onError(String message) {

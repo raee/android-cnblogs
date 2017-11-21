@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.SearchSuggestionAdapter;
@@ -242,6 +243,11 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
      * 执行搜索
      */
     private void preformSearch() {
+        if (true) {
+            AppUI.toastInCenter(getContext(), "我是热更新");
+            return;
+        }
+
         // 弹下键盘
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {

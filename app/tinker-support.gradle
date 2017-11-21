@@ -5,8 +5,8 @@ def bakPath = file("F:\\rae\\cnblosApp\\v1.1.1\\bakApk\\")
 /**
  * 此处填写每次构建生成的基准包目录
  */
-def baseApkDir = "app-0907-00-00-32"
-def apkName = "app-dev-release.apk"
+def baseApkDir = "app-1120-10-42-06"
+def apkName = "app-xiaomi-release.apk"
 
 /**
  * 对于插件各参数的详细解析请参考
@@ -36,12 +36,12 @@ tinkerSupport {
 
     // 构建基准包和补丁包都要指定不同的tinkerId，并且必须保证唯一性
     // 基类版本：cnblogs-basic-1.1.0
-    // 补丁版本：cnblogs-path-1.0.0-001
-    tinkerId = "cnblogs-basic-1.1.1"
-//    tinkerId = "cnblogs-path-1.0.0-001"
+    // 补丁版本：cnblogs-patch-1.1.1.01
+//    tinkerId = "cnblogs-basic-1.1.1"
+    tinkerId = "cnblogs-patch-1.1.1.01"
 
     // 构建多渠道补丁时使用
-    // buildAllFlavorsDir = "${bakPath}/${baseApkDir}"
+     buildAllFlavorsDir = "${bakPath}/${baseApkDir}"
 
     // 是否启用加固模式，默认为false.(tinker-spport 1.0.7起支持）
     // isProtectedApp = true
