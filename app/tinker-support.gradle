@@ -37,7 +37,7 @@ tinkerSupport {
     // 构建基准包和补丁包都要指定不同的tinkerId，并且必须保证唯一性
     // 基类版本：cnblogs-basic-1.1.1
     // 补丁版本：cnblogs-patch-1.1.1.01
-    tinkerId = "cnblogs-fir-1.1.1"
+    tinkerId = "cnblogs-basic-1.1.2"
 
     // 构建多渠道补丁时使用
      buildAllFlavorsDir = "${bakPath}/${baseApkDir}"
