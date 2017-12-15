@@ -33,7 +33,6 @@ import com.rae.cnblogs.utils.BitmapCompressor;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONArray;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -192,12 +191,14 @@ public class MomentIntentService extends IntentService {
                         sendNotification(createNotificationBuilder().setContentText("图片上传成功，发布中...").build());
                         StringBuilder sb = new StringBuilder(mMomentMetaData.content);
                         sb.append("#img");
-                        JSONArray array = new JSONArray();
+//                        JSONArray array = new JSONArray();
                         int size = urls.size();
                         for (int i = 0; i < size; i++) {
-                            array.put(urls.get(i).replace("http://", ""));
+//                            array.put(urls.get(i));
+                            sb.append(urls.get(i));
+                            sb.append(" ");
                         }
-                        sb.append(array.toString());
+//                        sb.append(array.toString());
                         sb.append("#end");
 
                         RxObservable.create(mMomentApi.publish(sb.toString(), mMomentMetaData.flag), TAG)

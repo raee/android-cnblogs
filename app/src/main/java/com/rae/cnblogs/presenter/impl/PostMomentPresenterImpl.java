@@ -133,7 +133,7 @@ public class PostMomentPresenterImpl extends BasePresenter<IPostMomentContract.V
         int size = images.size();
         for (int i = 0; i < size; i++) {
             // 占位，用于计算字符大小
-            array.put("t.cn/1234567");
+            array.put("http://t.cn/1234567 ");
         }
         sb.append(array.toString());
         sb.append("#end");

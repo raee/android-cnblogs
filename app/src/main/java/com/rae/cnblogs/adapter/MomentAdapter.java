@@ -1,6 +1,7 @@
 package com.rae.cnblogs.adapter;
 
 import android.support.v7.widget.GridLayoutManager;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,7 +133,7 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
 //        holder.deleteView.setOnClickListener(new ItemDeleteClickListener(m.getId(), position, mOnDeleteClickListener));
         holder.authorView.setText(m.getAuthorName());
         holder.dateView.setText(m.getPostTime());
-        holder.summaryView.setText(m.getContent());
+        holder.summaryView.setText(Html.fromHtml(m.getContent()));
         holder.androidTagView.setVisibility(m.isAndroidClient() ? View.VISIBLE : View.GONE);
         holder.commentView.setVisibility("0".equals(m.getCommentCount()) ? View.GONE : View.VISIBLE);
         holder.commentView.setText("0".equals(m.getCommentCount()) ? "" : m.getCommentCount() + "条回复");

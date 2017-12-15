@@ -3,6 +3,7 @@ package com.rae.cnblogs.adapter;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -229,7 +230,7 @@ public class MomentDetailAdapter extends BaseItemAdapter<MomentCommentBean, Simp
         RaeImageLoader.displayHeaderImage(m.getAvatar(), holder.avatarView);
         holder.authorView.setText(m.getAuthorName());
         holder.dateView.setText(m.getPostTime());
-        holder.summaryView.setText(m.getContent());
+        holder.summaryView.setText(Html.fromHtml(m.getContent()));
 //        holder.commentView.setText(m.getCommentCount());
         holder.androidTagView.setVisibility(m.isAndroidClient() ? View.VISIBLE : View.GONE);
     }

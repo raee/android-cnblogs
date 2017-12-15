@@ -36,7 +36,7 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
             m.setId(id); // 主键
             m.setAuthorName(element.select(".ing-author").text()); // 作者名称
             m.setAvatar(ApiUtils.getUrl(element.select(".feed_avatar a img").attr("src"))); //头像地址
-            m.setContent(element.select(".ing_body").text()); // 内容
+            m.setContent(element.select(".ing_body").html()); // 内容
             m.setPostTime(element.select(".ing_time").text()); // 发布时间
             m.setCommentCount(ApiUtils.getCount(element.select(".ing_reply").text().replace("回应", ""))); // 评论数量
             m.setUserAlias(ApiUtils.getUserAlias(element.select(".ing_reply").attr("onclick"))); // 用户域
@@ -46,7 +46,7 @@ public class MomentParser implements IHtmlParser<List<MomentBean>> {
             // 解析评论
             m.setCommentList(mMomentCommentHelper.parseCommentInList(element));
             // 解析图片
-            mMomentCommentHelper.parseImageList(m);
+            mMomentCommentHelper.parseImageList(m, element.select(".ing_body a"));
             result.add(m);
         }
 

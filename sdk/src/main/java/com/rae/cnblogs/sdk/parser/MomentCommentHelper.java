@@ -7,8 +7,6 @@ import com.rae.cnblogs.sdk.bean.MomentBean;
 import com.rae.cnblogs.sdk.bean.MomentCommentBean;
 import com.rae.cnblogs.sdk.utils.ApiUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
@@ -160,27 +158,32 @@ public class MomentCommentHelper {
     }
 
 
-    public void parseImageList(MomentBean m) {
+    public void parseImageList(MomentBean m, Elements body) {
         // 解析图片
         String content = m.getContent();
         int startIndex = content.indexOf("#img");
         int endIndex = content.indexOf("#end");
+        int linkSize = body.size(); // 图片链接
 
-        if (startIndex > 0 && endIndex > 0) {
+        if (startIndex > 0 && endIndex > 0 && linkSize > 0) {
             String json = content.substring(startIndex + 4, endIndex);
-            try {
-                JSONArray array = new JSONArray(json);
-                int length = array.length();
-                List<String> imageList = new ArrayList<>();
-                m.setImageList(imageList);
-                for (int i = 0; i < length; i++) {
-                    imageList.add("http://" + array.getString(i));
-                }
-                // 去除图片标记
-                m.setContent(content.substring(0, startIndex));
-            } catch (JSONException e) {
-                e.printStackTrace();
+//            try {
+//                JSONArray array = new JSONArray(json);
+//                int length = array.length();
+            List<String> imageList = new ArrayList<>();
+            m.setImageList(imageList);
+
+            for (int i = 0; i < linkSize; i++) {
+                Element a = body.get(i);
+                String href = a.attr("href");
+                if (TextUtils.isEmpty(href)) continue;
+                imageList.add(href);
             }
+            // 去除图片标记
+            m.setContent(content.substring(0, startIndex));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
         }
 
         // Android标签处理
