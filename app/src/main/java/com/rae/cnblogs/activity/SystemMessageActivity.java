@@ -35,8 +35,6 @@ public class SystemMessageActivity extends SwipeBackBaseActivity {
 
     SystemMessageAdapter mAdapter;
 
-    private String mTag = "SystemMessageActivity";
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +53,7 @@ public class SystemMessageActivity extends SwipeBackBaseActivity {
         });
 
         // 获取消息列表
-        RxObservable.create(mRaeServerApi.getMessages(), mTag)
+        RxObservable.create(mRaeServerApi.getMessages())
                 .subscribe(new ApiDefaultObserver<List<SystemMessageBean>>() {
                     @Override
                     protected void onError(String message) {
@@ -75,7 +73,7 @@ public class SystemMessageActivity extends SwipeBackBaseActivity {
                 });
 
         // 更新消息数量
-        RxObservable.create(mRaeServerApi.getMessageCount(), mTag)
+        RxObservable.create(mRaeServerApi.getMessageCount())
                 .subscribe(new ApiDefaultObserver<Integer>() {
                     @Override
                     protected void onError(String message) {
@@ -88,11 +86,5 @@ public class SystemMessageActivity extends SwipeBackBaseActivity {
                     }
                 });
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        RxObservable.dispose(mTag);
     }
 }

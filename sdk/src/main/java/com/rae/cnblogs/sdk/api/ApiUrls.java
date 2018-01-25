@@ -57,10 +57,10 @@ final class ApiUrls {
     static final String API_KB_LIKE = "https://kb.cnblogs.com/mvcajax/vote/VoteArticle?voteType=Digg";
 
     // 收藏-添加
-    static final String API_BOOK_MARKS_ADD = "http://wz.cnblogs.com/ajax/wz/AddWzlink?isPublic=1&linkType=1";
+    static final String API_BOOK_MARKS_ADD = "https://wz.cnblogs.com/api/wz";
 
     // 收藏-删除
-    static final String API_BOOK_MARKS_DELETE = "http://wz.cnblogs.com/ajax/wz/DeleteWzlink";
+    static final String API_BOOK_MARKS_DELETE = "https://wz.cnblogs.com/api/wz/{id}";
 
     // 收藏-列表
     static final String API_BOOK_MARKS_LIST = "https://wz.cnblogs.com/my/{page}.html";
@@ -148,6 +148,8 @@ final class ApiUrls {
     static final String RAE_API_CHECK_VERSION = RAE_API_BASIC + "app/version/{versionCode}";
     static final String RAE_API_MESSAGE = RAE_API_BASIC + "app/messages";
     static final String RAE_API_MESSAGE_COUNT = RAE_API_BASIC + "app/messages/count";
+    // 搜索-热搜
+    static final String API_SEARCH_HOT = RAE_API_BASIC + "app/search";
 
     /**
      * 新浪短链接接口

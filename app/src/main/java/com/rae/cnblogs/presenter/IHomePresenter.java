@@ -13,6 +13,11 @@ public interface IHomePresenter extends IRaePresenter {
     interface IHomeView {
         void onLoadCategory(List<CategoryBean> data);
 
+        /**
+         * 加载热搜
+         */
+        void onLoadHotSearchData(String keyword);
+
 //        /**
 //         * 加载用户信息
 //         */

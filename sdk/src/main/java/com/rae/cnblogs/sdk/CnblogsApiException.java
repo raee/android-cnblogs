@@ -10,6 +10,17 @@ public class CnblogsApiException extends IOException {
 
     private int code;
 
+    // 响应信息
+    private String response;
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
     public CnblogsApiException() {
     }
 

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.rae.cnblogs.AppStatusBar;
 import com.rae.cnblogs.CnblogsApplication;
 import com.rae.cnblogs.R;
+import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
 import com.rae.swift.Rx;
 import com.umeng.analytics.MobclickAgent;
@@ -65,6 +66,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxObservable.dispose();
     }
 
     @Override

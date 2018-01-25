@@ -22,7 +22,12 @@ import io.reactivex.schedulers.Schedulers;
 public final class RxObservable {
 
     private final static Map<String, List<Disposable>> sObservableDisposableList = new WeakHashMap<>();
+    private static final String DEFAULT_TAG = "--DEFAULT--";
 
+
+    public static <T> Observable<T> create(Observable<T> observable) {
+        return create(observable, DEFAULT_TAG);
+    }
 
     public static <T> Observable<T> create(Observable<T> observable, final String tag) {
         return observable
@@ -56,9 +61,16 @@ public final class RxObservable {
     }
 
     /**
-     * 释放当前所有HTTP请求
+     * 释放当前请求
      */
     public static void dispose() {
+        dispose(DEFAULT_TAG);
+    }
+
+    /**
+     * 释放当前所有HTTP请求
+     */
+    public static void disposeAll() {
         try {
             for (List<Disposable> disposables : sObservableDisposableList.values()) {
                 for (Disposable disposable : disposables) {

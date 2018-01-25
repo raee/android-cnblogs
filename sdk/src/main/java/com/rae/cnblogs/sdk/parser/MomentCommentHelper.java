@@ -127,9 +127,13 @@ public class MomentCommentHelper {
             }
 
             // 内容处理
+
             Elements divElements = commentLiElement.select("div");
             int size = divElements.size();
-            if (size <= 0) {
+            Elements bdo = commentLiElement.select("bdo");
+            if (bdo.size() > 0) {
+                commentBean.setContent(bdo.text()); // 详情里面的
+            } else if (size <= 0) {
                 commentBean.setContent(commentLiElement.text());
             } else {
                 Element div = divElements.get(0);

@@ -10,9 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -33,9 +31,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * 搜索
@@ -73,9 +69,8 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
 
     private ISearchContract.Presenter mPresenter;
     private TextWatcher mSearchTextWatcher;
-    private Unbinder mBind;
 
-    //    @Override
+    @Override
     protected int getLayoutId() {
         return R.layout.fm_search;
     }
@@ -83,25 +78,17 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(getLayoutId());
         mPresenter = CnblogsPresenterFactory.getSearchPresenter(getContext(), this);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutId(), container, false);
-        mBind = ButterKnife.bind(this, view);
-        return view;
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mTabLayout.removeOnTabSelectedListener(this);
-        if (mBind != null)
-            mBind.unbind();
-
+        mPresenter.destroy();
+        if (mTabLayout != null) {
+            mTabLayout.removeOnTabSelectedListener(this);
+        }
     }
 
     @Override

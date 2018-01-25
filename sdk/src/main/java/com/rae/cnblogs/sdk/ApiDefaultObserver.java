@@ -32,12 +32,13 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
         e.printStackTrace();
 
         if (e instanceof CnblogsApiException) {
-            if (((CnblogsApiException) e).getCode() == ApiErrorCode.LOGIN_EXPIRED) {
+            CnblogsApiException ex = (CnblogsApiException) e;
+            if (ex.getCode() == ApiErrorCode.LOGIN_EXPIRED) {
                 clearLoginToken();
                 onLoginExpired();
                 return;
             }
-            onError((CnblogsApiException) e);
+            onError(ex);
             return;
         }
         if (e instanceof HttpException) {
@@ -91,7 +92,6 @@ public abstract class ApiDefaultObserver<T> extends DefaultObserver<T> {
      */
     protected void onLoginExpired() {
         onError("登录失效，请重新登录");
-
     }
 
     protected abstract void onError(String message);

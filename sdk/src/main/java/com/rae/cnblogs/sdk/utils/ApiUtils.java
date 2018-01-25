@@ -10,8 +10,11 @@ import com.rae.cnblogs.sdk.bean.BlogCommentBean;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import okhttp3.HttpUrl;
 
 /**
  * 工具类
@@ -122,6 +125,23 @@ public final class ApiUtils {
 
     public static String getBlogApp(String authorUrl) {
         if (authorUrl == null) return null;
+        try {
+            HttpUrl httpUrl = HttpUrl.parse(authorUrl);
+            if (httpUrl != null) {
+                List<String> pathSegments = httpUrl.pathSegments();
+                String path = null;
+                for (String pathSegment : pathSegments) {
+                    if (!TextUtils.isEmpty(pathSegment)) {
+                        path = pathSegment;
+                    }
+                }
+                if (!TextUtils.isEmpty(path)) {
+                    return path;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (authorUrl.contains("home.cnblogs.com")) {
             try {
                 authorUrl = authorUrl.replace("//", "http://");
@@ -131,7 +151,12 @@ public final class ApiUtils {
                 e.printStackTrace();
             }
         }
-        return authorUrl.replace("http://www.cnblogs.com/", "").replace("/", "");
+
+        return authorUrl
+                .replace("https", "")
+                .replace("http", "")
+                .replace("://www.cnblogs.com/", "")
+                .replace("/", "");
     }
 
     /**

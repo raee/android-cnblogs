@@ -132,11 +132,6 @@ public class RaeRecyclerView extends XRecyclerView implements SkinCompatSupporta
     }
 
     @Override
-    public boolean fling(int velocityX, int velocityY) {
-        return super.fling(velocityX, velocityY);
-    }
-
-    @Override
     public void applySkin() {
         if (this.mBackgroundTintHelper != null) {
             this.mBackgroundTintHelper.applySkin();

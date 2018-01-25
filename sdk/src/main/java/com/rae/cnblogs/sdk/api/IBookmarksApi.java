@@ -10,6 +10,7 @@ import com.rae.cnblogs.sdk.parser.BookmarksParser;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -53,9 +54,8 @@ public interface IBookmarksApi {
      *
      * @param linkId 收藏ID
      */
-    @POST(ApiUrls.API_BOOK_MARKS_DELETE)
-    @FormUrlEncoded
+    @DELETE(ApiUrls.API_BOOK_MARKS_DELETE)
     @Headers({JsonBody.CONTENT_TYPE})
     @Parser(BookmarksDelParser.class)
-    Observable<Empty> delBookmarks(@Field("linkId") String linkId);
+    Observable<Empty> delBookmarks(@Path("id") String linkId);
 }

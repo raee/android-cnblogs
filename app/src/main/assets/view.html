@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="msapplication-tap-highlight" content="no"> 
+    <meta name="msapplication-tap-highlight" content="no">
     <title>博文</title>
     <link type="text/css" rel="stylesheet" href="css/shCore.css"/>
     <link rel="stylesheet" type="text/css" href="css/blog-common.css">
@@ -13,9 +13,9 @@
     <link rel="stylesheet" type="text/css" href="css/rae-common.css">
     <!--主题-->
     <link rel="stylesheet" type="text/css" href="css/{{theme}}" id="RaeStyle">
-    <link rel="stylesheet" type="text/css"  href="http://www.raeblog.com/cnblogs/Content/app/rae-ext.css"/>
-<!--     <link type="text/css" rel="stylesheet" href="css/shThemeRDark.css"  />
-    <link rel="stylesheet" type="text/css" href="css/rae-night.css" /> -->
+    <link rel="stylesheet" type="text/css" href="http://www.raeblog.com/cnblogs/Content/app/rae-ext.css"/>
+    <!--     <link type="text/css" rel="stylesheet" href="css/shThemeRDark.css"  />
+        <link rel="stylesheet" type="text/css" href="css/rae-night.css" /> -->
 
     <script src="js/jquery.js" type="text/javascript"></script>
     <script src="js/highlight.min.js" type="text/javascript"></script>
@@ -123,9 +123,11 @@ try{
 			    	// 图片适配屏幕
 			    	if(screenWidth>0 && w< screenWidth/2){
 			    		$(val).css("width","auto");
+			    	    $(val).css("height","auto");
 			    	}else{
 			    	    // 填充全屏
 			    	    $(val).css("width","100%");
+			    	    $(val).css("height","auto");
 			    	}
 			    })
 				// $(val).load(function(){
@@ -146,6 +148,9 @@ try{
 					$("#blog_date").text(blog.postDate);
 					$("#author_name").text(blog.author);
 
+					$("#news_date").text(blog.postDate);
+					$("#news_author").text(blog.author);
+
 					if(!blog.avatar||  blog.avatar==null ||  blog.avatar==""){
 					    $("#blog_avatar").hide();
 					}
@@ -163,7 +168,9 @@ try{
 								alert("不支持跳转到作者主页");
 							}
 						});
+						$("#news").hide();
 					}else{
+						$("#news").show();
 					    $("#author").hide();
 						$("#header").css("margin-top","60px");
 					}
@@ -195,12 +202,6 @@ try{
             }
 
         }
-
-
-
-
-
-
     </script>
 </head>
 <body>
@@ -217,25 +218,32 @@ try{
             <button id="btn_author" type="button" class="btn btn_author btn-default">作者主页</button>
         </div>
 
-        <script type="text/javascript">
-				if(typeof(app) =="object"){
-					var blog = app.getBlog();
-					if(blog!=""){
-						blog = $.parseJSON(blog);
-						if(blog.blogType != "BLOG"){
-					    	$("#author").hide();
-						}
-					}
-				}	
-
-
-
-
-
-        </script>
 
         <h3 id="blog_title" class="clearfix">标题</h3>
+
+        <div class="author clearfix" id="news">
+            <span id="news_author"></span>
+            <span id="news_date">发布时间</span>
+        </div>
+
+
     </div>
+
+    <script type="text/javascript">
+        if(typeof(app) =="object"){
+            var blog = app.getBlog();
+            if(blog!=""){
+                blog = $.parseJSON(blog);
+                if(blog.blogType != "BLOG"){
+                    $("#author").hide();
+                    $("#news").show();
+                }else{
+                    $("#news").hide();
+                }
+            }
+        }
+    </script>
+
     <div id="blog_content" class="clearfix">
 
     </div>

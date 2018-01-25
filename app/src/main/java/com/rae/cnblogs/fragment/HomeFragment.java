@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.DesignTabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
@@ -46,11 +47,8 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
 
     @BindView(R.id.vp_blog_list)
     ViewPager mViewPager;
-
-//    @BindView(R.id.img_actionbar_avatar)
-//    ImageView mAvatarView;
-//    @BindView(R.id.img_actionbar_avatar_not_login)
-//    ImageView mNotLoginAvatarView;
+    @BindView(R.id.tv_search)
+    TextView mSearchView;
 
     @Override
     protected int getLayoutId() {
@@ -131,6 +129,11 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     }
 
     @Override
+    public void onLoadHotSearchData(String keyword) {
+        mSearchView.setText(keyword);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -147,14 +150,15 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
         }
     }
 
-    @OnClick(R.id.img_search)
+    @OnClick(R.id.fl_search)
     public void onSearchClick() {
         AppRoute.jumpToSearch(this.getContext());
     }
 
     @OnClick(R.id.img_actionbar_logo)
     public void onLogoClick() {
-        onSearchClick();
+//        onSearchClick();
+        goTop();
     }
 
     private void goTop() {

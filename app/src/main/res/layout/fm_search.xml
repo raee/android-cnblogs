@@ -26,7 +26,7 @@
             android:background="@android:color/transparent"
             android:drawableLeft="@drawable/ic_search"
             android:drawablePadding="10dp"
-            android:hint="搜索博客/博主/新闻/知识库"
+            android:hint="@string/search_hint"
             android:imeOptions="actionSearch"
             android:singleLine="true"
             android:textColor="@color/ph1"

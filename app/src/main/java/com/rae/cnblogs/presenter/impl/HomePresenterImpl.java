@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.rae.cnblogs.presenter.IHomePresenter;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
-import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.CategoryBean;
+import com.rae.swift.Rx;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +18,13 @@ public class HomePresenterImpl extends BasePresenter<IHomePresenter.IHomeView> i
 
     private List<CategoryBean> mCategoryData;
 
+
     public HomePresenterImpl(Context context, IHomeView view) {
         super(context, view);
     }
 
     @Override
     public void start() {
-
-//        UserProvider userProvider = UserProvider.getInstance();
-//        if (userProvider.isLogin()) {
-//            mView.onLoadUserInfo(userProvider.getLoginUserInfo());
-//        } else {
-//            mView.onLoadNormal();
-//        }
 
         // 加载分类
         createObservable(getApiProvider().getCategoriesApi().getHomeCategories())
@@ -62,6 +56,22 @@ public class HomePresenterImpl extends BasePresenter<IHomePresenter.IHomeView> i
                     protected void accept(List<CategoryBean> data) {
                         mCategoryData = data;
                         mView.onLoadCategory(data);
+                    }
+                });
+
+        // 加载热门搜索
+        createObservable(getApiProvider().getSearchApi().hotSearch())
+                .subscribe(new ApiDefaultObserver<List<String>>() {
+                    @Override
+                    protected void onError(String message) {
+
+                    }
+
+                    @Override
+                    protected void accept(List<String> data) {
+                        if (!Rx.isEmpty(data)) {
+                            mView.onLoadHotSearchData(data.get(0));
+                        }
                     }
                 });
     }

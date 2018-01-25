@@ -227,7 +227,7 @@ public class MainActivity extends BaseActivity {
             mServiceConnection = null;
             stopService(new Intent(this, CnblogsService.class));
         }
-        RxObservable.dispose(); // 释放所有请求
+        RxObservable.disposeAll(); // 释放所有请求
         RaeImageLoader.clearMemoryCache(getApplicationContext()); // 清除图片内存
         config().setMainExitTimeMillis(System.currentTimeMillis());
         super.onDestroy();

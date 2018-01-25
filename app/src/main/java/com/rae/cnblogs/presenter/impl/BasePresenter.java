@@ -23,13 +23,11 @@ public abstract class BasePresenter<V> implements IAppPresenter {
 
     protected V mView;
 
-    protected String mTag;
 
     public BasePresenter(Context context, V view) {
         mView = view;
         mContext = context;
         mApplicationContext = context.getApplicationContext();
-        mTag = getClass().getSimpleName();
     }
 
     protected boolean isEmpty(String text) {
@@ -64,7 +62,7 @@ public abstract class BasePresenter<V> implements IAppPresenter {
      * 释放当前请求
      */
     public void cancelRequest() {
-        RxObservable.dispose(mTag);
+        RxObservable.dispose();
         RxObservable.dispose("thread");
     }
 
@@ -77,9 +75,8 @@ public abstract class BasePresenter<V> implements IAppPresenter {
     }
 
     public <T> Observable<T> createObservable(Observable<T> observable) {
-        return RxObservable.create(observable, mTag);
+        return RxObservable.create(observable);
     }
-
 
     /**
      * 网络是否可用

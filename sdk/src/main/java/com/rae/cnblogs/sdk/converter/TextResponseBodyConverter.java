@@ -116,7 +116,7 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
         }
 
         if (mHtmlParser == null) {
-            throw new CnblogsApiException("HTML 解析器为空！");
+            throw new CnblogsApiException("Html数据解析器为空");
         }
 
         return mHtmlParser.parse(document, text);
@@ -144,7 +144,10 @@ public class TextResponseBodyConverter<T> implements Converter<ResponseBody, T> 
         }
 
         if (text.contains("用户登录") && !ignoreLogin()) {
-            throw new CnblogsApiException(ApiErrorCode.LOGIN_EXPIRED, "登录失效，请重新登录");
+            // 上报登录失效信息
+            CnblogsApiException ex = new CnblogsApiException(ApiErrorCode.LOGIN_EXPIRED, "登录失效，请重新登录");
+            ex.setResponse(text);
+            throw ex;
         }
 
         try {
