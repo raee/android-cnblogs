@@ -35,7 +35,17 @@
             android:layout_margin="5dp"
             android:background="@drawable/bg_btn_default"
             android:text="补丁测试"/>
+
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_sdk_patch_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_btn_default"
+        android:text="动态加载SDK测试"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,10 +60,5 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/img_background"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:background="@color/dividerColor"/>
 
 </LinearLayout>

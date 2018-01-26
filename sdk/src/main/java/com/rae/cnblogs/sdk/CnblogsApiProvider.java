@@ -1,6 +1,7 @@
 package com.rae.cnblogs.sdk;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.rae.cnblogs.sdk.api.IBlogApi;
 import com.rae.cnblogs.sdk.api.IBookmarksApi;
@@ -16,6 +17,7 @@ import com.rae.cnblogs.sdk.converter.ConverterFactory;
 import com.rae.cnblogs.sdk.interceptor.RequestInterceptor;
 import com.squareup.okhttp3.OkHttpExtBuilder;
 
+import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -28,11 +30,11 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  */
 public abstract class CnblogsApiProvider {
 
-    protected final Retrofit mRetrofit;
-    protected final Context mContext;
+    private final Retrofit mRetrofit;
+    private final WeakReference<Context> mContext;
 
-    protected CnblogsApiProvider(Context context) {
-        mContext = context;
+    public CnblogsApiProvider(Context context) {
+        mContext = new WeakReference<>(context.getApplicationContext());
         OkHttpExtBuilder builder = new OkHttpExtBuilder();
 
         if (BuildConfig.LOG_DEBUG) {
@@ -61,6 +63,11 @@ public abstract class CnblogsApiProvider {
 
     public Retrofit getRetrofit() {
         return mRetrofit;
+    }
+
+    @Nullable
+    protected Context getContext() {
+        return mContext.get();
     }
 
     /**

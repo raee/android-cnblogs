@@ -4,13 +4,16 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.multidex.MultiDex;
+import android.text.TextUtils;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.feedback.FeedbackThread;
+import com.meituan.android.walle.WalleChannelReader;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.swift.session.SessionManager;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 import com.tencent.tinker.loader.app.TinkerApplication;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
@@ -36,24 +39,22 @@ public class CnblogsApplication extends TinkerApplication {
         super.onCreate();
 
         // 级别较高的初始化操作
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
+            if (!LeakCanary.isInAnalyzerProcess(this)) {
+                LeakCanary.install(this);
+            }
+        } else {
             // 正式环境
             Bugly.init(getApplication(), BuildConfig.BUGLY_APP_ID, false);
-        } else {
-            // 开发环境
         }
 
-//        if (!LeakCanary.isInAnalyzerProcess(this)) {
-//            LeakCanary.install(this);
-//        }
-
         DbFactory.init(this);
+        initUmengConfig();
 
         // LeanCloud用户反馈初始化，要在主线程
         AVOSCloud.initialize(getApplication(), BuildConfig.LEAN_CLOUD_APP_ID, BuildConfig.LEAN_CLOUD_APP_KEY);
         FeedbackThread.getInstance();
 
-        MobclickAgent.setCatchUncaughtExceptions(BuildConfig.DEBUG);
 
         // 加载皮肤
         SkinCompatManager.withoutActivity(getApplication()).loadSkin();
@@ -68,7 +69,7 @@ public class CnblogsApplication extends TinkerApplication {
             public void run() {
                 UserProvider.init(getApplication());
                 SessionManager.initWithConfig(new SessionManager.ConfigBuilder().context(getApplication()).userClass(UserInfoBean.class).build());
-                initUmengShareConfig();
+
             }
         }).start();
     }
@@ -84,11 +85,13 @@ public class CnblogsApplication extends TinkerApplication {
         new AppDataManager(this).clearCache();
     }
 
-
     /**
      * 友盟分享
      */
-    private void initUmengShareConfig() {
+    private void initUmengConfig() {
+        MobclickAgent.setCatchUncaughtExceptions(false);
+        // 初始化友盟
+        MobclickAgent.startWithConfigure(new MobclickAgent.UMAnalyticsConfig(this, BuildConfig.UMENG_APPKEY, getChannel()));
         UMShareAPI.get(getApplication());
         PlatformConfig.setWeixin(AppConstant.WECHAT_APP_ID, AppConstant.WECHAT_APP_SECRET);
         PlatformConfig.setSinaWeibo(AppConstant.WEIBO_APP_ID, AppConstant.WEIBO_APP_SECRET, "http://www.raeblog.com/cnblogs/index.php/share/weibo/redirect");
@@ -104,15 +107,8 @@ public class CnblogsApplication extends TinkerApplication {
      * 获取渠道包
      */
     public String getChannel() {
-        try {
-            return getPackageManager()
-                    .getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA)
-                    .metaData
-                    .getString("UMENG_CHANNEL", "official");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "official";
+        String channel = WalleChannelReader.getChannel(this.getApplicationContext());
+        return TextUtils.isEmpty(channel) ? "UNKNOWN" : channel;
     }
 
     @Override

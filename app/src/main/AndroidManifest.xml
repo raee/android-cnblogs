@@ -24,33 +24,32 @@
         <activity
             android:name=".activity.LauncherActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
-            <!-- <intent-filter>
+             <intent-filter>
                  <action android:name="android.intent.action.MAIN"/>
 
                  <category android:name="android.intent.category.LAUNCHER"/>
-             </intent-filter>-->
+             </intent-filter>
         </activity>
 
         <!--主界面-->
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.Dark">
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <activity
             android:name=".activity.TestActivity"
             android:label="博客园测试"
-
             android:theme="@style/AppTheme.Dark">
-            <!--     <intent-filter>
-                     <action android:name="android.intent.action.MAIN"/>
-                     <category android:name="android.intent.category.LAUNCHER"/>
-                 </intent-filter>-->
+         <!--   <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>-->
         </activity>
 
         <!--博文-->
@@ -240,12 +239,12 @@
             android:enabled="true"
             android:exported="false"/>
 
-        <meta-data
+<!--        <meta-data
             android:name="UMENG_APPKEY"
-            android:value="${UMENG_APPKEY}"/>
-        <meta-data
+            android:value="${UMENG_APPKEY}"/>-->
+<!--        <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="${UMENG_CHANNEL}"/>
+            android:value="${UMENG_CHANNEL}"/>-->
 
 
     </application>

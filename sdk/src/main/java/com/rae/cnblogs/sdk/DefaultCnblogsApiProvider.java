@@ -20,7 +20,7 @@ import com.rae.cnblogs.sdk.api.impl.CategoryApiImpl;
  */
 public class DefaultCnblogsApiProvider extends CnblogsApiProvider {
 
-    protected DefaultCnblogsApiProvider(Context applicationContext) {
+    public DefaultCnblogsApiProvider(Context applicationContext) {
         super(applicationContext);
     }
 
@@ -31,54 +31,54 @@ public class DefaultCnblogsApiProvider extends CnblogsApiProvider {
 
     @Override
     public IBlogApi getBlogApi() {
-        return mRetrofit.create(IBlogApi.class);
+        return getRetrofit().create(IBlogApi.class);
     }
 
     @Override
     public ICategoryApi getCategoriesApi() {
-        return new CategoryApiImpl(mContext);
+        return new CategoryApiImpl(getContext());
     }
 
     @Override
     public IUserApi getUserApi() {
-        return mRetrofit.create(IUserApi.class);
+        return getRetrofit().create(IUserApi.class);
     }
 
 
     @Override
     public IBookmarksApi getBookmarksApi() {
-        return mRetrofit.create(IBookmarksApi.class);
+        return getRetrofit().create(IBookmarksApi.class);
     }
 
 
     @Override
     public INewsApi getNewsApi() {
-        return mRetrofit.create(INewsApi.class);
+        return getRetrofit().create(INewsApi.class);
     }
 
     @Override
     public IFriendsApi getFriendApi() {
-        return mRetrofit.create(IFriendsApi.class);
+        return getRetrofit().create(IFriendsApi.class);
     }
 
     @Override
     public ISearchApi getSearchApi() {
-        return mRetrofit.create(ISearchApi.class);
+        return getRetrofit().create(ISearchApi.class);
     }
 
     @Override
     public IMomentApi getMomentApi() {
-        return mRetrofit.create(IMomentApi.class);
+        return getRetrofit().create(IMomentApi.class);
     }
 
     @Override
     public IPostApi getPostApi() {
-        return mRetrofit.create(IPostApi.class);
+        return getRetrofit().create(IPostApi.class);
     }
 
     @Override
     public IRaeServerApi getRaeServerApi() {
-        return mRetrofit.create(IRaeServerApi.class);
+        return getRetrofit().create(IRaeServerApi.class);
     }
 
 }

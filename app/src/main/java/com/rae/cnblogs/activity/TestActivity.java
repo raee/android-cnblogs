@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.ThemeCompat;
+import com.rae.cnblogs.sdk.CnblogsApiFactory;
+import com.rae.cnblogs.sdk.CnblogsApiProvider;
 import com.tencent.bugly.beta.tinker.TinkerManager;
 
 import java.io.File;
@@ -27,14 +28,10 @@ public class TestActivity extends BaseActivity {
     @BindView(R.id.tv_message)
     TextView mMsgView;
 
-    @BindView(R.id.img_background)
-    ImageView mImageView;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        RaeImageLoader.displayImage("https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2082469064,1467337990&fm=173&s=BAD3E14C5DC3B97014E554030300E0C1&w=218&h=146&img.JPEG", mImageView);
     }
 
     @OnClick(R.id.btn_main)
@@ -46,6 +43,12 @@ public class TestActivity extends BaseActivity {
     public void onTestClick() {
         ThemeCompat.switchNightMode();
 //        AppUI.toastInCenter(this, "我是热更新！");
+    }
+
+    @OnClick(R.id.btn_sdk_patch_test)
+    public void onSdkPatchClick() {
+        CnblogsApiProvider provider = CnblogsApiFactory.getInstance(this);
+        AppUI.toastInCenter(this, "SDK版本号：" + provider.getApiVersion());
     }
 
 
