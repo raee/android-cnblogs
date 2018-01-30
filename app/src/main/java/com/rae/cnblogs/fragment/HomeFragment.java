@@ -3,14 +3,20 @@ package com.rae.cnblogs.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.DesignTabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.rae.cnblogs.AppRoute;
-import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.adapter.BlogListAdapter;
 import com.rae.cnblogs.message.TabEvent;
@@ -35,7 +41,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
 
     private BlogListAdapter mAdapter;
     private IHomePresenter mHomePresenter;
-    private List<CategoryBean> mCategoryBeanList;
+    //    private List<CategoryBean> mCategoryBeanList;
     private int mPosition;
 
     public static HomeFragment newInstance() {
@@ -49,6 +55,9 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     ViewPager mViewPager;
     @BindView(R.id.tv_search)
     TextView mSearchView;
+
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected int getLayoutId() {
@@ -75,15 +84,48 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mHomePresenter.start();
-    }
+        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mViewPager.getLayoutParams();
+        lp.setBehavior(new AppBarLayout.ScrollingViewBehavior() {
+            @Override
+            public boolean onInterceptTouchEvent(CoordinatorLayout parent, View child, MotionEvent ev) {
+                Log.d("rae-layout", "onInterceptTouchEvent" + ev);
+                return super.onInterceptTouchEvent(parent, child, ev);
+            }
 
+            @Override
+            public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
+                Log.d("rae-layout", "layoutDependsOn：" + dependency);
+                return super.layoutDependsOn(parent, child, dependency);
+            }
+
+            @Override
+            public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
+                Log.d("rae-layout", "onDependentViewChanged：" + dependency);
+                return super.onDependentViewChanged(parent, child, dependency);
+            }
+
+            @Override
+            public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
+                super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type);
+                Log.d("rae-layout", "onNestedScroll：" + type);
+            }
+
+            @Override
+            public boolean onNestedFling(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, float velocityX, float velocityY, boolean consumed) {
+                Log.d("rae-layout", "onNestedFling：" + velocityY);
+                return super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed);
+            }
+
+            @Override
+            public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
+                super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
+                Log.d("rae-layout", "onNestedScroll：" + target);
+            }
+        });
+    }
 
     @OnClick(R.id.img_edit_category)
     public void onCategoryClick(View view) {
-        if (mCategoryBeanList == null || mCategoryBeanList.size() <= 0) {
-            AppUI.failed(getContext(), "请等待分类加载完成");
-            return;
-        }
         AppRoute.jumpToCategoryForResult(getActivity());
     }
 
@@ -95,7 +137,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
             return;
         }
 
-        mCategoryBeanList = data;
+//        mCategoryBeanList = data;
         int count = mAdapter == null ? 0 : mAdapter.getCount();
 
         if (mAdapter == null) {
@@ -130,6 +172,9 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
 
     @Override
     public void onLoadHotSearchData(String keyword) {
+        Animation anim = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
+        anim.setDuration(800);
+        mSearchView.startAnimation(anim);
         mSearchView.setText(keyword);
     }
 

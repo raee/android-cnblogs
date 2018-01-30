@@ -66,7 +66,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AppUI.toastInCenter(this, "渠道：" + getChannel());
 //        if (!BuildConfig.DEBUG) {
 //            // 跳启动页
 //            startActivity(new Intent(this, LauncherActivity.class));

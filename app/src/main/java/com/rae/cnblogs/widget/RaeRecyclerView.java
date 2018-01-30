@@ -126,6 +126,12 @@ public class RaeRecyclerView extends XRecyclerView implements SkinCompatSupporta
     }
 
     @Override
+    public boolean fling(int velocityX, int velocityY) {
+        Log.i("rae", "滑动状态改变：fling " + velocityY);
+        return super.fling(velocityX, velocityY);
+    }
+
+    @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
         Log.i("rae", "滑动状态改变：" + state);

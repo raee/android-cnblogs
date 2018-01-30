@@ -24,50 +24,34 @@
         <activity
             android:name=".activity.LauncherActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN"/>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-                 <category android:name="android.intent.category.LAUNCHER"/>
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <!--主界面-->
         <activity
-            android:name=".activity.MainActivity"
-            android:theme="@style/AppTheme.Dark">
-           <!-- <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
-        </activity>
+            android:name=".activity.MainActivity"/>
 
         <activity
             android:name=".activity.TestActivity"
             android:label="博客园测试"
-            android:theme="@style/AppTheme.Dark">
-         <!--   <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
-        </activity>
+            android:theme="@style/AppTheme.Dark"/>
 
         <!--博文-->
         <activity
-            android:name=".activity.BlogContentActivity"
-            />
+            android:name=".activity.BlogContentActivity"/>
 
         <!--登录-->
         <activity
             android:name=".activity.LoginActivity"
-            android:launchMode="singleTop"
-            />
-
+            android:launchMode="singleTop"/>
 
         <!--网页登录-->
         <activity
-            android:name=".activity.WebLoginActivity"
-            />
+            android:name=".activity.WebLoginActivity"/>
 
         <!--网页-->
         <activity
@@ -80,82 +64,67 @@
 
         <!--博主-->
         <activity
-            android:name=".activity.BloggerActivity"
-            />
+            android:name=".activity.BloggerActivity"/>
         <!--关注、粉丝-->
         <activity
-            android:name=".activity.FriendsActivity"
-            />
+            android:name=".activity.FriendsActivity"/>
         <!--分类管理-->
         <activity
             android:name=".activity.CategoryActivity"
             android:label="@string/title_category"
-            android:launchMode="singleTop"
-            />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activity.FavoritesActivity"
             android:label="@string/my_favorites"
-            android:launchMode="singleTop"
-            />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activity.SettingActivity"
             android:label="@string/setting"
-            android:launchMode="singleTop"
-            />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activity.FeedbackActivity"
             android:label="@string/feedback"
             android:launchMode="singleTop"
-
             android:windowSoftInputMode="stateVisible"/>
 
         <activity
             android:name=".activity.SearchActivity"
-
             android:windowSoftInputMode="stateVisible"/>
 
         <activity
             android:name=".activity.SystemMessageActivity"
-            android:label="@string/system_message"
-            />
+            android:label="@string/system_message"/>
 
         <activity
             android:name=".activity.FontSettingActivity"
-            android:label="@string/font_setting"
-            />
+            android:label="@string/font_setting"/>
 
         <activity
             android:name=".activity.CommentActivity"
-            android:label="@string/label_comment"
-            />
+            android:label="@string/label_comment"/>
 
         <activity
             android:name=".activity.PostMomentActivity"
-            android:label="@string/label_post_moment"
-            />
+            android:label="@string/label_post_moment"/>
         <activity
             android:name=".activity.ImageSelectionActivity"
-            android:label="@string/label_image_selection"
-            >
+            android:label="@string/label_image_selection">
 
         </activity>
         <activity
             android:name=".activity.MomentDetailActivity"
-            android:label="@string/label_moment_detail"
-            />
+            android:label="@string/label_moment_detail"/>
 
         <activity
             android:name=".activity.MomentAtMeActivity"
-            android:label="@string/label_moment_at_me"
-            />
+            android:label="@string/label_moment_at_me"/>
 
         <activity
             android:name=".activity.MomentMessageActivity"
-            android:label="@string/label_moment_message"
-            />
+            android:label="@string/label_moment_message"/>
 
         <service
             android:name=".service.CnblogsService"
@@ -239,12 +208,12 @@
             android:enabled="true"
             android:exported="false"/>
 
-<!--        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="${UMENG_APPKEY}"/>-->
-<!--        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="${UMENG_CHANNEL}"/>-->
+        <!--        <meta-data
+                    android:name="UMENG_APPKEY"
+                    android:value="${UMENG_APPKEY}"/>-->
+        <!--        <meta-data
+                    android:name="UMENG_CHANNEL"
+                    android:value="${UMENG_CHANNEL}"/>-->
 
 
     </application>

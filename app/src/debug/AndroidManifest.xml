@@ -26,7 +26,7 @@
         <activity
             android:name=".activity.LauncherActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
-            tools:node="remove"/>
+            tools:node="replace"/>
 
         <!--主界面-->
         <activity
