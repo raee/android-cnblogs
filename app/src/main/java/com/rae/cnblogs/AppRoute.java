@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.rae.cnblogs.activity.AboutMeActivity;
 import com.rae.cnblogs.activity.BlogContentActivity;
 import com.rae.cnblogs.activity.BloggerActivity;
 import com.rae.cnblogs.activity.CategoryActivity;
@@ -176,20 +177,20 @@ public final class AppRoute {
      * 粉丝
      *
      * @param bloggerName 博主昵称
-     * @param userId      博主ID
+     * @param blogApp     博主ID
      */
-    public static void jumpToFans(Context context, String bloggerName, String userId) {
-        jumpToFriends(context, ACTIVITY_FRIENDS_TYPE_FANS, bloggerName, userId);
+    public static void jumpToFans(Context context, String bloggerName, String blogApp) {
+        jumpToFriends(context, ACTIVITY_FRIENDS_TYPE_FANS, bloggerName, blogApp);
     }
 
     /**
      * 关注
      *
      * @param bloggerName 博主昵称
-     * @param userId      博主ID
+     * @param blogApp     博主ID
      */
-    public static void jumpToFollow(Context context, String bloggerName, String userId) {
-        jumpToFriends(context, ACTIVITY_FRIENDS_TYPE_FOLLOW, bloggerName, userId);
+    public static void jumpToFollow(Context context, String bloggerName, String blogApp) {
+        jumpToFriends(context, ACTIVITY_FRIENDS_TYPE_FOLLOW, bloggerName, blogApp);
     }
 
     /**
@@ -197,11 +198,11 @@ public final class AppRoute {
      *
      * @param type        来源类型，参考该类{@link #ACTIVITY_FRIENDS_TYPE_FANS}
      * @param bloggerName 博主昵称
-     * @param userId      博主ID
+     * @param blogApp     博主ID
      */
-    private static void jumpToFriends(Context context, int type, String bloggerName, String userId) {
+    private static void jumpToFriends(Context context, int type, String bloggerName, String blogApp) {
         Intent intent = new Intent(context, FriendsActivity.class);
-        intent.putExtra("userId", userId);
+        intent.putExtra("blogApp", blogApp);
         intent.putExtra("bloggerName", bloggerName);
         intent.putExtra("fromType", type);
         startActivity(context, intent);
@@ -434,5 +435,12 @@ public final class AppRoute {
         if (selectedImages != null)
             intent.putStringArrayListExtra("selectedImages", selectedImages);
         startActivityForResult(context, intent, REQ_IMAGE_SELECTION);
+    }
+
+    /**
+     * 关于我们
+     */
+    public static void jumpToAboutMe(Context context) {
+        startActivity(context, AboutMeActivity.class);
     }
 }

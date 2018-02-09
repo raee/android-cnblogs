@@ -215,7 +215,7 @@ public class MineFragment extends BaseFragment {
             AppRoute.jumpToLogin(getActivity());
             return;
         }
-        AppRoute.jumpToFans(this.getContext(), getString(R.string.me), UserProvider.getInstance().getLoginUserInfo().getUserId());
+        AppRoute.jumpToFans(this.getContext(), getString(R.string.me), UserProvider.getInstance().getLoginUserInfo().getBlogApp());
     }
 
     @OnClick(R.id.layout_account_follow)
@@ -224,7 +224,7 @@ public class MineFragment extends BaseFragment {
             AppRoute.jumpToLogin(getActivity());
             return;
         }
-        AppRoute.jumpToFollow(this.getContext(), getString(R.string.me), UserProvider.getInstance().getLoginUserInfo().getUserId());
+        AppRoute.jumpToFollow(this.getContext(), getString(R.string.me), UserProvider.getInstance().getLoginUserInfo().getBlogApp());
     }
 
 

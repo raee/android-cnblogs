@@ -189,6 +189,9 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".activity.AboutMeActivity"
+            android:label="@string/about_me"/>
 
         <!--文件提供者-->
         <provider

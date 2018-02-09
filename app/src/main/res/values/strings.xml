@@ -151,4 +151,5 @@
     <string name="moment_unlogin_hint">登录后，更多评论等你来发现。</string>
     <string name="title_comment">全部评论（%s）</string>
     <string name="search_hint">搜索博客/博主/新闻/知识库</string>
+    <string name="about_me">关于我们</string>
 </resources>

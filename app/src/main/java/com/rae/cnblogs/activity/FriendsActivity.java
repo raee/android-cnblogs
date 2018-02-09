@@ -15,7 +15,6 @@ import com.rae.cnblogs.fragment.BloggerFragment;
  */
 public class FriendsActivity extends SwipeBackBaseActivity {
 
-    private String mUserId;
     private int mFromType;
 
     @Override
@@ -23,10 +22,10 @@ public class FriendsActivity extends SwipeBackBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
         showHomeAsUp();
-        mUserId = getIntent().getStringExtra("userId");
+        String blogApp = getIntent().getStringExtra("blogApp");
         String bloggerName = getIntent().getStringExtra("bloggerName");
         mFromType = getIntent().getIntExtra("fromType", AppRoute.ACTIVITY_FRIENDS_TYPE_FANS);
-        if (TextUtils.isEmpty(mUserId)) {
+        if (TextUtils.isEmpty(blogApp)) {
             AppUI.toast(this, "博主信息为空！");
             finish();
             return;
@@ -43,7 +42,7 @@ public class FriendsActivity extends SwipeBackBaseActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.content, BloggerFragment.newInstance(mUserId, isFansType()))
+                .add(R.id.content, BloggerFragment.newInstance(blogApp, isFansType()))
                 .commitNowAllowingStateLoss();
     }
 

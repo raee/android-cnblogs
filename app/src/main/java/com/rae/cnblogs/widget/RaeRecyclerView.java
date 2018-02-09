@@ -2,11 +2,13 @@ package com.rae.cnblogs.widget;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.ViewParent;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -23,6 +25,7 @@ public class RaeRecyclerView extends XRecyclerView implements SkinCompatSupporta
     private SkinCompatBackgroundHelper mBackgroundTintHelper;
 
     private RaeLoadMoreView mFootView;
+    private boolean mIsCoordinatorLayout;
 
 
     public RaeRecyclerView(Context context) {
@@ -125,16 +128,36 @@ public class RaeRecyclerView extends XRecyclerView implements SkinCompatSupporta
         return false;
     }
 
+
     @Override
-    public boolean fling(int velocityX, int velocityY) {
-        Log.i("rae", "滑动状态改变：fling " + velocityY);
-        return super.fling(velocityX, velocityY);
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        AppBarLayout appBarLayout = null;
+        ViewParent p = getParent();
+        while (p != null) {
+            if (p instanceof CoordinatorLayout) {
+                mIsCoordinatorLayout = true;
+                break;
+            }
+            p = p.getParent();
+        }
     }
 
     @Override
-    public void onScrollStateChanged(int state) {
-        super.onScrollStateChanged(state);
-        Log.i("rae", "滑动状态改变：" + state);
+    public void computeScroll() {
+        super.computeScroll();
+        if (mIsCoordinatorLayout) {
+            // 兼容CoordinatorLayout
+            LayoutManager layoutManager = getLayoutManager();
+            int lastVisibleItemPosition = -1;
+            if (layoutManager instanceof LinearLayoutManager) {
+                lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+            }
+
+            if (checkCanShowFootView(layoutManager, lastVisibleItemPosition)) {
+                stopScroll();
+            }
+        }
     }
 
     @Override

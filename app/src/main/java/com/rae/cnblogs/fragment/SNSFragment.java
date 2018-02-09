@@ -90,7 +90,7 @@ public class SNSFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DesignTabLayout.Tab tab = mTabLayout.getTabAt(mTabLayout.getTabCount() - 1);
+        DesignTabLayout.Tab tab = mTabLayout.getTabAt(0);
         if (tab != null) {
             tab.select();
         }
@@ -157,9 +157,9 @@ public class SNSFragment extends BaseFragment {
 
         public SNSFragmentAdapter(Context context, FragmentManager fm) {
             super(fm);
-            mFragments.add(MomentFragment.newInstance(IMomentApi.MOMENT_TYPE_MY));
-            mFragments.add(MomentFragment.newInstance(IMomentApi.MOMENT_TYPE_FOLLOWING));
             mFragments.add(MomentFragment.newInstance(IMomentApi.MOMENT_TYPE_ALL));
+            mFragments.add(MomentFragment.newInstance(IMomentApi.MOMENT_TYPE_FOLLOWING));
+            mFragments.add(MomentFragment.newInstance(IMomentApi.MOMENT_TYPE_MY));
         }
 
         @Override

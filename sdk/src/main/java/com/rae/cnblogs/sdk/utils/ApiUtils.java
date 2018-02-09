@@ -156,6 +156,7 @@ public final class ApiUtils {
                 .replace("https", "")
                 .replace("http", "")
                 .replace("://www.cnblogs.com/", "")
+                .replace("/u/", "")
                 .replace("/", "");
     }
 

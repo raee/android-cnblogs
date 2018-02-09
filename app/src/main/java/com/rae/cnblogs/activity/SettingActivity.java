@@ -22,9 +22,11 @@ import com.rae.cnblogs.RxObservable;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
 import com.rae.cnblogs.dialog.impl.HintCardDialog;
+import com.rae.cnblogs.dialog.impl.MenuDialog;
 import com.rae.cnblogs.dialog.impl.ShareDialog;
 import com.rae.cnblogs.dialog.impl.VersionUpdateDialog;
 import com.rae.cnblogs.message.UserInfoEvent;
+import com.rae.cnblogs.model.MenuDialogItem;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.UserProvider;
@@ -84,6 +86,23 @@ public class SettingActivity extends SwipeBackBaseActivity {
      */
     @OnClick(R.id.ll_clear_cache)
     public void onClearCacheClick() {
+        MenuDialog dialog = new MenuDialog(getContext());
+        dialog.addDeleteItem("确定清除");
+        dialog.addItem("取消");
+        dialog.setMessage("将清理所有博客以及离线缓存数据，是否确定清除？");
+        dialog.setOnMenuItemClickListener(new MenuDialog.OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(MenuDialog dialog, MenuDialogItem item) {
+                dialog.dismiss();
+                if (item.getName().contains("确定")) {
+                    performClearCache();
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    private void performClearCache() {
         // 显示loading
         mClearCacheView.setVisibility(View.VISIBLE);
         mClearCacheView.loading();
@@ -108,7 +127,6 @@ public class SettingActivity extends SwipeBackBaseActivity {
                 mClearCacheTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.default_right_arrow, 0);
             }
         }, 5000);
-
     }
 
     /**
@@ -232,6 +250,10 @@ public class SettingActivity extends SwipeBackBaseActivity {
     @OnClick(R.id.ll_font_setting)
     public void onFontSettingClick() {
         AppRoute.jumpToFontSetting(this);
+    }
+    @OnClick(R.id.ll_about_me)
+    public void onAboutMeClick() {
+        AppRoute.jumpToAboutMe(this);
     }
 
     @OnLongClick(R.id.tv_check_update)

@@ -10,18 +10,16 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
         android:orientation="vertical"
-        android:theme="@style/ThemeOverlay.AppCompat.Light">
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        app:elevation="0dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="@android:color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed"
             app:statusBarScrim="?colorPrimaryDark">
-
 
             <!--底图-->
             <RelativeLayout
@@ -40,12 +38,12 @@
                     android:minHeight="240dp"
                     android:scaleType="centerCrop"/>
 
-                <!--添加一层遮罩层-->
+       <!--         &lt;!&ndash;添加一层遮罩层&ndash;&gt;
                 <ImageView
                     android:id="@+id/img_alpha"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
-                    android:background="@color/blogger_image_alpha_color"/>
+                    android:background="@color/blogger_image_alpha_color"/>-->
 
                 <!--圆形头像-->
                 <RelativeLayout
@@ -194,38 +192,6 @@
 
             </RelativeLayout>
 
-            <!--TAB-->
-            <android.support.design.widget.DesignTabLayout
-                android:id="@+id/tab_category"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="240dp"
-                android:background="@drawable/public_divider_while_primary"
-                android:orientation="vertical"
-                app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.75"
-                app:layout_scrollFlags="scroll"
-                app:tabBackground="@android:color/transparent"
-                app:tabIndicatorColor="@color/ph1"
-                app:tabIndicatorHeight="2dp"
-                app:tabIndicatorWidth="12dp"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/homeTabSelectedTextColor"
-                app:tabTextAppearance="@style/TabTextAppearance"
-                app:tabTextColor="@color/homeTabTextColor">
-
-                <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="动态"/>
-
-                <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="博客"/>
-
-            </android.support.design.widget.DesignTabLayout>
-
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/tool_bar"
@@ -248,7 +214,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/btn_blogger_follow"
                         android:gravity="center"
-                        android:textColor="@color/ph1"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/h1"
                         android:visibility="gone"/>
 
@@ -287,8 +253,41 @@
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
 
+
         </android.support.design.widget.CollapsingToolbarLayout>
 
+        <!--TAB-->
+        <android.support.design.widget.DesignTabLayout
+            android:id="@+id/tab_category"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/public_divider_while_primary"
+            android:orientation="vertical"
+            app:layout_collapseMode="parallax"
+            app:layout_collapseParallaxMultiplier="0.75"
+            app:layout_scrollFlags="scroll"
+            app:tabBackground="@android:color/transparent"
+            app:tabIndicatorColor="@color/ph1"
+            app:tabIndicatorHeight="2dp"
+            app:tabIndicatorWidth="12dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/homeTabSelectedTextColor"
+            app:tabTextAppearance="@style/TabTextAppearance"
+            app:tabTextColor="@color/homeTabTextColor">
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="动态"/>
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="博客"/>
+
+        </android.support.design.widget.DesignTabLayout>
 
     </android.support.design.widget.AppBarLayout>
 

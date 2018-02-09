@@ -52,11 +52,11 @@ public class FriendApiTest extends BaseTest {
      */
     @Test
     public void testFollowList() {
-        runTest("testFollowList", mApi.getFollowAndFansList("fdeed5f3-11fb-e111-aa3f-842b2b196315", 1, true));
+//        runTest("testFollowList", mApi.getFollowAndFansList("fdeed5f3-11fb-e111-aa3f-842b2b196315", 1, true));
     }
 
     @Test
     public void testFansList() {
-        runTest("testFansList", mApi.getFollowAndFansList("fdeed5f3-11fb-e111-aa3f-842b2b196315", 1, false));
+//        runTest("testFansList", mApi.getFollowAndFansList("fdeed5f3-11fb-e111-aa3f-842b2b196315", 1, false));
     }
 }

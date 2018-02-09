@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.DesignTabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.jcodecraeer.xrecyclerview.AppBarStateChangeListener;
 import com.rae.cnblogs.AppMobclickAgent;
@@ -25,7 +26,6 @@ import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
-import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.fragment.BlogListFragment;
 import com.rae.cnblogs.message.UserInfoEvent;
 import com.rae.cnblogs.model.FeedListFragment;
@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 /**
  * blogger info
@@ -99,8 +100,8 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     @BindView(R.id.pb_blogger_follow)
     View mFollowProgressBar;
 
-    @BindView(R.id.img_alpha)
-    ImageView mAlphaImageView;
+//    @BindView(R.id.img_alpha)
+//    ImageView mAlphaImageView;
 
 //    @BindView(R.id.layout_blogger)
 //    BloggerLayout mBloggerLayout;
@@ -144,21 +145,28 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         mTabLayout.addOnTabSelectedListener(this);
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            final Animation mAnimation = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
+
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                Log.i("rae", "状态改变：" + state);
+//                Log.i("rae", "状态改变：" + state);
+                mAnimation.setDuration(800);
+
                 if (state == State.COLLAPSED) {
-                    ThemeCompat.refreshStatusColor(getContext(), true);
-                    setHomeAsUpIndicator(R.drawable.ic_back);
-                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow_drak);
-                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.ph2));
+//                    ThemeCompat.refreshStatusColor(getContext(), true);
+//                    setHomeAsUpIndicator(R.drawable.ic_back);
+//                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow_drak);
+//                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.ph2));
                     mTitleView.setVisibility(View.VISIBLE);
+                    mTitleView.clearAnimation();
+                    mTitleView.startAnimation(mAnimation);
                 } else {
+                    mTitleView.clearAnimation();
                     mTitleView.setVisibility(View.GONE);
-                    ThemeCompat.refreshStatusColor(getContext(), false);
-                    setHomeAsUpIndicator(R.drawable.ic_back_white);
-                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow);
-                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+//                    ThemeCompat.refreshStatusColor(getContext(), false);
+//                    setHomeAsUpIndicator(R.drawable.ic_back_white);
+//                    mFollowView.setBackgroundResource(R.drawable.bg_btn_follow);
+//                    mFollowView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                 }
             }
 
@@ -243,6 +251,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
                             // 如果没有这张封面图就展示默认的
                             GlideApp.with(getContext())
                                     .load(userInfo.getAvatar())
+                                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5))) // 高斯模糊
                                     .into(mBackgroundView);
                             return true;
                         }
@@ -256,6 +265,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
                             return false;
                         }
                     })
+                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5))) // 高斯模糊
                     .placeholder(R.drawable.account_top_bg)
                     .into(mBackgroundView);
         }
@@ -316,7 +326,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     @OnClick(R.id.layout_account_fans)
     public void onFansClick() {
         if (mUserInfo == null) return;
-        AppRoute.jumpToFans(this.getContext(), mUserInfo.getDisplayName(), mUserInfo.getUserId());
+        AppRoute.jumpToFans(this.getContext(), mUserInfo.getDisplayName(), mUserInfo.getBlogApp());
     }
 
 
@@ -326,7 +336,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     @OnClick(R.id.layout_account_follow)
     public void onFollowClick() {
         if (mUserInfo == null) return;
-        AppRoute.jumpToFollow(this.getContext(), mUserInfo.getDisplayName(), mUserInfo.getUserId());
+        AppRoute.jumpToFollow(this.getContext(), mUserInfo.getDisplayName(), mUserInfo.getBlogApp());
     }
 
     @OnClick(R.id.btn_blogger_follow)

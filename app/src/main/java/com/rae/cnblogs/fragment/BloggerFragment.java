@@ -3,7 +3,6 @@ package com.rae.cnblogs.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -53,12 +52,12 @@ public class BloggerFragment extends BaseFragment {
     protected int mPage = 1;
     private FriendsAdapter mAdapter;
     private final List<UserInfoBean> mDataList = new ArrayList<>();
-    private String mUserId;
+    private String mBlogApp;
     private boolean mIsFansType;
 
-    public static BloggerFragment newInstance(String userId, boolean isFans) {
+    public static BloggerFragment newInstance(String blogApp, boolean isFans) {
         Bundle args = new Bundle();
-        args.putString("userId", userId);
+        args.putString("blogApp", blogApp);
         args.putBoolean("isFans", isFans);
         BloggerFragment fragment = new BloggerFragment();
         fragment.setArguments(args);
@@ -75,7 +74,7 @@ public class BloggerFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         mFriendApi = CnblogsApiFactory.getInstance(getContext()).getFriendApi();
         if (getArguments() != null) {
-            mUserId = getArguments().getString("userId", null);
+            mBlogApp = getArguments().getString("blogApp", null);
             mIsFansType = getArguments().getBoolean("isFans", false);
         }
     }
@@ -163,7 +162,10 @@ public class BloggerFragment extends BaseFragment {
     }
 
     protected Observable<List<UserInfoBean>> getFollowAndFansList() {
-        return mFriendApi.getFollowAndFansList(mUserId, mPage, !mIsFansType);
+        if (mIsFansType) {
+            return mFriendApi.getFansList(mBlogApp, mPage);
+        }
+        return mFriendApi.getFollowList(mBlogApp, mPage);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.rae.cnblogs.sdk.parser;
 
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
-import com.rae.cnblogs.sdk.utils.ApiUtils;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -26,7 +25,7 @@ public class SearchBloggerParser implements IHtmlParser<List<UserInfoBean>> {
             m.setBlogApp(element.select("blogapp").text());
             m.setDisplayName(element.select("title").text());
             m.setAvatar(element.select("avatar").text());
-            m.setJoinDate(ApiUtils.getDate(element.select("updated").text()));
+//            m.setJoinDate(ApiUtils.getDate(element.select("updated").text()));
             result.add(m);
         }
         return result;

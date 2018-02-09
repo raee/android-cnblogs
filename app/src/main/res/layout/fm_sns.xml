@@ -74,11 +74,10 @@
                 app:tabTextAppearance="@style/DiscoverTabTextAppearance"
                 app:tabTextColor="@color/ph2">
 
-
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tab_sns_mine"/>
+                    android:text="@string/tab_recommend"/>
 
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
@@ -88,7 +87,8 @@
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tab_recommend"/>
+                    android:text="@string/tab_sns_mine"/>
+
 
             </android.support.design.widget.RaeSkinDesignTabLayout>
 

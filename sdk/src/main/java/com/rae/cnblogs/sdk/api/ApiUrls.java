@@ -77,8 +77,11 @@ final class ApiUrls {
     // 新闻-点赞
     static final String API_NEWS_LIKE = "https://news.cnblogs.com/News/VoteNews?action=agree";
 
-    // 朋友-关注-粉丝-列表
-    static final String API_FRIENDS_FOLLOW_LIST = "https://home.cnblogs.com/relation_users?groupId=00000000-0000-0000-0000-000000000000";
+    // 朋友-关注-列表
+    static final String API_FRIENDS_FOLLOW_LIST = "https://home.cnblogs.com/u/{blogApp}/relation/following";
+
+    // 朋友-粉丝-列表
+    static final String API_FRIENDS_FANS_LIST = "https://home.cnblogs.com/u/{blogApp}/relation/followers";
 
     // 朋友-关注-发起
     static final String API_FRIENDS_FOLLOW = "https://home.cnblogs.com/ajax/follow/FollowUser?remark=";

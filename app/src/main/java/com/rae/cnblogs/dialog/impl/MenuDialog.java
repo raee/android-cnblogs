@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.model.MenuDialogItem;
@@ -33,6 +34,9 @@ public class MenuDialog extends SlideDialog {
     private final MenuDialogAdapter mAdapter;
     @BindView(R.id.rec_dialog_menu)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.tv_title)
+    TextView mTitleView;
 
     private Object mTag;
 
@@ -67,6 +71,11 @@ public class MenuDialog extends SlideDialog {
             attr.gravity = Gravity.START | Gravity.END | Gravity.BOTTOM;
             getWindow().setAttributes(attr);
         }
+    }
+
+    @Override
+    public void setMessage(String message) {
+        mTitleView.setText(message);
     }
 
     public void addItem(String name) {

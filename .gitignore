@@ -9,3 +9,5 @@
 .externalNativeBuild
 /doc/site
 /app/*.apk
+/app/release
+app/release/

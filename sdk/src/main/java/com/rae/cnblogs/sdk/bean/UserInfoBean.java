@@ -33,10 +33,10 @@ public class UserInfoBean implements Parcelable {
     private String remarkName;
 
 
-    /**
-     * 入园时间
-     */
-    private String joinDate;
+//    /**
+//     * 入园时间
+//     */
+//    private String joinDate;
 
     public String getAvatar() {
         return avatar;
@@ -78,15 +78,23 @@ public class UserInfoBean implements Parcelable {
         this.userId = userId;
     }
 
-    public String getJoinDate() {
-        return joinDate;
-    }
-
-    public void setJoinDate(String joinDate) {
-        this.joinDate = joinDate;
-    }
+//    public String getJoinDate() {
+//        return joinDate;
+//    }
+//
+//    public void setJoinDate(String joinDate) {
+//        this.joinDate = joinDate;
+//    }
 
     public UserInfoBean() {
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof UserInfoBean) {
+            return TextUtils.equals(this.blogApp, ((UserInfoBean) obj).getBlogApp());
+        }
+        return super.equals(obj);
     }
 
     @Override
@@ -101,7 +109,6 @@ public class UserInfoBean implements Parcelable {
         dest.writeString(this.avatar);
         dest.writeString(this.displayName);
         dest.writeString(this.remarkName);
-        dest.writeString(this.joinDate);
     }
 
     protected UserInfoBean(Parcel in) {
@@ -110,7 +117,6 @@ public class UserInfoBean implements Parcelable {
         this.avatar = in.readString();
         this.displayName = in.readString();
         this.remarkName = in.readString();
-        this.joinDate = in.readString();
     }
 
     public static final Creator<UserInfoBean> CREATOR = new Creator<UserInfoBean>() {
@@ -124,12 +130,4 @@ public class UserInfoBean implements Parcelable {
             return new UserInfoBean[size];
         }
     };
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof UserInfoBean) {
-            return TextUtils.equals(this.blogApp, ((UserInfoBean) obj).getBlogApp());
-        }
-        return super.equals(obj);
-    }
 }

@@ -1,8 +1,6 @@
 package com.rae.cnblogs.sdk.api;
 
 import com.rae.cnblogs.sdk.Empty;
-import com.rae.cnblogs.sdk.JsonBody;
-import com.rae.cnblogs.sdk.JsonParser;
 import com.rae.cnblogs.sdk.Parser;
 import com.rae.cnblogs.sdk.bean.BlogBean;
 import com.rae.cnblogs.sdk.bean.FriendsInfoBean;
@@ -22,6 +20,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * 朋友圈/社交圈接口
@@ -43,6 +42,9 @@ public interface IFriendsApi {
      * 获取关注和粉丝个数
      */
     @GET(ApiUrls.API_USER_CENTER)
+    @Headers({
+            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+    })
     @Parser(FriendsInfoParser.class)
     Observable<FriendsInfoBean> getFriendsInfo(@Path("blogApp") String blogApp);
 
@@ -51,6 +53,9 @@ public interface IFriendsApi {
      * 获取用户动态
      */
     @GET(ApiUrls.API_USER_FEED)
+    @Headers({
+            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+    })
     @Parser(UserTimelineParser.class)
     Observable<List<UserFeedBean>> getFeeds(@Path("page") int page, @Path("blogApp") String blogApp);
 
@@ -78,13 +83,20 @@ public interface IFriendsApi {
     /**
      * 获取我的关注列表
      *
-     * @param userId     用户ID，不是blogApp, 要获取用户的ID
-     * @param page       页码
-     * @param isFollowed TRUE:获取关注列表; FALSE: 获取粉丝列表
+     * @param blogApp
+     * @param page    页码
      */
-    @POST(ApiUrls.API_FRIENDS_FOLLOW_LIST)
-    @FormUrlEncoded
-    @Headers({JsonBody.CONTENT_TYPE, JsonBody.XHR})
-    @JsonParser(FriendsListParser.class)
-    Observable<List<UserInfoBean>> getFollowAndFansList(@Field("uid") String userId, @Field("page") int page, @Field("isFollowes") boolean isFollowed);
+    @GET(ApiUrls.API_FRIENDS_FOLLOW_LIST)
+    @Parser(FriendsListParser.class)
+    Observable<List<UserInfoBean>> getFollowList(@Path("blogApp") String blogApp, @Query("page") int page);
+
+    /**
+     * 获取我的关注列表
+     *
+     * @param blogApp
+     * @param page    页码
+     */
+    @GET(ApiUrls.API_FRIENDS_FANS_LIST)
+    @Parser(FriendsListParser.class)
+    Observable<List<UserInfoBean>> getFansList(@Path("blogApp") String blogApp, @Query("page") int page);
 }
