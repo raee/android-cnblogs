@@ -3,6 +3,8 @@ package com.rae.cnblogs;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+
 /**
  * 图片加载器
  * Created by ChenRui on 2016/12/3 17:01.
@@ -16,7 +18,10 @@ public final class RaeImageLoader {
         Context context = view.getContext();
         GlideApp.with(context)
                 .load(url)
+//                .centerCrop()
                 .placeholder(R.drawable.ic_default_user_avatar)
+                .error(R.drawable.ic_default_user_avatar)
+//                .transition(DrawableTransitionOptions.withCrossFade(300))
                 .into(view);
     }
 
@@ -24,6 +29,7 @@ public final class RaeImageLoader {
         Context context = view.getContext();
         GlideApp.with(context)
                 .load(url)
+                .transition(DrawableTransitionOptions.withCrossFade(300))
                 .placeholder(R.color.background_divider)
                 .into(view);
     }

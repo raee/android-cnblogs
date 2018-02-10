@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -236,45 +237,51 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
         GlideApp.with(this)
                 .load(userInfo.getAvatar())
+                .centerCrop()
                 .placeholder(R.drawable.boy)
                 .into(mAvatarView);
 
-        if (!TextUtils.isEmpty(userInfo.getAvatar())) {
-
-            // 封面图
-            final String coverUrl = String.format("https://files.cnblogs.com/files/%s/app-cover.bmp", userInfo.getBlogApp());
-            GlideApp.with(this)
-                    .load(coverUrl)
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Drawable> target, boolean b) {
-                            // 如果没有这张封面图就展示默认的
-                            GlideApp.with(getContext())
-                                    .load(userInfo.getAvatar())
-                                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5))) // 高斯模糊
-                                    .into(mBackgroundView);
-                            return true;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable drawable, Object o, Target<Drawable> target, DataSource dataSource, boolean b) {
-                            // 如果有封面图，则设置进去
-                            mBackgroundView.setContentDescription(coverUrl);
-                            // 统计
-                            AppMobclickAgent.onClickEvent(getContext(), "BloggerCover");
-                            return false;
-                        }
-                    })
-                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(5))) // 高斯模糊
-                    .placeholder(R.drawable.account_top_bg)
-                    .into(mBackgroundView);
-        }
+        showAvatar(userInfo.getBlogApp(), userInfo.getAvatar());
 
         mBloggerNameView.setText(userInfo.getDisplayName());
         mTitleView.setText(userInfo.getDisplayName());
         mFansCountView.setText(userInfo.getFans());
         mFollowCountView.setText(userInfo.getFollows());
         mFollowView.setText(userInfo.isFollowed() ? R.string.cancel_follow : R.string.following);
+    }
+
+    private void showAvatar(String blogApp, final String url) {
+        if (TextUtils.isEmpty(url)) return;
+        // 封面图
+        final String coverUrl = String.format("https://files.cnblogs.com/files/%s/app-cover.bmp", blogApp);
+        GlideApp.with(this)
+                .load(coverUrl)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Drawable> target, boolean b) {
+                        // 如果没有这张封面图就展示默认的
+                        GlideApp.with(getContext())
+                                .load(url)
+                                .centerCrop()
+                                .transition(DrawableTransitionOptions.withCrossFade(600))
+                                .apply(RequestOptions.bitmapTransform(new BlurTransformation(8))) // 高斯模糊
+                                .into(mBackgroundView);
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable drawable, Object o, Target<Drawable> target, DataSource dataSource, boolean b) {
+                        // 如果有封面图，则设置进去
+                        mBackgroundView.setContentDescription(coverUrl);
+                        // 统计
+                        AppMobclickAgent.onClickEvent(getContext(), "BloggerCover");
+                        return false;
+                    }
+                })
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation(8))) // 高斯模糊
+                .centerCrop()
+                .transition(DrawableTransitionOptions.withCrossFade(600))
+                .into(mBackgroundView);
     }
 
     @Override

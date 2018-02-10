@@ -34,16 +34,9 @@
                     android:id="@+id/img_background"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
-                    android:background="@drawable/account_top_bg"
+                    android:background="@drawable/bg_blogger_blur"
                     android:minHeight="240dp"
-                    android:scaleType="centerCrop"/>
-
-       <!--         &lt;!&ndash;添加一层遮罩层&ndash;&gt;
-                <ImageView
-                    android:id="@+id/img_alpha"
-                    android:layout_width="match_parent"
-                    android:layout_height="240dp"
-                    android:background="@color/blogger_image_alpha_color"/>-->
+                    android:scaleType="center"/>
 
                 <!--圆形头像-->
                 <RelativeLayout
