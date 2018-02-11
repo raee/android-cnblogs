@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,6 +43,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
         mLauncherPresenter = CnblogsPresenterFactory.getLauncherPresenter(this, this);
+        Log.w("rae", "渠道为：" + getChannel());
     }
 
     @Override

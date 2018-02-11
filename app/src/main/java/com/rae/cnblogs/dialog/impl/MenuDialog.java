@@ -75,6 +75,7 @@ public class MenuDialog extends SlideDialog {
 
     @Override
     public void setMessage(String message) {
+        mTitleView.setVisibility(View.VISIBLE);
         mTitleView.setText(message);
     }
 

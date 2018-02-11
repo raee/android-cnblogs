@@ -251,7 +251,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     }
 
     private void showAvatar(String blogApp, final String url) {
-        if (TextUtils.isEmpty(url)) return;
+        if (TextUtils.isEmpty(url) || url.endsWith("simple_avatar.gif")) return;
         // 封面图
         final String coverUrl = String.format("https://files.cnblogs.com/files/%s/app-cover.bmp", blogApp);
         GlideApp.with(this)
@@ -263,8 +263,8 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
                         GlideApp.with(getContext())
                                 .load(url)
                                 .centerCrop()
-                                .transition(DrawableTransitionOptions.withCrossFade(600))
-                                .apply(RequestOptions.bitmapTransform(new BlurTransformation(8))) // 高斯模糊
+                                .transition(DrawableTransitionOptions.withCrossFade())
+                                .apply(RequestOptions.bitmapTransform(new BlurTransformation(12))) // 高斯模糊
                                 .into(mBackgroundView);
                         return true;
                     }
@@ -278,9 +278,9 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
                         return false;
                     }
                 })
-                .apply(RequestOptions.bitmapTransform(new BlurTransformation(8))) // 高斯模糊
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation(12))) // 高斯模糊
                 .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade(600))
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(mBackgroundView);
     }
 

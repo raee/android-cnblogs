@@ -22,13 +22,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--启动页-->
+   <!--     &lt;!&ndash;启动页&ndash;&gt;
         <activity
             android:name=".activity.LauncherActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
             tools:node="replace"/>
 
-        <!--主界面-->
+        &lt;!&ndash;主界面&ndash;&gt;
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.Dark"
@@ -38,7 +38,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
+        </activity>-->
 
         <!--开始-快速开发需要移除下面的多进程-->
         <service
