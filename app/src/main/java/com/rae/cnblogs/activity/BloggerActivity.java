@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.DesignTabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
@@ -26,6 +28,7 @@ import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
+import com.rae.cnblogs.GlideRequest;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.fragment.BlogListFragment;
 import com.rae.cnblogs.message.UserInfoEvent;
@@ -46,6 +49,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.ColorFilterTransformation;
 
 /**
  * blogger info
@@ -254,18 +258,13 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         if (TextUtils.isEmpty(url) || url.endsWith("simple_avatar.gif")) return;
         // 封面图
         final String coverUrl = String.format("https://files.cnblogs.com/files/%s/app-cover.bmp", blogApp);
-        GlideApp.with(this)
-                .load(coverUrl)
+
+        createAvatarGlide(coverUrl)
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Drawable> target, boolean b) {
                         // 如果没有这张封面图就展示默认的
-                        GlideApp.with(getContext())
-                                .load(url)
-                                .centerCrop()
-                                .transition(DrawableTransitionOptions.withCrossFade())
-                                .apply(RequestOptions.bitmapTransform(new BlurTransformation(12))) // 高斯模糊
-                                .into(mBackgroundView);
+                        createAvatarGlide(url).into(mBackgroundView);
                         return true;
                     }
 
@@ -278,10 +277,24 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
                         return false;
                     }
                 })
-                .apply(RequestOptions.bitmapTransform(new BlurTransformation(12))) // 高斯模糊
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(mBackgroundView);
+    }
+
+    /**
+     * 创建头像显示的Glide
+     *
+     * @param url 头像地址
+     */
+    private GlideRequest<Drawable> createAvatarGlide(String url) {
+        int alphaColor = ContextCompat.getColor(getContext(), R.color.blogger_image_alpha_color);
+        return GlideApp.with(this)
+                .load(url)
+                .centerCrop()
+                .apply(RequestOptions.bitmapTransform(new MultiTransformation<>(
+                        new BlurTransformation(20),    // 高斯模糊
+                        new ColorFilterTransformation(alphaColor)) // 遮罩层
+                ))
+                .transition(DrawableTransitionOptions.withCrossFade());
     }
 
     @Override
@@ -325,6 +338,15 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
     @Override
     protected void onStatusBarColorChanged() {
+    }
+
+
+    /**
+     * 搜索
+     */
+    @OnClick(R.id.img_search)
+    public void onSearchClick() {
+        AppRoute.jumpToSearchBlogger(this, mBlogApp, mUserInfo.getDisplayName());
     }
 
     /**

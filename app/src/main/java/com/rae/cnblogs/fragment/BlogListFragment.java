@@ -232,14 +232,15 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
      * 滚动到顶部
      */
     public void scrollToTop() {
-        RaeViewCompat.scrollToTop(mRecyclerView);
-        if (mRecyclerView.isOnTop()) {
+        if (mRecyclerView != null && mRecyclerView.isOnTop()) {
             mAppLayout.post(new Runnable() {
                 @Override
                 public void run() {
                     mAppLayout.autoRefresh();
                 }
             });
+        } else {
+            RaeViewCompat.scrollToTop(mRecyclerView);
         }
     }
 

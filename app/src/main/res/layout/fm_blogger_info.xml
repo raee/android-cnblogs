@@ -10,6 +10,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical"
         android:theme="@style/ThemeOverlay.AppCompat.Light"
         app:elevation="0dp">
@@ -18,7 +19,7 @@
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed"
             app:statusBarScrim="?colorPrimaryDark">
 
             <!--底图-->
@@ -29,12 +30,19 @@
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.75">
 
-                <!--大图-->
+                <!--默认大图-->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:background="@drawable/bg_blogger_blur"
+                    android:minHeight="240dp"
+                    android:scaleType="center"/>
+
+                <!--贴图大图-->
                 <ImageView
                     android:id="@+id/img_background"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
-                    android:background="@drawable/bg_blogger_blur"
                     android:minHeight="240dp"
                     android:scaleType="center"/>
 
@@ -205,43 +213,52 @@
                         android:id="@+id/tv_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/btn_blogger_follow"
                         android:gravity="center"
+                        android:layout_marginEnd="48dp"
                         android:textColor="@color/white"
                         android:textSize="@dimen/h1"
                         android:visibility="gone"/>
 
-                    <ProgressBar
-                        android:id="@+id/pb_blogger_follow"
-                        style="@style/Widget.AppCompat.ProgressBar"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginRight="24dp"
-                        android:indeterminateDuration="3000"
-                        android:indeterminateTint="@android:color/white"
-                        android:indeterminateTintMode="src_in"
-                        android:visibility="gone"/>
 
-                    <Button
-                        android:id="@+id/btn_blogger_follow"
-                        style="@style/AppButton"
-                        android:layout_width="62dp"
-                        android:layout_height="26dp"
+                    <LinearLayout
+                        android:id="@+id/rl_blogger_follow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginEnd="12dp"
-                        android:layout_marginRight="12dp"
-                        android:background="@drawable/bg_btn_follow"
-                        android:text="@string/following"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/h3"
-                        android:textStyle="bold"
-                        android:visibility="gone"/>
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/img_search"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="24dp"
+                            android:src="@drawable/ic_nav_home_search"
+                            android:tint="@android:color/white"/>
+
+                        <ProgressBar
+                            android:id="@+id/pb_blogger_follow"
+                            style="@style/Widget.AppCompat.ProgressBar"
+                            android:layout_width="62dp"
+                            android:layout_height="16dp"
+                            android:indeterminateDuration="3000"
+                            android:indeterminateTint="@android:color/white"
+                            android:indeterminateTintMode="src_in"
+                            android:visibility="gone"/>
+
+                        <Button
+                            android:id="@+id/btn_blogger_follow"
+                            style="@style/AppButton"
+                            android:layout_width="62dp"
+                            android:layout_height="26dp"
+                            android:background="@drawable/bg_btn_follow"
+                            android:text="@string/following"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/h3"
+                            android:textStyle="bold"
+                            android:visibility="gone"/>
+                    </LinearLayout>
 
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
@@ -250,7 +267,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <!--TAB-->
-        <android.support.design.widget.DesignTabLayout
+        <android.support.design.widget.RaeSkinDesignTabLayout
             android:id="@+id/tab_category"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -280,7 +297,7 @@
                 android:layout_height="wrap_content"
                 android:text="博客"/>
 
-        </android.support.design.widget.DesignTabLayout>
+        </android.support.design.widget.RaeSkinDesignTabLayout>
 
     </android.support.design.widget.AppBarLayout>
 

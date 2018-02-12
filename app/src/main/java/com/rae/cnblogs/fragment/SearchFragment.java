@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -43,13 +44,21 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
     private SearchBloggerFragment mSearchBloggerFragment;
     private SearchBlogFragment mSearchNewsFragment;
     private SearchBlogFragment mSearchKbFragment;
+    private String mBlogApp;
+    private String mNickName;
 
-    public static SearchFragment newInstance() {
-        return new SearchFragment();
+    public static SearchFragment newInstance(String blogApp, String nickName) {
+        SearchFragment fragment = new SearchFragment();
+        Bundle data = new Bundle();
+        data.putString("blogApp", blogApp);
+        data.putString("nickName", nickName);
+        fragment.setArguments(data);
+        return fragment;
     }
 
     @BindView(R.id.et_search_text)
     EditText mSearchView;
+
     @BindView(R.id.img_edit_delete)
     ImageView mDeleteView;
 
@@ -79,6 +88,10 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = CnblogsPresenterFactory.getSearchPresenter(getContext(), this);
+        if (getArguments() != null) {
+            mBlogApp = getArguments().getString("blogApp");
+            mNickName = getArguments().getString("nickName");
+        }
     }
 
 
@@ -99,20 +112,26 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
 
 
     private void initView() {
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mSuggestionAdapter = new SearchSuggestionAdapter();
         mRecyclerView.setAdapter(mSuggestionAdapter);
 
         RaeFragmentAdapter adapter = new RaeFragmentAdapter(getChildFragmentManager());
-        mSearchBlogFragment = SearchBlogFragment.newInstance(BlogType.BLOG);
-        mSearchBloggerFragment = SearchBloggerFragment.newInstance();
-        mSearchNewsFragment = SearchBlogFragment.newInstance(BlogType.NEWS);
-        mSearchKbFragment = SearchBlogFragment.newInstance(BlogType.KB);
-
+        mSearchBlogFragment = SearchBlogFragment.newInstance(BlogType.BLOG, mBlogApp);
         adapter.add("博客", mSearchBlogFragment);
-        adapter.add("博主", mSearchBloggerFragment);
-        adapter.add("新闻", mSearchNewsFragment);
-        adapter.add("知识库", mSearchKbFragment);
+
+        if (!TextUtils.isEmpty(mBlogApp)) {
+            mSearchView.setHint(String.format("搜索%s的博客", mNickName));
+            mTabLayout.setVisibility(View.GONE);
+        } else {
+            mSearchBloggerFragment = SearchBloggerFragment.newInstance();
+            mSearchNewsFragment = SearchBlogFragment.newInstance(BlogType.NEWS);
+            mSearchKbFragment = SearchBlogFragment.newInstance(BlogType.KB);
+            adapter.add("博主", mSearchBloggerFragment);
+            adapter.add("新闻", mSearchNewsFragment);
+            adapter.add("知识库", mSearchKbFragment);
+        }
 
         mViewPager.setAdapter(adapter);
         mViewPager.setOffscreenPageLimit(5);

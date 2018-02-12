@@ -60,7 +60,7 @@ public class CountDownTextView extends RaeTextView {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 int value = (int) animation.getAnimatedValue();
-                mSweepAngle = 360 - value;
+                mSweepAngle = value;
                 invalidate();
             }
         });
@@ -83,7 +83,7 @@ public class CountDownTextView extends RaeTextView {
 
         // 画倒计时线内圆
         canvas.drawArc(mRect, //弧线所使用的矩形区域大小
-                270,  //开始角度
+                -90,  //开始角度
                 mSweepAngle, //扫过的角度
                 false, //是否使用中心
                 mBackgroundPaint);

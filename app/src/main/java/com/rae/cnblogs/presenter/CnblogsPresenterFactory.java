@@ -173,8 +173,8 @@ public final class CnblogsPresenterFactory {
     /**
      * 搜索博客列表
      */
-    public static IBlogListPresenter getSearchPresenter(Context context, BlogType type, IBlogListPresenter.IBlogListView view) {
-        return new SearchBlogPresenterImpl(context, view, type);
+    public static IBlogListPresenter getSearchPresenter(Context context, BlogType type, String blogApp, IBlogListPresenter.IBlogListView view) {
+        return new SearchBlogPresenterImpl(context, view, type, blogApp);
     }
 
     /**

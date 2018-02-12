@@ -19,10 +19,16 @@ import org.greenrobot.eventbus.Subscribe;
 public class SearchBlogFragment extends BlogListFragment {
 
     private String mSearchText;
+    private String mBlogApp;
 
     public static SearchBlogFragment newInstance(BlogType type) {
+        return newInstance(type, null);
+    }
+
+    public static SearchBlogFragment newInstance(BlogType type, String blogApp) {
         Bundle args = new Bundle();
         args.putString("type", type.getTypeName());
+        args.putString("blogApp", blogApp);
         SearchBlogFragment fragment = new SearchBlogFragment();
         fragment.setArguments(args);
         return fragment;
@@ -36,7 +42,10 @@ public class SearchBlogFragment extends BlogListFragment {
 
     @Override
     protected IBlogListPresenter getBlogListPresenter() {
-        return CnblogsPresenterFactory.getSearchPresenter(getContext(), mBlogType, this);
+        if (getArguments() != null) {
+            mBlogApp = getArguments().getString("blogApp");
+        }
+        return CnblogsPresenterFactory.getSearchPresenter(getContext(), mBlogType, mBlogApp, this);
     }
 
     @Override

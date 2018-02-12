@@ -19,11 +19,13 @@ import io.reactivex.Observable;
 public class SearchBlogPresenterImpl extends BlogListPresenterImpl {
 
     private final BlogType mType;
+    private final String mBlogApp;
     ISearchApi mSearchApi;
 
-    public SearchBlogPresenterImpl(Context context, IBlogListView view, BlogType type) {
+    public SearchBlogPresenterImpl(Context context, IBlogListView view, BlogType type, String blogApp) {
         super(context, view);
         mType = type;
+        mBlogApp = blogApp;
         mSearchApi = getApiProvider().getSearchApi();
     }
 
@@ -40,7 +42,14 @@ public class SearchBlogPresenterImpl extends BlogListPresenterImpl {
         } else if (mType == BlogType.KB) {
             observable = createObservable(mSearchApi.searchKbList(category.getName(), pageIndex));
         } else {
-            observable = createObservable(mSearchApi.searchBlogList(category.getName(), pageIndex));
+            String keyword = category.getName();
+            // 搜索个人博客
+            if (!TextUtils.isEmpty(mBlogApp)) {
+                keyword = "blog:" + mBlogApp + " " + keyword;
+                observable = createObservable(mSearchApi.searchBlogAppList(keyword, pageIndex));
+            } else {
+                observable = createObservable(mSearchApi.searchBlogList(keyword, pageIndex));
+            }
         }
 
         observable.subscribe(getBlogObserver());

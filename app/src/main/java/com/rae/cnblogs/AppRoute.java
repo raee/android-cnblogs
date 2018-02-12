@@ -351,6 +351,16 @@ public final class AppRoute {
     }
 
     /**
+     * 搜索-博主
+     */
+    public static void jumpToSearchBlogger(Context context, String blogApp, String nickName) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra("blogApp", blogApp);
+        intent.putExtra("nickName", nickName);
+        startActivity(context, intent);
+    }
+
+    /**
      * 系统消息
      */
     public static void jumpToSystemMessage(Context context) {
@@ -443,4 +453,5 @@ public final class AppRoute {
     public static void jumpToAboutMe(Context context) {
         startActivity(context, AboutMeActivity.class);
     }
+
 }

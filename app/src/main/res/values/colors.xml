@@ -30,5 +30,5 @@
     <color name="bloggerStatusBarColor">#303135</color>
     <color name="color_login_reg">#3ba7ee</color>
     <color name="color_image_selection_post">#3ba7ee</color>
-    <color name="blogger_image_alpha_color">#CC000000</color>
+    <color name="blogger_image_alpha_color">#4C000000</color>
 </resources>

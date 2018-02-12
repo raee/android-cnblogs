@@ -31,7 +31,8 @@ public interface ISearchApi {
      */
     @GET(ApiUrls.API_BAIDU_SUGGESTION)
     @Headers({
-            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Cookie: AspxAutoDetectCookieSupport=1"
     })
     @Parser(BaiduSuggestionParser.class)
     Observable<List<String>> getSuggestion(@Query("wd") String keyWord);
@@ -43,7 +44,8 @@ public interface ISearchApi {
      */
     @GET(ApiUrls.API_SEARCH_BLOGGER)
     @Headers({
-            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Cookie: AspxAutoDetectCookieSupport=1"
     })
     @Parser(SearchBloggerParser.class)
     Observable<List<UserInfoBean>> searchBlogAuthor(@Query("t") String keyword);
@@ -55,17 +57,32 @@ public interface ISearchApi {
      */
     @GET(ApiUrls.API_SEARCH_BLOG_LIST)
     @Headers({
-            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Cookie: AspxAutoDetectCookieSupport=1"
     })
     @Parser(SearchBlogListParser.class)
     Observable<List<BlogBean>> searchBlogList(@Query("Keywords") String keyword, @Query("pageindex") int page);
+
+    /**
+     * 搜索个人博客
+     *
+     * @param keyword 关键字
+     */
+    @GET(ApiUrls.API_SEARCH_BLOG_APP)
+    @Headers({
+            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Cookie: AspxAutoDetectCookieSupport=1"
+    })
+    @Parser(SearchBlogListParser.class)
+    Observable<List<BlogBean>> searchBlogAppList(@Query("w") String keyword, @Query("pageindex") int page);
 
     /**
      * 搜索知识库
      */
     @GET(ApiUrls.API_SEARCH_KB_LIST)
     @Headers({
-            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Cookie: AspxAutoDetectCookieSupport=1"
     })
     @Parser(SearchKbListParser.class)
     Observable<List<BlogBean>> searchKbList(@Query("Keywords") String keyword, @Query("pageindex") int page);
@@ -75,7 +92,8 @@ public interface ISearchApi {
      */
     @GET(ApiUrls.API_SEARCH_NEWS_LIST)
     @Headers({
-            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+            "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Cookie: AspxAutoDetectCookieSupport=1"
     })
     @Parser(SearchNewsListParser.class)
     Observable<List<BlogBean>> searchNewsList(@Query("Keywords") String keyword, @Query("pageindex") int page);

@@ -25,7 +25,6 @@ public class SearchActivity extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
         mToolBar.setVisibility(View.GONE);
         ((View) mToolBar.getParent()).setBackgroundColor(Color.TRANSPARENT);
-
         findViewById(android.R.id.content).setFitsSystemWindows(true);
         AppMobclickAgent.onClickEvent(getContext(), "Search");
     }
@@ -36,7 +35,7 @@ public class SearchActivity extends BaseFragmentActivity {
 
     @Override
     protected Fragment newFragment() {
-        return SearchFragment.newInstance();
+        return SearchFragment.newInstance(getIntent().getStringExtra("blogApp"), getIntent().getStringExtra("nickName"));
     }
 
     @Override
