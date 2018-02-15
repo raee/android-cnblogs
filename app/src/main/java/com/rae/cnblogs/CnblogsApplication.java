@@ -11,12 +11,13 @@ import com.avos.avoscloud.feedback.FeedbackThread;
 import com.meituan.android.walle.WalleChannelReader;
 import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
+import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
 import com.rae.cnblogs.sdk.db.DbFactory;
 import com.rae.swift.session.SessionManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.tinker.loader.app.TinkerApplication;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
-import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -85,16 +86,17 @@ public class CnblogsApplication extends TinkerApplication {
     }
 
     /**
-     * 友盟分享
+     * 友盟
      */
     private void initUmengConfig() {
-        MobclickAgent.setCatchUncaughtExceptions(false);
         // 初始化友盟
-        MobclickAgent.startWithConfigure(new MobclickAgent.UMAnalyticsConfig(this, BuildConfig.UMENG_APPKEY, getChannel()));
+        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
+        UMConfigure.init(this, BuildConfig.UMENG_APPKEY, getChannel(), UMConfigure.DEVICE_TYPE_PHONE, null);
         UMShareAPI.get(getApplication());
         PlatformConfig.setWeixin(AppConstant.WECHAT_APP_ID, AppConstant.WECHAT_APP_SECRET);
         PlatformConfig.setSinaWeibo(AppConstant.WEIBO_APP_ID, AppConstant.WEIBO_APP_SECRET, "http://www.raeblog.com/cnblogs/index.php/share/weibo/redirect");
         PlatformConfig.setQQZone(AppConstant.QQ_APP_ID, AppConstant.QQ_APP_SECRET);
+        CnblogSdkConfig.APP_CHANNEL = getChannel();
     }
 
     public Application getApplication() {
@@ -107,7 +109,7 @@ public class CnblogsApplication extends TinkerApplication {
      */
     public String getChannel() {
         String channel = WalleChannelReader.getChannel(this.getApplicationContext());
-        return TextUtils.isEmpty(channel) ? "UNKNOWN" : channel;
+        return TextUtils.isEmpty(channel) ? CnblogSdkConfig.APP_CHANNEL : channel;
     }
 
     @Override

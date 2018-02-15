@@ -331,7 +331,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
     @Override
     public void onNotLogin() {
-        AppUI.toastInCenter(getContext(), getString(R.string.blogger_need_login));
+//        AppUI.toastInCenter(getContext(), getString(R.string.blogger_need_login));
         AppRoute.jumpToLogin(this);
         finish();
     }

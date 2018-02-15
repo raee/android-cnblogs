@@ -10,8 +10,10 @@ import android.text.TextUtils;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
+import com.rae.cnblogs.sdk.BuildConfig;
 import com.rae.cnblogs.sdk.JsonBody;
 import com.rae.cnblogs.sdk.UserProvider;
+import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -70,9 +72,13 @@ public class RequestInterceptor implements Interceptor {
         Request.Builder newBuilder = request.newBuilder();
 
         // 添加版本号
-//        newBuilder.addHeader("APP-PACKAGE-NAME", this.packageName);
-//        newBuilder.addHeader("APP-VERSION-NAME", this.versionName);
-//        newBuilder.addHeader("APP-VERSION-CODE", String.valueOf(this.versionCode));
+        if (request.url().host().contains("rae")) {
+            newBuilder.addHeader("APP-PACKAGE-NAME", this.packageName);
+            newBuilder.addHeader("APP-VERSION-NAME", this.versionName);
+            newBuilder.addHeader("App-CHANNEL", CnblogSdkConfig.APP_CHANNEL);
+            newBuilder.addHeader("App-ENV", BuildConfig.BUILD_TYPE);
+            newBuilder.addHeader("APP-VERSION-CODE", String.valueOf(this.versionCode));
+        }
 
         // 使用Chrome的User-Agent
         newBuilder

@@ -3,14 +3,10 @@ package com.rae.cnblogs.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.DesignTabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -84,44 +80,6 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mHomePresenter.start();
-        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mViewPager.getLayoutParams();
-        lp.setBehavior(new AppBarLayout.ScrollingViewBehavior() {
-            @Override
-            public boolean onInterceptTouchEvent(CoordinatorLayout parent, View child, MotionEvent ev) {
-                Log.d("rae-layout", "onInterceptTouchEvent" + ev);
-                return super.onInterceptTouchEvent(parent, child, ev);
-            }
-
-            @Override
-            public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
-                Log.d("rae-layout", "layoutDependsOn：" + dependency);
-                return super.layoutDependsOn(parent, child, dependency);
-            }
-
-            @Override
-            public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
-                Log.d("rae-layout", "onDependentViewChanged：" + dependency);
-                return super.onDependentViewChanged(parent, child, dependency);
-            }
-
-            @Override
-            public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
-                super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type);
-                Log.d("rae-layout", "onNestedScroll：" + type);
-            }
-
-            @Override
-            public boolean onNestedFling(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, float velocityX, float velocityY, boolean consumed) {
-                Log.d("rae-layout", "onNestedFling：" + velocityY);
-                return super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed);
-            }
-
-            @Override
-            public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-                super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-                Log.d("rae-layout", "onNestedScroll：" + target);
-            }
-        });
     }
 
     @OnClick(R.id.img_edit_category)

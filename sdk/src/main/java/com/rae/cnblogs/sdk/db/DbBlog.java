@@ -106,7 +106,7 @@ public class DbBlog extends DbCnblogs {
                         .leftJoin(BlogBean.class).as("b")
                         .on("a.blogId=b.blogId")
                         .where("a.isBookmarks=?", 1)
-                        .and("b.url=?", url)
+                        .and("b.url like ?", String.format("%%%s%%", url))
                         .executeSingle();
 
 
