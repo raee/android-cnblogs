@@ -49,6 +49,7 @@ public class BlogListPresenterImpl extends BasePresenter<IBlogListPresenter.IBlo
 
     @Override
     public void start() {
+        if (mView == null) return;
         mPageIndex = 1;
         mBlogList.clear();
         // 加载列表

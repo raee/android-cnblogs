@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="1dp"
     android:background="@drawable/bg_blog_item_selector"
-    android:foreground="?selectableItemBackground"
     android:orientation="vertical"
     android:paddingBottom="12dp"
     android:paddingLeft="@dimen/default_margin"

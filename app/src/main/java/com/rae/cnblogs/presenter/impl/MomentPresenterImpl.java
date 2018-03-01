@@ -71,6 +71,7 @@ public class MomentPresenterImpl extends BasePresenter<IMomentContract.View> imp
 
                         @Override
                         protected void accept(String s) {
+                            if (mView == null) return;
                             mAtMeCount = Rx.parseInt(s);
                             mView.onMessageCountChanged(mReplyMeCount, mAtMeCount);
                         }

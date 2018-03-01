@@ -55,13 +55,15 @@ public class CnblogsApplication extends TinkerApplication {
         AVOSCloud.initialize(getApplication(), BuildConfig.LEAN_CLOUD_APP_ID, BuildConfig.LEAN_CLOUD_APP_KEY);
         FeedbackThread.getInstance();
 
-
         // 加载皮肤
-        SkinCompatManager.withoutActivity(getApplication()).loadSkin();
+        SkinCompatManager.init(getApplicationContext());
+        SkinActivityLifecycleCompat.init(this);
         SkinCompatManager.getInstance()
                 .addHookInflater(new ThemeCompat.CnblogsThemeHookInflater())
                 .addInflater(new CnblogsLayoutInflater())
                 .addInflater(new SkinMaterialViewInflater());
+
+        SkinCompatManager.getInstance().loadSkin();
 
         // 一些要求不高的初始化操作放到线程中去操作
         new Thread(new Runnable() {

@@ -130,6 +130,8 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
 
     @Override
     public void onLoadHotSearchData(String keyword) {
+        // fix bug #3653
+        if (getContext() == null || mSearchView == null) return;
         Animation anim = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
         anim.setDuration(800);
         mSearchView.startAnimation(anim);
