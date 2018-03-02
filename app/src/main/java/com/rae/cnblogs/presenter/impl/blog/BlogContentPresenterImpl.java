@@ -183,6 +183,7 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
         createObservable(observable).subscribe(new ApiDefaultObserver<Empty>() {
             @Override
             protected void onError(String msg) {
+                if (mView == null) return;
                 if (!TextUtils.isEmpty(msg) && (msg.contains("登录") || msg.contains("Authorization"))) {
                     mView.onNeedLogin();
                     return;
@@ -213,11 +214,10 @@ public class BlogContentPresenterImpl extends BasePresenter<IBlogContentPresente
 
             @Override
             protected void accept(Empty empty) {
-
+                if (mView == null) return;
                 if (isLike) {
                     mView.onLikeSuccess(isCancel);
                     mBlogInfo.setLiked(!isCancel);
-
                 } else {
                     mView.onBookmarksSuccess(isCancel);
                     mBlogInfo.setBookmarks(!isCancel);

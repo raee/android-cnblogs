@@ -113,6 +113,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
     String mBlogApp;
 
+    @Nullable
     private FriendsInfoBean mUserInfo;
     private IBloggerPresenter mBloggerPresenter;
     private FeedListFragment mFeedListFragment;
@@ -234,7 +235,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
 
         // 如果是自己，则隐藏关注按钮
         if (UserProvider.getInstance().isLogin() && TextUtils.equals(mBlogApp, UserProvider.getInstance().getLoginUserInfo().getBlogApp())) {
-            mFollowView.setVisibility(View.INVISIBLE);
+            mFollowView.setVisibility(View.GONE);
         } else {
             mFollowView.setVisibility(View.VISIBLE);
         }
@@ -346,6 +347,9 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
      */
     @OnClick(R.id.img_search)
     public void onSearchClick() {
+        if (mUserInfo == null) {
+            return;
+        }
         AppRoute.jumpToSearchBlogger(this, mBlogApp, mUserInfo.getDisplayName());
     }
 

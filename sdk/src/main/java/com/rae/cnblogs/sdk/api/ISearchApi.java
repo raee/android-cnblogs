@@ -74,7 +74,7 @@ public interface ISearchApi {
             "Cookie: AspxAutoDetectCookieSupport=1"
     })
     @Parser(SearchBlogListParser.class)
-    Observable<List<BlogBean>> searchBlogAppList(@Query("w") String keyword, @Query("pageindex") int page);
+    Observable<List<BlogBean>> searchBlogAppList(@Query("Keywords") String keyword, @Query("pageindex") int page);
 
     /**
      * 搜索知识库

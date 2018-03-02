@@ -102,7 +102,7 @@ final class ApiUrls {
     static final String API_SEARCH_BLOG_LIST = "http://zzk.cnblogs.com/s/blogpost";
 
     // 搜索-个人博客
-    static final String API_SEARCH_BLOG_APP = "http://zzk.cnblogs.com/s";
+    static final String API_SEARCH_BLOG_APP = "http://zzk.cnblogs.com/s/blogpost";
 
     // 搜索-知识库-列表
     static final String API_SEARCH_KB_LIST = "http://zzk.cnblogs.com/s/kb";

@@ -102,7 +102,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     @Override
     public void onNormalImage() {
         // 加载默认
-        if (!ThemeCompat.isNight()) {
+        if (!ThemeCompat.isNight() && mDisplayView != null) {
             mDisplayView.setImageResource(R.drawable.launcher_background);
         }
     }

@@ -24,6 +24,7 @@ public class UserTimelineParser implements IHtmlParser<List<UserFeedBean>> {
     public List<UserFeedBean> parse(Document document, String html) {
         List<UserFeedBean> result = new ArrayList<>();
         Elements elements = document.select(".feed_item");
+
         for (Element element : elements) {
             UserFeedBean m = new UserFeedBean();
             m.setAvatar(ApiUtils.getUrl(element.select(".feed_avatar a img").attr("src")));
@@ -39,12 +40,13 @@ public class UserTimelineParser implements IHtmlParser<List<UserFeedBean>> {
                 // 只读取标题内容
                 Elements titleElement = element.select(".feed_title").clone();
                 titleElement.select("a").remove();
-                m.setContent(titleElement.text());
+                m.setContent(titleElement.text().replace("：", ""));
             }
             result.add(m);
         }
         return result;
     }
+
 
     private String getAction(String text) {
         Pattern regx = Pattern.compile(">\\s.+\\n");
