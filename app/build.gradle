@@ -80,6 +80,17 @@ android {
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        xiaomi {
+            initWith release
+            tasks.whenTaskAdded { task ->
+                if (task.name.contains('assembleXiaomiChannels')) {
+                    task.doFirst {
+                        printf('渠道包任务：%s\n', task.name)
+                        walle.channelFile = new File("${project.getProjectDir()}/xiaomiChannel")
+                    }
+                }
+            }
+        }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
