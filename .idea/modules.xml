@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/android-cnblogs.iml" filepath="$PROJECT_DIR$/android-cnblogs.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-basic/module-basic.iml" filepath="$PROJECT_DIR$/module-basic/module-basic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-blog/module-blog.iml" filepath="$PROJECT_DIR$/module-blog/module-blog.iml" />
       <module fileurl="file://$PROJECT_DIR$/sdk/sdk.iml" filepath="$PROJECT_DIR$/sdk/sdk.iml" />
     </modules>
   </component>

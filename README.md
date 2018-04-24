@@ -20,6 +20,6 @@
 
 *请欣赏下面大图，图片较大，客官请稍等一下哦！*
 
-<img src="https://github.com/raee/android-cnblogs/blob/master/guide.jpg" alt="博客园APP介绍" />
+<img src="https://github.com/raee/android-cnblogs/blob/master/doc/guide.jpg" alt="博客园APP介绍" />
 
 
