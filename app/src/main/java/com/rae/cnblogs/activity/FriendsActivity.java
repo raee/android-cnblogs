@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
@@ -13,7 +14,8 @@ import com.rae.cnblogs.fragment.BloggerFragment;
  * 粉丝和关注
  * Created by ChenRui on 2017/2/23 00:41.
  */
-public class FriendsActivity extends SwipeBackBaseActivity {
+@Route(path = AppRoute.PATH_FRIENDS)
+public class FriendsActivity extends SwipeBackBasicActivity {
 
     private int mFromType;
 

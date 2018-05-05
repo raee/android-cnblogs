@@ -353,7 +353,7 @@ public class ShareDialog extends SlideDialog {
     @OnClick(R.id.tv_share_font)
     void onFontSettingClick() {
         dismiss();
-        AppRoute.jumpToFontSetting(getContext());
+        AppRoute.routeToFontSetting(getContext());
     }
 
     @Override

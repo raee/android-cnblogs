@@ -17,8 +17,10 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * RX 接口回调处理
+ * [已过期] 推荐使用{@link com.rae.cnblogs.basic.LifecycleProvider}来管理生命周期
  * Created by ChenRui on 2017/5/5 0005 16:52.
  */
+@Deprecated
 public final class RxObservable {
 
     private final static Map<String, List<Disposable>> sObservableDisposableList = new WeakHashMap<>();
@@ -33,7 +35,7 @@ public final class RxObservable {
         return observable
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
-                    public void accept(@NonNull Disposable disposable) throws Exception {
+                    public void accept(@NonNull Disposable disposable) {
                         put(disposable, tag);
                     }
                 })
@@ -44,7 +46,7 @@ public final class RxObservable {
     public static Observable<Integer> newThread() {
         return Observable.just(0).doOnSubscribe(new Consumer<Disposable>() {
             @Override
-            public void accept(Disposable disposable) throws Exception {
+            public void accept(Disposable disposable) {
                 put(disposable, "thread");
             }
         }).subscribeOn(Schedulers.newThread());

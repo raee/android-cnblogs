@@ -17,7 +17,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.rae.cnblogs.AppMobclickAgent;
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.BuildConfig;
 import com.rae.cnblogs.R;
@@ -47,7 +49,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity {
+@Route(path = AppRoute.PATH_APP_HOME)
+public class MainActivity extends BasicActivity {
 
     @BindView(R.id.vp_main)
     ViewPager mViewPager;

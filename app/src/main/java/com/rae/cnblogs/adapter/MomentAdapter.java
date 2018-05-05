@@ -148,7 +148,7 @@ public class MomentAdapter extends BaseItemAdapter<MomentBean, SimpleViewHolder>
 
         @Override
         public void onClick(View v) {
-            AppRoute.jumpToImagePreview(v.getContext(), mUrl);
+            AppRoute.routeToImagePreview(v.getContext(), mUrl);
         }
     }
 

@@ -6,7 +6,6 @@ import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.multidex.MultiDex;
 
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.tinker.TinkerApplicationLike;
@@ -41,7 +40,6 @@ public class CnblogsApplicationProxy extends TinkerApplicationLike {
         super.onBaseContextAttached(base);
 
         // 安装tinker
-        // TinkerManager.installTinker(this); 替换成下面Bugly提供的方法
         Beta.installTinker(this);
     }
 }

@@ -52,7 +52,7 @@ public class RaeJavaScriptBridge {
         }.getType());
         int index = Math.max(0, imageList.indexOf(url));
         if (mReference.get() != null) {
-            AppRoute.jumpToImagePreview(mReference.get(), imageList, index);
+            AppRoute.routeToImagePreview(mReference.get(), imageList, index);
         }
     }
 
@@ -73,7 +73,7 @@ public class RaeJavaScriptBridge {
     public void jumpToBlogger(String blogApp) {
         if (TextUtils.isEmpty(blogApp)) return;
         if (mReference.get() != null) {
-            AppRoute.jumpToBlogger(mReference.get(), blogApp);
+            AppRoute.routeToBlogger(mReference.get(), blogApp);
         }
     }
 

@@ -2,7 +2,6 @@ package com.rae.cnblogs.model;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -11,7 +10,7 @@ import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeViewCompat;
 import com.rae.cnblogs.adapter.BaseItemAdapter;
 import com.rae.cnblogs.adapter.FeedItemAdapter;
-import com.rae.cnblogs.fragment.BaseFragment;
+import com.rae.cnblogs.fragment.BasicFragment;
 import com.rae.cnblogs.presenter.CnblogsPresenterFactory;
 import com.rae.cnblogs.presenter.IFeedPresenter;
 import com.rae.cnblogs.sdk.bean.UserFeedBean;
@@ -28,7 +27,7 @@ import butterknife.BindView;
  * 作者的动态列表
  * Created by ChenRui on 2017/3/16 16:08.
  */
-public class FeedListFragment extends BaseFragment implements IFeedPresenter.IFeedView {
+public class FeedListFragment extends BasicFragment implements IFeedPresenter.IFeedView {
 
     private FeedItemAdapter mAdapter;
 
@@ -87,7 +86,7 @@ public class FeedListFragment extends BaseFragment implements IFeedPresenter.IFe
                 if ("发表评论".equals(item.getAction())) {
                     return;
                 }
-                AppRoute.jumpToWeb(getContext(), item.getUrl());
+                AppRoute.routeToWeb(getContext(), item.getUrl());
             }
         });
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {

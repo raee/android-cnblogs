@@ -5,7 +5,6 @@ import android.webkit.CookieManager;
 import com.github.raee.runit.AndroidRUnit4ClassRunner;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
-import com.rae.cnblogs.sdk.utils.ApiEncrypt;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,9 +39,9 @@ public class UserApiTest extends BaseTest {
      */
     @Test
     public void testLogin() throws InterruptedException {
-        String userName = ApiEncrypt.encrypt("chenrui7");
-        String pwd = ApiEncrypt.encrypt("chenrui123456789");
-        runTest("testLogin", mApi.login(null, userName, pwd, true));
+//        String userName = ApiEncrypt.encrypt("chenrui7");
+//        String pwd = ApiEncrypt.encrypt("chenrui123456789");
+//        runTest("testLogin", mApi.login(null, userName, pwd, true));
     }
 
     /**

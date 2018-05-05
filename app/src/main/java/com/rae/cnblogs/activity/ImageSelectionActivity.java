@@ -25,6 +25,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
@@ -45,7 +46,8 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * 图片选择
  * Created by ChenRui on 2017/10/27 0027 14:04.
  */
-public class ImageSelectionActivity extends BaseActivity {
+@Route(path = AppRoute.PATH_IMAGE_SELECTION)
+public class ImageSelectionActivity extends BasicActivity {
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.recycler_view_selected)
@@ -119,7 +121,7 @@ public class ImageSelectionActivity extends BaseActivity {
             public void onClick(View v) {
                 int position = (int) v.getTag();
                 ArrayList<String> images = (ArrayList<String>) mSelectedAdapter.getDataList();
-                AppRoute.jumpToImagePreview((Activity) v.getContext(), images, position, images, mMaxCount);
+                AppRoute.routeToImagePreview((Activity) v.getContext(), images, position, images, mMaxCount);
             }
         });
         mAdapter.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +130,7 @@ public class ImageSelectionActivity extends BaseActivity {
                 int position = (int) v.getTag();
                 ArrayList<String> images = (ArrayList<String>) mAdapter.getDataList();
                 ArrayList<String> selectedImages = (ArrayList<String>) mAdapter.getSelectedList();
-                AppRoute.jumpToImagePreview((Activity) v.getContext(), images, position, selectedImages, mMaxCount);
+                AppRoute.routeToImagePreview((Activity) v.getContext(), images, position, selectedImages, mMaxCount);
             }
         });
         start();

@@ -3,6 +3,7 @@ package com.rae.cnblogs.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
@@ -34,7 +35,8 @@ import io.reactivex.functions.Consumer;
  * 我的收藏
  * Created by ChenRui on 2017/7/14 0014 14:58.
  */
-public class FavoritesActivity extends SwipeBackBaseActivity {
+@Route(path = AppRoute.PATH_FAVORITE)
+public class FavoritesActivity extends SwipeBackBasicActivity {
 
     @BindView(R.id.placeholder)
     PlaceholderView mPlaceholder;
@@ -85,7 +87,7 @@ public class FavoritesActivity extends SwipeBackBaseActivity {
         mAdapter.setOnItemClickListener(new BaseItemAdapter.onItemClickListener<BookmarksBean>() {
             @Override
             public void onItemClick(BookmarksBean item) {
-                AppRoute.jumpToWeb(getContext(), item.getLinkUrl());
+                AppRoute.routeToWeb(getContext(), item.getLinkUrl());
             }
         });
 

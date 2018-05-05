@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -39,7 +40,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * 网页查看
  * Created by ChenRui on 2016/12/27 23:07.
  */
-public class WebViewFragment extends BaseFragment {
+public class WebViewFragment extends BasicFragment {
 
     private String mUrl;
     private String mRawUrl;
@@ -78,7 +79,7 @@ public class WebViewFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
 
@@ -131,7 +132,7 @@ public class WebViewFragment extends BaseFragment {
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface", "JavascriptInterface"})
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mJavaScriptApi = new RaeJavaScriptBridge(getContext());
         WebSettings settings = mWebView.getSettings();

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.DesignTabLayout;
 import android.support.v4.app.Fragment;
@@ -41,7 +42,7 @@ import butterknife.OnClick;
  * 朋友圈（闪存）
  * Created by ChenRui on 2017/10/26 0026 23:31.
  */
-public class SNSFragment extends BaseFragment {
+public class SNSFragment extends BasicFragment {
 
     public static SNSFragment newInstance() {
         return new SNSFragment();
@@ -76,7 +77,7 @@ public class SNSFragment extends BaseFragment {
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mAdapter = new SNSFragmentAdapter(view.getContext(), getChildFragmentManager());
         mViewPager.setAdapter(mAdapter);
@@ -101,9 +102,9 @@ public class SNSFragment extends BaseFragment {
         // 统计闪存发布按钮点击
         AppMobclickAgent.onClickEvent(getContext(), "PostMoment_Enter");
         if (!UserProvider.getInstance().isLogin()) {
-            AppRoute.jumpToLogin(getActivity(), 10256);
+            AppRoute.routeToLoginForResult(getActivity());
         } else {
-            AppRoute.jumpToPostMoment(getActivity());
+            AppRoute.routeToPostMoment(getActivity());
         }
     }
 
@@ -112,9 +113,9 @@ public class SNSFragment extends BaseFragment {
     public void onMessageClick() {
         if (UserProvider.getInstance().isLogin()) {
             dismissToast();
-            AppRoute.jumpToMomentMessage(this.getContext());
+            AppRoute.routeToMomentMessage(this.getContext());
         } else {
-            AppRoute.jumpToLogin(getContext());
+            AppRoute.routeToLogin(getContext());
         }
     }
 
@@ -123,7 +124,7 @@ public class SNSFragment extends BaseFragment {
         mToastView.dismiss();
         int type = mToastView.getType();
         if (type == ToolbarToastView.TYPE_REPLY_ME) {
-            AppRoute.jumpToMomentMessage(this.getContext());
+            AppRoute.routeToMomentMessage(this.getContext());
         }
         if (type == ToolbarToastView.TYPE_POST_SUCCESS && mAdapter != null && mViewPager.getCurrentItem() >= 0) {
             MomentFragment momentFragment = (MomentFragment) mAdapter.getItem(mViewPager.getCurrentItem());
@@ -137,8 +138,8 @@ public class SNSFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == 10256) {
-            AppRoute.jumpToPostMoment(getActivity());
+        if (resultCode == Activity.RESULT_OK && requestCode == AppRoute.REQ_LOGIN) {
+            AppRoute.routeToPostMoment(getActivity());
         }
     }
 
@@ -232,7 +233,7 @@ public class SNSFragment extends BaseFragment {
                 public void onClick(IAppDialog dialog, int buttonType) {
                     dialog.dismiss();
                     // 跳转到闪存发布
-                    AppRoute.jumpToPostMoment(getActivity(), event.getMomentMetaData());
+                    AppRoute.routeToPostMoment(getActivity(), event.getMomentMetaData());
                 }
             });
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {

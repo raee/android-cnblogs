@@ -8,7 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.rae.cnblogs.AppMobclickAgent;
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.fragment.SearchFragment;
@@ -17,7 +19,8 @@ import com.rae.cnblogs.fragment.SearchFragment;
  * 搜索界面
  * Created by ChenRui on 2017/8/29 0029 22:59.
  */
-public class SearchActivity extends BaseFragmentActivity {
+@Route(path = AppRoute.PATH_SEARCH)
+public class SearchActivity extends BasicFragmentActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

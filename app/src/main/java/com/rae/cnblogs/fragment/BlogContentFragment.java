@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
@@ -37,6 +38,7 @@ import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeWebView;
 import com.rae.cnblogs.widget.webclient.RaeJavaScriptBridge;
 import com.rae.cnblogs.widget.webclient.RaeWebViewClient;
+import com.rae.swift.Rx;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -96,7 +98,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mSourceTextZoom = mWebView.getSettings().getTextZoom();
         if (BuildConfig.DEBUG) {
@@ -260,7 +262,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
     public void onLikeSuccess(boolean isCancel) {
         mLikeView.setEnabled(true);
         mLikeView.setSelected(!isCancel);
-        int like = parseInt(mBlog.getLikes());
+        int like = Rx.parseInt(mBlog.getLikes());
 
         if (mLikeView.isSelected()) {
             // 点赞数量加1
@@ -336,7 +338,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
         mLikeAnimView.setVisibility(View.GONE);
         mLikeView.setVisibility(View.VISIBLE);
         if (getContext() != null)
-            AppRoute.jumpToLogin(getContext());
+            AppRoute.routeToLogin(getContext());
     }
 
     @Override
@@ -357,7 +359,7 @@ public class BlogContentFragment extends WebViewFragment implements IBlogContent
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                AppRoute.jumpToWebNewTask(view.getContext(), url);
+                AppRoute.routeToWebNewTask(view.getContext(), url);
                 return true;
             }
         };

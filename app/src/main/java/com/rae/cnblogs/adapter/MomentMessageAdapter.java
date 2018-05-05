@@ -86,7 +86,7 @@ public class MomentMessageAdapter extends BaseItemAdapter<MomentCommentBean, Sim
         @Override
         public void onClick(View v) {
             if (!TextUtils.isEmpty(mIngId)) {
-                AppRoute.jumpToMomentDetail(v.getContext(), mUserAlias, mIngId);
+                AppRoute.routeToMomentDetail(v.getContext(), mUserAlias, mIngId);
             }
         }
     }
@@ -102,7 +102,7 @@ public class MomentMessageAdapter extends BaseItemAdapter<MomentCommentBean, Sim
         @Override
         public void onClick(View v) {
             if (!TextUtils.isEmpty(mBlogApp)) {
-                AppRoute.jumpToBlogger(v.getContext(), mBlogApp);
+                AppRoute.routeToBlogger(v.getContext(), mBlogApp);
             }
         }
     }

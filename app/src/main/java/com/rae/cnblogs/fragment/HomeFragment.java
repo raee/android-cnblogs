@@ -33,7 +33,7 @@ import butterknife.OnClick;
  * 首页
  * Created by ChenRui on 2016/12/1 22:34.
  */
-public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeView {
+public class HomeFragment extends BasicFragment implements IHomePresenter.IHomeView {
 
     private BlogListAdapter mAdapter;
     private IHomePresenter mHomePresenter;
@@ -84,7 +84,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
 
     @OnClick(R.id.img_edit_category)
     public void onCategoryClick(View view) {
-        AppRoute.jumpToCategoryForResult(getActivity());
+        AppRoute.routeToCategoryForResult(getActivity());
     }
 
     @Override
@@ -157,7 +157,7 @@ public class HomeFragment extends BaseFragment implements IHomePresenter.IHomeVi
 
     @OnClick(R.id.fl_search)
     public void onSearchClick() {
-        AppRoute.jumpToSearch(this.getContext());
+        AppRoute.routeToSearch(this.getContext());
     }
 
     @OnClick(R.id.img_actionbar_logo)

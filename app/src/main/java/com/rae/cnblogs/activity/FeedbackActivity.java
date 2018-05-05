@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVPersistenceUtils;
@@ -70,7 +71,8 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import skin.support.content.res.SkinCompatResources;
 
-public class FeedbackActivity extends SwipeBackBaseActivity {
+@Route(path = AppRoute.PATH_FEEDBACK)
+public class FeedbackActivity extends SwipeBackBasicActivity {
 
     FeedbackAgent agent;
     ListView feedbackListView;
@@ -603,7 +605,7 @@ public class FeedbackActivity extends SwipeBackBaseActivity {
                             return;
                         }
 
-                        AppRoute.jumpToImagePreview(getContext(), file.getPath());
+                        AppRoute.routeToImagePreview(getContext(), file.getPath());
                     }
                 };
                 Bitmap attachmentCache = cache.getImage(comment.getAttachment().getUrl());

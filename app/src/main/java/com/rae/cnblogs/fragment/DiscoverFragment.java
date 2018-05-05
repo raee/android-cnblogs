@@ -2,6 +2,7 @@ package com.rae.cnblogs.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.DesignTabLayout;
 import android.support.v4.app.Fragment;
@@ -26,7 +27,7 @@ import butterknife.OnClick;
  * 发现
  * Created by ChenRui on 2017/10/26 0026 23:29.
  */
-public class DiscoverFragment extends BaseFragment {
+public class DiscoverFragment extends BasicFragment {
 
     @BindView(R.id.tab_layout)
     DesignTabLayout mTabLayout;
@@ -57,7 +58,7 @@ public class DiscoverFragment extends BaseFragment {
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mAdapter = new DiscoverFragmentAdapter(view.getContext(), getChildFragmentManager());
         mViewPager.setAdapter(mAdapter);
@@ -73,9 +74,9 @@ public class DiscoverFragment extends BaseFragment {
     public void onSearchClick() {
         int position = mTabLayout.getSelectedTabPosition();
         if (position == 0)
-            AppRoute.jumpToSearchNews(getContext());
+            AppRoute.routeToSearchNews(getContext());
         if (position == 1)
-            AppRoute.jumpToSearchKb(getContext());
+            AppRoute.routeToSearchKb(getContext());
     }
 
     @Subscribe

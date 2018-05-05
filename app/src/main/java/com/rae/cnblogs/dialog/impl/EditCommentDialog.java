@@ -84,7 +84,7 @@ public class EditCommentDialog extends SlideDialog {
     public void show() {
         // 没有登录
         if (!UserProvider.getInstance().isLogin()) {
-            AppRoute.jumpToLogin(getContext());
+            AppRoute.routeToLogin(getContext());
             return;
         }
         super.show();

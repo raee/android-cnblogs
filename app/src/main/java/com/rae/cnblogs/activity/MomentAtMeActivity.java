@@ -3,6 +3,8 @@ package com.rae.cnblogs.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.fragment.MomentFragment;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
@@ -17,7 +19,8 @@ import io.reactivex.schedulers.Schedulers;
  * 提到我的闪存
  * Created by ChenRui on 2017/11/8 0008 10:19.
  */
-public class MomentAtMeActivity extends SwipeBackBaseActivity {
+@Route(path = AppRoute.PATH_MOMENT_MENTION)
+public class MomentAtMeActivity extends SwipeBackBasicActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

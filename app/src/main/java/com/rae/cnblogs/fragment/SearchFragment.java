@@ -2,6 +2,7 @@ package com.rae.cnblogs.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -38,7 +39,7 @@ import butterknife.OnClick;
  * 搜索
  * Created by ChenRui on 2017/8/28 0028 14:51.
  */
-public class SearchFragment extends BaseFragment implements ISearchContract.View, TabLayout.OnTabSelectedListener {
+public class SearchFragment extends BasicFragment implements ISearchContract.View, TabLayout.OnTabSelectedListener {
 
     private SearchBlogFragment mSearchBlogFragment;
     private SearchBloggerFragment mSearchBloggerFragment;
@@ -105,7 +106,7 @@ public class SearchFragment extends BaseFragment implements ISearchContract.View
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
     }

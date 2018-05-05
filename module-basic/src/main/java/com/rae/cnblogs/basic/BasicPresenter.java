@@ -1,9 +1,6 @@
 package com.rae.cnblogs.basic;
 
-import android.arch.lifecycle.Lifecycle;
-
-import com.trello.lifecycle2.android.lifecycle.AndroidLifecycle;
-import com.trello.rxlifecycle2.LifecycleProvider;
+import android.content.Context;
 
 /**
  * MVP Presenter
@@ -11,17 +8,21 @@ import com.trello.rxlifecycle2.LifecycleProvider;
  */
 public abstract class BasicPresenter<V extends IPresenterView> implements IPresenter {
 
-    // 生命周期绑定
-    private final LifecycleProvider<Lifecycle.Event> mLifecycleProvider;
     private final V mView;
+
+    private LifecycleProvider mLifecycleProvider;
 
     public BasicPresenter(V view) {
         this.mView = checkNotNull(view);
-        mLifecycleProvider = AndroidLifecycle.createLifecycleProvider(view);
+        mLifecycleProvider = new LifecycleProvider(view);
     }
 
     public V getView() {
         return mView;
+    }
+
+    protected Context getContext() {
+        return mView.getContext();
     }
 
     @Override
@@ -31,21 +32,24 @@ public abstract class BasicPresenter<V extends IPresenterView> implements IPrese
 
     @Override
     public void destroy() {
+        mLifecycleProvider.dispose();
         onDestroy();
     }
 
-    private void onDestroy() {
-
+    /**
+     * 释放数据
+     */
+    protected void onDestroy() {
     }
 
     /**
      * 加载数据
      */
-    abstract void onStart();
+    protected abstract void onStart();
 
 
     /**
-     * 检查是否为空
+     * 检查是否为空，如果为空抛出异常
      */
     private <T> T checkNotNull(T object) {
         if (object == null) {

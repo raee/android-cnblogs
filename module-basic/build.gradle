@@ -9,6 +9,12 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        // 阿里路由需要
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -22,7 +28,23 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api rootProject.ext.rxjava
-    api rootProject.ext.rxandroid
+    implementation rootProject.ext.appcompat
+    implementation rootProject.ext.butterknife
+    api project(':sdk')
+
+    // 阿里路由
+    api(rootProject.ext.arouter, {
+        exclude group: 'com.android.support'
+    })
+    // 阿里路由注解
+    annotationProcessor rootProject.ext.arouterCompiler
+
+    // RX生命周期管理
     implementation 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle:2.2.1'
+    // 美团渠道包库
+    implementation 'com.meituan.android.walle:library:1.1.6'
+    // 友盟统计-公共库
+    implementation 'com.umeng.sdk:common:1.4.1'
+    // 友盟统计-APP分析库
+    implementation 'com.umeng.sdk:analytics:7.4.1'
 }

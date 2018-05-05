@@ -9,7 +9,7 @@
 // * 我的收藏
 // * Created by ChenRui on 2017/3/16 23:33.
 // */
-//public class BookmarkActivity extends BaseActivity {
+//public class BookmarkActivity extends BasicActivity {
 //
 //    @Override
 //    protected void onCreate(@Nullable Bundle savedInstanceState) {

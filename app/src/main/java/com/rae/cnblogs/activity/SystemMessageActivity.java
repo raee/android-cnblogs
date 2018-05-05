@@ -3,6 +3,7 @@ package com.rae.cnblogs.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RxObservable;
@@ -24,7 +25,8 @@ import butterknife.BindView;
  * 系统消息
  * Created by ChenRui on 2017/9/5 0005 15:39.
  */
-public class SystemMessageActivity extends SwipeBackBaseActivity {
+@Route(path = AppRoute.PATH_SYSTEM_MESSAGE)
+public class SystemMessageActivity extends SwipeBackBasicActivity {
 
     @BindView(R.id.recycler_view)
     RaeRecyclerView mRecyclerView;
@@ -48,7 +50,7 @@ public class SystemMessageActivity extends SwipeBackBaseActivity {
         mAdapter.setOnItemClickListener(new BaseItemAdapter.onItemClickListener<SystemMessageBean>() {
             @Override
             public void onItemClick(SystemMessageBean item) {
-                AppRoute.jumpToWeb(getContext(), item.getUrl());
+                AppRoute.routeToWeb(getContext(), item.getUrl());
             }
         });
 

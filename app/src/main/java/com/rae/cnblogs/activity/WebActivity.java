@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
@@ -21,7 +23,8 @@ import butterknife.OnClick;
  * 网页
  * Created by ChenRui on 2017/1/25 0025 9:32.
  */
-public class WebActivity extends BaseActivity {
+@Route(path = AppRoute.PATH_WEB)
+public class WebActivity extends BasicActivity {
 
     @BindView(R.id.tool_bar)
     Toolbar mToolbar;
@@ -88,7 +91,8 @@ public class WebActivity extends BaseActivity {
 
     @Nullable
     protected String getUrl() {
-        if (getIntent().getData() == null) return null;
+        // data 为空从intent 获取
+        if (getIntent().getData() == null) return getIntent().getStringExtra("url");
         return getIntent().getData().toString();
     }
 

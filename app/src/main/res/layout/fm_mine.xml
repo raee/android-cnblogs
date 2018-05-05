@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@drawable/bg_login"/>
+                android:src="@drawable/bg_login" />
 
 
             <com.makeramen.roundedimageview.RoundedImageView
@@ -33,7 +32,7 @@
                 android:layout_marginTop="56dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/boy"
-                app:riv_corner_radius="64dp"/>
+                app:riv_corner_radius="64dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -50,7 +49,7 @@
                     android:text="@string/please_login"
                     android:textColor="@color/ph1"
                     android:textSize="18sp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_no_login"
@@ -59,7 +58,7 @@
                     android:layout_marginTop="20dp"
                     android:text="@string/please_login"
                     android:textColor="@color/ph1"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:id="@+id/ll_follow_fans"
@@ -80,7 +79,7 @@
                             android:layout_height="wrap_content"
                             android:text="关注"
                             android:textColor="@color/ph3"
-                            android:textSize="@dimen/h3"/>
+                            android:textSize="@dimen/h3" />
 
                         <TextView
                             android:id="@+id/tv_follow_count"
@@ -90,7 +89,7 @@
                             android:text="0"
                             android:textColor="@color/ph1"
                             android:textSize="@dimen/h1"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -107,7 +106,7 @@
                             android:layout_height="wrap_content"
                             android:text="粉丝"
                             android:textColor="@color/ph3"
-                            android:textSize="@dimen/h3"/>
+                            android:textSize="@dimen/h3" />
 
                         <TextView
                             android:id="@+id/tv_fans_count"
@@ -117,7 +116,7 @@
                             android:text="0"
                             android:textColor="@color/ph1"
                             android:textSize="@dimen/h1"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
 
                     </LinearLayout>
@@ -130,7 +129,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:background="@color/background_divider"/>
+            android:background="@color/background_divider" />
 
         <LinearLayout
             android:id="@+id/ll_night"
@@ -146,7 +145,7 @@
                 android:drawableRight="@android:color/transparent"
                 android:text="@string/night_mode"
                 android:textColor="@color/ph1"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <com.kyleduo.switchbutton.SwitchButton
                 android:id="@+id/sb_night_mode"
@@ -158,7 +157,21 @@
                 app:kswThumbDrawable="@drawable/sb_default_thumb_drawable"
                 app:kswThumbHeight="10dp"
                 app:kswThumbMargin="3dp"
-                app:kswThumbWidth="10dp"/>
+                app:kswThumbWidth="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/ItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/history"
+                android:textColor="@color/ph1" />
 
         </LinearLayout>
 
@@ -172,7 +185,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/my_favorites"
-                android:textColor="@color/ph1"/>
+                android:textColor="@color/ph1" />
 
         </LinearLayout>
 
@@ -187,7 +200,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/system_message"
                 android:textColor="@color/ph1"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/img_system_message_badge"
@@ -196,12 +209,12 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/bg_badge"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/default_right_arrow"/>
+                android:drawableRight="@drawable/default_right_arrow" />
 
         </LinearLayout>
 
@@ -217,7 +230,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/feedback"
                 android:textColor="@color/ph1"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/img_feedback_badge"
@@ -226,12 +239,12 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/bg_badge"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/default_right_arrow"/>
+                android:drawableRight="@drawable/default_right_arrow" />
         </LinearLayout>
 
 
@@ -245,7 +258,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/setting"
-                android:textColor="@color/ph1"/>
+                android:textColor="@color/ph1" />
 
         </LinearLayout>
 

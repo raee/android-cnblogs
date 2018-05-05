@@ -1,6 +1,7 @@
 package com.rae.cnblogs.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -33,7 +34,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * 闪存列表
  * Created by ChenRui on 2017/10/27 0027 10:41.
  */
-public class MomentFragment extends BaseFragment implements IMomentContract.View {
+public class MomentFragment extends BasicFragment implements IMomentContract.View {
 
 
     /**
@@ -90,13 +91,13 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mAdapter = new MomentAdapter();
         mAdapter.setOnBloggerClickListener(new MomentAdapter.OnBloggerClickListener() {
             @Override
             public void onBloggerClick(String blogApp) {
-                AppRoute.jumpToBlogger(getContext(), blogApp);
+                AppRoute.routeToBlogger(getContext(), blogApp);
             }
         });
 //        mAdapter.setOnDeleteClickListener(new MomentAdapter.OnDeleteClickListener() {
@@ -121,7 +122,7 @@ public class MomentFragment extends BaseFragment implements IMomentContract.View
             @Override
             public void onItemClick(MomentBean item) {
                 if (item != null)
-                    AppRoute.jumpToMomentDetail(getContext(), item);
+                    AppRoute.routeToMomentDetail(getContext(), item);
             }
         });
         mRecyclerView.setAdapter(mAdapter);

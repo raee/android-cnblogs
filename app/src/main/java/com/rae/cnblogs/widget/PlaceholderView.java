@@ -92,7 +92,7 @@ public class PlaceholderView extends FrameLayout implements SkinCompatSupportabl
         setOnLoginListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppRoute.jumpToLogin(v.getContext());
+                AppRoute.routeToLogin(v.getContext());
             }
         });
     }

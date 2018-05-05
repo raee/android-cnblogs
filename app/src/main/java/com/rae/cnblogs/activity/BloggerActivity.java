@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.GlideException;
@@ -55,7 +56,8 @@ import jp.wasabeef.glide.transformations.ColorFilterTransformation;
  * blogger info
  * Created by ChenRui on 2017/2/9 0009 10:02.
  */
-public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPresenter.IBloggerView, DesignTabLayout.OnTabSelectedListener {
+@Route(path = AppRoute.PATH_BLOGGER)
+public class BloggerActivity extends SwipeBackBasicActivity implements IBloggerPresenter.IBloggerView, DesignTabLayout.OnTabSelectedListener {
 
     @BindView(R.id.img_background)
     ImageView mBackgroundView;
@@ -333,7 +335,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     @Override
     public void onNotLogin() {
 //        AppUI.toastInCenter(getContext(), getString(R.string.blogger_need_login));
-        AppRoute.jumpToLogin(this);
+        AppRoute.routeToLogin(this);
         finish();
     }
 
@@ -350,7 +352,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         if (mUserInfo == null) {
             return;
         }
-        AppRoute.jumpToSearchBlogger(this, mBlogApp, mUserInfo.getDisplayName());
+        AppRoute.routeToSearchBlogger(this, mBlogApp, mUserInfo.getDisplayName());
     }
 
     /**
@@ -359,7 +361,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     @OnClick(R.id.layout_account_fans)
     public void onFansClick() {
         if (mUserInfo == null) return;
-        AppRoute.jumpToFans(this.getContext(), mUserInfo.getDisplayName(), mUserInfo.getBlogApp());
+        AppRoute.routeToFans(this.getContext(), mUserInfo.getDisplayName(), mUserInfo.getBlogApp());
     }
 
 
@@ -369,7 +371,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
     @OnClick(R.id.layout_account_follow)
     public void onFollowClick() {
         if (mUserInfo == null) return;
-        AppRoute.jumpToFollow(this.getContext(), mUserInfo.getDisplayName(), mUserInfo.getBlogApp());
+        AppRoute.routeToFollow(this.getContext(), mUserInfo.getDisplayName(), mUserInfo.getBlogApp());
     }
 
     @OnClick(R.id.btn_blogger_follow)
@@ -396,7 +398,7 @@ public class BloggerActivity extends SwipeBackBaseActivity implements IBloggerPr
         } else {
             images.add(mUserInfo.getAvatar());
         }
-        AppRoute.jumpToImagePreview(this, images, 0);
+        AppRoute.routeToImagePreview(this, images, 0);
     }
 
     @Override

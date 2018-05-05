@@ -42,7 +42,7 @@ import io.reactivex.Observable;
  * 我的
  * Created by ChenRui on 2017/1/19 00:13.
  */
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BasicFragment {
 
     public static MineFragment newInstance() {
         return new MineFragment();
@@ -175,7 +175,7 @@ public class MineFragment extends BaseFragment {
                         // 登录过期
                         loadNotLoginUI();
                         AppUI.toastInCenter(getContext(), getString(R.string.login_expired));
-                        AppRoute.jumpToLogin(getContext());
+                        AppRoute.routeToLogin(getContext());
                     }
 
                     @Override
@@ -212,19 +212,19 @@ public class MineFragment extends BaseFragment {
     @OnClick(R.id.layout_account_fans)
     public void onFansClick() {
         if (isNotLogin()) {
-            AppRoute.jumpToLogin(getActivity());
+            AppRoute.routeToLogin(getActivity());
             return;
         }
-        AppRoute.jumpToFans(this.getContext(), getString(R.string.me), UserProvider.getInstance().getLoginUserInfo().getBlogApp());
+        AppRoute.routeToFans(this.getContext(), getString(R.string.me), UserProvider.getInstance().getLoginUserInfo().getBlogApp());
     }
 
     @OnClick(R.id.layout_account_follow)
     public void onFollowClick() {
         if (isNotLogin()) {
-            AppRoute.jumpToLogin(getActivity());
+            AppRoute.routeToLogin(getActivity());
             return;
         }
-        AppRoute.jumpToFollow(this.getContext(), getString(R.string.me), UserProvider.getInstance().getLoginUserInfo().getBlogApp());
+        AppRoute.routeToFollow(this.getContext(), getString(R.string.me), UserProvider.getInstance().getLoginUserInfo().getBlogApp());
     }
 
 
@@ -232,11 +232,11 @@ public class MineFragment extends BaseFragment {
     public void onLoginClick() {
         // 没有登录跳登录
         if (isNotLogin()) {
-            AppRoute.jumpToLogin(getActivity());
+            AppRoute.routeToLogin(getActivity());
             return;
         }
 
-        AppRoute.jumpToBlogger(getContext(), UserProvider.getInstance().getLoginUserInfo().getBlogApp());
+        AppRoute.routeToBlogger(getContext(), UserProvider.getInstance().getLoginUserInfo().getBlogApp());
     }
 
     /**
@@ -247,7 +247,7 @@ public class MineFragment extends BaseFragment {
         AppMobclickAgent.onClickEvent(getContext(), "Favorites");
         // 没有登录跳登录
         if (isNotLogin()) {
-            AppRoute.jumpToLogin(getActivity());
+            AppRoute.routeToLogin(getActivity());
             return;
         }
         AppRoute.jumpToFavorites(this.getActivity());
@@ -260,7 +260,16 @@ public class MineFragment extends BaseFragment {
     public void onFeedbackClick() {
         mFeedbackBadgeView.setVisibility(View.INVISIBLE);
         AppMobclickAgent.onClickEvent(getContext(), "Feedback");
-        AppRoute.jumpToFeedback(getContext());
+        AppRoute.routeToFeedback(getContext());
+    }
+
+    /**
+     * 浏览记录
+     */
+    @OnClick(R.id.ll_history)
+    public void onHistoryClick() {
+        AppMobclickAgent.onClickEvent(getContext(), "History");
+        AppRoute.routeToHistory(getContext());
     }
 
 
@@ -271,7 +280,7 @@ public class MineFragment extends BaseFragment {
     public void onSystemMessageClick() {
         AppMobclickAgent.onClickEvent(getContext(), "SystemMessage");
         mSystemMessageBadgeView.setVisibility(View.INVISIBLE);
-        AppRoute.jumpToSystemMessage(this.getContext());
+        AppRoute.routeToSystemMessage(this.getContext());
     }
 
     /**

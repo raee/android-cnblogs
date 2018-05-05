@@ -3,6 +3,7 @@ package com.rae.cnblogs.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.fragment.MomentMessageFragment;
@@ -13,7 +14,8 @@ import butterknife.OnClick;
  * 闪存消息
  * Created by ChenRui on 2017/11/6 0006 14:21.
  */
-public class MomentMessageActivity extends SwipeBackBaseActivity {
+@Route(path = AppRoute.PATH_MOMENT_MESSAGE)
+public class MomentMessageActivity extends SwipeBackBasicActivity {
     private MomentMessageFragment mFragment;
 
     @Override

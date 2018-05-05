@@ -23,7 +23,7 @@ import butterknife.OnClick;
  * TEST ACTIVITY
  * Created by ChenRui on 2016/12/3 18:06.
  */
-public class TestActivity extends BaseActivity {
+public class TestActivity extends BasicActivity {
 
     @BindView(R.id.tv_message)
     TextView mMsgView;

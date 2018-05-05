@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
@@ -34,7 +35,8 @@ import io.reactivex.functions.Consumer;
  * 登录
  * Created by ChenRui on 2017/1/19 0019 9:59.
  */
-public class LoginActivity extends BaseActivity
+@Route(path = AppRoute.PATH_LOGIN)
+public class LoginActivity extends BasicActivity
         implements ILoginPresenter.ILoginView {
 
     @BindView(com.rae.cnblogs.R.id.ll_login_container)
@@ -191,7 +193,7 @@ public class LoginActivity extends BaseActivity
     @OnClick(R.id.tv_forget_password)
     public void onForgetPasswordClick() {
         AppMobclickAgent.onClickEvent(this, "ForgetPassword");
-        AppRoute.jumpToWeb(this, getString(R.string.forget_password_url));
+        AppRoute.routeToWeb(this, getString(R.string.forget_password_url));
     }
 
     /**
@@ -200,7 +202,7 @@ public class LoginActivity extends BaseActivity
     @OnClick(R.id.btn_reg)
     public void onRegClick() {
         AppMobclickAgent.onClickEvent(this, "Reg");
-        AppRoute.jumpToWeb(this, getString(R.string.reg_url));
+        AppRoute.routeToWeb(this, getString(R.string.reg_url));
     }
 
 
@@ -231,7 +233,7 @@ public class LoginActivity extends BaseActivity
 
     private void preformLogin() {
 //        performUserInfo();
-        AppRoute.jumpToWebLogin(this);
+        AppRoute.routeToWebLogin(this);
 //        mLoginPresenter.login();
 //        removeAccountTextListener(mAccountTextWatcher);
 //        mLoginButton.setEnabled(false);
@@ -261,7 +263,7 @@ public class LoginActivity extends BaseActivity
             @Override
             public void onClick(IAppDialog dialog, int buttonType) {
                 dialog.dismiss();
-                AppRoute.jumpToWeb(getContext(), getContext().getString(R.string.url_login_help));
+                AppRoute.routeToWeb(getContext(), getContext().getString(R.string.url_login_help));
             }
         });
         dialog.showCloseButton();

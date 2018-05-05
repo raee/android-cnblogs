@@ -16,15 +16,17 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.GlideApp;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
-import com.rae.cnblogs.activity.BaseActivity;
+import com.rae.cnblogs.activity.BasicActivity;
 import com.rae.swift.Rx;
 
 import java.io.File;
@@ -47,7 +49,8 @@ import io.reactivex.schedulers.Schedulers;
  * 图片预览
  * Created by ChenRui on 2017/2/6 0006 15:48.
  */
-public class ImagePreviewActivity extends BaseActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
+@Route(path = AppRoute.PATH_IMAGE_PREVIEW)
+public class ImagePreviewActivity extends BasicActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
 
     @BindView(R.id.vp_image_preview)
     ViewPager mViewPager;

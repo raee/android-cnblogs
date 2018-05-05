@@ -114,9 +114,9 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
                     public void onClick(View v) {
                         // 判断是否已经登录
                         if (UserProvider.getInstance().isLogin()) {
-                            AppRoute.jumpToBlogger(v.getContext(), m.getBlogApp());
+                            AppRoute.routeToBlogger(v.getContext(), m.getBlogApp());
                         } else {
-                            AppRoute.jumpToLogin(v.getContext());
+                            AppRoute.routeToLogin(v.getContext());
                         }
                     }
                 });
@@ -222,7 +222,7 @@ public class BlogListItemAdapter extends BaseItemAdapter<BlogBean, RecyclerView.
                 notifyDataSetChanged();
             }
         }, 1000);
-        AppRoute.jumpToBlogContent(view.getContext(), blog, mBlogType);
+        AppRoute.routeToBlogContent(view.getContext(), blog, mBlogType);
     }
 
 }

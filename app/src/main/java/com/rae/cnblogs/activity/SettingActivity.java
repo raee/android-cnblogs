@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
@@ -33,7 +34,6 @@ import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.bean.VersionInfo;
 import com.rae.cnblogs.widget.ImageLoadingView;
 import com.tencent.bugly.beta.tinker.TinkerManager;
-import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -46,7 +46,8 @@ import butterknife.OnLongClick;
  * 设置
  * Created by ChenRui on 2017/7/24 0024 1:18.
  */
-public class SettingActivity extends SwipeBackBaseActivity {
+@Route(path = AppRoute.PATH_SETTING)
+public class SettingActivity extends SwipeBackBasicActivity {
 
     @BindView(R.id.img_clear_cache)
     ImageLoadingView mClearCacheView;
@@ -141,7 +142,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
             @Override
             public void onClick(IAppDialog dialog, int buttonType) {
                 dialog.dismiss();
-                MobclickAgent.onProfileSignOff();
+                AppMobclickAgent.onProfileSignOff();
                 UserProvider.getInstance().logout();
                 EventBus.getDefault().post(new UserInfoEvent());
                 finish();
@@ -173,7 +174,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
     @OnClick(R.id.ll_github)
     public void onOpenSourceClick() {
         AppMobclickAgent.onClickEvent(getContext(), "OpenSource");
-        AppRoute.jumpToWeb(this.getContext(), getString(R.string.github_url));
+        AppRoute.routeToWeb(this.getContext(), getString(R.string.github_url));
     }
 
     /**
@@ -182,7 +183,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
     @OnClick(R.id.ll_open_source)
     public void onOpenSourceLicenseClick() {
         AppMobclickAgent.onClickEvent(getContext(), "OpenSourceLicense");
-        AppRoute.jumpToWeb(this.getContext(), getString(R.string.url_license));
+        AppRoute.routeToWeb(this.getContext(), getString(R.string.url_license));
     }
 
     /**
@@ -191,7 +192,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
     @OnClick(R.id.ll_beta_version)
     public void onBetaVersionLicenseClick() {
         AppMobclickAgent.onClickEvent(getContext(), "BetaVersion");
-        AppRoute.jumpToWeb(this.getContext(), getString(R.string.url_beta_version));
+        AppRoute.routeToWeb(this.getContext(), getString(R.string.url_beta_version));
     }
 
     /**
@@ -200,7 +201,7 @@ public class SettingActivity extends SwipeBackBaseActivity {
     @OnClick(R.id.ll_help_center)
     public void onHelpCenterClick() {
         AppMobclickAgent.onClickEvent(getContext(), "HelpCenter");
-        AppRoute.jumpToWeb(this.getContext(), getString(R.string.url_help_center));
+        AppRoute.routeToWeb(this.getContext(), getString(R.string.url_help_center));
     }
 
     /**
@@ -249,8 +250,9 @@ public class SettingActivity extends SwipeBackBaseActivity {
 
     @OnClick(R.id.ll_font_setting)
     public void onFontSettingClick() {
-        AppRoute.jumpToFontSetting(this);
+        AppRoute.routeToFontSetting(this);
     }
+
     @OnClick(R.id.ll_about_me)
     public void onAboutMeClick() {
         AppRoute.jumpToAboutMe(this);

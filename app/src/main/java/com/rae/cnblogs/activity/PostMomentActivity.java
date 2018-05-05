@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.rae.cnblogs.AppMobclickAgent;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
@@ -44,7 +45,8 @@ import butterknife.OnClick;
  * 发布闪存
  * Created by ChenRui on 2017/10/27 0027 14:04.
  */
-public class PostMomentActivity extends BaseActivity implements IPostMomentContract.View {
+@Route(path = AppRoute.PATH_MOMENT_POST)
+public class PostMomentActivity extends BasicActivity implements IPostMomentContract.View {
     @BindView(R.id.et_content)
     EditText mContentView;
     @BindView(R.id.tv_post)
@@ -98,7 +100,7 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
         mAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppRoute.jumpToImagePreview(PostMomentActivity.this, mAdapter.getImageSelectedList(), (Integer) v.getTag(), mAdapter.getImageSelectedList(), mAdapter.getMaxCount());
+                AppRoute.routeToImagePreview(PostMomentActivity.this, mAdapter.getImageSelectedList(), (Integer) v.getTag(), mAdapter.getImageSelectedList(), mAdapter.getMaxCount());
             }
         });
 
@@ -208,7 +210,7 @@ public class PostMomentActivity extends BaseActivity implements IPostMomentContr
 
     @OnClick(R.id.tv_blog_apply)
     public void onBlogApplyClick() {
-        AppRoute.jumpToWeb(this, getString(R.string.url_blog_apply));
+        AppRoute.routeToWeb(this, getString(R.string.url_blog_apply));
     }
 
     @OnClick(R.id.tv_post)

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +23,7 @@ import butterknife.OnClick;
  * 启动页
  * Created by ChenRui on 2016/12/22 22:08.
  */
-public class LauncherActivity extends BaseActivity implements ILauncherPresenter.ILauncherView {
+public class LauncherActivity extends BasicActivity implements ILauncherPresenter.ILauncherView {
 
     @BindView(R.id.img_launcher_display)
     ImageView mDisplayView;
@@ -41,9 +40,13 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 非栈顶的时候，点击首页图标不跳转到这里
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_launcher);
         mLauncherPresenter = CnblogsPresenterFactory.getLauncherPresenter(this, this);
-        Log.w("rae", "渠道为：" + getChannel());
     }
 
     @Override
@@ -87,15 +90,15 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        AppRoute.jumpToMain(this);
-        AppRoute.jumpToWeb(this, url);
+        AppRoute.routeToMain(this);
+        AppRoute.routeToWeb(this, url);
         finish();
     }
 
     @Override
     public void onJumpToBlog(String id) {
-        AppRoute.jumpToMain(this);
-        AppRoute.jumpToBlogContent(this, id, BlogType.BLOG);
+        AppRoute.routeToMain(this);
+        AppRoute.routeToBlogContent(this, id, BlogType.BLOG);
         finish();
     }
 
@@ -114,7 +117,7 @@ public class LauncherActivity extends BaseActivity implements ILauncherPresenter
 
     @Override
     public void onJumpToMain() {
-        AppRoute.jumpToMain(this);
+        AppRoute.routeToMain(this);
         finish();
     }
 

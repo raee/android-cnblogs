@@ -2,6 +2,7 @@ package com.rae.cnblogs.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -41,7 +42,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * 评论
  * Created by ChenRui on 2016/12/15 0015 19:22.
  */
-public class BlogCommentFragment extends BaseFragment implements IBlogCommentPresenter.IBlogCommentView, EditCommentDialog.OnEditCommentListener {
+public class BlogCommentFragment extends BasicFragment implements IBlogCommentPresenter.IBlogCommentView, EditCommentDialog.OnEditCommentListener {
 
     public static BlogCommentFragment newInstance(BlogBean blog, BlogType type) {
         Bundle args = new Bundle();
@@ -102,7 +103,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        mParentView = (RaeDrawerLayout) view.getParent();
 //        mParentView.setDragDownHandler(new RaeDragDownCompat.DragDownHandler() {
@@ -197,7 +198,7 @@ public class BlogCommentFragment extends BaseFragment implements IBlogCommentPre
                     AppUI.failed(v.getContext(), "博主可能没有开通博客功能！[blogApp is null]");
                     return;
                 }
-                AppRoute.jumpToBlogger(v.getContext(), v.getTag().toString());
+                AppRoute.routeToBlogger(v.getContext(), v.getTag().toString());
             }
         });
 

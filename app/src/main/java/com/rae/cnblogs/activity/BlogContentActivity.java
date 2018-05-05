@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.AppUI;
 import com.rae.cnblogs.R;
@@ -48,7 +49,8 @@ import io.reactivex.schedulers.Schedulers;
  * 博文查看
  * Created by ChenRui on 2016/12/6 21:38.
  */
-public class BlogContentActivity extends SwipeBackBaseActivity implements EditCommentDialog.OnEditCommentListener, IBlogCommentPresenter.IBlogCommentView {
+@Route(path = AppRoute.PATH_BLOG_CONTENT)
+public class BlogContentActivity extends SwipeBackBasicActivity implements EditCommentDialog.OnEditCommentListener, IBlogCommentPresenter.IBlogCommentView {
 
 //    @BindView(R.id.tool_bar)
 //    Toolbar mToolbar;
@@ -108,7 +110,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
         mShareDialog = new BlogShareDialog(this) {
             @Override
             protected void onViewSourceClick() {
-                AppRoute.jumpToWeb(getContext(), mBlog.getUrl());
+                AppRoute.routeToWeb(getContext(), mBlog.getUrl());
             }
         };
 
@@ -254,7 +256,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
     // 查看评论
     @OnClick(R.id.layout_content_comment)
     public void onCommentClick() {
-        AppRoute.jumpToComment(this, mBlog, mBlogType);
+        AppRoute.routeToComment(this, mBlog, mBlogType);
 //        mCommentLayout.toggleSmoothScroll();
     }
 
@@ -274,7 +276,7 @@ public class BlogContentActivity extends SwipeBackBaseActivity implements EditCo
 //            return;
 //        }
 //
-//        AppRoute.jumpToBlogger(this, mBlog.getBlogApp());
+//        AppRoute.routeToBlogger(this, mBlog.getBlogApp());
 //    }
 
     @OnClick(R.id.tool_bar)

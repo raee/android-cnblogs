@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.rae.cnblogs.AppRoute;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RxObservable;
@@ -24,7 +25,8 @@ import butterknife.OnClick;
  * 详情
  * Created by ChenRui on 2017/11/2 0002 15:01.
  */
-public class MomentDetailActivity extends SwipeBackBaseActivity {
+@Route(path = AppRoute.PATH_MOMENT_DETAIL)
+public class MomentDetailActivity extends SwipeBackBasicActivity {
 
     private MomentBean mMomentBean;
 
@@ -56,7 +58,7 @@ public class MomentDetailActivity extends SwipeBackBaseActivity {
                 if (UserProvider.getInstance().isLogin()) {
                     loadMomentDetail();
                 } else {
-                    AppRoute.jumpToLogin(v.getContext());
+                    AppRoute.routeToLogin(v.getContext());
                 }
             }
         });

@@ -1,6 +1,7 @@
 package com.rae.cnblogs.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -31,7 +32,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * 回复我的消息
  * Created by ChenRui on 2017/11/6 0006 14:21.
  */
-public class MomentMessageFragment extends BaseFragment implements IMomentMessageContract.View {
+public class MomentMessageFragment extends BasicFragment implements IMomentMessageContract.View {
 
     @BindView(R.id.recycler_view)
     RaeRecyclerView mRecyclerView;
@@ -65,7 +66,7 @@ public class MomentMessageFragment extends BaseFragment implements IMomentMessag
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mAdapter = new MomentMessageAdapter();
         mAdapter.setOnItemClickListener(new BaseItemAdapter.onItemClickListener<MomentCommentBean>() {

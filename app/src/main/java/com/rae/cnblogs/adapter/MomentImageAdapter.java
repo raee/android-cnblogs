@@ -42,6 +42,6 @@ public class MomentImageAdapter extends BaseItemAdapter<String, MomentImageHolde
 
     @Override
     public void onClick(View v) {
-        AppRoute.jumpToImagePreview(v.getContext(), (ArrayList<String>) mDataList, mDataList.indexOf(v.getContentDescription().toString()));
+        AppRoute.routeToImagePreview(v.getContext(), (ArrayList<String>) mDataList, mDataList.indexOf(v.getContentDescription().toString()));
     }
 }

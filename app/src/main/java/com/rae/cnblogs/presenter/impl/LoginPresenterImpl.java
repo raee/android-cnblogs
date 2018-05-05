@@ -12,7 +12,6 @@ import com.rae.cnblogs.sdk.UserProvider;
 import com.rae.cnblogs.sdk.api.IUserApi;
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -154,22 +153,33 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
     public void loadUserInfo() {
         // 同步COOKIE
         UserProvider.getInstance().cookieManager2CookieJar();
-
         createObservable(mUserApi.getUserBlogAppInfo())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
-                    public void accept(Disposable disposable) throws Exception {
+                    public void accept(Disposable disposable) {
                         mView.onLoading(mContext.getString(R.string.loading_blog_app));
                     }
                 })
                 .flatMap(new Function<UserInfoBean, ObservableSource<UserInfoBean>>() {
                     @Override
-                    public ObservableSource<UserInfoBean> apply(UserInfoBean userInfoBean) throws Exception {
+                    public ObservableSource<UserInfoBean> apply(UserInfoBean userInfoBean) {
                         mBlogApp = userInfoBean.getBlogApp();
                         mView.onLoading(mContext.getString(R.string.loading_user_info, mBlogApp));
                         return createObservable(mUserApi.getUserInfo(userInfoBean.getBlogApp())); // 获取用户信息
                     }
                 })
+                .flatMap(new Function<UserInfoBean, ObservableSource<UserInfoBean>>() {
+                    @Override
+                    public ObservableSource<UserInfoBean> apply(final UserInfoBean userInfoBean) {
+                        return Observable.timer(2000, TimeUnit.MILLISECONDS).map(new Function<Long, UserInfoBean>() {
+                            @Override
+                            public UserInfoBean apply(Long aLong) {
+                                return userInfoBean;
+                            }
+                        });
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiDefaultObserver<UserInfoBean>() {
                     @Override
                     public void onError(Throwable e) {
@@ -210,20 +220,11 @@ public class LoginPresenterImpl extends BasePresenter<ILoginPresenter.ILoginView
                         // 统计登录事件
                         AppMobclickAgent.onLoginEvent(mApplicationContext, data.getBlogApp(), true, "登录成功");
                         // 友盟统计用户
-                        MobclickAgent.onProfileSignIn(data.getBlogApp());
+                        AppMobclickAgent.onProfileSignIn(data.getBlogApp());
                         // [重要] 同步Cookie登录信息
                         UserProvider.getInstance().cookieJar2CookieManager();
                         EventBus.getDefault().post(new UserInfoEvent());
-
-                        Observable.timer(2000, TimeUnit.MILLISECONDS)
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Consumer<Long>() {
-                                    @Override
-                                    public void accept(Long aLong) throws Exception {
-                                        mView.onLoginSuccess(data);
-                                    }
-                                });
-
+                        mView.onLoginSuccess(data);
                     }
                 });
     }

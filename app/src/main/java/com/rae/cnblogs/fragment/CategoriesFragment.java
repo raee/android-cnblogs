@@ -42,7 +42,7 @@ import io.reactivex.schedulers.Schedulers;
  * 分类管理
  * Created by ChenRui on 2017/7/16 0016 22:58.
  */
-public class CategoriesFragment extends BaseFragment implements CategoriesOverallAdapter.CategoryDragListener {
+public class CategoriesFragment extends BasicFragment implements CategoriesOverallAdapter.CategoryDragListener {
 
     private Disposable mDisposable;
 

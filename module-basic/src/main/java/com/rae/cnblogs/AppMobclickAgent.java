@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.rae.cnblogs.sdk.UserProvider;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,6 +20,20 @@ import java.util.Map;
  * Created by ChenRui on 2017/2/8 0008 11:44.
  */
 public final class AppMobclickAgent {
+
+    /**
+     * 初始化友盟统计
+     *
+     * @param applicationContext 上下文
+     * @param appKey             应用KEY
+     * @param channel            渠道名称
+     */
+    public static void init(Context applicationContext,
+                            String appKey,
+                            String channel) {
+        UMConfigure.setLogEnabled(false);
+        UMConfigure.init(applicationContext, appKey, channel, UMConfigure.DEVICE_TYPE_PHONE, null);
+    }
 
     /**
      * 统计打开时间
@@ -35,7 +50,7 @@ public final class AppMobclickAgent {
     /**
      * 统计用户打开APP事件
      */
-    public static void onUserOpenEvent(Context context) {
+    private static void onUserOpenEvent(Context context) {
         try {
             String blogApp = UserProvider.getInstance().isLogin() ? UserProvider.getInstance().getLoginUserInfo().getBlogApp() : "Guest";
             MobclickAgent.onEvent(context, "APP_USER_OPEN_EVENT", blogApp);
@@ -150,4 +165,19 @@ public final class AppMobclickAgent {
     }
 
 
+    /**
+     * 退出登录事件
+     */
+    public static void onProfileSignOff() {
+        MobclickAgent.onProfileSignOff();
+    }
+
+    /**
+     * 登录事件
+     *
+     * @param blogApp 用户
+     */
+    public static void onProfileSignIn(String blogApp) {
+        MobclickAgent.onProfileSignIn(blogApp);
+    }
 }

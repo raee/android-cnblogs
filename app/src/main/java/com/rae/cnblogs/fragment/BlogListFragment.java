@@ -1,6 +1,7 @@
 package com.rae.cnblogs.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -22,7 +23,6 @@ import com.rae.cnblogs.widget.HomeSearchHeader;
 import com.rae.cnblogs.widget.PlaceholderView;
 import com.rae.cnblogs.widget.RaeRecyclerView;
 import com.rae.swift.Rx;
-import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,7 +38,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * 博客列表
  * Created by ChenRui on 2016/12/2 00:33.
  */
-public class BlogListFragment extends BaseFragment implements IBlogListPresenter.IBlogListView {
+public class BlogListFragment extends BasicFragment implements IBlogListPresenter.IBlogListView {
 
 
     public static BlogListFragment newInstance(int position, CategoryBean category, BlogType type) {
@@ -88,13 +88,11 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("博客列表");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("博客列表");
         // 统计分类
         if (mCategory != null) {
             onMobclickAgent(mCategory);
@@ -132,7 +130,7 @@ public class BlogListFragment extends BaseFragment implements IBlogListPresenter
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mPlaceholderView.setOnRetryClickListener(new View.OnClickListener() {

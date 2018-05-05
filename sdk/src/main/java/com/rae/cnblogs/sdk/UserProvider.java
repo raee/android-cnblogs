@@ -6,7 +6,7 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
 import com.rae.cnblogs.sdk.bean.UserInfoBean;
-import com.rae.cnblogs.sdk.config.CnblogSdkConfig;
+import com.rae.cnblogs.sdk.config.CnblogAppConfig;
 import com.rae.swift.session.SessionManager;
 
 import java.net.CookieHandler;
@@ -30,7 +30,7 @@ public final class UserProvider {
     private static UserProvider sUserProvider;
     private final Context mContext;
     private UserInfoBean mUserInfo;
-    private CnblogSdkConfig mConfig;
+    private CnblogAppConfig mConfig;
 
     public static UserProvider getInstance() {
         if (sUserProvider == null) {
@@ -47,7 +47,7 @@ public final class UserProvider {
 
     public UserProvider(Context context) {
         mContext = context;
-        mConfig = CnblogSdkConfig.getsInstance(context);
+        mConfig = CnblogAppConfig.getsInstance(context);
     }
 
 

@@ -1,6 +1,7 @@
 package com.rae.cnblogs.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -44,7 +45,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
  * 闪存详情
  * Created by ChenRui on 2017/11/2 0002 15:35.
  */
-public class MomentDetailFragment extends BaseFragment implements IMomentDetailContract.View {
+public class MomentDetailFragment extends BasicFragment implements IMomentDetailContract.View {
 
     @BindView(R.id.recycler_view)
     RaeRecyclerView mRecyclerView;
@@ -62,7 +63,7 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
         @Override
         public void onClick(View v) {
             if (!UserProvider.getInstance().isLogin()) {
-                AppRoute.jumpToLogin(v.getContext());
+                AppRoute.routeToLogin(v.getContext());
                 return;
             }
             ((Button) v).setText("请稍后");
@@ -97,7 +98,7 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
 
 
     @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         if (mData == null) {
@@ -160,7 +161,7 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
         mAdapter.setOnBloggerClickListener(new MomentAdapter.OnBloggerClickListener() {
             @Override
             public void onBloggerClick(String blogApp) {
-                AppRoute.jumpToBlogger(getContext(), blogApp);
+                AppRoute.routeToBlogger(getContext(), blogApp);
             }
         });
         mAdapter.setOnFollowClickListener(mOnFollowClickListener);
@@ -349,7 +350,7 @@ public class MomentDetailFragment extends BaseFragment implements IMomentDetailC
             @Override
             public void onClick(IAppDialog dialog, int buttonType) {
                 dialog.dismiss();
-                AppRoute.jumpToLogin(getContext());
+                AppRoute.routeToLogin(getContext());
             }
         });
         dialog.show();
