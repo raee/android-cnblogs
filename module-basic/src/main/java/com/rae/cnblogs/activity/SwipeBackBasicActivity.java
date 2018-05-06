@@ -15,7 +15,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 
 /**
- * 可以滑动返回的
+ * 可以滑动返回的Activity
  * Created by ChenRui on 2017/1/4 0004 10:03.
  */
 public abstract class SwipeBackBasicActivity extends BasicActivity implements SwipeBackActivityBase {
@@ -35,6 +35,12 @@ public abstract class SwipeBackBasicActivity extends BasicActivity implements Sw
         if (ThemeCompat.isNight()) {
             getSwipeBackLayout().setScrimColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
         }
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        showHomeAsUp();
     }
 
     @Override

@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.DesignTabLayout;
+import android.support.design.widget.RaeTabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -49,7 +49,7 @@ public class SNSFragment extends BasicFragment {
     }
 
     @BindView(R.id.tab_layout)
-    DesignTabLayout mTabLayout;
+    RaeTabLayout mTabLayout;
     @BindView(R.id.view_pager)
     RaeViewPager mViewPager;
 
@@ -82,8 +82,8 @@ public class SNSFragment extends BasicFragment {
         mAdapter = new SNSFragmentAdapter(view.getContext(), getChildFragmentManager());
         mViewPager.setAdapter(mAdapter);
         // 相互关联
-        mViewPager.addOnPageChangeListener(new DesignTabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mTabLayout.addOnTabSelectedListener(new DesignTabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        mViewPager.addOnPageChangeListener(new RaeTabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mTabLayout.addOnTabSelectedListener(new RaeTabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         mTabLayout.addOnTabSelectedListener(new DefaultOnTabSelectedListener());
         mViewPager.setOffscreenPageLimit(3);
     }
@@ -91,7 +91,7 @@ public class SNSFragment extends BasicFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DesignTabLayout.Tab tab = mTabLayout.getTabAt(0);
+        RaeTabLayout.Tab tab = mTabLayout.getTabAt(0);
         if (tab != null) {
             tab.select();
         }
@@ -189,25 +189,25 @@ public class SNSFragment extends BasicFragment {
         }
     }
 
-    class DefaultOnTabSelectedListener implements DesignTabLayout.OnTabSelectedListener {
+    class DefaultOnTabSelectedListener implements RaeTabLayout.OnTabSelectedListener {
 
         @Override
-        public void onTabSelected(DesignTabLayout.Tab tab) {
+        public void onTabSelected(RaeTabLayout.Tab tab) {
             int count = mTabLayout.getTabCount();
             for (int i = 0; i < count; i++) {
-                DesignTabLayout.Tab tabAt = mTabLayout.getTabAt(i);
+                RaeTabLayout.Tab tabAt = mTabLayout.getTabAt(i);
                 if (tabAt == null) continue;
                 tabAt.setTextStyle(tab == tabAt ? 1 : 0);
             }
         }
 
         @Override
-        public void onTabUnselected(DesignTabLayout.Tab tab) {
+        public void onTabUnselected(RaeTabLayout.Tab tab) {
 
         }
 
         @Override
-        public void onTabReselected(DesignTabLayout.Tab tab) {
+        public void onTabReselected(RaeTabLayout.Tab tab) {
             onTabSelected(tab);
             performTabEvent();
         }

@@ -6,7 +6,6 @@ import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
 
 import skin.support.widget.SkinCompatBackgroundHelper;

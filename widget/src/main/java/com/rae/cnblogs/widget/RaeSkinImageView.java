@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 
-import com.rae.cnblogs.R;
 import com.rae.cnblogs.ThemeCompat;
 
 import skin.support.widget.SkinCompatImageView;
@@ -29,10 +28,8 @@ public class RaeSkinImageView extends SkinCompatImageView {
         int count = a.getIndexCount();
         for (int i = 0; i < count; i++) {
             int index = a.getIndex(i);
-            switch (index) {
-                case R.styleable.RaeSkinImageView_nightColor:
-                    mNightColor = a.getColor(index, 0);
-                    break;
+            if (index == R.styleable.RaeSkinImageView_nightColor) {
+                mNightColor = a.getColor(index, 0);
             }
         }
         a.recycle();

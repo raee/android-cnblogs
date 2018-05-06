@@ -1,4 +1,8 @@
-apply plugin: 'com.android.library'
+if (isModule.toBoolean()) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -8,6 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [moduleName: project.getName()]
@@ -28,9 +33,13 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation rootProject.ext.appcompat
+    implementation rootProject.ext.design
+    implementation rootProject.ext.butterknife
+    annotationProcessor rootProject.ext.butterknifeCompiler
     // 阿里路由注解
     annotationProcessor rootProject.ext.arouterCompiler
     testImplementation 'junit:junit:4.12'
     implementation project(':module-basic')
     implementation project(':sdk')
+    implementation project(':widget')
 }

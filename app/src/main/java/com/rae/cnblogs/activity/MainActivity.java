@@ -8,7 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
+import android.support.design.widget.RaeTabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -25,6 +25,7 @@ import com.rae.cnblogs.BuildConfig;
 import com.rae.cnblogs.R;
 import com.rae.cnblogs.RaeImageLoader;
 import com.rae.cnblogs.RxObservable;
+import com.rae.cnblogs.ThemeChangedEvent;
 import com.rae.cnblogs.ThemeCompat;
 import com.rae.cnblogs.dialog.IAppDialog;
 import com.rae.cnblogs.dialog.IAppDialogClickListener;
@@ -35,7 +36,6 @@ import com.rae.cnblogs.fragment.HomeFragment;
 import com.rae.cnblogs.fragment.MineFragment;
 import com.rae.cnblogs.fragment.SNSFragment;
 import com.rae.cnblogs.message.TabEvent;
-import com.rae.cnblogs.message.ThemeChangedEvent;
 import com.rae.cnblogs.sdk.ApiDefaultObserver;
 import com.rae.cnblogs.sdk.CnblogsApiFactory;
 import com.rae.cnblogs.sdk.bean.VersionInfo;
@@ -56,7 +56,7 @@ public class MainActivity extends BasicActivity {
     ViewPager mViewPager;
 
     @BindView(R.id.tab_main)
-    TabLayout mTabLayout;
+    RaeTabLayout mTabLayout;
 
     private RaeFragmentAdapter mFragmentAdapter;
 
@@ -98,24 +98,26 @@ public class MainActivity extends BasicActivity {
         mViewPager.setAdapter(mFragmentAdapter);
 
         // 联动
-        mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mTabLayout.addOnTabSelectedListener(new RaeTabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        mViewPager.addOnPageChangeListener(new RaeTabLayout.TabLayoutOnPageChangeListener(mTabLayout));
 
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTabLayout.addOnTabSelectedListener(new RaeTabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+            public void onTabSelected(RaeTabLayout.Tab tab) {
                 // 统计分类点击
                 int position = tab.getPosition();
                 CharSequence title = mFragmentAdapter.getPageTitle(position);
-                AppMobclickAgent.onCategoryEvent(getContext(), title.toString());
+                if (title != null) {
+                    AppMobclickAgent.onCategoryEvent(getContext(), title.toString());
+                }
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+            public void onTabUnselected(RaeTabLayout.Tab tab) {
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onTabReselected(RaeTabLayout.Tab tab) {
                 EventBus.getDefault().post(new TabEvent(tab.getPosition()));
             }
         });
@@ -192,10 +194,10 @@ public class MainActivity extends BasicActivity {
     }
 
     private void addTab(int resId, int iconId, Fragment fragment) {
-        TabLayout.Tab tab = mTabLayout.newTab();
-        View tabView = getLayoutInflater().inflate(R.layout.tab_view, null);
-        TextView v = (TextView) tabView.findViewById(R.id.tv_tab_view);
-        ImageView iconView = (ImageView) tabView.findViewById(R.id.img_tab_icon);
+        RaeTabLayout.Tab tab = mTabLayout.newTab();
+        View tabView = View.inflate(this, R.layout.tab_view, null);
+        TextView v = tabView.findViewById(R.id.tv_tab_view);
+        ImageView iconView = tabView.findViewById(R.id.img_tab_icon);
         v.setText(resId);
         iconView.setImageResource(iconId);
 //        v.setCompoundDrawablesWithIntrinsicBounds(0, iconId, 0, 0);

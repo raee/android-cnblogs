@@ -55,7 +55,7 @@
                 android:src="@drawable/ic_moment_post"
                 app:nightColor="@color/nightIconColor"/>
 
-            <android.support.design.widget.RaeSkinDesignTabLayout
+            <com.rae.cnblogs.widget.RaeSkinDesignTabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -90,7 +90,7 @@
                     android:text="@string/tab_sns_mine"/>
 
 
-            </android.support.design.widget.RaeSkinDesignTabLayout>
+            </com.rae.cnblogs.widget.RaeSkinDesignTabLayout>
 
             <com.rae.cnblogs.widget.RaeSkinImageView
                 android:id="@+id/img_mine"

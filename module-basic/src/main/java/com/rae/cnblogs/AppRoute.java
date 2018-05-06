@@ -50,7 +50,7 @@ public final class AppRoute {
     /**
      * 博客内容
      */
-    public static final String PATH_BLOG_CONTENT = "/blog/content";
+    public static final String PATH_BLOG_CONTENT = "/app/blog/content";
     /**
      * 网页
      */
@@ -111,7 +111,7 @@ public final class AppRoute {
     /**
      * 博客评论
      */
-    public static final String PATH_BLOG_COMMENT = "/blog/comment";
+    public static final String PATH_BLOG_COMMENT = "/app/blog/comment";
     /**
      * 发布闪存
      */

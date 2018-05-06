@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.jcodecraeer.xrecyclerview.LoadingMoreFooter;
-import com.rae.cnblogs.R;
 
 /**
  * 加载更多
@@ -49,8 +48,8 @@ public class RaeLoadMoreView extends LoadingMoreFooter {
     public void setState(int state) {
         if (state == STATE_NOMORE) {
             mTextView.setText(mNoMoreText);
-            mProgressBar.setVisibility(View.GONE);
-            this.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(GONE);
+            this.setVisibility(VISIBLE);
             return;
         }
         super.setState(state);

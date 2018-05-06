@@ -95,6 +95,10 @@ android {
 //        }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+    dexOptions{
+        javaMaxHeapSize "2g"
+        preDexLibraries = false
+    }
 }
 
 // 多渠道打包
@@ -116,8 +120,13 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation project(':module-basic')
-//    implementation project(':sdk')
-    implementation project(':module-blog')
+    implementation project(':module-resource')
+    implementation project(':widget')
+
+    // 模块化
+    if(!isModule.toBoolean()){
+        implementation project(':module-blog')
+    }
 
     annotationProcessor rootProject.ext.butterknifeCompiler
     // 阿里路由注解
@@ -127,16 +136,13 @@ dependencies {
     implementation rootProject.ext.cardview
     implementation rootProject.ext.butterknife
     implementation rootProject.ext.rxjava
+    implementation rootProject.ext.eventBus
 
     implementation 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
-    implementation 'in.srain.cube:ultra-ptr:1.0.11'
-    implementation 'com.github.raee:XRecyclerView:1.3.3'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.github.bumptech.glide:glide:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
 
-    implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'me.imid.swipebacklayout.lib:library:1.1.0'
     implementation 'com.github.chrisbanes:PhotoView:2.1.2'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
@@ -146,9 +152,7 @@ dependencies {
     implementation 'cn.leancloud.android:avoscloud-sdk:v4.4.3'
     // LeanCloud 用户反馈包
     implementation 'cn.leancloud.android:avoscloud-feedback:v4.4.3@aar'
-    // 主题切换
-    implementation 'skin.support:skin-support:2.1.2'
-    implementation 'skin.support:skin-support-design:1.2.5'
+
     implementation 'com.kyleduo.switchbutton:library:1.4.6'
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'jp.wasabeef:glide-transformations:3.0.1'

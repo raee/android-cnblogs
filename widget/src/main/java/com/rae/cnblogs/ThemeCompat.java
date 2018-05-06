@@ -12,7 +12,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.Window;
 
-import com.rae.cnblogs.message.ThemeChangedEvent;
 import com.rae.cnblogs.widget.RaeSkinImageView;
 import com.rae.cnblogs.widget.RaeSkinImageViewV4;
 
@@ -30,7 +29,7 @@ import skin.support.app.SkinLayoutInflater;
  */
 public final class ThemeCompat {
 
-    public static String currentSkinName;
+//    static String currentSkinName;
 
     public static class CnblogsThemeHookInflater implements SkinLayoutInflater {
         @Override
@@ -73,12 +72,12 @@ public final class ThemeCompat {
         return "night".equalsIgnoreCase(SkinCompatManager.getInstance().getCurSkinName());
     }
 
-    /**
-     * 在{@link #isNight()} 调用之前，用于判断资源文件
-     */
-    public static boolean isNightInResource() {
-        return !TextUtils.isEmpty(currentSkinName);
-    }
+//    /**
+//     * 在{@link #isNight()} 调用之前，用于判断资源文件
+//     */
+//    public static boolean isNightInResource() {
+//        return !TextUtils.isEmpty(currentSkinName);
+//    }
 
 
     /**
@@ -194,7 +193,7 @@ public final class ThemeCompat {
         if (window != null) {
             Class clazz = window.getClass();
             try {
-                int darkModeFlag = 0;
+                int darkModeFlag;
                 Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
                 Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
                 darkModeFlag = field.getInt(layoutParams);

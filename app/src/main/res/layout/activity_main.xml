@@ -22,7 +22,7 @@
         android:background="@drawable/tab_main_background"
         android:paddingTop="4dp">
 
-        <com.rae.cnblogs.widget.RaeTabLayout
+        <com.rae.cnblogs.widget.RaeAppTabLayout
             android:id="@+id/tab_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

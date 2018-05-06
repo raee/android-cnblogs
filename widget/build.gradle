@@ -1,0 +1,54 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
+        versionCode 1
+        versionName "1.0"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.appcompat
+    implementation rootProject.ext.design
+    implementation rootProject.ext.cardview
+    implementation rootProject.ext.eventBus
+    implementation project(':module-resource')
+    // 主题切换
+    api('skin.support:skin-support:2.1.2', {
+        exclude group: 'com.android.support'
+    })
+    // 主题切换-design package
+    api('skin.support:skin-support-design:1.2.5', {
+        exclude group: 'com.android.support'
+    })
+    // RAE-扩展的TAB_LAYOUT
+    api('com.rae.widget:design-ext:1.0.1', {
+        exclude group: 'com.android.support'
+    })
+    // 下拉刷新
+    api('in.srain.cube:ultra-ptr:1.0.11', {
+        exclude group: 'com.android.support'
+    })
+    // 上拉加载RecyclerView
+    api('com.github.raee:XRecyclerView:1.3.3', {
+        exclude group: 'com.android.support'
+    })
+}

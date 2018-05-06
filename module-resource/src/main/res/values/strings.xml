@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">module-resource</string>
+    <string name="no_more_tips">全部加载完毕</string>
+    <string name="label_history">浏览记录</string>
+</resources>

@@ -101,12 +101,6 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="AppToolBar" parent="Widget.AppCompat.Toolbar">
-        <item name="contentInsetStart">0dp</item><!-- 设置该属性解决空白部分-->
-        <item name="contentInsetEnd">0dp</item>
-        <item name="contentInsetStartWithNavigation">0dp</item>
-        <item name="navigationIcon">@drawable/ic_back</item>
-    </style>
 
     <style name="progress_bar_web" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_web_view</item>

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewParent;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
@@ -59,7 +60,7 @@ public class RaeRecyclerView extends XRecyclerView implements SkinCompatSupporta
         setLayoutManager(new LinearLayoutManager(getContext()));
         setPullRefreshEnabled(false);
         mFootView = new RaeLoadMoreView(getContext());
-        mFootView.setVisibility(GONE);
+        mFootView.setVisibility(View.GONE);
         setLoadingMoreProgressStyle(ProgressStyle.BallScaleMultiple);
         setFootView(mFootView);
     }
@@ -148,7 +149,7 @@ public class RaeRecyclerView extends XRecyclerView implements SkinCompatSupporta
         super.computeScroll();
         if (mIsCoordinatorLayout) {
             // 兼容CoordinatorLayout
-            LayoutManager layoutManager = getLayoutManager();
+            RecyclerView.LayoutManager layoutManager = getLayoutManager();
             int lastVisibleItemPosition = -1;
             if (layoutManager instanceof LinearLayoutManager) {
                 lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();

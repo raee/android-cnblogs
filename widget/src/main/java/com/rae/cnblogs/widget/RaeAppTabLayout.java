@@ -4,10 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
-import com.rae.cnblogs.R;
-
 import skin.support.content.res.SkinCompatResources;
-import skin.support.design.widget.SkinMaterialTabLayout;
 import skin.support.widget.SkinCompatBackgroundHelper;
 import skin.support.widget.SkinCompatHelper;
 import skin.support.widget.SkinCompatSupportable;
@@ -15,24 +12,24 @@ import skin.support.widget.SkinCompatSupportable;
 import static skin.support.widget.SkinCompatHelper.INVALID_ID;
 
 
-public class RaeTabLayout extends SkinMaterialTabLayout implements SkinCompatSupportable {
+public class RaeAppTabLayout extends RaeSkinDesignTabLayout implements SkinCompatSupportable {
     private SkinCompatBackgroundHelper mBackgroundTintHelper;
 
     private int mIndicatorColorResId = INVALID_ID;
     private int mTextSelectColorResId = INVALID_ID;
     private int mTextUnselectColorResId = INVALID_ID;
 
-    public RaeTabLayout(Context context) {
+    public RaeAppTabLayout(Context context) {
         super(context);
         initViews(null, 0);
     }
 
-    public RaeTabLayout(Context context, AttributeSet attrs) {
+    public RaeAppTabLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initViews(attrs, 0);
     }
 
-    public RaeTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RaeAppTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initViews(attrs, defStyleAttr);
     }

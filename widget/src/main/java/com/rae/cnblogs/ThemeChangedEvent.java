@@ -1,4 +1,4 @@
-package com.rae.cnblogs.message;
+package com.rae.cnblogs;
 
 /**
  * 主题更改事件

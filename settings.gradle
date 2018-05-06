@@ -1,1 +1,1 @@
-include ':sdk', ':app', ':module-basic', ':module-blog'
+include ':sdk', ':app', ':module-basic', ':module-blog', ':widget', ':module-resource'

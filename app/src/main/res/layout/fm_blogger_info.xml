@@ -267,7 +267,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <!--TAB-->
-        <android.support.design.widget.RaeSkinDesignTabLayout
+        <com.rae.cnblogs.widget.RaeSkinDesignTabLayout
             android:id="@+id/tab_category"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -297,7 +297,7 @@
                 android:layout_height="wrap_content"
                 android:text="博客"/>
 
-        </android.support.design.widget.RaeSkinDesignTabLayout>
+        </com.rae.cnblogs.widget.RaeSkinDesignTabLayout>
 
     </android.support.design.widget.AppBarLayout>
 

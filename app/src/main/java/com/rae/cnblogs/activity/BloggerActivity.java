@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.DesignTabLayout;
+import android.support.design.widget.RaeTabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -57,7 +57,7 @@ import jp.wasabeef.glide.transformations.ColorFilterTransformation;
  * Created by ChenRui on 2017/2/9 0009 10:02.
  */
 @Route(path = AppRoute.PATH_BLOGGER)
-public class BloggerActivity extends SwipeBackBasicActivity implements IBloggerPresenter.IBloggerView, DesignTabLayout.OnTabSelectedListener {
+public class BloggerActivity extends SwipeBackBasicActivity implements IBloggerPresenter.IBloggerView, RaeTabLayout.OnTabSelectedListener {
 
     @BindView(R.id.img_background)
     ImageView mBackgroundView;
@@ -87,7 +87,7 @@ public class BloggerActivity extends SwipeBackBasicActivity implements IBloggerP
     ViewPager mViewPager;
 
     @BindView(R.id.tab_category)
-    DesignTabLayout mTabLayout;
+    RaeTabLayout mTabLayout;
 
     @BindView(R.id.layout_account_fans)
     View mFansLayout;
@@ -402,17 +402,17 @@ public class BloggerActivity extends SwipeBackBasicActivity implements IBloggerP
     }
 
     @Override
-    public void onTabSelected(DesignTabLayout.Tab tab) {
+    public void onTabSelected(RaeTabLayout.Tab tab) {
 
     }
 
     @Override
-    public void onTabUnselected(DesignTabLayout.Tab tab) {
+    public void onTabUnselected(RaeTabLayout.Tab tab) {
 
     }
 
     @Override
-    public void onTabReselected(DesignTabLayout.Tab tab) {
+    public void onTabReselected(RaeTabLayout.Tab tab) {
         takeScrollToTop(tab.getPosition());
     }
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.DesignTabLayout;
+import android.support.design.widget.RaeTabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -30,7 +30,7 @@ import butterknife.OnClick;
 public class DiscoverFragment extends BasicFragment {
 
     @BindView(R.id.tab_layout)
-    DesignTabLayout mTabLayout;
+    RaeTabLayout mTabLayout;
     @BindView(R.id.view_pager)
     RaeViewPager mViewPager;
     private DiscoverFragmentAdapter mAdapter;
@@ -63,8 +63,8 @@ public class DiscoverFragment extends BasicFragment {
         mAdapter = new DiscoverFragmentAdapter(view.getContext(), getChildFragmentManager());
         mViewPager.setAdapter(mAdapter);
         // 相互关联
-        mViewPager.addOnPageChangeListener(new DesignTabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mTabLayout.addOnTabSelectedListener(new DesignTabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        mViewPager.addOnPageChangeListener(new RaeTabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mTabLayout.addOnTabSelectedListener(new RaeTabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         mTabLayout.addOnTabSelectedListener(new DefaultOnTabSelectedListener());
         mTabLayout.getTabAt(0).select();
     }
@@ -124,25 +124,25 @@ public class DiscoverFragment extends BasicFragment {
         }
     }
 
-    class DefaultOnTabSelectedListener implements DesignTabLayout.OnTabSelectedListener {
+    class DefaultOnTabSelectedListener implements RaeTabLayout.OnTabSelectedListener {
 
         @Override
-        public void onTabSelected(DesignTabLayout.Tab tab) {
+        public void onTabSelected(RaeTabLayout.Tab tab) {
             int count = mTabLayout.getTabCount();
             for (int i = 0; i < count; i++) {
-                DesignTabLayout.Tab tabAt = mTabLayout.getTabAt(i);
+                RaeTabLayout.Tab tabAt = mTabLayout.getTabAt(i);
                 if (tabAt == null) continue;
                 tabAt.setTextStyle(tab == tabAt ? 1 : 0);
             }
         }
 
         @Override
-        public void onTabUnselected(DesignTabLayout.Tab tab) {
+        public void onTabUnselected(RaeTabLayout.Tab tab) {
 
         }
 
         @Override
-        public void onTabReselected(DesignTabLayout.Tab tab) {
+        public void onTabReselected(RaeTabLayout.Tab tab) {
             onTabSelected(tab);
         }
     }

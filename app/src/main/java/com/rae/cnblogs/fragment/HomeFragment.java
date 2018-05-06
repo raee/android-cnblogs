@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.DesignTabLayout;
+import android.support.design.widget.RaeTabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.animation.Animation;
@@ -45,7 +45,7 @@ public class HomeFragment extends BasicFragment implements IHomePresenter.IHomeV
     }
 
     @BindView(R.id.tab_category)
-    DesignTabLayout mTabLayout;
+    RaeTabLayout mTabLayout;
 
     @BindView(R.id.vp_blog_list)
     ViewPager mViewPager;
@@ -102,19 +102,19 @@ public class HomeFragment extends BasicFragment implements IHomePresenter.IHomeV
             mAdapter = new BlogListAdapter(getChildFragmentManager(), data);
             mViewPager.setAdapter(mAdapter);
             mTabLayout.setupWithViewPager(mViewPager);
-            mTabLayout.addOnTabSelectedListener(new DesignTabLayout.OnTabSelectedListener() {
+            mTabLayout.addOnTabSelectedListener(new RaeTabLayout.OnTabSelectedListener() {
                 @Override
-                public void onTabSelected(DesignTabLayout.Tab tab) {
+                public void onTabSelected(RaeTabLayout.Tab tab) {
 
                 }
 
                 @Override
-                public void onTabUnselected(DesignTabLayout.Tab tab) {
+                public void onTabUnselected(RaeTabLayout.Tab tab) {
 
                 }
 
                 @Override
-                public void onTabReselected(DesignTabLayout.Tab tab) {
+                public void onTabReselected(RaeTabLayout.Tab tab) {
                     goTop();
                 }
             });

@@ -6,7 +6,9 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/module-basic/module-basic.iml" filepath="$PROJECT_DIR$/module-basic/module-basic.iml" />
       <module fileurl="file://$PROJECT_DIR$/module-blog/module-blog.iml" filepath="$PROJECT_DIR$/module-blog/module-blog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-resource/module-resource.iml" filepath="$PROJECT_DIR$/module-resource/module-resource.iml" />
       <module fileurl="file://$PROJECT_DIR$/sdk/sdk.iml" filepath="$PROJECT_DIR$/sdk/sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/widget/widget.iml" filepath="$PROJECT_DIR$/widget/widget.iml" />
     </modules>
   </component>
 </project>

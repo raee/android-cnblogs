@@ -10,6 +10,12 @@ android {
         testApplicationId "com.rae.cnblogs.sdk.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "boolean", "LOG_DEBUG", "true"
+        multiDexEnabled true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -37,7 +43,9 @@ dependencies {
 
 
     api 'org.jsoup:jsoup:1.10.1'
-    api 'com.rae.swift:rae-library:1.0.1'
+    api ('com.rae.swift:rae-library:1.0.1',{
+        exclude group: 'com.android.support'
+    })
     implementation 'com.squareup.okhttp3:okhttp-ext:3.9.0'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.9.0'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'

@@ -75,7 +75,7 @@
             android:orientation="vertical">
 
 
-            <com.rae.cnblogs.widget.RaeTabLayout
+            <com.rae.cnblogs.widget.RaeAppTabLayout
                 android:id="@+id/tab_category"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"

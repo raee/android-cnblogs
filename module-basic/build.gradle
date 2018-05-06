@@ -9,6 +9,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         // 阿里路由需要
         javaCompileOptions {
             annotationProcessorOptions {
@@ -29,8 +30,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation rootProject.ext.appcompat
+    implementation rootProject.ext.design
+    implementation rootProject.ext.cardview
     implementation rootProject.ext.butterknife
     api project(':sdk')
+    implementation project(':widget')
+    implementation project(':module-resource')
 
     // 阿里路由
     api(rootProject.ext.arouter, {
@@ -47,4 +52,9 @@ dependencies {
     implementation 'com.umeng.sdk:common:1.4.1'
     // 友盟统计-APP分析库
     implementation 'com.umeng.sdk:analytics:7.4.1'
+    // 滑动返回
+    api('me.imid.swipebacklayout.lib:library:1.1.0', {
+        exclude group: 'com.android.support'
+    })
+
 }

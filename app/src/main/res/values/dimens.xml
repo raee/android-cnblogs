@@ -18,6 +18,4 @@
     <dimen name="item_blog_list_thumb_height">86dp</dimen>
     <dimen name="item_blog_list_thumb_large_height">180dp</dimen>
     <dimen name="default_padding_top">0dp</dimen>
-    <!--夜间模式降低图片透明度-->
-    <integer name="imageAlpha_night">70</integer>
 </resources>

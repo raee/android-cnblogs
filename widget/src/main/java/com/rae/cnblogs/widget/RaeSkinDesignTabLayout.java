@@ -1,10 +1,9 @@
-package android.support.design.widget;
+package com.rae.cnblogs.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.design.widget.RaeTabLayout;
 import android.util.AttributeSet;
-
-import com.rae.cnblogs.R;
 
 import skin.support.content.res.SkinCompatResources;
 import skin.support.widget.SkinCompatBackgroundHelper;
@@ -14,7 +13,7 @@ import skin.support.widget.SkinCompatSupportable;
 import static skin.support.widget.SkinCompatHelper.INVALID_ID;
 
 
-public class RaeSkinDesignTabLayout extends DesignTabLayout implements SkinCompatSupportable {
+public class RaeSkinDesignTabLayout extends RaeTabLayout implements SkinCompatSupportable {
 
     private SkinCompatBackgroundHelper mBackgroundTintHelper;
     private int mTabIndicatorColorResId;
@@ -45,37 +44,37 @@ public class RaeSkinDesignTabLayout extends DesignTabLayout implements SkinCompa
     }
 
     private void obtainAttributes(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TabLayout);
-        mIndicatorColorResId = a.getResourceId(R.styleable.TabLayout_tabIndicatorColor, INVALID_ID);
+        TypedArray a = context.obtainStyledAttributes(attrs, android.support.design.widget.R.styleable.TabLayout);
+        mIndicatorColorResId = a.getResourceId(android.support.design.widget.R.styleable.TabLayout_tabIndicatorColor, INVALID_ID);
         mIndicatorColorResId = SkinCompatHelper.checkResourceId(mIndicatorColorResId);
 
 
-        mTextSelectColorResId = a.getResourceId(R.styleable.TabLayout_tabSelectedTextColor, INVALID_ID);
+        mTextSelectColorResId = a.getResourceId(android.support.design.widget.R.styleable.TabLayout_tabSelectedTextColor, INVALID_ID);
         mTextSelectColorResId = SkinCompatHelper.checkResourceId(mTextSelectColorResId);
 
-        mTextUnselectColorResId = a.getResourceId(R.styleable.TabLayout_tabTextColor, INVALID_ID);
+        mTextUnselectColorResId = a.getResourceId(android.support.design.widget.R.styleable.TabLayout_tabTextColor, INVALID_ID);
         mTextUnselectColorResId = SkinCompatHelper.checkResourceId(mTextUnselectColorResId);
 
         this.mTabIndicatorColorResId = 0;
         this.mTabTextColorsResId = 0;
         this.mTabSelectedTextColorResId = 0;
-        this.mTabIndicatorColorResId = a.getResourceId(R.styleable.TabLayout_tabIndicatorColor, 0);
-        int tabTextAppearance = a.getResourceId(R.styleable.TabLayout_tabTextAppearance, R.style.TextAppearance_Design_Tab);
-        TypedArray ta = context.obtainStyledAttributes(tabTextAppearance, R.styleable.SkinTextAppearance);
+        this.mTabIndicatorColorResId = a.getResourceId(android.support.design.widget.R.styleable.TabLayout_tabIndicatorColor, 0);
+        int tabTextAppearance = a.getResourceId(android.support.design.widget.R.styleable.TabLayout_tabTextAppearance, android.support.design.widget.R.style.TextAppearance_Design_Tab);
+//        TypedArray ta = context.obtainStyledAttributes(tabTextAppearance, R.styleable.SkinTextAppearance);
+//
+//
+//        try {
+//            this.mTabTextColorsResId = ta.getResourceId(R.styleable.SkinTextAppearance_android_textColor, 0);
+//        } finally {
+//            ta.recycle();
+//        }
 
-
-        try {
-            this.mTabTextColorsResId = ta.getResourceId(R.styleable.SkinTextAppearance_android_textColor, 0);
-        } finally {
-            ta.recycle();
+        if (a.hasValue(android.support.design.widget.R.styleable.TabLayout_tabTextColor)) {
+            this.mTabTextColorsResId = a.getResourceId(android.support.design.widget.R.styleable.TabLayout_tabTextColor, 0);
         }
 
-        if (a.hasValue(R.styleable.TabLayout_tabTextColor)) {
-            this.mTabTextColorsResId = a.getResourceId(R.styleable.TabLayout_tabTextColor, 0);
-        }
-
-        if (a.hasValue(R.styleable.TabLayout_tabSelectedTextColor)) {
-            this.mTabSelectedTextColorResId = a.getResourceId(R.styleable.TabLayout_tabSelectedTextColor, 0);
+        if (a.hasValue(android.support.design.widget.R.styleable.TabLayout_tabSelectedTextColor)) {
+            this.mTabSelectedTextColorResId = a.getResourceId(android.support.design.widget.R.styleable.TabLayout_tabSelectedTextColor, 0);
         }
 
         a.recycle();

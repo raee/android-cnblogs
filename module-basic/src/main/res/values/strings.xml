@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">module-basic</string>
+    <string name="title">标题</string>
 </resources>
