@@ -1,4 +1,4 @@
-# 此项目部不再维护
+# 此项目不再维护
 
 新的项目迁移到[这里](https://github.com/raedev/android-cnblogs)，代码结构更加清晰，维护更方便。
 
